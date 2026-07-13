@@ -1,0 +1,124 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: transparent;
+}
+
+.overlayRoot {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  background: rgba(9, 13, 18, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #ebf2ff;
+}
+
+.dragZone {
+  -webkit-app-region: drag;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 12px;
+  background: #2667ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #3f7aff;
+}
+
+.status {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.status-capturing {
+  background: rgba(20, 190, 120, 0.24);
+}
+
+.status-answering {
+  background: rgba(255, 185, 40, 0.24);
+}
+
+.status-error {
+  background: rgba(255, 80, 80, 0.24);
+}
+
+.liveRow {
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.liveLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.liveRow p,
+.draftAnswer p,
+.qaItem p {
+  margin: 6px 0 0;
+  line-height: 1.35;
+}
+
+.draftAnswer {
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(38, 103, 255, 0.2);
+}
+
+.draftAnswer span {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+}
+
+.qaItem {
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.qaItem .question {
+  color: #b9d0ff;
+}
+
+.qaItem .answer {
+  color: #f2f7ff;
+}

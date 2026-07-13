@@ -1,0 +1,64 @@
+# Meeting Agent
+
+Windows-first real-time call assistant for Zoom, Teams, Webex, and similar meeting tools.
+
+It captures system-audio loopback, streams transcription with Deepgram, detects question-like utterances, and streams concise answers from OpenAI into a private overlay window.
+
+## Features
+
+- System-audio loopback capture (callee speech from meeting playback).
+- Real-time transcript updates and low-latency streamed answers.
+- Always-on-top transparent overlay with Windows capture exclusion (`setContentProtection(true)`).
+- Settings window for topic, API keys, hotkey, and overlay placement/opacity.
+- Global hotkey to show/hide overlay (`Ctrl+Shift+H` by default).
+
+## Tech stack
+
+- Electron + React + TypeScript (`electron-vite`).
+- Deepgram streaming STT (`nova-3`).
+- OpenAI streaming chat completion (`gpt-4o-mini`).
+- `electron-store` + Electron `safeStorage` for encrypted key storage at rest.
+
+## Setup
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Start in development mode:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open **Settings** window and add:
+   - Deepgram API key
+   - OpenAI API key
+   - Topic text for call-specific guidance
+
+4. In overlay window, click **Start** to begin live capture + answering.
+
+## Build
+
+Build app bundles:
+
+```bash
+npm run build
+```
+
+Build Windows installer (NSIS):
+
+```bash
+npm run build:win
+```
+
+Artifacts are written to `release/`.
+
+## Notes and limitations
+
+- Primary target is **Windows 10/11**.
+- Overlay capture exclusion is implemented via `BrowserWindow.setContentProtection(true)`, which maps to `WDA_EXCLUDEFROMCAPTURE` on modern Windows builds.
+- macOS capture-exclusion behavior differs on newer versions and is not guaranteed.
+- This MVP uses topic-guided prompting only (no RAG knowledge base yet).

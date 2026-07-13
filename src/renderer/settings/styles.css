@@ -1,0 +1,63 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #0f131a;
+  color: #f4f7ff;
+}
+
+.settingsRoot {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+}
+
+input {
+  border: 1px solid #2b3648;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #111827;
+  color: #f4f7ff;
+}
+
+section {
+  border: 1px solid #2b3648;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  width: fit-content;
+  background: #2667ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.saved {
+  color: #6fe3a4;
+}

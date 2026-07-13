@@ -1,0 +1,17 @@
+appId: com.joegc.meetingagent
+productName: Meeting Agent
+directories:
+  output: release
+files:
+  - dist-electron/**/*
+  - out/renderer/**/*
+  - package.json
+extraMetadata:
+  main: dist-electron/main/index.js
+win:
+  target:
+    - nsis
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true

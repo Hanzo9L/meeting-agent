@@ -1,0 +1,44 @@
+{
+  "name": "meeting-agent",
+  "version": "1.0.0",
+  "description": "Real-time meeting Q&A assistant overlay for Zoom/Teams/Webex calls.",
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "build:win": "npm run build && electron-builder --win nsis -c electron-builder.yml",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "electron",
+    "meeting-assistant",
+    "realtime",
+    "voice"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@deepgram/sdk": "^5.5.0",
+    "electron-audio-loopback": "^1.0.6",
+    "electron-store": "^11.0.2",
+    "openai": "^6.46.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.15.43",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.2.0",
+    "concurrently": "^10.0.3",
+    "electron": "^43.1.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.3.6",
+    "wait-on": "^9.0.10"
+  }
+}
