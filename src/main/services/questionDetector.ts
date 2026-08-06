@@ -54,6 +54,33 @@ const NON_QUESTION_PREFIXES = [
   "i am"
 ];
 
+const REQUEST_VERBS = new Set([
+  "provide",
+  "share",
+  "explain",
+  "describe",
+  "walk",
+  "tell",
+  "help",
+  "show",
+  "give",
+  "review",
+  "summarize",
+  "clarify"
+]);
+
+const LEADING_FILLER_WORDS = new Set([
+  "hey",
+  "hi",
+  "hello",
+  "so",
+  "well",
+  "okay",
+  "ok",
+  "alright",
+  "please"
+]);
+
 export function looksLikeQuestion(input: string): boolean {
   const text = input.trim().toLowerCase();
   if (!text) return false;
@@ -67,12 +94,30 @@ export function looksLikeQuestion(input: string): boolean {
 
   if (words.length < 3) return false;
 
-  const firstWord = words[0] ?? "";
-  const secondWord = words[1] ?? "";
+  let startIndex = 0;
+  while (startIndex < words.length && LEADING_FILLER_WORDS.has(words[startIndex] ?? "")) {
+    startIndex += 1;
+  }
+
+  const normalizedWords = words.slice(startIndex);
+  if (normalizedWords.length < 2) return false;
+
+  const firstWord = normalizedWords[0] ?? "";
+  const secondWord = normalizedWords[1] ?? "";
 
   if (WH_WORDS.has(firstWord)) return true;
 
   if (AUXILIARY_OPENERS.has(firstWord) && SECOND_WORD_TARGETS.has(secondWord)) {
+    return true;
+  }
+
+  // In calls, many "questions" are phrased as requests without a question mark.
+  if (REQUEST_VERBS.has(firstWord) && normalizedWords.length >= 3) {
+    return true;
+  }
+
+  // Common polite prompt styles, e.g., "can you...", "could we...", "please explain..."
+  if (words.includes("please") && normalizedWords.length >= 3) {
     return true;
   }
 
