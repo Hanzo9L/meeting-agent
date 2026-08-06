@@ -1,10 +1,12 @@
 import { safeStorage } from "electron";
 import Store from "electron-store";
 import {
+  DEFAULT_KNOWLEDGE_BASE_BRANCH,
+  DEFAULT_KNOWLEDGE_BASE_REPO_URL,
   DEFAULT_TOPIC,
   DEFAULT_TOPIC_PROMPT
 } from "@shared/constants";
-import type { ApiKeys, AppSettings, OverlayPrefs } from "@shared/types";
+import type { ApiKeys, AppSettings, KnowledgeBaseSettings, OverlayPrefs } from "@shared/types";
 
 const ENV_DEEPGRAM_API_KEY = process.env["DEEPGRAM_API_KEY"] ?? "";
 const ENV_OPENAI_API_KEY = process.env["OPENAI_API_KEY"] ?? "";
@@ -13,6 +15,8 @@ type StoreSchema = {
   topic: string;
   topicPromptTemplate: string;
   overlay: OverlayPrefs;
+  demoMode: boolean;
+  knowledgeBase: KnowledgeBaseSettings;
   deepgramApiKey: string;
   openAiApiKey: string;
 };
@@ -26,6 +30,12 @@ const defaults: StoreSchema = {
     width: 540,
     height: 420,
     opacity: 0.94
+  },
+  demoMode: false,
+  knowledgeBase: {
+    enabled: true,
+    repoUrl: DEFAULT_KNOWLEDGE_BASE_REPO_URL,
+    branch: DEFAULT_KNOWLEDGE_BASE_BRANCH
   },
   deepgramApiKey: "",
   openAiApiKey: ""
@@ -45,6 +55,8 @@ export class SettingsStore {
       topic: this.store.get("topic"),
       topicPromptTemplate: this.store.get("topicPromptTemplate"),
       overlay: this.store.get("overlay"),
+      demoMode: this.store.get("demoMode"),
+      knowledgeBase: this.store.get("knowledgeBase"),
       apiKeys: {
         deepgramApiKey: storedDeepgram || ENV_DEEPGRAM_API_KEY,
         openAiApiKey: storedOpenAi || ENV_OPENAI_API_KEY
@@ -60,6 +72,17 @@ export class SettingsStore {
     this.store.set("overlay", {
       ...this.store.get("overlay"),
       ...prefs
+    });
+  }
+
+  updateDemoMode(enabled: boolean): void {
+    this.store.set("demoMode", enabled);
+  }
+
+  updateKnowledgeBaseSettings(settings: Partial<KnowledgeBaseSettings>): void {
+    this.store.set("knowledgeBase", {
+      ...this.store.get("knowledgeBase"),
+      ...settings
     });
   }
 

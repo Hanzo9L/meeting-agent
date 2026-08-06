@@ -3,6 +3,7 @@ import { IPC_CHANNELS } from "@shared/constants";
 import type { AnswerChunkMessage, ConnectionStatus, TranscriptMessage } from "@shared/types";
 import { looksLikeQuestion } from "./questionDetector";
 import type { LlmProvider } from "./llmProvider";
+import type { LlmContextChunk } from "./llmProvider";
 import type { SttProvider } from "./sttProvider";
 
 type StatusHandler = (status: ConnectionStatus) => void;
@@ -11,6 +12,7 @@ export class PipelineManager {
   private readonly sttProvider: SttProvider;
   private readonly llmProvider: LlmProvider;
   private readonly getTopic: () => { topic: string; topicPromptTemplate: string };
+  private readonly getKnowledgeContext: (question: string) => Promise<LlmContextChunk[]>;
   private readonly sendStatus: StatusHandler;
   private active = false;
 
@@ -18,11 +20,13 @@ export class PipelineManager {
     sttProvider: SttProvider;
     llmProvider: LlmProvider;
     getTopic: () => { topic: string; topicPromptTemplate: string };
+    getKnowledgeContext?: (question: string) => Promise<LlmContextChunk[]>;
     sendStatus: StatusHandler;
   }) {
     this.sttProvider = params.sttProvider;
     this.llmProvider = params.llmProvider;
     this.getTopic = params.getTopic;
+    this.getKnowledgeContext = params.getKnowledgeContext ?? (async () => []);
     this.sendStatus = params.sendStatus;
   }
 
@@ -70,10 +74,12 @@ export class PipelineManager {
     this.sendStatus("answering");
 
     const { topic, topicPromptTemplate } = this.getTopic();
+    const context = await this.getKnowledgeContext(text);
     for await (const chunk of this.llmProvider.streamAnswer({
       topic,
       topicPromptTemplate,
-      question: text
+      question: text,
+      context
     })) {
       const payload: AnswerChunkMessage = {
         text: chunk,

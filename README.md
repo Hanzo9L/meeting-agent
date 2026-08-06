@@ -9,6 +9,8 @@ It captures system-audio loopback, streams transcription with Deepgram, detects 
 - System-audio loopback capture (callee speech from meeting playback).
 - Real-time transcript updates and low-latency streamed answers.
 - Always-on-top transparent overlay with Windows capture exclusion (`setContentProtection(true)`).
+- Settings toggle for **Demo mode** (disables capture exclusion so the overlay appears in screen shares).
+- Knowledge-base retrieval from `MicrosoftDocs/msteams-docs` (sparse-cloned, markdown-indexed).
 - Settings window for topic, API keys, and overlay placement/opacity.
 - Simple overlay controls: Start, Stop, and Clear.
 
@@ -44,6 +46,7 @@ It captures system-audio loopback, streams transcription with Deepgram, detects 
    - Deepgram API key
    - OpenAI API key
    - Topic text for call-specific guidance
+   - Knowledge base settings (repo URL / branch), then click **Sync knowledge base now**
 
 5. In overlay window, click **Start** to begin live capture + answering.
 
@@ -69,5 +72,6 @@ Artifacts are written to `release/`.
 
 - Primary target is **Windows 10/11**.
 - Overlay capture exclusion is implemented via `BrowserWindow.setContentProtection(true)`, which maps to `WDA_EXCLUDEFROMCAPTURE` on modern Windows builds.
+- Enable **Demo mode** in Settings to turn capture exclusion off when you want participants to see the overlay during a screen share.
 - macOS capture-exclusion behavior differs on newer versions and is not guaranteed.
-- This MVP uses topic-guided prompting only (no RAG knowledge base yet).
+- Knowledge sync uses a sparse checkout of `msteams-platform` from `MicrosoftDocs/msteams-docs`, so first sync requires `git` and network access.

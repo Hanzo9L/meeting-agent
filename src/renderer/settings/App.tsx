@@ -1,11 +1,32 @@
 import { FormEvent, useEffect, useState } from "react";
 import type { JSX } from "react";
-import type { ApiKeys, OverlayPrefs } from "@shared/types";
+import type {
+  ApiKeys,
+  KnowledgeBaseSettings,
+  KnowledgeBaseStatus,
+  OverlayPrefs
+} from "@shared/types";
+
+const DEFAULT_KNOWLEDGE_BASE_STATUS: KnowledgeBaseStatus = {
+  ready: false,
+  syncing: false,
+  docCount: 0,
+  lastSyncedAt: null,
+  error: null,
+  localPath: ""
+};
 
 export function SettingsApp(): JSX.Element {
   const [topic, setTopic] = useState("");
   const [deepgramApiKey, setDeepgramApiKey] = useState("");
   const [openAiApiKey, setOpenAiApiKey] = useState("");
+  const [demoMode, setDemoMode] = useState(false);
+  const [knowledgeBaseEnabled, setKnowledgeBaseEnabled] = useState(true);
+  const [knowledgeBaseRepoUrl, setKnowledgeBaseRepoUrl] = useState("");
+  const [knowledgeBaseBranch, setKnowledgeBaseBranch] = useState("main");
+  const [knowledgeBaseStatus, setKnowledgeBaseStatus] = useState<KnowledgeBaseStatus>(
+    DEFAULT_KNOWLEDGE_BASE_STATUS
+  );
   const [overlay, setOverlay] = useState<OverlayPrefs>({
     x: 40,
     y: 40,
@@ -32,6 +53,12 @@ export function SettingsApp(): JSX.Element {
         setDeepgramApiKey(settings.apiKeys.deepgramApiKey);
         setOpenAiApiKey(settings.apiKeys.openAiApiKey);
         setOverlay(settings.overlay);
+        setDemoMode(settings.demoMode);
+        setKnowledgeBaseEnabled(settings.knowledgeBase.enabled);
+        setKnowledgeBaseRepoUrl(settings.knowledgeBase.repoUrl);
+        setKnowledgeBaseBranch(settings.knowledgeBase.branch);
+        const status = await api.getKnowledgeBaseStatus();
+        setKnowledgeBaseStatus(status);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error";
         setSaveError(`Failed to load settings: ${message}`);
@@ -59,20 +86,43 @@ export function SettingsApp(): JSX.Element {
           : 0.94
     };
     const apiKeys: ApiKeys = { deepgramApiKey, openAiApiKey };
+    const knowledgeBaseSettings: KnowledgeBaseSettings = {
+      enabled: knowledgeBaseEnabled,
+      repoUrl: knowledgeBaseRepoUrl.trim(),
+      branch: knowledgeBaseBranch.trim() || "main"
+    };
     try {
       await Promise.all([
         api.updateTopic(topic),
         api.updateApiKeys(apiKeys),
-        api.updateOverlayPrefs(normalizedOverlay)
+        api.updateOverlayPrefs(normalizedOverlay),
+        api.updateDemoMode(demoMode),
+        api.updateKnowledgeBaseSettings(knowledgeBaseSettings)
       ]);
 
       setOverlay(normalizedOverlay);
+      setKnowledgeBaseStatus(await api.getKnowledgeBaseStatus());
       setSavedAt(new Date().toLocaleTimeString());
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error";
       setSaveError(`Save failed: ${message}`);
     }
   };
+
+  const syncKnowledgeBase = async (): Promise<void> => {
+    setSaveError("");
+    try {
+      const status = await window.settingsApi.syncKnowledgeBase();
+      setKnowledgeBaseStatus(status);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      setSaveError(`Knowledge base sync failed: ${message}`);
+    }
+  };
+
+  const lastSyncedLabel = knowledgeBaseStatus.lastSyncedAt
+    ? new Date(knowledgeBaseStatus.lastSyncedAt).toLocaleString()
+    : "Never";
 
   return (
     <main className="settingsRoot">
@@ -100,6 +150,62 @@ export function SettingsApp(): JSX.Element {
             placeholder="sk-..."
           />
         </label>
+
+        <section>
+          <h2>Demo mode</h2>
+          <label className="checkboxRow">
+            <input
+              type="checkbox"
+              checked={demoMode}
+              onChange={(event) => setDemoMode(event.target.checked)}
+            />
+            <span>Show overlay in screen shares</span>
+          </label>
+          <p className="hint">
+            Turns off Windows capture exclusion so meeting participants can see the overlay. Leave
+            this off for private use during real calls.
+          </p>
+        </section>
+
+        <section>
+          <h2>Knowledge base (msteams-docs)</h2>
+          <label className="checkboxRow">
+            <input
+              type="checkbox"
+              checked={knowledgeBaseEnabled}
+              onChange={(event) => setKnowledgeBaseEnabled(event.target.checked)}
+            />
+            <span>Enable knowledge retrieval for answers</span>
+          </label>
+          <div className="grid">
+            <label>
+              Repository URL
+              <input
+                value={knowledgeBaseRepoUrl}
+                onChange={(event) => setKnowledgeBaseRepoUrl(event.target.value)}
+                placeholder="https://github.com/MicrosoftDocs/msteams-docs.git"
+              />
+            </label>
+            <label>
+              Branch
+              <input
+                value={knowledgeBaseBranch}
+                onChange={(event) => setKnowledgeBaseBranch(event.target.value)}
+                placeholder="main"
+              />
+            </label>
+          </div>
+          <div className="statusRow">
+            <button type="button" onClick={() => void syncKnowledgeBase()}>
+              Sync knowledge base now
+            </button>
+            <p className="hint compact">
+              {knowledgeBaseStatus.syncing ? "Sync in progress..." : "Sync idle"} | Docs indexed:{" "}
+              {knowledgeBaseStatus.docCount} | Last sync: {lastSyncedLabel}
+              {knowledgeBaseStatus.error ? ` | Error: ${knowledgeBaseStatus.error}` : ""}
+            </p>
+          </div>
+        </section>
 
         <section>
           <h2>Overlay</h2>

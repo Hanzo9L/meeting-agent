@@ -1,19 +1,28 @@
 import OpenAI from "openai";
 import type { LlmProvider, LlmRequest } from "./llmProvider";
 
-function buildLockedSystemPrompt(template: string, topic: string): string {
+function buildTopicPrompt(template: string, topic: string): string {
   const topicPrompt = template.replace("{TOPIC}", topic);
   return [
     topicPrompt,
     "",
-    "Policy:",
-    "1) You are strictly scoped to the topic above.",
-    "2) If the question is outside topic, respond exactly: Out of scope for current topic.",
-    "3) Do not invent facts, commands, modules, or parameters.",
-    "4) If unsure but in-scope, respond exactly: I am not fully certain. Please verify in official documentation.",
-    "5) Keep in-scope answers concise: max 3 short bullet points.",
-    "6) Prefer concrete, actionable output over explanation."
+    "You must answer using only the provided Microsoft Teams docs snippets.",
+    "If the snippets do not contain enough information, respond exactly: Not found in Teams docs.",
+    "Never invent facts, commands, modules, or parameters.",
+    "Keep answers concise with at most 3 short bullet points.",
+    "Mention source titles in-line when answering."
   ].join("\n");
+}
+
+function buildUserPrompt(question: string, context: LlmRequest["context"]): string {
+  const sources = context
+    .map(
+      (item, index) =>
+        `Source ${index + 1}:\nTitle: ${item.title}\nPath: ${item.path}\nExcerpt: ${item.text}`
+    )
+    .join("\n\n");
+
+  return [`Question: ${question}`, "", "Sources:", sources].join("\n");
 }
 
 export class OpenAiLlmProvider implements LlmProvider {
@@ -24,7 +33,13 @@ export class OpenAiLlmProvider implements LlmProvider {
   }
 
   async *streamAnswer(request: LlmRequest): AsyncGenerator<string> {
-    const systemPrompt = buildLockedSystemPrompt(request.topicPromptTemplate, request.topic);
+    if (request.context.length === 0) {
+      yield "Not found in Teams docs.";
+      return;
+    }
+
+    const systemPrompt = buildTopicPrompt(request.topicPromptTemplate, request.topic);
+    const userPrompt = buildUserPrompt(request.question, request.context);
 
     const stream = await this.client.chat.completions.create({
       model: "gpt-4o-mini",
@@ -37,7 +52,7 @@ export class OpenAiLlmProvider implements LlmProvider {
         },
         {
           role: "user",
-          content: request.question
+          content: userPrompt
         }
       ]
     });

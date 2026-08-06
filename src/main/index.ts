@@ -15,7 +15,13 @@ import { createSettingsWindow } from "./windows/settingsWindow";
 import { DeepgramSttProvider } from "./services/deepgramSttProvider";
 import { OpenAiLlmProvider } from "./services/openAiLlmProvider";
 import { PipelineManager } from "./services/pipelineManager";
-import type { ApiKeys, ConnectionStatus, OverlayPrefs } from "@shared/types";
+import { KnowledgeBaseService } from "./services/knowledgeBase";
+import type {
+  ApiKeys,
+  ConnectionStatus,
+  KnowledgeBaseSettings,
+  OverlayPrefs
+} from "@shared/types";
 
 const preloadRoot = join(__dirname, "../preload");
 const rendererRoot = join(__dirname, "../../out/renderer");
@@ -31,6 +37,10 @@ let overlayWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
 let pipelineManager: PipelineManager | null = null;
 const settingsStore = new SettingsStore();
+const knowledgeBaseService = new KnowledgeBaseService(
+  join(app.getPath("userData"), "knowledge-base"),
+  settingsStore.getSettings().knowledgeBase
+);
 let audioChunkCount = 0;
 
 function sendStatus(status: ConnectionStatus): void {
@@ -46,13 +56,14 @@ function createPipeline(): PipelineManager {
       const settings = settingsStore.getSettings();
       return { topic: settings.topic, topicPromptTemplate: settings.topicPromptTemplate };
     },
+    getKnowledgeContext: async (question) => knowledgeBaseService.retrieve(question),
     sendStatus
   });
 }
 
 function createWindows(): void {
   const settings = settingsStore.getSettings();
-  overlayWindow = createOverlayWindow(settings.overlay);
+  overlayWindow = createOverlayWindow(settings.overlay, settings.demoMode);
   settingsWindow = createSettingsWindow();
 
   if (process.env["ELECTRON_RENDERER_URL"]) {
@@ -69,8 +80,15 @@ function createWindows(): void {
   });
 }
 
+function applyDemoMode(enabled: boolean): void {
+  overlayWindow?.setContentProtection(!enabled);
+  overlayWindow?.webContents.send(IPC_CHANNELS.demoModeChanged, enabled);
+}
+
 function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.getSettings, () => settingsStore.getSettings());
+
+  ipcMain.handle(IPC_CHANNELS.getDemoMode, () => settingsStore.getSettings().demoMode);
 
   ipcMain.handle(IPC_CHANNELS.updateTopic, (_event, topic: string) => {
     settingsStore.updateTopic(topic);
@@ -94,6 +112,23 @@ function registerIpcHandlers(): void {
       overlayWindow.setOpacity(updated.opacity);
     }
   });
+
+  ipcMain.handle(IPC_CHANNELS.updateDemoMode, (_event, enabled: boolean) => {
+    settingsStore.updateDemoMode(Boolean(enabled));
+    applyDemoMode(Boolean(enabled));
+  });
+
+  ipcMain.handle(
+    IPC_CHANNELS.updateKnowledgeBaseSettings,
+    (_event, settings: Partial<KnowledgeBaseSettings>) => {
+      settingsStore.updateKnowledgeBaseSettings(settings);
+      knowledgeBaseService.updateSettings(settingsStore.getSettings().knowledgeBase);
+    }
+  );
+
+  ipcMain.handle(IPC_CHANNELS.getKnowledgeBaseStatus, () => knowledgeBaseService.getStatus());
+
+  ipcMain.handle(IPC_CHANNELS.syncKnowledgeBase, async () => knowledgeBaseService.sync());
 
   ipcMain.handle(IPC_CHANNELS.startCapture, async () => {
     audioChunkCount = 0;
@@ -137,10 +172,18 @@ app.whenReady().then(() => {
   process.env["MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY"] = preloadRoot;
   nativeTheme.themeSource = "dark";
 
-  initLoopbackMain();
-  createWindows();
-  registerIpcHandlers();
-  sendStatus("idle");
+  void (async () => {
+    await knowledgeBaseService.initialize();
+    initLoopbackMain();
+    createWindows();
+    registerIpcHandlers();
+    sendStatus("idle");
+
+    const settings = settingsStore.getSettings().knowledgeBase;
+    if (settings.enabled && !knowledgeBaseService.getStatus().ready) {
+      void knowledgeBaseService.sync();
+    }
+  })();
 });
 
 app.on("window-all-closed", async () => {
