@@ -6,8 +6,7 @@ const settingsApi: SettingsApi = {
   getSettings: () => ipcRenderer.invoke(IPC_CHANNELS.getSettings),
   updateTopic: (topic) => ipcRenderer.invoke(IPC_CHANNELS.updateTopic, topic),
   updateApiKeys: (apiKeys) => ipcRenderer.invoke(IPC_CHANNELS.updateApiKeys, apiKeys),
-  updateOverlayPrefs: (prefs) => ipcRenderer.invoke(IPC_CHANNELS.updateOverlayPrefs, prefs),
-  updateHotkey: (hotkey) => ipcRenderer.invoke(IPC_CHANNELS.updateHotkey, hotkey)
+  updateOverlayPrefs: (prefs) => ipcRenderer.invoke(IPC_CHANNELS.updateOverlayPrefs, prefs)
 };
 
 contextBridge.exposeInMainWorld("settingsApi", settingsApi);

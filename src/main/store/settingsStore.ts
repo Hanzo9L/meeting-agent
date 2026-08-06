@@ -1,16 +1,17 @@
 import { safeStorage } from "electron";
 import Store from "electron-store";
 import {
-  DEFAULT_HOTKEY,
   DEFAULT_TOPIC,
   DEFAULT_TOPIC_PROMPT
 } from "@shared/constants";
 import type { ApiKeys, AppSettings, OverlayPrefs } from "@shared/types";
 
+const ENV_DEEPGRAM_API_KEY = process.env["DEEPGRAM_API_KEY"] ?? "";
+const ENV_OPENAI_API_KEY = process.env["OPENAI_API_KEY"] ?? "";
+
 type StoreSchema = {
   topic: string;
   topicPromptTemplate: string;
-  hotkey: string;
   overlay: OverlayPrefs;
   deepgramApiKey: string;
   openAiApiKey: string;
@@ -19,7 +20,6 @@ type StoreSchema = {
 const defaults: StoreSchema = {
   topic: DEFAULT_TOPIC,
   topicPromptTemplate: DEFAULT_TOPIC_PROMPT,
-  hotkey: DEFAULT_HOTKEY,
   overlay: {
     x: 40,
     y: 40,
@@ -38,14 +38,16 @@ export class SettingsStore {
   });
 
   getSettings(): AppSettings {
+    const storedDeepgram = this.decrypt(this.store.get("deepgramApiKey"));
+    const storedOpenAi = this.decrypt(this.store.get("openAiApiKey"));
+
     return {
       topic: this.store.get("topic"),
       topicPromptTemplate: this.store.get("topicPromptTemplate"),
-      hotkey: this.store.get("hotkey"),
       overlay: this.store.get("overlay"),
       apiKeys: {
-        deepgramApiKey: this.decrypt(this.store.get("deepgramApiKey")),
-        openAiApiKey: this.decrypt(this.store.get("openAiApiKey"))
+        deepgramApiKey: storedDeepgram || ENV_DEEPGRAM_API_KEY,
+        openAiApiKey: storedOpenAi || ENV_OPENAI_API_KEY
       }
     };
   }
@@ -59,10 +61,6 @@ export class SettingsStore {
       ...this.store.get("overlay"),
       ...prefs
     });
-  }
-
-  updateHotkey(hotkey: string): void {
-    this.store.set("hotkey", hotkey);
   }
 
   updateApiKeys(apiKeys: ApiKeys): void {

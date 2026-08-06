@@ -9,8 +9,8 @@ It captures system-audio loopback, streams transcription with Deepgram, detects 
 - System-audio loopback capture (callee speech from meeting playback).
 - Real-time transcript updates and low-latency streamed answers.
 - Always-on-top transparent overlay with Windows capture exclusion (`setContentProtection(true)`).
-- Settings window for topic, API keys, hotkey, and overlay placement/opacity.
-- Global hotkey to show/hide overlay (`Ctrl+Shift+H` by default).
+- Settings window for topic, API keys, and overlay placement/opacity.
+- Simple overlay controls: Start, Stop, and Clear.
 
 ## Tech stack
 
@@ -33,12 +33,21 @@ It captures system-audio loopback, streams transcription with Deepgram, detects 
    npm run dev
    ```
 
-3. Open **Settings** window and add:
+3. Create a local `.env` file (from `.env.example`) and set:
+
+   ```bash
+   DEEPGRAM_API_KEY=your_deepgram_key
+   OPENAI_API_KEY=your_openai_key
+   ```
+
+4. Open **Settings** window and add (optional overrides):
    - Deepgram API key
    - OpenAI API key
    - Topic text for call-specific guidance
 
-4. In overlay window, click **Start** to begin live capture + answering.
+5. In overlay window, click **Start** to begin live capture + answering.
+
+Environment variable values are used automatically when saved keys are missing.
 
 ## Build
 

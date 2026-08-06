@@ -33,7 +33,6 @@ export interface OverlayPrefs {
 export interface AppSettings {
   topic: string;
   topicPromptTemplate: string;
-  hotkey: string;
   overlay: OverlayPrefs;
   apiKeys: ApiKeys;
 }
@@ -56,5 +55,4 @@ export interface SettingsApi {
   updateTopic: (topic: string) => Promise<void>;
   updateApiKeys: (apiKeys: ApiKeys) => Promise<void>;
   updateOverlayPrefs: (prefs: Partial<OverlayPrefs>) => Promise<void>;
-  updateHotkey: (hotkey: string) => Promise<void>;
 }

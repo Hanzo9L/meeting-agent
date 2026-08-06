@@ -19,9 +19,10 @@ export function createOverlayWindow(preferences: OverlayPrefs): BrowserWindow {
     hasShadow: false,
     backgroundColor: "#00000000",
     webPreferences: {
-      preload: join(__dirname, "../../preload/overlay.mjs"),
+      preload: join(__dirname, "../preload/overlay.mjs"),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      sandbox: false
     }
   });
 

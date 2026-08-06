@@ -4,7 +4,6 @@ import type { ApiKeys, OverlayPrefs } from "@shared/types";
 
 export function SettingsApp(): JSX.Element {
   const [topic, setTopic] = useState("");
-  const [hotkey, setHotkey] = useState("");
   const [deepgramApiKey, setDeepgramApiKey] = useState("");
   const [openAiApiKey, setOpenAiApiKey] = useState("");
   const [overlay, setOverlay] = useState<OverlayPrefs>({
@@ -15,30 +14,64 @@ export function SettingsApp(): JSX.Element {
     opacity: 0.94
   });
   const [savedAt, setSavedAt] = useState("");
+  const [saveError, setSaveError] = useState("");
+  const [bridgeReady, setBridgeReady] = useState(false);
 
   useEffect(() => {
+    const api = window.settingsApi;
+    if (!api) {
+      setSaveError("Settings API is unavailable.");
+      return;
+    }
+    setBridgeReady(true);
+
     void (async () => {
-      const settings = await window.settingsApi.getSettings();
-      setTopic(settings.topic);
-      setHotkey(settings.hotkey);
-      setDeepgramApiKey(settings.apiKeys.deepgramApiKey);
-      setOpenAiApiKey(settings.apiKeys.openAiApiKey);
-      setOverlay(settings.overlay);
+      try {
+        const settings = await api.getSettings();
+        setTopic(settings.topic);
+        setDeepgramApiKey(settings.apiKeys.deepgramApiKey);
+        setOpenAiApiKey(settings.apiKeys.openAiApiKey);
+        setOverlay(settings.overlay);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error";
+        setSaveError(`Failed to load settings: ${message}`);
+      }
     })();
   }, []);
 
   const save = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
+    setSaveError("");
+    const api = window.settingsApi;
+    if (!api) {
+      setSaveError("Settings API is unavailable.");
+      return;
+    }
 
+    const normalizedOverlay: OverlayPrefs = {
+      x: Number.isFinite(overlay.x) ? overlay.x : 40,
+      y: Number.isFinite(overlay.y) ? overlay.y : 40,
+      width: Number.isFinite(overlay.width) && overlay.width > 200 ? overlay.width : 540,
+      height: Number.isFinite(overlay.height) && overlay.height > 140 ? overlay.height : 420,
+      opacity:
+        Number.isFinite(overlay.opacity) && overlay.opacity >= 0.2 && overlay.opacity <= 1
+          ? overlay.opacity
+          : 0.94
+    };
     const apiKeys: ApiKeys = { deepgramApiKey, openAiApiKey };
-    await Promise.all([
-      window.settingsApi.updateTopic(topic),
-      window.settingsApi.updateHotkey(hotkey),
-      window.settingsApi.updateApiKeys(apiKeys),
-      window.settingsApi.updateOverlayPrefs(overlay)
-    ]);
+    try {
+      await Promise.all([
+        api.updateTopic(topic),
+        api.updateApiKeys(apiKeys),
+        api.updateOverlayPrefs(normalizedOverlay)
+      ]);
 
-    setSavedAt(new Date().toLocaleTimeString());
+      setOverlay(normalizedOverlay);
+      setSavedAt(new Date().toLocaleTimeString());
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      setSaveError(`Save failed: ${message}`);
+    }
   };
 
   return (
@@ -48,11 +81,6 @@ export function SettingsApp(): JSX.Element {
         <label>
           Topic
           <input value={topic} onChange={(event) => setTopic(event.target.value)} />
-        </label>
-
-        <label>
-          Global hotkey
-          <input value={hotkey} onChange={(event) => setHotkey(event.target.value)} />
         </label>
 
         <label>
@@ -133,7 +161,9 @@ export function SettingsApp(): JSX.Element {
         </section>
 
         <button type="submit">Save settings</button>
+        {!bridgeReady ? <p className="saveError">Loading settings...</p> : null}
         {savedAt ? <p className="saved">Saved at {savedAt}</p> : null}
+        {saveError ? <p className="saveError">{saveError}</p> : null}
       </form>
     </main>
   );

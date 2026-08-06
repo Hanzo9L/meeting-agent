@@ -8,9 +8,10 @@ export function createSettingsWindow(): BrowserWindow {
     title: "Meeting Agent Settings",
     autoHideMenuBar: true,
     webPreferences: {
-      preload: join(__dirname, "../../preload/settings.mjs"),
+      preload: join(__dirname, "../preload/settings.mjs"),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      sandbox: false
     }
   });
 

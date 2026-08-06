@@ -12,6 +12,21 @@ export function OverlayApp(): JSX.Element {
   const [currentQuestion, setCurrentQuestion] = useState("");
   const activeQuestionRef = useRef("");
   const draftAnswerRef = useRef("");
+  const runningRef = useRef(false);
+
+  const formatStartError = (error: unknown): string => {
+    if (error instanceof DOMException) {
+      if (error.name === "NotSupportedError") {
+        return "System audio capture is not supported on this device/session.";
+      }
+      if (error.name === "NotAllowedError") {
+        return "Screen/audio capture permission was denied.";
+      }
+      return `${error.name}: ${error.message}`;
+    }
+    if (error instanceof Error) return error.message;
+    return "Unknown start error";
+  };
 
   useEffect(() => {
     activeQuestionRef.current = currentQuestion;
@@ -20,6 +35,41 @@ export function OverlayApp(): JSX.Element {
   useEffect(() => {
     draftAnswerRef.current = draftAnswer;
   }, [draftAnswer]);
+
+  useEffect(() => {
+    runningRef.current = isRunning;
+  }, [isRunning]);
+
+  const startCaptureFlow = async (): Promise<void> => {
+    if (runningRef.current) return;
+    try {
+      await startLoopbackCapture();
+      await window.overlayApi.startCapture();
+      setIsRunning(true);
+      setStatus("capturing");
+    } catch (error) {
+      const message = formatStartError(error);
+      await stopLoopbackCapture().catch(() => undefined);
+      await window.overlayApi.stopCapture().catch(() => undefined);
+      setStatus("error");
+      setTranscript(`Start failed: ${message}`);
+      console.error("Start capture failed", error);
+    }
+  };
+
+  const stopCaptureFlow = async (): Promise<void> => {
+    if (!runningRef.current) return;
+    try {
+      await stopLoopbackCapture();
+      await window.overlayApi.stopCapture();
+      setIsRunning(false);
+      setStatus("idle");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to stop capture";
+      setStatus("error");
+      setTranscript(`Stop failed: ${message}`);
+    }
+  };
 
   useEffect(() => {
     const unsubTranscript = window.overlayApi.onTranscript((payload) => {
@@ -72,16 +122,11 @@ export function OverlayApp(): JSX.Element {
 
   const toggleCapture = async (): Promise<void> => {
     if (!isRunning) {
-      await window.overlayApi.startCapture();
-      await startLoopbackCapture();
-      setIsRunning(true);
+      await startCaptureFlow();
       return;
     }
 
-    await stopLoopbackCapture();
-    await window.overlayApi.stopCapture();
-    setIsRunning(false);
-    setStatus("idle");
+    await stopCaptureFlow();
   };
 
   const clearFeed = async (): Promise<void> => {
@@ -109,7 +154,6 @@ export function OverlayApp(): JSX.Element {
         <span className="liveLabel">Live transcript</span>
         <p>{transcript || "Waiting for speech..."}</p>
       </div>
-
       {draftAnswer ? (
         <div className="draftAnswer">
           <span>Draft answer</span>

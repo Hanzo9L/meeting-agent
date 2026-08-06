@@ -6,7 +6,6 @@ export const IPC_CHANNELS = {
   updateTopic: "settings:update-topic",
   updateApiKeys: "settings:update-api-keys",
   updateOverlayPrefs: "settings:update-overlay-prefs",
-  updateHotkey: "settings:update-hotkey",
   getSettings: "settings:get",
   transcript: "pipeline:transcript",
   answerChunk: "pipeline:answer-chunk",
@@ -15,7 +14,6 @@ export const IPC_CHANNELS = {
 } as const;
 
 export const DEFAULT_TOPIC_PROMPT =
-  "You are helping a caller during a live meeting. Only answer questions about: {TOPIC}. Keep responses short, direct, and practical.";
+  "You are helping a caller during a live meeting. Only answer questions about: {TOPIC}.";
 
 export const DEFAULT_TOPIC = "General business discussion";
-export const DEFAULT_HOTKEY = "CommandOrControl+Shift+H";

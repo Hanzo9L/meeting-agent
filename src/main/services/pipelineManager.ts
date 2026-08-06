@@ -34,7 +34,10 @@ export class PipelineManager {
     await this.sttProvider.start({
       onInterim: (text) => this.broadcastTranscript(text, false),
       onFinal: (text) => void this.handleFinalTranscript(text),
-      onError: () => this.sendStatus("error")
+      onError: (message) => {
+        this.broadcastTranscript(`STT error: ${message}`, false);
+        this.sendStatus("error");
+      }
     });
   }
 

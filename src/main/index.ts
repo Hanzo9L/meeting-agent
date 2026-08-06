@@ -1,10 +1,11 @@
+import "dotenv/config";
 import {
   app,
   BrowserWindow,
-  globalShortcut,
   ipcMain,
   nativeTheme
 } from "electron";
+import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { initMain as initLoopbackMain } from "electron-audio-loopback";
 import { IPC_CHANNELS } from "@shared/constants";
@@ -18,11 +19,19 @@ import type { ApiKeys, ConnectionStatus, OverlayPrefs } from "@shared/types";
 
 const preloadRoot = join(__dirname, "../preload");
 const rendererRoot = join(__dirname, "../../out/renderer");
+const sessionDataRoot = join(app.getPath("temp"), "meeting-agent", "session-data");
+
+// Avoid Chromium cache permission issues on some Windows setups.
+mkdirSync(sessionDataRoot, { recursive: true });
+app.setPath("sessionData", sessionDataRoot);
+app.commandLine.appendSwitch("disable-gpu-shader-disk-cache");
+app.commandLine.appendSwitch("disable-http-cache");
 
 let overlayWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
 let pipelineManager: PipelineManager | null = null;
 const settingsStore = new SettingsStore();
+let audioChunkCount = 0;
 
 function sendStatus(status: ConnectionStatus): void {
   overlayWindow?.webContents.send(IPC_CHANNELS.connectionStatus, status);
@@ -41,32 +50,23 @@ function createPipeline(): PipelineManager {
   });
 }
 
-function registerHotkey(hotkey: string): void {
-  globalShortcut.unregisterAll();
-  globalShortcut.register(hotkey, () => {
-    if (!overlayWindow) return;
-    if (overlayWindow.isVisible()) {
-      overlayWindow.hide();
-    } else {
-      overlayWindow.showInactive();
-    }
-  });
-}
-
 function createWindows(): void {
   const settings = settingsStore.getSettings();
   overlayWindow = createOverlayWindow(settings.overlay);
   settingsWindow = createSettingsWindow();
 
   if (process.env["ELECTRON_RENDERER_URL"]) {
-    overlayWindow.loadURL(`${process.env["ELECTRON_RENDERER_URL"]}/src/renderer/overlay/index.html`);
-    settingsWindow.loadURL(`${process.env["ELECTRON_RENDERER_URL"]}/src/renderer/settings/index.html`);
+    overlayWindow.loadURL(`${process.env["ELECTRON_RENDERER_URL"]}/overlay/index.html`);
+    settingsWindow.loadURL(`${process.env["ELECTRON_RENDERER_URL"]}/settings/index.html`);
   } else {
     overlayWindow.loadFile(join(rendererRoot, "overlay/index.html"));
     settingsWindow.loadFile(join(rendererRoot, "settings/index.html"));
   }
 
-  registerHotkey(settings.hotkey);
+  settingsWindow.once("ready-to-show", () => {
+    settingsWindow?.show();
+    settingsWindow?.focus();
+  });
 }
 
 function registerIpcHandlers(): void {
@@ -95,12 +95,8 @@ function registerIpcHandlers(): void {
     }
   });
 
-  ipcMain.handle(IPC_CHANNELS.updateHotkey, (_event, hotkey: string) => {
-    settingsStore.updateHotkey(hotkey);
-    registerHotkey(hotkey);
-  });
-
   ipcMain.handle(IPC_CHANNELS.startCapture, async () => {
+    audioChunkCount = 0;
     if (!pipelineManager) {
       pipelineManager = createPipeline();
     }
@@ -115,9 +111,23 @@ function registerIpcHandlers(): void {
     overlayWindow?.webContents.send(IPC_CHANNELS.answerDone);
   });
 
-  ipcMain.on(IPC_CHANNELS.audioChunk, (_event, audioBuffer: ArrayBuffer) => {
+  ipcMain.on(IPC_CHANNELS.audioChunk, (_event, audioBuffer: unknown) => {
     if (!pipelineManager) return;
-    const chunk = new Int16Array(audioBuffer);
+    let chunk: Int16Array | null = null;
+    if (audioBuffer instanceof ArrayBuffer) {
+      chunk = new Int16Array(audioBuffer);
+    } else if (ArrayBuffer.isView(audioBuffer)) {
+      chunk = new Int16Array(audioBuffer.buffer, audioBuffer.byteOffset, Math.floor(audioBuffer.byteLength / 2));
+    }
+    if (!chunk || chunk.length === 0) return;
+    if (audioChunkCount === 0) {
+      overlayWindow?.webContents.send(IPC_CHANNELS.transcript, {
+        text: "Audio stream detected in main process...",
+        isFinal: false,
+        timestamp: Date.now()
+      });
+    }
+    audioChunkCount += 1;
     pipelineManager.sendAudioChunk(chunk);
   });
 }
@@ -136,8 +146,4 @@ app.whenReady().then(() => {
 app.on("window-all-closed", async () => {
   await pipelineManager?.stop();
   if (process.platform !== "darwin") app.quit();
-});
-
-app.on("will-quit", () => {
-  globalShortcut.unregisterAll();
 });
