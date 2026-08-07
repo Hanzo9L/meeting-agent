@@ -1,0 +1,3650 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "v2eval-2026-08-07T21-52-21-642Z",
+  "createdAt": "2026-08-07T21:52:21.642Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\teams-admin-powershell.seed.jsonl",
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "summary": {
+    "totalQuestions": 8,
+    "expectedSourceHitTop1": 7,
+    "expectedSourceHitTop3": 7,
+    "expectedSourceHitTop5": 7,
+    "expectedSourceHitTop10": 7,
+    "mrr": 0.8839285714285714,
+    "meanRecallAt5": 0.625,
+    "meanRecallAt10": 0.625,
+    "exactCmdletSuccess": {
+      "success": 1,
+      "total": 1
+    },
+    "domainRoutingCorrect": 8,
+    "authorityCorrectTop1": 7,
+    "leakageQuestions": 2,
+    "p50SemanticLatencyMs": 811.0343999999996,
+    "p95SemanticLatencyMs": 1400.9729,
+    "p50TotalHybridLatencyMs": 827.0073000000002,
+    "p95TotalHybridLatencyMs": 1422.0853,
+    "p50QueryEmbeddingLatencyMs": 364.8747000000003,
+    "p95QueryEmbeddingLatencyMs": 872.6219000000001,
+    "meanSemanticEligiblePopulation": 13325.5,
+    "meanSemanticPreselectedPopulation": 1200,
+    "meanSemanticScoredPopulation": 1200
+  },
+  "questions": [
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-001",
+        "question": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "procedural",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "Direct Routing",
+          "voice routing policy",
+          "PowerShell verification"
+        ],
+        "prohibitedClaims": [
+          "Invented cmdlets",
+          "Tenant-specific assumptions"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+        ],
+        "evaluationNotes": "Representative vertical-slice baseline question."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 7.0820999999999685,
+        "domainRouter": 1.109700000000032,
+        "exact": 160.2303,
+        "lexical": 288.5982,
+        "semantic": 1400.9729,
+        "fusion": 20.045200000000023,
+        "totalHybridRetrieval": 1422.0853
+      },
+      "queryIntent": {
+        "originalQuestion": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+        "normalizedQuestion": "for teams direct routing, what are the required steps and powershell checks to assign a voice routing policy to a user",
+        "domains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "products": [
+          "Microsoft Teams"
+        ],
+        "technologies": [
+          "Direct Routing",
+          "Microsoft Teams",
+          "PowerShell",
+          "Voice Routing"
+        ],
+        "entities": [
+          "direct routing",
+          "policy",
+          "voice routing",
+          "voice routing policy"
+        ],
+        "operationIntents": [
+          "grant"
+        ],
+        "policyNames": [
+          "policy",
+          "voice routing policy"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "procedural",
+        "retrievalHints": [
+          "answer_type:procedural",
+          "domain:teams_admin",
+          "domain:teams_powershell",
+          "entity:direct routing",
+          "entity:policy",
+          "entity:voice routing",
+          "entity:voice routing policy",
+          "operation:grant"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+          "normalizedQuestion": "for teams direct routing, what are the required steps and powershell checks to assign a voice routing policy to a user",
+          "domains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Direct Routing",
+            "Microsoft Teams",
+            "PowerShell",
+            "Voice Routing"
+          ],
+          "entities": [
+            "direct routing",
+            "policy",
+            "voice routing",
+            "voice routing policy"
+          ],
+          "operationIntents": [
+            "grant"
+          ],
+          "policyNames": [
+            "policy",
+            "voice routing policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "domain:teams_powershell",
+            "entity:direct routing",
+            "entity:policy",
+            "entity:voice routing",
+            "entity:voice routing policy",
+            "operation:grant"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_powershell",
+          "teams_admin"
+        ],
+        "focusSubdomains": [
+          "calling",
+          "voice",
+          "voice_routing"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_powershell,teams_admin",
+              "priority:primary",
+              "authority:teams_powershell_cmdlet_primary"
+            ],
+            "subdomainHints": [
+              "calling_configuration"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": [
+              "voice",
+              "calling"
+            ]
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-powershell",
+          "ms-teams-admin",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": true,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "secondary"
+        },
+        "exactMatchDirectives": [
+          {
+            "type": "policy",
+            "value": "voice routing policy",
+            "required": false
+          }
+        ],
+        "candidateBudget": {
+          "maxLexicalCandidates": 2400,
+          "maxSemanticCandidates": 1300,
+          "broadScopeWarningThreshold": 3500
+        },
+        "scopeMode": "cross_domain",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3600,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:procedural",
+          "primary_domain:teams_powershell",
+          "voice_routing_signals_detected"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 17082,
+        "preselectedPopulation": 1300,
+        "scoredPopulation": 1300,
+        "queryEmbeddingLatencyMs": 872.6219000000001,
+        "reasonCounts": {
+          "entity_title_shortlist": 325,
+          "lexical_shortlist": 585,
+          "powershell_operation_shortlist": 260,
+          "scope_reserve": 130
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 0.5,
+        "recallAt3": 0.5,
+        "recallAt5": 0.5,
+        "recallAt10": 0.5,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 0
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -44.560951097574225,
+          "semanticSimilarity": 0.8093132691096637,
+          "fusionScore": 123.46666666666667,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -43.81783149870826,
+          "semanticSimilarity": 0.7888848570103315,
+          "fusionScore": 116,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:2"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -43.55474607814668,
+          "semanticSimilarity": 0.7703806646765016,
+          "fusionScore": 112.05,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:3"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -44.37597994425788,
+          "semanticSimilarity": 0.737431147328118,
+          "fusionScore": 110.8,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:15"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -40.52208611180272,
+          "semanticSimilarity": 0.6874992504421834,
+          "fusionScore": 104.86136363636363,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:54"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Manage phone numbers for Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -36.68172919579852,
+          "semanticSimilarity": 0.659097244279989,
+          "fusionScore": 103.82857142857144,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:83"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -36.26996513960053,
+          "semanticSimilarity": 0.6586943853740559,
+          "fusionScore": 103.76328029375765,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:85"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Configure Operator Connect",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-configure",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -36.7617458393637,
+          "semanticSimilarity": 0.6195491548027495,
+          "fusionScore": 103.75930735930736,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:139"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -36.26996513960053,
+          "semanticSimilarity": 0.6567361720341094,
+          "fusionScore": 103.74252873563219,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:86"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -36.65925647536396,
+          "semanticSimilarity": 0.6145942242499356,
+          "fusionScore": 103.66596800882516,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:146"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-002",
+        "question": "How do you configure and assign a Teams dial plan to a user?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "configuration",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "dial plan",
+          "assignment",
+          "user"
+        ],
+        "prohibitedClaims": [
+          "Auto-generated tenant defaults without evidence"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+        ],
+        "evaluationNotes": "Known weak area for current developer-doc retrieval baseline."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.968900000000076,
+        "domainRouter": 0.5229999999999109,
+        "exact": 0.005600000000185901,
+        "lexical": 137.51030000000014,
+        "semantic": 585.6925000000001,
+        "fusion": 8.407600000000002,
+        "totalHybridRetrieval": 595.0400999999999
+      },
+      "queryIntent": {
+        "originalQuestion": "How do you configure and assign a Teams dial plan to a user?",
+        "normalizedQuestion": "how do you configure and assign a teams dial plan to a user",
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [
+          "Microsoft Teams"
+        ],
+        "technologies": [
+          "Microsoft Teams"
+        ],
+        "entities": [
+          "dial plan"
+        ],
+        "operationIntents": [
+          "grant",
+          "set"
+        ],
+        "policyNames": [
+          "dial plan"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "configuration",
+        "retrievalHints": [
+          "answer_type:configuration",
+          "domain:teams_admin",
+          "entity:dial plan",
+          "operation:grant",
+          "operation:set"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "How do you configure and assign a Teams dial plan to a user?",
+          "normalizedQuestion": "how do you configure and assign a teams dial plan to a user",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "dial plan"
+          ],
+          "operationIntents": [
+            "grant",
+            "set"
+          ],
+          "policyNames": [
+            "dial plan"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "configuration",
+          "retrievalHints": [
+            "answer_type:configuration",
+            "domain:teams_admin",
+            "entity:dial plan",
+            "operation:grant",
+            "operation:set"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_admin"
+        ],
+        "focusSubdomains": [],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": []
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-teams-powershell",
+            "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+          },
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-admin",
+          "ms-teams-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": false,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "primary"
+        },
+        "exactMatchDirectives": [],
+        "candidateBudget": {
+          "maxLexicalCandidates": 1600,
+          "maxSemanticCandidates": 900,
+          "broadScopeWarningThreshold": 2500
+        },
+        "scopeMode": "narrow",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3200,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:configuration",
+          "primary_domain:teams_admin"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 2056,
+        "preselectedPopulation": 900,
+        "scoredPopulation": 900,
+        "queryEmbeddingLatencyMs": 306.3372999999999,
+        "reasonCounts": {
+          "entity_title_shortlist": 36,
+          "lexical_shortlist": 405,
+          "powershell_operation_shortlist": 0,
+          "scope_reserve": 459
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 0.5,
+        "recallAt3": 0.5,
+        "recallAt5": 0.5,
+        "recallAt10": 0.5,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 0
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Create and manage dial plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -27.98150977449342,
+          "semanticSimilarity": 0.792601974440197,
+          "fusionScore": 36.714285714285715,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -31.48476302385019,
+          "semanticSimilarity": 0.6917542039184135,
+          "fusionScore": 36.4,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:9"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -27.499534554553584,
+          "semanticSimilarity": 0.7111199707443937,
+          "fusionScore": 32.25,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:2"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -31.3453192751467,
+          "semanticSimilarity": 0.6892515593389293,
+          "fusionScore": 31.848484848484848,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:10"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -30.02111810248476,
+          "semanticSimilarity": 0.6942620134729561,
+          "fusionScore": 30.166666666666664,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:8"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Create and manage dial plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -24.45087225196666,
+          "semanticSimilarity": 0.7061094033204783,
+          "fusionScore": 27.8,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:4"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Create and manage dial plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -21.94063926159923,
+          "semanticSimilarity": 0.7034697216296592,
+          "fusionScore": 26.238095238095237,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:5"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Create and manage dial plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -24.758842397450127,
+          "semanticSimilarity": 0.6861615306747183,
+          "fusionScore": 25.166666666666664,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:11"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Configure Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -8.446806486772717,
+          "semanticSimilarity": 0.6727780636057732,
+          "fusionScore": 22.826839826839826,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:13"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Set up Microsoft Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -13.77276192014064,
+          "semanticSimilarity": 0.6279447381751164,
+          "fusionScore": 22.461794019933556,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:27"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-003",
+        "question": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+        "expectedDomain": "teams_powershell",
+        "expectedIntent": "reference",
+        "expectedSourceDomains": [
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "Set-CsOnlineVoiceRoutingPolicy",
+          "parameters",
+          "purpose"
+        ],
+        "prohibitedClaims": [
+          "Nonexistent cmdlet parameters"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/powershell/module/teams/set-csonlinevoiceroutingpolicy"
+        ],
+        "evaluationNotes": "Cmdlet specificity check."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.18229999999994106,
+        "domainRouter": 0.5972000000001572,
+        "exact": 260.13070000000016,
+        "lexical": 178.6156000000001,
+        "semantic": 1058.6143000000002,
+        "fusion": 17.85149999999976,
+        "totalHybridRetrieval": 1077.5119
+      },
+      "queryIntent": {
+        "originalQuestion": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+        "normalizedQuestion": "what does set-csonlinevoiceroutingpolicy do and what inputs does it require",
+        "domains": [
+          "teams_powershell"
+        ],
+        "products": [],
+        "technologies": [
+          "PowerShell"
+        ],
+        "entities": [
+          "set-csonlinevoiceroutingpolicy",
+          "Set-CsOnlineVoiceRoutingPolicy"
+        ],
+        "operationIntents": [
+          "set"
+        ],
+        "commandNames": [
+          "Set-CsOnlineVoiceRoutingPolicy"
+        ],
+        "policyNames": [
+          "set-csonlinevoiceroutingpolicy"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "reference",
+        "retrievalHints": [
+          "answer_type:reference",
+          "cmdlet:set-csonlinevoiceroutingpolicy",
+          "domain:teams_powershell",
+          "entity:set-csonlinevoiceroutingpolicy",
+          "operation:set"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+          "normalizedQuestion": "what does set-csonlinevoiceroutingpolicy do and what inputs does it require",
+          "domains": [
+            "teams_powershell"
+          ],
+          "products": [],
+          "technologies": [
+            "PowerShell"
+          ],
+          "entities": [
+            "set-csonlinevoiceroutingpolicy",
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "operationIntents": [
+            "set"
+          ],
+          "commandNames": [
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "policyNames": [
+            "set-csonlinevoiceroutingpolicy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "reference",
+          "retrievalHints": [
+            "answer_type:reference",
+            "cmdlet:set-csonlinevoiceroutingpolicy",
+            "domain:teams_powershell",
+            "entity:set-csonlinevoiceroutingpolicy",
+            "operation:set"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_powershell",
+          "teams_admin"
+        ],
+        "focusSubdomains": [
+          "cmdlet_reference"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_powershell,teams_admin",
+              "priority:primary",
+              "authority:teams_powershell_cmdlet_primary"
+            ],
+            "subdomainHints": [
+              "cmdlet_reference"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": []
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-powershell",
+          "ms-teams-admin",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": true,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "secondary"
+        },
+        "exactMatchDirectives": [
+          {
+            "type": "cmdlet",
+            "value": "Set-CsOnlineVoiceRoutingPolicy",
+            "required": true
+          },
+          {
+            "type": "policy",
+            "value": "set-csonlinevoiceroutingpolicy",
+            "required": false
+          }
+        ],
+        "candidateBudget": {
+          "maxLexicalCandidates": 2400,
+          "maxSemanticCandidates": 1300,
+          "broadScopeWarningThreshold": 3500
+        },
+        "scopeMode": "cross_domain",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 1200,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:reference",
+          "exact_cmdlet_detected",
+          "primary_domain:teams_powershell"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 17082,
+        "preselectedPopulation": 1300,
+        "scoredPopulation": 1300,
+        "queryEmbeddingLatencyMs": 597.8114999999998,
+        "reasonCounts": {
+          "entity_title_shortlist": 32,
+          "lexical_shortlist": 585,
+          "powershell_operation_shortlist": 260,
+          "scope_reserve": 423
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "recallAt10": 1,
+        "exactCmdletMatchSuccess": true,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 1
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+          "lexicalScore": -11.644896118450657,
+          "semanticSimilarity": 0.7551307438097817,
+          "fusionScore": 131.7,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:title",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:9"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+          "lexicalScore": -8.843657487250223,
+          "semanticSimilarity": 0.7901023017609363,
+          "fusionScore": 129.53809523809525,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:title",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+          "lexicalScore": -11.644896118450657,
+          "semanticSimilarity": 0.767354368982835,
+          "fusionScore": 126.8,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:title",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:5"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+          "lexicalScore": -11.644896118450657,
+          "semanticSimilarity": 0.7168864037281132,
+          "fusionScore": 125.88974358974359,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:title",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:25"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "New-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/New-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+          "lexicalScore": -8.321794016656508,
+          "semanticSimilarity": 0.7396531802700491,
+          "fusionScore": 121.45176470588235,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:entity",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:16"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "MicrosoftTeams PowerShell module",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/MicrosoftTeams.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+          "lexicalScore": -8.017859983379752,
+          "semanticSimilarity": 0.740981986136888,
+          "fusionScore": 121.42857142857143,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:entity",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:15"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+          "lexicalScore": -8.321794016656508,
+          "semanticSimilarity": 0.7392632059692854,
+          "fusionScore": 121.41666666666666,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:entity",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:17"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Remove-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Remove-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+          "lexicalScore": -8.321794016656508,
+          "semanticSimilarity": 0.6855020668041742,
+          "fusionScore": 120.85770750988144,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:entity",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:32"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Grant-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Grant-CsOnlineVoiceRoutingPolicy.md",
+          "sourceId": "ms-teams-powershell",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+          "lexicalScore": -8.321794016656508,
+          "semanticSimilarity": 0.694034604820578,
+          "fusionScore": 120.75,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:entity",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:31"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Manage call routing policies for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+          "lexicalScore": -7.388237798585576,
+          "semanticSimilarity": 0.6767678551396848,
+          "fusionScore": 115.44407894736842,
+          "reasons": [
+            "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+            "exact_match:policy:set-csonlinevoiceroutingpolicy:entity",
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:37"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-004",
+        "question": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+        "expectedDomain": "teams_powershell",
+        "expectedIntent": "reference",
+        "expectedSourceDomains": [
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "Grant cmdlet",
+          "voice routing policy",
+          "user assignment"
+        ],
+        "prohibitedClaims": [
+          "Mixing unrelated policy cmdlets"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/powershell/module/teams/grant-csonlinevoiceroutingpolicy"
+        ],
+        "evaluationNotes": "Exact match behavior for PowerShell-style question."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.0921000000003005,
+        "domainRouter": 0.4798999999998159,
+        "exact": 146.51799999999957,
+        "lexical": 270.32699999999977,
+        "semantic": 1066.1674999999996,
+        "fusion": 13.455399999999827,
+        "totalHybridRetrieval": 1080.8962999999999
+      },
+      "queryIntent": {
+        "originalQuestion": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+        "normalizedQuestion": "which cmdlet can i use to grant a voice routing policy to a teams user",
+        "domains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "products": [
+          "Microsoft Teams"
+        ],
+        "technologies": [
+          "Microsoft Teams",
+          "PowerShell",
+          "Voice Routing"
+        ],
+        "entities": [
+          "policy",
+          "voice routing",
+          "voice routing policy"
+        ],
+        "operationIntents": [
+          "grant"
+        ],
+        "policyNames": [
+          "policy",
+          "voice routing policy"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "reference",
+        "retrievalHints": [
+          "answer_type:reference",
+          "domain:teams_admin",
+          "domain:teams_powershell",
+          "entity:policy",
+          "entity:voice routing",
+          "entity:voice routing policy",
+          "operation:grant"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+          "normalizedQuestion": "which cmdlet can i use to grant a voice routing policy to a teams user",
+          "domains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams",
+            "PowerShell",
+            "Voice Routing"
+          ],
+          "entities": [
+            "policy",
+            "voice routing",
+            "voice routing policy"
+          ],
+          "operationIntents": [
+            "grant"
+          ],
+          "policyNames": [
+            "policy",
+            "voice routing policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "reference",
+          "retrievalHints": [
+            "answer_type:reference",
+            "domain:teams_admin",
+            "domain:teams_powershell",
+            "entity:policy",
+            "entity:voice routing",
+            "entity:voice routing policy",
+            "operation:grant"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_powershell",
+          "teams_admin"
+        ],
+        "focusSubdomains": [
+          "calling",
+          "voice",
+          "voice_routing"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_powershell,teams_admin",
+              "priority:primary",
+              "authority:teams_powershell_cmdlet_primary"
+            ],
+            "subdomainHints": [
+              "calling_configuration"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": [
+              "voice",
+              "calling"
+            ]
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-powershell",
+          "ms-teams-admin",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": true,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "secondary"
+        },
+        "exactMatchDirectives": [
+          {
+            "type": "policy",
+            "value": "voice routing policy",
+            "required": false
+          }
+        ],
+        "candidateBudget": {
+          "maxLexicalCandidates": 2400,
+          "maxSemanticCandidates": 1300,
+          "broadScopeWarningThreshold": 3500
+        },
+        "scopeMode": "cross_domain",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3600,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:reference",
+          "primary_domain:teams_powershell",
+          "voice_routing_signals_detected"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 17082,
+        "preselectedPopulation": 1300,
+        "scoredPopulation": 1300,
+        "queryEmbeddingLatencyMs": 545.3442999999997,
+        "reasonCounts": {
+          "entity_title_shortlist": 123,
+          "lexical_shortlist": 585,
+          "powershell_operation_shortlist": 260,
+          "scope_reserve": 332
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": false,
+        "expectedSourceHitTop3": false,
+        "expectedSourceHitTop5": false,
+        "expectedSourceHitTop10": false,
+        "firstExpectedSourceRank": 14,
+        "reciprocalRank": 0.07142857142857142,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "recallAt10": 0,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": false,
+        "inappropriateSourceLeakageCount": 10
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -30.486745181392358,
+          "semanticSimilarity": 0.639132124715552,
+          "fusionScore": 106.45677966101695,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:58"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -30.4486863758191,
+          "semanticSimilarity": 0.6573074794870623,
+          "fusionScore": 106.35555555555555,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:35"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -25.705453957891223,
+          "semanticSimilarity": 0.704704161720019,
+          "fusionScore": 105.7909090909091,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:9"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -29.97685285811166,
+          "semanticSimilarity": 0.5035301725848007,
+          "fusionScore": 104.57948717948717,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:519"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -29.11171781013124,
+          "semanticSimilarity": 0.6203069474152945,
+          "fusionScore": 104.34242424242424,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:98"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -28.31715380175432,
+          "semanticSimilarity": 0.5695200975253629,
+          "fusionScore": 103.97857142857143,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:251"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -26.66554770689132,
+          "semanticSimilarity": 0.5261334593350038,
+          "fusionScore": 103.64434937611408,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:424"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Manage phone numbers for Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -26.157618160236844,
+          "semanticSimilarity": 0.5671359793208451,
+          "fusionScore": 103.59465672569121,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:260"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -26.129326691006955,
+          "semanticSimilarity": 0.5794142121956103,
+          "fusionScore": 103.5933014354067,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:219"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Manage phone numbers for Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -24.874964517580484,
+          "semanticSimilarity": 0.6137682063957851,
+          "fusionScore": 103.44406779661016,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:117"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-005",
+        "question": "How can I verify whether a user has the correct voice routing policy after assignment?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "troubleshooting",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "verification",
+          "assigned policy",
+          "user state"
+        ],
+        "prohibitedClaims": [
+          "Guaranteeing propagation time without source"
+        ],
+        "knownSourceHints": [],
+        "evaluationNotes": "Post-assignment validation behavior."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.11610000000018772,
+        "domainRouter": 0.4054999999998472,
+        "exact": 149.33399999999983,
+        "lexical": 214.6954999999998,
+        "semantic": 1158.5703999999996,
+        "fusion": 16.585800000000745,
+        "totalHybridRetrieval": 1176.2630000000008
+      },
+      "queryIntent": {
+        "originalQuestion": "How can I verify whether a user has the correct voice routing policy after assignment?",
+        "normalizedQuestion": "how can i verify whether a user has the correct voice routing policy after assignment",
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [],
+        "technologies": [
+          "Voice Routing"
+        ],
+        "entities": [
+          "policy",
+          "voice routing",
+          "voice routing policy"
+        ],
+        "operationIntents": [
+          "get"
+        ],
+        "policyNames": [
+          "policy",
+          "voice routing policy"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "configuration",
+        "retrievalHints": [
+          "answer_type:configuration",
+          "domain:teams_admin",
+          "entity:policy",
+          "entity:voice routing",
+          "entity:voice routing policy",
+          "operation:get"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "How can I verify whether a user has the correct voice routing policy after assignment?",
+          "normalizedQuestion": "how can i verify whether a user has the correct voice routing policy after assignment",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [
+            "Voice Routing"
+          ],
+          "entities": [
+            "policy",
+            "voice routing",
+            "voice routing policy"
+          ],
+          "operationIntents": [
+            "get"
+          ],
+          "policyNames": [
+            "policy",
+            "voice routing policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "configuration",
+          "retrievalHints": [
+            "answer_type:configuration",
+            "domain:teams_admin",
+            "entity:policy",
+            "entity:voice routing",
+            "entity:voice routing policy",
+            "operation:get"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "focusSubdomains": [
+          "calling",
+          "voice",
+          "voice_routing"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": [
+              "voice",
+              "calling"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin,teams_powershell",
+              "priority:primary",
+              "authority:teams_powershell_cmdlet_primary"
+            ],
+            "subdomainHints": [
+              "calling_configuration"
+            ]
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-admin",
+          "ms-teams-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": true,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "secondary"
+        },
+        "exactMatchDirectives": [
+          {
+            "type": "policy",
+            "value": "voice routing policy",
+            "required": false
+          }
+        ],
+        "candidateBudget": {
+          "maxLexicalCandidates": 2400,
+          "maxSemanticCandidates": 1300,
+          "broadScopeWarningThreshold": 3500
+        },
+        "scopeMode": "cross_domain",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3600,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:configuration",
+          "primary_domain:teams_admin",
+          "voice_routing_signals_detected"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 17082,
+        "preselectedPopulation": 1300,
+        "scoredPopulation": 1300,
+        "queryEmbeddingLatencyMs": 570.4712,
+        "reasonCounts": {
+          "entity_title_shortlist": 123,
+          "lexical_shortlist": 585,
+          "powershell_operation_shortlist": 260,
+          "scope_reserve": 332
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 0.5,
+        "recallAt3": 0.5,
+        "recallAt5": 0.5,
+        "recallAt10": 0.5,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 0
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -32.44255778959191,
+          "semanticSimilarity": 0.6688436316109169,
+          "fusionScore": 119.13333333333333,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -34.643307646014854,
+          "semanticSimilarity": 0.5578883074198137,
+          "fusionScore": 116.175,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:63"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -26.77393277951593,
+          "semanticSimilarity": 0.6590120152794886,
+          "fusionScore": 111.69655172413793,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:2"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -26.13381242727151,
+          "semanticSimilarity": 0.6343746547407763,
+          "fusionScore": 109.5027027027027,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:3"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -24.003639155028885,
+          "semanticSimilarity": 0.6252729755872581,
+          "fusionScore": 108.07272727272726,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:4"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -30.30249751533233,
+          "semanticSimilarity": 0.5239392876712777,
+          "fusionScore": 105.6016806722689,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:118"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -28.936054444504617,
+          "semanticSimilarity": 0.55260479702318,
+          "fusionScore": 104.59738562091503,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:67"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Manage phone numbers for Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -27.87814901235153,
+          "semanticSimilarity": 0.4915833327851851,
+          "fusionScore": 103.96244897959184,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:195"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -25.26096633389999,
+          "semanticSimilarity": 0.5625264115628903,
+          "fusionScore": 103.84373927958833,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:52"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Configure Operator Connect",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-configure",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": "policy:voice routing policy:metadata",
+          "lexicalScore": -24.470582256441453,
+          "semanticSimilarity": 0.5175017961530343,
+          "fusionScore": 103.48890839918057,
+          "reasons": [
+            "exact_match:policy:voice routing policy:metadata",
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:133"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-006",
+        "question": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "conceptual",
+        "expectedSourceDomains": [
+          "teams_admin"
+        ],
+        "requiredConcepts": [
+          "PSTN usage",
+          "voice routes",
+          "policy linkage"
+        ],
+        "prohibitedClaims": [
+          "On-prem-only assumptions as cloud facts"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+        ],
+        "evaluationNotes": "Conceptual retrieval quality check."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.09799999999995634,
+        "domainRouter": 0.4558999999999287,
+        "exact": 0.004199999999400461,
+        "lexical": 185.9332999999997,
+        "semantic": 709.9233000000004,
+        "fusion": 13.892499999999927,
+        "totalHybridRetrieval": 724.6019000000006
+      },
+      "queryIntent": {
+        "originalQuestion": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+        "normalizedQuestion": "can you explain the relationship between pstn usage records and voice routes in teams",
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [
+          "Microsoft Teams"
+        ],
+        "technologies": [
+          "Microsoft Teams"
+        ],
+        "entities": [
+          "pstn"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "conceptual",
+        "retrievalHints": [
+          "answer_type:conceptual",
+          "domain:teams_admin",
+          "entity:pstn"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+          "normalizedQuestion": "can you explain the relationship between pstn usage records and voice routes in teams",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "pstn"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:pstn"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "focusSubdomains": [],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": []
+          },
+          {
+            "sourceId": "ms-teams-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin,teams_powershell",
+              "priority:primary",
+              "authority:teams_powershell_cmdlet_primary"
+            ],
+            "subdomainHints": []
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-admin",
+          "ms-teams-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": false,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "primary"
+        },
+        "exactMatchDirectives": [],
+        "candidateBudget": {
+          "maxLexicalCandidates": 2400,
+          "maxSemanticCandidates": 1300,
+          "broadScopeWarningThreshold": 3500
+        },
+        "scopeMode": "cross_domain",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3200,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:conceptual",
+          "primary_domain:teams_admin",
+          "voice_routing_signals_detected"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 17082,
+        "preselectedPopulation": 1300,
+        "scoredPopulation": 1300,
+        "queryEmbeddingLatencyMs": 310.3736999999992,
+        "reasonCounts": {
+          "entity_title_shortlist": 309,
+          "lexical_shortlist": 585,
+          "powershell_operation_shortlist": 0,
+          "scope_reserve": 406
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "recallAt10": 1,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 0
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Teams settings and policies reference",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -30.009399404041215,
+          "semanticSimilarity": 0.7158892620841084,
+          "fusionScore": 46,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Teams settings and policies reference",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -30.009399404041215,
+          "semanticSimilarity": 0.7158892620841084,
+          "fusionScore": 37.666666666666664,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:2"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Microsoft Teams PSTN usage report",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -20.832661959691688,
+          "semanticSimilarity": 0.6657064410779447,
+          "fusionScore": 28.625,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:3"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Manage call routing policies for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -26.837216599749077,
+          "semanticSimilarity": 0.5865028220202273,
+          "fusionScore": 28.115384615384613,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:38"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Microsoft Teams PSTN usage report",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -19.97394946672845,
+          "semanticSimilarity": 0.6650447682830947,
+          "fusionScore": 27.1,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:4"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -24.419358290399018,
+          "semanticSimilarity": 0.5848321048215558,
+          "fusionScore": 26.785365853658536,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:40"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -23.059561845327913,
+          "semanticSimilarity": 0.6214238980597869,
+          "fusionScore": 26.43181818181818,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:10"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -22.19589215804559,
+          "semanticSimilarity": 0.6247202595800572,
+          "fusionScore": 26.28888888888889,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:9"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Microsoft Teams PSTN usage report",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -14.491228001710802,
+          "semanticSimilarity": 0.6439986090133467,
+          "fusionScore": 25.320987654320987,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:5"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Microsoft Teams PSTN usage report",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -15.436317834044283,
+          "semanticSimilarity": 0.6343860910492782,
+          "fusionScore": 24.82857142857143,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:6"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-007",
+        "question": "What are the prerequisites before enabling Direct Routing for users?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "procedural",
+        "expectedSourceDomains": [
+          "teams_admin"
+        ],
+        "requiredConcepts": [
+          "prerequisites",
+          "Direct Routing",
+          "user readiness"
+        ],
+        "prohibitedClaims": [
+          "Unsupported licensing claims"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        ],
+        "evaluationNotes": "Prerequisite-oriented admin question."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.09050000000024738,
+        "domainRouter": 1.1539999999995416,
+        "exact": 0.0015999999995983671,
+        "lexical": 194.35289999999986,
+        "semantic": 811.0343999999996,
+        "fusion": 15.135600000000522,
+        "totalHybridRetrieval": 827.0073000000002
+      },
+      "queryIntent": {
+        "originalQuestion": "What are the prerequisites before enabling Direct Routing for users?",
+        "normalizedQuestion": "what are the prerequisites before enabling direct routing for users",
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [],
+        "technologies": [
+          "Direct Routing"
+        ],
+        "entities": [
+          "direct routing"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "conceptual",
+        "retrievalHints": [
+          "answer_type:conceptual",
+          "domain:teams_admin",
+          "entity:direct routing"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "What are the prerequisites before enabling Direct Routing for users?",
+          "normalizedQuestion": "what are the prerequisites before enabling direct routing for users",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [
+            "Direct Routing"
+          ],
+          "entities": [
+            "direct routing"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:direct routing"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "focusSubdomains": [
+          "calling",
+          "voice",
+          "voice_routing"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": [
+              "voice",
+              "calling"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin,teams_powershell",
+              "priority:primary",
+              "authority:teams_powershell_cmdlet_primary"
+            ],
+            "subdomainHints": [
+              "calling_configuration"
+            ]
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-admin",
+          "ms-teams-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": false,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "primary"
+        },
+        "exactMatchDirectives": [],
+        "candidateBudget": {
+          "maxLexicalCandidates": 2400,
+          "maxSemanticCandidates": 1300,
+          "broadScopeWarningThreshold": 3500
+        },
+        "scopeMode": "cross_domain",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3600,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:conceptual",
+          "primary_domain:teams_admin",
+          "voice_routing_signals_detected"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 17082,
+        "preselectedPopulation": 1300,
+        "scoredPopulation": 1300,
+        "queryEmbeddingLatencyMs": 364.8747000000003,
+        "reasonCounts": {
+          "entity_title_shortlist": 325,
+          "lexical_shortlist": 585,
+          "powershell_operation_shortlist": 0,
+          "scope_reserve": 390
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "recallAt10": 1,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 0
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -31.409859886391885,
+          "semanticSimilarity": 0.5503281718837992,
+          "fusionScore": 34.19047619047619,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:125"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -30.262733728115073,
+          "semanticSimilarity": 0.6422031307074085,
+          "fusionScore": 33.666666666666664,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:5"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Configure Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -22.819728811585275,
+          "semanticSimilarity": 0.6742551982360914,
+          "fusionScore": 33.29213483146067,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-landing-page",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -22.34836140616533,
+          "semanticSimilarity": 0.6559794071307321,
+          "fusionScore": 29.273684210526316,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:2"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -30.138829749544808,
+          "semanticSimilarity": 0.5949989185449361,
+          "fusionScore": 27.847826086956523,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:68"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-landing-page",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -17.61787073328722,
+          "semanticSimilarity": 0.6495225243643964,
+          "fusionScore": 27.153846153846153,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:3"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Plan Location-Based Routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -28.101576475894216,
+          "semanticSimilarity": 0.6395305437858338,
+          "fusionScore": 27.114285714285714,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:9"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Teams settings and policies reference",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -29.480465856139748,
+          "semanticSimilarity": 0.5055201325864704,
+          "fusionScore": 26.308108108108108,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:221"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-landing-page",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -11.458667856656566,
+          "semanticSimilarity": 0.6429818456602155,
+          "fusionScore": 25.86146572104019,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:4"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -26.93709969286882,
+          "semanticSimilarity": 0.6418278662260399,
+          "fusionScore": 25.625,
+          "reasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:7"
+          ]
+        }
+      ]
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-008",
+        "question": "If a user cannot place external calls after policy assignment, what should I check first?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "troubleshooting",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "troubleshooting",
+          "external calling",
+          "policy assignment"
+        ],
+        "prohibitedClaims": [
+          "Fabricated diagnostic commands"
+        ],
+        "knownSourceHints": [],
+        "evaluationNotes": "Operational troubleshooting query."
+      },
+      "stageLatencyMs": {
+        "queryIntent": 0.0874999999996362,
+        "domainRouter": 0.29790000000048167,
+        "exact": 0.0009000000000014552,
+        "lexical": 110.10170000000016,
+        "semantic": 440.58290000000034,
+        "fusion": 5.10109999999986,
+        "totalHybridRetrieval": 446.4387999999999
+      },
+      "queryIntent": {
+        "originalQuestion": "If a user cannot place external calls after policy assignment, what should I check first?",
+        "normalizedQuestion": "if a user cannot place external calls after policy assignment, what should i check first",
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [
+          "policy"
+        ],
+        "operationIntents": [
+          "get"
+        ],
+        "policyNames": [
+          "policy"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "configuration",
+        "retrievalHints": [
+          "answer_type:configuration",
+          "domain:teams_admin",
+          "entity:policy",
+          "operation:get"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "scope": {
+        "intent": {
+          "originalQuestion": "If a user cannot place external calls after policy assignment, what should I check first?",
+          "normalizedQuestion": "if a user cannot place external calls after policy assignment, what should i check first",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [],
+          "entities": [
+            "policy"
+          ],
+          "operationIntents": [
+            "get"
+          ],
+          "policyNames": [
+            "policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "configuration",
+          "retrievalHints": [
+            "answer_type:configuration",
+            "domain:teams_admin",
+            "entity:policy",
+            "operation:get"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "selectedDomains": [
+          "teams_admin"
+        ],
+        "focusSubdomains": [],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ],
+            "eligibleTrackIds": [
+              "ga"
+            ],
+            "eligibleTrackStatuses": [
+              "ga"
+            ],
+            "rationale": [
+              "domain_match:teams_admin",
+              "priority:primary",
+              "authority:teams_admin_primary"
+            ],
+            "subdomainHints": []
+          }
+        ],
+        "excludedSources": [
+          {
+            "sourceId": "ms-teams-powershell",
+            "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+          },
+          {
+            "sourceId": "ms-m365-docs",
+            "reason": "m365_source_requires_m365_domain"
+          },
+          {
+            "sourceId": "ms-entra-docs",
+            "reason": "entra_source_requires_identity_signal"
+          },
+          {
+            "sourceId": "ms-graph-docs",
+            "reason": "graph_source_requires_graph_domain"
+          },
+          {
+            "sourceId": "ms-teams-dev-docs",
+            "reason": "not_applicable_to_selected_domains"
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-admin",
+          "ms-teams-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs"
+        ],
+        "strategy": {
+          "exact": false,
+          "lexical": true,
+          "semantic": true,
+          "semanticPreference": "primary"
+        },
+        "exactMatchDirectives": [],
+        "candidateBudget": {
+          "maxLexicalCandidates": 1600,
+          "maxSemanticCandidates": 900,
+          "broadScopeWarningThreshold": 2500
+        },
+        "scopeMode": "narrow",
+        "freshnessVerification": {
+          "required": false,
+          "reasons": []
+        },
+        "betaPolicy": {
+          "allowsBeta": false,
+          "excludedBetaTracks": []
+        },
+        "estimatedCandidatePopulation": 3200,
+        "routingWarnings": [],
+        "routingRationale": [
+          "answer_type:configuration",
+          "primary_domain:teams_admin"
+        ]
+      },
+      "semanticPopulation": {
+        "eligiblePopulation": 2056,
+        "preselectedPopulation": 900,
+        "scoredPopulation": 900,
+        "queryEmbeddingLatencyMs": 278.0173999999997,
+        "reasonCounts": {
+          "entity_title_shortlist": 0,
+          "lexical_shortlist": 405,
+          "powershell_operation_shortlist": 0,
+          "scope_reserve": 495
+        }
+      },
+      "metrics": {
+        "expectedSourceHitTop1": true,
+        "expectedSourceHitTop3": true,
+        "expectedSourceHitTop5": true,
+        "expectedSourceHitTop10": true,
+        "firstExpectedSourceRank": 1,
+        "reciprocalRank": 1,
+        "recallAt1": 0.5,
+        "recallAt3": 0.5,
+        "recallAt5": 0.5,
+        "recallAt10": 0.5,
+        "exactCmdletMatchSuccess": null,
+        "domainRoutingCorrect": true,
+        "authorityCorrectTop1": true,
+        "inappropriateSourceLeakageCount": 0
+      },
+      "top10": [
+        {
+          "rank": 1,
+          "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -16.037308121791888,
+          "semanticSimilarity": 0.493903156761015,
+          "fusionScore": 34.75,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:31"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -11.25505659943285,
+          "semanticSimilarity": 0.5554169392490114,
+          "fusionScore": 33.86666666666667,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:1"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Configure Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -12.468277216752746,
+          "semanticSimilarity": 0.5524726599145394,
+          "fusionScore": 31.166666666666664,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:2"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Add places to emergency locations",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/add-change-remove-emergency-place-organization",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -15.442217041063518,
+          "semanticSimilarity": 0.33278290768911234,
+          "fusionScore": 29.705818379554103,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:612"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Configure Teams Phone Mobile",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -12.845588107028373,
+          "semanticSimilarity": 0.5446351195744586,
+          "fusionScore": 28.68888888888889,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:4"
+          ]
+        },
+        {
+          "rank": 6,
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -11.062431584986625,
+          "semanticSimilarity": 0.5472571488416476,
+          "fusionScore": 27.764705882352942,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:3"
+          ]
+        },
+        {
+          "rank": 7,
+          "title": "Add places to emergency locations",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/add-change-remove-emergency-place-organization",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -13.909045982485539,
+          "semanticSimilarity": 0.45319612468460874,
+          "fusionScore": 27.66901408450704,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:141"
+          ]
+        },
+        {
+          "rank": 8,
+          "title": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -13.388988122414291,
+          "semanticSimilarity": 0.4941158992201725,
+          "fusionScore": 26.9741935483871,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:30"
+          ]
+        },
+        {
+          "rank": 9,
+          "title": "Manage call routing policies for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -11.537490498190959,
+          "semanticSimilarity": 0.5305756770904374,
+          "fusionScore": 25.42857142857143,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:6"
+          ]
+        },
+        {
+          "rank": 10,
+          "title": "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+          "sourceId": "ms-teams-admin",
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "exactMatchState": null,
+          "lexicalScore": -12.938895636429761,
+          "semanticSimilarity": 0.39749202057281535,
+          "fusionScore": 25.405840886203425,
+          "reasons": [
+            "lexical_fts_match",
+            "semantic_preselection:lexical_shortlist",
+            "semantic_similarity",
+            "semantic_rank:330"
+          ]
+        }
+      ]
+    }
+  ]
+}

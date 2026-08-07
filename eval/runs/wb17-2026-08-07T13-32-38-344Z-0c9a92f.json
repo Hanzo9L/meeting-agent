@@ -1,0 +1,3387 @@
+{
+  "artifactVersion": "1.0",
+  "pipelineVersion": "side-by-side-wb17",
+  "runId": "wb17-2026-08-07T13-32-38-344Z-0c9a92f",
+  "createdAt": "2026-08-07T13:32:38.344Z",
+  "commitSha": "0c9a92fa0dc743cce963c428ef78aca2c1db7956",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\teams-admin-powershell.seed.jsonl",
+  "legacyArtifactPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\2026-08-07T01-46-24-848Z-1682da8.json",
+  "corpus": {
+    "mode": "fixture",
+    "classificationReasons": [
+      "empty_or_partial_index"
+    ],
+    "documentCount": 0,
+    "chunkCount": 0,
+    "embeddingCount": 0,
+    "documentsBySource": {},
+    "chunksBySource": {},
+    "embeddingsBySource": {},
+    "documentsByTrack": {},
+    "chunksByTrack": {},
+    "embeddingsByTrack": {},
+    "documentsByTransport": {}
+  },
+  "freeze": {
+    "routingRulesUnchanged": true,
+    "fusionPolicyUnchanged": true,
+    "budgetsUnchanged": true
+  },
+  "summary": {
+    "totalQuestions": 8,
+    "legacy": {
+      "expectedSourceHitTop1": 0,
+      "expectedSourceHitTop3": 0,
+      "expectedSourceHitTop5": 0,
+      "expectedSourceHitTop10": 0,
+      "mrr": 0,
+      "meanRecallAt5": 0,
+      "exactCmdletSuccess": {
+        "success": 0,
+        "total": 1
+      },
+      "domainRoutingCorrect": 8,
+      "authorityCorrectTop1": 0,
+      "betaPolicyCorrect": 8,
+      "leakageQuestions": 7,
+      "p95RetrievalLatencyMs": 0.69
+    },
+    "v2": {
+      "expectedSourceHitTop1": 0,
+      "expectedSourceHitTop3": 0,
+      "expectedSourceHitTop5": 0,
+      "expectedSourceHitTop10": 0,
+      "mrr": 0,
+      "meanRecallAt5": 0,
+      "exactCmdletSuccess": {
+        "success": 0,
+        "total": 1
+      },
+      "domainRoutingCorrect": 8,
+      "authorityCorrectTop1": 0,
+      "betaPolicyCorrect": 8,
+      "leakageQuestions": 0,
+      "p95TotalLatencyMs": 4.934399999999982,
+      "p95HybridFusionLatencyMs": 0.06479999999999109
+    }
+  },
+  "questions": [
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-001",
+        "question": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "procedural",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "Direct Routing",
+          "voice routing policy",
+          "PowerShell verification"
+        ],
+        "prohibitedClaims": [
+          "Invented cmdlets",
+          "Tenant-specific assumptions"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+        ],
+        "evaluationNotes": "Representative vertical-slice baseline question."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-001",
+          "question": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+          "expectedDomain": "teams_admin",
+          "expectedIntent": "procedural",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 3,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "rank": 2,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "rank": 3,
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0.06,
+            "retrieval": 0.69,
+            "answer": 0.22,
+            "total": 1.1
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          },
+          {
+            "rank": 3,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md",
+            "title": "Build conversational Teams bots — Create your bot"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+          "normalizedQuestion": "for teams direct routing, what are the required steps and powershell checks to assign a voice routing policy to a user",
+          "domains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Direct Routing",
+            "Microsoft Teams",
+            "PowerShell",
+            "Voice Routing"
+          ],
+          "entities": [
+            "direct routing",
+            "policy",
+            "voice routing"
+          ],
+          "policyNames": [
+            "policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "domain:teams_powershell",
+            "entity:direct routing",
+            "entity:policy",
+            "entity:voice routing"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+            "normalizedQuestion": "for teams direct routing, what are the required steps and powershell checks to assign a voice routing policy to a user",
+            "domains": [
+              "teams_admin",
+              "teams_powershell"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Direct Routing",
+              "Microsoft Teams",
+              "PowerShell",
+              "Voice Routing"
+            ],
+            "entities": [
+              "direct routing",
+              "policy",
+              "voice routing"
+            ],
+            "policyNames": [
+              "policy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "procedural",
+            "retrievalHints": [
+              "answer_type:procedural",
+              "domain:teams_admin",
+              "domain:teams_powershell",
+              "entity:direct routing",
+              "entity:policy",
+              "entity:voice routing"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [
+            "calling",
+            "voice",
+            "voice_routing"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": [
+                "voice",
+                "calling"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "calling_configuration"
+              ]
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "policy",
+              "value": "policy",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3600,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:procedural",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [
+            {
+              "directiveType": "policy",
+              "directiveValue": "policy",
+              "required": false,
+              "matchedCount": 0
+            }
+          ],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "policy OR \"direct routing\" OR \"voice routing\" OR calling OR voice OR teams OR direct OR routing OR are OR required OR steps OR powershell OR checks OR assign OR user",
+          "queryTerms": [
+            "policy",
+            "direct routing",
+            "voice routing",
+            "calling",
+            "voice",
+            "teams",
+            "direct",
+            "routing",
+            "are",
+            "required",
+            "steps",
+            "powershell",
+            "checks",
+            "assign",
+            "user"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 1300,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 3.6743000000000166,
+            "sqlPreselection": 0.6252000000000635,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.6252000000000635,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 4.547300000000064
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 1.3756000000000768,
+          "lexicalLatencyMs": 1.1435000000000173,
+          "semanticLatencyMs": 4.547300000000064,
+          "fusionLatencyMs": 0.06479999999999109,
+          "totalLatencyMs": 4.934399999999982,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 3
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-002",
+        "question": "How do you configure and assign a Teams dial plan to a user?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "configuration",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "dial plan",
+          "assignment",
+          "user"
+        ],
+        "prohibitedClaims": [
+          "Auto-generated tenant defaults without evidence"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+        ],
+        "evaluationNotes": "Known weak area for current developer-doc retrieval baseline."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-002",
+          "question": "How do you configure and assign a Teams dial plan to a user?",
+          "expectedDomain": "teams_admin",
+          "expectedIntent": "configuration",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 3,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "rank": 2,
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              },
+              {
+                "rank": 3,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              },
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.04,
+            "answer": 0,
+            "total": 0.05
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md",
+            "title": "Build conversational Teams bots — Create your bot"
+          },
+          {
+            "rank": 3,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "How do you configure and assign a Teams dial plan to a user?",
+          "normalizedQuestion": "how do you configure and assign a teams dial plan to a user",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "dial plan"
+          ],
+          "policyNames": [
+            "dial plan"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "configuration",
+          "retrievalHints": [
+            "answer_type:configuration",
+            "domain:teams_admin",
+            "entity:dial plan"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "How do you configure and assign a Teams dial plan to a user?",
+            "normalizedQuestion": "how do you configure and assign a teams dial plan to a user",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "dial plan"
+            ],
+            "policyNames": [
+              "dial plan"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "configuration",
+            "retrievalHints": [
+              "answer_type:configuration",
+              "domain:teams_admin",
+              "entity:dial plan"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_or_voice_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "policy",
+              "value": "dial plan",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:configuration",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [
+            {
+              "directiveType": "policy",
+              "directiveValue": "dial plan",
+              "required": false,
+              "matchedCount": 0
+            }
+          ],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "\"dial plan\" OR you OR configure OR assign OR teams OR dial OR plan OR user",
+          "queryTerms": [
+            "dial plan",
+            "you",
+            "configure",
+            "assign",
+            "teams",
+            "dial",
+            "plan",
+            "user"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 900,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 1.828800000000001,
+            "sqlPreselection": 0.5514000000000578,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.5514000000000578,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 2.501600000000053
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.8718999999999824,
+          "lexicalLatencyMs": 0.7660999999999376,
+          "semanticLatencyMs": 2.501600000000053,
+          "fusionLatencyMs": 0.007000000000061846,
+          "totalLatencyMs": 2.571900000000028,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 3
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-003",
+        "question": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+        "expectedDomain": "teams_powershell",
+        "expectedIntent": "reference",
+        "expectedSourceDomains": [
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "Set-CsOnlineVoiceRoutingPolicy",
+          "parameters",
+          "purpose"
+        ],
+        "prohibitedClaims": [
+          "Nonexistent cmdlet parameters"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/powershell/module/teams/set-csonlinevoiceroutingpolicy"
+        ],
+        "evaluationNotes": "Cmdlet specificity check."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-003",
+          "question": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+          "expectedDomain": "teams_powershell",
+          "expectedIntent": "reference",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 0,
+            "ordered": []
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": []
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "not_applicable",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.02,
+            "answer": 0,
+            "total": 0.02
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": []
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+          "normalizedQuestion": "what does set-csonlinevoiceroutingpolicy do and what inputs does it require",
+          "domains": [
+            "teams_powershell"
+          ],
+          "products": [],
+          "technologies": [
+            "PowerShell"
+          ],
+          "entities": [
+            "set-csonlinevoiceroutingpolicy",
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "commandNames": [
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "policyNames": [
+            "set-csonlinevoiceroutingpolicy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "reference",
+          "retrievalHints": [
+            "answer_type:reference",
+            "cmdlet:set-csonlinevoiceroutingpolicy",
+            "domain:teams_powershell",
+            "entity:set-csonlinevoiceroutingpolicy"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+            "normalizedQuestion": "what does set-csonlinevoiceroutingpolicy do and what inputs does it require",
+            "domains": [
+              "teams_powershell"
+            ],
+            "products": [],
+            "technologies": [
+              "PowerShell"
+            ],
+            "entities": [
+              "set-csonlinevoiceroutingpolicy",
+              "Set-CsOnlineVoiceRoutingPolicy"
+            ],
+            "commandNames": [
+              "Set-CsOnlineVoiceRoutingPolicy"
+            ],
+            "policyNames": [
+              "set-csonlinevoiceroutingpolicy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "reference",
+            "retrievalHints": [
+              "answer_type:reference",
+              "cmdlet:set-csonlinevoiceroutingpolicy",
+              "domain:teams_powershell",
+              "entity:set-csonlinevoiceroutingpolicy"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_powershell",
+            "teams_admin"
+          ],
+          "focusSubdomains": [
+            "cmdlet_reference"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_powershell,teams_admin",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "cmdlet_reference"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-powershell",
+            "ms-teams-admin",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "cmdlet",
+              "value": "Set-CsOnlineVoiceRoutingPolicy",
+              "required": true
+            },
+            {
+              "type": "policy",
+              "value": "set-csonlinevoiceroutingpolicy",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 1200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:reference",
+            "exact_cmdlet_detected",
+            "primary_domain:teams_powershell"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [
+            {
+              "directiveType": "cmdlet",
+              "directiveValue": "Set-CsOnlineVoiceRoutingPolicy",
+              "required": true,
+              "matchedCount": 0
+            },
+            {
+              "directiveType": "policy",
+              "directiveValue": "set-csonlinevoiceroutingpolicy",
+              "required": false,
+              "matchedCount": 0
+            }
+          ],
+          "missedRequired": [
+            {
+              "directiveType": "cmdlet",
+              "directiveValue": "Set-CsOnlineVoiceRoutingPolicy",
+              "required": true,
+              "matchedCount": 0
+            }
+          ]
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "\"set-csonlinevoiceroutingpolicy\" OR \"cmdlet reference\" OR inputs OR require",
+          "queryTerms": [
+            "set-csonlinevoiceroutingpolicy",
+            "cmdlet reference",
+            "inputs",
+            "require"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 1300,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 1.9308999999999514,
+            "sqlPreselection": 0.5407999999999902,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.5407999999999902,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 2.5909000000000333
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [
+            {
+              "directiveType": "cmdlet",
+              "directiveValue": "Set-CsOnlineVoiceRoutingPolicy",
+              "required": true
+            }
+          ],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.9732000000000198,
+          "lexicalLatencyMs": 0.7735999999999876,
+          "semanticLatencyMs": 2.5909000000000333,
+          "fusionLatencyMs": 0.024800000000027467,
+          "totalLatencyMs": 2.667100000000005,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": false,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": false,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-004",
+        "question": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+        "expectedDomain": "teams_powershell",
+        "expectedIntent": "reference",
+        "expectedSourceDomains": [
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "Grant cmdlet",
+          "voice routing policy",
+          "user assignment"
+        ],
+        "prohibitedClaims": [
+          "Mixing unrelated policy cmdlets"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/powershell/module/teams/grant-csonlinevoiceroutingpolicy"
+        ],
+        "evaluationNotes": "Exact match behavior for PowerShell-style question."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-004",
+          "question": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+          "expectedDomain": "teams_powershell",
+          "expectedIntent": "reference",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 3,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "rank": 2,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "rank": 3,
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.03,
+            "answer": 0,
+            "total": 0.05
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          },
+          {
+            "rank": 3,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md",
+            "title": "Build conversational Teams bots — Create your bot"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+          "normalizedQuestion": "which cmdlet can i use to grant a voice routing policy to a teams user",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams",
+            "Voice Routing"
+          ],
+          "entities": [
+            "policy",
+            "voice routing"
+          ],
+          "policyNames": [
+            "policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "reference",
+          "retrievalHints": [
+            "answer_type:reference",
+            "domain:teams_admin",
+            "entity:policy",
+            "entity:voice routing"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+            "normalizedQuestion": "which cmdlet can i use to grant a voice routing policy to a teams user",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams",
+              "Voice Routing"
+            ],
+            "entities": [
+              "policy",
+              "voice routing"
+            ],
+            "policyNames": [
+              "policy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "reference",
+            "retrievalHints": [
+              "answer_type:reference",
+              "domain:teams_admin",
+              "entity:policy",
+              "entity:voice routing"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [
+            "calling",
+            "voice",
+            "voice_routing"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": [
+                "voice",
+                "calling"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "calling_configuration"
+              ]
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "policy",
+              "value": "policy",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3600,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:reference",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [
+            {
+              "directiveType": "policy",
+              "directiveValue": "policy",
+              "required": false,
+              "matchedCount": 0
+            }
+          ],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "policy OR \"voice routing\" OR calling OR voice OR which OR cmdlet OR can OR use OR grant OR routing OR teams OR user",
+          "queryTerms": [
+            "policy",
+            "voice routing",
+            "calling",
+            "voice",
+            "which",
+            "cmdlet",
+            "can",
+            "use",
+            "grant",
+            "routing",
+            "teams",
+            "user"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 1300,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 1.6965999999999894,
+            "sqlPreselection": 2.102600000000052,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 2.102600000000052,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 3.938099999999963
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.7771999999999935,
+          "lexicalLatencyMs": 0.7434000000000651,
+          "semanticLatencyMs": 3.938099999999963,
+          "fusionLatencyMs": 0.014800000000036562,
+          "totalLatencyMs": 4.039200000000051,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 3
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-005",
+        "question": "How can I verify whether a user has the correct voice routing policy after assignment?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "troubleshooting",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "verification",
+          "assigned policy",
+          "user state"
+        ],
+        "prohibitedClaims": [
+          "Guaranteeing propagation time without source"
+        ],
+        "knownSourceHints": [],
+        "evaluationNotes": "Post-assignment validation behavior."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-005",
+          "question": "How can I verify whether a user has the correct voice routing policy after assignment?",
+          "expectedDomain": "teams_admin",
+          "expectedIntent": "troubleshooting",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 2,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "rank": 2,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.04,
+            "answer": 0,
+            "total": 0.05
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "How can I verify whether a user has the correct voice routing policy after assignment?",
+          "normalizedQuestion": "how can i verify whether a user has the correct voice routing policy after assignment",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [
+            "Voice Routing"
+          ],
+          "entities": [
+            "policy",
+            "voice routing"
+          ],
+          "policyNames": [
+            "policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "configuration",
+          "retrievalHints": [
+            "answer_type:configuration",
+            "domain:teams_admin",
+            "entity:policy",
+            "entity:voice routing"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "How can I verify whether a user has the correct voice routing policy after assignment?",
+            "normalizedQuestion": "how can i verify whether a user has the correct voice routing policy after assignment",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [],
+            "technologies": [
+              "Voice Routing"
+            ],
+            "entities": [
+              "policy",
+              "voice routing"
+            ],
+            "policyNames": [
+              "policy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "configuration",
+            "retrievalHints": [
+              "answer_type:configuration",
+              "domain:teams_admin",
+              "entity:policy",
+              "entity:voice routing"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [
+            "calling",
+            "voice",
+            "voice_routing"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": [
+                "voice",
+                "calling"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "calling_configuration"
+              ]
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "policy",
+              "value": "policy",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3600,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:configuration",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [
+            {
+              "directiveType": "policy",
+              "directiveValue": "policy",
+              "required": false,
+              "matchedCount": 0
+            }
+          ],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "policy OR \"voice routing\" OR calling OR voice OR can OR verify OR whether OR user OR has OR correct OR routing OR after OR assignment",
+          "queryTerms": [
+            "policy",
+            "voice routing",
+            "calling",
+            "voice",
+            "can",
+            "verify",
+            "whether",
+            "user",
+            "has",
+            "correct",
+            "routing",
+            "after",
+            "assignment"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 1300,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 1.8929999999999154,
+            "sqlPreselection": 0.5844000000000733,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.5844000000000733,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 2.6059999999999945
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.9096999999999298,
+          "lexicalLatencyMs": 0.7814999999999372,
+          "semanticLatencyMs": 2.6059999999999945,
+          "fusionLatencyMs": 0.006799999999998363,
+          "totalLatencyMs": 2.6902999999999793,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 2
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-006",
+        "question": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "conceptual",
+        "expectedSourceDomains": [
+          "teams_admin"
+        ],
+        "requiredConcepts": [
+          "PSTN usage",
+          "voice routes",
+          "policy linkage"
+        ],
+        "prohibitedClaims": [
+          "On-prem-only assumptions as cloud facts"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+        ],
+        "evaluationNotes": "Conceptual retrieval quality check."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-006",
+          "question": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+          "expectedDomain": "teams_admin",
+          "expectedIntent": "conceptual",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 3,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "rank": 2,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "rank": 3,
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              },
+              {
+                "title": "Build conversational Teams bots — Create your bot",
+                "path": "dev/bots/build-conversational-bot.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.05,
+            "answer": 0,
+            "total": 0.05
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          },
+          {
+            "rank": 3,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md",
+            "title": "Build conversational Teams bots — Create your bot"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+          "normalizedQuestion": "can you explain the relationship between pstn usage records and voice routes in teams",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "pstn"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:pstn"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+            "normalizedQuestion": "can you explain the relationship between pstn usage records and voice routes in teams",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "pstn"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:pstn"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "pstn OR can OR you OR explain OR relationship OR between OR usage OR records OR voice OR routes OR teams",
+          "queryTerms": [
+            "pstn",
+            "can",
+            "you",
+            "explain",
+            "relationship",
+            "between",
+            "usage",
+            "records",
+            "voice",
+            "routes",
+            "teams"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 1300,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 0.8795000000000073,
+            "sqlPreselection": 0.5480999999999767,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.5480999999999767,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 1.5447000000000344
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.005300000000033833,
+          "lexicalLatencyMs": 0.7658999999999878,
+          "semanticLatencyMs": 1.5447000000000344,
+          "fusionLatencyMs": 0.006600000000048567,
+          "totalLatencyMs": 1.6141999999999825,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 3
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-007",
+        "question": "What are the prerequisites before enabling Direct Routing for users?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "procedural",
+        "expectedSourceDomains": [
+          "teams_admin"
+        ],
+        "requiredConcepts": [
+          "prerequisites",
+          "Direct Routing",
+          "user readiness"
+        ],
+        "prohibitedClaims": [
+          "Unsupported licensing claims"
+        ],
+        "knownSourceHints": [
+          "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        ],
+        "evaluationNotes": "Prerequisite-oriented admin question."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-007",
+          "question": "What are the prerequisites before enabling Direct Routing for users?",
+          "expectedDomain": "teams_admin",
+          "expectedIntent": "procedural",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 2,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "rank": 2,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.02,
+            "answer": 0,
+            "total": 0.03
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "What are the prerequisites before enabling Direct Routing for users?",
+          "normalizedQuestion": "what are the prerequisites before enabling direct routing for users",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [
+            "Direct Routing"
+          ],
+          "entities": [
+            "direct routing"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:direct routing"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "What are the prerequisites before enabling Direct Routing for users?",
+            "normalizedQuestion": "what are the prerequisites before enabling direct routing for users",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [],
+            "technologies": [
+              "Direct Routing"
+            ],
+            "entities": [
+              "direct routing"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:direct routing"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [
+            "calling",
+            "voice",
+            "voice_routing"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": [
+                "voice",
+                "calling"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "calling_configuration"
+              ]
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3600,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "\"direct routing\" OR calling OR voice OR \"voice routing\" OR are OR prerequisites OR before OR enabling OR direct OR routing OR users",
+          "queryTerms": [
+            "direct routing",
+            "calling",
+            "voice",
+            "voice routing",
+            "are",
+            "prerequisites",
+            "before",
+            "enabling",
+            "direct",
+            "routing",
+            "users"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 1300,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 0.8585000000000491,
+            "sqlPreselection": 0.5576000000000931,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.5576000000000931,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 1.6864000000000487
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.0029999999999290594,
+          "lexicalLatencyMs": 0.7555999999999585,
+          "semanticLatencyMs": 1.6864000000000487,
+          "fusionLatencyMs": 0.01859999999999218,
+          "totalLatencyMs": 1.7725000000000364,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 2
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    },
+    {
+      "question": {
+        "schemaVersion": "1.0",
+        "questionId": "Q-008",
+        "question": "If a user cannot place external calls after policy assignment, what should I check first?",
+        "expectedDomain": "teams_admin",
+        "expectedIntent": "troubleshooting",
+        "expectedSourceDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requiredConcepts": [
+          "troubleshooting",
+          "external calling",
+          "policy assignment"
+        ],
+        "prohibitedClaims": [
+          "Fabricated diagnostic commands"
+        ],
+        "knownSourceHints": [],
+        "evaluationNotes": "Operational troubleshooting query."
+      },
+      "legacy": {
+        "runId": "2026-08-07T01-46-24-848Z-1682da8",
+        "result": {
+          "questionId": "Q-008",
+          "question": "If a user cannot place external calls after policy assignment, what should I check first?",
+          "expectedDomain": "teams_admin",
+          "expectedIntent": "troubleshooting",
+          "gating": {
+            "looksLikeQuestion": true
+          },
+          "retrieval": {
+            "topK": 4,
+            "count": 2,
+            "ordered": [
+              {
+                "rank": 1,
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "rank": 2,
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+                "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              }
+            ]
+          },
+          "answer": {
+            "attempted": false,
+            "status": "not_attempted",
+            "text": "",
+            "citations": [
+              {
+                "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+                "path": "voice/direct-routing-overview.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+              },
+              {
+                "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+                "path": "voice/dial-plans.md",
+                "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+              }
+            ]
+          },
+          "metrics": {
+            "expectedSourceRetrievedTopK": false,
+            "firstExpectedSourceRank": null,
+            "citationValidity": "valid",
+            "answerability": "not_answered",
+            "unsupportedClaimsHeuristic": "not_evaluated"
+          },
+          "latenciesMs": {
+            "gating": 0,
+            "retrieval": 0.03,
+            "answer": 0,
+            "total": 0.03
+          },
+          "errors": [],
+          "humanReview": {
+            "required": true,
+            "reasons": [
+              "expected_source_not_retrieved"
+            ]
+          }
+        },
+        "retrievedSources": [
+          {
+            "rank": 1,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md",
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals"
+          },
+          {
+            "rank": 2,
+            "sourceDomain": "teams_dev",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md",
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan"
+          }
+        ]
+      },
+      "v2": {
+        "queryIntent": {
+          "originalQuestion": "If a user cannot place external calls after policy assignment, what should I check first?",
+          "normalizedQuestion": "if a user cannot place external calls after policy assignment, what should i check first",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [],
+          "entities": [
+            "policy"
+          ],
+          "policyNames": [
+            "policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "configuration",
+          "retrievalHints": [
+            "answer_type:configuration",
+            "domain:teams_admin",
+            "entity:policy"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "retrievalScope": {
+          "intent": {
+            "originalQuestion": "If a user cannot place external calls after policy assignment, what should I check first?",
+            "normalizedQuestion": "if a user cannot place external calls after policy assignment, what should i check first",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [],
+            "technologies": [],
+            "entities": [
+              "policy"
+            ],
+            "policyNames": [
+              "policy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "configuration",
+            "retrievalHints": [
+              "answer_type:configuration",
+              "domain:teams_admin",
+              "entity:policy"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_or_voice_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "policy",
+              "value": "policy",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:configuration",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exactDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "attempted": [
+            {
+              "directiveType": "policy",
+              "directiveValue": "policy",
+              "required": false,
+              "matchedCount": 0
+            }
+          ],
+          "missedRequired": []
+        },
+        "lexicalDiagnostics": {
+          "eligiblePopulation": 0,
+          "matchedPopulation": 0,
+          "returnedPopulation": 0,
+          "lexicalQuery": "policy OR user OR cannot OR place OR external OR calls OR after OR assignment OR should OR check OR first",
+          "queryTerms": [
+            "policy",
+            "user",
+            "cannot",
+            "place",
+            "external",
+            "calls",
+            "after",
+            "assignment",
+            "should",
+            "check",
+            "first"
+          ]
+        },
+        "semanticDiagnostics": {
+          "eligiblePopulation": 0,
+          "preselectedPopulation": 0,
+          "compatibleEmbeddingPopulation": 0,
+          "missingEmbeddingCount": 0,
+          "staleOrIncompatibleEmbeddingCount": 0,
+          "corruptEmbeddingCount": 0,
+          "scoredPopulation": 0,
+          "returnedPopulation": 0,
+          "configuredSemanticBudget": 900,
+          "prefilteredByBudget": false,
+          "latencyMs": {
+            "queryEmbedding": 1.8988000000000511,
+            "sqlPreselection": 0.5589999999999691,
+            "sqlEmbeddingMetadata": 0,
+            "sqlEmbeddingBlobFetch": 0,
+            "compatibilityCheck": 0,
+            "sqliteFetch": 0.5589999999999691,
+            "decode": 0,
+            "scoring": 0,
+            "topK": 0,
+            "total": 2.616800000000012
+          },
+          "embeddingIdentity": {
+            "providerId": "fake",
+            "model": "text-embedding-3-small",
+            "dimensions": 8,
+            "embeddingSchemaVersion": "v1"
+          },
+          "warnings": []
+        },
+        "fusionDiagnostics": {
+          "exactCandidateCount": 0,
+          "lexicalCandidateCount": 0,
+          "semanticCandidateCount": 0,
+          "uniqueCandidatesBeforeDedup": 0,
+          "uniqueCandidatesAfterDedup": 0,
+          "returnedCandidateCount": 0,
+          "methodOverlapCounts": {
+            "exactOnly": 0,
+            "lexicalOnly": 0,
+            "semanticOnly": 0,
+            "exactAndLexical": 0,
+            "exactAndSemantic": 0,
+            "lexicalAndSemantic": 0,
+            "allThree": 0
+          },
+          "sourceDistribution": {},
+          "authorityDistribution": {},
+          "cap": {
+            "finalCandidateCap": 24,
+            "maxPerDocument": 4,
+            "truncated": false
+          },
+          "requiredExactMisses": [],
+          "warnings": []
+        },
+        "retrievalDiagnostics": {
+          "exactLatencyMs": 0.75100000000009,
+          "lexicalLatencyMs": 0.8707000000000562,
+          "semanticLatencyMs": 2.616800000000012,
+          "fusionLatencyMs": 0.0072999999999865395,
+          "totalLatencyMs": 2.7021000000000868,
+          "orchestrationMode": "overlap_semantic_with_exact_lexical"
+        },
+        "fusedCandidates": []
+      },
+      "comparison": {
+        "legacyMetrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 2
+        },
+        "v2Metrics": {
+          "expectedSourceHitTop1": false,
+          "expectedSourceHitTop3": false,
+          "expectedSourceHitTop5": false,
+          "expectedSourceHitTop10": false,
+          "firstExpectedSourceRank": null,
+          "reciprocalRank": 0,
+          "recallAt1": 0,
+          "recallAt3": 0,
+          "recallAt5": 0,
+          "recallAt10": 0,
+          "exactCmdletMatchSuccess": null,
+          "domainRoutingCorrect": true,
+          "authorityCorrectTop1": false,
+          "betaPolicyCorrect": true,
+          "inappropriateSourceLeakageCount": 0
+        }
+      }
+    }
+  ],
+  "warnings": [
+    "no_chunk_embeddings_found_semantic_will_return_zero",
+    "Fixture corpus — validates retrieval plumbing only. Results must not be interpreted as production retrieval quality."
+  ],
+  "legacyBaseline": {
+    "runId": "2026-08-07T01-46-24-848Z-1682da8",
+    "pipelineVersion": "legacy-v1",
+    "usesKnowledgeEngineV2": false,
+    "summary": {
+      "totalQuestions": 8,
+      "retrievedAnyCount": 7,
+      "expectedSourceHitCount": 0,
+      "citationValidCount": 7,
+      "answerProducedCount": 0,
+      "insufficientEvidenceCount": 0,
+      "errorCount": 0,
+      "p95RetrievalLatencyMs": 0.69,
+      "p95AnswerLatencyMs": 0.22
+    }
+  }
+}

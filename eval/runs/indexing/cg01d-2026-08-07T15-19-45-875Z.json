@@ -1,0 +1,101 @@
+{
+  "runId": "cg01d-2026-08-07T15-19-45-875Z",
+  "mode": "plan",
+  "startedAt": "2026-08-07T15:19:45.875Z",
+  "completedAt": "2026-08-07T15:19:46.663Z",
+  "durationMs": 787.0947000000001,
+  "corpusClassification": "LIMITED_REAL",
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "source": {
+    "sourceId": "ms-teams-powershell",
+    "trackId": "ga",
+    "resolvedCommitSha": null,
+    "eligibleFileCount": 0,
+    "counts": {
+      "added": 0,
+      "modified": 0,
+      "unchanged": 0,
+      "deleted": 0,
+      "errors": 1
+    }
+  },
+  "sync": {
+    "startCheckpointRevision": null,
+    "endCheckpointRevision": null,
+    "checkpointUpdated": false
+  },
+  "acquisitionResult": {
+    "source": {
+      "id": "ms-teams-powershell",
+      "trackId": "ga",
+      "repository": "MicrosoftDocs/office-docs-powershell",
+      "branch": "main"
+    },
+    "startCheckpoint": null,
+    "endCheckpoint": null,
+    "resolvedCommitSha": null,
+    "added": [],
+    "modified": [],
+    "unchanged": [],
+    "deleted": [],
+    "skipped": [],
+    "errors": [
+      {
+        "scope": "repository",
+        "code": "rate_limited",
+        "sourceId": "ms-teams-powershell",
+        "trackId": "ga",
+        "retryable": true,
+        "message": "GitHub request failed (403) for /repos/MicrosoftDocs/office-docs-powershell/branches/main: {\"message\":\"API rate limit exceeded for 96.232.13.84. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"ht"
+      }
+    ]
+  },
+  "plan": {
+    "documentsToParse": 0,
+    "documentsReusable": 0,
+    "estimatedChunkCount": 0,
+    "estimatedDocumentsByType": {
+      "cmdlet": 0,
+      "conceptual": 0,
+      "other": 0
+    },
+    "embeddingsReusable": 0,
+    "embeddingsToGenerate": 0,
+    "estimatedEmbeddingInputChars": 0,
+    "estimatedEmbeddingInputTokens": 0,
+    "plannedEmbeddingRequestCount": 0
+  },
+  "execution": null,
+  "indexingDocuments": [],
+  "failures": [],
+  "smoke": {
+    "setCsOnlineVoiceRoutingPolicy": null,
+    "conceptualVoiceRouting": null,
+    "unrelatedCmdlet": null
+  },
+  "corpusStats": null,
+  "embeddingUsage": {
+    "providerId": "openai",
+    "model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "embeddingSchemaVersion": "v1",
+    "requests": 0,
+    "generated": 0,
+    "reused": 0,
+    "missing": 0,
+    "failed": 0,
+    "inputTokens": 0,
+    "retries": null,
+    "credentialAvailable": false
+  },
+  "warnings": [
+    "OPENAI_API_KEY missing; semantic embedding generation skipped."
+  ],
+  "errors": [],
+  "cancelled": false,
+  "artifactPaths": {
+    "jsonPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01d-2026-08-07T15-19-45-875Z.json",
+    "jsonlPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01d-2026-08-07T15-19-45-875Z.jsonl",
+    "markdownPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01d-2026-08-07T15-19-45-875Z.md"
+  }
+}

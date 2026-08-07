@@ -99,6 +99,21 @@ function toContentHash(text: string): string {
   return createHash("sha256").update(text).digest("hex");
 }
 
+async function fetchRawContentFromUrl(rawUrl: string, signal?: AbortSignal): Promise<string> {
+  const response = await fetch(rawUrl, {
+    method: "GET",
+    headers: {
+      accept: "text/plain",
+      "user-agent": "meeting-agent-knowledgev2-sync"
+    },
+    signal
+  });
+  if (!response.ok) {
+    throw new Error(`raw_fetch_failed:${response.status}`);
+  }
+  return response.text();
+}
+
 function buildEndCheckpoint(
   sourceId: string,
   trackId: string,
@@ -364,28 +379,45 @@ export function createSourceSyncAdapter(params?: {
               descriptor.contentSha256 = toContentHash(blob.content);
               descriptor.contentStatus = "available";
             } catch (error) {
-              fileFailureCount += 1;
-              descriptor.contentStatus = "failed";
-              result.errors.push(
-                toSyncError(error, {
-                  scope: "file",
-                  code: "file_fetch_failed",
-                  sourceId: source.id,
-                  trackId: track.id,
-                  path,
-                  retryable: true
-                })
-              );
-              if (fileFailureCount >= options.maxFileFetchFailures) {
-                result.errors.push({
-                  scope: "track",
-                  code: "file_fetch_failed",
-                  sourceId: source.id,
-                  trackId: track.id,
-                  message: `Aborted file fetching after ${fileFailureCount} failures.`,
-                  retryable: true
-                });
-                break;
+              try {
+                const rawContent = await fetchRawContentFromUrl(rawUrl, options.signal);
+                descriptor.content = rawContent;
+                descriptor.contentSha256 = toContentHash(rawContent);
+                descriptor.contentStatus = "available";
+              } catch (rawError) {
+                fileFailureCount += 1;
+                descriptor.contentStatus = "failed";
+                result.errors.push(
+                  toSyncError(error, {
+                    scope: "file",
+                    code: "file_fetch_failed",
+                    sourceId: source.id,
+                    trackId: track.id,
+                    path,
+                    retryable: true
+                  })
+                );
+                result.errors.push(
+                  toSyncError(rawError, {
+                    scope: "file",
+                    code: "file_fetch_failed",
+                    sourceId: source.id,
+                    trackId: track.id,
+                    path,
+                    retryable: true
+                  })
+                );
+                if (fileFailureCount >= options.maxFileFetchFailures) {
+                  result.errors.push({
+                    scope: "track",
+                    code: "file_fetch_failed",
+                    sourceId: source.id,
+                    trackId: track.id,
+                    message: `Aborted file fetching after ${fileFailureCount} failures.`,
+                    retryable: true
+                  });
+                  break;
+                }
               }
             }
           }
