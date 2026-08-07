@@ -51,7 +51,9 @@ export class PipelineManager {
     this.answering = false;
     this.answerTriggerMode = config.answerTriggerMode;
     this.sourceLabelMode = config.sources.length > 1 ? "multi" : "single";
-    this.answerSourcePreference = config.sources.includes("system") ? "system" : "any";
+    // When both sources are active, either one may carry the user question.
+    this.answerSourcePreference =
+      config.sources.length === 1 ? (config.sources[0] ?? "any") : "any";
     this.sendStatus("capturing");
 
     await Promise.all(

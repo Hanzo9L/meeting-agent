@@ -1,13 +1,46 @@
 import type { KnowledgeChunk, RetrievedContextChunk } from "./types";
 
 const MAX_BODY_HITS_PER_TOKEN = 3;
+const STOP_WORDS = new Set([
+  "the",
+  "and",
+  "for",
+  "with",
+  "this",
+  "that",
+  "from",
+  "into",
+  "your",
+  "you",
+  "how",
+  "what",
+  "when",
+  "where",
+  "which",
+  "who",
+  "why",
+  "can",
+  "could",
+  "would",
+  "should",
+  "are",
+  "was",
+  "were",
+  "does",
+  "did",
+  "have",
+  "has",
+  "set",
+  "setup",
+  "online"
+]);
 
 function tokenize(text: string): string[] {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
-    .filter((token) => token.length >= 3);
+    .filter((token) => token.length >= 3 && !STOP_WORDS.has(token));
 }
 
 function countOccurrences(haystack: string, needle: string): number {
@@ -52,13 +85,21 @@ export function retrieveBestChunks(
   const scored = chunks
     .map((chunk) => ({ chunk, score: scoreChunk(chunk, tokens, phrase) }))
     .filter((entry) => entry.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+    .sort((a, b) => b.score - a.score);
 
-  return scored.map(({ chunk }) => ({
-    title: chunk.heading ? `${chunk.title} — ${chunk.heading}` : chunk.title,
-    path: chunk.path,
-    text: chunk.text
-  }));
+  const selected: RetrievedContextChunk[] = [];
+  const seenPaths = new Set<string>();
+  for (const { chunk } of scored) {
+    if (seenPaths.has(chunk.path)) continue;
+    seenPaths.add(chunk.path);
+    selected.push({
+      title: chunk.heading ? `${chunk.title} — ${chunk.heading}` : chunk.title,
+      path: chunk.path,
+      text: chunk.text
+    });
+    if (selected.length >= limit) break;
+  }
+
+  return selected;
 }
 

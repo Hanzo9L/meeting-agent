@@ -7,9 +7,12 @@ function buildTopicPrompt(template: string, topic: string): string {
     topicPrompt,
     "",
     "You must answer using only the provided Microsoft Teams docs snippets.",
-    "If the snippets do not contain enough information, respond exactly: Not found in Teams docs.",
+    "If the snippets are only partially relevant, provide the closest useful guidance and clearly say it is not explicitly documented in the provided snippets.",
+    "If nothing relevant exists at all, respond exactly: Not found in Teams docs.",
     "Never invent facts, commands, modules, or parameters.",
-    "Keep answers concise with at most 3 short bullet points.",
+    "Prefer complete, practical answers over ultra-brief summaries.",
+    "For how-to questions, include key prerequisites and ordered steps when present in the snippets.",
+    "Use up to 6 concise bullet points when needed.",
     "Mention source titles in-line when answering."
   ].join("\n");
 }

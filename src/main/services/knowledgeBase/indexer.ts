@@ -13,31 +13,22 @@ type ParsedDoc = {
 };
 
 function parseFrontmatter(markdown: string): ParsedDoc {
-  if (!markdown.startsWith("---\n")) {
+  const normalized = markdown.replace(/^\uFEFF/, "");
+  const frontmatterMatch = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/m.exec(normalized);
+  if (!frontmatterMatch) {
     return {
       title: "",
       description: "",
       msTopic: "",
-      body: markdown
+      body: normalized
     };
   }
 
-  const endMarker = "\n---\n";
-  const end = markdown.indexOf(endMarker, 4);
-  if (end === -1) {
-    return {
-      title: "",
-      description: "",
-      msTopic: "",
-      body: markdown
-    };
-  }
-
-  const frontmatter = markdown.slice(4, end);
-  const body = markdown.slice(end + endMarker.length);
+  const frontmatter = frontmatterMatch[1] ?? "";
+  const body = frontmatterMatch[2] ?? "";
   const fields = new Map<string, string>();
 
-  for (const line of frontmatter.split("\n")) {
+  for (const line of frontmatter.split(/\r?\n/)) {
     const match = /^([A-Za-z0-9._-]+)\s*:\s*(.+)$/.exec(line.trim());
     if (!match) continue;
     const key = match[1]?.toLowerCase() ?? "";

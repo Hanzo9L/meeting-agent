@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
-import type { ConnectionStatus, QaItem } from "@shared/types";
+import type { CaptureSourceTag, ConnectionStatus, QaItem } from "@shared/types";
 import { startLoopbackCapture, stopLoopbackCapture } from "@renderer/audio-capture/captureLoopbackAudio";
 
 export function OverlayApp(): JSX.Element {
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState<ConnectionStatus>("idle");
-  const [transcript, setTranscript] = useState("");
+  const [demoMode, setDemoMode] = useState(false);
+  const [recentFinals, setRecentFinals] = useState<string[]>([]);
+  const [livePartial, setLivePartial] = useState("");
   const [draftAnswer, setDraftAnswer] = useState("");
   const [feed, setFeed] = useState<QaItem[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState("");
+  const [activeSources, setActiveSources] = useState<CaptureSourceTag[]>([]);
   const activeQuestionRef = useRef("");
   const draftAnswerRef = useRef("");
   const runningRef = useRef(false);
@@ -43,16 +46,27 @@ export function OverlayApp(): JSX.Element {
   const startCaptureFlow = async (): Promise<void> => {
     if (runningRef.current) return;
     try {
-      await startLoopbackCapture();
-      await window.overlayApi.startCapture();
+      setLivePartial("Initializing audio capture...");
+      const runtimeConfig = await window.overlayApi.getRuntimeCaptureConfig();
+      const captureResult = await startLoopbackCapture(runtimeConfig.captureSourceMode);
+      setActiveSources(captureResult.activeSources);
+      await window.overlayApi.startCapture({
+        sources: captureResult.activeSources,
+        answerTriggerMode: runtimeConfig.answerTriggerMode
+      });
+      // Prime the IPC/STT path with a short silent frame.
+      captureResult.activeSources.forEach((source) => {
+        window.overlayApi.sendAudioChunk({ source, buffer: new Int16Array(320).buffer });
+      });
       setIsRunning(true);
       setStatus("capturing");
+      setLivePartial(`${captureResult.statusMessage} Waiting for speech...`);
     } catch (error) {
       const message = formatStartError(error);
       await stopLoopbackCapture().catch(() => undefined);
       await window.overlayApi.stopCapture().catch(() => undefined);
       setStatus("error");
-      setTranscript(`Start failed: ${message}`);
+      setLivePartial(`Start failed: ${message}`);
       console.error("Start capture failed", error);
     }
   };
@@ -63,20 +77,29 @@ export function OverlayApp(): JSX.Element {
       await stopLoopbackCapture();
       await window.overlayApi.stopCapture();
       setIsRunning(false);
+      setActiveSources([]);
       setStatus("idle");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to stop capture";
       setStatus("error");
-      setTranscript(`Stop failed: ${message}`);
+      setLivePartial(`Stop failed: ${message}`);
     }
   };
 
   useEffect(() => {
+    void window.overlayApi.getDemoMode().then(setDemoMode).catch(() => undefined);
+    const unsubDemoMode = window.overlayApi.onDemoMode(setDemoMode);
     const unsubTranscript = window.overlayApi.onTranscript((payload) => {
-      setTranscript(payload.text);
       if (payload.isFinal) {
-        setCurrentQuestion(payload.text);
+        const text = payload.text.trim();
+        if (text) {
+          setRecentFinals((prev) => [...prev.slice(-3), text]);
+          setCurrentQuestion(text);
+        }
+        setLivePartial("");
+        return;
       }
+      setLivePartial(payload.text);
     });
     const unsubChunk = window.overlayApi.onAnswerChunk((payload) => {
       setDraftAnswer((prev) => prev + payload.text);
@@ -99,12 +122,17 @@ export function OverlayApp(): JSX.Element {
     const unsubStatus = window.overlayApi.onStatus((nextStatus) => setStatus(nextStatus));
 
     return () => {
+      unsubDemoMode();
       unsubTranscript();
       unsubChunk();
       unsubDone();
       unsubStatus();
     };
   }, []);
+
+  const transcript = useMemo(() => {
+    return [...recentFinals, livePartial].filter(Boolean).join("\n").trim();
+  }, [recentFinals, livePartial]);
 
   const statusLabel = useMemo(() => {
     if (!isRunning) return "Stopped";
@@ -120,6 +148,12 @@ export function OverlayApp(): JSX.Element {
     }
   }, [isRunning, status]);
 
+  const sourceLabel = useMemo(() => {
+    if (!activeSources.length) return "No source";
+    if (activeSources.length === 2) return "System + Microphone";
+    return activeSources[0] === "system" ? "System" : "Microphone";
+  }, [activeSources]);
+
   const toggleCapture = async (): Promise<void> => {
     if (!isRunning) {
       await startCaptureFlow();
@@ -132,14 +166,19 @@ export function OverlayApp(): JSX.Element {
   const clearFeed = async (): Promise<void> => {
     setFeed([]);
     setDraftAnswer("");
-    setTranscript("");
+    setRecentFinals([]);
+    setLivePartial("");
     await window.overlayApi.clearFeed();
   };
 
   return (
-    <div className="overlayRoot">
+    <div className={`overlayRoot${demoMode ? " demoMode" : ""}`}>
       <div className="toolbar dragZone">
-        <div className={`status status-${status}`}>{statusLabel}</div>
+        <div className="toolbarMeta">
+          <div className={`status status-${status}`}>{statusLabel}</div>
+          {isRunning ? <div className="demoBadge">Source: {sourceLabel}</div> : null}
+          {demoMode ? <div className="demoBadge">Demo · visible in share</div> : null}
+        </div>
         <div className="actions">
           <button type="button" onClick={() => void toggleCapture()}>
             {isRunning ? "Stop" : "Start"}
