@@ -1,0 +1,577 @@
+{
+  "artifactVersion": "1.0",
+  "pipelineVersion": "legacy-v1",
+  "usesKnowledgeEngineV2": false,
+  "runId": "2026-08-07T01-46-24-848Z-1682da8",
+  "commitSha": "1682da8682fddbe2f0e0044a929918f63658ea09",
+  "createdAt": "2026-08-07T01:46:24.848Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\teams-admin-powershell.seed.jsonl",
+  "indexCachePath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\fixtures\\index-cache.fixture.json",
+  "options": {
+    "topK": 4,
+    "includeAnswers": false
+  },
+  "summary": {
+    "totalQuestions": 8,
+    "retrievedAnyCount": 7,
+    "expectedSourceHitCount": 0,
+    "citationValidCount": 7,
+    "answerProducedCount": 0,
+    "insufficientEvidenceCount": 0,
+    "errorCount": 0,
+    "p95RetrievalLatencyMs": 0.69,
+    "p95AnswerLatencyMs": 0.22
+  },
+  "results": [
+    {
+      "questionId": "Q-001",
+      "question": "For Teams Direct Routing, what are the required steps and PowerShell checks to assign a voice routing policy to a user?",
+      "expectedDomain": "teams_admin",
+      "expectedIntent": "procedural",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 3,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "rank": 2,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "rank": 3,
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0.06,
+        "retrieval": 0.69,
+        "answer": 0.22,
+        "total": 1.1
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-002",
+      "question": "How do you configure and assign a Teams dial plan to a user?",
+      "expectedDomain": "teams_admin",
+      "expectedIntent": "configuration",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 3,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "rank": 2,
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          },
+          {
+            "rank": 3,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          },
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.04,
+        "answer": 0,
+        "total": 0.05
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-003",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do and what inputs does it require?",
+      "expectedDomain": "teams_powershell",
+      "expectedIntent": "reference",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 0,
+        "ordered": []
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": []
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "not_applicable",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.02,
+        "answer": 0,
+        "total": 0.02
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-004",
+      "question": "Which cmdlet can I use to grant a voice routing policy to a Teams user?",
+      "expectedDomain": "teams_powershell",
+      "expectedIntent": "reference",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 3,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "rank": 2,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "rank": 3,
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.03,
+        "answer": 0,
+        "total": 0.05
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-005",
+      "question": "How can I verify whether a user has the correct voice routing policy after assignment?",
+      "expectedDomain": "teams_admin",
+      "expectedIntent": "troubleshooting",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 2,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "rank": 2,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.04,
+        "answer": 0,
+        "total": 0.05
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-006",
+      "question": "Can you explain the relationship between PSTN usage records and voice routes in Teams?",
+      "expectedDomain": "teams_admin",
+      "expectedIntent": "conceptual",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 3,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "rank": 2,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "rank": 3,
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "textSnippet": "Bots can use adaptive cards and messaging extensions in Teams apps.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          },
+          {
+            "title": "Build conversational Teams bots — Create your bot",
+            "path": "dev/bots/build-conversational-bot.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/dev/bots/build-conversational-bot.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.05,
+        "answer": 0,
+        "total": 0.05
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-007",
+      "question": "What are the prerequisites before enabling Direct Routing for users?",
+      "expectedDomain": "teams_admin",
+      "expectedIntent": "procedural",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 2,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "rank": 2,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.02,
+        "answer": 0,
+        "total": 0.03
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-008",
+      "question": "If a user cannot place external calls after policy assignment, what should I check first?",
+      "expectedDomain": "teams_admin",
+      "expectedIntent": "troubleshooting",
+      "gating": {
+        "looksLikeQuestion": true
+      },
+      "retrieval": {
+        "topK": 4,
+        "count": 2,
+        "ordered": [
+          {
+            "rank": 1,
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "textSnippet": "Direct Routing maps PSTN usages to voice routes and applies voice routing policies to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "rank": 2,
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "textSnippet": "Use Teams admin center or PowerShell to assign tenant dial plans to users.",
+            "sourceUrl": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          }
+        ]
+      },
+      "answer": {
+        "attempted": false,
+        "status": "not_attempted",
+        "text": "",
+        "citations": [
+          {
+            "title": "Direct Routing voice routing overview — Voice routing fundamentals",
+            "path": "voice/direct-routing-overview.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/direct-routing-overview.md"
+          },
+          {
+            "title": "Dial plans in Microsoft Teams — Assign a dial plan",
+            "path": "voice/dial-plans.md",
+            "url": "https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/voice/dial-plans.md"
+          }
+        ]
+      },
+      "metrics": {
+        "expectedSourceRetrievedTopK": false,
+        "firstExpectedSourceRank": null,
+        "citationValidity": "valid",
+        "answerability": "not_answered",
+        "unsupportedClaimsHeuristic": "not_evaluated"
+      },
+      "latenciesMs": {
+        "gating": 0,
+        "retrieval": 0.03,
+        "answer": 0,
+        "total": 0.03
+      },
+      "errors": [],
+      "humanReview": {
+        "required": true,
+        "reasons": [
+          "expected_source_not_retrieved"
+        ]
+      }
+    }
+  ]
+}

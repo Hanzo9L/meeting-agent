@@ -3,7 +3,8 @@ import {
   app,
   BrowserWindow,
   ipcMain,
-  nativeTheme
+  nativeTheme,
+  shell
 } from "electron";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -17,10 +18,13 @@ import { OpenAiLlmProvider } from "./services/openAiLlmProvider";
 import { PipelineManager } from "./services/pipelineManager";
 import { KnowledgeBaseService } from "./services/knowledgeBase";
 import type {
+  AudioChunkPayload,
+  CaptureStartConfig,
   ApiKeys,
   ConnectionStatus,
   KnowledgeBaseSettings,
-  OverlayPrefs
+  OverlayPrefs,
+  RuntimeCaptureConfig
 } from "@shared/types";
 
 const preloadRoot = join(__dirname, "../preload");
@@ -50,7 +54,7 @@ function sendStatus(status: ConnectionStatus): void {
 function createPipeline(): PipelineManager {
   const { apiKeys } = settingsStore.getSettings();
   return new PipelineManager({
-    sttProvider: new DeepgramSttProvider(apiKeys.deepgramApiKey),
+    sttProviderFactory: () => new DeepgramSttProvider(apiKeys.deepgramApiKey),
     llmProvider: new OpenAiLlmProvider(apiKeys.openAiApiKey),
     getTopic: () => {
       const settings = settingsStore.getSettings();
@@ -89,6 +93,13 @@ function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.getSettings, () => settingsStore.getSettings());
 
   ipcMain.handle(IPC_CHANNELS.getDemoMode, () => settingsStore.getSettings().demoMode);
+  ipcMain.handle(IPC_CHANNELS.getRuntimeCaptureConfig, (): RuntimeCaptureConfig => {
+    const settings = settingsStore.getSettings();
+    return {
+      captureSourceMode: settings.captureSourceMode,
+      answerTriggerMode: settings.answerTriggerMode
+    };
+  });
 
   ipcMain.handle(IPC_CHANNELS.updateTopic, (_event, topic: string) => {
     settingsStore.updateTopic(topic);
@@ -97,6 +108,14 @@ function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.updateApiKeys, (_event, apiKeys: ApiKeys) => {
     settingsStore.updateApiKeys(apiKeys);
     pipelineManager = null;
+  });
+
+  ipcMain.handle(IPC_CHANNELS.updateCaptureSourceMode, (_event, mode: RuntimeCaptureConfig["captureSourceMode"]) => {
+    settingsStore.updateCaptureSourceMode(mode);
+  });
+
+  ipcMain.handle(IPC_CHANNELS.updateAnswerTriggerMode, (_event, mode: RuntimeCaptureConfig["answerTriggerMode"]) => {
+    settingsStore.updateAnswerTriggerMode(mode);
   });
 
   ipcMain.handle(IPC_CHANNELS.updateOverlayPrefs, (_event, prefs: Partial<OverlayPrefs>) => {
@@ -130,29 +149,48 @@ function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.syncKnowledgeBase, async () => knowledgeBaseService.sync());
 
-  ipcMain.handle(IPC_CHANNELS.startCapture, async () => {
+  ipcMain.handle(IPC_CHANNELS.startCapture, async (_event, config: CaptureStartConfig) => {
     audioChunkCount = 0;
     if (!pipelineManager) {
       pipelineManager = createPipeline();
     }
-    await pipelineManager.start();
+    await pipelineManager.start(config);
   });
 
   ipcMain.handle(IPC_CHANNELS.stopCapture, async () => {
     await pipelineManager?.stop();
   });
 
+  ipcMain.handle(IPC_CHANNELS.askQuestion, async (_event, question: string) => {
+    const text = typeof question === "string" ? question.trim() : "";
+    if (!text) return;
+    if (!pipelineManager) {
+      pipelineManager = createPipeline();
+    }
+    await pipelineManager.askQuestion(text, "microphone");
+  });
+
   ipcMain.handle(IPC_CHANNELS.clearFeed, () => {
     overlayWindow?.webContents.send(IPC_CHANNELS.answerDone);
   });
 
-  ipcMain.on(IPC_CHANNELS.audioChunk, (_event, audioBuffer: unknown) => {
+  ipcMain.handle(IPC_CHANNELS.openExternalUrl, async (_event, url: string) => {
+    await shell.openExternal(url);
+  });
+
+  ipcMain.on(IPC_CHANNELS.audioChunk, (_event, payload: AudioChunkPayload) => {
     if (!pipelineManager) return;
+    if (!payload || (payload.source !== "system" && payload.source !== "microphone")) return;
+    const audioBuffer: unknown = payload.buffer;
     let chunk: Int16Array | null = null;
     if (audioBuffer instanceof ArrayBuffer) {
       chunk = new Int16Array(audioBuffer);
     } else if (ArrayBuffer.isView(audioBuffer)) {
-      chunk = new Int16Array(audioBuffer.buffer, audioBuffer.byteOffset, Math.floor(audioBuffer.byteLength / 2));
+      chunk = new Int16Array(
+        audioBuffer.buffer,
+        audioBuffer.byteOffset,
+        Math.floor(audioBuffer.byteLength / 2)
+      );
     }
     if (!chunk || chunk.length === 0) return;
     if (audioChunkCount === 0) {
@@ -163,7 +201,7 @@ function registerIpcHandlers(): void {
       });
     }
     audioChunkCount += 1;
-    pipelineManager.sendAudioChunk(chunk);
+    pipelineManager.sendAudioChunk(payload.source, chunk);
   });
 }
 

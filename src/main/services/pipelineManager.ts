@@ -2,6 +2,9 @@ import { BrowserWindow } from "electron";
 import { IPC_CHANNELS } from "@shared/constants";
 import type {
   AnswerChunkMessage,
+  AnswerSourceRef,
+  AnswerStartMessage,
+  AnswerSourcesMessage,
   AnswerTriggerMode,
   CaptureSourceTag,
   ConnectionStatus,
@@ -90,6 +93,12 @@ export class PipelineManager {
     this.sendStatus("idle");
   }
 
+  async askQuestion(question: string, source: CaptureSourceTag = "microphone"): Promise<void> {
+    const text = question.trim();
+    if (!text) return;
+    await this.generateAnswer(text, source, true);
+  }
+
   private formatWithSource(text: string, source: CaptureSourceTag): string {
     if (this.sourceLabelMode === "single") return text;
     const prefix = source === "system" ? "[System]" : "[Microphone]";
@@ -115,15 +124,67 @@ export class PipelineManager {
     return looksLikeQuestion(text);
   }
 
+  private toSourceRefs(context: LlmContextChunk[], question: string): AnswerSourceRef[] {
+    const deduped = new Map<string, AnswerSourceRef>();
+    for (const item of context) {
+      const cleanedPath = item.path.replace(/^\/+/, "");
+      const url = `https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/${cleanedPath}`;
+      if (!deduped.has(cleanedPath)) {
+        deduped.set(cleanedPath, {
+          title: item.title,
+          path: item.path,
+          url
+        });
+      }
+    }
+    const refs = Array.from(deduped.values()).slice(0, 3);
+    if (refs.length > 0) return refs;
+
+    return [
+      {
+        title: "Search Microsoft Learn for this topic",
+        path: "learn.microsoft.com search",
+        url: `https://learn.microsoft.com/en-us/search/?terms=${encodeURIComponent(question)}`
+      }
+    ];
+  }
+
   private async handleFinalTranscript(text: string, source: CaptureSourceTag): Promise<void> {
     this.broadcastTranscript(text, true, source);
-    if (!this.shouldAnswer(source, text) || this.answering) return;
+    if (!this.shouldAnswer(source, text)) return;
+    await this.generateAnswer(text, source, false);
+  }
+
+  private async generateAnswer(
+    text: string,
+    source: CaptureSourceTag,
+    force: boolean
+  ): Promise<void> {
+    if (!force && this.answering) return;
+    if (force) {
+      this.broadcastTranscript(text, true, source);
+      if (this.answering) return;
+    }
+    const answerStartPayload: AnswerStartMessage = {
+      question: this.formatWithSource(text, source),
+      timestamp: Date.now()
+    };
+    BrowserWindow.getAllWindows().forEach((window) =>
+      window.webContents.send(IPC_CHANNELS.answerStart, answerStartPayload)
+    );
     this.answering = true;
     this.sendStatus("answering");
 
     try {
       const { topic, topicPromptTemplate } = this.getTopic();
       const context = await this.getKnowledgeContext(text);
+      const sourcePayload: AnswerSourcesMessage = {
+        sources: this.toSourceRefs(context, text),
+        timestamp: Date.now()
+      };
+      BrowserWindow.getAllWindows().forEach((window) =>
+        window.webContents.send(IPC_CHANNELS.answerSources, sourcePayload)
+      );
       for await (const chunk of this.llmProvider.streamAnswer({
         topic,
         topicPromptTemplate,
@@ -153,7 +214,7 @@ export class PipelineManager {
         window.webContents.send(IPC_CHANNELS.answerDone)
       );
       this.answering = false;
-      this.sendStatus("capturing");
+      this.sendStatus(this.active ? "capturing" : "idle");
     }
   }
 }

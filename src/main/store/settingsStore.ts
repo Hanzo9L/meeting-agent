@@ -6,7 +6,14 @@ import {
   DEFAULT_TOPIC,
   DEFAULT_TOPIC_PROMPT
 } from "@shared/constants";
-import type { ApiKeys, AppSettings, KnowledgeBaseSettings, OverlayPrefs } from "@shared/types";
+import type {
+  AnswerTriggerMode,
+  ApiKeys,
+  AppSettings,
+  CaptureSourceMode,
+  KnowledgeBaseSettings,
+  OverlayPrefs
+} from "@shared/types";
 
 const ENV_DEEPGRAM_API_KEY = process.env["DEEPGRAM_API_KEY"] ?? "";
 const ENV_OPENAI_API_KEY = process.env["OPENAI_API_KEY"] ?? "";
@@ -15,6 +22,8 @@ type StoreSchema = {
   topic: string;
   topicPromptTemplate: string;
   overlay: OverlayPrefs;
+  captureSourceMode: CaptureSourceMode;
+  answerTriggerMode: AnswerTriggerMode;
   demoMode: boolean;
   knowledgeBase: KnowledgeBaseSettings;
   deepgramApiKey: string;
@@ -31,6 +40,8 @@ const defaults: StoreSchema = {
     height: 420,
     opacity: 0.94
   },
+  captureSourceMode: "both",
+  answerTriggerMode: "questions_only",
   demoMode: false,
   knowledgeBase: {
     enabled: true,
@@ -55,6 +66,8 @@ export class SettingsStore {
       topic: this.store.get("topic"),
       topicPromptTemplate: this.store.get("topicPromptTemplate"),
       overlay: this.store.get("overlay"),
+      captureSourceMode: this.store.get("captureSourceMode"),
+      answerTriggerMode: this.store.get("answerTriggerMode"),
       demoMode: this.store.get("demoMode"),
       knowledgeBase: this.store.get("knowledgeBase"),
       apiKeys: {
@@ -73,6 +86,14 @@ export class SettingsStore {
       ...this.store.get("overlay"),
       ...prefs
     });
+  }
+
+  updateCaptureSourceMode(mode: CaptureSourceMode): void {
+    this.store.set("captureSourceMode", mode);
+  }
+
+  updateAnswerTriggerMode(mode: AnswerTriggerMode): void {
+    this.store.set("answerTriggerMode", mode);
   }
 
   updateDemoMode(enabled: boolean): void {

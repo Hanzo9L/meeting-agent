@@ -1,7 +1,9 @@
 import { FormEvent, useEffect, useState } from "react";
 import type { JSX } from "react";
 import type {
+  AnswerTriggerMode,
   ApiKeys,
+  CaptureSourceMode,
   KnowledgeBaseSettings,
   KnowledgeBaseStatus,
   OverlayPrefs
@@ -21,6 +23,8 @@ export function SettingsApp(): JSX.Element {
   const [deepgramApiKey, setDeepgramApiKey] = useState("");
   const [openAiApiKey, setOpenAiApiKey] = useState("");
   const [demoMode, setDemoMode] = useState(false);
+  const [captureSourceMode, setCaptureSourceMode] = useState<CaptureSourceMode>("both");
+  const [answerTriggerMode, setAnswerTriggerMode] = useState<AnswerTriggerMode>("questions_only");
   const [knowledgeBaseEnabled, setKnowledgeBaseEnabled] = useState(true);
   const [knowledgeBaseRepoUrl, setKnowledgeBaseRepoUrl] = useState("");
   const [knowledgeBaseBranch, setKnowledgeBaseBranch] = useState("main");
@@ -54,6 +58,8 @@ export function SettingsApp(): JSX.Element {
         setOpenAiApiKey(settings.apiKeys.openAiApiKey);
         setOverlay(settings.overlay);
         setDemoMode(settings.demoMode);
+        setCaptureSourceMode(settings.captureSourceMode);
+        setAnswerTriggerMode(settings.answerTriggerMode);
         setKnowledgeBaseEnabled(settings.knowledgeBase.enabled);
         setKnowledgeBaseRepoUrl(settings.knowledgeBase.repoUrl);
         setKnowledgeBaseBranch(settings.knowledgeBase.branch);
@@ -95,6 +101,8 @@ export function SettingsApp(): JSX.Element {
       await Promise.all([
         api.updateTopic(topic),
         api.updateApiKeys(apiKeys),
+        api.updateCaptureSourceMode(captureSourceMode),
+        api.updateAnswerTriggerMode(answerTriggerMode),
         api.updateOverlayPrefs(normalizedOverlay),
         api.updateDemoMode(demoMode),
         api.updateKnowledgeBaseSettings(knowledgeBaseSettings)
@@ -150,6 +158,38 @@ export function SettingsApp(): JSX.Element {
             placeholder="sk-..."
           />
         </label>
+
+        <section>
+          <h2>Live capture behavior</h2>
+          <div className="grid">
+            <label>
+              Capture source
+              <select
+                value={captureSourceMode}
+                onChange={(event) => setCaptureSourceMode(event.target.value as CaptureSourceMode)}
+              >
+                <option value="system">System (callee / participant)</option>
+                <option value="microphone">Microphone (self)</option>
+                <option value="both">Both (system + microphone)</option>
+              </select>
+            </label>
+            <label>
+              Answer trigger
+              <select
+                value={answerTriggerMode}
+                onChange={(event) => setAnswerTriggerMode(event.target.value as AnswerTriggerMode)}
+              >
+                <option value="questions_only">Questions only</option>
+                <option value="all_final">Any finalized utterance</option>
+              </select>
+            </label>
+          </div>
+          <p className="hint">
+            In <strong>Both</strong> mode, transcripts are tagged by source and answer generation
+            prefers system audio so participant questions trigger reliably on Teams, Slack, and
+            Webex calls.
+          </p>
+        </section>
 
         <section>
           <h2>Demo mode</h2>

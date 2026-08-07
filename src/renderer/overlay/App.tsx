@@ -1,21 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
-import type { CaptureSourceTag, ConnectionStatus, QaItem } from "@shared/types";
+import type { AnswerSourceRef, CaptureSourceTag, ConnectionStatus, QaItem } from "@shared/types";
 import { startLoopbackCapture, stopLoopbackCapture } from "@renderer/audio-capture/captureLoopbackAudio";
 
 export function OverlayApp(): JSX.Element {
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState<ConnectionStatus>("idle");
   const [demoMode, setDemoMode] = useState(false);
-  const [recentFinals, setRecentFinals] = useState<string[]>([]);
-  const [livePartial, setLivePartial] = useState("");
+  const [liveTranscript, setLiveTranscript] = useState("");
   const [draftAnswer, setDraftAnswer] = useState("");
   const [feed, setFeed] = useState<QaItem[]>([]);
-  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [answeringQuestion, setAnsweringQuestion] = useState("");
   const [activeSources, setActiveSources] = useState<CaptureSourceTag[]>([]);
-  const activeQuestionRef = useRef("");
+  const [pendingSources, setPendingSources] = useState<AnswerSourceRef[]>([]);
   const draftAnswerRef = useRef("");
+  const answeringQuestionRef = useRef("");
+  const pendingSourcesRef = useRef<AnswerSourceRef[]>([]);
   const runningRef = useRef(false);
+  const feedRef = useRef<HTMLDivElement | null>(null);
+  const feedEndRef = useRef<HTMLDivElement | null>(null);
 
   const formatStartError = (error: unknown): string => {
     if (error instanceof DOMException) {
@@ -32,21 +35,29 @@ export function OverlayApp(): JSX.Element {
   };
 
   useEffect(() => {
-    activeQuestionRef.current = currentQuestion;
-  }, [currentQuestion]);
-
-  useEffect(() => {
     draftAnswerRef.current = draftAnswer;
   }, [draftAnswer]);
+
+  useEffect(() => {
+    answeringQuestionRef.current = answeringQuestion;
+  }, [answeringQuestion]);
+
+  useEffect(() => {
+    pendingSourcesRef.current = pendingSources;
+  }, [pendingSources]);
 
   useEffect(() => {
     runningRef.current = isRunning;
   }, [isRunning]);
 
+  useEffect(() => {
+    feedEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [feed, draftAnswer, answeringQuestion, status]);
+
   const startCaptureFlow = async (): Promise<void> => {
     if (runningRef.current) return;
     try {
-      setLivePartial("Initializing audio capture...");
+      setLiveTranscript("Initializing audio capture...");
       const runtimeConfig = await window.overlayApi.getRuntimeCaptureConfig();
       const captureResult = await startLoopbackCapture(runtimeConfig.captureSourceMode);
       setActiveSources(captureResult.activeSources);
@@ -60,13 +71,13 @@ export function OverlayApp(): JSX.Element {
       });
       setIsRunning(true);
       setStatus("capturing");
-      setLivePartial(`${captureResult.statusMessage} Waiting for speech...`);
+      setLiveTranscript(`${captureResult.statusMessage} Waiting for speech...`);
     } catch (error) {
       const message = formatStartError(error);
       await stopLoopbackCapture().catch(() => undefined);
       await window.overlayApi.stopCapture().catch(() => undefined);
       setStatus("error");
-      setLivePartial(`Start failed: ${message}`);
+      setLiveTranscript(`Start failed: ${message}`);
       console.error("Start capture failed", error);
     }
   };
@@ -82,7 +93,7 @@ export function OverlayApp(): JSX.Element {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to stop capture";
       setStatus("error");
-      setLivePartial(`Stop failed: ${message}`);
+      setLiveTranscript(`Stop failed: ${message}`);
     }
   };
 
@@ -90,49 +101,54 @@ export function OverlayApp(): JSX.Element {
     void window.overlayApi.getDemoMode().then(setDemoMode).catch(() => undefined);
     const unsubDemoMode = window.overlayApi.onDemoMode(setDemoMode);
     const unsubTranscript = window.overlayApi.onTranscript((payload) => {
-      if (payload.isFinal) {
-        const text = payload.text.trim();
-        if (text) {
-          setRecentFinals((prev) => [...prev.slice(-3), text]);
-          setCurrentQuestion(text);
-        }
-        setLivePartial("");
-        return;
-      }
-      setLivePartial(payload.text);
+      const text = payload.text.trim();
+      if (!text) return;
+      setLiveTranscript(text);
+    });
+    const unsubAnswerStart = window.overlayApi.onAnswerStart((payload) => {
+      setAnsweringQuestion(payload.question.trim());
+      setDraftAnswer("");
     });
     const unsubChunk = window.overlayApi.onAnswerChunk((payload) => {
       setDraftAnswer((prev) => prev + payload.text);
     });
+    const unsubSources = window.overlayApi.onAnswerSources((payload) => {
+      setPendingSources(payload.sources);
+    });
     const unsubDone = window.overlayApi.onAnswerDone(() => {
-      if (!activeQuestionRef.current || !draftAnswerRef.current.trim()) {
+      if (!answeringQuestionRef.current || !draftAnswerRef.current.trim()) {
         setDraftAnswer("");
+        setPendingSources([]);
+        setAnsweringQuestion("");
+        setLiveTranscript("");
         return;
       }
       setFeed((prev) => [
+        ...prev,
         {
-          question: activeQuestionRef.current,
+          question: answeringQuestionRef.current,
           answer: draftAnswerRef.current.trim(),
+          sources: pendingSourcesRef.current,
           createdAt: Date.now()
-        },
-        ...prev
+        }
       ]);
       setDraftAnswer("");
+      setPendingSources([]);
+      setAnsweringQuestion("");
+      setLiveTranscript("");
     });
     const unsubStatus = window.overlayApi.onStatus((nextStatus) => setStatus(nextStatus));
 
     return () => {
       unsubDemoMode();
       unsubTranscript();
+      unsubAnswerStart();
       unsubChunk();
+      unsubSources();
       unsubDone();
       unsubStatus();
     };
   }, []);
-
-  const transcript = useMemo(() => {
-    return [...recentFinals, livePartial].filter(Boolean).join("\n").trim();
-  }, [recentFinals, livePartial]);
 
   const statusLabel = useMemo(() => {
     if (!isRunning) return "Stopped";
@@ -166,8 +182,9 @@ export function OverlayApp(): JSX.Element {
   const clearFeed = async (): Promise<void> => {
     setFeed([]);
     setDraftAnswer("");
-    setRecentFinals([]);
-    setLivePartial("");
+    setLiveTranscript("");
+    setPendingSources([]);
+    setAnsweringQuestion("");
     await window.overlayApi.clearFeed();
   };
 
@@ -191,22 +208,52 @@ export function OverlayApp(): JSX.Element {
 
       <div className="liveRow">
         <span className="liveLabel">Live transcript</span>
-        <p>{transcript || "Waiting for speech..."}</p>
+        <p>{liveTranscript || "Waiting for speech..."}</p>
       </div>
-      {draftAnswer ? (
-        <div className="draftAnswer">
-          <span>Draft answer</span>
-          <p>{draftAnswer}</p>
-        </div>
-      ) : null}
-
-      <div className="feed">
+      <div className="feed" ref={feedRef}>
         {feed.map((item) => (
           <article key={item.createdAt} className="qaItem">
             <p className="question">{item.question}</p>
             <p className="answer">{item.answer}</p>
+            {item.sources && item.sources.length > 0 ? (
+              <div className="sourceRow">
+                {item.sources.map((source) => (
+                  <button
+                    key={source.path}
+                    type="button"
+                    className="sourceChip"
+                    onClick={() => void window.overlayApi.openExternalUrl(source.url)}
+                    title={source.path}
+                  >
+                    Open: {source.title}
+                  </button>
+                ))}
+              </div>
+            ) : null}
           </article>
         ))}
+        {answeringQuestion && draftAnswer ? (
+          <article className="qaItem pending">
+            <p className="question">{answeringQuestion}</p>
+            <p className="answer">{draftAnswer}</p>
+            {pendingSources.length > 0 ? (
+              <div className="sourceRow">
+                {pendingSources.map((source) => (
+                  <button
+                    key={source.path}
+                    type="button"
+                    className="sourceChip"
+                    onClick={() => void window.overlayApi.openExternalUrl(source.url)}
+                    title={source.path}
+                  >
+                    Open: {source.title}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </article>
+        ) : null}
+        <div ref={feedEndRef} />
       </div>
     </div>
   );

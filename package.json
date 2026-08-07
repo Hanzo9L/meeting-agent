@@ -8,7 +8,17 @@
     "build": "electron-vite build",
     "build:win": "npm run build && electron-builder --win nsis -c electron-builder.yml",
     "preview": "electron-vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "eval:baseline": "tsx eval/harness/runLegacyBaseline.ts",
+    "test:eval": "node --import tsx --test eval/tests/*.test.ts",
+    "test:wb05": "node --import tsx --test src/main/services/knowledgeV2/sourceRegistry.test.ts",
+    "test:wb06": "node --import tsx --test src/main/services/knowledgeV2/sync/*.test.ts src/main/services/knowledgeV2/acquisition/*.test.ts",
+    "test:wb07": "node --import tsx --test src/main/services/knowledgeV2/parse/*.test.ts",
+    "inspect:source-registry": "tsx src/main/services/knowledgeV2/inspectSourceRegistry.ts",
+    "inspect:source-sync": "tsx src/main/services/knowledgeV2/sync/inspectSourceSync.ts",
+    "spike:learn-mcp": "tsx src/main/services/knowledgeV2/acquisition/learnMcpSpike.ts",
+    "fixtures:wb07": "tsx src/main/services/knowledgeV2/parse/generateFixtures.ts",
+    "inspect:parsed-doc": "tsx src/main/services/knowledgeV2/parse/inspectParsedDocument.ts"
   },
   "keywords": [
     "electron",
@@ -24,9 +34,15 @@
     "dotenv": "^17.4.2",
     "electron-audio-loopback": "^1.0.6",
     "electron-store": "^11.0.2",
+    "mdast-util-to-string": "^4.0.0",
     "openai": "^6.46.0",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@swc/core": "^1.15.43",
@@ -38,6 +54,7 @@
     "electron": "^43.1.0",
     "electron-builder": "^26.15.3",
     "electron-vite": "^5.0.0",
+    "tsx": "^4.23.9",
     "typescript": "^5.9.2",
     "vite": "^7.3.6",
     "wait-on": "^9.0.10"

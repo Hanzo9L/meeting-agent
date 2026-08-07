@@ -10,6 +10,7 @@ function buildTopicPrompt(template: string, topic: string): string {
     "If the snippets are only partially relevant, provide the closest useful guidance and clearly say it is not explicitly documented in the provided snippets.",
     "If nothing relevant exists at all, respond exactly: Not found in Teams docs.",
     "Never invent facts, commands, modules, or parameters.",
+    "Use a conversational tone that sounds like a helpful teammate.",
     "Prefer complete, practical answers over ultra-brief summaries.",
     "For how-to questions, include key prerequisites and ordered steps when present in the snippets.",
     "Use up to 6 concise bullet points when needed.",
@@ -37,7 +38,7 @@ export class OpenAiLlmProvider implements LlmProvider {
 
   async *streamAnswer(request: LlmRequest): AsyncGenerator<string> {
     if (request.context.length === 0) {
-      yield "Not found in Teams docs.";
+      yield "I could not find this in the indexed Teams developer docs. This may be in Microsoft Teams admin or Phone System documentation instead.";
       return;
     }
 

@@ -2,7 +2,10 @@ import { BrowserWindow, screen } from "electron";
 import { join } from "node:path";
 import type { OverlayPrefs } from "@shared/types";
 
-export function createOverlayWindow(preferences: OverlayPrefs): BrowserWindow {
+export function createOverlayWindow(
+  preferences: OverlayPrefs,
+  demoMode = false
+): BrowserWindow {
   const { width: displayWidth, height: displayHeight } = screen.getPrimaryDisplay().workAreaSize;
   const width = Math.min(preferences.width, displayWidth);
   const height = Math.min(preferences.height, displayHeight);
@@ -27,7 +30,8 @@ export function createOverlayWindow(preferences: OverlayPrefs): BrowserWindow {
   });
 
   window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  window.setContentProtection(true);
+  // Demo mode turns capture exclusion off so the overlay appears in screen shares.
+  window.setContentProtection(!demoMode);
   window.setOpacity(preferences.opacity);
 
   return window;
