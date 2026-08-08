@@ -2,6 +2,10 @@ import { performance } from "node:perf_hooks";
 import type { SourceDomain } from "../knowledgeV2";
 import type { FusedRetrievalCandidate, HybridRetrievalResult } from "../retrievalV2";
 import { classifyAnswerability } from "./answerabilityPolicy";
+import {
+  bindEvidenceBundleSnapshot,
+  type EvidenceBundleDecisionState
+} from "./groundingDecisionSnapshot";
 import type {
   BuildEvidenceBundleResult,
   EvidenceBundle,
@@ -388,7 +392,7 @@ export function buildEvidenceBundle(result: HybridRetrievalResult): BuildEvidenc
     }
   }
 
-  const bundle: EvidenceBundle = {
+  const decisionState: EvidenceBundleDecisionState = {
     question: result.intent.originalQuestion,
     intent: result.intent,
     scope: result.scope,
@@ -419,7 +423,7 @@ export function buildEvidenceBundle(result: HybridRetrievalResult): BuildEvidenc
     }
   };
   return {
-    bundle,
+    bundle: bindEvidenceBundleSnapshot(decisionState),
     retrieval: result
   };
 }

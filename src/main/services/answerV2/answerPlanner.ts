@@ -1,4 +1,5 @@
 import { performance } from "node:perf_hooks";
+import { snapshotBinding } from "./groundingDecisionSnapshot";
 import type {
   AnswerPlan,
   AnswerPlanSectionId,
@@ -338,6 +339,7 @@ export function buildAnswerPlan(bundle: EvidenceBundle): AnswerPlan {
     .map((evidence) => evidence.evidenceId);
 
   return {
+    snapshotBinding: snapshotBinding(bundle.decisionSnapshot),
     question: bundle.question,
     intent: bundle.intent,
     answerability: bundle.answerability,

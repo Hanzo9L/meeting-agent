@@ -157,7 +157,11 @@ async function main(): Promise<void> {
         claimConcurrency: 3
       }
     });
-    const firstIssues = grounded.diagnostics.firstAttemptIssues;
+    const answer = grounded.ok ? grounded.answer : undefined;
+    const diagnostics = grounded.ok ? grounded.answer.diagnostics : grounded.failure.diagnostics;
+    const firstIssues = grounded.ok
+      ? grounded.answer.diagnostics.firstAttemptIssues
+      : grounded.failure.groundingIssues;
     for (const issue of firstIssues) {
       failureCategories.set(issue.code, (failureCategories.get(issue.code) ?? 0) + 1);
     }
@@ -178,42 +182,42 @@ async function main(): Promise<void> {
       .filter((issue) => issue.code === "missing_unsupported_aspect")
       .map((issue) => issue.message);
 
-    firstGenLatencies.push(grounded.diagnostics.attempts[0]?.latencyMs ?? grounded.diagnostics.generationLatencyMs);
-    totalLatencies.push(grounded.diagnostics.totalLatencyMs);
-    requestCount += grounded.diagnostics.requestCount;
-    retries += grounded.diagnostics.retryCount;
-    inputTokens += grounded.diagnostics.tokenUsage.inputTokens ?? 0;
-    outputTokens += grounded.diagnostics.tokenUsage.outputTokens ?? 0;
+    firstGenLatencies.push(diagnostics?.attempts[0]?.latencyMs ?? diagnostics?.generationLatencyMs ?? 0);
+    totalLatencies.push(diagnostics?.totalLatencyMs ?? 0);
+    requestCount += diagnostics?.requestCount ?? 0;
+    retries += diagnostics?.retryCount ?? 0;
+    inputTokens += diagnostics?.tokenUsage.inputTokens ?? 0;
+    outputTokens += diagnostics?.tokenUsage.outputTokens ?? 0;
 
     cases.push({
       questionId: row.questionId,
       question: row.question,
-      answerability: grounded.answerability,
+      answerability: plan.answerability,
       mandatoryClaims: plan.plannedClaims.filter((claim) => claim.mandatory).length,
-      realizedClaims: grounded.realizedClaims.length,
+      realizedClaims: answer?.realizedClaims.length ?? 0,
       missingMandatoryClaims,
       unknownClaimIds,
       requiredCaveats: plan.requiredCaveats.map((caveat) => caveat.code),
       missingCaveats,
       unsupportedAspectViolations: unsupportedViolations,
       schemaValid: !firstIssues.some((issue) => issue.code === "schema_invalid"),
-      firstAttemptValid: grounded.diagnostics.firstAttemptValid,
+      firstAttemptValid: diagnostics?.firstAttemptValid ?? false,
       firstAttemptIssues: firstIssues,
-      retryUsed: grounded.diagnostics.retryCount > 0,
-      retryValid: grounded.diagnostics.retryCount > 0 ? grounded.validation.valid : null,
-      finalValid: grounded.validation.valid,
+      retryUsed: (diagnostics?.retryCount ?? 0) > 0,
+      retryValid: (diagnostics?.retryCount ?? 0) > 0 ? Boolean(answer?.validation.valid) : null,
+      finalValid: Boolean(answer?.validation.valid),
       latencyMs: {
-        firstGeneration: grounded.diagnostics.attempts[0]?.latencyMs ?? grounded.diagnostics.generationLatencyMs,
-        validator: grounded.diagnostics.validationLatencyMs,
+        firstGeneration: diagnostics?.attempts[0]?.latencyMs ?? diagnostics?.generationLatencyMs ?? 0,
+        validator: diagnostics?.validationLatencyMs ?? 0,
         retryGeneration:
-          grounded.diagnostics.attempts.find((attempt) => attempt.mode === "corrective")?.latencyMs ?? null,
-        total: grounded.diagnostics.totalLatencyMs
+          diagnostics?.attempts.find((attempt) => attempt.mode === "corrective")?.latencyMs ?? null,
+        total: diagnostics?.totalLatencyMs ?? 0
       },
       tokenUsage: {
-        inputTokens: grounded.diagnostics.tokenUsage.inputTokens,
-        outputTokens: grounded.diagnostics.tokenUsage.outputTokens,
-        requestCount: grounded.diagnostics.requestCount,
-        retries: grounded.diagnostics.retryCount
+        inputTokens: diagnostics?.tokenUsage.inputTokens ?? null,
+        outputTokens: diagnostics?.tokenUsage.outputTokens ?? null,
+        requestCount: diagnostics?.requestCount ?? 0,
+        retries: diagnostics?.retryCount ?? 0
       }
     });
   }

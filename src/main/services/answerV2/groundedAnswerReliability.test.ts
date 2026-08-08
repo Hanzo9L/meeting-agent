@@ -3,8 +3,18 @@ import test from "node:test";
 import { buildAnswerPlan } from "./answerPlanner";
 import type { ClaimRealizationProvider } from "./answerGenerator";
 import { generateGroundedAnswer } from "./groundedAnswerService";
-import type { ClaimRealizationTask, EvidenceBundle, EvidenceItem } from "./types";
+import type {
+  ClaimRealizationTask,
+  EvidenceBundle,
+  EvidenceItem,
+  GroundedAnswer,
+  GroundedAnswerResult
+} from "./types";
 import type { QueryIntent } from "../retrievalV2";
+import {
+  bindEvidenceBundleSnapshot,
+  type EvidenceBundleDecisionState
+} from "./groundingDecisionSnapshot";
 
 function makeEvidence(id: string, text: string, supportTypes: EvidenceItem["supportTypes"]): EvidenceItem {
   return {
@@ -44,7 +54,7 @@ function makeEvidence(id: string, text: string, supportTypes: EvidenceItem["supp
   };
 }
 
-function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
+function makeBundle(overrides: Partial<EvidenceBundleDecisionState> = {}): EvidenceBundle {
   const intent: QueryIntent = {
     originalQuestion: "How does Teams Direct Routing voice routing work?",
     normalizedQuestion: "how does teams direct routing voice routing work",
@@ -61,7 +71,7 @@ function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
     retrievalHints: [],
     unresolvedAmbiguity: []
   };
-  return {
+  return bindEvidenceBundleSnapshot({
     question: intent.originalQuestion,
     intent,
     scope: {
@@ -102,7 +112,7 @@ function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
       }
     },
     ...overrides
-  };
+  });
 }
 
 class SequenceGenerator implements ClaimRealizationProvider {
@@ -121,6 +131,12 @@ class SequenceGenerator implements ClaimRealizationProvider {
   }
 }
 
+function requireSuccess(result: GroundedAnswerResult): GroundedAnswer {
+  if (!result.ok) throw new Error(result.failure.message);
+  assert.equal(result.ok, true);
+  return result.answer;
+}
+
 test("missing mandatory claim triggers invalidation", async () => {
   const bundle = makeBundle();
   const plan = buildAnswerPlan(bundle);
@@ -130,8 +146,9 @@ test("missing mandatory claim triggers invalidation", async () => {
     return { claimId: task.claimId, text: task.proposition };
   });
   const grounded = await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 0 } });
-  assert.equal(grounded.validation.valid, false);
-  assert.ok(grounded.validation.issues.some((issue) => issue.code === "claim_generation_failed"));
+  assert.equal(grounded.ok, false);
+  if (grounded.ok) throw new Error("Expected grounded-answer failure");
+  assert.ok(grounded.failure.groundingIssues.some((issue) => issue.code === "claim_generation_failed"));
 });
 
 test("corrective retry receives validator issues and can restore claim coverage", async () => {
@@ -142,7 +159,9 @@ test("corrective retry receives validator issues and can restore claim coverage"
     if (task.claimId === target && attempt === 1) return { claimId: "wrong", text: task.proposition };
     return { claimId: task.claimId, text: task.proposition };
   });
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } })
+  );
   assert.equal(grounded.validation.valid, true);
   const correctionCall = generator.calls.find((call) => call.task.claimId === target && call.correction);
   assert.ok(correctionCall);
@@ -162,7 +181,7 @@ test("only one retry is allowed and invalid second attempt fails closed", async 
   const grounded = await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } });
   const attemptsForTarget = generator.calls.filter((call) => call.task.claimId === target).length;
   assert.equal(attemptsForTarget, 2);
-  assert.equal(grounded.validation.valid, false);
+  assert.equal(grounded.ok, false);
 });
 
 test("missing caveat can trigger corrective retry", async () => {
@@ -176,7 +195,9 @@ test("missing caveat can trigger corrective retry", async () => {
   });
   const plan = buildAnswerPlan(bundle);
   const generator = new SequenceGenerator(async (task) => ({ claimId: task.claimId, text: task.proposition }));
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } })
+  );
   assert.equal(grounded.validation.valid, true);
   assert.ok(grounded.caveats.some((caveat) => caveat.code === "partial_coverage"));
 });
@@ -186,8 +207,9 @@ test("unknown claim cannot pass", async () => {
   const plan = buildAnswerPlan(bundle);
   const generator = new SequenceGenerator(async (task) => ({ claimId: `${task.claimId}-wrong`, text: "x" }));
   const grounded = await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 0 } });
-  assert.equal(grounded.validation.valid, false);
-  assert.ok(grounded.validation.issues.some((issue) => issue.code === "claim_generation_failed"));
+  assert.equal(grounded.ok, false);
+  if (grounded.ok) throw new Error("Expected grounded-answer failure");
+  assert.ok(grounded.failure.groundingIssues.some((issue) => issue.code === "claim_generation_failed"));
 });
 
 test("insufficient-evidence output cannot gain technical claims on retry", async () => {
@@ -203,7 +225,9 @@ test("insufficient-evidence output cannot gain technical claims on retry", async
   });
   const plan = buildAnswerPlan(bundle);
   const generator = new SequenceGenerator(async (task) => ({ claimId: task.claimId, text: task.proposition }));
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({ plan, bundle, generator, options: { claimRetryLimit: 1 } })
+  );
   assert.equal(grounded.validation.valid, true);
   assert.equal(grounded.diagnostics.requestCount, 0);
 });
@@ -219,7 +243,7 @@ test("partial-answer caveat remains mandatory", async () => {
   });
   const plan = buildAnswerPlan(bundle);
   const generator = new SequenceGenerator(async (task) => ({ claimId: task.claimId, text: task.proposition }));
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator });
+  const grounded = requireSuccess(await generateGroundedAnswer({ plan, bundle, generator }));
   const required = new Set(plan.requiredCaveats.map((caveat) => caveat.code));
   for (const code of required) {
     assert.ok(grounded.caveats.some((c) => c.code === code));
@@ -233,7 +257,7 @@ test("no plan/bundle mutation, canonicalUrl unchanged, and service remains isola
   const beforePlan = JSON.stringify(plan);
   const beforeUrl = bundle.evidence[0]?.source.canonicalUrl;
   const generator = new SequenceGenerator(async (task) => ({ claimId: task.claimId, text: task.proposition }));
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator });
+  const grounded = requireSuccess(await generateGroundedAnswer({ plan, bundle, generator }));
   assert.equal(JSON.stringify(bundle), beforeBundle);
   assert.equal(JSON.stringify(plan), beforePlan);
   assert.equal(bundle.evidence[0]?.source.canonicalUrl, beforeUrl);

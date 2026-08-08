@@ -108,15 +108,19 @@ async function main(): Promise<void> {
         claimConcurrency: 3
       }
     });
+    const answer = grounded.ok ? grounded.answer : undefined;
+    const diagnostics = grounded.ok ? grounded.answer.diagnostics : grounded.failure.diagnostics;
 
-    generationLatencies.push(grounded.diagnostics.generationLatencyMs);
-    validationLatencies.push(grounded.diagnostics.validationLatencyMs);
-    totalLatencies.push(grounded.diagnostics.totalLatencyMs);
+    generationLatencies.push(diagnostics?.generationLatencyMs ?? 0);
+    validationLatencies.push(diagnostics?.validationLatencyMs ?? 0);
+    totalLatencies.push(diagnostics?.totalLatencyMs ?? 0);
 
-    const normalizedClaims = grounded.realizedClaims.map((claim) => normalize(claim.generatedText));
-    const normalizedAnswer = normalize(grounded.answerText);
+    const normalizedClaims = (answer?.realizedClaims ?? []).map((claim) =>
+      normalize(claim.generatedText)
+    );
+    const normalizedAnswer = normalize(answer?.answerText ?? "");
     const checks: Record<string, boolean> = {};
-    checks["answerability"] = grounded.answerability === row.expectedAnswerability;
+    checks["answerability"] = plan.answerability === row.expectedAnswerability;
     checks["requiredClaims"] = (row.requiredClaimConcepts ?? []).every((concept) =>
       normalizedClaims.some((claim) => claim.includes(normalize(concept)))
     );
@@ -124,11 +128,14 @@ async function main(): Promise<void> {
       (phrase) => !normalizedAnswer.includes(normalize(phrase))
     );
     checks["requiredCaveats"] = (row.requiredCaveatCodes ?? []).every((code) =>
-      grounded.caveats.some((caveat) => caveat.code === code)
+      (answer?.caveats ?? []).some((caveat) => caveat.code === code)
     );
-    checks["validationPass"] = row.requireValidationPass === false ? !grounded.validation.valid : grounded.validation.valid;
+    checks["validationPass"] =
+      row.requireValidationPass === false
+        ? !grounded.ok || !answer?.validation.valid
+        : grounded.ok && Boolean(answer?.validation.valid);
     checks["realizedClaimPolicy"] = row.requireNoRealizedClaims
-      ? grounded.realizedClaims.length === 0
+      ? (answer?.realizedClaims.length ?? 0) === 0
       : true;
 
     const pass = Object.values(checks).every(Boolean);
@@ -138,9 +145,9 @@ async function main(): Promise<void> {
       pass,
       checks,
       diagnostics: {
-        generationLatencyMs: grounded.diagnostics.generationLatencyMs,
-        validationLatencyMs: grounded.diagnostics.validationLatencyMs,
-        totalLatencyMs: grounded.diagnostics.totalLatencyMs
+        generationLatencyMs: diagnostics?.generationLatencyMs ?? 0,
+        validationLatencyMs: diagnostics?.validationLatencyMs ?? 0,
+        totalLatencyMs: diagnostics?.totalLatencyMs ?? 0
       }
     });
   }

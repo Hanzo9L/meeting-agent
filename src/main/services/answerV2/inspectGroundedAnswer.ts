@@ -36,10 +36,13 @@ export async function inspectGroundedAnswerForQuestion(params: {
   return {
     question: params.question,
     provider: generator.providerId,
-    answerability: grounded.answerability,
-    valid: grounded.validation.valid,
-    validationIssues: grounded.validation.issues,
-    diagnostics: grounded.diagnostics,
-    groundedAnswer: grounded
+    answerability: plan.answerability,
+    valid: grounded.ok,
+    validationIssues: grounded.ok
+      ? grounded.answer.validation.issues
+      : [...grounded.failure.snapshotIssues, ...grounded.failure.groundingIssues],
+    diagnostics: grounded.ok ? grounded.answer.diagnostics : grounded.failure.diagnostics,
+    groundedAnswer: grounded.ok ? grounded.answer : undefined,
+    failure: grounded.ok ? undefined : grounded.failure
   };
 }

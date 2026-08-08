@@ -1,6 +1,7 @@
 export * from "./types";
 export * from "./answerabilityPolicy";
 export * from "./evidenceBundleBuilder";
+export * from "./groundingDecisionSnapshot";
 export * from "./answerPlanner";
 export * from "./inspectEvidence";
 export * from "./inspectAnswerPlan";

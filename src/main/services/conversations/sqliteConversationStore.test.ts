@@ -1,0 +1,414 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import test from "node:test";
+import Database from "better-sqlite3";
+import { resolveKnowledgeV2DatabasePath } from "../knowledgeV2/store";
+import { resolveConversationDatabasePath } from "./dbPaths";
+import {
+  createSqliteConversationStore,
+  type SqliteConversationStore
+} from "./sqliteConversationStore";
+import type { AnswerRunRecord, GroundingSnapshotReference } from "./types";
+
+const SNAPSHOT_A: GroundingSnapshotReference = {
+  snapshotId: "grounding:slice1-a",
+  snapshotHash: "a".repeat(64),
+  schemaVersion: "grounding-decision-snapshot/v1",
+  resolverPolicyVersion: "wb18-evidence-policy/v1",
+  corpusRevisionHash: "b".repeat(64),
+  createdAt: "2026-08-08T20:00:00.000Z"
+};
+
+async function makeTempDatabase(): Promise<{ root: string; databasePath: string }> {
+  const root = await mkdtemp(join(tmpdir(), "meeting-agent-conversations-"));
+  return {
+    root,
+    databasePath: join(root, "conversations.sqlite")
+  };
+}
+
+async function withStore(
+  run: (store: SqliteConversationStore, databasePath: string) => void | Promise<void>
+): Promise<void> {
+  const temp = await makeTempDatabase();
+  const store = createSqliteConversationStore({ databasePath: temp.databasePath });
+  try {
+    await run(store, temp.databasePath);
+  } finally {
+    store.close();
+    await rm(temp.root, { recursive: true, force: true });
+  }
+}
+
+function advanceToValidating(
+  store: SqliteConversationStore,
+  run: AnswerRunRecord
+): AnswerRunRecord {
+  let current = run;
+  for (const state of [
+    "resolving_context",
+    "retrieving",
+    "planning",
+    "executing_answer",
+    "validating"
+  ] as const) {
+    current = store.updateAnswerRun({
+      answerRunId: current.id,
+      state
+    });
+  }
+  return current;
+}
+
+function createQuestionRun(
+  store: SqliteConversationStore,
+  params?: {
+    title?: string;
+    content?: string;
+    inputOrigin?: "typed" | "pasted" | "live_transcript";
+  }
+): {
+  conversationId: string;
+  userMessageId: string;
+  run: AnswerRunRecord;
+} {
+  const conversation = store.createConversation({ title: params?.title ?? "Teams help" });
+  const message = store.appendUserMessage({
+    conversationId: conversation.id,
+    content: params?.content ?? "How do I assign a voice routing policy?",
+    inputOrigin: params?.inputOrigin ?? "typed"
+  });
+  return {
+    conversationId: conversation.id,
+    userMessageId: message.id,
+    run: store.createAnswerRun({
+      conversationId: conversation.id,
+      triggeringUserMessageId: message.id
+    })
+  };
+}
+
+test("creates, lists, loads, and reopens conversations", async () => {
+  const temp = await makeTempDatabase();
+  let conversationId = "";
+  const first = createSqliteConversationStore({ databasePath: temp.databasePath });
+  try {
+    assert.equal(first.getSchemaVersion(), 1);
+    const conversation = first.createConversation({ title: "Teams Voice" });
+    conversationId = conversation.id;
+    assert.equal(first.listConversations().length, 1);
+    assert.equal(first.getConversation(conversation.id)?.title, "Teams Voice");
+  } finally {
+    first.close();
+  }
+
+  const reopened = createSqliteConversationStore({ databasePath: temp.databasePath });
+  try {
+    assert.equal(reopened.getConversation(conversationId)?.title, "Teams Voice");
+  } finally {
+    reopened.close();
+    await rm(temp.root, { recursive: true, force: true });
+  }
+});
+
+test("renames an active conversation", async () => {
+  await withStore((store) => {
+    const conversation = store.createConversation({ title: "Initial" });
+    const renamed = store.renameConversation(conversation.id, "Direct Routing");
+    assert.equal(renamed.title, "Direct Routing");
+    assert.equal(store.getConversation(conversation.id)?.title, "Direct Routing");
+  });
+});
+
+test("durably orders typed, pasted, and live-transcript user messages", async () => {
+  await withStore((store) => {
+    const conversation = store.createConversation();
+    const typed = store.appendUserMessage({
+      conversationId: conversation.id,
+      content: "Typed",
+      inputOrigin: "typed"
+    });
+    const pasted = store.appendUserMessage({
+      conversationId: conversation.id,
+      content: "Pasted",
+      inputOrigin: "pasted"
+    });
+    const live = store.appendUserMessage({
+      conversationId: conversation.id,
+      content: "Live",
+      inputOrigin: "live_transcript"
+    });
+
+    assert.deepEqual(
+      [typed, pasted, live].map((message) => message.turnIndex),
+      [1, 2, 3]
+    );
+    assert.deepEqual(
+      store.loadOrderedMessages(conversation.id).map((message) => message.inputOrigin),
+      ["typed", "pasted", "live_transcript"]
+    );
+  });
+});
+
+test("persists an answered assistant message only through atomic run completion", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+
+    const completed = store.appendGroundedAssistantMessage({
+      answerRunId: fixture.run.id,
+      content: "Use the verified assignment command.",
+      answerability: "answered",
+      snapshot: SNAPSHOT_A
+    });
+
+    assert.equal(completed.message.role, "assistant");
+    assert.equal(completed.message.answerability, "answered");
+    assert.equal(completed.message.groundingSnapshotId, SNAPSHOT_A.snapshotId);
+    assert.equal(completed.answerRun.state, "completed");
+    assert.equal(completed.answerRun.assistantMessageId, completed.message.id);
+    assert.deepEqual(
+      store.loadOrderedMessages(fixture.conversationId).map((message) => message.turnIndex),
+      [1, 2]
+    );
+  });
+});
+
+test("persists partial as a valid grounded assistant message", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+
+    const completed = store.appendGroundedAssistantMessage({
+      answerRunId: fixture.run.id,
+      content: "The supported portion is available; adjacent authority is missing.",
+      answerability: "partial",
+      snapshot: SNAPSHOT_A
+    });
+
+    assert.equal(completed.message.answerability, "partial");
+    assert.equal(completed.answerRun.state, "partial");
+    assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 2);
+  });
+});
+
+test("failed answer run creates no factual assistant message", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    store.updateAnswerRun({
+      answerRunId: fixture.run.id,
+      state: "executing_answer",
+      snapshot: SNAPSHOT_A
+    });
+    const failed = store.updateAnswerRun({
+      answerRunId: fixture.run.id,
+      state: "failed",
+      failureCode: "answer_unavailable",
+      failureDetails: { retryable: false }
+    });
+
+    assert.equal(failed.state, "failed");
+    assert.equal(failed.failureCode, "answer_unavailable");
+    assert.equal(failed.assistantMessageId, null);
+    assert.equal(failed.groundingSnapshotId, SNAPSHOT_A.snapshotId);
+    assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 1);
+  });
+});
+
+test("cancelled answer run creates no factual assistant message", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    const cancelled = store.updateAnswerRun({
+      answerRunId: fixture.run.id,
+      state: "cancelled",
+      failureCode: "user_cancelled"
+    });
+
+    assert.equal(cancelled.state, "cancelled");
+    assert.equal(cancelled.assistantMessageId, null);
+    assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 1);
+  });
+});
+
+test("grounded completion rolls back when snapshot identity conflicts", async () => {
+  await withStore((store) => {
+    const first = createQuestionRun(store);
+    advanceToValidating(store, first.run);
+    store.appendGroundedAssistantMessage({
+      answerRunId: first.run.id,
+      content: "First answer",
+      answerability: "answered",
+      snapshot: SNAPSHOT_A
+    });
+
+    const secondUser = store.appendUserMessage({
+      conversationId: first.conversationId,
+      content: "What about removing it?",
+      inputOrigin: "typed"
+    });
+    const secondRun = store.createAnswerRun({
+      conversationId: first.conversationId,
+      triggeringUserMessageId: secondUser.id
+    });
+    advanceToValidating(store, secondRun);
+
+    assert.throws(
+      () =>
+        store.appendGroundedAssistantMessage({
+          answerRunId: secondRun.id,
+          content: "This content must roll back.",
+          answerability: "answered",
+          snapshot: { ...SNAPSHOT_A, snapshotHash: "c".repeat(64) }
+        }),
+      /snapshot identity conflict/
+    );
+
+    assert.equal(store.loadOrderedMessages(first.conversationId).length, 3);
+    const unchanged = store.getAnswerRun(secondRun.id);
+    assert.equal(unchanged?.state, "validating");
+    assert.equal(unchanged?.assistantMessageId, null);
+  });
+});
+
+test("restart recovery marks interrupted nonterminal run failed without assistant content", async () => {
+  const temp = await makeTempDatabase();
+  let conversationId = "";
+  let runId = "";
+  const first = createSqliteConversationStore({ databasePath: temp.databasePath });
+  try {
+    const fixture = createQuestionRun(first);
+    conversationId = fixture.conversationId;
+    runId = fixture.run.id;
+    first.updateAnswerRun({
+      answerRunId: runId,
+      state: "executing_answer"
+    });
+  } finally {
+    first.close();
+  }
+
+  const recovered = createSqliteConversationStore({ databasePath: temp.databasePath });
+  try {
+    const run = recovered.getAnswerRun(runId);
+    assert.equal(run?.state, "failed");
+    assert.equal(run?.failureCode, "interrupted");
+    assert.equal(run?.assistantMessageId, null);
+    assert.equal(recovered.loadOrderedMessages(conversationId).length, 1);
+  } finally {
+    recovered.close();
+    await rm(temp.root, { recursive: true, force: true });
+  }
+});
+
+test("context resolution stores prior-message references without evidence semantics", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    const answered = store.appendGroundedAssistantMessage({
+      answerRunId: fixture.run.id,
+      content: "Assign the policy with the supported command.",
+      answerability: "answered",
+      snapshot: SNAPSHOT_A
+    });
+    const followUp = store.appendUserMessage({
+      conversationId: fixture.conversationId,
+      content: "What about removing it?",
+      inputOrigin: "typed"
+    });
+
+    const resolution = store.saveContextResolution({
+      sourceUserMessageId: followUp.id,
+      originalText: followUp.content,
+      resolvedQuestion: "How do I remove the voice routing policy assignment?",
+      priorMessageIds: [fixture.userMessageId, answered.message.id]
+    });
+
+    assert.deepEqual(resolution.priorMessageIds, [
+      fixture.userMessageId,
+      answered.message.id
+    ]);
+    assert.equal(
+      store.getContextResolution(followUp.id)?.resolvedQuestion,
+      "How do I remove the voice routing policy assignment?"
+    );
+    assert.equal("evidence" in resolution, false);
+    assert.equal("groundingSnapshotId" in resolution, false);
+  });
+});
+
+test("conversation deletion is logical, hides product data, and cancels active runs", async () => {
+  const temp = await makeTempDatabase();
+  const store = createSqliteConversationStore({ databasePath: temp.databasePath });
+  let conversationId = "";
+  let runId = "";
+  try {
+    const fixture = createQuestionRun(store);
+    conversationId = fixture.conversationId;
+    runId = fixture.run.id;
+    assert.equal(store.deleteConversation(conversationId), true);
+    assert.equal(store.getConversation(conversationId), null);
+    assert.equal(store.listConversations().length, 0);
+    assert.equal(store.loadOrderedMessages(conversationId).length, 0);
+    assert.equal(store.getAnswerRun(runId), null);
+    assert.equal(store.deleteConversation(conversationId), false);
+  } finally {
+    store.close();
+  }
+
+  const raw = new Database(temp.databasePath, { readonly: true });
+  try {
+    const conversation = raw
+      .prepare(
+        "SELECT deleted_at FROM conversations WHERE conversation_id = ?"
+      )
+      .get(conversationId) as { deleted_at: string | null };
+    const run = raw
+      .prepare("SELECT state, failure_code FROM answer_runs WHERE answer_run_id = ?")
+      .get(runId) as { state: string; failure_code: string | null };
+    assert.ok(conversation.deleted_at);
+    assert.equal(run.state, "cancelled");
+    assert.equal(run.failure_code, "conversation_deleted");
+  } finally {
+    raw.close();
+    await rm(temp.root, { recursive: true, force: true });
+  }
+});
+
+test("clear history logically removes all active conversations", async () => {
+  await withStore((store) => {
+    store.createConversation({ title: "One" });
+    store.createConversation({ title: "Two" });
+    assert.equal(store.clearHistory(), 2);
+    assert.equal(store.listConversations().length, 0);
+  });
+});
+
+test("conversation database path is separate from Knowledge V2", () => {
+  const userDataPath = resolve("test-user-data");
+  const conversationPath = resolveConversationDatabasePath({ userDataPath, env: {} });
+  const knowledgePath = resolveKnowledgeV2DatabasePath({ userDataPath, env: {} });
+  assert.notEqual(conversationPath, knowledgePath);
+  assert.match(conversationPath, /conversations[\\/]conversations\.sqlite$/);
+  assert.match(knowledgePath, /knowledge-v2[\\/]knowledge-v2\.sqlite$/);
+});
+
+test("conversation production modules do not import grounding or retrieval implementations", () => {
+  const productionFiles = [
+    "types.ts",
+    "dbPaths.ts",
+    "migrations.ts",
+    "migrationRunner.ts",
+    "sqliteConversationStore.ts",
+    "index.ts"
+  ];
+  for (const filename of productionFiles) {
+    const source = readFileSync(
+      resolve(`src/main/services/conversations/${filename}`),
+      "utf8"
+    );
+    assert.doesNotMatch(source, /from\s+["'][^"']*(answerV2|retrievalV2|knowledgeV2)/);
+  }
+});

@@ -1,4 +1,5 @@
 import type { ClaimRealizationProvider } from "./answerGenerator";
+import { validateGroundingDecisionBoundary } from "./groundingDecisionSnapshot";
 import { validateGroundedAnswer } from "./groundedAnswerValidator";
 import type {
   AnswerPlan,
@@ -6,7 +7,8 @@ import type {
   ClaimRealizationTask,
   EvidenceBundle,
   GenerateGroundedAnswerOptions,
-  GroundedAnswer,
+  GroundedAnswerDiagnostics,
+  GroundedAnswerResult,
   GroundedAnswerDraft
 } from "./types";
 
@@ -137,8 +139,25 @@ export async function generateGroundedAnswer(params: {
   bundle: EvidenceBundle;
   generator: ClaimRealizationProvider;
   options?: GroundedAnswerServiceOptions;
-}): Promise<GroundedAnswer> {
+}): Promise<GroundedAnswerResult> {
   const serviceStart = Date.now();
+  const boundaryValidation = validateGroundingDecisionBoundary({
+    plan: params.plan,
+    bundle: params.bundle
+  });
+  if (!boundaryValidation.valid) {
+    return {
+      ok: false,
+      failure: {
+        code: "decision_snapshot_mismatch",
+        message: "Grounded answer generation rejected a mismatched or stale decision snapshot.",
+        snapshotIssues: boundaryValidation.issues,
+        groundingIssues: [],
+        failedClaimIds: []
+      }
+    };
+  }
+
   const claimRetryLimit = Math.min(1, Math.max(0, params.options?.claimRetryLimit ?? 1));
   const claimConcurrency = Math.max(1, Math.min(6, params.options?.claimConcurrency ?? 3));
   const includeOptionalClaims = Boolean(params.options?.includeOptionalClaims);
@@ -146,7 +165,7 @@ export async function generateGroundedAnswer(params: {
   let generationLatencyMs = 0;
   let requestCount = 0;
   let retryCount = 0;
-  const attempts: GroundedAnswer["diagnostics"]["attempts"] = [];
+  const attempts: GroundedAnswerDiagnostics["attempts"] = [];
 
   if (params.plan.answerability === "insufficient_evidence") {
     const caveats = renderCaveats(params.plan);
@@ -165,36 +184,56 @@ export async function generateGroundedAnswer(params: {
     const validationStart = Date.now();
     const validation = validateGroundedAnswer({ plan: params.plan, bundle: params.bundle, draft });
     const validationLatencyMs = Date.now() - validationStart;
+    const diagnostics: GroundedAnswerDiagnostics = {
+      generatorProviderId: params.generator.providerId,
+      generationLatencyMs: 0,
+      validationLatencyMs,
+      totalLatencyMs: Date.now() - serviceStart,
+      claimTaskCount: 0,
+      mandatoryClaimTaskCount: 0,
+      successfulClaimCount: 0,
+      failedClaimCount: 0,
+      requestCount: 0,
+      retryCount: 0,
+      firstAttemptValid: validation.valid,
+      finalAttemptValid: validation.valid,
+      firstAttemptIssues: validation.issues,
+      attempts: [],
+      tokenUsage: { inputTokens: null, outputTokens: null }
+    };
+    if (!validation.valid) {
+      return {
+        ok: false,
+        failure: {
+          code: "grounding_validation_failed",
+          message: "Grounded answer validation failed closed.",
+          snapshotIssues: [],
+          groundingIssues: validation.issues,
+          failedClaimIds: [],
+          diagnostics
+        }
+      };
+    }
     return {
-      answerability: params.plan.answerability,
-      answerText: draft.answerText,
-      realizedClaims: [],
-      caveats: draft.caveats,
-      unsupportedAspects: draft.unsupportedAspects,
-      evidenceReferences: {
-        usedEvidenceIds: params.plan.evidenceReferences.usedEvidenceIds,
-        claimEvidenceMap: Object.fromEntries(params.plan.plannedClaims.map((claim) => [claim.claimId, claim.evidenceIds]))
-      },
-      freshnessState: params.plan.freshnessInstructions,
-      previewState: params.plan.previewInstructions,
-      exactIdentifierState: params.plan.exactIdentifierState,
-      validation,
-      diagnostics: {
-        generatorProviderId: params.generator.providerId,
-        generationLatencyMs: 0,
-        validationLatencyMs,
-        totalLatencyMs: Date.now() - serviceStart,
-        claimTaskCount: 0,
-        mandatoryClaimTaskCount: 0,
-        successfulClaimCount: 0,
-        failedClaimCount: 0,
-        requestCount: 0,
-        retryCount: 0,
-        firstAttemptValid: validation.valid,
-        finalAttemptValid: validation.valid,
-        firstAttemptIssues: validation.issues,
-        attempts: [],
-        tokenUsage: { inputTokens: null, outputTokens: null }
+      ok: true,
+      answer: {
+        snapshotBinding: params.plan.snapshotBinding,
+        answerability: params.plan.answerability,
+        answerText: draft.answerText,
+        realizedClaims: [],
+        caveats: draft.caveats,
+        unsupportedAspects: draft.unsupportedAspects,
+        evidenceReferences: {
+          usedEvidenceIds: params.plan.evidenceReferences.usedEvidenceIds,
+          claimEvidenceMap: Object.fromEntries(
+            params.plan.plannedClaims.map((claim) => [claim.claimId, claim.evidenceIds])
+          )
+        },
+        freshnessState: params.plan.freshnessInstructions,
+        previewState: params.plan.previewInstructions,
+        exactIdentifierState: params.plan.exactIdentifierState,
+        validation,
+        diagnostics
       }
     };
   }
@@ -202,18 +241,18 @@ export async function generateGroundedAnswer(params: {
   const tasks = toClaimTasks(params.plan, params.bundle, includeOptionalClaims);
   const realizedClaims: ClaimRealization[] = [];
   const failedClaims = new Set<string>();
-  const firstAttemptIssues: GroundedAnswer["diagnostics"]["firstAttemptIssues"] = [];
+  const firstAttemptIssues: GroundedAnswerDiagnostics["firstAttemptIssues"] = [];
 
   let cursor = 0;
   const runClaim = async (task: ClaimRealizationTask): Promise<void> => {
     let attempt = 0;
-    let previousIssues: GroundedAnswer["diagnostics"]["firstAttemptIssues"] = [];
+    let previousIssues: GroundedAnswerDiagnostics["firstAttemptIssues"] = [];
     let previousText = "";
     while (attempt <= claimRetryLimit) {
       const mode: "initial" | "corrective" = attempt === 0 ? "initial" : "corrective";
       const started = Date.now();
       let realization: ClaimRealization | null = null;
-      let attemptIssues: GroundedAnswer["diagnostics"]["firstAttemptIssues"] = [];
+      let attemptIssues: GroundedAnswerDiagnostics["firstAttemptIssues"] = [];
       let tokenUsage: { inputTokens: number | null; outputTokens: number | null } = {
         inputTokens: null,
         outputTokens: null
@@ -334,41 +373,59 @@ export async function generateGroundedAnswer(params: {
     evidenceIds: claimById.get(claim.claimId)?.evidenceIds ?? []
   }));
 
-  return {
-    answerability: params.plan.answerability,
-    answerText: draft.answerText,
-    realizedClaims: mappedRealizedClaims,
-    caveats: draft.caveats,
-    unsupportedAspects: draft.unsupportedAspects,
-    evidenceReferences: {
-      usedEvidenceIds: params.plan.evidenceReferences.usedEvidenceIds,
-      claimEvidenceMap: Object.fromEntries(
-        params.plan.plannedClaims.map((claim) => [claim.claimId, claim.evidenceIds])
-      )
-    },
-    freshnessState: params.plan.freshnessInstructions,
-    previewState: params.plan.previewInstructions,
-    exactIdentifierState: params.plan.exactIdentifierState,
-    validation,
-    diagnostics: {
-      generatorProviderId: params.generator.providerId,
-      generationLatencyMs,
-      validationLatencyMs,
-      totalLatencyMs: Date.now() - serviceStart,
-      claimTaskCount: tasks.length,
-      mandatoryClaimTaskCount: tasks.filter((task) => task.mandatory).length,
-      successfulClaimCount: realizedClaims.length,
-      failedClaimCount: failedClaims.size,
-      requestCount,
-      retryCount,
-      firstAttemptValid: firstAttemptIssues.length === 0,
-      finalAttemptValid: validation.valid,
-      firstAttemptIssues,
-      attempts,
-      tokenUsage: {
-        inputTokens: usage.inputTokens || null,
-        outputTokens: usage.outputTokens || null
+  const diagnostics: GroundedAnswerDiagnostics = {
+    generatorProviderId: params.generator.providerId,
+    generationLatencyMs,
+    validationLatencyMs,
+    totalLatencyMs: Date.now() - serviceStart,
+    claimTaskCount: tasks.length,
+    mandatoryClaimTaskCount: tasks.filter((task) => task.mandatory).length,
+    successfulClaimCount: realizedClaims.length,
+    failedClaimCount: failedClaims.size,
+    requestCount,
+    retryCount,
+    firstAttemptValid: firstAttemptIssues.length === 0,
+    finalAttemptValid: validation.valid,
+    firstAttemptIssues,
+    attempts,
+    tokenUsage: {
+      inputTokens: usage.inputTokens || null,
+      outputTokens: usage.outputTokens || null
+    }
+  };
+  if (!validation.valid) {
+    return {
+      ok: false,
+      failure: {
+        code: "grounding_validation_failed",
+        message: "Grounded answer validation failed closed.",
+        snapshotIssues: [],
+        groundingIssues: validation.issues,
+        failedClaimIds: [...failedClaims],
+        diagnostics
       }
+    };
+  }
+  return {
+    ok: true,
+    answer: {
+      snapshotBinding: params.plan.snapshotBinding,
+      answerability: params.plan.answerability,
+      answerText: draft.answerText,
+      realizedClaims: mappedRealizedClaims,
+      caveats: draft.caveats,
+      unsupportedAspects: draft.unsupportedAspects,
+      evidenceReferences: {
+        usedEvidenceIds: params.plan.evidenceReferences.usedEvidenceIds,
+        claimEvidenceMap: Object.fromEntries(
+          params.plan.plannedClaims.map((claim) => [claim.claimId, claim.evidenceIds])
+        )
+      },
+      freshnessState: params.plan.freshnessInstructions,
+      previewState: params.plan.previewInstructions,
+      exactIdentifierState: params.plan.exactIdentifierState,
+      validation,
+      diagnostics
     }
   };
 }

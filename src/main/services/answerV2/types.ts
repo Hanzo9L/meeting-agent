@@ -112,6 +112,7 @@ export interface EvidenceBundleDiagnostics {
 }
 
 export interface EvidenceBundle {
+  decisionSnapshot: GroundingDecisionSnapshot;
   question: string;
   intent: QueryIntent;
   scope: RetrievalScope;
@@ -211,6 +212,7 @@ export interface RequiredCaveat {
 }
 
 export interface AnswerPlan {
+  snapshotBinding: GroundingDecisionSnapshotBinding;
   question: string;
   intent: QueryIntent;
   answerability: AnswerabilityStatus;
@@ -335,7 +337,77 @@ export interface GroundingValidationResult {
   };
 }
 
+export type GroundingSnapshotSchemaVersion = "grounding-decision-snapshot/v1";
+export type GroundingResolverPolicyVersion = "wb18-evidence-policy/v1";
+
+export interface GroundingDecisionSnapshotBinding {
+  snapshotId: string;
+  snapshotHash: string;
+  schemaVersion: GroundingSnapshotSchemaVersion;
+  resolverPolicyVersion: GroundingResolverPolicyVersion;
+  corpusRevisionHash: string;
+}
+
+export interface GroundingDecisionSnapshot extends GroundingDecisionSnapshotBinding {
+  createdAt: string;
+  questionHash: string;
+  intentHash: string;
+  scopeHash: string;
+  evidenceSetHash: string;
+  sourceRevisionCount: number;
+}
+
+export interface GroundingDecisionBoundaryIssue {
+  code:
+    | "bundle_snapshot_hash_mismatch"
+    | "bundle_snapshot_id_mismatch"
+    | "plan_snapshot_id_mismatch"
+    | "plan_snapshot_hash_mismatch"
+    | "snapshot_schema_version_mismatch"
+    | "resolver_policy_version_mismatch"
+    | "corpus_revision_mismatch";
+  message: string;
+}
+
+export interface GroundingDecisionBoundaryValidation {
+  valid: boolean;
+  issues: GroundingDecisionBoundaryIssue[];
+}
+
+export interface GroundedAnswerDiagnostics {
+  generatorProviderId: string;
+  generationLatencyMs: number;
+  validationLatencyMs: number;
+  totalLatencyMs: number;
+  claimTaskCount: number;
+  mandatoryClaimTaskCount: number;
+  successfulClaimCount: number;
+  failedClaimCount: number;
+  requestCount: number;
+  retryCount: number;
+  firstAttemptValid: boolean;
+  finalAttemptValid: boolean;
+  firstAttemptIssues: GroundingValidationIssue[];
+  attempts: Array<{
+    attempt: number;
+    mode: "initial" | "corrective";
+    claimId: string;
+    latencyMs: number;
+    validationValid: boolean;
+    validationIssueCodes: GroundingValidationIssue["code"][];
+    tokenUsage: {
+      inputTokens: number | null;
+      outputTokens: number | null;
+    };
+  }>;
+  tokenUsage: {
+    inputTokens: number | null;
+    outputTokens: number | null;
+  };
+}
+
 export interface GroundedAnswer {
+  snapshotBinding: GroundingDecisionSnapshotBinding;
   answerability: AnswerabilityStatus;
   answerText: string;
   realizedClaims: Array<{
@@ -353,38 +425,27 @@ export interface GroundedAnswer {
   previewState: AnswerPlan["previewInstructions"];
   exactIdentifierState: AnswerPlan["exactIdentifierState"];
   validation: GroundingValidationResult;
-  diagnostics: {
-    generatorProviderId: string;
-    generationLatencyMs: number;
-    validationLatencyMs: number;
-    totalLatencyMs: number;
-    claimTaskCount: number;
-    mandatoryClaimTaskCount: number;
-    successfulClaimCount: number;
-    failedClaimCount: number;
-    requestCount: number;
-    retryCount: number;
-    firstAttemptValid: boolean;
-    finalAttemptValid: boolean;
-    firstAttemptIssues: GroundingValidationIssue[];
-    attempts: Array<{
-      attempt: number;
-      mode: "initial" | "corrective";
-      claimId: string;
-      latencyMs: number;
-      validationValid: boolean;
-      validationIssueCodes: GroundingValidationIssue["code"][];
-      tokenUsage: {
-        inputTokens: number | null;
-        outputTokens: number | null;
-      };
-    }>;
-    tokenUsage: {
-      inputTokens: number | null;
-      outputTokens: number | null;
-    };
+  diagnostics: GroundedAnswerDiagnostics;
+}
+
+export interface GroundedAnswerSuccess {
+  ok: true;
+  answer: GroundedAnswer;
+}
+
+export interface GroundedAnswerFailure {
+  ok: false;
+  failure: {
+    code: "decision_snapshot_mismatch" | "grounding_validation_failed";
+    message: string;
+    snapshotIssues: GroundingDecisionBoundaryIssue[];
+    groundingIssues: GroundingValidationIssue[];
+    failedClaimIds: string[];
+    diagnostics?: GroundedAnswerDiagnostics;
   };
 }
+
+export type GroundedAnswerResult = GroundedAnswerSuccess | GroundedAnswerFailure;
 
 export interface GenerateGroundedAnswerOptions {
   maxTokens?: number;

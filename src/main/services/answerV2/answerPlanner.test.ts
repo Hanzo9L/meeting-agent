@@ -3,6 +3,10 @@ import test from "node:test";
 import type { EvidenceBundle, EvidenceItem } from "./types";
 import type { QueryIntent } from "../retrievalV2";
 import { buildAnswerPlan } from "./answerPlanner";
+import {
+  bindEvidenceBundleSnapshot,
+  type EvidenceBundleDecisionState
+} from "./groundingDecisionSnapshot";
 
 function makeEvidence(params: {
   id: string;
@@ -54,7 +58,7 @@ function makeEvidence(params: {
   };
 }
 
-function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
+function makeBundle(overrides: Partial<EvidenceBundleDecisionState> = {}): EvidenceBundle {
   const intent: QueryIntent = {
     originalQuestion: "How does Teams Direct Routing voice routing work?",
     normalizedQuestion: "how does teams direct routing voice routing work",
@@ -71,7 +75,7 @@ function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
     retrievalHints: [],
     unresolvedAmbiguity: []
   };
-  return {
+  return bindEvidenceBundleSnapshot({
     question: intent.originalQuestion,
     intent,
     scope: {
@@ -144,7 +148,7 @@ function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
       }
     },
     ...overrides
-  };
+  });
 }
 
 test("EvidenceBundle produces AnswerPlan and every claim has evidence", () => {

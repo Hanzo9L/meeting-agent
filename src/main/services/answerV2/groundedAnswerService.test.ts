@@ -4,8 +4,18 @@ import { buildAnswerPlan } from "./answerPlanner";
 import type { ClaimRealizationProvider } from "./answerGenerator";
 import { FakeAnswerGenerator } from "./fakeAnswerGenerator";
 import { generateGroundedAnswer } from "./groundedAnswerService";
-import type { ClaimRealizationTask, EvidenceBundle, EvidenceItem } from "./types";
+import type {
+  ClaimRealizationTask,
+  EvidenceBundle,
+  EvidenceItem,
+  GroundedAnswer,
+  GroundedAnswerResult
+} from "./types";
 import type { QueryIntent } from "../retrievalV2";
+import {
+  bindEvidenceBundleSnapshot,
+  type EvidenceBundleDecisionState
+} from "./groundingDecisionSnapshot";
 
 function makeEvidence(id: string, text: string, supportTypes: EvidenceItem["supportTypes"]): EvidenceItem {
   return {
@@ -45,7 +55,7 @@ function makeEvidence(id: string, text: string, supportTypes: EvidenceItem["supp
   };
 }
 
-function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
+function makeBundle(overrides: Partial<EvidenceBundleDecisionState> = {}): EvidenceBundle {
   const intent: QueryIntent = {
     originalQuestion: "How does Teams Direct Routing voice routing work?",
     normalizedQuestion: "how does teams direct routing voice routing work",
@@ -62,7 +72,7 @@ function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
     retrievalHints: [],
     unresolvedAmbiguity: []
   };
-  return {
+  return bindEvidenceBundleSnapshot({
     question: intent.originalQuestion,
     intent,
     scope: {
@@ -106,7 +116,7 @@ function makeBundle(overrides: Partial<EvidenceBundle> = {}): EvidenceBundle {
       }
     },
     ...overrides
-  };
+  });
 }
 
 class RecordingProvider implements ClaimRealizationProvider {
@@ -133,10 +143,18 @@ class RecordingProvider implements ClaimRealizationProvider {
   }
 }
 
+function requireSuccess(result: GroundedAnswerResult): GroundedAnswer {
+  if (!result.ok) throw new Error(result.failure.message);
+  assert.equal(result.ok, true);
+  return result.answer;
+}
+
 test("claim-scoped generation assembles deterministic answer from validated units", async () => {
   const bundle = makeBundle();
   const plan = buildAnswerPlan(bundle);
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator: new FakeAnswerGenerator() });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({ plan, bundle, generator: new FakeAnswerGenerator() })
+  );
   assert.equal(grounded.validation.valid, true);
   assert.ok(grounded.answerText.includes("- "));
   assert.ok(grounded.realizedClaims.length > 0);
@@ -157,8 +175,9 @@ test("provider cannot omit mandatory claims silently; missing claim becomes type
     generator: provider,
     options: { claimRetryLimit: 0 }
   });
-  assert.equal(grounded.validation.valid, false);
-  assert.ok(grounded.validation.issues.some((issue) => issue.code === "claim_generation_failed"));
+  assert.equal(grounded.ok, false);
+  if (grounded.ok) throw new Error("Expected grounded-answer failure");
+  assert.ok(grounded.failure.groundingIssues.some((issue) => issue.code === "claim_generation_failed"));
 });
 
 test("wrong claim id is rejected and bounded retry can recover per claim", async () => {
@@ -169,12 +188,14 @@ test("wrong claim id is rejected and bounded retry can recover per claim", async
     if (task.claimId === target && attempt === 1) return { claimId: "wrong-id", text: task.proposition };
     return { claimId: task.claimId, text: task.proposition };
   });
-  const grounded = await generateGroundedAnswer({
-    plan,
-    bundle,
-    generator: provider,
-    options: { claimRetryLimit: 1 }
-  });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({
+      plan,
+      bundle,
+      generator: provider,
+      options: { claimRetryLimit: 1 }
+    })
+  );
   assert.equal(grounded.validation.valid, true);
   assert.equal(grounded.diagnostics.retryCount, 1);
 });
@@ -193,7 +214,7 @@ test("failed mandatory claim fails whole answer and valid claims are not regener
     generator: provider,
     options: { claimRetryLimit: 1 }
   });
-  assert.equal(grounded.validation.valid, false);
+  assert.equal(grounded.ok, false);
   const counts = provider.seen.reduce<Record<string, number>>((acc, task) => {
     acc[task.claimId] = (acc[task.claimId] ?? 0) + 1;
     return acc;
@@ -216,7 +237,7 @@ test("insufficient evidence bypasses provider and remains safe", async () => {
   });
   const plan = buildAnswerPlan(bundle);
   const provider = new RecordingProvider(async (task) => ({ claimId: task.claimId, text: task.proposition }));
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator: provider });
+  const grounded = requireSuccess(await generateGroundedAnswer({ plan, bundle, generator: provider }));
   assert.equal(provider.seen.length, 0);
   assert.equal(grounded.validation.valid, true);
   assert.ok(/couldn't verify/i.test(grounded.answerText));
@@ -232,7 +253,9 @@ test("caveats and unsupported aspects are rendered by construction for partial",
     }
   });
   const plan = buildAnswerPlan(bundle);
-  const grounded = await generateGroundedAnswer({ plan, bundle, generator: new FakeAnswerGenerator() });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({ plan, bundle, generator: new FakeAnswerGenerator() })
+  );
   assert.equal(grounded.validation.valid, true);
   assert.ok(grounded.caveats.length >= plan.requiredCaveats.length);
   assert.ok(grounded.unsupportedAspects.length >= plan.unsupportedAspects.length);
@@ -245,12 +268,14 @@ test("section ordering follows AnswerPlan and bounded parallelism is enforced", 
     await new Promise((resolve) => setTimeout(resolve, 5));
     return { claimId: task.claimId, text: task.proposition };
   });
-  const grounded = await generateGroundedAnswer({
-    plan,
-    bundle,
-    generator: provider,
-    options: { claimConcurrency: 2 }
-  });
+  const grounded = requireSuccess(
+    await generateGroundedAnswer({
+      plan,
+      bundle,
+      generator: provider,
+      options: { claimConcurrency: 2 }
+    })
+  );
   assert.equal(grounded.validation.valid, true);
   assert.ok(provider.maxActive <= 2);
   const firstSection = plan.recommendedStructure.orderedSections.find((sectionId) =>
