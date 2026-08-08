@@ -1,0 +1,141 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "wb17l0-2026-08-08T16-40-52-363Z",
+  "createdAt": "2026-08-08T16:40:52.363Z",
+  "productionEmbeddingIdentity": {
+    "provider": "openai",
+    "model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "schema": "v1"
+  },
+  "hostedLifecycle": {
+    "providerCreatedPerQuery": false,
+    "constructorMs": 0.038,
+    "coldEmbedQueryMs": 400.238,
+    "coldRequestMs": 397.842,
+    "coldResponseProcessingMs": 2.397,
+    "warmEmbedQueryMs": {
+      "p50": 166.219,
+      "p95": 387.625
+    },
+    "warmRequestMs": {
+      "p50": 165.938,
+      "p95": 387.519
+    },
+    "warmResponseProcessingMs": {
+      "p50": 0.166,
+      "p95": 0.418
+    },
+    "overlapWithExactLexicalAlreadyEnabled": true,
+    "overlapComparisonMs": {
+      "overlap": {
+        "p50": 1676.445,
+        "p95": 1928.117
+      },
+      "sequential": {
+        "p50": 1679.705,
+        "p95": 1798.865
+      }
+    }
+  },
+  "hostedOptimizations": {
+    "baselinePerQueryProviderMs": {
+      "p50": 1303.133,
+      "p95": 1862.655
+    },
+    "optimizedSharedProviderMs": {
+      "p50": 1176.506,
+      "p95": 1925.944
+    },
+    "optimizedQueryEmbeddingMs": {
+      "p50": 490.387,
+      "p95": 1002.711
+    }
+  },
+  "cacheFeasibility": {
+    "keyShape": "<model>|<schema>|<trimmed_whitespace_normalized_question_text>",
+    "uncachedHitRate": 0,
+    "replayHitRate": 1,
+    "estimatedMemoryBytesPerEntry": 6208,
+    "notes": [
+      "Likely low hit-rate for unique live questions.",
+      "High utility for repeated evaluation runs and accidental resend events.",
+      "Cache semantics must remain identity-bound to model/schema/input."
+    ]
+  },
+  "localFeasibility": {
+    "status": "unavailable",
+    "failureReason": "Dependency/runtime blocker on Windows ARM64 Node 24: @xenova/transformers transitively requires sharp, which failed to provide a usable arm64 binary in this environment without additional native build toolchain.",
+    "modelId": "Xenova/all-MiniLM-L6-v2",
+    "modelLicense": "apache-2.0",
+    "runtime": "transformers.js (ONNX WASM)",
+    "windowsArm64Compatibility": "practically blocked in this environment without additional native build/toolchain remediation",
+    "dimensions": 384,
+    "cacheDirBytes": 0,
+    "modelLoadMs": 0,
+    "residentMemoryBytes": 372506624,
+    "localQueryLatencyMs": {
+      "p50": 0,
+      "p95": 0
+    },
+    "localQueryCpuMs": 0,
+    "localDbPath": "",
+    "corpusChunkCount": 0,
+    "corpusEmbeddingDurationMs": 0,
+    "corpusEmbeddingThroughputPerSec": 0
+  },
+  "openAiRuns": {
+    "seed": {
+      "runId": "wb17l0-openai-seed-2026-08-08T16-40-31-613Z",
+      "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\spikes\\wb17l0-openai-seed-2026-08-08T16-40-31-613Z.json",
+      "top1": "8/8",
+      "top3": "8/8",
+      "top5": "8/8",
+      "top10": "8/8",
+      "mrr": 1,
+      "recallAt10": 0.75,
+      "leakageQuestions": 2,
+      "p50TotalMs": 1367.919499999989,
+      "p95TotalMs": 2020.7924000000057,
+      "p50QueryEmbeddingMs": 519.4471999999951,
+      "p95QueryEmbeddingMs": 1137.1440000000002
+    },
+    "holdoutV3": {
+      "runId": "wb17l0-openai-holdoutv3-2026-08-08T16-40-47-621Z",
+      "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\spikes\\wb17l0-openai-holdoutv3-2026-08-08T16-40-47-621Z.json",
+      "top1": "12/12",
+      "top3": "12/12",
+      "top5": "12/12",
+      "top10": "12/12",
+      "mrr": 1,
+      "recallAt10": 0.9583333333333334,
+      "leakageQuestions": 6,
+      "p50TotalMs": 1377.6639999999898,
+      "p95TotalMs": 2261.1684999999998,
+      "p50QueryEmbeddingMs": 574.7026000000042,
+      "p95QueryEmbeddingMs": 917.2868000000017
+    },
+    "callingPlans": {
+      "runId": "wb17l0-openai-callingplans-2026-08-08T16-40-52-360Z",
+      "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\spikes\\wb17l0-openai-callingplans-2026-08-08T16-40-52-360Z.json",
+      "top1": "5/5",
+      "top3": "5/5",
+      "top5": "5/5",
+      "top10": "5/5",
+      "mrr": 1,
+      "recallAt10": 1,
+      "leakageQuestions": 0,
+      "p50TotalMs": 830.4134000000049,
+      "p95TotalMs": 1301.9707000000053,
+      "p50QueryEmbeddingMs": 475.127800000002,
+      "p95QueryEmbeddingMs": 595.608699999997
+    }
+  },
+  "localRuns": null,
+  "rankingDifferences": [],
+  "decision": "D",
+  "decisionRationale": "Local embedding runtime/model could not be validated end-to-end in this Windows ARM64 environment; defer local-provider adoption.",
+  "productionEmbeddingsUnchanged": true,
+  "corpusUnchanged": true,
+  "retrievalPrecisionFrozen": true
+}

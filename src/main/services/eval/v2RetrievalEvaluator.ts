@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import {
+  type EmbeddingProvider,
   HostedOpenAiEmbeddingProvider,
   resolveEmbeddingRuntimeConfig,
   resolveKnowledgeV2DatabasePath
@@ -268,15 +269,29 @@ export async function runV2RetrievalEvaluation(params: {
   datasetPath: string;
   outputDir: string;
   v2DatabasePath?: string;
+  embeddingProvider?: EmbeddingProvider;
+  embeddingRuntimeConfig?: { model: string; embeddingSchemaVersion: string };
+  runIdPrefix?: string;
+  orchestrationMode?: "overlap_semantic_with_exact_lexical" | "sequential";
 }): Promise<{ artifact: V2EvalArtifact; artifactPath: string }> {
   const datasetPath = resolve(params.datasetPath);
   const outputDir = resolve(params.outputDir);
   const databasePath = resolve(params.v2DatabasePath ?? resolveKnowledgeV2DatabasePath());
-  const runtime = resolveEmbeddingRuntimeConfig();
-  const provider = new HostedOpenAiEmbeddingProvider({
-    defaultModel: runtime.model,
-    embeddingSchemaVersion: runtime.embeddingSchemaVersion
-  });
+  const runtime =
+    params.embeddingRuntimeConfig ??
+    (() => {
+      const resolved = resolveEmbeddingRuntimeConfig();
+      return {
+        model: resolved.model,
+        embeddingSchemaVersion: resolved.embeddingSchemaVersion
+      };
+    })();
+  const provider =
+    params.embeddingProvider ??
+    new HostedOpenAiEmbeddingProvider({
+      defaultModel: runtime.model,
+      embeddingSchemaVersion: runtime.embeddingSchemaVersion
+    });
   const dataset = await loadEvaluationDataset(datasetPath);
 
   const questions: EvaluatedQuestion[] = [];
@@ -291,7 +306,8 @@ export async function runV2RetrievalEvaluation(params: {
       databasePath,
       scope: route.scope,
       embeddingProvider: provider,
-      embeddingRuntimeConfig: runtime
+      embeddingRuntimeConfig: runtime,
+      orchestrationMode: params.orchestrationMode
     });
     const metrics = computeMetrics({
       question,
@@ -336,7 +352,8 @@ export async function runV2RetrievalEvaluation(params: {
     });
   }
 
-  const runId = `v2eval-${new Date().toISOString().replace(/[:.]/g, "-")}`;
+  const runIdPrefix = params.runIdPrefix ?? "v2eval";
+  const runId = `${runIdPrefix}-${new Date().toISOString().replace(/[:.]/g, "-")}`;
   const artifact: V2EvalArtifact = {
     artifactVersion: "1.0",
     runId,
