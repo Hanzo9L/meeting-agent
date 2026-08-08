@@ -170,6 +170,25 @@ async function seedHybridFixture(extraDirectRoutingChunks = 0): Promise<{
         path: "teams/teams-ps/MicrosoftTeams/remove-csonlinevoiceroutingpolicy.md"
       }
     }),
+    teamsPowerShellModule: fixtureDoc({
+      sourceId: "ms-teams-powershell",
+      trackId: "ga",
+      transport: "github",
+      canonicalUrl:
+        "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/MicrosoftTeams.md",
+      rawMarkdown: markdown(
+        "MicrosoftTeams Module",
+        "Module index listing Get-, Set-, Grant-, and Remove-* cmdlets for Teams administration."
+      ),
+      revision: {
+        transport: "github",
+        repository: "MicrosoftDocs/office-docs-powershell",
+        branch: "main",
+        commitSha: "wb16-ps-module-1",
+        blobSha: "wb16-ps-module-blob-1",
+        path: "teams/teams-ps/MicrosoftTeams/MicrosoftTeams.md"
+      }
+    }),
     entra: fixtureDoc({
       sourceId: "ms-entra-docs",
       trackId: "ga",
@@ -284,6 +303,13 @@ async function seedHybridFixture(extraDirectRoutingChunks = 0): Promise<{
       sourceOrder: 6
     },
     {
+      chunkId: "chunk-cmdlet-module-index",
+      documentId: docs.teamsPowerShellModule.documentId,
+      sectionId: "module-index",
+      text: "MicrosoftTeams module index includes Get-, Set-, Grant-, and Remove-* cmdlets.",
+      sourceOrder: 7
+    },
+    {
       chunkId: "chunk-ca-entra",
       documentId: docs.entra.documentId,
       sectionId: "conditional-access",
@@ -295,7 +321,7 @@ async function seedHybridFixture(extraDirectRoutingChunks = 0): Promise<{
       documentId: docs.teamsAdmin.documentId,
       sectionId: "teams-conditional-access-impact",
       text: "Teams admin guidance explains Conditional Access impact on Teams unmanaged devices.",
-      sourceOrder: 7
+      sourceOrder: 8
     },
     {
       chunkId: "chunk-graph-ga",
@@ -316,7 +342,7 @@ async function seedHybridFixture(extraDirectRoutingChunks = 0): Promise<{
       documentId: docs.teamsAdmin.documentId,
       sectionId: "holiday-message",
       text: "This section describes holiday messaging and is unrelated to voice routing cmdlets.",
-      sourceOrder: 8
+      sourceOrder: 9
     },
     {
       chunkId: "chunk-dev",
@@ -330,14 +356,14 @@ async function seedHybridFixture(extraDirectRoutingChunks = 0): Promise<{
       documentId: docs.teamsAdmin.documentId,
       sectionId: "tie-a",
       text: "Direct Routing tie chunk A.",
-      sourceOrder: 9
+      sourceOrder: 10
     },
     {
       chunkId: "chunk-tie-b",
       documentId: docs.teamsAdmin.documentId,
       sectionId: "tie-b",
       text: "Direct Routing tie chunk B.",
-      sourceOrder: 10
+      sourceOrder: 11
     }
   ];
   for (let i = 0; i < extraDirectRoutingChunks; i += 1) {
@@ -389,6 +415,7 @@ async function seedHybridFixture(extraDirectRoutingChunks = 0): Promise<{
     ["chunk-cmdlet-grant", withOffset(queryCmdlet.vector, 0.02)],
     ["chunk-cmdlet-get", withOffset(queryCmdlet.vector, 0.03)],
     ["chunk-cmdlet-remove", withOffset(queryCmdlet.vector, 0.025)],
+    ["chunk-cmdlet-module-index", withOffset(queryCmdlet.vector, 0.01)],
     ["chunk-ca-entra", normalize(queryConditional.vector)],
     ["chunk-ca-teams", withOffset(queryConditional.vector, 0.03)],
     ["chunk-graph-ga", withOffset(queryGraph.vector, 0.06)],
@@ -560,6 +587,16 @@ test("implicit set cmdlet intent discovers Set-* authority prominently", async (
       candidate.provenance.canonicalUrl.toLowerCase().includes("set-csonlinevoiceroutingpolicy")
     )
   );
+  const setCandidate = result.candidates.find((candidate) =>
+    candidate.provenance.canonicalUrl.toLowerCase().includes("set-csonlinevoiceroutingpolicy")
+  );
+  const moduleCandidate = result.candidates.find((candidate) =>
+    candidate.provenance.canonicalUrl.toLowerCase().endsWith("/microsoftteams.md")
+  );
+  assert.ok(setCandidate);
+  assert.ok(moduleCandidate);
+  assert.ok((setCandidate?.fusion.rank ?? 99) < (moduleCandidate?.fusion.rank ?? 99));
+  assert.ok((setCandidate?.fusion.contributions.implicitCmdletSpecificity ?? 0) > 0);
 });
 
 test("implicit get cmdlet intent discovers Get-* authority prominently", async () => {
@@ -576,6 +613,16 @@ test("implicit get cmdlet intent discovers Get-* authority prominently", async (
       candidate.provenance.canonicalUrl.toLowerCase().includes("get-csonlinevoiceroutingpolicy")
     )
   );
+  const getCandidate = result.candidates.find((candidate) =>
+    candidate.provenance.canonicalUrl.toLowerCase().includes("get-csonlinevoiceroutingpolicy")
+  );
+  const moduleCandidate = result.candidates.find((candidate) =>
+    candidate.provenance.canonicalUrl.toLowerCase().endsWith("/microsoftteams.md")
+  );
+  assert.ok(getCandidate);
+  assert.ok(moduleCandidate);
+  assert.ok((getCandidate?.fusion.rank ?? 99) < (moduleCandidate?.fusion.rank ?? 99));
+  assert.ok((getCandidate?.fusion.contributions.implicitCmdletSpecificity ?? 0) > 0);
 });
 
 test("implicit remove cmdlet intent can surface Remove-* authority", async () => {

@@ -16,6 +16,15 @@ import {
   type ScopedCandidateRow
 } from "./retrievalSqliteCommon";
 import {
+  cmdletOperationPrefixes,
+  extractObjectKeys,
+  isCanonicalCmdletDocument,
+  isCmdletDiscoveryQuestion,
+  isImplicitCmdletIntent,
+  objectAligned,
+  operationPrefixAligned
+} from "./implicitCmdletSignals";
+import {
   scoreSemanticVectors,
   type DecodedSemanticVectorRow
 } from "./semanticScorer";
@@ -23,6 +32,7 @@ import { buildSafeLexicalQueryForScope } from "./lexicalRetriever";
 
 type SemanticPreselectionReason =
   | "entity_title_shortlist"
+  | "powershell_cmdlet_specificity_shortlist"
   | "lexical_shortlist"
   | "powershell_operation_shortlist"
   | "scope_reserve";
@@ -300,26 +310,6 @@ function buildEntityTerms(scope: RetrievalScope): string[] {
   );
 }
 
-function powershellOperationPrefixes(scope: RetrievalScope): string[] {
-  const ops = new Set(scope.intent.operationIntents ?? []);
-  if (
-    scope.intent.normalizedQuestion.includes("which cmdlet") ||
-    scope.intent.normalizedQuestion.includes("powershell command") ||
-    scope.intent.normalizedQuestion.includes("powershell cmdlet")
-  ) {
-    ops.add("get");
-  }
-  const prefixes: string[] = [];
-  if (ops.has("grant")) prefixes.push("grant-");
-  if (ops.has("set")) prefixes.push("set-");
-  if (ops.has("get")) prefixes.push("get-");
-  if (ops.has("remove")) prefixes.push("remove-");
-  if (ops.has("new")) prefixes.push("new-");
-  if (ops.has("enable")) prefixes.push("enable-", "disable-");
-  if (ops.has("test")) prefixes.push("test-");
-  return [...new Set(prefixes)];
-}
-
 function fetchEntityTitleRows(params: {
   db: ReturnType<typeof createSqliteConnection>;
   scopeSql: string;
@@ -443,6 +433,50 @@ function fetchPowerShellOperationRows(params: {
   }));
 }
 
+function fetchPowerShellSpecificCmdletRows(params: {
+  db: ReturnType<typeof createSqliteConnection>;
+  scopeSql: string;
+  scopeParams: string[];
+  pairOrderSql: string;
+  pairOrderParams: string[];
+  scope: RetrievalScope;
+  limit: number;
+}): PreselectedChunkRow[] {
+  if (params.limit <= 0 || !isImplicitCmdletIntent(params.scope.intent)) return [];
+  const prefixes = cmdletOperationPrefixes(params.scope.intent);
+  const objectKeys = extractObjectKeys(params.scope.intent);
+  if (prefixes.length === 0 || objectKeys.length === 0) return [];
+  const rows = params.db
+    .prepare(
+      `
+      ${scopedSelectSql(params.scopeSql, params.pairOrderSql)}
+      LIMIT ?
+    `
+    )
+    .all(
+      ...params.scopeParams,
+      ...params.pairOrderParams,
+      Math.max(params.limit * 3, params.limit)
+    ) as Array<Omit<PreselectedChunkRow, "preselection_reason">>;
+  const shortlisted = rows
+    .filter((row) => {
+      const title = row.title ?? "";
+      const url = row.canonical_url ?? "";
+      return (
+        row.source_id === "ms-teams-powershell" &&
+        isCanonicalCmdletDocument(title, url) &&
+        operationPrefixAligned(prefixes, title, url) &&
+        objectAligned(objectKeys, title, url)
+      );
+    })
+    .slice(0, params.limit)
+    .map((row) => ({
+      ...row,
+      preselection_reason: "powershell_cmdlet_specificity_shortlist" as const
+    }));
+  return shortlisted;
+}
+
 function fetchReserveRows(params: {
   db: ReturnType<typeof createSqliteConnection>;
   scopeSql: string;
@@ -469,8 +503,10 @@ function fetchReserveRows(params: {
 }
 
 function composePreselectionPool(params: {
+  scope: RetrievalScope;
   budget: number;
   entityRows: PreselectedChunkRow[];
+  powershellSpecificRows: PreselectedChunkRow[];
   lexicalRows: PreselectedChunkRow[];
   powershellRows: PreselectedChunkRow[];
   reserveRows: PreselectedChunkRow[];
@@ -481,17 +517,25 @@ function composePreselectionPool(params: {
   const selected = new Map<string, PreselectedChunkRow>();
   const reasonCounts: Record<SemanticPreselectionReason, number> = {
     entity_title_shortlist: 0,
+    powershell_cmdlet_specificity_shortlist: 0,
     lexical_shortlist: 0,
     powershell_operation_shortlist: 0,
     scope_reserve: 0
   };
-  const entityCap = Math.min(params.budget, Math.max(0, Math.floor(params.budget * 0.25)));
+  const cmdletSpecificCap = Math.min(
+    params.budget,
+    isCmdletDiscoveryQuestion(params.scope.intent) ? Math.max(0, Math.floor(params.budget * 0.15)) : 0
+  );
+  const entityCap = Math.min(
+    params.budget - cmdletSpecificCap,
+    Math.max(0, Math.floor(params.budget * 0.25))
+  );
   const lexicalCap = Math.min(
-    params.budget - entityCap,
+    params.budget - cmdletSpecificCap - entityCap,
     Math.max(0, Math.floor(params.budget * 0.45))
   );
   const powershellCap = Math.min(
-    params.budget - entityCap - lexicalCap,
+    params.budget - cmdletSpecificCap - entityCap - lexicalCap,
     Math.max(0, Math.floor(params.budget * 0.2))
   );
 
@@ -505,6 +549,7 @@ function composePreselectionPool(params: {
     }
   };
 
+  take(params.powershellSpecificRows, cmdletSpecificCap);
   take(params.entityRows, entityCap);
   take(params.lexicalRows, lexicalCap);
   take(params.powershellRows, powershellCap);
@@ -562,6 +607,7 @@ export async function retrieveSemanticCandidates(params: {
     embeddingIdentity: defaultEmbeddingIdentity(params.embeddingProvider.providerId),
     preselectionReasonCounts: {
       entity_title_shortlist: 0,
+      powershell_cmdlet_specificity_shortlist: 0,
       lexical_shortlist: 0,
       powershell_operation_shortlist: 0,
       scope_reserve: 0
@@ -640,6 +686,15 @@ export async function retrieveSemanticCandidates(params: {
       entityTerms: buildEntityTerms(params.scope),
       limit: params.scope.candidateBudget.maxSemanticCandidates
     });
+    const powershellSpecificRows = fetchPowerShellSpecificCmdletRows({
+      db,
+      scopeSql: scopeFilter.sql,
+      scopeParams: scopeFilter.params,
+      pairOrderSql: pairOrder.sql,
+      pairOrderParams: pairOrder.params,
+      scope: params.scope,
+      limit: params.scope.candidateBudget.maxSemanticCandidates
+    });
     const lexicalRows = fetchLexicalRows({
       db,
       scopeSql: scopeFilter.sql,
@@ -653,7 +708,7 @@ export async function retrieveSemanticCandidates(params: {
       scopeParams: scopeFilter.params,
       pairOrderSql: pairOrder.sql,
       pairOrderParams: pairOrder.params,
-      cmdletPrefixes: powershellOperationPrefixes(params.scope),
+      cmdletPrefixes: cmdletOperationPrefixes(params.scope.intent),
       limit: params.scope.candidateBudget.maxSemanticCandidates
     });
     const reserveRows = fetchReserveRows({
@@ -666,7 +721,9 @@ export async function retrieveSemanticCandidates(params: {
     });
     const pool = composePreselectionPool({
       budget: params.scope.candidateBudget.maxSemanticCandidates,
+      scope: params.scope,
       entityRows,
+      powershellSpecificRows,
       lexicalRows,
       powershellRows,
       reserveRows

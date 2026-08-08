@@ -16,6 +16,7 @@ import type {
   ScopeMode,
   SourceRouteScope
 } from "./domainRouter";
+import { isImplicitCmdletIntent } from "./implicitCmdletSignals";
 
 type BudgetProfile = "narrow" | "cross_domain" | "broad";
 
@@ -80,25 +81,6 @@ function hasDeveloperSignals(intent: QueryIntent): boolean {
       )
     )
   );
-}
-
-function isImplicitCmdletIntent(intent: QueryIntent): boolean {
-  if ((intent.commandNames ?? []).length > 0) return false;
-  const hasOp = (intent.operationIntents ?? []).some((op) =>
-    ["grant", "set", "get", "remove", "new", "test"].includes(op)
-  );
-  const hasCmdletSignal =
-    intent.normalizedQuestion.includes("which cmdlet") ||
-    intent.normalizedQuestion.includes("powershell command") ||
-    intent.normalizedQuestion.includes("powershell cmdlet") ||
-    intent.normalizedQuestion.includes("which command");
-  const hasPowerShellWord = intent.normalizedQuestion.includes("powershell");
-  const hasTechnicalTarget = intent.entities.some((entity) =>
-    ["policy", "routing", "voice", "meeting", "calling", "external access", "guest access"].some((hint) =>
-      entity.toLowerCase().includes(hint)
-    )
-  );
-  return hasTechnicalTarget && (hasCmdletSignal || (hasPowerShellWord && hasOp));
 }
 
 function inferPrimaryDomain(intent: QueryIntent): SourceDomain {

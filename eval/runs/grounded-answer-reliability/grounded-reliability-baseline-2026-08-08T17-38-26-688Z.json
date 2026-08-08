@@ -1,0 +1,533 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "grounded-reliability-baseline-2026-08-08T17-38-26-688Z",
+  "createdAt": "2026-08-08T17:38:26.688Z",
+  "mode": "baseline",
+  "model": "gpt-4o-mini",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\grounded-answer-wb20.jsonl",
+  "summary": {
+    "total": 10,
+    "validFirstAttempt": 2,
+    "invalidFirstAttempt": 8,
+    "finalValid": 2,
+    "firstAttemptGenerationP50": 6910,
+    "firstAttemptGenerationP95": 11105,
+    "totalLatencyP50": 6911,
+    "totalLatencyP95": 11106,
+    "failureCategories": {
+      "missing_mandatory_claim": 30
+    },
+    "requests": 10,
+    "retries": 0,
+    "inputTokens": 28682,
+    "outputTokens": 4453
+  },
+  "cases": [
+    {
+      "questionId": "GA-001",
+      "question": "How does Teams Direct Routing voice routing work?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 4,
+      "missingMandatoryClaims": [
+        "claim:1:evidence:1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be",
+        "claim:2:evidence:878d9b379b242c24dffef57c81eb9b41a0a070e757e3dcf04aedaca3a5b78728",
+        "claim:4:evidence:4ff02a22f7fa04b76462612c58b951dc052fd812ac68856295fff09b9e727486",
+        "claim:6:evidence:f90f1645e847b97c124dc4fa6309dc47df351031baf42552275889d2d95f8b3e"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:1:evidence:1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be",
+          "claimId": "claim:1:evidence:1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:2:evidence:878d9b379b242c24dffef57c81eb9b41a0a070e757e3dcf04aedaca3a5b78728",
+          "claimId": "claim:2:evidence:878d9b379b242c24dffef57c81eb9b41a0a070e757e3dcf04aedaca3a5b78728"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:4:evidence:4ff02a22f7fa04b76462612c58b951dc052fd812ac68856295fff09b9e727486",
+          "claimId": "claim:4:evidence:4ff02a22f7fa04b76462612c58b951dc052fd812ac68856295fff09b9e727486"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:6:evidence:f90f1645e847b97c124dc4fa6309dc47df351031baf42552275889d2d95f8b3e",
+          "claimId": "claim:6:evidence:f90f1645e847b97c124dc4fa6309dc47df351031baf42552275889d2d95f8b3e"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 6810,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 6810
+      },
+      "tokenUsage": {
+        "inputTokens": 3277,
+        "outputTokens": 428,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-002",
+      "question": "How do Microsoft Teams Calling Plans work?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 5,
+      "missingMandatoryClaims": [
+        "claim:2:evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0",
+        "claim:7:evidence:562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d",
+        "claim:6:evidence:f36facdda644c8ca2f01519515c78ffeed339ad38e190fe1dd655842973f00a6"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:2:evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0",
+          "claimId": "claim:2:evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:7:evidence:562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d",
+          "claimId": "claim:7:evidence:562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:6:evidence:f36facdda644c8ca2f01519515c78ffeed339ad38e190fe1dd655842973f00a6",
+          "claimId": "claim:6:evidence:f36facdda644c8ca2f01519515c78ffeed339ad38e190fe1dd655842973f00a6"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 8976,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 8977
+      },
+      "tokenUsage": {
+        "inputTokens": 2918,
+        "outputTokens": 428,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-003",
+      "question": "How do I set up Microsoft Teams Calling Plans?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 4,
+      "missingMandatoryClaims": [
+        "claim:1:evidence:c00982f9305c9968348144bf50fe2b712df20f943620af55d1e28210870be228",
+        "claim:2:evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0",
+        "claim:5:evidence:09577a9591aec2c6c8348f8d49f781324f4346f7b978125d4bd682af41492041",
+        "claim:7:evidence:562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:1:evidence:c00982f9305c9968348144bf50fe2b712df20f943620af55d1e28210870be228",
+          "claimId": "claim:1:evidence:c00982f9305c9968348144bf50fe2b712df20f943620af55d1e28210870be228"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:2:evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0",
+          "claimId": "claim:2:evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:5:evidence:09577a9591aec2c6c8348f8d49f781324f4346f7b978125d4bd682af41492041",
+          "claimId": "claim:5:evidence:09577a9591aec2c6c8348f8d49f781324f4346f7b978125d4bd682af41492041"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:7:evidence:562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d",
+          "claimId": "claim:7:evidence:562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 6910,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 6911
+      },
+      "tokenUsage": {
+        "inputTokens": 2916,
+        "outputTokens": 453,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-004",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 3,
+      "missingMandatoryClaims": [
+        "claim:4:evidence:b0875869446ffcceddd37fac7f1ff48d544fea91ab2ca130a232a2d291ff61f2",
+        "claim:5:evidence:e3cdcbebbbaca1bbcabe62d98be18b01052c1af421b1a8ba645c2368f0b9c1f3",
+        "claim:6:evidence:50dc6aad3a3a9f5f953448044a7f674622409149595d08746631e554392c7d09",
+        "claim:7:evidence:81a69594760bafec0cbeff01bee34613115f929578a0d1f0de18da28fe8785f9",
+        "claim:8:evidence:a37815ea86b92cb64f1a7260bc20eba33cd03ca5253284bf650dc6915faee648"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "unresolved_conflict"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:4:evidence:b0875869446ffcceddd37fac7f1ff48d544fea91ab2ca130a232a2d291ff61f2",
+          "claimId": "claim:4:evidence:b0875869446ffcceddd37fac7f1ff48d544fea91ab2ca130a232a2d291ff61f2"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:5:evidence:e3cdcbebbbaca1bbcabe62d98be18b01052c1af421b1a8ba645c2368f0b9c1f3",
+          "claimId": "claim:5:evidence:e3cdcbebbbaca1bbcabe62d98be18b01052c1af421b1a8ba645c2368f0b9c1f3"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:6:evidence:50dc6aad3a3a9f5f953448044a7f674622409149595d08746631e554392c7d09",
+          "claimId": "claim:6:evidence:50dc6aad3a3a9f5f953448044a7f674622409149595d08746631e554392c7d09"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:7:evidence:81a69594760bafec0cbeff01bee34613115f929578a0d1f0de18da28fe8785f9",
+          "claimId": "claim:7:evidence:81a69594760bafec0cbeff01bee34613115f929578a0d1f0de18da28fe8785f9"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:8:evidence:a37815ea86b92cb64f1a7260bc20eba33cd03ca5253284bf650dc6915faee648",
+          "claimId": "claim:8:evidence:a37815ea86b92cb64f1a7260bc20eba33cd03ca5253284bf650dc6915faee648"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 8923,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 8923
+      },
+      "tokenUsage": {
+        "inputTokens": 2916,
+        "outputTokens": 472,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-005",
+      "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 3,
+      "missingMandatoryClaims": [
+        "claim:3:evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+        "claim:4:evidence:6a9838d0ea748aeb579cf6963d46c91c063ed512ed1e68c80e7f48b91172caa0",
+        "claim:6:evidence:a7e7af7f039e225298da252232559c45d73726cff118280f6a12f06a4ba80994",
+        "claim:7:evidence:03cfeb24ec8eb967a2db8d6b19fcb7d4eaff75837c4d99f38c798cfcf925cd3e",
+        "claim:5:evidence:330dee9f61ab990c3fdebb678ea68e37fd72fc0765cd6966c67f22e0001508b5"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:3:evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "claimId": "claim:3:evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:4:evidence:6a9838d0ea748aeb579cf6963d46c91c063ed512ed1e68c80e7f48b91172caa0",
+          "claimId": "claim:4:evidence:6a9838d0ea748aeb579cf6963d46c91c063ed512ed1e68c80e7f48b91172caa0"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:6:evidence:a7e7af7f039e225298da252232559c45d73726cff118280f6a12f06a4ba80994",
+          "claimId": "claim:6:evidence:a7e7af7f039e225298da252232559c45d73726cff118280f6a12f06a4ba80994"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:7:evidence:03cfeb24ec8eb967a2db8d6b19fcb7d4eaff75837c4d99f38c798cfcf925cd3e",
+          "claimId": "claim:7:evidence:03cfeb24ec8eb967a2db8d6b19fcb7d4eaff75837c4d99f38c798cfcf925cd3e"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:5:evidence:330dee9f61ab990c3fdebb678ea68e37fd72fc0765cd6966c67f22e0001508b5",
+          "claimId": "claim:5:evidence:330dee9f61ab990c3fdebb678ea68e37fd72fc0765cd6966c67f22e0001508b5"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 6135,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 6135
+      },
+      "tokenUsage": {
+        "inputTokens": 3211,
+        "outputTokens": 376,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-006",
+      "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+      "answerability": "insufficient_evidence",
+      "mandatoryClaims": 0,
+      "realizedClaims": 0,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "exact_identifier_unverified"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 2852,
+        "validator": 1,
+        "retryGeneration": null,
+        "total": 2853
+      },
+      "tokenUsage": {
+        "inputTokens": 629,
+        "outputTokens": 152,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-007",
+      "question": "How do Teams meeting policies work?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 7,
+      "missingMandatoryClaims": [
+        "claim:8:evidence:b74b5fce4bc831fae84e8d382356cba9025f348131edb44093b7bc3d8f02ba20"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:8:evidence:b74b5fce4bc831fae84e8d382356cba9025f348131edb44093b7bc3d8f02ba20",
+          "claimId": "claim:8:evidence:b74b5fce4bc831fae84e8d382356cba9025f348131edb44093b7bc3d8f02ba20"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 9240,
+        "validator": 1,
+        "retryGeneration": null,
+        "total": 9241
+      },
+      "tokenUsage": {
+        "inputTokens": 2938,
+        "outputTokens": 580,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-008",
+      "question": "How does external access in Teams work?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 5,
+      "missingMandatoryClaims": [
+        "claim:4:evidence:5571c11c4e030706aa952691bea86345b8335759077834f404d78ce0c6fbc88e",
+        "claim:8:evidence:17f458d40d788dcb4bb0a4b1d77e24a2e102874dfa89be977c9adee749e382df",
+        "claim:2:evidence:64003d7cbb9099bbc2f92798645500fffc0f901f1106eef46573842f53ef3843"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:4:evidence:5571c11c4e030706aa952691bea86345b8335759077834f404d78ce0c6fbc88e",
+          "claimId": "claim:4:evidence:5571c11c4e030706aa952691bea86345b8335759077834f404d78ce0c6fbc88e"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:8:evidence:17f458d40d788dcb4bb0a4b1d77e24a2e102874dfa89be977c9adee749e382df",
+          "claimId": "claim:8:evidence:17f458d40d788dcb4bb0a4b1d77e24a2e102874dfa89be977c9adee749e382df"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:2:evidence:64003d7cbb9099bbc2f92798645500fffc0f901f1106eef46573842f53ef3843",
+          "claimId": "claim:2:evidence:64003d7cbb9099bbc2f92798645500fffc0f901f1106eef46573842f53ef3843"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 7599,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 7599
+      },
+      "tokenUsage": {
+        "inputTokens": 3184,
+        "outputTokens": 499,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-009",
+      "question": "How does Teams Conditional Access work for guest and unmanaged devices?",
+      "answerability": "partial",
+      "mandatoryClaims": 8,
+      "realizedClaims": 3,
+      "missingMandatoryClaims": [
+        "claim:7:evidence:1e06ab7276f8736ec75bb1fff159241e61b9d73454f18cfd3de6a31fe2a1280f",
+        "claim:8:evidence:98f7bc4668339fe53d63fbe4f26381f09dc0c9d9cacbc25ad6bbe7d28a9bf6df",
+        "claim:4:evidence:f7d93b0b1576e57f2ad9c63a864d92a8306b6dcae612d7055f900b26f8f40d10",
+        "claim:5:evidence:b045de6fde3f50f8c1fcc0663c3a80f0aacf4fa3a5bc4eb38b395bb96f076801",
+        "claim:1:evidence:e632d7f3978624026e601168f5e89357d42d44d5ae402548ceeacd3f7b9a8ef4"
+      ],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "partial_coverage",
+        "missing_adjacent_authority"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": false,
+      "firstAttemptIssues": [
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:7:evidence:1e06ab7276f8736ec75bb1fff159241e61b9d73454f18cfd3de6a31fe2a1280f",
+          "claimId": "claim:7:evidence:1e06ab7276f8736ec75bb1fff159241e61b9d73454f18cfd3de6a31fe2a1280f"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:8:evidence:98f7bc4668339fe53d63fbe4f26381f09dc0c9d9cacbc25ad6bbe7d28a9bf6df",
+          "claimId": "claim:8:evidence:98f7bc4668339fe53d63fbe4f26381f09dc0c9d9cacbc25ad6bbe7d28a9bf6df"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:4:evidence:f7d93b0b1576e57f2ad9c63a864d92a8306b6dcae612d7055f900b26f8f40d10",
+          "claimId": "claim:4:evidence:f7d93b0b1576e57f2ad9c63a864d92a8306b6dcae612d7055f900b26f8f40d10"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:5:evidence:b045de6fde3f50f8c1fcc0663c3a80f0aacf4fa3a5bc4eb38b395bb96f076801",
+          "claimId": "claim:5:evidence:b045de6fde3f50f8c1fcc0663c3a80f0aacf4fa3a5bc4eb38b395bb96f076801"
+        },
+        {
+          "code": "missing_mandatory_claim",
+          "message": "Mandatory claim missing: claim:1:evidence:e632d7f3978624026e601168f5e89357d42d44d5ae402548ceeacd3f7b9a8ef4",
+          "claimId": "claim:1:evidence:e632d7f3978624026e601168f5e89357d42d44d5ae402548ceeacd3f7b9a8ef4"
+        }
+      ],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": false,
+      "latencyMs": {
+        "firstGeneration": 6804,
+        "validator": 1,
+        "retryGeneration": null,
+        "total": 6805
+      },
+      "tokenUsage": {
+        "inputTokens": 3466,
+        "outputTokens": 408,
+        "requestCount": 1,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GA-010",
+      "question": "Is this Teams admin setting currently available in GA right now?",
+      "answerability": "partial",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "partial_coverage",
+        "freshness_verification_required"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 11105,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 11106
+      },
+      "tokenUsage": {
+        "inputTokens": 3227,
+        "outputTokens": 657,
+        "requestCount": 1,
+        "retries": 0
+      }
+    }
+  ]
+}

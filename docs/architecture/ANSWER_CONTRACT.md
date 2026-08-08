@@ -11,8 +11,7 @@ interface EvidenceBundle {
   evidence: EvidenceItem[];
   conflicts: EvidenceConflict[];
   freshnessStatus: "current" | "possibly_stale" | "stale" | "unknown";
-  confidence: number; // evidence confidence, not model confidence
-  answerability: "answer" | "answer_with_caveat" | "insufficient_evidence";
+  answerability: "answered" | "partial" | "insufficient_evidence";
 }
 
 interface EvidenceItem {
@@ -35,6 +34,17 @@ interface EvidenceItem {
   supportLevel: "direct" | "partial" | "contextual";
 }
 ```
+
+---
+
+## Contract reconciliation note
+
+This contract aligns with accepted AD-07 and the approved WB-18 work breakdown:
+
+- `EvidenceBundle.answerability` uses `answered | partial | insufficient_evidence`
+- `EvidenceBundle` does not include a global numeric confidence field
+
+Interpretability is provided by explicit evidence conditions (authority, coverage, freshness, conflicts, exact-identifier validation, and provenance completeness) rather than a guessed global threshold.
 
 ---
 

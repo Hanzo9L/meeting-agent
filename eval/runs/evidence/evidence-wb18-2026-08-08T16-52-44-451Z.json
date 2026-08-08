@@ -1,0 +1,466 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "evidence-wb18-2026-08-08T16-52-44-451Z",
+  "createdAt": "2026-08-08T16:52:44.451Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\evidence-wb18.jsonl",
+  "summary": {
+    "total": 8,
+    "answerabilityMatch": 6,
+    "requiredSourcesMatch": 8,
+    "requiredUrlsMatch": 2,
+    "prohibitedUrlsPass": 8,
+    "exactVerificationMatch": 8,
+    "totalLatencyMsP50": 9.069,
+    "totalLatencyMsP95": 15.951
+  },
+  "cases": [
+    {
+      "questionId": "E-001",
+      "question": "How does Teams Direct Routing voice routing work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "partial",
+      "pass": false,
+      "checks": {
+        "answerability": false,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure Direct Routing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure Direct Routing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage call routing policies for Direct Routing",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-002",
+      "question": "How do Microsoft Teams Calling Plans work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": false,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Microsoft Teams Calling Plans",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Microsoft Teams Calling Plans",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Set up Microsoft Calling Plans",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Set up Microsoft Calling Plans",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Emergency calling considerations for Microsoft Calling Plans",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Emergency calling considerations for Microsoft Calling Plans",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-003",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": false,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "MicrosoftTeams PowerShell module",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "New-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Remove-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Grant-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage call routing policies for Direct Routing",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-004",
+      "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "partial",
+      "pass": false,
+      "checks": {
+        "answerability": false,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Grant-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Grant-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "New-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Remove-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "MicrosoftTeams PowerShell module",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-005",
+      "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+      "expectedAnswerability": "insufficient_evidence",
+      "actualAnswerability": "insufficient_evidence",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "MicrosoftTeams PowerShell module",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Remove-CsUserCallingDelegate",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsUserCallingDelegate",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Remove-CsTeamsCortanaPolicy",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Remove-CsOnlinePSTNGateway",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsUserCallingDelegate",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Disable-CsOnlineSipDomain",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Remove-CsPhoneNumberSmsActivation",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-006",
+      "question": "How do Teams meeting policies work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": false,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting policies for content sharing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting policies for content sharing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting policies for content sharing",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting and events policies in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting and events policies in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Meeting policy settings for audio & video",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Meeting policy settings for audio & video",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting policies for content sharing",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-007",
+      "question": "How does external access work in Teams?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": false,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Chat, teams, channels, & apps in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Chat, teams, channels, & apps in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "IT Admins - Manage lobby options in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Guest access in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "IT Admins - Manage lobby options in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage meeting policies for content sharing",
+          "canonicalUrl": ""
+        }
+      ]
+    },
+    {
+      "questionId": "E-008",
+      "question": "How does Conditional Access affect Teams on unmanaged devices?",
+      "expectedAnswerability": "partial",
+      "actualAnswerability": "partial",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Chat, teams, channels, & apps in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Chat, teams, channels, & apps in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage devices in Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage Teams phones",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Guest access in Microsoft Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage devices in Teams",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Transitioning Teams Android Device Management from Teams Admin Center to the Teams Rooms Pro Management Portal",
+          "canonicalUrl": ""
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+          "canonicalUrl": ""
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,16 @@ import {
   type ScopedCandidateRow
 } from "./retrievalSqliteCommon";
 import { ensureNotAborted } from "./retrievalAbort";
+import {
+  cmdletOperationPrefixes,
+  extractObjectKeys,
+  isCanonicalCmdletDocument,
+  isCmdletDiscoveryQuestion,
+  isModuleIndexDocument,
+  isImplicitCmdletIntent,
+  objectAligned,
+  operationPrefixAligned
+} from "./implicitCmdletSignals";
 
 const STOPWORDS = new Set([
   "the",
@@ -44,6 +54,8 @@ interface RankedLexicalRow extends LexicalRow {
   lexical_adjusted_score: number;
   concept_hits: number;
   powershell_operation_hit: boolean;
+  implicit_cmdlet_specificity_hit: boolean;
+  module_index_penalty_hit: boolean;
 }
 
 export interface LexicalRetrievalResult {
@@ -129,29 +141,12 @@ function buildTechnicalConcepts(scope: RetrievalScope): string[][] {
   return [...concepts].map((concept) => tokenizeForMatch(concept)).filter((tokens) => tokens.length >= 2);
 }
 
-function operationPrefixes(scope: RetrievalScope): string[] {
-  const operations = new Set(scope.intent.operationIntents ?? []);
-  if (
-    scope.intent.normalizedQuestion.includes("which cmdlet") ||
-    scope.intent.normalizedQuestion.includes("powershell command") ||
-    scope.intent.normalizedQuestion.includes("powershell cmdlet")
-  ) {
-    operations.add("get");
-  }
-  const prefixes: string[] = [];
-  if (operations.has("grant")) prefixes.push("grant-");
-  if (operations.has("set")) prefixes.push("set-");
-  if (operations.has("get")) prefixes.push("get-");
-  if (operations.has("remove")) prefixes.push("remove-");
-  if (operations.has("new")) prefixes.push("new-");
-  if (operations.has("enable")) prefixes.push("enable-", "disable-");
-  if (operations.has("test")) prefixes.push("test-");
-  return [...new Set(prefixes)];
-}
-
 function rankLexicalRows(scope: RetrievalScope, rows: LexicalRow[]): RankedLexicalRow[] {
   const concepts = buildTechnicalConcepts(scope);
-  const prefixes = operationPrefixes(scope);
+  const prefixes = cmdletOperationPrefixes(scope.intent);
+  const objectKeys = extractObjectKeys(scope.intent);
+  const implicitCmdlet = isImplicitCmdletIntent(scope.intent);
+  const cmdletDiscovery = isCmdletDiscoveryQuestion(scope.intent);
   const cmdletIntent =
     scope.intent.normalizedQuestion.includes("which cmdlet") ||
     scope.intent.normalizedQuestion.includes("powershell command") ||
@@ -163,17 +158,32 @@ function rankLexicalRows(scope: RetrievalScope, rows: LexicalRow[]): RankedLexic
       return matches ? count + 1 : count;
     }, 0);
     const titleLower = (row.title ?? "").toLowerCase();
+    const canonicalUrl = row.canonical_url ?? "";
+    const canonicalCmdlet = isCanonicalCmdletDocument(row.title ?? "", canonicalUrl);
+    const opAligned = operationPrefixAligned(prefixes, row.title ?? "", canonicalUrl);
+    const objectMatch = objectAligned(objectKeys, row.title ?? "", canonicalUrl);
+    const specificityHit = implicitCmdlet && canonicalCmdlet && opAligned && objectMatch;
+    const moduleIndexPenalty =
+      cmdletDiscovery &&
+      row.source_id === "ms-teams-powershell" &&
+      isModuleIndexDocument(row.title ?? "", canonicalUrl);
     const powershellOperationHit =
       cmdletIntent &&
       row.source_id === "ms-teams-powershell" &&
       prefixes.some((prefix) => titleLower.startsWith(prefix));
     const adjusted =
-      row.lexical_score - conceptHits * 0.75 - (powershellOperationHit ? 1.15 : 0);
+      row.lexical_score -
+      conceptHits * 0.75 -
+      (powershellOperationHit ? 1.15 : 0) -
+      (specificityHit ? 4.25 : 0) +
+      (moduleIndexPenalty ? 2.75 : 0);
     return {
       ...row,
       lexical_adjusted_score: adjusted,
       concept_hits: conceptHits,
-      powershell_operation_hit: powershellOperationHit
+      powershell_operation_hit: powershellOperationHit || specificityHit,
+      implicit_cmdlet_specificity_hit: specificityHit,
+      module_index_penalty_hit: moduleIndexPenalty
     };
   });
   ranked.sort((a, b) => {
@@ -295,6 +305,12 @@ export function retrieveLexicalCandidates(params: {
       }
       if (row.powershell_operation_hit) {
         retrievalReasons.push("lexical_powershell_operation_match");
+      }
+      if (row.implicit_cmdlet_specificity_hit) {
+        retrievalReasons.push("lexical_implicit_cmdlet_specificity");
+      }
+      if (row.module_index_penalty_hit) {
+        retrievalReasons.push("lexical_module_index_deprioritized");
       }
       return {
         candidateId: makeCandidateId(["lexical", row.chunk_id, String(row.lexical_score)]),

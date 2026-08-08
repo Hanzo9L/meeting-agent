@@ -1,5 +1,14 @@
 import type { QueryIntent } from "./queryIntent";
 import type { RetrievalCandidate } from "./retrievalCandidates";
+import {
+  cmdletOperationPrefixes,
+  extractObjectKeys,
+  isCanonicalCmdletDocument,
+  isCmdletDiscoveryQuestion,
+  isModuleIndexDocument,
+  objectAligned,
+  operationPrefixAligned
+} from "./implicitCmdletSignals";
 
 export const HYBRID_FUSION_POLICY = {
   finalCandidateCap: 24,
@@ -13,7 +22,9 @@ export const HYBRID_FUSION_POLICY = {
   matchingAuthorityRoleBonus: 6,
   nonMatchingAuthorityRoleBonus: 1,
   betaExplicitIntentBonus: 5,
-  betaGeneralPenalty: -3
+  betaGeneralPenalty: -3,
+  implicitCmdletSpecificityBonus: 12,
+  implicitCmdletModulePenalty: -6
 } as const;
 
 export interface CandidateMethodSignals {
@@ -41,6 +52,7 @@ export interface FusionContributionBreakdown {
   routePriority: number;
   authorityRole: number;
   betaPolicy: number;
+  implicitCmdletSpecificity: number;
   total: number;
 }
 
@@ -102,6 +114,9 @@ export function scoreHybridCandidate(params: {
   );
   const explicitBetaIntent = hasExplicitBetaIntent(params.intent);
   const sourceStatus = params.candidate.authority.sourceStatus;
+  const cmdletDiscovery = isCmdletDiscoveryQuestion(params.intent);
+  const prefixes = cmdletOperationPrefixes(params.intent);
+  const objectKeys = extractObjectKeys(params.intent);
 
   const exactScore =
     params.methodSignals.exact.score === null
@@ -131,6 +146,28 @@ export function scoreHybridCandidate(params: {
       ? HYBRID_FUSION_POLICY.betaExplicitIntentBonus
       : HYBRID_FUSION_POLICY.betaGeneralPenalty;
   }
+  let implicitCmdletSpecificity = 0;
+  if (cmdletDiscovery) {
+    const title = params.candidate.title ?? "";
+    const url = params.candidate.provenance.canonicalUrl;
+    const canonicalCmdlet = isCanonicalCmdletDocument(title, url);
+    const opAligned = operationPrefixAligned(prefixes, title, url);
+    const objectMatch = objectAligned(objectKeys, title, url);
+    const moduleIndex = isModuleIndexDocument(title, url);
+    if (
+      params.candidate.authority.sourceId === "ms-teams-powershell" &&
+      canonicalCmdlet &&
+      opAligned &&
+      objectMatch
+    ) {
+      implicitCmdletSpecificity = HYBRID_FUSION_POLICY.implicitCmdletSpecificityBonus;
+    } else if (
+      params.candidate.authority.sourceId === "ms-teams-powershell" &&
+      moduleIndex
+    ) {
+      implicitCmdletSpecificity = HYBRID_FUSION_POLICY.implicitCmdletModulePenalty;
+    }
+  }
 
   const total =
     exactScore +
@@ -139,7 +176,8 @@ export function scoreHybridCandidate(params: {
     methodAgreement +
     routePriority +
     authorityRole +
-    betaPolicy;
+    betaPolicy +
+    implicitCmdletSpecificity;
 
   const warnings: HybridPolicyWarning[] = [];
   if (params.candidate.authority.routePriority === "primary" && exactScore === 0 && lexicalRank === 0 && semanticRank === 0) {
@@ -158,6 +196,7 @@ export function scoreHybridCandidate(params: {
       routePriority,
       authorityRole,
       betaPolicy,
+      implicitCmdletSpecificity,
       total
     },
     warnings

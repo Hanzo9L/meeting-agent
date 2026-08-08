@@ -1,0 +1,276 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "grounded-reliability-post_hardening-2026-08-08T17-54-41-628Z",
+  "createdAt": "2026-08-08T17:54:41.628Z",
+  "mode": "post_hardening",
+  "model": "gpt-4o-mini",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\grounded-generation-holdout-v1.jsonl",
+  "summary": {
+    "total": 8,
+    "validFirstAttempt": 8,
+    "invalidFirstAttempt": 0,
+    "finalValid": 8,
+    "firstAttemptGenerationP50": 1176,
+    "firstAttemptGenerationP95": 1461,
+    "totalLatencyP50": 3565,
+    "totalLatencyP95": 4366,
+    "failureCategories": {},
+    "requests": 55,
+    "retries": 0,
+    "inputTokens": 29570,
+    "outputTokens": 4449
+  },
+  "cases": [
+    {
+      "questionId": "GH1-001",
+      "question": "Explain Teams Direct Routing at a high level for voice admins.",
+      "answerability": "answered",
+      "mandatoryClaims": 7,
+      "realizedClaims": 7,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 1461,
+        "validator": 1,
+        "retryGeneration": null,
+        "total": 4366
+      },
+      "tokenUsage": {
+        "inputTokens": 4301,
+        "outputTokens": 684,
+        "requestCount": 7,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-002",
+      "question": "Give me the core steps to configure Microsoft Teams Calling Plans.",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 1186,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 3687
+      },
+      "tokenUsage": {
+        "inputTokens": 4107,
+        "outputTokens": 621,
+        "requestCount": 8,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-003",
+      "question": "What is the Set-CsOnlineVoiceRoutingPolicy cmdlet used for?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "unresolved_conflict"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 1188,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 3565
+      },
+      "tokenUsage": {
+        "inputTokens": 3896,
+        "outputTokens": 588,
+        "requestCount": 8,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-004",
+      "question": "Which Teams PowerShell cmdlet applies an Online Voice Routing Policy to a user?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 1150,
+        "validator": 1,
+        "retryGeneration": null,
+        "total": 3498
+      },
+      "tokenUsage": {
+        "inputTokens": 4303,
+        "outputTokens": 604,
+        "requestCount": 8,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-005",
+      "question": "What does Set-CsImaginaryRoutingPolicy do?",
+      "answerability": "insufficient_evidence",
+      "mandatoryClaims": 0,
+      "realizedClaims": 0,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "unresolved_conflict",
+        "exact_identifier_unverified"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 0,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 0
+      },
+      "tokenUsage": {
+        "inputTokens": null,
+        "outputTokens": null,
+        "requestCount": 0,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-006",
+      "question": "How does Teams conditional access differ for guests versus unmanaged endpoints?",
+      "answerability": "partial",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "partial_coverage",
+        "missing_adjacent_authority"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 1176,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 3755
+      },
+      "tokenUsage": {
+        "inputTokens": 4596,
+        "outputTokens": 691,
+        "requestCount": 8,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-007",
+      "question": "Can you confirm this Teams calling setting is currently available right now?",
+      "answerability": "partial",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [
+        "partial_coverage",
+        "freshness_verification_required"
+      ],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 972,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 3522
+      },
+      "tokenUsage": {
+        "inputTokens": 4025,
+        "outputTokens": 570,
+        "requestCount": 8,
+        "retries": 0
+      }
+    },
+    {
+      "questionId": "GH1-008",
+      "question": "How should an admin think about Teams meeting policy controls?",
+      "answerability": "answered",
+      "mandatoryClaims": 8,
+      "realizedClaims": 8,
+      "missingMandatoryClaims": [],
+      "unknownClaimIds": [],
+      "requiredCaveats": [],
+      "missingCaveats": [],
+      "unsupportedAspectViolations": [],
+      "schemaValid": true,
+      "firstAttemptValid": true,
+      "firstAttemptIssues": [],
+      "retryUsed": false,
+      "retryValid": null,
+      "finalValid": true,
+      "latencyMs": {
+        "firstGeneration": 1195,
+        "validator": 0,
+        "retryGeneration": null,
+        "total": 3798
+      },
+      "tokenUsage": {
+        "inputTokens": 4342,
+        "outputTokens": 691,
+        "requestCount": 8,
+        "retries": 0
+      }
+    }
+  ]
+}
