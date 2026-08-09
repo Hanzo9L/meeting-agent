@@ -23,7 +23,13 @@ export const IPC_CHANNELS = {
   answerChunk: "pipeline:answer-chunk",
   answerSources: "pipeline:answer-sources",
   answerDone: "pipeline:answer-done",
-  connectionStatus: "pipeline:status"
+  connectionStatus: "pipeline:status",
+  helpdeskListConversations: "helpdesk:list-conversations",
+  helpdeskCreateConversation: "helpdesk:create-conversation",
+  helpdeskLoadConversation: "helpdesk:load-conversation",
+  helpdeskRenameConversation: "helpdesk:rename-conversation",
+  helpdeskDeleteConversation: "helpdesk:delete-conversation",
+  helpdeskSubmitMessage: "helpdesk:submit-message"
 } as const;
 
 export const DEFAULT_TOPIC_PROMPT =

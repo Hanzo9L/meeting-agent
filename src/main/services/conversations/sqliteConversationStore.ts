@@ -20,6 +20,7 @@ import type {
   CreateConversationInput,
   GroundingSnapshotReference,
   SaveContextResolutionInput,
+  StartedAnswerRun,
   UpdateAnswerRunInput
 } from "./types";
 
@@ -268,34 +269,18 @@ export class SqliteConversationStore implements ConversationStore {
 
   appendUserMessage(input: AppendUserMessageInput): ConversationMessage {
     return this.db.transaction(() => {
-      this.requireConversation(input.conversationId);
-      const timestamp = this.now();
-      const messageId = newId("msg");
-      const turnIndex = this.nextTurnIndex(input.conversationId);
-      this.db
-        .prepare(
-          `INSERT INTO messages (
-            message_id,
-            conversation_id,
-            turn_index,
-            role,
-            content,
-            input_origin,
-            answerability,
-            grounding_snapshot_id,
-            created_at
-          ) VALUES (?, ?, ?, 'user', ?, ?, NULL, NULL, ?)`
-        )
-        .run(
-          messageId,
-          input.conversationId,
-          turnIndex,
-          requiredText(input.content, "message content"),
-          input.inputOrigin,
-          timestamp
-        );
-      this.touchConversation(input.conversationId, timestamp);
-      return this.requireMessage(messageId);
+      return this.insertUserMessage(input);
+    }).immediate();
+  }
+
+  appendUserMessageAndCreateAnswerRun(input: AppendUserMessageInput): StartedAnswerRun {
+    return this.db.transaction(() => {
+      const message = this.insertUserMessage(input);
+      const answerRun = this.insertAnswerRun({
+        conversationId: input.conversationId,
+        triggeringUserMessageId: message.id
+      });
+      return { message, answerRun };
     }).immediate();
   }
 
@@ -401,32 +386,22 @@ export class SqliteConversationStore implements ConversationStore {
     return rows.map(mapMessage);
   }
 
+  loadAnswerRuns(conversationId: string): AnswerRunRecord[] {
+    if (!this.getConversation(conversationId)) return [];
+    const rows = this.db
+      .prepare(
+        `SELECT *
+         FROM answer_runs
+         WHERE conversation_id = ?
+         ORDER BY created_at ASC, answer_run_id ASC`
+      )
+      .all(conversationId) as AnswerRunRow[];
+    return rows.map(mapAnswerRun);
+  }
+
   createAnswerRun(input: CreateAnswerRunInput): AnswerRunRecord {
     return this.db.transaction(() => {
-      this.requireConversation(input.conversationId);
-      const message = this.requireMessage(input.triggeringUserMessageId);
-      if (message.conversationId !== input.conversationId || message.role !== "user") {
-        throw new Error("Answer runs must be triggered by a user message in the same conversation");
-      }
-      const id = newId("run");
-      this.db
-        .prepare(
-          `INSERT INTO answer_runs (
-            answer_run_id,
-            conversation_id,
-            triggering_user_message_id,
-            assistant_message_id,
-            grounding_snapshot_id,
-            state,
-            failure_code,
-            failure_details_json,
-            created_at,
-            started_at,
-            completed_at
-          ) VALUES (?, ?, ?, NULL, NULL, 'received', NULL, NULL, ?, NULL, NULL)`
-        )
-        .run(id, input.conversationId, input.triggeringUserMessageId, this.now());
-      return this.requireAnswerRun(id);
+      return this.insertAnswerRun(input);
     }).immediate();
   }
 
@@ -620,6 +595,64 @@ export class SqliteConversationStore implements ConversationStore {
 
   close(): void {
     this.db.close();
+  }
+
+  private insertUserMessage(input: AppendUserMessageInput): ConversationMessage {
+    this.requireConversation(input.conversationId);
+    const timestamp = this.now();
+    const messageId = newId("msg");
+    const turnIndex = this.nextTurnIndex(input.conversationId);
+    this.db
+      .prepare(
+        `INSERT INTO messages (
+          message_id,
+          conversation_id,
+          turn_index,
+          role,
+          content,
+          input_origin,
+          answerability,
+          grounding_snapshot_id,
+          created_at
+        ) VALUES (?, ?, ?, 'user', ?, ?, NULL, NULL, ?)`
+      )
+      .run(
+        messageId,
+        input.conversationId,
+        turnIndex,
+        requiredText(input.content, "message content"),
+        input.inputOrigin,
+        timestamp
+      );
+    this.touchConversation(input.conversationId, timestamp);
+    return this.requireMessage(messageId);
+  }
+
+  private insertAnswerRun(input: CreateAnswerRunInput): AnswerRunRecord {
+    this.requireConversation(input.conversationId);
+    const message = this.requireMessage(input.triggeringUserMessageId);
+    if (message.conversationId !== input.conversationId || message.role !== "user") {
+      throw new Error("Answer runs must be triggered by a user message in the same conversation");
+    }
+    const id = newId("run");
+    this.db
+      .prepare(
+        `INSERT INTO answer_runs (
+          answer_run_id,
+          conversation_id,
+          triggering_user_message_id,
+          assistant_message_id,
+          grounding_snapshot_id,
+          state,
+          failure_code,
+          failure_details_json,
+          created_at,
+          started_at,
+          completed_at
+        ) VALUES (?, ?, ?, NULL, NULL, 'received', NULL, NULL, ?, NULL, NULL)`
+      )
+      .run(id, input.conversationId, input.triggeringUserMessageId, this.now());
+    return this.requireAnswerRun(id);
   }
 
   private requireConversation(conversationId: string): ConversationRecord {

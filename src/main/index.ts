@@ -11,8 +11,17 @@ import { join } from "node:path";
 import { initMain as initLoopbackMain } from "electron-audio-loopback";
 import { IPC_CHANNELS } from "@shared/constants";
 import { SettingsStore } from "./store/settingsStore";
+import { registerHelpdeskIpcHandlers } from "./ipc/helpdeskIpc";
+import {
+  createSqliteConversationStore,
+  HelpdeskService,
+  resolveConversationDatabasePath,
+  UnavailableAnswerExecutionPort,
+  type SqliteConversationStore
+} from "./services/conversations";
 import { createOverlayWindow } from "./windows/overlayWindow";
 import { createSettingsWindow } from "./windows/settingsWindow";
+import { createHelpdeskWindow } from "./windows/helpdeskWindow";
 import { DeepgramSttProvider } from "./services/deepgramSttProvider";
 import { OpenAiLlmProvider } from "./services/openAiLlmProvider";
 import { PipelineManager } from "./services/pipelineManager";
@@ -39,7 +48,10 @@ app.commandLine.appendSwitch("disable-http-cache");
 
 let overlayWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
+let helpdeskWindow: BrowserWindow | null = null;
 let pipelineManager: PipelineManager | null = null;
+let conversationStore: SqliteConversationStore | null = null;
+let helpdeskService: HelpdeskService | null = null;
 const settingsStore = new SettingsStore();
 const knowledgeBaseService = new KnowledgeBaseService(
   join(app.getPath("userData"), "knowledge-base"),
@@ -65,10 +77,29 @@ function createPipeline(): PipelineManager {
   });
 }
 
+function loadHelpdeskWindow(): void {
+  helpdeskWindow = createHelpdeskWindow();
+  if (process.env["ELECTRON_RENDERER_URL"]) {
+    void helpdeskWindow.loadURL(
+      `${process.env["ELECTRON_RENDERER_URL"]}/helpdesk/index.html`
+    );
+  } else {
+    void helpdeskWindow.loadFile(join(rendererRoot, "helpdesk/index.html"));
+  }
+  helpdeskWindow.once("ready-to-show", () => {
+    helpdeskWindow?.show();
+    helpdeskWindow?.focus();
+  });
+  helpdeskWindow.on("closed", () => {
+    helpdeskWindow = null;
+  });
+}
+
 function createWindows(): void {
   const settings = settingsStore.getSettings();
   overlayWindow = createOverlayWindow(settings.overlay, settings.demoMode);
   settingsWindow = createSettingsWindow();
+  loadHelpdeskWindow();
 
   if (process.env["ELECTRON_RENDERER_URL"]) {
     overlayWindow.loadURL(`${process.env["ELECTRON_RENDERER_URL"]}/overlay/index.html`);
@@ -79,8 +110,8 @@ function createWindows(): void {
   }
 
   settingsWindow.once("ready-to-show", () => {
-    settingsWindow?.show();
-    settingsWindow?.focus();
+    settingsWindow?.showInactive();
+    helpdeskWindow?.focus();
   });
 }
 
@@ -205,6 +236,22 @@ function registerIpcHandlers(): void {
   });
 }
 
+function registerHelpdeskHandlers(): void {
+  if (!helpdeskService) {
+    throw new Error("Helpdesk service must be initialized before IPC registration.");
+  }
+  registerHelpdeskIpcHandlers({
+    registrar: {
+      handle: (channel, listener) => {
+        ipcMain.handle(channel, (event, ...args) => listener(event, ...args));
+      }
+    },
+    service: helpdeskService,
+    isTrustedSender: (event) =>
+      helpdeskWindow !== null && event.sender.id === helpdeskWindow.webContents.id
+  });
+}
+
 app.whenReady().then(() => {
   process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
   process.env["MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY"] = preloadRoot;
@@ -213,8 +260,18 @@ app.whenReady().then(() => {
   void (async () => {
     await knowledgeBaseService.initialize();
     initLoopbackMain();
-    createWindows();
+    conversationStore = createSqliteConversationStore({
+      databasePath: resolveConversationDatabasePath({
+        userDataPath: app.getPath("userData")
+      })
+    });
+    helpdeskService = new HelpdeskService(
+      conversationStore,
+      new UnavailableAnswerExecutionPort()
+    );
     registerIpcHandlers();
+    registerHelpdeskHandlers();
+    createWindows();
     sendStatus("idle");
 
     const settings = settingsStore.getSettings().knowledgeBase;
@@ -224,7 +281,19 @@ app.whenReady().then(() => {
   })();
 });
 
+app.on("activate", () => {
+  if (!helpdeskWindow && helpdeskService) {
+    loadHelpdeskWindow();
+  }
+});
+
 app.on("window-all-closed", async () => {
   await pipelineManager?.stop();
   if (process.platform !== "darwin") app.quit();
+});
+
+app.on("will-quit", () => {
+  conversationStore?.close();
+  conversationStore = null;
+  helpdeskService = null;
 });

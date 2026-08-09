@@ -402,6 +402,8 @@ test("conversation production modules do not import grounding or retrieval imple
     "migrations.ts",
     "migrationRunner.ts",
     "sqliteConversationStore.ts",
+    "answerExecutionPort.ts",
+    "helpdeskService.ts",
     "index.ts"
   ];
   for (const filename of productionFiles) {

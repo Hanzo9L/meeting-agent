@@ -108,6 +108,11 @@ export interface CompletedAnswerRun {
   answerRun: AnswerRunRecord;
 }
 
+export interface StartedAnswerRun {
+  message: ConversationMessage;
+  answerRun: AnswerRunRecord;
+}
+
 export interface ConversationStore {
   createConversation(input?: CreateConversationInput): ConversationRecord;
   listConversations(): ConversationRecord[];
@@ -116,10 +121,12 @@ export interface ConversationStore {
   deleteConversation(conversationId: string): boolean;
   clearHistory(): number;
   appendUserMessage(input: AppendUserMessageInput): ConversationMessage;
+  appendUserMessageAndCreateAnswerRun(input: AppendUserMessageInput): StartedAnswerRun;
   appendGroundedAssistantMessage(
     input: AppendGroundedAssistantMessageInput
   ): CompletedAnswerRun;
   loadOrderedMessages(conversationId: string): ConversationMessage[];
+  loadAnswerRuns(conversationId: string): AnswerRunRecord[];
   createAnswerRun(input: CreateAnswerRunInput): AnswerRunRecord;
   updateAnswerRun(input: UpdateAnswerRunInput): AnswerRunRecord;
   getAnswerRun(answerRunId: string): AnswerRunRecord | null;
