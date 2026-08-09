@@ -599,6 +599,69 @@ export interface GroundedAnswerDiagnostics {
   };
 }
 
+export type ExtractiveAssemblerPolicyVersion =
+  "deterministic-extractive-assembler/r4";
+
+export interface ExtractiveRenderedClaim {
+  claimId: string;
+  requiredAspectId: string;
+  sectionId: AnswerPlanSectionId;
+  status: PlannedClaim["status"];
+  renderedText: string;
+  transformation:
+    | "none"
+    | "whitespace_normalized"
+    | "source_artifact_removed";
+  evidenceIds: string[];
+  sourceSpans: ClaimSourceSpan[];
+  answerTextRange: {
+    startOffset: number;
+    endOffset: number;
+  };
+}
+
+export interface ExtractivePolicyUnit {
+  kind: "caveat" | "unsupported_aspect" | "limitation";
+  code: string;
+  text: string;
+  answerTextRange: {
+    startOffset: number;
+    endOffset: number;
+  };
+}
+
+export interface ExtractiveAssemblyIssue {
+  code:
+    | "plan_integrity_failed"
+    | "invalid_claim_order"
+    | "invalid_procedure_order"
+    | "missing_mandatory_claim"
+    | "unsupported_claim"
+    | "empty_rendered_claim"
+    | "rendered_claim_not_source_bound"
+    | "insufficient_contains_claims";
+  message: string;
+  claimId?: string;
+}
+
+export interface ExtractiveAssemblyProvenance {
+  assemblerPolicyVersion: ExtractiveAssemblerPolicyVersion;
+  planId: string;
+  planHash: string;
+  renderedClaims: ExtractiveRenderedClaim[];
+  omittedClaimIds: string[];
+  policyUnits: ExtractivePolicyUnit[];
+  validation: {
+    valid: boolean;
+    issues: ExtractiveAssemblyIssue[];
+  };
+  factualTextAudit: {
+    factualUnitCount: number;
+    allFactualUnitsAttributed: boolean;
+    unattributedText: string[];
+  };
+}
+
 export interface GroundedAnswer {
   snapshotBinding: GroundingDecisionSnapshotBinding;
   answerability: AnswerabilityStatus;
@@ -619,6 +682,8 @@ export interface GroundedAnswer {
   exactIdentifierState: AnswerPlan["exactIdentifierState"];
   validation: GroundingValidationResult;
   diagnostics: GroundedAnswerDiagnostics;
+  /** Present only for deterministic R4 assembly. */
+  extractiveAssembly?: ExtractiveAssemblyProvenance;
 }
 
 export interface GroundedAnswerSuccess {
@@ -629,12 +694,18 @@ export interface GroundedAnswerSuccess {
 export interface GroundedAnswerFailure {
   ok: false;
   failure: {
-    code: "decision_snapshot_mismatch" | "grounding_validation_failed";
+    code:
+      | "decision_snapshot_mismatch"
+      | "grounding_validation_failed"
+      | "answer_plan_integrity_failed"
+      | "assembly_validation_failed";
     message: string;
     snapshotIssues: GroundingDecisionBoundaryIssue[];
     groundingIssues: GroundingValidationIssue[];
     failedClaimIds: string[];
     diagnostics?: GroundedAnswerDiagnostics;
+    planIntegrityIssues?: AnswerPlanIntegrityIssue[];
+    assemblyIssues?: ExtractiveAssemblyIssue[];
   };
 }
 

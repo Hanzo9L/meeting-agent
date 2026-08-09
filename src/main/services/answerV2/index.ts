@@ -4,6 +4,7 @@ export * from "./evidenceBundleBuilder";
 export * from "./groundingDecisionSnapshot";
 export * from "./answerPlanner";
 export * from "./answerPlanIntegrity";
+export * from "./deterministicAnswerAssembler";
 export * from "./inspectEvidence";
 export * from "./inspectAnswerPlan";
 export * from "./inspectGroundedAnswer";
