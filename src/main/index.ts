@@ -151,7 +151,13 @@ function createPipeline(): PipelineManager {
       await liveAssistService.acceptQuestion(question);
     },
     sendStatus,
-    sendTranscript
+    sendTranscript,
+    onArbitrationDiagnostic: (diagnostic) => {
+      console.info(
+        "[Relay Live Assist arbitration]",
+        JSON.stringify(diagnostic)
+      );
+    }
   });
 }
 
@@ -317,6 +323,7 @@ function registerRuntimeIpcHandlers(): void {
       pipelineManager ??= createPipeline();
       try {
         await pipelineManager.start({
+          sessionId: config.sessionId,
           sources: [...new Set(config.sources)],
           answerTriggerMode:
             settingsStore.getRelaySettings().speech

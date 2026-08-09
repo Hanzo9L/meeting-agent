@@ -134,6 +134,114 @@ test("one completed utterance ID is promoted at most once", async () => {
   ]);
 });
 
+test("both mode suppresses a duplicate microphone copy before question detection", async () => {
+  const microphone = new FakeSttProvider();
+  const system = new FakeSttProvider();
+  const providers = [microphone, system];
+  const accepted: Array<{ question: string; source: string }> = [];
+  const diagnostics: Array<{ outcome: string; retainedSource: string | null }> =
+    [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => providers.shift()!,
+    onAcceptedQuestion: async (question, source) => {
+      accepted.push({ question, source });
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined,
+    onArbitrationDiagnostic: (diagnostic) =>
+      diagnostics.push(diagnostic)
+  });
+  await manager.start({
+    sessionId: "live:both-duplicate",
+    sources: ["microphone", "system"],
+    answerTriggerMode: "questions_only"
+  });
+
+  microphone.utterance(
+    "How do Microsoft Teams Calling Plans work?",
+    "mic:duplicate"
+  );
+  system.utterance(
+    "How do Microsoft Teams Calling Plans work?",
+    "system:duplicate"
+  );
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+
+  assert.deepEqual(accepted, [
+    {
+      question: "How do Microsoft Teams Calling Plans work?",
+      source: "system"
+    }
+  ]);
+  assert.equal(diagnostics[0]?.outcome, "duplicate_suppressed");
+  assert.equal(diagnostics[0]?.retainedSource, "system");
+  await manager.stop();
+});
+
+test("both mode preserves distinct simultaneous completed utterances", async () => {
+  const microphone = new FakeSttProvider();
+  const system = new FakeSttProvider();
+  const providers = [microphone, system];
+  const accepted: string[] = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => providers.shift()!,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sessionId: "live:both-distinct",
+    sources: ["microphone", "system"],
+    answerTriggerMode: "questions_only"
+  });
+
+  microphone.utterance(
+    "Which policy controls meetings?",
+    "mic:distinct"
+  );
+  system.utterance(
+    "What is a Calling Plan?",
+    "system:distinct"
+  );
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 700)
+  );
+
+  assert.deepEqual(accepted, [
+    "Which policy controls meetings?",
+    "What is a Calling Plan?"
+  ]);
+  await manager.stop();
+});
+
+test("Stop clears a pending both-mode utterance before promotion", async () => {
+  const microphone = new FakeSttProvider();
+  const system = new FakeSttProvider();
+  const providers = [microphone, system];
+  const accepted: string[] = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => providers.shift()!,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sessionId: "live:both-stop",
+    sources: ["microphone", "system"],
+    answerTriggerMode: "questions_only"
+  });
+  microphone.utterance("Should this be accepted?", "mic:pending");
+  await manager.stop();
+
+  assert.deepEqual(accepted, []);
+});
+
 test("the same question in a later utterance remains eligible", async () => {
   const provider = new FakeSttProvider();
   const accepted: string[] = [];

@@ -9,6 +9,11 @@ import type {
   CompletedSttUtterance,
   SttProvider
 } from "./sttProvider";
+import {
+  CrossSourceUtteranceArbiter,
+  type CrossSourceArbitrationDiagnostic,
+  type SourceCompletedUtterance
+} from "./crossSourceUtteranceArbiter";
 
 type StatusHandler = (status: ConnectionStatus) => void;
 type AcceptedQuestionHandler = (
@@ -43,22 +48,33 @@ export class PipelineManager {
     CaptureSourceTag,
     Set<string>
   >();
+  private readonly onArbitrationDiagnostic: (
+    diagnostic: CrossSourceArbitrationDiagnostic
+  ) => void;
+  private utteranceArbiter: CrossSourceUtteranceArbiter | null =
+    null;
 
   constructor(params: {
     sttProviderFactory: () => SttProvider;
     onAcceptedQuestion: AcceptedQuestionHandler;
     sendStatus: StatusHandler;
     sendTranscript: (payload: TranscriptMessage) => void;
+    onArbitrationDiagnostic?: (
+      diagnostic: CrossSourceArbitrationDiagnostic
+    ) => void;
   }) {
     this.sttProviderFactory = params.sttProviderFactory;
     this.onAcceptedQuestion = params.onAcceptedQuestion;
     this.sendStatus = params.sendStatus;
     this.sendTranscript = params.sendTranscript;
+    this.onArbitrationDiagnostic =
+      params.onArbitrationDiagnostic ?? (() => undefined);
   }
 
   async start(config: {
     sources: CaptureSourceTag[];
     answerTriggerMode: AnswerTriggerMode;
+    sessionId?: string;
   }): Promise<void> {
     if (this.active) return;
     if (config.sources.length === 0) {
@@ -75,6 +91,14 @@ export class PipelineManager {
       config.sources.length === 1
         ? (config.sources[0] ?? "any")
         : "any";
+    this.utteranceArbiter = new CrossSourceUtteranceArbiter({
+      sessionId: config.sessionId ?? "pipeline-session",
+      bothMode: config.sources.length > 1,
+      accept: (input) => {
+        void this.handleArbitratedUtterance(input);
+      },
+      diagnostic: this.onArbitrationDiagnostic
+    });
     this.sendStatus("capturing");
 
     try {
@@ -103,6 +127,8 @@ export class PipelineManager {
       );
     } catch (error) {
       this.active = false;
+      this.utteranceArbiter?.stop();
+      this.utteranceArbiter = null;
       this.sttProviders.clear();
       this.sendStatus("error");
       throw error;
@@ -121,6 +147,8 @@ export class PipelineManager {
     if (!this.active && this.sttProviders.size === 0) return;
     // Prevent provider flushes during stop from promoting new questions.
     this.active = false;
+    this.utteranceArbiter?.stop();
+    this.utteranceArbiter = null;
     await Promise.all(
       Array.from(this.sttProviders.values()).map(async (provider) => {
         await provider.stop();
@@ -188,6 +216,17 @@ export class PipelineManager {
     this.completedUtteranceIds.set(source, completedForSource);
     if (completedForSource.has(utterance.utteranceId)) return;
     completedForSource.add(utterance.utteranceId);
+    this.utteranceArbiter?.submit({
+      source,
+      utterance,
+      completedAtMs: Date.now()
+    });
+  }
+
+  private async handleArbitratedUtterance(
+    input: SourceCompletedUtterance
+  ): Promise<void> {
+    const { source, utterance } = input;
     const text = utterance.text.trim();
     if (!text) return;
     this.broadcastTranscript(text, true, source);

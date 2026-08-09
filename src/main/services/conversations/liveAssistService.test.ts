@@ -253,6 +253,81 @@ test("one completed STT utterance creates one durable turn and one grounded exec
   }
 });
 
+test("cross-source duplicate creates one durable turn and one grounded execution", async () => {
+  const context = await fixture([success()]);
+  const microphone = new CompletedUtteranceProvider();
+  const system = new CompletedUtteranceProvider();
+  const providers = [microphone, system];
+  try {
+    const conversation = context.store.createConversation({
+      title: "Cross-source duplicate"
+    });
+    const session = context.live.start(conversation.id);
+    const pipeline = new PipelineManager({
+      sttProviderFactory: () => providers.shift()!,
+      onAcceptedQuestion: async (question) => {
+        await context.live.acceptQuestion(question);
+      },
+      sendStatus: () => undefined,
+      sendTranscript: () => undefined
+    });
+    await pipeline.start({
+      sessionId: session.id,
+      sources: ["microphone", "system"],
+      answerTriggerMode: "questions_only"
+    });
+    const makeUtterance = (
+      utteranceId: string
+    ): CompletedSttUtterance => ({
+      utteranceId,
+      text: "How do Microsoft Teams calling plans work?",
+      completionSignal: "utterance_end",
+      segmentCount: 1,
+      sourceStartSeconds: 1,
+      sourceEndSeconds: 3,
+      speechFinalObserved: true
+    });
+
+    microphone.emit(makeUtterance("mic:duplicate"));
+    system.emit(makeUtterance("system:duplicate"));
+    for (
+      let attempts = 0;
+      attempts < 30;
+      attempts += 1
+    ) {
+      const messages =
+        context.store.loadOrderedMessages(conversation.id);
+      if (messages.some((message) => message.role === "assistant")) {
+        break;
+      }
+      await new Promise((resolvePromise) =>
+        setTimeout(resolvePromise, 1)
+      );
+    }
+
+    const messages =
+      context.store.loadOrderedMessages(conversation.id);
+    assert.equal(
+      messages.filter(
+        (message) => message.inputOrigin === "live_transcript"
+      ).length,
+      1
+    );
+    assert.equal(
+      messages.filter((message) => message.role === "assistant")
+        .length,
+      1
+    );
+    assert.deepEqual(context.port.questions, [
+      "How do Microsoft Teams calling plans work?"
+    ]);
+    await pipeline.stop();
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
 test("partial and insufficient live answers preserve frozen pipeline outcomes", async () => {
   const context = await fixture([
     success("partial"),
