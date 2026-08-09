@@ -5,6 +5,10 @@ import type {
   TranscriptMessage
 } from "@shared/types";
 import { looksLikeQuestion } from "./questionDetector";
+import {
+  INCOMPLETE_UTTERANCE_STATUS,
+  isCompleteEnoughForPromotion
+} from "./questionCompletenessGuard";
 import type {
   CompletedSttUtterance,
   SttProvider
@@ -230,7 +234,16 @@ export class PipelineManager {
     const text = utterance.text.trim();
     if (!text) return;
     this.broadcastTranscript(text, true, source);
-    if (!this.active || !this.shouldAccept(source, text)) return;
+    if (!this.active) return;
+    if (!isCompleteEnoughForPromotion(text)) {
+      this.broadcastTranscript(
+        INCOMPLETE_UTTERANCE_STATUS,
+        false,
+        source
+      );
+      return;
+    }
+    if (!this.shouldAccept(source, text)) return;
     await this.enqueueAcceptedQuestion(text, source);
   }
 

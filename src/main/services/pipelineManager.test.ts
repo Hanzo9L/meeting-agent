@@ -290,6 +290,97 @@ test("stopping capture prevents provider flush from accepting another question",
   assert.deepEqual(accepted, []);
 });
 
+test("incomplete interrogative fragment is not promoted", async () => {
+  const provider = new FakeSttProvider();
+  const accepted: string[] = [];
+  const transcripts: Array<{ text: string; isFinal: boolean }> = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => provider,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: (payload) => {
+      transcripts.push({
+        text: payload.text,
+        isFinal: payload.isFinal
+      });
+    }
+  });
+  await manager.start({
+    sources: ["microphone"],
+    answerTriggerMode: "questions_only"
+  });
+  provider.utterance("How do Microsoft Teams");
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+  assert.deepEqual(accepted, []);
+  assert.ok(
+    transcripts.some((entry) =>
+      entry.text.includes(
+        "incomplete utterance — waiting for next question"
+      )
+    )
+  );
+  provider.utterance(
+    "How do Microsoft Teams Calling Plans work?"
+  );
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+  assert.deepEqual(accepted, [
+    "How do Microsoft Teams Calling Plans work?"
+  ]);
+  await manager.stop();
+});
+
+test("declarative non-question remains governed by trigger policy", async () => {
+  const provider = new FakeSttProvider();
+  const accepted: string[] = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => provider,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sources: ["microphone"],
+    answerTriggerMode: "questions_only"
+  });
+  provider.utterance("Teams Calling Plans are useful.");
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+  assert.deepEqual(accepted, []);
+  await manager.stop();
+});
+
+test("system-only incomplete fragment is not promoted", async () => {
+  const provider = new FakeSttProvider();
+  const accepted: string[] = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => provider,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sources: ["system"],
+    answerTriggerMode: "questions_only"
+  });
+  provider.utterance("How do Microsoft Teams");
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+  assert.deepEqual(accepted, []);
+  await manager.stop();
+});
+
 test("active Live Assist pipeline contains no legacy factual generator", () => {
   const source = readFileSync(
     resolve("src/main/services/pipelineManager.ts"),
@@ -298,5 +389,10 @@ test("active Live Assist pipeline contains no legacy factual generator", () => {
   assert.doesNotMatch(
     source,
     /(LlmProvider|OpenAiLlmProvider|streamAnswer|getKnowledgeContext|answerChunk)/
+  );
+  assert.doesNotMatch(source, /\bTTS\b|speakText|speechSynthesis/);
+  assert.doesNotMatch(
+    source,
+    /normalizeCmdlet|canonicalizeCmdlet|spoken.?cmdlet/i
   );
 });

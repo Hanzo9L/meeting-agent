@@ -253,6 +253,91 @@ test("one completed STT utterance creates one durable turn and one grounded exec
   }
 });
 
+test("incomplete utterance creates no durable message, answer run, or grounded execution", async () => {
+  const context = await fixture([success()]);
+  const provider = new CompletedUtteranceProvider();
+  try {
+    const conversation = context.store.createConversation({
+      title: "Incomplete guard"
+    });
+    context.live.start(conversation.id);
+    const pipeline = new PipelineManager({
+      sttProviderFactory: () => provider,
+      onAcceptedQuestion: async (question) => {
+        await context.live.acceptQuestion(question);
+      },
+      sendStatus: () => undefined,
+      sendTranscript: () => undefined
+    });
+    await pipeline.start({
+      sources: ["microphone"],
+      answerTriggerMode: "questions_only"
+    });
+
+    provider.emit({
+      utteranceId: "utterance:incomplete",
+      text: "How do Microsoft Teams",
+      completionSignal: "utterance_end",
+      segmentCount: 1,
+      sourceStartSeconds: 1,
+      sourceEndSeconds: 2,
+      speechFinalObserved: true
+    });
+    await new Promise((resolvePromise) =>
+      setTimeout(resolvePromise, 20)
+    );
+
+    const afterIncomplete =
+      context.store.loadOrderedMessages(conversation.id);
+    assert.equal(afterIncomplete.length, 0);
+    assert.deepEqual(context.port.questions, []);
+    assert.equal(
+      context.store.loadAnswerRuns(conversation.id).length,
+      0
+    );
+
+    provider.emit({
+      utteranceId: "utterance:complete",
+      text: "How do Microsoft Teams Calling Plans work?",
+      completionSignal: "utterance_end",
+      segmentCount: 1,
+      sourceStartSeconds: 3,
+      sourceEndSeconds: 5,
+      speechFinalObserved: true
+    });
+    for (
+      let attempts = 0;
+      attempts < 30 && context.port.questions.length === 0;
+      attempts += 1
+    ) {
+      await new Promise((resolvePromise) =>
+        setTimeout(resolvePromise, 1)
+      );
+    }
+
+    const messages =
+      context.store.loadOrderedMessages(conversation.id);
+    assert.equal(
+      messages.filter(
+        (message) => message.inputOrigin === "live_transcript"
+      ).length,
+      1
+    );
+    assert.equal(
+      messages.filter((message) => message.role === "assistant")
+        .length,
+      1
+    );
+    assert.deepEqual(context.port.questions, [
+      "How do Microsoft Teams Calling Plans work?"
+    ]);
+    await pipeline.stop();
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
 test("cross-source duplicate creates one durable turn and one grounded execution", async () => {
   const context = await fixture([success()]);
   const microphone = new CompletedUtteranceProvider();
