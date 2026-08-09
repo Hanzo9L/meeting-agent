@@ -22,6 +22,54 @@ export interface OverlayPrefs {
   opacity: number;
 }
 
+export type ProviderCredentialId =
+  | "deepgram"
+  | "openai_embeddings";
+
+export interface ProviderCredentialStatus {
+  provider: ProviderCredentialId;
+  state: "configured" | "missing" | "invalid";
+  source: "environment" | "secure_store" | "missing";
+  externallyManaged: boolean;
+  maskedSuffix: string | null;
+}
+
+export interface RelaySettingsSnapshot {
+  providers: {
+    deepgram: ProviderCredentialStatus;
+    openAiEmbeddings: ProviderCredentialStatus;
+  };
+  speech: {
+    captureSourceMode: CaptureSourceMode;
+    answerTriggerMode: AnswerTriggerMode;
+    microphoneDeviceId: string | null;
+    microphoneLabel: string | null;
+  };
+  overlay: OverlayPrefs & {
+    autoShow: boolean;
+    visibleInScreenShare: boolean;
+  };
+  privacy: {
+    persistsRawAudio: false;
+    persistsContinuousTranscript: false;
+  };
+}
+
+export interface UpdateRelaySettingsInput {
+  captureSourceMode: CaptureSourceMode;
+  answerTriggerMode: AnswerTriggerMode;
+  microphoneDeviceId: string | null;
+  microphoneLabel: string | null;
+  overlayAutoShow: boolean;
+  overlay: Pick<OverlayPrefs, "width" | "height" | "opacity">;
+  visibleInScreenShare: boolean;
+}
+
+export interface OverlayVisibilityState {
+  created: boolean;
+  visible: boolean;
+}
+
 export interface KnowledgeBaseSettings {
   enabled: boolean;
   repoUrl: string;
@@ -112,26 +160,21 @@ export interface LiveAssistProjection {
   timestamp: number;
 }
 
+export interface LiveAssistHydration {
+  session: LiveAssistSessionView | null;
+  projection: LiveAssistProjection | null;
+  transcript: TranscriptMessage | null;
+  status: ConnectionStatus;
+}
+
 export interface OverlayApi {
-  getLiveAssistSession: () => Promise<LiveAssistSessionView | null>;
-  reportLiveAssistCaptureError: (
-    sessionId: string
-  ) => Promise<void>;
-  startCapture: (config: CaptureStartConfig) => Promise<void>;
-  stopCapture: (sessionId: string) => Promise<void>;
-  askQuestion: (question: string) => Promise<void>;
-  enableLoopbackAudio: () => Promise<void>;
-  disableLoopbackAudio: () => Promise<void>;
-  sendAudioChunk: (payload: AudioChunkPayload) => void;
-  getRuntimeCaptureConfig: () => Promise<RuntimeCaptureConfig>;
+  getLiveAssistHydration: () => Promise<LiveAssistHydration>;
+  hideOverlay: () => Promise<OverlayVisibilityState>;
   getDemoMode: () => Promise<boolean>;
   openLiveCitation: (
     messageId: string,
     citationId: string
   ) => Promise<void>;
-  onLiveAssistCaptureCommand: (
-    handler: (command: LiveAssistCaptureCommand) => void
-  ) => () => void;
   onLiveAssistProjection: (
     handler: (projection: LiveAssistProjection) => void
   ) => () => void;
@@ -141,17 +184,4 @@ export interface OverlayApi {
   onDemoMode: (handler: (enabled: boolean) => void) => () => void;
   onTranscript: (handler: (payload: TranscriptMessage) => void) => () => void;
   onStatus: (handler: (status: ConnectionStatus) => void) => () => void;
-}
-
-export interface SettingsApi {
-  getSettings: () => Promise<AppSettings>;
-  updateTopic: (topic: string) => Promise<void>;
-  updateApiKeys: (apiKeys: ApiKeys) => Promise<void>;
-  updateCaptureSourceMode: (mode: CaptureSourceMode) => Promise<void>;
-  updateAnswerTriggerMode: (mode: AnswerTriggerMode) => Promise<void>;
-  updateOverlayPrefs: (prefs: Partial<OverlayPrefs>) => Promise<void>;
-  updateDemoMode: (enabled: boolean) => Promise<void>;
-  updateKnowledgeBaseSettings: (settings: KnowledgeBaseSettings) => Promise<void>;
-  getKnowledgeBaseStatus: () => Promise<KnowledgeBaseStatus>;
-  syncKnowledgeBase: () => Promise<KnowledgeBaseStatus>;
 }

@@ -3,21 +3,10 @@ import { IPC_CHANNELS } from "@shared/constants";
 import type { OverlayApi } from "@shared/types";
 
 const overlayApi = Object.freeze<OverlayApi>({
-  getLiveAssistSession: () =>
-    ipcRenderer.invoke(IPC_CHANNELS.liveAssistGetSession),
-  reportLiveAssistCaptureError: (sessionId) =>
-    ipcRenderer.invoke(
-      IPC_CHANNELS.liveAssistCaptureError,
-      sessionId
-    ),
-  startCapture: (config) => ipcRenderer.invoke(IPC_CHANNELS.startCapture, config),
-  stopCapture: (sessionId) =>
-    ipcRenderer.invoke(IPC_CHANNELS.stopCapture, sessionId),
-  askQuestion: (question) => ipcRenderer.invoke(IPC_CHANNELS.askQuestion, question),
-  enableLoopbackAudio: () => ipcRenderer.invoke("enable-loopback-audio"),
-  disableLoopbackAudio: () => ipcRenderer.invoke("disable-loopback-audio"),
-  sendAudioChunk: (payload) => ipcRenderer.send(IPC_CHANNELS.audioChunk, payload),
-  getRuntimeCaptureConfig: () => ipcRenderer.invoke(IPC_CHANNELS.getRuntimeCaptureConfig),
+  getLiveAssistHydration: () =>
+    ipcRenderer.invoke(IPC_CHANNELS.liveAssistGetHydration),
+  hideOverlay: () =>
+    ipcRenderer.invoke(IPC_CHANNELS.relayOverlayHide),
   getDemoMode: () => ipcRenderer.invoke(IPC_CHANNELS.getDemoMode),
   openLiveCitation: (messageId, citationId) =>
     ipcRenderer.invoke(
@@ -25,18 +14,6 @@ const overlayApi = Object.freeze<OverlayApi>({
       messageId,
       citationId
     ),
-  onLiveAssistCaptureCommand: (handler) => {
-    const listener = (
-      _event: Electron.IpcRendererEvent,
-      command: Parameters<typeof handler>[0]
-    ) => handler(command);
-    ipcRenderer.on(IPC_CHANNELS.liveAssistCaptureCommand, listener);
-    return () =>
-      ipcRenderer.off(
-        IPC_CHANNELS.liveAssistCaptureCommand,
-        listener
-      );
-  },
   onLiveAssistProjection: (handler) => {
     const listener = (
       _event: Electron.IpcRendererEvent,

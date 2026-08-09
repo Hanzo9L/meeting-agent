@@ -4,7 +4,13 @@ import type {
   HelpdeskResult,
   SubmitHelpdeskMessageInput
 } from "@shared/helpdesk";
-import type { LiveAssistSessionView } from "@shared/types";
+import type {
+  LiveAssistSessionView,
+  OverlayVisibilityState,
+  ProviderCredentialId,
+  RelaySettingsSnapshot,
+  UpdateRelaySettingsInput
+} from "@shared/types";
 import {
   HelpdeskService,
   HelpdeskServiceError
@@ -33,6 +39,20 @@ export interface RegisterHelpdeskIpcOptions {
     conversationId: string
   ): LiveAssistSessionView;
   stopLiveAssist(): Promise<LiveAssistSessionView | null>;
+  getRelaySettings(): RelaySettingsSnapshot;
+  updateRelaySettings(
+    input: UpdateRelaySettingsInput
+  ): RelaySettingsSnapshot;
+  setProviderCredential(
+    provider: ProviderCredentialId,
+    credential: string
+  ): RelaySettingsSnapshot;
+  clearProviderCredential(
+    provider: ProviderCredentialId
+  ): RelaySettingsSnapshot;
+  getOverlayVisibility(): OverlayVisibilityState;
+  showOverlay(): Promise<OverlayVisibilityState>;
+  hideOverlay(): OverlayVisibilityState;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -51,6 +71,115 @@ function requiredString(
     );
   }
   return value.trim();
+}
+
+function validateRelaySettings(
+  rawInput: unknown
+): UpdateRelaySettingsInput {
+  if (!isRecord(rawInput) || !isRecord(rawInput["overlay"])) {
+    throw new HelpdeskServiceError(
+      "invalid_request",
+      "Relay settings are invalid."
+    );
+  }
+  const captureSourceMode = rawInput["captureSourceMode"];
+  if (
+    captureSourceMode !== "microphone" &&
+    captureSourceMode !== "system" &&
+    captureSourceMode !== "both"
+  ) {
+    throw new HelpdeskServiceError(
+      "invalid_request",
+      "Capture mode is invalid."
+    );
+  }
+  const answerTriggerMode = rawInput["answerTriggerMode"];
+  if (
+    answerTriggerMode !== "questions_only" &&
+    answerTriggerMode !== "all_final"
+  ) {
+    throw new HelpdeskServiceError(
+      "invalid_request",
+      "Question trigger policy is invalid."
+    );
+  }
+  const nullableString = (
+    value: unknown,
+    field: string
+  ): string | null => {
+    if (value === null) return null;
+    if (typeof value !== "string" || value.length > 500) {
+      throw new HelpdeskServiceError(
+        "invalid_request",
+        `${field} is invalid.`
+      );
+    }
+    return value;
+  };
+  const boundedNumber = (
+    value: unknown,
+    field: string,
+    minimum: number,
+    maximum: number
+  ): number => {
+    if (
+      typeof value !== "number" ||
+      !Number.isFinite(value) ||
+      value < minimum ||
+      value > maximum
+    ) {
+      throw new HelpdeskServiceError(
+        "invalid_request",
+        `${field} is invalid.`
+      );
+    }
+    return value;
+  };
+  if (
+    typeof rawInput["overlayAutoShow"] !== "boolean" ||
+    typeof rawInput["visibleInScreenShare"] !== "boolean"
+  ) {
+    throw new HelpdeskServiceError(
+      "invalid_request",
+      "Overlay preferences are invalid."
+    );
+  }
+  const overlay = rawInput["overlay"];
+  return {
+    captureSourceMode,
+    answerTriggerMode,
+    microphoneDeviceId: nullableString(
+      rawInput["microphoneDeviceId"],
+      "Microphone"
+    ),
+    microphoneLabel: nullableString(
+      rawInput["microphoneLabel"],
+      "Microphone label"
+    ),
+    overlayAutoShow: rawInput["overlayAutoShow"],
+    overlay: {
+      width: boundedNumber(
+        overlay["width"],
+        "Overlay width",
+        240,
+        1920
+      ),
+      height: boundedNumber(
+        overlay["height"],
+        "Overlay height",
+        160,
+        1200
+      ),
+      opacity: boundedNumber(
+        overlay["opacity"],
+        "Overlay opacity",
+        0.2,
+        1
+      )
+    },
+    visibleInScreenShare:
+      rawInput["visibleInScreenShare"]
+  };
 }
 
 function resultError(
@@ -200,5 +329,78 @@ export function registerHelpdeskIpcHandlers(
   options.registrar.handle(
     IPC_CHANNELS.helpdeskStopLiveAssist,
     secureHandler(options, () => options.stopLiveAssist())
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.relaySettingsGet,
+    secureHandler(options, () => options.getRelaySettings())
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.relaySettingsUpdate,
+    secureHandler(options, (rawInput) =>
+      options.updateRelaySettings(
+        validateRelaySettings(rawInput)
+      )
+    )
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.relayProviderCredentialSet,
+    secureHandler(options, (rawInput) => {
+      if (!isRecord(rawInput)) {
+        throw new HelpdeskServiceError(
+          "invalid_request",
+          "Provider credential request is invalid."
+        );
+      }
+      const provider = rawInput["provider"];
+      if (
+        provider !== "deepgram" &&
+        provider !== "openai_embeddings"
+      ) {
+        throw new HelpdeskServiceError(
+          "invalid_request",
+          "Provider is invalid."
+        );
+      }
+      return options.setProviderCredential(
+        provider,
+        requiredString(
+          rawInput["credential"],
+          "Provider credential",
+          20_000
+        )
+      );
+    })
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.relayProviderCredentialClear,
+    secureHandler(options, (rawProvider) => {
+      if (
+        rawProvider !== "deepgram" &&
+        rawProvider !== "openai_embeddings"
+      ) {
+        throw new HelpdeskServiceError(
+          "invalid_request",
+          "Provider is invalid."
+        );
+      }
+      return options.clearProviderCredential(rawProvider);
+    })
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.relayOverlayGetVisibility,
+    secureHandler(options, () => options.getOverlayVisibility())
+  );
+  options.registrar.handle(
+    IPC_CHANNELS.relayOverlayShow,
+    secureHandler(options, () => options.showOverlay())
+  );
+  options.registrar.handle(
+    IPC_CHANNELS.relayOverlayHide,
+    secureHandler(options, () => options.hideOverlay())
   );
 }

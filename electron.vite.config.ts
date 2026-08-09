@@ -27,8 +27,7 @@ export default defineConfig({
       rollupOptions: {
         input: {
           helpdesk: resolve(__dirname, "src/preload/helpdeskPreload.ts"),
-          overlay: resolve(__dirname, "src/preload/overlayPreload.ts"),
-          settings: resolve(__dirname, "src/preload/settingsPreload.ts")
+          overlay: resolve(__dirname, "src/preload/overlayPreload.ts")
         }
       }
     }
@@ -45,8 +44,7 @@ export default defineConfig({
       rollupOptions: {
         input: {
           helpdesk: resolve(__dirname, "src/renderer/helpdesk/index.html"),
-          overlay: resolve(__dirname, "src/renderer/overlay/index.html"),
-          settings: resolve(__dirname, "src/renderer/settings/index.html")
+          overlay: resolve(__dirname, "src/renderer/overlay/index.html")
         }
       }
     }

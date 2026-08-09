@@ -21,6 +21,7 @@ export function createOverlayWindow(
     skipTaskbar: true,
     hasShadow: false,
     backgroundColor: "#00000000",
+    show: false,
     webPreferences: {
       preload: join(__dirname, "../preload/overlay.mjs"),
       contextIsolation: true,

@@ -5,6 +5,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { IPC_CHANNELS } from "@shared/constants";
 import type { HelpdeskResult } from "@shared/helpdesk";
+import type { RelaySettingsSnapshot } from "@shared/types";
 import { registerHelpdeskIpcHandlers, type IpcEventLike } from "./helpdeskIpc";
 import {
   createSqliteConversationStore,
@@ -12,6 +13,57 @@ import {
   UnavailableAnswerExecutionPort,
   type AnswerExecutionPort
 } from "../services/conversations";
+
+const TEST_SETTINGS: RelaySettingsSnapshot = {
+  providers: {
+    deepgram: {
+      provider: "deepgram",
+      state: "missing",
+      source: "missing",
+      externallyManaged: false,
+      maskedSuffix: null
+    },
+    openAiEmbeddings: {
+      provider: "openai_embeddings",
+      state: "missing",
+      source: "missing",
+      externallyManaged: false,
+      maskedSuffix: null
+    }
+  },
+  speech: {
+    captureSourceMode: "microphone",
+    answerTriggerMode: "questions_only",
+    microphoneDeviceId: null,
+    microphoneLabel: null
+  },
+  overlay: {
+    x: 0,
+    y: 0,
+    width: 480,
+    height: 320,
+    opacity: 0.95,
+    autoShow: false,
+    visibleInScreenShare: false
+  },
+  privacy: {
+    persistsRawAudio: false,
+    persistsContinuousTranscript: false
+  }
+};
+
+const relayShellOptions = {
+  getRelaySettings: () => TEST_SETTINGS,
+  updateRelaySettings: () => TEST_SETTINGS,
+  setProviderCredential: () => TEST_SETTINGS,
+  clearProviderCredential: () => TEST_SETTINGS,
+  getOverlayVisibility: () => ({
+    created: false,
+    visible: false
+  }),
+  showOverlay: async () => ({ created: true, visible: true }),
+  hideOverlay: () => ({ created: true, visible: false })
+};
 
 class IpcGroundedPort implements AnswerExecutionPort {
   async execute() {
@@ -93,7 +145,8 @@ test("typed Helpdesk IPC persists grounded answers and opens only stored citatio
       return active
         ? store.stopLiveAssistSession(active.id, "test_stopped")
         : null;
-    }
+    },
+    ...relayShellOptions
   });
 
   const invoke = async <T>(
@@ -232,7 +285,8 @@ test("Helpdesk IPC rejects untrusted senders and malformed messages safely", asy
     startLiveAssist: () => {
       throw new Error("must not start");
     },
-    stopLiveAssist: async () => null
+    stopLiveAssist: async () => null,
+    ...relayShellOptions
   });
 
   try {

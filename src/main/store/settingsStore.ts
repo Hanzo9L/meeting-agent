@@ -8,12 +8,18 @@ import {
 } from "@shared/constants";
 import type {
   AnswerTriggerMode,
-  ApiKeys,
-  AppSettings,
   CaptureSourceMode,
   KnowledgeBaseSettings,
-  OverlayPrefs
+  OverlayPrefs,
+  ProviderCredentialId,
+  ProviderCredentialStatus,
+  RelaySettingsSnapshot,
+  UpdateRelaySettingsInput
 } from "@shared/types";
+import {
+  credentialPresentationStatus,
+  resolveProviderCredential
+} from "./providerCredentialResolver";
 
 const ENV_DEEPGRAM_API_KEY = process.env["DEEPGRAM_API_KEY"] ?? "";
 const ENV_OPENAI_API_KEY = process.env["OPENAI_API_KEY"] ?? "";
@@ -28,6 +34,9 @@ type StoreSchema = {
   knowledgeBase: KnowledgeBaseSettings;
   deepgramApiKey: string;
   openAiApiKey: string;
+  microphoneDeviceId: string | null;
+  microphoneLabel: string | null;
+  overlayAutoShow: boolean;
 };
 
 const defaults: StoreSchema = {
@@ -49,7 +58,10 @@ const defaults: StoreSchema = {
     branch: DEFAULT_KNOWLEDGE_BASE_BRANCH
   },
   deepgramApiKey: "",
-  openAiApiKey: ""
+  openAiApiKey: "",
+  microphoneDeviceId: null,
+  microphoneLabel: null,
+  overlayAutoShow: false
 };
 
 export class SettingsStore {
@@ -58,73 +70,159 @@ export class SettingsStore {
     defaults
   });
 
-  getSettings(): AppSettings {
-    const storedDeepgram = this.decrypt(this.store.get("deepgramApiKey"));
-    const storedOpenAi = this.decrypt(this.store.get("openAiApiKey"));
-
+  getRelaySettings(): RelaySettingsSnapshot {
     return {
-      topic: this.store.get("topic"),
-      topicPromptTemplate: this.store.get("topicPromptTemplate"),
-      overlay: this.store.get("overlay"),
-      captureSourceMode: this.store.get("captureSourceMode"),
-      answerTriggerMode: this.store.get("answerTriggerMode"),
-      demoMode: this.store.get("demoMode"),
-      knowledgeBase: this.store.get("knowledgeBase"),
-      apiKeys: {
-        deepgramApiKey: storedDeepgram || ENV_DEEPGRAM_API_KEY,
-        openAiApiKey: storedOpenAi || ENV_OPENAI_API_KEY
+      providers: {
+        deepgram: this.getProviderStatus("deepgram"),
+        openAiEmbeddings: this.getProviderStatus(
+          "openai_embeddings"
+        )
+      },
+      speech: {
+        captureSourceMode: this.store.get("captureSourceMode"),
+        answerTriggerMode: this.store.get("answerTriggerMode"),
+        microphoneDeviceId:
+          this.store.get("microphoneDeviceId"),
+        microphoneLabel: this.store.get("microphoneLabel")
+      },
+      overlay: {
+        ...this.store.get("overlay"),
+        autoShow: this.store.get("overlayAutoShow"),
+        visibleInScreenShare: this.store.get("demoMode")
+      },
+      privacy: {
+        persistsRawAudio: false,
+        persistsContinuousTranscript: false
       }
     };
   }
 
-  updateTopic(topic: string): void {
-    this.store.set("topic", topic);
+  updateRelaySettings(
+    input: UpdateRelaySettingsInput
+  ): RelaySettingsSnapshot {
+    this.store.set(
+      "captureSourceMode",
+      input.captureSourceMode
+    );
+    this.store.set(
+      "answerTriggerMode",
+      input.answerTriggerMode
+    );
+    this.store.set(
+      "microphoneDeviceId",
+      input.microphoneDeviceId
+    );
+    this.store.set(
+      "microphoneLabel",
+      input.microphoneLabel
+    );
+    this.store.set("overlayAutoShow", input.overlayAutoShow);
+    this.store.set("demoMode", input.visibleInScreenShare);
+    this.updateOverlay(input.overlay);
+    return this.getRelaySettings();
   }
 
-  updateOverlay(prefs: Partial<OverlayPrefs>): void {
+  getProviderCredential(
+    provider: ProviderCredentialId
+  ): string {
+    return this.resolvedCredential(provider).value;
+  }
+
+  getProviderStatus(
+    provider: ProviderCredentialId
+  ): ProviderCredentialStatus {
+    return credentialPresentationStatus(
+      provider,
+      this.resolvedCredential(provider)
+    );
+  }
+
+  setProviderCredential(
+    provider: ProviderCredentialId,
+    credential: string
+  ): RelaySettingsSnapshot {
+    if (this.environmentCredential(provider)) {
+      throw new Error(
+        "This credential is managed by the application environment."
+      );
+    }
+    if (!safeStorage.isEncryptionAvailable()) {
+      throw new Error(
+        "Secure operating-system credential storage is unavailable."
+      );
+    }
+    const value = credential.trim();
+    if (!value) {
+      throw new Error("Provider credential is required.");
+    }
+    this.store.set(
+      this.credentialStoreKey(provider),
+      safeStorage.encryptString(value).toString("base64")
+    );
+    this.applyRuntimeCredentials();
+    return this.getRelaySettings();
+  }
+
+  clearProviderCredential(
+    provider: ProviderCredentialId
+  ): RelaySettingsSnapshot {
+    if (this.environmentCredential(provider)) {
+      throw new Error(
+        "This credential is managed by the application environment."
+      );
+    }
+    this.store.set(this.credentialStoreKey(provider), "");
+    this.applyRuntimeCredentials();
+    return this.getRelaySettings();
+  }
+
+  applyRuntimeCredentials(): void {
+    if (!ENV_OPENAI_API_KEY) {
+      const stored =
+        this.getProviderCredential("openai_embeddings");
+      if (stored) process.env["OPENAI_API_KEY"] = stored;
+      else delete process.env["OPENAI_API_KEY"];
+    }
+  }
+
+  private updateOverlay(prefs: Partial<OverlayPrefs>): void {
     this.store.set("overlay", {
       ...this.store.get("overlay"),
       ...prefs
     });
   }
 
-  updateCaptureSourceMode(mode: CaptureSourceMode): void {
-    this.store.set("captureSourceMode", mode);
+  private credentialStoreKey(
+    provider: ProviderCredentialId
+  ): "deepgramApiKey" | "openAiApiKey" {
+    return provider === "deepgram"
+      ? "deepgramApiKey"
+      : "openAiApiKey";
   }
 
-  updateAnswerTriggerMode(mode: AnswerTriggerMode): void {
-    this.store.set("answerTriggerMode", mode);
+  private environmentCredential(
+    provider: ProviderCredentialId
+  ): string {
+    return (
+      provider === "deepgram"
+        ? ENV_DEEPGRAM_API_KEY
+        : ENV_OPENAI_API_KEY
+    ).trim();
   }
 
-  updateDemoMode(enabled: boolean): void {
-    this.store.set("demoMode", enabled);
-  }
-
-  updateKnowledgeBaseSettings(settings: Partial<KnowledgeBaseSettings>): void {
-    this.store.set("knowledgeBase", {
-      ...this.store.get("knowledgeBase"),
-      ...settings
+  private resolvedCredential(provider: ProviderCredentialId) {
+    return resolveProviderCredential({
+      environmentValue: this.environmentCredential(provider),
+      storedValue: this.store.get(
+        this.credentialStoreKey(provider)
+      ),
+      decryptor: {
+        available: safeStorage.isEncryptionAvailable(),
+        decrypt: (encryptedValue) =>
+          safeStorage.decryptString(
+            Buffer.from(encryptedValue, "base64")
+          )
+      }
     });
-  }
-
-  updateApiKeys(apiKeys: ApiKeys): void {
-    this.store.set("deepgramApiKey", this.encrypt(apiKeys.deepgramApiKey));
-    this.store.set("openAiApiKey", this.encrypt(apiKeys.openAiApiKey));
-  }
-
-  private encrypt(value: string): string {
-    if (!value) return "";
-    if (!safeStorage.isEncryptionAvailable()) return value;
-    return safeStorage.encryptString(value).toString("base64");
-  }
-
-  private decrypt(value: string): string {
-    if (!value) return "";
-    if (!safeStorage.isEncryptionAvailable()) return value;
-    try {
-      return safeStorage.decryptString(Buffer.from(value, "base64"));
-    } catch {
-      return "";
-    }
   }
 }

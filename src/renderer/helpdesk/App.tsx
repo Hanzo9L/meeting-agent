@@ -12,12 +12,23 @@ import type {
   HelpdeskConversationView,
   HelpdeskMessage
 } from "@shared/helpdesk";
-import type { LiveAssistSessionView } from "@shared/types";
+import type {
+  CaptureSourceTag,
+  ConnectionStatus,
+  LiveAssistSessionView,
+  OverlayVisibilityState,
+  RelaySettingsSnapshot
+} from "@shared/types";
+import {
+  startLoopbackCapture,
+  stopLoopbackCapture
+} from "@renderer/audio-capture/captureLoopbackAudio";
 import {
   buildHelpdeskTimeline,
   copyAnswerText,
   resolveComposerInputOrigin
 } from "./viewModel";
+import { SettingsPage } from "./SettingsPage";
 
 function resultErrorMessage(
   fallback: string,
@@ -34,6 +45,7 @@ function Sidebar(props: {
   onSelect(id: string): void;
   onRename(id: string, title: string): Promise<boolean>;
   onDelete(id: string): void;
+  onOpenSettings(): void;
 }) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
@@ -136,6 +148,15 @@ function Sidebar(props: {
             </div>
           );
         })}
+      </div>
+      <div className="sidebar-footer">
+        <button
+          type="button"
+          className="settings-button"
+          onClick={props.onOpenSettings}
+        >
+          Settings
+        </button>
       </div>
     </aside>
   );
@@ -400,8 +421,32 @@ export function HelpdeskApp() {
   const [liveSession, setLiveSession] =
     useState<LiveAssistSessionView | null>(null);
   const [liveBusy, setLiveBusy] = useState(false);
+  const [screen, setScreen] = useState<
+    "conversation" | "settings"
+  >("conversation");
+  const [settings, setSettings] =
+    useState<RelaySettingsSnapshot | null>(null);
+  const [overlayVisibility, setOverlayVisibility] =
+    useState<OverlayVisibilityState>({
+      created: false,
+      visible: false
+    });
+  const [captureStatus, setCaptureStatus] =
+    useState<ConnectionStatus>("idle");
+  const [activeSources, setActiveSources] = useState<
+    CaptureSourceTag[]
+  >([]);
+  const [liveTranscript, setLiveTranscript] = useState("");
   const loadRequest = useRef(0);
   const activeIdRef = useRef<string | null>(null);
+  const settingsRef = useRef<RelaySettingsSnapshot | null>(
+    null
+  );
+  const captureStartingRef = useRef(false);
+
+  useEffect(() => {
+    settingsRef.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     activeIdRef.current = activeId;
@@ -459,7 +504,74 @@ export function HelpdeskApp() {
     };
   }, [loadConversation]);
 
+  const startCaptureFlow = useCallback(
+    async (sessionId: string): Promise<void> => {
+      if (captureStartingRef.current) return;
+      const currentSettings = settingsRef.current;
+      if (!currentSettings) {
+        await window.helpdeskApi.reportLiveAssistCaptureError(
+          sessionId
+        );
+        return;
+      }
+      captureStartingRef.current = true;
+      try {
+        const result = await startLoopbackCapture(
+          currentSettings.speech.captureSourceMode,
+          sessionId,
+          {
+            enableLoopbackAudio:
+              window.helpdeskApi.enableLoopbackAudio,
+            disableLoopbackAudio:
+              window.helpdeskApi.disableLoopbackAudio,
+            sendAudioChunk:
+              window.helpdeskApi.sendAudioChunk
+          },
+          currentSettings.speech.microphoneDeviceId
+        );
+        setActiveSources(result.activeSources);
+        await window.helpdeskApi.startCapture({
+          sessionId,
+          sources: result.activeSources
+        });
+      } catch {
+        await stopLoopbackCapture().catch(() => undefined);
+        setActiveSources([]);
+        await window.helpdeskApi
+          .reportLiveAssistCaptureError(sessionId)
+          .catch(() => undefined);
+      } finally {
+        captureStartingRef.current = false;
+      }
+    },
+    []
+  );
+
+  const stopCaptureFlow = useCallback(
+    async (sessionId: string): Promise<void> => {
+      await stopLoopbackCapture().catch(() => undefined);
+      setActiveSources([]);
+      setLiveTranscript("");
+      await window.helpdeskApi
+        .stopCapture(sessionId)
+        .catch(() => undefined);
+    },
+    []
+  );
+
   useEffect(() => {
+    void window.helpdeskApi
+      .getRelaySettings()
+      .then((result) => {
+        if (result.ok) setSettings(result.data);
+      })
+      .catch(() => undefined);
+    void window.helpdeskApi
+      .getOverlayVisibility()
+      .then((result) => {
+        if (result.ok) setOverlayVisibility(result.data);
+      })
+      .catch(() => undefined);
     void window.helpdeskApi
       .getLiveAssistSession()
       .then((result) => {
@@ -482,11 +594,34 @@ export function HelpdeskApp() {
             });
         }
       );
+    const stopCaptureCommands =
+      window.helpdeskApi.onLiveAssistCaptureCommand(
+        (command) => {
+          if (command.action === "start") {
+            void startCaptureFlow(command.sessionId);
+          } else {
+            void stopCaptureFlow(command.sessionId);
+          }
+        }
+      );
+    const stopTranscript = window.helpdeskApi.onTranscript(
+      (payload) => {
+        if (payload.text.trim()) {
+          setLiveTranscript(payload.text.trim());
+        }
+      }
+    );
+    const stopConnectionStatus =
+      window.helpdeskApi.onConnectionStatus(setCaptureStatus);
     return () => {
       stopSession();
       stopConversation();
+      stopCaptureCommands();
+      stopTranscript();
+      stopConnectionStatus();
+      void stopLoopbackCapture();
     };
-  }, [loadConversation]);
+  }, [loadConversation, startCaptureFlow, stopCaptureFlow]);
 
   const createConversation = async (): Promise<void> => {
     setBusy(true);
@@ -642,6 +777,14 @@ export function HelpdeskApp() {
     }
   };
 
+  const toggleOverlay = async (): Promise<void> => {
+    const result = overlayVisibility.visible
+      ? await window.helpdeskApi.hideOverlay()
+      : await window.helpdeskApi.showOverlay();
+    if (result.ok) setOverlayVisibility(result.data);
+    else setError(result.error.message);
+  };
+
   const attachedConversation =
     liveSession?.state === "active"
       ? conversations.find(
@@ -690,7 +833,15 @@ export function HelpdeskApp() {
         onSelect={selectConversation}
         onRename={renameConversation}
         onDelete={(id) => void deleteConversation(id)}
+        onOpenSettings={() => setScreen("settings")}
       />
+      {screen === "settings" && settings ? (
+        <SettingsPage
+          settings={settings}
+          onChanged={setSettings}
+          onClose={() => setScreen("conversation")}
+        />
+      ) : (
       <main className="conversation-pane">
         <header className="conversation-header">
           <div>
@@ -712,6 +863,31 @@ export function HelpdeskApp() {
                   ? "Grounding answer…"
                   : "Grounded answers ready"}
             </div>
+            <span className="capture-summary">
+              {settings
+                ? `${settings.speech.captureSourceMode} · ${
+                    settings.speech.microphoneLabel ??
+                    "default microphone"
+                  }`
+                : "Loading audio settings…"}
+              {activeSources.length > 0
+                ? ` · ${captureStatus}`
+                : ""}
+            </span>
+            <button
+              type="button"
+              onClick={() => void toggleOverlay()}
+            >
+              {overlayVisibility.visible
+                ? "Hide Overlay"
+                : "Show Overlay"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setScreen("settings")}
+            >
+              Speech settings
+            </button>
             {liveSession?.state === "active" ? (
               <button
                 type="button"
@@ -723,7 +899,13 @@ export function HelpdeskApp() {
             ) : (
               <button
                 type="button"
-                disabled={!activeId || liveBusy}
+                disabled={
+                  !activeId ||
+                  liveBusy ||
+                  !settings ||
+                  settings.providers.deepgram.state !==
+                    "configured"
+                }
                 onClick={() => void startLiveAssist()}
               >
                 {liveBusy ? "Starting…" : "Start Live Assist"}
@@ -731,6 +913,27 @@ export function HelpdeskApp() {
             )}
           </div>
         </header>
+        {settings &&
+        settings.providers.deepgram.state !== "configured" ? (
+          <div className="readiness-banner">
+            Live Assist needs a configured Deepgram STT
+            credential. Chat and history remain available.
+          </div>
+        ) : null}
+        {settings &&
+        settings.providers.openAiEmbeddings.state !==
+          "configured" ? (
+          <div className="readiness-banner">
+            OpenAI Embeddings is not configured.
+            Retrieval-backed answers will fail closed; history
+            and settings remain available.
+          </div>
+        ) : null}
+        {liveSession?.state === "active" && liveTranscript ? (
+          <div className="live-transcript-banner">
+            Live transcript: {liveTranscript}
+          </div>
+        ) : null}
         {error ? (
           <div className="error-banner" role="alert">
             <span>{error}</span>
@@ -750,6 +953,7 @@ export function HelpdeskApp() {
           onSubmit={submitMessage}
         />
       </main>
+      )}
     </div>
   );
 }

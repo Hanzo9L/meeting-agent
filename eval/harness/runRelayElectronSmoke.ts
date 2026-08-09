@@ -293,7 +293,7 @@ async function initialSmoke(client: CdpClient): Promise<object> {
   await waitFor(
     () =>
       client.evaluate<boolean>(
-        'document.body.innerText.includes("Relay Smoke Persisted")'
+        'document.body?.innerText.includes("Relay Smoke Persisted") ?? false'
       ),
     Boolean
   );
@@ -357,6 +357,140 @@ async function restartSmoke(client: CdpClient): Promise<object> {
   };
 }
 
+async function singleWindowSmoke(
+  client: CdpClient,
+  initialTargets: DebugTarget[]
+): Promise<object> {
+  const initial = {
+    helpdeskTargets: initialTargets.filter((entry) =>
+      entry.url.endsWith("/helpdesk/index.html")
+    ).length,
+    overlayTargets: initialTargets.filter((entry) =>
+      entry.url.endsWith("/overlay/index.html")
+    ).length,
+    settingsTargets: initialTargets.filter((entry) =>
+      entry.url.endsWith("/settings/index.html")
+    ).length
+  };
+  if (
+    initial.helpdeskTargets !== 1 ||
+    initial.overlayTargets !== 0 ||
+    initial.settingsTargets !== 0
+  ) {
+    throw new Error(
+      `Unexpected initial window inventory: ${JSON.stringify(initial)}`
+    );
+  }
+
+  await waitFor(
+    () =>
+      client.evaluate<boolean>(`
+        (() => {
+          const button = document.querySelector(".settings-button");
+          if (!button) return false;
+          button.click();
+          return true;
+        })()
+      `),
+    Boolean
+  );
+  const settingsState = await waitFor(
+    () =>
+      client.evaluate<{
+        hasSettings: boolean;
+        hasDeepgram: boolean;
+        hasEmbeddings: boolean;
+        hasDeprecatedControls: boolean;
+      }>(`({
+        hasSettings: document.body.innerText.includes("Settings"),
+        hasDeepgram: document.body.innerText.includes("Deepgram STT"),
+        hasEmbeddings: document.body.innerText.includes("OpenAI Embeddings"),
+        hasDeprecatedControls: /Topic|repository URL|repository branch|manual repository sync/i.test(
+          document.querySelector(".settings-page")?.innerText || ""
+        )
+      })`),
+    (value) =>
+      value.hasSettings &&
+      value.hasDeepgram &&
+      value.hasEmbeddings
+  );
+  if (settingsState.hasDeprecatedControls) {
+    throw new Error("Deprecated settings controls remain visible");
+  }
+
+  await client.evaluate(`
+    (() => {
+      const button = [...document.querySelectorAll(".settings-page button")]
+        .find((entry) => entry.textContent.includes("Back to conversation"));
+      if (!button) throw new Error("Settings back button missing");
+      button.click();
+    })()
+  `);
+  await client.evaluate(`
+    (() => {
+      const button = [...document.querySelectorAll(".live-assist-controls button")]
+        .find((entry) => entry.textContent.includes("Show Overlay"));
+      if (!button) throw new Error("Show Overlay button missing");
+      button.click();
+    })()
+  `);
+  const overlayTarget = await waitFor(
+    async () => {
+      const response = await fetch(
+        "http://127.0.0.1:9222/json/list"
+      );
+      const targets = (await response.json()) as DebugTarget[];
+      return (
+        targets.find((entry) =>
+          entry.url.endsWith("/overlay/index.html")
+        ) ?? null
+      );
+    },
+    (value) => value !== null
+  );
+  if (!overlayTarget) throw new Error("Lazy overlay did not load");
+  const overlayClient = await CdpClient.connect(
+    overlayTarget.webSocketDebuggerUrl
+  );
+  let overlayHydrated = false;
+  try {
+    overlayHydrated = await waitFor(
+      () =>
+        overlayClient.evaluate<boolean>(
+          'document.body?.innerText.includes("Stopped") ?? false'
+        ),
+      Boolean
+    );
+  } finally {
+    overlayClient.close();
+  }
+
+  await client.evaluate(`
+    (() => {
+      const button = [...document.querySelectorAll(".live-assist-controls button")]
+        .find((entry) => entry.textContent.includes("Hide Overlay"));
+      if (!button) throw new Error("Hide Overlay button missing");
+      button.click();
+    })()
+  `);
+  const hidden = await waitFor(
+    () =>
+      client.evaluate<boolean>(`
+        window.helpdeskApi.getOverlayVisibility()
+          .then((result) => result.ok && result.data.created && !result.data.visible)
+      `),
+    Boolean
+  );
+
+  return {
+    phase: "single-window",
+    initial,
+    settingsState,
+    overlayHydrated,
+    overlayHiddenWithoutStoppingLiveAssist: hidden
+  };
+}
+
 async function main(): Promise<void> {
   const phase = process.argv[2] ?? "initial";
   const targetsResponse = await fetch(
@@ -366,13 +500,23 @@ async function main(): Promise<void> {
   const overlayLoaded = targets.some((entry) =>
     entry.url.endsWith("/overlay/index.html")
   );
-  if (!overlayLoaded) throw new Error("Existing overlay did not load");
   const client = await CdpClient.connect(
     (await helpdeskTarget()).webSocketDebuggerUrl
   );
   try {
     const result =
-      phase === "restart"
+      phase === "inspect"
+        ? await client.evaluate<Record<string, unknown>>(`({
+            body: document.body.innerText,
+            buttons: [...document.querySelectorAll("button")].map((button) => ({
+              text: button.textContent,
+              className: button.className
+            })),
+            url: location.href
+          })`)
+        : phase === "single-window"
+        ? await singleWindowSmoke(client, targets)
+        : phase === "restart"
         ? await restartSmoke(client)
         : await initialSmoke(client);
     process.stdout.write(

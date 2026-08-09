@@ -1,7 +1,7 @@
 {
   "name": "meeting-agent",
   "version": "1.0.0",
-  "description": "Real-time meeting Q&A assistant overlay for Zoom/Teams/Webex calls.",
+  "description": "Relay: Real-Time Operations grounded helpdesk and live assist.",
   "main": "dist-electron/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
@@ -55,6 +55,7 @@
     "test:conversations": "node --import tsx --test src/main/services/conversations/*.test.ts",
     "test:helpdesk": "node --import tsx --test src/main/services/conversations/helpdeskService.test.ts src/main/ipc/helpdeskIpc.test.ts src/preload/helpdeskApi.test.ts src/renderer/helpdesk/viewModel.test.ts",
     "test:helpdesk-slice4": "node --import tsx --test src/main/services/conversations/*.test.ts src/main/services/pipelineManager.test.ts src/main/ipc/helpdeskIpc.test.ts src/preload/helpdeskApi.test.ts src/renderer/helpdesk/viewModel.test.ts",
+    "test:relay-shell": "node --import tsx --test src/main/singleWindowShell.test.ts src/main/store/providerCredentialResolver.test.ts src/main/ipc/helpdeskIpc.test.ts src/preload/helpdeskApi.test.ts",
     "smoke:helpdesk-slice4": "tsx eval/harness/runRelayLiveAssistSmoke.ts",
     "test:cg01a": "node --import tsx --test src/main/services/knowledgeV2/chunking/*.test.ts",
     "test:cg01b": "node --import tsx --test src/main/services/knowledgeV2/store/chunkPersistence.test.ts",

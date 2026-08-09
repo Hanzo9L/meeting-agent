@@ -1,4 +1,15 @@
-import type { LiveAssistSessionView } from "./types";
+import type {
+  AudioChunkPayload,
+  CaptureStartConfig,
+  LiveAssistCaptureCommand,
+  LiveAssistSessionView,
+  OverlayVisibilityState,
+  ProviderCredentialId,
+  RelaySettingsSnapshot,
+  TranscriptMessage,
+  ConnectionStatus,
+  UpdateRelaySettingsInput
+} from "./types";
 
 export type HelpdeskInputOrigin = "typed" | "pasted" | "live_transcript";
 export type HelpdeskAnswerability =
@@ -136,5 +147,42 @@ export interface HelpdeskApi {
   ): () => void;
   onConversationUpdated(
     handler: (conversationId: string) => void
+  ): () => void;
+  getRelaySettings(): Promise<
+    HelpdeskResult<RelaySettingsSnapshot>
+  >;
+  updateRelaySettings(
+    input: UpdateRelaySettingsInput
+  ): Promise<HelpdeskResult<RelaySettingsSnapshot>>;
+  setProviderCredential(
+    provider: ProviderCredentialId,
+    credential: string
+  ): Promise<HelpdeskResult<RelaySettingsSnapshot>>;
+  clearProviderCredential(
+    provider: ProviderCredentialId
+  ): Promise<HelpdeskResult<RelaySettingsSnapshot>>;
+  getOverlayVisibility(): Promise<
+    HelpdeskResult<OverlayVisibilityState>
+  >;
+  showOverlay(): Promise<
+    HelpdeskResult<OverlayVisibilityState>
+  >;
+  hideOverlay(): Promise<
+    HelpdeskResult<OverlayVisibilityState>
+  >;
+  startCapture(config: CaptureStartConfig): Promise<void>;
+  stopCapture(sessionId: string): Promise<void>;
+  reportLiveAssistCaptureError(sessionId: string): Promise<void>;
+  enableLoopbackAudio(): Promise<void>;
+  disableLoopbackAudio(): Promise<void>;
+  sendAudioChunk(payload: AudioChunkPayload): void;
+  onLiveAssistCaptureCommand(
+    handler: (command: LiveAssistCaptureCommand) => void
+  ): () => void;
+  onTranscript(
+    handler: (payload: TranscriptMessage) => void
+  ): () => void;
+  onConnectionStatus(
+    handler: (status: ConnectionStatus) => void
   ): () => void;
 }

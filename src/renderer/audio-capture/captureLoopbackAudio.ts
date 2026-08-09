@@ -12,15 +12,28 @@ type CaptureStartResult = {
   statusMessage: string;
 };
 
+export interface AudioCaptureBridge {
+  enableLoopbackAudio(): Promise<void>;
+  disableLoopbackAudio(): Promise<void>;
+  sendAudioChunk(payload: {
+    sessionId: string;
+    source: CaptureSourceTag;
+    buffer: ArrayBuffer;
+  }): void;
+}
+
 let context: AudioContext | null = null;
 let captureNodes: CaptureNode[] = [];
 let keepAliveInterval: number | null = null;
 let loopbackBridgeEnabled = false;
 let captureSessionId: string | null = null;
+let captureBridge: AudioCaptureBridge | null = null;
 
 export async function startLoopbackCapture(
   mode: CaptureSourceMode,
-  sessionId: string
+  sessionId: string,
+  bridge: AudioCaptureBridge,
+  microphoneDeviceId?: string | null
 ): Promise<CaptureStartResult> {
   if (captureNodes.length > 0 && context) {
     if (captureSessionId === sessionId) {
@@ -33,6 +46,7 @@ export async function startLoopbackCapture(
   }
 
   captureSessionId = sessionId;
+  captureBridge = bridge;
   context = new AudioContext({ sampleRate: 48000 });
   await context.resume();
   keepAliveInterval = window.setInterval(() => {
@@ -47,8 +61,16 @@ export async function startLoopbackCapture(
   const failures: string[] = [];
   for (const source of requestedSources) {
     try {
-      const stream = source === "system" ? await requestSystemStream() : await requestMicrophoneStream();
-      attachSourceToProcessor(source, stream, sessionId);
+      const stream =
+        source === "system"
+          ? await requestSystemStream(bridge)
+          : await requestMicrophoneStream(microphoneDeviceId);
+      attachSourceToProcessor(
+        source,
+        stream,
+        sessionId,
+        bridge
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown capture error";
       failures.push(`${source}: ${message}`);
@@ -80,9 +102,12 @@ export async function stopLoopbackCapture(): Promise<void> {
   captureSessionId = null;
 
   if (loopbackBridgeEnabled) {
-    await window.overlayApi.disableLoopbackAudio().catch(() => undefined);
+    await captureBridge
+      ?.disableLoopbackAudio()
+      .catch(() => undefined);
     loopbackBridgeEnabled = false;
   }
+  captureBridge = null;
 
   if (keepAliveInterval !== null) {
     window.clearInterval(keepAliveInterval);
@@ -95,8 +120,10 @@ export async function stopLoopbackCapture(): Promise<void> {
   }
 }
 
-async function requestSystemStream(): Promise<MediaStream> {
-  await window.overlayApi.enableLoopbackAudio();
+async function requestSystemStream(
+  bridge: AudioCaptureBridge
+): Promise<MediaStream> {
+  await bridge.enableLoopbackAudio();
   loopbackBridgeEnabled = true;
   try {
     const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -114,14 +141,17 @@ async function requestSystemStream(): Promise<MediaStream> {
     }
     return stream;
   } finally {
-    await window.overlayApi.disableLoopbackAudio().catch(() => undefined);
+    await bridge.disableLoopbackAudio().catch(() => undefined);
     loopbackBridgeEnabled = false;
   }
 }
 
-async function requestMicrophoneStream(): Promise<MediaStream> {
+async function requestMicrophoneStream(
+  deviceId?: string | null
+): Promise<MediaStream> {
   return navigator.mediaDevices.getUserMedia({
     audio: {
+      ...(deviceId ? { deviceId: { exact: deviceId } } : {}),
       echoCancellation: true,
       noiseSuppression: true,
       autoGainControl: true
@@ -132,7 +162,8 @@ async function requestMicrophoneStream(): Promise<MediaStream> {
 function attachSourceToProcessor(
   source: CaptureSourceTag,
   stream: MediaStream,
-  sessionId: string
+  sessionId: string,
+  bridge: AudioCaptureBridge
 ): void {
   if (!context) throw new Error("Audio context is not initialized.");
 
@@ -164,7 +195,7 @@ function attachSourceToProcessor(
       pcm16.byteOffset,
       pcm16.byteOffset + pcm16.byteLength
     ) as ArrayBuffer;
-    window.overlayApi.sendAudioChunk({
+    bridge.sendAudioChunk({
       sessionId,
       source,
       buffer

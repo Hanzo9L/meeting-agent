@@ -8,7 +8,18 @@ import type {
   SubmitHelpdeskMessageInput,
   SubmitHelpdeskMessageResult
 } from "@shared/helpdesk";
-import type { LiveAssistSessionView } from "@shared/types";
+import type {
+  AudioChunkPayload,
+  CaptureStartConfig,
+  ConnectionStatus,
+  LiveAssistCaptureCommand,
+  LiveAssistSessionView,
+  OverlayVisibilityState,
+  ProviderCredentialId,
+  RelaySettingsSnapshot,
+  TranscriptMessage,
+  UpdateRelaySettingsInput
+} from "@shared/types";
 
 export interface HelpdeskIpcInvoker {
   invoke(channel: string, ...args: unknown[]): Promise<unknown>;
@@ -20,6 +31,7 @@ export interface HelpdeskIpcInvoker {
     channel: string,
     listener: (_event: unknown, payload: unknown) => void
   ): void;
+  send(channel: string, ...args: unknown[]): void;
 }
 
 function invokeAs<T>(
@@ -111,6 +123,97 @@ export function createHelpdeskApi(ipc: HelpdeskIpcInvoker): HelpdeskApi {
       return () =>
         ipc.off(
           IPC_CHANNELS.helpdeskConversationUpdated,
+          listener
+        );
+    },
+    getRelaySettings: () =>
+      invokeAs<RelaySettingsSnapshot>(
+        ipc,
+        IPC_CHANNELS.relaySettingsGet
+      ),
+    updateRelaySettings: (input: UpdateRelaySettingsInput) =>
+      invokeAs<RelaySettingsSnapshot>(
+        ipc,
+        IPC_CHANNELS.relaySettingsUpdate,
+        input
+      ),
+    setProviderCredential: (
+      provider: ProviderCredentialId,
+      credential: string
+    ) =>
+      invokeAs<RelaySettingsSnapshot>(
+        ipc,
+        IPC_CHANNELS.relayProviderCredentialSet,
+        { provider, credential }
+      ),
+    clearProviderCredential: (
+      provider: ProviderCredentialId
+    ) =>
+      invokeAs<RelaySettingsSnapshot>(
+        ipc,
+        IPC_CHANNELS.relayProviderCredentialClear,
+        provider
+      ),
+    getOverlayVisibility: () =>
+      invokeAs<OverlayVisibilityState>(
+        ipc,
+        IPC_CHANNELS.relayOverlayGetVisibility
+      ),
+    showOverlay: () =>
+      invokeAs<OverlayVisibilityState>(
+        ipc,
+        IPC_CHANNELS.relayOverlayShow
+      ),
+    hideOverlay: () =>
+      invokeAs<OverlayVisibilityState>(
+        ipc,
+        IPC_CHANNELS.relayOverlayHide
+      ),
+    startCapture: (config: CaptureStartConfig) =>
+      ipc.invoke(IPC_CHANNELS.startCapture, config) as Promise<void>,
+    stopCapture: (sessionId: string) =>
+      ipc.invoke(IPC_CHANNELS.stopCapture, sessionId) as Promise<void>,
+    reportLiveAssistCaptureError: (sessionId: string) =>
+      ipc.invoke(
+        IPC_CHANNELS.liveAssistCaptureError,
+        sessionId
+      ) as Promise<void>,
+    enableLoopbackAudio: () =>
+      ipc.invoke("enable-loopback-audio") as Promise<void>,
+    disableLoopbackAudio: () =>
+      ipc.invoke("disable-loopback-audio") as Promise<void>,
+    sendAudioChunk: (payload: AudioChunkPayload) =>
+      ipc.send(IPC_CHANNELS.audioChunk, payload),
+    onLiveAssistCaptureCommand: (
+      handler: (command: LiveAssistCaptureCommand) => void
+    ) => {
+      const listener = (_event: unknown, payload: unknown) =>
+        handler(payload as LiveAssistCaptureCommand);
+      ipc.on(IPC_CHANNELS.liveAssistCaptureCommand, listener);
+      return () =>
+        ipc.off(
+          IPC_CHANNELS.liveAssistCaptureCommand,
+          listener
+        );
+    },
+    onTranscript: (
+      handler: (payload: TranscriptMessage) => void
+    ) => {
+      const listener = (_event: unknown, payload: unknown) =>
+        handler(payload as TranscriptMessage);
+      ipc.on(IPC_CHANNELS.transcript, listener);
+      return () =>
+        ipc.off(IPC_CHANNELS.transcript, listener);
+    },
+    onConnectionStatus: (
+      handler: (status: ConnectionStatus) => void
+    ) => {
+      const listener = (_event: unknown, payload: unknown) =>
+        handler(payload as ConnectionStatus);
+      ipc.on(IPC_CHANNELS.connectionStatus, listener);
+      return () =>
+        ipc.off(
+          IPC_CHANNELS.connectionStatus,
           listener
         );
     }

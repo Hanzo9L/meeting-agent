@@ -15,24 +15,43 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     },
     off() {
       return undefined;
+    },
+    send(channel, ...args) {
+      calls.push({ channel, args });
     }
   };
   const api = createHelpdeskApi(ipc);
 
   assert.equal(Object.isFrozen(api), true);
   assert.deepEqual(Object.keys(api).sort(), [
+    "clearProviderCredential",
     "createConversation",
     "deleteConversation",
+    "disableLoopbackAudio",
+    "enableLoopbackAudio",
     "getLiveAssistSession",
+    "getOverlayVisibility",
+    "getRelaySettings",
+    "hideOverlay",
     "listConversations",
     "loadConversation",
+    "onConnectionStatus",
     "onConversationUpdated",
+    "onLiveAssistCaptureCommand",
     "onLiveAssistSession",
+    "onTranscript",
     "openCitation",
     "renameConversation",
+    "reportLiveAssistCaptureError",
+    "sendAudioChunk",
+    "setProviderCredential",
+    "showOverlay",
+    "startCapture",
     "startLiveAssist",
+    "stopCapture",
     "stopLiveAssist",
-    "submitMessage"
+    "submitMessage",
+    "updateRelaySettings"
   ]);
   assert.equal("invoke" in api, false);
   assert.equal("databasePath" in api, false);
