@@ -28,7 +28,7 @@ function makeEvidence(id: string, text: string, supportTypes: EvidenceItem["supp
       sourceStatus: "ga",
       sourceDomain: "teams_admin",
       authorityTier: "tier1",
-      authorityRoles: [],
+      authorityRoles: ["teams_admin_primary"],
       routePriority: "primary",
       title: id,
       canonicalUrl: `https://learn.microsoft.com/${id}`,

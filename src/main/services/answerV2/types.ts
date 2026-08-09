@@ -272,6 +272,13 @@ export type AnswerPlanSectionId =
   | "caveats";
 
 export type PlannedClaimType =
+  | "purpose"
+  | "mechanism"
+  | "behavior"
+  | "relationship"
+  | "identifier_operation"
+  | "procedure_step"
+  | "configuration"
   | "concept_definition"
   | "configuration_behavior"
   | "procedure"
@@ -282,18 +289,57 @@ export type PlannedClaimType =
   | "licensing_or_status"
   | "comparison_dimension";
 
+export type AnswerPlanSchemaVersion = "atomic-source-bound-answer-plan/v1";
+export type AnswerPlannerPolicyVersion =
+  "minimal-atomic-source-bound-planner/r3";
+
+export interface ClaimSourceSpan {
+  spanId: string;
+  evidenceId: string;
+  chunkId: string;
+  documentId: string;
+  sourceId: string;
+  sourcePath: string;
+  sectionId: string;
+  headingPath: string[];
+  sourceField: "text" | "title" | "heading";
+  fieldIndex: number | null;
+  sentenceIndex: number | null;
+  startOffset: number;
+  endOffset: number;
+  text: string;
+  contentHash: string;
+  authorityRole: SourceAuthorityRole;
+  sourceOrder: number;
+}
+
 export interface PlannedClaim {
   claimId: string;
+  groundingSnapshotId: string;
+  groundingSnapshotHash: string;
+  requiredAspectId: string;
+  coveredFacets: EvidenceSupportFacet[];
   claimType: PlannedClaimType;
   sectionId: AnswerPlanSectionId;
   proposition: string;
   evidenceIds: string[];
+  sourceSpans: ClaimSourceSpan[];
   supportStrength: "direct" | "supporting";
+  status: "mandatory" | "supporting";
   mandatory: boolean;
   requiresCaveat: boolean;
+  caveatCodes: RequiredCaveat["code"][];
+  unsupportedAspectIds: string[];
+  ordering: {
+    sequence: number;
+    procedureStep: number | null;
+    sourceOrder: number;
+    spanOrder: number;
+  };
   authorityContext: {
     sourceIds: string[];
     routePriorities: Array<"primary" | "supporting">;
+    authorityRoles: SourceAuthorityRole[];
   };
 }
 
@@ -304,7 +350,8 @@ export interface UnsupportedAspect {
     | "insufficient_evidence"
     | "exact_identifier_unverified"
     | "freshness_verification_required"
-    | "conflict_unresolved";
+    | "conflict_unresolved"
+    | "source_span_unavailable";
   detail: string;
 }
 
@@ -320,6 +367,12 @@ export interface RequiredCaveat {
 }
 
 export interface AnswerPlan {
+  planIdentity: {
+    planId: string;
+    planHash: string;
+    schemaVersion: AnswerPlanSchemaVersion;
+    plannerPolicyVersion: AnswerPlannerPolicyVersion;
+  };
   snapshotBinding: GroundingDecisionSnapshotBinding;
   question: string;
   intent: QueryIntent;
@@ -353,12 +406,43 @@ export interface AnswerPlan {
       omittedConcepts: string[];
     };
     duplicateClaimsCollapsed: number;
+    facetCoverage: Array<{
+      aspectId: string;
+      requiredFacets: EvidenceSupportFacet[];
+      plannedFacets: EvidenceSupportFacet[];
+      missingFacets: EvidenceSupportFacet[];
+    }>;
+    evidenceWithoutIndependentClaims: string[];
     canonicalUrlCoverage: {
       complete: boolean;
       missingEvidenceIds: string[];
       note: string;
     };
   };
+}
+
+export interface AnswerPlanIntegrityIssue {
+  code:
+    | "plan_hash_mismatch"
+    | "plan_id_mismatch"
+    | "plan_snapshot_binding_mismatch"
+    | "claim_unknown_aspect"
+    | "claim_unsupported_aspect"
+    | "claim_evidence_mismatch"
+    | "claim_span_out_of_bounds"
+    | "claim_span_text_mismatch"
+    | "claim_span_hash_mismatch"
+    | "claim_authority_role_mismatch"
+    | "required_facet_unplanned";
+  message: string;
+  claimId?: string;
+  aspectId?: string;
+  spanId?: string;
+}
+
+export interface AnswerPlanIntegrityValidation {
+  valid: boolean;
+  issues: AnswerPlanIntegrityIssue[];
 }
 
 export interface GroundedDraftClaim {
