@@ -9,10 +9,61 @@ import { registerHelpdeskIpcHandlers, type IpcEventLike } from "./helpdeskIpc";
 import {
   createSqliteConversationStore,
   HelpdeskService,
-  UnavailableAnswerExecutionPort
+  UnavailableAnswerExecutionPort,
+  type AnswerExecutionPort
 } from "../services/conversations";
 
-test("typed Helpdesk IPC supports conversation lifecycle and unavailable submission", async () => {
+class IpcGroundedPort implements AnswerExecutionPort {
+  async execute() {
+    const answerText =
+      "Calling Plans connect Teams Phone to the PSTN.";
+    return {
+      ok: true as const,
+      answerability: "answered" as const,
+      answerText,
+      snapshot: {
+        snapshotId: "grounding:ipc",
+        snapshotHash: "a".repeat(64),
+        schemaVersion:
+          "grounding-decision-snapshot/v1" as const,
+        resolverPolicyVersion:
+          "proposition-aware-evidence-policy/r2.2" as const,
+        corpusRevisionHash: "b".repeat(64),
+        createdAt: "2026-08-09T00:00:00.000Z"
+      },
+      citations: [
+        {
+          citationId: "citation:ipc",
+          factualRangeId: "factual-range:ipc",
+          answerRange: {
+            startOffset: 0,
+            endOffset: answerText.length
+          },
+          sourceTitle: "Microsoft Teams Calling Plans",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          sourceId: "ms-teams-admin",
+          authorityRole: "teams_admin_primary",
+          headingPath: ["Microsoft Teams Calling Plans"],
+          sectionId: "calling-plans",
+          sourceStatus: "ga",
+          preview: false
+        }
+      ],
+      diagnostics: {
+        retrievalMs: 1,
+        evidenceResolutionMs: 1,
+        planningMs: 1,
+        assemblyMs: 1,
+        citationMappingMs: 1,
+        pipelineTotalMs: 5,
+        answerGenerationRequestCount: 0 as const
+      }
+    };
+  }
+}
+
+test("typed Helpdesk IPC persists grounded answers and opens only stored citations", async () => {
   const root = await mkdtemp(join(tmpdir(), "meeting-agent-helpdesk-ipc-"));
   const store = createSqliteConversationStore({
     databasePath: join(root, "conversations.sqlite")
@@ -21,14 +72,18 @@ test("typed Helpdesk IPC supports conversation lifecycle and unavailable submiss
     string,
     (event: IpcEventLike, ...args: unknown[]) => unknown
   >();
+  const openedUrls: string[] = [];
   registerHelpdeskIpcHandlers({
     registrar: {
       handle: (channel, listener) => {
         handlers.set(channel, listener);
       }
     },
-    service: new HelpdeskService(store, new UnavailableAnswerExecutionPort()),
-    isTrustedSender: (event) => event.sender.id === 7
+    service: new HelpdeskService(store, new IpcGroundedPort()),
+    isTrustedSender: (event) => event.sender.id === 7,
+    openExternal: async (url) => {
+      openedUrls.push(url);
+    }
   });
 
   const invoke = async <T>(
@@ -63,7 +118,11 @@ test("typed Helpdesk IPC supports conversation lifecycle and unavailable submiss
     const submitted = await invoke<{
       outcome: string;
       view: {
-        messages: Array<{ role: string; inputOrigin: string | null }>;
+        messages: Array<{
+          id: string;
+          role: string;
+          inputOrigin: string | null;
+        }>;
         answerRuns: Array<{ state: string; failureCode: string | null }>;
       };
     }>(IPC_CHANNELS.helpdeskSubmitMessage, {
@@ -73,20 +132,32 @@ test("typed Helpdesk IPC supports conversation lifecycle and unavailable submiss
     });
     if (!submitted.ok) throw new Error(submitted.error.message);
     assert.equal(submitted.ok, true);
-    assert.equal(submitted.data.outcome, "answer_unavailable");
-    assert.equal(submitted.data.view.messages.length, 1);
+    assert.equal(submitted.data.outcome, "answered");
+    assert.equal(submitted.data.view.messages.length, 2);
     assert.equal(submitted.data.view.messages[0]?.role, "user");
     assert.equal(submitted.data.view.messages[0]?.inputOrigin, "pasted");
-    assert.equal(submitted.data.view.answerRuns[0]?.state, "failed");
     assert.equal(
-      submitted.data.view.answerRuns[0]?.failureCode,
-      "answer_unavailable"
+      submitted.data.view.messages[1]?.role,
+      "assistant"
     );
+    assert.equal(submitted.data.view.answerRuns[0]?.state, "completed");
+
+    const opened = await invoke<{ opened: true }>(
+      IPC_CHANNELS.helpdeskOpenCitation,
+      {
+        messageId: submitted.data.view.messages[1]!.id,
+        citationId: "citation:ipc"
+      }
+    );
+    assert.equal(opened.ok && opened.data.opened, true);
+    assert.deepEqual(openedUrls, [
+      "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365"
+    ]);
 
     const loaded = await invoke<{
       messages: Array<{ role: string }>;
     }>(IPC_CHANNELS.helpdeskLoadConversation, conversationId);
-    assert.equal(loaded.ok && loaded.data.messages.length, 1);
+    assert.equal(loaded.ok && loaded.data.messages.length, 2);
     assert.equal(loaded.ok && loaded.data.messages[0]?.role, "user");
 
     const deleted = await invoke<{ deleted: boolean }>(
@@ -116,7 +187,10 @@ test("Helpdesk IPC rejects untrusted senders and malformed messages safely", asy
       }
     },
     service: new HelpdeskService(store, new UnavailableAnswerExecutionPort()),
-    isTrustedSender: (event) => event.sender.id === 7
+    isTrustedSender: (event) => event.sender.id === 7,
+    openExternal: async () => {
+      throw new Error("must not open");
+    }
   });
 
   try {

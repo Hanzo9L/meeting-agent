@@ -220,6 +220,12 @@ button:disabled {
   font-size: 12px;
 }
 
+.engine-state.active {
+  border-color: #6678b8;
+  background: #20283d;
+  color: #d7dfff;
+}
+
 .error-banner {
   display: flex;
   align-items: center;
@@ -284,12 +290,100 @@ button:disabled {
   font-weight: 500;
 }
 
+.answerability-label,
+.preview-label {
+  border-radius: 999px;
+  background: #293342;
+  padding: 2px 7px;
+  color: #cbd7ff;
+  font-size: 10px;
+  font-weight: 550;
+}
+
+.answerability-label.partial {
+  background: #493d25;
+  color: #ffe1a1;
+}
+
+.answerability-label.insufficient_evidence {
+  background: #3a3c42;
+  color: #d0d3da;
+}
+
 .message-content {
   overflow-wrap: anywhere;
   color: #f2f2f4;
   font-size: 15px;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+.assistant-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  color: #9298a3;
+  font-size: 11px;
+}
+
+.assistant-actions button,
+.source-link {
+  border: 1px solid #3b3f47;
+  border-radius: 7px;
+  background: #202227;
+  padding: 5px 8px;
+  color: #d9dde7;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.assistant-actions button:hover,
+.source-link:hover {
+  border-color: #68718a;
+  background: #292d35;
+}
+
+.source-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  border-left: 2px solid #343a48;
+  padding-left: 12px;
+}
+
+.source-card {
+  min-width: 0;
+  border-radius: 8px;
+  background: #17191e;
+  padding: 9px 10px;
+}
+
+.source-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #aebfff;
+  font-size: 12px;
+  font-weight: 650;
+  text-align: left;
+}
+
+.source-heading,
+.source-url {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  color: #8f96a3;
+  font-size: 10px;
+}
+
+.source-url {
+  color: #778093;
+}
+
+.preview-label {
+  display: inline-block;
+  margin-top: 6px;
 }
 
 .answer-status {
@@ -303,6 +397,11 @@ button:disabled {
 .answer-status.error {
   border-color: #b95a5a;
   color: #e2a5a5;
+}
+
+.answer-status.executing {
+  border-color: #7188d5;
+  color: #cbd5ff;
 }
 
 .center-state {

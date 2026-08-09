@@ -14,9 +14,9 @@ import { SettingsStore } from "./store/settingsStore";
 import { registerHelpdeskIpcHandlers } from "./ipc/helpdeskIpc";
 import {
   createSqliteConversationStore,
+  GroundedAnswerExecutionPort,
   HelpdeskService,
   resolveConversationDatabasePath,
-  UnavailableAnswerExecutionPort,
   type SqliteConversationStore
 } from "./services/conversations";
 import { createOverlayWindow } from "./windows/overlayWindow";
@@ -248,7 +248,11 @@ function registerHelpdeskHandlers(): void {
     },
     service: helpdeskService,
     isTrustedSender: (event) =>
-      helpdeskWindow !== null && event.sender.id === helpdeskWindow.webContents.id
+      helpdeskWindow !== null &&
+      event.sender.id === helpdeskWindow.webContents.id,
+    openExternal: async (url) => {
+      await shell.openExternal(url);
+    }
   });
 }
 
@@ -267,7 +271,7 @@ app.whenReady().then(() => {
     });
     helpdeskService = new HelpdeskService(
       conversationStore,
-      new UnavailableAnswerExecutionPort()
+      new GroundedAnswerExecutionPort()
     );
     registerIpcHandlers();
     registerHelpdeskHandlers();

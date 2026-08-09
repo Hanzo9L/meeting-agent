@@ -7,6 +7,7 @@ import test from "node:test";
 import Database from "better-sqlite3";
 import { resolveKnowledgeV2DatabasePath } from "../knowledgeV2/store";
 import { resolveConversationDatabasePath } from "./dbPaths";
+import { CONVERSATION_MIGRATIONS } from "./migrations";
 import {
   createSqliteConversationStore,
   type SqliteConversationStore
@@ -96,7 +97,7 @@ test("creates, lists, loads, and reopens conversations", async () => {
   let conversationId = "";
   const first = createSqliteConversationStore({ databasePath: temp.databasePath });
   try {
-    assert.equal(first.getSchemaVersion(), 1);
+    assert.equal(first.getSchemaVersion(), 2);
     const conversation = first.createConversation({ title: "Teams Voice" });
     conversationId = conversation.id;
     assert.equal(first.listConversations().length, 1);
@@ -110,6 +111,80 @@ test("creates, lists, loads, and reopens conversations", async () => {
     assert.equal(reopened.getConversation(conversationId)?.title, "Teams Voice");
   } finally {
     reopened.close();
+    await rm(temp.root, { recursive: true, force: true });
+  }
+});
+
+test("version 2 migration preserves existing version 1 messages", async () => {
+  const temp = await makeTempDatabase();
+  const raw = new Database(temp.databasePath);
+  try {
+    raw.exec(`
+      CREATE TABLE schema_migrations (
+        version INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        applied_at TEXT NOT NULL
+      );
+    `);
+    raw.exec(CONVERSATION_MIGRATIONS[0]!.sql);
+    raw
+      .prepare(
+        "INSERT INTO schema_migrations (version, name, applied_at) VALUES (1, ?, ?)"
+      )
+      .run(
+        CONVERSATION_MIGRATIONS[0]!.name,
+        "2026-08-08T00:00:00.000Z"
+      );
+    raw
+      .prepare(
+        `INSERT INTO conversations (
+          conversation_id, title, created_at, updated_at, deleted_at
+        ) VALUES ('conv-v1', 'Existing', ?, ?, NULL)`
+      )
+      .run(
+        "2026-08-08T00:00:00.000Z",
+        "2026-08-08T00:00:00.000Z"
+      );
+    raw
+      .prepare(
+        `INSERT INTO messages (
+          message_id,
+          conversation_id,
+          turn_index,
+          role,
+          content,
+          input_origin,
+          answerability,
+          grounding_snapshot_id,
+          created_at
+        ) VALUES (
+          'msg-v1',
+          'conv-v1',
+          1,
+          'user',
+          'Existing question',
+          'typed',
+          NULL,
+          NULL,
+          ?
+        )`
+      )
+      .run("2026-08-08T00:00:00.000Z");
+  } finally {
+    raw.close();
+  }
+
+  const migrated = createSqliteConversationStore({
+    databasePath: temp.databasePath
+  });
+  try {
+    assert.equal(migrated.getSchemaVersion(), 2);
+    assert.equal(
+      migrated.loadOrderedMessages("conv-v1")[0]?.content,
+      "Existing question"
+    );
+  } finally {
+    migrated.close();
     await rm(temp.root, { recursive: true, force: true });
   }
 });
@@ -162,7 +237,8 @@ test("persists an answered assistant message only through atomic run completion"
       answerRunId: fixture.run.id,
       content: "Use the verified assignment command.",
       answerability: "answered",
-      snapshot: SNAPSHOT_A
+      snapshot: SNAPSHOT_A,
+      citations: []
     });
 
     assert.equal(completed.message.role, "assistant");
@@ -186,12 +262,124 @@ test("persists partial as a valid grounded assistant message", async () => {
       answerRunId: fixture.run.id,
       content: "The supported portion is available; adjacent authority is missing.",
       answerability: "partial",
-      snapshot: SNAPSHOT_A
+      snapshot: SNAPSHOT_A,
+      citations: []
     });
 
     assert.equal(completed.message.answerability, "partial");
     assert.equal(completed.answerRun.state, "partial");
     assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 2);
+  });
+});
+
+test("persists insufficient evidence as a valid grounded assistant message", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    const text =
+      "Unable to provide a factual answer from the approved evidence.";
+    const completed = store.appendGroundedAssistantMessage({
+      answerRunId: fixture.run.id,
+      content: text,
+      answerability: "insufficient_evidence",
+      snapshot: SNAPSHOT_A,
+      citations: []
+    });
+    assert.equal(completed.message.content, text);
+    assert.equal(
+      completed.message.answerability,
+      "insufficient_evidence"
+    );
+    assert.equal(completed.answerRun.state, "completed");
+  });
+});
+
+test("persists validated citation ranges with the exact answer", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    const content =
+      "Calling Plans connect Teams Phone to the PSTN.";
+    const completed = store.appendGroundedAssistantMessage({
+      answerRunId: fixture.run.id,
+      content,
+      answerability: "answered",
+      snapshot: SNAPSHOT_A,
+      citations: [
+        {
+          citationId: "citation:calling-plans",
+          factualRangeId: "factual-range:calling-plans",
+          answerRangeStart: 0,
+          answerRangeEnd: content.length,
+          sourceTitle: "Microsoft Teams Calling Plans",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          sourceId: "ms-teams-admin",
+          authorityRole: "teams_admin_primary",
+          headingPath: ["Microsoft Teams Calling Plans"],
+          sectionId: "calling-plans",
+          sourceStatus: "ga",
+          preview: false
+        }
+      ]
+    });
+    assert.equal(completed.message.content, content);
+    assert.equal(completed.message.citations.length, 1);
+    assert.deepEqual(completed.message.citations[0], {
+      messageId: completed.message.id,
+      citationId: "citation:calling-plans",
+      factualRangeId: "factual-range:calling-plans",
+      answerRangeStart: 0,
+      answerRangeEnd: content.length,
+      sourceTitle: "Microsoft Teams Calling Plans",
+      canonicalUrl:
+        "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      sourceId: "ms-teams-admin",
+      authorityRole: "teams_admin_primary",
+      headingPath: ["Microsoft Teams Calling Plans"],
+      sectionId: "calling-plans",
+      sourceStatus: "ga",
+      preview: false,
+      groundingSnapshotId: SNAPSHOT_A.snapshotId
+    });
+  });
+});
+
+test("rejects an unvalidated citation URL before assistant persistence", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    const content = "A factual answer.";
+    assert.throws(
+      () =>
+        store.appendGroundedAssistantMessage({
+          answerRunId: fixture.run.id,
+          content,
+          answerability: "answered",
+          snapshot: SNAPSHOT_A,
+          citations: [
+            {
+              citationId: "citation:untrusted",
+              factualRangeId: "factual-range:untrusted",
+              answerRangeStart: 0,
+              answerRangeEnd: content.length,
+              sourceTitle: "Untrusted",
+              canonicalUrl: "https://example.com/not-authoritative",
+              sourceId: "unknown",
+              authorityRole: "teams_admin_primary",
+              headingPath: [],
+              sectionId: "unknown",
+              sourceStatus: "unknown",
+              preview: false
+            }
+          ]
+        }),
+      /actionable Microsoft Learn URL/
+    );
+    assert.equal(
+      store.loadOrderedMessages(fixture.conversationId).length,
+      1
+    );
   });
 });
 
@@ -241,7 +429,8 @@ test("grounded completion rolls back when snapshot identity conflicts", async ()
       answerRunId: first.run.id,
       content: "First answer",
       answerability: "answered",
-      snapshot: SNAPSHOT_A
+      snapshot: SNAPSHOT_A,
+      citations: []
     });
 
     const secondUser = store.appendUserMessage({
@@ -261,7 +450,8 @@ test("grounded completion rolls back when snapshot identity conflicts", async ()
           answerRunId: secondRun.id,
           content: "This content must roll back.",
           answerability: "answered",
-          snapshot: { ...SNAPSHOT_A, snapshotHash: "c".repeat(64) }
+          snapshot: { ...SNAPSHOT_A, snapshotHash: "c".repeat(64) },
+          citations: []
         }),
       /snapshot identity conflict/
     );
@@ -311,7 +501,8 @@ test("context resolution stores prior-message references without evidence semant
       answerRunId: fixture.run.id,
       content: "Assign the policy with the supported command.",
       answerability: "answered",
-      snapshot: SNAPSHOT_A
+      snapshot: SNAPSHOT_A,
+      citations: []
     });
     const followUp = store.appendUserMessage({
       conversationId: fixture.conversationId,
@@ -395,14 +586,13 @@ test("conversation database path is separate from Knowledge V2", () => {
   assert.match(knowledgePath, /knowledge-v2[\\/]knowledge-v2\.sqlite$/);
 });
 
-test("conversation production modules do not import grounding or retrieval implementations", () => {
+test("only the execution-port adapter imports frozen grounding implementations", () => {
   const productionFiles = [
     "types.ts",
     "dbPaths.ts",
     "migrations.ts",
     "migrationRunner.ts",
     "sqliteConversationStore.ts",
-    "answerExecutionPort.ts",
     "helpdeskService.ts",
     "index.ts"
   ];
@@ -413,4 +603,15 @@ test("conversation production modules do not import grounding or retrieval imple
     );
     assert.doesNotMatch(source, /from\s+["'][^"']*(answerV2|retrievalV2|knowledgeV2)/);
   }
+  const adapter = readFileSync(
+    resolve(
+      "src/main/services/conversations/answerExecutionPort.ts"
+    ),
+    "utf8"
+  );
+  assert.match(adapter, /from\s+["']\.\.\/answerV2["']/);
+  assert.doesNotMatch(
+    adapter,
+    /(PipelineManager|OpenAiLlmProvider|groundedAnswerService)/
+  );
 });

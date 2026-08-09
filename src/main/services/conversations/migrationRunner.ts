@@ -34,12 +34,28 @@ export function runConversationMigrations(
       continue;
     }
 
-    db.transaction(() => {
+    const apply = db.transaction(() => {
       db.exec(migration.sql);
       db.prepare(
         "INSERT INTO schema_migrations (version, name, applied_at) VALUES (?, ?, ?)"
       ).run(migration.version, migration.name, now());
-    }).immediate();
+    });
+    if (migration.foreignKeysOff) {
+      db.pragma("foreign_keys = OFF");
+      try {
+        apply.immediate();
+      } finally {
+        db.pragma("foreign_keys = ON");
+      }
+      const violations = db.pragma("foreign_key_check") as unknown[];
+      if (violations.length > 0) {
+        throw new Error(
+          `Conversation migration ${migration.version} produced foreign-key violations`
+        );
+      }
+    } else {
+      apply.immediate();
+    }
   }
 }
 

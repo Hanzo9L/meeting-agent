@@ -26,6 +26,7 @@ export interface RegisterHelpdeskIpcOptions {
   registrar: IpcHandlerRegistrar;
   service: HelpdeskService;
   isTrustedSender(event: IpcEventLike): boolean;
+  openExternal(url: string): Promise<void>;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -151,6 +152,24 @@ export function registerHelpdeskIpcHandlers(
         inputOrigin
       };
       return options.service.submitMessage(input);
+    })
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.helpdeskOpenCitation,
+    secureHandler(options, async (rawInput) => {
+      if (!isRecord(rawInput)) {
+        throw new HelpdeskServiceError(
+          "invalid_request",
+          "Citation request is invalid."
+        );
+      }
+      const url = options.service.getActionableCitationUrl(
+        requiredString(rawInput["messageId"], "Message ID", 200),
+        requiredString(rawInput["citationId"], "Citation ID", 200)
+      );
+      await options.openExternal(url);
+      return { opened: true as const };
     })
   );
 }

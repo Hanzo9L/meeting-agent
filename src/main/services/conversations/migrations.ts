@@ -2,6 +2,7 @@ export interface ConversationMigration {
   version: number;
   name: string;
   sql: string;
+  foreignKeysOff?: boolean;
 }
 
 export const CONVERSATION_MIGRATIONS: readonly ConversationMigration[] = [
@@ -149,6 +150,104 @@ export const CONVERSATION_MIGRATIONS: readonly ConversationMigration[] = [
 
       CREATE INDEX idx_context_prior_message
         ON context_resolution_prior_messages(prior_message_id);
+    `
+  },
+  {
+    version: 2,
+    name: "grounded_helpdesk_answers_and_citations",
+    foreignKeysOff: true,
+    sql: `
+      PRAGMA legacy_alter_table = ON;
+
+      ALTER TABLE messages RENAME TO messages_v1;
+
+      CREATE TABLE messages (
+        message_id TEXT PRIMARY KEY,
+        conversation_id TEXT NOT NULL,
+        turn_index INTEGER NOT NULL CHECK (turn_index > 0),
+        role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
+        content TEXT NOT NULL CHECK (length(trim(content)) > 0),
+        input_origin TEXT CHECK (input_origin IN ('typed', 'pasted', 'live_transcript')),
+        answerability TEXT CHECK (
+          answerability IN ('answered', 'partial', 'insufficient_evidence')
+        ),
+        grounding_snapshot_id TEXT,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id) ON DELETE RESTRICT,
+        FOREIGN KEY (grounding_snapshot_id) REFERENCES grounding_snapshot_refs(snapshot_id) ON DELETE RESTRICT,
+        UNIQUE (conversation_id, turn_index),
+        CHECK (
+          (
+            role = 'user'
+            AND input_origin IS NOT NULL
+            AND answerability IS NULL
+            AND grounding_snapshot_id IS NULL
+          )
+          OR
+          (
+            role = 'assistant'
+            AND input_origin IS NULL
+            AND answerability IS NOT NULL
+            AND grounding_snapshot_id IS NOT NULL
+          )
+        )
+      );
+
+      INSERT INTO messages (
+        message_id,
+        conversation_id,
+        turn_index,
+        role,
+        content,
+        input_origin,
+        answerability,
+        grounding_snapshot_id,
+        created_at
+      )
+      SELECT
+        message_id,
+        conversation_id,
+        turn_index,
+        role,
+        content,
+        input_origin,
+        answerability,
+        grounding_snapshot_id,
+        created_at
+      FROM messages_v1;
+
+      DROP TABLE messages_v1;
+
+      CREATE INDEX idx_messages_conversation_order
+        ON messages(conversation_id, turn_index);
+
+      PRAGMA legacy_alter_table = OFF;
+
+      CREATE TABLE message_citations (
+        message_id TEXT NOT NULL,
+        citation_id TEXT NOT NULL,
+        factual_range_id TEXT NOT NULL,
+        answer_range_start INTEGER NOT NULL CHECK (answer_range_start >= 0),
+        answer_range_end INTEGER NOT NULL CHECK (answer_range_end > answer_range_start),
+        source_title TEXT NOT NULL CHECK (length(trim(source_title)) > 0),
+        canonical_url TEXT NOT NULL CHECK (
+          canonical_url LIKE 'https://learn.microsoft.com/%'
+        ),
+        source_id TEXT NOT NULL,
+        authority_role TEXT NOT NULL,
+        heading_path_json TEXT NOT NULL,
+        section_id TEXT NOT NULL,
+        source_status TEXT NOT NULL,
+        preview INTEGER NOT NULL CHECK (preview IN (0, 1)),
+        grounding_snapshot_id TEXT NOT NULL,
+        PRIMARY KEY (message_id, citation_id),
+        FOREIGN KEY (message_id) REFERENCES messages(message_id) ON DELETE CASCADE,
+        FOREIGN KEY (grounding_snapshot_id)
+          REFERENCES grounding_snapshot_refs(snapshot_id) ON DELETE RESTRICT
+      );
+
+      CREATE INDEX idx_message_citations_message_range
+        ON message_citations(message_id, answer_range_start, answer_range_end);
     `
   }
 ];

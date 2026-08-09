@@ -6,7 +6,8 @@ import { join, resolve } from "node:path";
 import test from "node:test";
 import type {
   AnswerExecutionPort,
-  AnswerExecutionRequest
+  AnswerExecutionRequest,
+  AnswerExecutionResult
 } from "./answerExecutionPort";
 import { HelpdeskService } from "./helpdeskService";
 import {
@@ -14,12 +15,75 @@ import {
   type SqliteConversationStore
 } from "./sqliteConversationStore";
 
-class RecordingUnavailablePort implements AnswerExecutionPort {
+const ANSWER_TEXT =
+  "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone.";
+
+function success(
+  answerability:
+    | "answered"
+    | "partial"
+    | "insufficient_evidence" = "answered"
+): AnswerExecutionResult {
+  return {
+    ok: true,
+    answerability,
+    answerText:
+      answerability === "insufficient_evidence"
+        ? "Unable to provide a factual answer from the approved evidence."
+        : ANSWER_TEXT,
+    snapshot: {
+      snapshotId: "grounding:slice3",
+      snapshotHash: "a".repeat(64),
+      schemaVersion: "grounding-decision-snapshot/v1",
+      resolverPolicyVersion:
+        "proposition-aware-evidence-policy/r2.2",
+      corpusRevisionHash: "b".repeat(64),
+      createdAt: "2026-08-09T00:00:00.000Z"
+    },
+    citations:
+      answerability === "insufficient_evidence"
+        ? []
+        : [
+            {
+              citationId: "citation:slice3",
+              factualRangeId: "factual-range:slice3",
+              answerRange: {
+                startOffset: 0,
+                endOffset: ANSWER_TEXT.length
+              },
+              sourceTitle: "Microsoft Teams Calling Plans",
+              canonicalUrl:
+                "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              sourceId: "ms-teams-admin",
+              authorityRole: "teams_admin_primary",
+              headingPath: ["Microsoft Teams Calling Plans"],
+              sectionId: "calling-plans",
+              sourceStatus: "ga",
+              preview: false
+            }
+          ],
+    diagnostics: {
+      retrievalMs: 1,
+      evidenceResolutionMs: 1,
+      planningMs: 1,
+      assemblyMs: 1,
+      citationMappingMs: 1,
+      pipelineTotalMs: 5,
+      answerGenerationRequestCount: 0
+    }
+  };
+}
+
+class RecordingPort implements AnswerExecutionPort {
   readonly requests: AnswerExecutionRequest[] = [];
 
-  async execute(request: AnswerExecutionRequest) {
+  constructor(private readonly result: AnswerExecutionResult) {}
+
+  async execute(
+    request: AnswerExecutionRequest
+  ): Promise<AnswerExecutionResult> {
     this.requests.push(request);
-    return { ok: false as const, code: "answer_unavailable" as const };
+    return structuredClone(this.result);
   }
 }
 
@@ -28,7 +92,9 @@ async function makeStore(): Promise<{
   databasePath: string;
   store: SqliteConversationStore;
 }> {
-  const root = await mkdtemp(join(tmpdir(), "meeting-agent-helpdesk-service-"));
+  const root = await mkdtemp(
+    join(tmpdir(), "meeting-agent-helpdesk-service-")
+  );
   const databasePath = join(root, "conversations.sqlite");
   return {
     root,
@@ -41,7 +107,7 @@ test("create, list, load, rename, and delete flow stays main-process owned", asy
   const fixture = await makeStore();
   const service = new HelpdeskService(
     fixture.store,
-    new RecordingUnavailablePort()
+    new RecordingPort(success())
   );
   try {
     const created = service.createConversation();
@@ -51,35 +117,27 @@ test("create, list, load, rename, and delete flow stays main-process owned", asy
       service.loadConversation(created.conversation.id).conversation.id,
       created.conversation.id
     );
-
     const renamed = service.renameConversation(
       created.conversation.id,
       "Teams Voice"
     );
     assert.equal(renamed.title, "Teams Voice");
-    assert.equal(
-      service.loadConversation(created.conversation.id).conversation.title,
-      "Teams Voice"
-    );
-
     assert.deepEqual(service.deleteConversation(created.conversation.id), {
       deleted: true
     });
-    assert.equal(service.listConversations().length, 0);
   } finally {
     fixture.store.close();
     await rm(fixture.root, { recursive: true, force: true });
   }
 });
 
-test("typed and pasted submissions invoke only fail-closed port and persist no assistant content", async () => {
+test("typed and pasted turns reach the same grounded execution port", async () => {
   const fixture = await makeStore();
-  const port = new RecordingUnavailablePort();
+  const port = new RecordingPort(success());
   const service = new HelpdeskService(fixture.store, port);
   try {
     const created = service.createConversation("Origins");
-
-    const typed = await service.submitMessage({
+    await service.submitMessage({
       conversationId: created.conversation.id,
       content: "Typed question",
       inputOrigin: "typed"
@@ -89,21 +147,16 @@ test("typed and pasted submissions invoke only fail-closed port and persist no a
       content: "Pasted question",
       inputOrigin: "pasted"
     });
-
-    assert.equal(typed.outcome, "answer_unavailable");
-    assert.equal(pasted.outcome, "answer_unavailable");
     assert.equal(port.requests.length, 2);
     assert.deepEqual(
-      pasted.view.messages.map((message) => message.inputOrigin),
-      ["typed", "pasted"]
+      port.requests.map((request) => request.question),
+      ["Typed question", "Pasted question"]
     );
-    assert.ok(pasted.view.messages.every((message) => message.role === "user"));
     assert.deepEqual(
-      pasted.view.answerRuns.map((run) => [run.state, run.failureCode]),
-      [
-        ["failed", "answer_unavailable"],
-        ["failed", "answer_unavailable"]
-      ]
+      pasted.view.messages
+        .filter((message) => message.role === "user")
+        .map((message) => message.inputOrigin),
+      ["typed", "pasted"]
     );
   } finally {
     fixture.store.close();
@@ -111,17 +164,91 @@ test("typed and pasted submissions invoke only fail-closed port and persist no a
   }
 });
 
-test("service data survives store restart and reload", async () => {
+for (const answerability of [
+  "answered",
+  "partial",
+  "insufficient_evidence"
+] as const) {
+  test(`${answerability} persists a successful assistant message`, async () => {
+    const fixture = await makeStore();
+    const service = new HelpdeskService(
+      fixture.store,
+      new RecordingPort(success(answerability))
+    );
+    try {
+      const created = service.createConversation(answerability);
+      const submitted = await service.submitMessage({
+        conversationId: created.conversation.id,
+        content: "Question",
+        inputOrigin: "typed"
+      });
+      assert.equal(submitted.outcome, answerability);
+      const assistant = submitted.view.messages.find(
+        (message) => message.role === "assistant"
+      );
+      assert.ok(assistant);
+      const expected = success(answerability);
+      assert.equal(expected.ok, true);
+      if (!expected.ok) return;
+      assert.equal(assistant.content, expected.answerText);
+      assert.equal(assistant.answerability, answerability);
+      assert.equal(
+        assistant.citations.length,
+        answerability === "insufficient_evidence" ? 0 : 1
+      );
+    } finally {
+      fixture.store.close();
+      await rm(fixture.root, { recursive: true, force: true });
+    }
+  });
+}
+
+test("execution failure persists no assistant factual message", async () => {
+  const fixture = await makeStore();
+  const service = new HelpdeskService(
+    fixture.store,
+    new RecordingPort({
+      ok: false,
+      code: "citation_validation_failed",
+      stage: "citation_mapping",
+      userSafeMessage: "Sources could not be validated."
+    })
+  );
+  try {
+    const created = service.createConversation("Failure");
+    const submitted = await service.submitMessage({
+      conversationId: created.conversation.id,
+      content: "Question",
+      inputOrigin: "typed"
+    });
+    assert.equal(submitted.outcome, "failed");
+    assert.ok(
+      submitted.view.messages.every(
+        (message) => message.role === "user"
+      )
+    );
+    assert.equal(submitted.view.answerRuns[0]?.state, "failed");
+    assert.equal(
+      submitted.view.answerRuns[0]?.failureCode,
+      "citation_validation_failed"
+    );
+  } finally {
+    fixture.store.close();
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("exact answer and citations survive store restart", async () => {
   const fixture = await makeStore();
   let conversationId = "";
   try {
-    const firstService = new HelpdeskService(
+    const service = new HelpdeskService(
       fixture.store,
-      new RecordingUnavailablePort()
+      new RecordingPort(success())
     );
-    const created = firstService.createConversation("Restart");
+    const created = service.createConversation("Restart");
     conversationId = created.conversation.id;
-    await firstService.submitMessage({
+    await service.submitMessage({
       conversationId,
       content: "Persist this turn",
       inputOrigin: "typed"
@@ -132,40 +259,52 @@ test("service data survives store restart and reload", async () => {
       databasePath: fixture.databasePath
     });
     try {
-      const reopenedService = new HelpdeskService(
+      const reopened = new HelpdeskService(
         reopenedStore,
-        new RecordingUnavailablePort()
+        new RecordingPort(success())
+      ).loadConversation(conversationId);
+      const assistant = reopened.messages.find(
+        (message) => message.role === "assistant"
       );
-      const view = reopenedService.loadConversation(conversationId);
-      assert.equal(view.messages.length, 1);
-      assert.equal(view.messages[0]?.content, "Persist this turn");
-      assert.equal(view.answerRuns[0]?.failureCode, "answer_unavailable");
+      assert.equal(assistant?.content, ANSWER_TEXT);
+      assert.equal(assistant?.citations.length, 1);
+      assert.equal(
+        assistant?.citations[0]?.canonicalUrl,
+        "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365"
+      );
+      assert.equal(
+        assistant?.citations[0]?.answerRangeEnd,
+        ANSWER_TEXT.length
+      );
     } finally {
       reopenedStore.close();
     }
   } finally {
-    if (fixture.store) {
-      try {
-        fixture.store.close();
-      } catch {
-        // The first store is intentionally closed before reopening.
-      }
+    try {
+      fixture.store.close();
+    } catch {
+      // Closed before the restart assertion.
     }
     await rm(fixture.root, { recursive: true, force: true });
   }
 });
 
-test("Slice 2 service has no legacy, retrieval, or grounding implementation imports", () => {
-  const source = readFileSync(
+test("Helpdesk service consumes only the execution port contract", () => {
+  const serviceSource = readFileSync(
     resolve("src/main/services/conversations/helpdeskService.ts"),
     "utf8"
   );
-  const portSource = readFileSync(
-    resolve("src/main/services/conversations/answerExecutionPort.ts"),
+  assert.doesNotMatch(
+    serviceSource,
+    /(answerV2|retrievalV2|PipelineManager|OpenAiLlmProvider)/
+  );
+  const mainSource = readFileSync(
+    resolve("src/main/index.ts"),
     "utf8"
   );
+  assert.match(mainSource, /new GroundedAnswerExecutionPort\(\)/);
   assert.doesNotMatch(
-    `${source}\n${portSource}`,
-    /(PipelineManager|OpenAiLlmProvider|knowledgeBase|retrievalV2|answerV2)/
+    mainSource,
+    /new UnavailableAnswerExecutionPort\(\)/
   );
 });

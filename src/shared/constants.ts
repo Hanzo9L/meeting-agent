@@ -29,7 +29,8 @@ export const IPC_CHANNELS = {
   helpdeskLoadConversation: "helpdesk:load-conversation",
   helpdeskRenameConversation: "helpdesk:rename-conversation",
   helpdeskDeleteConversation: "helpdesk:delete-conversation",
-  helpdeskSubmitMessage: "helpdesk:submit-message"
+  helpdeskSubmitMessage: "helpdesk:submit-message",
+  helpdeskOpenCitation: "helpdesk:open-citation"
 } as const;
 
 export const DEFAULT_TOPIC_PROMPT =

@@ -1,6 +1,9 @@
 export type ConversationMessageRole = "user" | "assistant";
 export type ConversationInputOrigin = "typed" | "pasted" | "live_transcript";
-export type PersistedAnswerability = "answered" | "partial";
+export type PersistedAnswerability =
+  | "answered"
+  | "partial"
+  | "insufficient_evidence";
 
 export type AnswerRunState =
   | "received"
@@ -31,7 +34,25 @@ export interface ConversationMessage {
   inputOrigin: ConversationInputOrigin | null;
   answerability: PersistedAnswerability | null;
   groundingSnapshotId: string | null;
+  citations: MessageCitationRecord[];
   createdAt: string;
+}
+
+export interface MessageCitationRecord {
+  messageId: string;
+  citationId: string;
+  factualRangeId: string;
+  answerRangeStart: number;
+  answerRangeEnd: number;
+  sourceTitle: string;
+  canonicalUrl: string;
+  sourceId: string;
+  authorityRole: string;
+  headingPath: string[];
+  sectionId: string;
+  sourceStatus: string;
+  preview: boolean;
+  groundingSnapshotId: string;
 }
 
 export interface GroundingSnapshotReference {
@@ -94,6 +115,9 @@ export interface AppendGroundedAssistantMessageInput {
   content: string;
   answerability: PersistedAnswerability;
   snapshot: GroundingSnapshotReference;
+  citations: Array<
+    Omit<MessageCitationRecord, "messageId" | "groundingSnapshotId">
+  >;
 }
 
 export interface SaveContextResolutionInput {
@@ -126,6 +150,10 @@ export interface ConversationStore {
     input: AppendGroundedAssistantMessageInput
   ): CompletedAnswerRun;
   loadOrderedMessages(conversationId: string): ConversationMessage[];
+  getMessageCitation(
+    messageId: string,
+    citationId: string
+  ): MessageCitationRecord | null;
   loadAnswerRuns(conversationId: string): AnswerRunRecord[];
   createAnswerRun(input: CreateAnswerRunInput): AnswerRunRecord;
   updateAnswerRun(input: UpdateAnswerRunInput): AnswerRunRecord;

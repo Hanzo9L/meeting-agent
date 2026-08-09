@@ -24,15 +24,28 @@ export function resolveComposerInputOrigin(
   return hasPastedContent ? "pasted" : "typed";
 }
 
+export interface ClipboardWriter {
+  writeText(text: string): Promise<void>;
+}
+
+export async function copyAnswerText(
+  answerText: string,
+  clipboard: ClipboardWriter
+): Promise<void> {
+  await clipboard.writeText(answerText);
+}
+
 function statusPresentation(run: HelpdeskAnswerRun): {
   text: string;
   tone: "neutral" | "error";
 } | null {
   if (run.state === "completed" || run.state === "partial") return null;
   if (run.state === "failed") {
-    return run.failureCode === "answer_unavailable"
-      ? { text: "Answer engine not connected yet.", tone: "neutral" }
-      : { text: "The answer could not be completed.", tone: "error" };
+    return {
+      text:
+        "Relay could not complete and validate this answer. No factual answer was saved.",
+      tone: "error"
+    };
   }
   if (run.state === "cancelled") {
     return { text: "The answer request was cancelled.", tone: "neutral" };

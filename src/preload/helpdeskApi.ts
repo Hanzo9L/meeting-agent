@@ -4,6 +4,7 @@ import type {
   HelpdeskConversation,
   HelpdeskConversationView,
   HelpdeskResult,
+  OpenHelpdeskCitationInput,
   SubmitHelpdeskMessageInput,
   SubmitHelpdeskMessageResult
 } from "@shared/helpdesk";
@@ -55,6 +56,12 @@ export function createHelpdeskApi(ipc: HelpdeskIpcInvoker): HelpdeskApi {
       invokeAs<SubmitHelpdeskMessageResult>(
         ipc,
         IPC_CHANNELS.helpdeskSubmitMessage,
+        input
+      ),
+    openCitation: (input: OpenHelpdeskCitationInput) =>
+      invokeAs<{ opened: true }>(
+        ipc,
+        IPC_CHANNELS.helpdeskOpenCitation,
         input
       )
   });

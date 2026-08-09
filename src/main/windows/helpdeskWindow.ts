@@ -7,7 +7,7 @@ export function createHelpdeskWindow(): BrowserWindow {
     height: 780,
     minWidth: 820,
     minHeight: 560,
-    title: "Helpdesk Assistant",
+    title: "Relay: Real-Time Operations",
     autoHideMenuBar: true,
     show: false,
     backgroundColor: "#101114",

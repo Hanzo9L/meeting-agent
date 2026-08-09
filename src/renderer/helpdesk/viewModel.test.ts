@@ -5,6 +5,7 @@ import test from "node:test";
 import type { HelpdeskConversationView } from "@shared/helpdesk";
 import {
   buildHelpdeskTimeline,
+  copyAnswerText,
   resolveComposerInputOrigin
 } from "./viewModel";
 
@@ -13,7 +14,7 @@ test("composer origin tracks any paste without semantic analysis", () => {
   assert.equal(resolveComposerInputOrigin(true), "pasted");
 });
 
-test("timeline preserves message order and renders unavailable as non-message status", () => {
+test("timeline preserves message order and renders execution failure as non-message status", () => {
   const view: HelpdeskConversationView = {
     conversation: {
       id: "conv-1",
@@ -31,6 +32,7 @@ test("timeline preserves message order and renders unavailable as non-message st
         inputOrigin: "pasted",
         answerability: null,
         groundingSnapshotId: null,
+        citations: [],
         createdAt: "2026-08-08T00:00:01.000Z"
       },
       {
@@ -42,6 +44,7 @@ test("timeline preserves message order and renders unavailable as non-message st
         inputOrigin: "typed",
         answerability: null,
         groundingSnapshotId: null,
+        citations: [],
         createdAt: "2026-08-08T00:00:00.000Z"
       }
     ],
@@ -52,7 +55,7 @@ test("timeline preserves message order and renders unavailable as non-message st
         triggeringUserMessageId: "msg-1",
         assistantMessageId: null,
         state: "failed",
-        failureCode: "answer_unavailable",
+        failureCode: "grounding_execution_failed",
         createdAt: "2026-08-08T00:00:00.000Z",
         startedAt: "2026-08-08T00:00:00.000Z",
         completedAt: "2026-08-08T00:00:00.000Z"
@@ -69,11 +72,23 @@ test("timeline preserves message order and renders unavailable as non-message st
     ),
     [
       "message:First",
-      "status:Answer engine not connected yet.",
+      "status:Relay could not complete and validate this answer. No factual answer was saved.",
       "message:Second"
     ]
   );
   assert.equal(rows.filter((row) => row.kind === "message").length, 2);
+});
+
+test("copy answer writes the exact R4 text without transformation", async () => {
+  const writes: string[] = [];
+  const answer =
+    "First exact line.\n\nSecond exact line with `code`.";
+  await copyAnswerText(answer, {
+    async writeText(value) {
+      writes.push(value);
+    }
+  });
+  assert.deepEqual(writes, [answer]);
 });
 
 test("renderer sources have no raw database, filesystem, IPC, or Node access", () => {
@@ -84,7 +99,7 @@ test("renderer sources have no raw database, filesystem, IPC, or Node access", (
     );
     assert.doesNotMatch(
       source,
-      /(better-sqlite3|node:fs|node:path|ipcRenderer|require\s*\()/
+      /(better-sqlite3|node:fs|node:path|ipcRenderer|answerV2|retrievalV2|require\s*\()/
     );
   }
 });

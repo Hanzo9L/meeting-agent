@@ -19,6 +19,7 @@ import type {
   CreateAnswerRunInput,
   CreateConversationInput,
   GroundingSnapshotReference,
+  MessageCitationRecord,
   SaveContextResolutionInput,
   StartedAnswerRun,
   UpdateAnswerRunInput
@@ -46,7 +47,7 @@ type MessageRow = {
   role: "user" | "assistant";
   content: string;
   input_origin: "typed" | "pasted" | "live_transcript" | null;
-  answerability: "answered" | "partial" | null;
+  answerability: "answered" | "partial" | "insufficient_evidence" | null;
   grounding_snapshot_id: string | null;
   created_at: string;
 };
@@ -82,6 +83,23 @@ type SnapshotReferenceRow = {
   created_at: string;
 };
 
+type MessageCitationRow = {
+  message_id: string;
+  citation_id: string;
+  factual_range_id: string;
+  answer_range_start: number;
+  answer_range_end: number;
+  source_title: string;
+  canonical_url: string;
+  source_id: string;
+  authority_role: string;
+  heading_path_json: string;
+  section_id: string;
+  source_status: string;
+  preview: number;
+  grounding_snapshot_id: string;
+};
+
 const ACTIVE_STATES: readonly AnswerRunState[] = [
   "received",
   "resolving_context",
@@ -103,6 +121,16 @@ function requiredText(value: string, field: string): string {
     throw new Error(`${field} must not be empty`);
   }
   return normalized;
+}
+
+function requiredPreservedText(
+  value: string,
+  field: string
+): string {
+  if (!value.trim()) {
+    throw new Error(`${field} must not be empty`);
+  }
+  return value;
 }
 
 function toJson(value: Record<string, unknown> | undefined): string | null {
@@ -133,7 +161,27 @@ function mapMessage(row: MessageRow): ConversationMessage {
     inputOrigin: row.input_origin,
     answerability: row.answerability,
     groundingSnapshotId: row.grounding_snapshot_id,
+    citations: [],
     createdAt: row.created_at
+  };
+}
+
+function mapCitation(row: MessageCitationRow): MessageCitationRecord {
+  return {
+    messageId: row.message_id,
+    citationId: row.citation_id,
+    factualRangeId: row.factual_range_id,
+    answerRangeStart: row.answer_range_start,
+    answerRangeEnd: row.answer_range_end,
+    sourceTitle: row.source_title,
+    canonicalUrl: row.canonical_url,
+    sourceId: row.source_id,
+    authorityRole: row.authority_role,
+    headingPath: JSON.parse(row.heading_path_json) as string[],
+    sectionId: row.section_id,
+    sourceStatus: row.source_status,
+    preview: row.preview === 1,
+    groundingSnapshotId: row.grounding_snapshot_id
   };
 }
 
@@ -333,11 +381,79 @@ export class SqliteConversationStore implements ConversationStore {
           messageId,
           run.conversationId,
           turnIndex,
-          requiredText(input.content, "assistant message content"),
+          requiredPreservedText(
+            input.content,
+            "assistant message content"
+          ),
           input.answerability,
           input.snapshot.snapshotId,
           timestamp
         );
+
+      const insertCitation = this.db.prepare(
+        `INSERT INTO message_citations (
+          message_id,
+          citation_id,
+          factual_range_id,
+          answer_range_start,
+          answer_range_end,
+          source_title,
+          canonical_url,
+          source_id,
+          authority_role,
+          heading_path_json,
+          section_id,
+          source_status,
+          preview,
+          grounding_snapshot_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      );
+      for (const citation of input.citations) {
+        if (
+          citation.answerRangeStart < 0 ||
+          citation.answerRangeEnd <= citation.answerRangeStart ||
+          citation.answerRangeEnd > input.content.length
+        ) {
+          throw new Error(
+            `Citation ${citation.citationId} has an invalid answer range`
+          );
+        }
+        const canonical = new URL(citation.canonicalUrl);
+        if (
+          canonical.protocol !== "https:" ||
+          canonical.hostname.toLowerCase() !==
+            "learn.microsoft.com"
+        ) {
+          throw new Error(
+            `Citation ${citation.citationId} does not have an actionable Microsoft Learn URL`
+          );
+        }
+        insertCitation.run(
+          messageId,
+          requiredText(citation.citationId, "citation ID"),
+          requiredText(
+            citation.factualRangeId,
+            "factual range ID"
+          ),
+          citation.answerRangeStart,
+          citation.answerRangeEnd,
+          requiredText(citation.sourceTitle, "source title"),
+          citation.canonicalUrl,
+          requiredText(citation.sourceId, "source ID"),
+          requiredText(
+            citation.authorityRole,
+            "citation authority role"
+          ),
+          JSON.stringify(citation.headingPath),
+          requiredText(citation.sectionId, "citation section ID"),
+          requiredText(
+            citation.sourceStatus,
+            "citation source status"
+          ),
+          citation.preview ? 1 : 0,
+          input.snapshot.snapshotId
+        );
+      }
 
       const finalState: AnswerRunState =
         input.answerability === "partial" ? "partial" : "completed";
@@ -383,7 +499,27 @@ export class SqliteConversationStore implements ConversationStore {
          ORDER BY turn_index ASC`
       )
       .all(conversationId) as MessageRow[];
-    return rows.map(mapMessage);
+    return rows.map((row) => this.mapMessageWithCitations(row));
+  }
+
+  getMessageCitation(
+    messageId: string,
+    citationId: string
+  ): MessageCitationRecord | null {
+    const row = this.db
+      .prepare(
+        `SELECT mc.*
+         FROM message_citations mc
+         JOIN messages m ON m.message_id = mc.message_id
+         JOIN conversations c ON c.conversation_id = m.conversation_id
+         WHERE mc.message_id = ?
+           AND mc.citation_id = ?
+           AND c.deleted_at IS NULL`
+      )
+      .get(messageId, citationId) as
+      | MessageCitationRow
+      | undefined;
+    return row ? mapCitation(row) : null;
   }
 
   loadAnswerRuns(conversationId: string): AnswerRunRecord[] {
@@ -668,7 +804,26 @@ export class SqliteConversationStore implements ConversationStore {
       .prepare("SELECT * FROM messages WHERE message_id = ?")
       .get(messageId) as MessageRow | undefined;
     if (!row) throw new Error(`Message not found: ${messageId}`);
-    return mapMessage(row);
+    return this.mapMessageWithCitations(row);
+  }
+
+  private mapMessageWithCitations(
+    row: MessageRow
+  ): ConversationMessage {
+    const message = mapMessage(row);
+    if (row.role !== "assistant") return message;
+    const citations = this.db
+      .prepare(
+        `SELECT *
+         FROM message_citations
+         WHERE message_id = ?
+         ORDER BY answer_range_start ASC, citation_id ASC`
+      )
+      .all(row.message_id) as MessageCitationRow[];
+    return {
+      ...message,
+      citations: citations.map(mapCitation)
+    };
   }
 
   private requireAnswerRun(answerRunId: string): AnswerRunRecord {

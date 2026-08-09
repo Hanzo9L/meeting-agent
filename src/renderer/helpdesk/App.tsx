@@ -9,10 +9,12 @@ import {
 } from "react";
 import type {
   HelpdeskConversation,
-  HelpdeskConversationView
+  HelpdeskConversationView,
+  HelpdeskMessage
 } from "@shared/helpdesk";
 import {
   buildHelpdeskTimeline,
+  copyAnswerText,
   resolveComposerInputOrigin
 } from "./viewModel";
 
@@ -54,8 +56,8 @@ function Sidebar(props: {
     <aside className="sidebar" aria-label="Conversations">
       <div className="sidebar-header">
         <div>
-          <div className="eyebrow">Helpdesk</div>
-          <h1>Assistant</h1>
+          <div className="eyebrow">Real-Time Operations</div>
+          <h1>Relay</h1>
         </div>
         <button
           className="new-chat-button"
@@ -138,9 +140,107 @@ function Sidebar(props: {
   );
 }
 
+function AssistantMessage(props: {
+  message: HelpdeskMessage;
+}) {
+  const [sourcesOpen, setSourcesOpen] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  const copy = async (): Promise<void> => {
+    try {
+      if (!navigator.clipboard) {
+        throw new Error("clipboard unavailable");
+      }
+      await copyAnswerText(props.message.content, navigator.clipboard);
+      setNotice("Answer copied.");
+    } catch {
+      setNotice("The answer could not be copied.");
+    }
+  };
+
+  const openCitation = async (
+    citationId: string
+  ): Promise<void> => {
+    const result = await window.helpdeskApi.openCitation({
+      messageId: props.message.id,
+      citationId
+    });
+    if (!result.ok) {
+      setNotice(result.error.message);
+    }
+  };
+
+  const label =
+    props.message.answerability === "partial"
+      ? "Partial answer"
+      : props.message.answerability === "insufficient_evidence"
+        ? "Insufficient evidence"
+        : "Grounded answer";
+
+  return (
+    <>
+      <div className="message-label">
+        Relay
+        <span
+          className={`answerability-label ${props.message.answerability ?? ""}`}
+        >
+          {label}
+        </span>
+      </div>
+      <div className="message-content">{props.message.content}</div>
+      <div className="assistant-actions">
+        <button type="button" onClick={() => void copy()}>
+          Copy answer
+        </button>
+        {props.message.citations.length > 0 ? (
+          <button
+            type="button"
+            aria-expanded={sourcesOpen}
+            onClick={() => setSourcesOpen((open) => !open)}
+          >
+            {sourcesOpen
+              ? "Hide sources"
+              : `Sources (${props.message.citations.length})`}
+          </button>
+        ) : null}
+        {notice ? <span role="status">{notice}</span> : null}
+      </div>
+      {sourcesOpen ? (
+        <div className="source-list" aria-label="Answer sources">
+          {props.message.citations.map((citation) => (
+            <div className="source-card" key={citation.citationId}>
+              <button
+                type="button"
+                className="source-link"
+                onClick={() =>
+                  void openCitation(citation.citationId)
+                }
+              >
+                {citation.sourceTitle}
+              </button>
+              {citation.headingPath.length > 1 ? (
+                <div className="source-heading">
+                  {citation.headingPath.join(" › ")}
+                </div>
+              ) : null}
+              <div className="source-url">
+                {citation.canonicalUrl}
+              </div>
+              {citation.preview ? (
+                <span className="preview-label">Preview</span>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 function ConversationTimeline(props: {
   view: HelpdeskConversationView | null;
   loading: boolean;
+  executing: boolean;
 }) {
   const rows = useMemo(
     () => (props.view ? buildHelpdeskTimeline(props.view) : []),
@@ -159,7 +259,7 @@ function ConversationTimeline(props: {
     return (
       <div className="center-state empty-state">
         <h2>How can I help?</h2>
-        <p>Create a conversation to start building persistent helpdesk history.</p>
+        <p>Create a conversation to start building persistent Relay history.</p>
       </div>
     );
   }
@@ -182,13 +282,21 @@ function ConversationTimeline(props: {
               className={`message-row ${row.message.role}`}
               data-message-origin={row.message.inputOrigin ?? undefined}
             >
-              <div className="message-label">
-                {row.message.role === "user" ? "You" : "Assistant"}
-                {row.message.role === "user" && row.message.inputOrigin === "pasted" ? (
-                  <span className="origin-label">Pasted</span>
-                ) : null}
-              </div>
-              <div className="message-content">{row.message.content}</div>
+              {row.message.role === "user" ? (
+                <div className="message-label">
+                  You
+                  {row.message.inputOrigin === "pasted" ? (
+                    <span className="origin-label">Pasted</span>
+                  ) : null}
+                </div>
+              ) : null}
+              {row.message.role === "assistant" ? (
+                <AssistantMessage message={row.message} />
+              ) : (
+                <div className="message-content">
+                  {row.message.content}
+                </div>
+              )}
             </article>
           ) : (
             <div
@@ -200,6 +308,11 @@ function ConversationTimeline(props: {
             </div>
           )
         )}
+        {props.executing ? (
+          <div className="answer-status executing" role="status">
+            Relay is retrieving evidence and validating a grounded answer…
+          </div>
+        ) : null}
         <div ref={endRef} />
       </div>
     </div>
@@ -263,7 +376,7 @@ function Composer(props: {
             }
             onClick={() => void submit()}
           >
-            {props.disabled ? "Saving…" : "Send"}
+            {props.disabled ? "Grounding…" : "Send"}
           </button>
         </div>
       </div>
@@ -479,10 +592,12 @@ export function HelpdeskApp() {
       <main className="conversation-pane">
         <header className="conversation-header">
           <div>
-            <div className="eyebrow">Persistent Helpdesk</div>
-            <h2>{view?.conversation.title ?? "Helpdesk Assistant"}</h2>
+            <div className="eyebrow">Relay: Real-Time Operations</div>
+            <h2>{view?.conversation.title ?? "Relay"}</h2>
           </div>
-          <div className="engine-state">Answer engine offline</div>
+          <div className={`engine-state${busy ? " active" : ""}`}>
+            {busy ? "Grounding answer…" : "Grounded answers ready"}
+          </div>
         </header>
         {error ? (
           <div className="error-banner" role="alert">
@@ -492,7 +607,11 @@ export function HelpdeskApp() {
             </button>
           </div>
         ) : null}
-        <ConversationTimeline view={view} loading={loading} />
+        <ConversationTimeline
+          view={view}
+          loading={loading}
+          executing={busy && !loading}
+        />
         <Composer
           disabled={busy}
           hasConversation={activeId !== null}

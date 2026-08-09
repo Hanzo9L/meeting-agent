@@ -1,5 +1,8 @@
 export type HelpdeskInputOrigin = "typed" | "pasted" | "live_transcript";
-export type HelpdeskAnswerability = "answered" | "partial";
+export type HelpdeskAnswerability =
+  | "answered"
+  | "partial"
+  | "insufficient_evidence";
 export type HelpdeskAnswerRunState =
   | "received"
   | "resolving_context"
@@ -28,7 +31,24 @@ export interface HelpdeskMessage {
   inputOrigin: HelpdeskInputOrigin | null;
   answerability: HelpdeskAnswerability | null;
   groundingSnapshotId: string | null;
+  citations: HelpdeskCitation[];
   createdAt: string;
+}
+
+export interface HelpdeskCitation {
+  citationId: string;
+  factualRangeId: string;
+  answerRangeStart: number;
+  answerRangeEnd: number;
+  sourceTitle: string;
+  canonicalUrl: string;
+  sourceId: string;
+  authorityRole: string;
+  headingPath: string[];
+  sectionId: string;
+  sourceStatus: string;
+  preview: boolean;
+  groundingSnapshotId: string;
 }
 
 export interface HelpdeskAnswerRun {
@@ -73,7 +93,16 @@ export interface SubmitHelpdeskMessageInput {
 
 export interface SubmitHelpdeskMessageResult {
   view: HelpdeskConversationView;
-  outcome: "answer_unavailable";
+  outcome:
+    | "answered"
+    | "partial"
+    | "insufficient_evidence"
+    | "failed";
+}
+
+export interface OpenHelpdeskCitationInput {
+  messageId: string;
+  citationId: string;
 }
 
 export interface HelpdeskApi {
@@ -88,4 +117,7 @@ export interface HelpdeskApi {
   submitMessage(
     input: SubmitHelpdeskMessageInput
   ): Promise<HelpdeskResult<SubmitHelpdeskMessageResult>>;
+  openCitation(
+    input: OpenHelpdeskCitationInput
+  ): Promise<HelpdeskResult<{ opened: true }>>;
 }

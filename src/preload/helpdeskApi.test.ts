@@ -19,6 +19,7 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     "deleteConversation",
     "listConversations",
     "loadConversation",
+    "openCitation",
     "renameConversation",
     "submitMessage"
   ]);
@@ -34,6 +35,10 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     conversationId: "conv-1",
     content: "Question",
     inputOrigin: "typed"
+  });
+  await api.openCitation({
+    messageId: "msg-1",
+    citationId: "citation-1"
   });
 
   assert.deepEqual(calls, [
@@ -55,6 +60,15 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
           conversationId: "conv-1",
           content: "Question",
           inputOrigin: "typed"
+        }
+      ]
+    },
+    {
+      channel: IPC_CHANNELS.helpdeskOpenCitation,
+      args: [
+        {
+          messageId: "msg-1",
+          citationId: "citation-1"
         }
       ]
     }

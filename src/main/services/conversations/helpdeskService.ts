@@ -43,6 +43,21 @@ function toMessage(record: ConversationMessage): HelpdeskMessage {
     inputOrigin: record.inputOrigin,
     answerability: record.answerability,
     groundingSnapshotId: record.groundingSnapshotId,
+    citations: record.citations.map((citation) => ({
+      citationId: citation.citationId,
+      factualRangeId: citation.factualRangeId,
+      answerRangeStart: citation.answerRangeStart,
+      answerRangeEnd: citation.answerRangeEnd,
+      sourceTitle: citation.sourceTitle,
+      canonicalUrl: citation.canonicalUrl,
+      sourceId: citation.sourceId,
+      authorityRole: citation.authorityRole,
+      headingPath: [...citation.headingPath],
+      sectionId: citation.sectionId,
+      sourceStatus: citation.sourceStatus,
+      preview: citation.preview,
+      groundingSnapshotId: citation.groundingSnapshotId
+    })),
     createdAt: record.createdAt
   };
 }
@@ -115,6 +130,38 @@ export class HelpdeskService {
     };
   }
 
+  getActionableCitationUrl(
+    messageId: string,
+    citationId: string
+  ): string {
+    const citation = this.store.getMessageCitation(
+      messageId,
+      citationId
+    );
+    if (!citation) {
+      throw new HelpdeskServiceError(
+        "not_found",
+        "Citation not found."
+      );
+    }
+    try {
+      const parsed = new URL(citation.canonicalUrl);
+      if (
+        parsed.protocol !== "https:" ||
+        parsed.hostname.toLowerCase() !==
+          "learn.microsoft.com"
+      ) {
+        throw new Error("untrusted citation URL");
+      }
+      return parsed.toString();
+    } catch {
+      throw new HelpdeskServiceError(
+        "operation_failed",
+        "This citation cannot be opened safely."
+      );
+    }
+  }
+
   async submitMessage(
     input: SubmitHelpdeskMessageInput
   ): Promise<SubmitHelpdeskMessageResult> {
@@ -129,30 +176,98 @@ export class HelpdeskService {
       inputOrigin: input.inputOrigin
     });
 
-    let failureCode = "answer_unavailable";
+    this.store.updateAnswerRun({
+      answerRunId: started.answerRun.id,
+      state: "retrieving"
+    });
+
+    let result: Awaited<
+      ReturnType<AnswerExecutionPort["execute"]>
+    >;
     try {
-      const result = await this.answerExecution.execute({
+      result = await this.answerExecution.execute({
         conversationId: input.conversationId,
         userMessageId: started.message.id,
         question: content
       });
-      failureCode = result.code;
     } catch {
-      failureCode = "answer_unavailable";
+      result = {
+        ok: false,
+        code: "grounding_execution_failed",
+        stage: "retrieval_grounding",
+        userSafeMessage:
+          "Relay could not complete the grounded answer request."
+      };
+    }
+
+    if (!result.ok) {
+      this.store.updateAnswerRun({
+        answerRunId: started.answerRun.id,
+        state: "failed",
+        failureCode: result.code,
+        failureDetails: {
+          stage: result.stage,
+          userMessage: result.userSafeMessage
+        }
+      });
+      return {
+        view: this.loadConversation(input.conversationId),
+        outcome: "failed"
+      };
     }
 
     this.store.updateAnswerRun({
       answerRunId: started.answerRun.id,
-      state: "failed",
-      failureCode,
-      failureDetails: {
-        userMessage: "Answer engine not connected yet."
-      }
+      state: "planning"
     });
-
+    this.store.updateAnswerRun({
+      answerRunId: started.answerRun.id,
+      state: "executing_answer"
+    });
+    this.store.updateAnswerRun({
+      answerRunId: started.answerRun.id,
+      state: "validating",
+      snapshot: result.snapshot
+    });
+    try {
+      this.store.appendGroundedAssistantMessage({
+        answerRunId: started.answerRun.id,
+        content: result.answerText,
+        answerability: result.answerability,
+        snapshot: result.snapshot,
+        citations: result.citations.map((citation) => ({
+          citationId: citation.citationId,
+          factualRangeId: citation.factualRangeId,
+          answerRangeStart: citation.answerRange.startOffset,
+          answerRangeEnd: citation.answerRange.endOffset,
+          sourceTitle: citation.sourceTitle,
+          canonicalUrl: citation.canonicalUrl,
+          sourceId: citation.sourceId,
+          authorityRole: citation.authorityRole,
+          headingPath: [...citation.headingPath],
+          sectionId: citation.sectionId,
+          sourceStatus: citation.sourceStatus,
+          preview: citation.preview
+        }))
+      });
+    } catch {
+      this.store.updateAnswerRun({
+        answerRunId: started.answerRun.id,
+        state: "failed",
+        failureCode: "grounded_answer_persistence_failed",
+        failureDetails: {
+          userMessage:
+            "Relay could not safely persist the validated answer."
+        }
+      });
+      return {
+        view: this.loadConversation(input.conversationId),
+        outcome: "failed"
+      };
+    }
     return {
       view: this.loadConversation(input.conversationId),
-      outcome: "answer_unavailable"
+      outcome: result.answerability
     };
   }
 }
