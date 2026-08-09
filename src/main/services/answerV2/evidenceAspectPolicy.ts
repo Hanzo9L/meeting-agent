@@ -251,7 +251,14 @@ type SubjectSeed = {
   requirement: "mandatory" | "optional";
   canonicalIdentifier: EvidenceAspect["canonicalIdentifier"];
   span: string;
+  /** Component seeds preserved when a compound subject is bound. */
+  components?: SubjectSeed[];
 };
+
+const SEPARATE_TREATMENT_BETWEEN =
+  /\b(?:and|or|versus|vs|compared|also|then|while|but|plus|as well as)\b/;
+
+const SCOPING_BETWEEN = /^(?:for|in|with|of|on|via|using|the)$/;
 
 function uniqueSpecificSeeds(seeds: SubjectSeed[]): SubjectSeed[] {
   const byNormalized = new Map<string, SubjectSeed>();
@@ -278,6 +285,205 @@ function uniqueSpecificSeeds(seeds: SubjectSeed[]): SubjectSeed[] {
     if (!contained) retained.push(entry);
   }
   return retained.map(([, seed]) => seed);
+}
+
+function shouldSkipCompoundSubjectBinding(intent: QueryIntent): boolean {
+  if (intent.expectedAnswerType === "comparison") return true;
+  return RELATION_PREDICATES.some((entry) =>
+    entry.pattern.test(intent.originalQuestion)
+  );
+}
+
+function hasSharedDistinctiveTerm(left: SubjectSeed, right: SubjectSeed): boolean {
+  const leftTerms = new Set(distinctiveTerms(left.value));
+  const rightTerms = new Set(distinctiveTerms(right.value));
+  for (const term of leftTerms) {
+    if (rightTerms.has(term)) return true;
+  }
+  return false;
+}
+
+function seedKindPriority(kind: EvidenceAspectSubjectKind): number {
+  switch (kind) {
+    case "cmdlet":
+      return 0;
+    case "policy":
+      return 1;
+    case "entity":
+      return 2;
+    case "technology":
+      return 3;
+    case "product":
+      return 4;
+    default:
+      return 5;
+  }
+}
+
+function pickCompositeKind(components: SubjectSeed[]): EvidenceAspectSubjectKind {
+  return [...components].sort(
+    (left, right) => seedKindPriority(left.kind) - seedKindPriority(right.kind)
+  )[0]?.kind ?? "entity";
+}
+
+function clauseBoundOperationsForSeed(
+  seed: SubjectSeed,
+  intent: QueryIntent,
+  operations: string[]
+): string[] {
+  const normalizedSubject = normalizeEvidenceText(seed.value);
+  const questionClauses = intent.normalizedQuestion
+    .split(/[?;,]|\b(?:and|also|then|while|but)\b/)
+    .map((clause) => normalizeEvidenceText(clause))
+    .filter(Boolean);
+  return operations.filter((operation) =>
+    questionClauses.some(
+      (clause) =>
+        clause.includes(normalizedSubject) &&
+        operationSupported(clause, operation)
+    )
+  );
+}
+
+function haveSeparateClauseBoundOperations(
+  left: SubjectSeed,
+  right: SubjectSeed,
+  intent: QueryIntent
+): boolean {
+  const operations = [
+    ...new Set(
+      (intent.operationIntents ?? [])
+        .map(normalizeEvidenceText)
+        .filter(Boolean)
+    )
+  ];
+  if (operations.length === 0) return false;
+  const leftOps = new Set(clauseBoundOperationsForSeed(left, intent, operations));
+  const rightOps = new Set(clauseBoundOperationsForSeed(right, intent, operations));
+  if (leftOps.size === 0 || rightOps.size === 0) return false;
+  for (const operation of leftOps) {
+    if (!rightOps.has(operation)) return true;
+  }
+  for (const operation of rightOps) {
+    if (!leftOps.has(operation)) return true;
+  }
+  return false;
+}
+
+/**
+ * Bind adjacent/overlapping technical concepts into one compound subject when they
+ * form a single noun-phrase proposition. Conjunction, comparison, relationship
+ * predicates, and separately clause-bound operations prevent binding.
+ */
+function bindCompoundSubjectSeeds(
+  seeds: SubjectSeed[],
+  intent: QueryIntent
+): SubjectSeed[] {
+  if (shouldSkipCompoundSubjectBinding(intent)) return seeds;
+
+  const questionNorm = normalizeEvidenceText(intent.normalizedQuestion);
+  const optional = seeds.filter((seed) => seed.requirement === "optional");
+  const cmdlets = seeds.filter(
+    (seed) => seed.requirement === "mandatory" && seed.kind === "cmdlet"
+  );
+  const candidates = seeds.filter(
+    (seed) => seed.requirement === "mandatory" && seed.kind !== "cmdlet"
+  );
+
+  const located = candidates
+    .map((seed) => {
+      const normalized = normalizeEvidenceText(seed.span || seed.value);
+      return {
+        seed,
+        normalized,
+        index: questionNorm.indexOf(normalized)
+      };
+    })
+    .filter((entry) => entry.index >= 0)
+    .sort(
+      (left, right) =>
+        left.index - right.index ||
+        right.normalized.length - left.normalized.length
+    );
+  const unlocated = candidates.filter(
+    (seed) =>
+      questionNorm.indexOf(normalizeEvidenceText(seed.span || seed.value)) < 0
+  );
+
+  const merged: SubjectSeed[] = [];
+  let index = 0;
+  while (index < located.length) {
+    const start = located[index];
+    if (!start) break;
+    const components: SubjectSeed[] = [start.seed];
+    let end = start.index + start.normalized.length;
+    let cursor = index + 1;
+    while (cursor < located.length) {
+      const next = located[cursor];
+      if (!next) break;
+      if (next.index < end) {
+        // Overlapping span: absorb as component when it specializes the current phrase.
+        if (
+          !haveSeparateClauseBoundOperations(start.seed, next.seed, intent) &&
+          (hasSharedDistinctiveTerm(components[components.length - 1]!, next.seed) ||
+            next.index < end)
+        ) {
+          components.push(next.seed);
+          end = Math.max(end, next.index + next.normalized.length);
+          cursor += 1;
+          continue;
+        }
+        break;
+      }
+      const between = questionNorm.slice(end, next.index).trim();
+      if (SEPARATE_TREATMENT_BETWEEN.test(between)) break;
+      if (!(between === "" || SCOPING_BETWEEN.test(between))) break;
+      if (haveSeparateClauseBoundOperations(start.seed, next.seed, intent)) break;
+      const previous = components[components.length - 1]!;
+      const qualifies =
+        between === "" ||
+        hasSharedDistinctiveTerm(previous, next.seed) ||
+        SCOPING_BETWEEN.test(between);
+      if (!qualifies) break;
+      components.push(next.seed);
+      end = next.index + next.normalized.length;
+      cursor += 1;
+    }
+
+    if (components.length === 1) {
+      merged.push(components[0]!);
+    } else {
+      const value = components.map((component) => component.value).join(" ");
+      merged.push({
+        value,
+        kind: pickCompositeKind(components),
+        requirement: "mandatory",
+        canonicalIdentifier:
+          components.find((component) => component.canonicalIdentifier)
+            ?.canonicalIdentifier ?? null,
+        span: questionNorm.slice(start.index, end),
+        components: components.map((component) => ({
+          value: component.value,
+          kind: component.kind,
+          requirement: component.requirement,
+          canonicalIdentifier: component.canonicalIdentifier,
+          span: component.span
+        }))
+      });
+    }
+    index = Math.max(cursor, index + 1);
+  }
+
+  return [...cmdlets, ...merged, ...unlocated, ...optional];
+}
+
+function subjectsForSeed(seed: SubjectSeed): EvidenceAspectSubject[] {
+  if (seed.components && seed.components.length > 0) {
+    return seed.components.map((component) =>
+      makeSubject(component.kind, component.value)
+    );
+  }
+  return [makeSubject(seed.kind, seed.value)];
 }
 
 function fallbackSubject(intent: QueryIntent): string {
@@ -501,10 +707,15 @@ export function deriveEvidenceAspects(
     ];
   }
 
+  // Relationship detection uses pre-binding subjects so relational questions are
+  // not collapsed into a single compound noun-phrase aspect.
   const mandatorySubjects = uniqueSeeds
     .filter((seed) => seed.requirement === "mandatory")
     .map((seed) => makeSubject(seed.kind, seed.value));
   const relationship = detectRelationship(intent, mandatorySubjects);
+  if (!relationship) {
+    uniqueSeeds = bindCompoundSubjectSeeds(uniqueSeeds, intent);
+  }
   const operations = [
     ...new Set(
       (intent.operationIntents ?? [])
@@ -726,13 +937,17 @@ export function deriveEvidenceAspects(
         answerObject = "fact";
       }
 
-      const subject = makeSubject(seed.kind, seed.value);
+      const subjects = subjectsForSeed(seed);
+      const subjectTerms = [
+        ...new Set(subjects.flatMap((subject) => subject.terms))
+      ];
       const { breadth, requiredFacets } = breadthAndFacets({
         answerObject,
         intent,
         operation
       });
       const unresolved = seed.kind === "unresolved";
+      const compound = Boolean(seed.components && seed.components.length > 1);
       aspects.push({
         aspectId: [
           seed.requirement,
@@ -742,8 +957,8 @@ export function deriveEvidenceAspects(
         ].join(":"),
         requirement: seed.requirement,
         subject: seed.value,
-        subjectTerms: subject.terms,
-        subjects: [subject],
+        subjectTerms,
+        subjects,
         operation,
         answerObject,
         relationship: null,
@@ -761,11 +976,18 @@ export function deriveEvidenceAspects(
         derivation: {
           ruleIds: [
             "subject_seed",
+            ...(compound ? (["compound_subject_binding"] as const) : []),
             operation ? "clause_bound_operation" : "general_subject",
             `answer_object:${answerObject}`,
             `breadth:${breadth}`
           ],
-          questionSpans: [seed.span, ...(operation ? [operation] : [])],
+          questionSpans: [
+            ...(compound
+              ? (seed.components ?? []).map((component) => component.span)
+              : [seed.span]),
+            seed.span,
+            ...(operation ? [operation] : [])
+          ].filter((span, spanIndex, spans) => spans.indexOf(span) === spanIndex),
           unresolved
         }
       });
@@ -882,6 +1104,40 @@ function isNarrowSubsection(
   return false;
 }
 
+function isConfigurationOrProcedureArtifact(
+  candidate: FusedRetrievalCandidate,
+  metadata?: CandidateEvidenceMetadata
+): boolean {
+  const chunkKind = normalizeEvidenceText(metadata?.chunkKind ?? "");
+  const title = normalizeEvidenceText(candidate.title);
+  const heading = normalizeEvidenceText(candidate.headingPath.join(" "));
+  return (
+    chunkKind === "configuration" ||
+    chunkKind === "procedure" ||
+    /^(?:configure|set up|deploy|install)\b/.test(title) ||
+    /\bhow to\b/.test(title) ||
+    /^(?:configure|configuration|procedure|steps?)\b/.test(heading)
+  );
+}
+
+/** Content/span signals that can establish purpose/mechanism for broad aspects. */
+function contentEstablishesConceptualFacets(
+  candidate: FusedRetrievalCandidate
+): boolean {
+  const title = normalizeEvidenceText(candidate.title);
+  const heading = normalizeEvidenceText(candidate.headingPath.join(" "));
+  const text = normalizeEvidenceText(candidate.text);
+  if (/overview|introduction|about|concept|how .{0,40} work/.test(title)) {
+    return true;
+  }
+  if (/overview|introduction|about|concept|how .{0,40} work/.test(heading)) {
+    return true;
+  }
+  return /\b(?:enables?|allows?|provides?|lets|routes?|works by|used to|purpose|is a|are a|mechanism)\b/.test(
+    text
+  );
+}
+
 function matchedFacetsForCandidate(params: {
   aspect: EvidenceAspect;
   candidate: FusedRetrievalCandidate;
@@ -940,28 +1196,50 @@ function matchedFacetsForCandidate(params: {
   }
 
   const subject = normalizeEvidenceText(aspect.subject);
+  const conceptualTitle =
+    /overview|introduction|about|concept|how .{0,40} work/.test(title);
+  const allComponentsInTitle =
+    aspect.subjects.length > 1 &&
+    aspect.subjects.every((entry) => fieldContainsSubjectTerms(title, entry));
   const topicLevelTitle =
     Boolean(subject) &&
     (title === subject ||
       title.startsWith(subject) ||
-      title.includes(subject));
+      title.includes(subject) ||
+      (allComponentsInTitle && conceptualTitle));
   const topicLevelHeading =
     /overview|introduction|about|how .* work|concept/.test(heading) ||
-    /overview|how .* work|introduction|about|concept/.test(title) ||
+    conceptualTitle ||
     chunkKind === "conceptual";
   const narrowHeading =
     /takes precedence|parameter|example|step |audio|video|settings for/.test(
       heading
     ) || /policy settings for|settings for/.test(title);
 
-  if (
-    aspect.breadth === "broad" &&
-    topicLevelTitle &&
-    !narrowHeading &&
-    (topicLevelHeading || candidate.headingPath.length <= 2)
-  ) {
-    matched.add("purpose");
-    matched.add("mechanism");
+  const conceptualContent = contentEstablishesConceptualFacets(candidate);
+
+  if (aspect.breadth === "broad") {
+    // Configuration/procedure metadata alone cannot establish broad purpose/mechanism.
+    // The selected span/content must establish those facets.
+    if (conceptualContent && !narrowHeading) {
+      if (
+        topicLevelTitle &&
+        (topicLevelHeading || candidate.headingPath.length <= 2)
+      ) {
+        matched.add("purpose");
+        matched.add("mechanism");
+      } else if (topicLevelHeading) {
+        matched.add("purpose");
+        matched.add("mechanism");
+      } else if (
+        /\b(?:enables?|allows?|provides?|lets|routes?|works by|used to|purpose|mechanism)\b/.test(
+          normalizeEvidenceText(candidate.text)
+        )
+      ) {
+        matched.add("purpose");
+        matched.add("mechanism");
+      }
+    }
   } else if (topicLevelHeading && !narrowHeading) {
     matched.add("purpose");
     matched.add("mechanism");
@@ -1036,6 +1314,13 @@ export function evaluateCandidateAspectSupport(
   if (isNarrowSubsection(candidate, aspect)) {
     reasonCodes.push("narrow_subsection_for_broad_aspect");
   }
+  if (
+    aspect.breadth === "broad" &&
+    isConfigurationOrProcedureArtifact(candidate, metadata) &&
+    !contentEstablishesConceptualFacets(candidate)
+  ) {
+    reasonCodes.push("config_metadata_insufficient_for_broad");
+  }
 
   const matchedFacets = matchedFacetsForCandidate({
     aspect,
@@ -1069,6 +1354,8 @@ export function evaluateCandidateAspectSupport(
     strength = "supporting";
     reasonCodes.push("missing_required_facets");
   } else if (reasonCodes.includes("narrow_subsection_for_broad_aspect")) {
+    strength = "supporting";
+  } else if (reasonCodes.includes("config_metadata_insufficient_for_broad")) {
     strength = "supporting";
   } else if (
     aspect.answerObject === "cmdlet_identifier" &&

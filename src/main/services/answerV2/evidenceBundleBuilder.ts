@@ -6,7 +6,8 @@ import {
   deriveEvidenceAspects,
   evaluateCandidateAspectSupport,
   loadCandidateEvidenceMetadata,
-  type CandidateAspectEvaluation
+  type CandidateAspectEvaluation,
+  type CandidateEvidenceMetadata
 } from "./evidenceAspectPolicy";
 import {
   bindEvidenceBundleSnapshot,
@@ -32,6 +33,8 @@ const EVIDENCE_POLICY = {
 
 export interface BuildEvidenceBundleOptions {
   databasePath?: string;
+  /** Optional resolver-local metadata override (tests / inspect). */
+  metadataByChunkId?: Map<string, CandidateEvidenceMetadata>;
 }
 
 function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
@@ -247,10 +250,12 @@ export function buildEvidenceBundle(
   const optionalAspects = aspects.filter(
     (aspect) => aspect.requirement === "optional"
   );
-  const metadataByChunkId = loadCandidateEvidenceMetadata({
-    databasePath: options.databasePath,
-    chunkIds: result.candidates.map((candidate) => candidate.chunkId)
-  });
+  const metadataByChunkId =
+    options.metadataByChunkId ??
+    loadCandidateEvidenceMetadata({
+      databasePath: options.databasePath,
+      chunkIds: result.candidates.map((candidate) => candidate.chunkId)
+    });
 
   const evaluations = new Map<string, Map<string, CandidateAspectEvaluation>>();
   const supportByAspect: Record<string, EvidenceAspectSupport[]> = {};

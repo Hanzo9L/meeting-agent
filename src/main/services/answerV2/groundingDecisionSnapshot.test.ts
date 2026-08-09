@@ -191,12 +191,12 @@ test("mutated EvidenceBundle content fails its immutable snapshot", () => {
   assert.ok(validation.issues.some((issue) => issue.code === "bundle_snapshot_hash_mismatch"));
 });
 
-test("R2.1 aspect decisions and resolver policy are snapshot-bound", () => {
+test("R2.2 aspect decisions and resolver policy are snapshot-bound", () => {
   const bundle = makeBundle();
   const plan = buildAnswerPlan(bundle);
   assert.equal(
     bundle.decisionSnapshot.resolverPolicyVersion,
-    "proposition-aware-evidence-policy/r2.1"
+    "proposition-aware-evidence-policy/r2.2"
   );
   const changedCoverage: EvidenceBundle = {
     ...bundle,

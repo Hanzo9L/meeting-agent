@@ -447,7 +447,7 @@ export interface GroundingValidationResult {
 
 export type GroundingSnapshotSchemaVersion = "grounding-decision-snapshot/v1";
 export type GroundingResolverPolicyVersion =
-  "proposition-aware-evidence-policy/r2.1";
+  "proposition-aware-evidence-policy/r2.2";
 
 export interface GroundingDecisionSnapshotBinding {
   snapshotId: string;

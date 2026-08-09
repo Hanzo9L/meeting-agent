@@ -240,7 +240,7 @@ test("HybridRetrievalResult converts to compact EvidenceBundle", () => {
         sourceId: "ms-teams-admin",
         routePriority: "primary",
         title: "Direct Routing voice routing overview",
-        text: "Direct Routing voice routing policy behavior.",
+        text: "Direct Routing voice routing enables PSTN connectivity and routes calls by policy.",
         url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
       })
     ]
@@ -257,7 +257,7 @@ test("candidates are not blindly copied and redundant evidence is rejected", () 
     sourceId: "ms-teams-admin",
     routePriority: "primary",
     title: "Direct Routing voice routing overview copy",
-    text: "Direct Routing voice routing policy behavior.",
+    text: "Direct Routing voice routing enables PSTN connectivity and routes calls by policy.",
     url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
   });
   const hybrid = makeHybrid({
@@ -269,7 +269,7 @@ test("candidates are not blindly copied and redundant evidence is rejected", () 
         sourceId: "ms-teams-admin",
         routePriority: "primary",
         title: "Direct Routing voice routing overview",
-        text: "Direct Routing voice routing policy behavior.",
+        text: "Direct Routing voice routing enables PSTN connectivity and routes calls by policy.",
         url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
       }),
       repeated
@@ -935,4 +935,318 @@ test("landing and related-links content is contextual not direct", () => {
     bundle.aspectCoverage.aspects[0]?.aspectId ?? ""
   ]?.find((support) => support.candidateId.includes("chunk-1"));
   assert.equal(landingSupport?.strength, "contextual");
+});
+
+test("nested compound technical subject binds to one mandatory aspect", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does Teams Direct Routing voice routing work?",
+      entities: ["direct routing", "voice routing"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Direct Routing voice routing overview",
+          text: "Direct Routing voice routing enables PSTN connectivity and routes calls by online voice routing policy.",
+          headingPath: ["Direct Routing voice routing", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 1);
+  assert.equal(mandatory[0]?.answerObject, "mechanism");
+  assert.equal(mandatory[0]?.breadth, "broad");
+  assert.ok(mandatory[0]?.derivation.ruleIds.includes("compound_subject_binding"));
+  assert.deepEqual(
+    mandatory[0]?.subjects.map((subject) => subject.value).sort(),
+    ["direct routing", "voice routing"]
+  );
+  assert.equal(bundle.answerability, "answered");
+});
+
+test("compound subject components remain auditable in derivation spans", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does Teams Direct Routing voice routing work?",
+      entities: ["direct routing", "voice routing"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Direct Routing voice routing overview",
+          text: "Direct Routing voice routing enables call path selection.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        })
+      ]
+    })
+  ).bundle;
+  const aspect = bundle.aspectCoverage.aspects.find(
+    (entry) => entry.requirement === "mandatory"
+  );
+  assert.ok(aspect);
+  assert.ok(aspect.derivation.questionSpans.includes("direct routing"));
+  assert.ok(aspect.derivation.questionSpans.includes("voice routing"));
+  assert.ok(
+    aspect.subjectTerms.includes("direct") ||
+      aspect.subjectTerms.includes("routing")
+  );
+});
+
+test("conjunction keeps separate mandatory aspects", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do external access and guest access work?",
+      entities: ["external access", "guest access"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "External access overview",
+          text: "External access enables federation with other organizations.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/external-access"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Guest access overview",
+          text: "Guest access allows people outside your tenant to join teams.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/guest-access"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 2);
+  assert.equal(
+    mandatory.some((aspect) =>
+      aspect.derivation.ruleIds.includes("compound_subject_binding")
+    ),
+    false
+  );
+  assert.deepEqual(
+    mandatory.map((aspect) => aspect.subject).sort(),
+    ["external access", "guest access"]
+  );
+});
+
+test("comparison keeps separate participants without compound binding", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Compare external access and guest access",
+      entities: ["external access", "guest access"],
+      answerType: "comparison",
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "External access overview",
+          text: "External access enables federation.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/external-access"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Guest access overview",
+          text: "Guest access allows B2B collaboration.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/guest-access"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 2);
+  assert.ok(mandatory.every((aspect) => aspect.answerObject === "comparison"));
+  assert.equal(
+    mandatory.some((aspect) =>
+      aspect.derivation.ruleIds.includes("compound_subject_binding")
+    ),
+    false
+  );
+});
+
+test("explicit relationship stays relational and is not compound-bound", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does Conditional Access affect Teams on unmanaged devices?",
+      entities: ["conditional access", "unmanaged devices"],
+      domains: ["entra", "teams_admin"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-entra-docs",
+          routePriority: "primary",
+          title: "Conditional Access and unmanaged devices",
+          text: "Conditional Access affects Teams access on unmanaged devices by requiring compliant controls.",
+          headingPath: ["Conditional Access", "Unmanaged devices"],
+          url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/unmanaged"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 1);
+  assert.equal(mandatory[0]?.answerObject, "relationship");
+  assert.equal(
+    mandatory[0]?.derivation.ruleIds.includes("compound_subject_binding"),
+    false
+  );
+});
+
+test("broad conceptual question cannot be covered by configuration metadata alone", () => {
+  const configOnly = makeCandidate({
+    rank: 1,
+    sourceId: "ms-teams-admin",
+    routePriority: "primary",
+    title: "Configure Direct Routing",
+    text: "Follow these deployment checklist items for your SBC.",
+    headingPath: ["Configure Direct Routing", "Prerequisites"],
+    url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+    chunkId: "chunk-config-only"
+  });
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does Teams Direct Routing voice routing work?",
+      entities: ["direct routing", "voice routing"],
+      candidates: [configOnly]
+    }),
+    {
+      metadataByChunkId: new Map([
+        ["chunk-config-only", { chunkKind: "configuration" }]
+      ])
+    }
+  ).bundle;
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  const support = bundle.aspectCoverage.supportByAspect[
+    bundle.aspectCoverage.aspects[0]?.aspectId ?? ""
+  ]?.[0];
+  assert.ok(support);
+  assert.notEqual(support.strength, "direct");
+  assert.ok(
+    support.reasonCodes.includes("config_metadata_insufficient_for_broad") ||
+      support.reasonCodes.includes("missing_required_facets")
+  );
+});
+
+test("configuration question may use configuration evidence as direct", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do I configure Direct Routing?",
+      entities: ["direct routing"],
+      operationIntents: ["configure"],
+      answerType: "configuration",
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Configure Direct Routing",
+          text: "Configure Direct Routing by connecting your SBC and assigning voice routing policy.",
+          headingPath: ["Configure Direct Routing", "Steps"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+          chunkId: "chunk-config-ok"
+        })
+      ]
+    }),
+    {
+      metadataByChunkId: new Map([
+        ["chunk-config-ok", { chunkKind: "configuration" }]
+      ])
+    }
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory[0]?.answerObject, "configuration_behavior");
+  assert.equal(bundle.answerability, "answered");
+  const support = bundle.aspectCoverage.supportByAspect[
+    mandatory[0]?.aspectId ?? ""
+  ]?.find((entry) => entry.strength === "direct");
+  assert.ok(support);
+});
+
+test("Conditional Access without direct relational evidence is insufficient", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does Conditional Access affect Teams on unmanaged devices?",
+      entities: ["conditional access", "unmanaged devices"],
+      domains: ["entra", "teams_admin"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Chat, teams, channels, & apps in Microsoft Teams",
+          text: "Will I need to configure conditional access for Teams?",
+          headingPath: [
+            "Chat, teams, channels, & apps in Microsoft Teams",
+            "Additional deployment decisions",
+            "Conditional access"
+          ],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Unmanaged devices settings",
+          text: "Unmanaged devices can be restricted for Teams meetings.",
+          headingPath: ["Unmanaged devices", "Settings"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/unmanaged-devices"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 1);
+  assert.equal(mandatory[0]?.answerObject, "relationship");
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  assert.equal(bundle.evidence.length, 0);
+});
+
+test("compound binding does not introduce scenario-specific product hardcoding", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does Packet Mediation media path selection work?",
+      entities: ["packet mediation", "media path selection"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Packet Mediation media path selection overview",
+          text: "Packet Mediation media path selection enables approved media routing.",
+          headingPath: ["Packet Mediation media path selection", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/packet-mediation-media-path"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 1);
+  assert.ok(mandatory[0]?.derivation.ruleIds.includes("compound_subject_binding"));
+  assert.deepEqual(
+    mandatory[0]?.subjects.map((subject) => subject.value).sort(),
+    ["media path selection", "packet mediation"]
+  );
+  assert.equal(bundle.answerability, "answered");
 });

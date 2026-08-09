@@ -13,7 +13,7 @@ import type {
 export const GROUNDING_SNAPSHOT_SCHEMA_VERSION: GroundingSnapshotSchemaVersion =
   "grounding-decision-snapshot/v1";
 export const GROUNDING_RESOLVER_POLICY_VERSION: GroundingResolverPolicyVersion =
-  "proposition-aware-evidence-policy/r2.1";
+  "proposition-aware-evidence-policy/r2.2";
 
 export type EvidenceBundleDecisionState = Omit<EvidenceBundle, "decisionSnapshot">;
 
