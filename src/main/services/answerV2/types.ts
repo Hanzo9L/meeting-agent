@@ -36,6 +36,113 @@ export type EvidenceRejectionReason =
   | "candidate_cap"
   | "adjacent_domain_authority_missing";
 
+export type EvidenceAspectAnswerObject =
+  | "mechanism"
+  | "cmdlet_identifier"
+  | "cmdlet_semantics"
+  | "procedure"
+  | "configuration_behavior"
+  | "relationship"
+  | "status"
+  | "comparison"
+  | "fact";
+
+export type EvidenceAspectBreadth = "narrow" | "bounded" | "broad";
+
+export type EvidenceAspectSupportStrength = "direct" | "supporting" | "contextual";
+
+export type EvidenceSupportFacet =
+  | "purpose"
+  | "mechanism"
+  | "behavior"
+  | "operation"
+  | "identifier"
+  | "relationship"
+  | "procedure"
+  | "configuration";
+
+export type EvidenceAspectSubjectKind =
+  | "cmdlet"
+  | "policy"
+  | "entity"
+  | "technology"
+  | "product"
+  | "unresolved";
+
+export interface EvidenceAspectSubject {
+  kind: EvidenceAspectSubjectKind;
+  value: string;
+  terms: string[];
+}
+
+export interface EvidenceAspectRelationship {
+  predicate: string;
+  participants: Array<{
+    role: string;
+    subject: EvidenceAspectSubject;
+  }>;
+}
+
+export interface EvidenceAspectAuthorityRequirement {
+  requiredRoles: SourceAuthorityRole[];
+  requiredDomains: SourceDomain[];
+  requireCanonicalIdentity: boolean;
+  identityType: "cmdlet" | "policy" | "entity" | null;
+}
+
+export interface EvidenceAspectDerivation {
+  ruleIds: string[];
+  questionSpans: string[];
+  unresolved: boolean;
+}
+
+export interface EvidenceAspect {
+  aspectId: string;
+  requirement: "mandatory" | "optional";
+  /** Primary subject label for diagnostics and planner-facing compatibility. */
+  subject: string;
+  subjectTerms: string[];
+  subjects: EvidenceAspectSubject[];
+  operation: string | null;
+  answerObject: EvidenceAspectAnswerObject;
+  relationship: EvidenceAspectRelationship | null;
+  breadth: EvidenceAspectBreadth;
+  requiredFacets: EvidenceSupportFacet[];
+  authorityRequirement: EvidenceAspectAuthorityRequirement;
+  minimumSupportStrength: "direct";
+  supportType: Exclude<EvidenceSupportType, "contextual">;
+  canonicalIdentifier: {
+    type: "cmdlet" | "policy" | "entity";
+    value: string;
+  } | null;
+  derivation: EvidenceAspectDerivation;
+}
+
+export interface EvidenceAspectSupport {
+  aspectId: string;
+  candidateId: string;
+  strength: EvidenceAspectSupportStrength;
+  matchedFacets: EvidenceSupportFacet[];
+  missingFacets: EvidenceSupportFacet[];
+  authoritySatisfied: boolean;
+  canonicalIdentityVerified: boolean;
+  topical: boolean;
+  reasonCodes: string[];
+  qualityScore: number;
+}
+
+export interface EvidenceAspectCoverage {
+  aspects: EvidenceAspect[];
+  evidenceByAspect: Record<string, string[]>;
+  supportByAspect: Record<string, EvidenceAspectSupport[]>;
+  supportedMandatoryAspectIds: string[];
+  unsupportedMandatoryAspectIds: string[];
+  authorityLimitedAspectIds: string[];
+  supportingOnlyAspectIds: string[];
+  contextualOnlyAspectIds: string[];
+  supportedOptionalAspectIds: string[];
+}
+
 export interface EvidenceItem {
   evidenceId: string;
   chunkId: string;
@@ -130,6 +237,7 @@ export interface EvidenceBundle {
     requiredDirectives: Array<{ type: "cmdlet" | "policy" | "entity"; value: string }>;
     missingRequiredDirectives: Array<{ type: "cmdlet" | "policy" | "entity"; value: string }>;
   };
+  aspectCoverage: EvidenceAspectCoverage;
   authorityCoverage: {
     requestedDomains: SourceDomain[];
     coveredDomains: SourceDomain[];
@@ -338,7 +446,8 @@ export interface GroundingValidationResult {
 }
 
 export type GroundingSnapshotSchemaVersion = "grounding-decision-snapshot/v1";
-export type GroundingResolverPolicyVersion = "wb18-evidence-policy/v1";
+export type GroundingResolverPolicyVersion =
+  "proposition-aware-evidence-policy/r2.1";
 
 export interface GroundingDecisionSnapshotBinding {
   snapshotId: string;

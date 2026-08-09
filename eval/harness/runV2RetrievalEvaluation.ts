@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { resolve } from "node:path";
 import { runV2RetrievalEvaluation } from "../../src/main/services/eval/v2RetrievalEvaluator";
 

@@ -13,7 +13,7 @@ import type {
 export const GROUNDING_SNAPSHOT_SCHEMA_VERSION: GroundingSnapshotSchemaVersion =
   "grounding-decision-snapshot/v1";
 export const GROUNDING_RESOLVER_POLICY_VERSION: GroundingResolverPolicyVersion =
-  "wb18-evidence-policy/v1";
+  "proposition-aware-evidence-policy/r2.1";
 
 export type EvidenceBundleDecisionState = Omit<EvidenceBundle, "decisionSnapshot">;
 
@@ -95,6 +95,7 @@ export function createGroundingDecisionSnapshot(
     conflicts: bundle.conflicts,
     freshness: bundle.freshness,
     exactIdentifierValidation: bundle.exactIdentifierValidation,
+    aspectCoverage: bundle.aspectCoverage,
     authorityCoverage: bundle.authorityCoverage,
     answerability: bundle.answerability
   });

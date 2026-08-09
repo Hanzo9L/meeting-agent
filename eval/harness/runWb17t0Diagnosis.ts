@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { resolve } from "node:path";
 import { runWb17t0Diagnosis } from "../../src/main/services/eval/wb17t0Diagnosis";
 

@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { resolve } from "node:path";
 import { runSideBySideEvaluation } from "../../src/main/services/eval/sideBySideRunner";
 

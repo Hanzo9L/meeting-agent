@@ -15,6 +15,7 @@ import {
   bindEvidenceBundleSnapshot,
   type EvidenceBundleDecisionState
 } from "./groundingDecisionSnapshot";
+import { makeTestAspectCoverage } from "./testAspectFixtures";
 
 function makeEvidence(id: string, text: string, supportTypes: EvidenceItem["supportTypes"]): EvidenceItem {
   return {
@@ -96,6 +97,9 @@ function makeBundle(overrides: Partial<EvidenceBundleDecisionState> = {}): Evide
     conflicts: [],
     freshness: { state: "unknown", requiresVerification: false, reasons: [] },
     exactIdentifierValidation: { required: false, verified: true, requiredDirectives: [], missingRequiredDirectives: [] },
+    aspectCoverage: makeTestAspectCoverage({
+      evidenceIds: ["ev-direct"]
+    }),
     authorityCoverage: { requestedDomains: ["teams_admin"], coveredDomains: ["teams_admin"], missingDomains: [] },
     answerability: "answered",
     diagnostics: {

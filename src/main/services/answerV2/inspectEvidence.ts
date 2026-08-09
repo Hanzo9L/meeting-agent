@@ -53,7 +53,7 @@ export async function runQuestionToEvidenceBundle(params: {
     }
   });
   return {
-    bundle: buildEvidenceBundle(hybrid).bundle,
+    bundle: buildEvidenceBundle(hybrid, { databasePath: dbPath }).bundle,
     hybridDiagnostics: hybrid.diagnostics,
     routeScope: {
       selectedDomains: routeResult.scope.selectedDomains,
@@ -78,6 +78,7 @@ export async function inspectEvidenceForQuestion(params: {
     scope: run.routeScope,
     hybridDiagnostics: run.hybridDiagnostics,
     answerability: evidence.answerability,
+    aspectCoverage: evidence.aspectCoverage,
     freshness: evidence.freshness,
     exactIdentifierValidation: evidence.exactIdentifierValidation,
     conflicts: evidence.conflicts,

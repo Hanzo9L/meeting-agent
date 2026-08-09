@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { inspectGroundedAnswerForQuestion } from "../../src/main/services/answerV2";
 
 async function main(): Promise<void> {

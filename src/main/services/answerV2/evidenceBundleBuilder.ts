@@ -3,23 +3,36 @@ import type { SourceDomain } from "../knowledgeV2";
 import type { FusedRetrievalCandidate, HybridRetrievalResult } from "../retrievalV2";
 import { classifyAnswerability } from "./answerabilityPolicy";
 import {
+  deriveEvidenceAspects,
+  evaluateCandidateAspectSupport,
+  loadCandidateEvidenceMetadata,
+  type CandidateAspectEvaluation
+} from "./evidenceAspectPolicy";
+import {
   bindEvidenceBundleSnapshot,
   type EvidenceBundleDecisionState
 } from "./groundingDecisionSnapshot";
 import type {
   BuildEvidenceBundleResult,
+  EvidenceAspect,
+  EvidenceAspectCoverage,
+  EvidenceAspectSupport,
+  EvidenceAspectSupportStrength,
   EvidenceBundle,
   EvidenceConflict,
   EvidenceItem,
   EvidenceRejectionReason,
+  EvidenceSupportFacet,
   RejectedEvidenceCandidate
 } from "./types";
 
 const EVIDENCE_POLICY = {
-  maxEvidenceItems: 8,
-  maxPerDocument: 2,
-  minTopicalRelevanceScore: 2
+  maxEvidenceItems: 8
 } as const;
+
+export interface BuildEvidenceBundleOptions {
+  databasePath?: string;
+}
 
 function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
   if (sourceId === "ms-teams-admin") return "teams_admin";
@@ -45,85 +58,11 @@ function canonicalFromSourcePath(sourceId: string, sourcePath: string): string {
   return "";
 }
 
-function normalizeText(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function buildRequiredConcepts(result: HybridRetrievalResult): string[] {
-  const concepts = new Set<string>();
-  for (const cmdlet of result.intent.commandNames ?? []) concepts.add(normalizeText(cmdlet));
-  for (const policy of result.intent.policyNames ?? []) concepts.add(normalizeText(policy));
-  for (const entity of result.intent.entities) {
-    const normalized = normalizeText(entity);
-    if (normalized.length >= 4) concepts.add(normalized);
-  }
-  return [...concepts];
-}
-
-function candidateSupportsConcept(candidate: FusedRetrievalCandidate, concept: string): boolean {
-  const title = normalizeText(candidate.title);
-  const text = normalizeText(candidate.text);
-  const url = normalizeText(candidate.provenance.canonicalUrl);
-  return title.includes(concept) || text.includes(concept) || url.includes(concept);
-}
-
-function evidenceSupportsConcept(evidence: EvidenceItem, concept: string): boolean {
-  const title = normalizeText(evidence.source.title);
-  const text = normalizeText(evidence.text);
-  const url = normalizeText(evidence.source.canonicalUrl);
-  return title.includes(concept) || text.includes(concept) || url.includes(concept);
-}
-
-function supportTypesForCandidate(candidate: FusedRetrievalCandidate): EvidenceItem["supportTypes"] {
-  const text = normalizeText(`${candidate.title} ${candidate.text} ${candidate.sectionId}`);
-  const types = new Set<EvidenceItem["supportTypes"][number]>();
-  if (/cmdlet|set-|grant-|get-|remove-/.test(text)) types.add("cmdlet_semantics");
-  if (/parameter|-identity|-policy/.test(text)) types.add("parameter_semantics");
-  if (/how to|steps|assign|configure|setup|set up/.test(text)) types.add("procedure");
-  if (/prerequisite|requirement|license|licensing/.test(text)) types.add("prerequisite");
-  if (/troubleshoot|issue|error|diagnos/.test(text)) types.add("troubleshooting_guidance");
-  if (/policy|works|overview|concept|direct routing|external access|calling plans/.test(text)) {
-    types.add("concept_definition");
-    types.add("configuration_behavior");
-  }
-  if (/compare|difference|versus|vs/.test(text)) types.add("comparison_dimension");
-  if (types.size === 0) types.add("contextual");
-  return [...types];
-}
-
-function topicalRelevanceScore(result: HybridRetrievalResult, candidate: FusedRetrievalCandidate): number {
-  let score = 0;
-  const requiredConcepts = buildRequiredConcepts(result);
-  for (const concept of requiredConcepts) {
-    if (candidateSupportsConcept(candidate, concept)) score += 2;
-  }
-  if (candidate.methodSignals.exact.matched) score += 3;
-  if (candidate.authority.routePriority === "primary") score += 2;
-  if (candidate.authority.authorityTier === "tier1") score += 2;
-  if (candidate.methods.includes("semantic")) score += 1;
-  if (candidate.fusion.rank <= 5) score += 1;
-  return score;
-}
-
-function specificityScore(result: HybridRetrievalResult, candidate: FusedRetrievalCandidate): number {
-  const combined = normalizeText(`${candidate.title} ${candidate.provenance.canonicalUrl} ${candidate.sectionId}`);
-  let score = 0;
-  const entities = result.intent.entities.map((entity) => normalizeText(entity)).filter((entity) => entity.length >= 4);
-  for (const entity of entities) {
-    if (combined.includes(entity)) score += 3;
-  }
-  if (/reference|related articles|landing page/.test(combined)) score -= 3;
-  if (/overview/.test(combined) && entities.length > 0) score -= 1;
-  const explicitCmdlet = (result.intent.commandNames ?? [])[0];
-  if (explicitCmdlet && combined.includes(normalizeText(explicitCmdlet))) score += 6;
-  if (result.intent.normalizedQuestion.includes("external access") && combined.includes("external-access")) score += 4;
-  if (result.intent.normalizedQuestion.includes("meeting polic") && combined.includes("meeting-policies")) score += 4;
-  if (result.intent.normalizedQuestion.includes("direct routing") && combined.includes("direct-routing")) score += 4;
-  if (result.intent.normalizedQuestion.includes("calling plan") && combined.includes("calling-plans")) score += 4;
-  return score;
-}
-
-function toEvidenceItem(candidate: FusedRetrievalCandidate): EvidenceItem {
+function toEvidenceItem(
+  candidate: FusedRetrievalCandidate,
+  supportedAspects: EvidenceAspect[],
+  strength: EvidenceAspectSupportStrength
+): EvidenceItem {
   const revisionCanonicalUrl =
     typeof candidate.provenance.sourceRevision["canonicalUrl"] === "string"
       ? String(candidate.provenance.sourceRevision["canonicalUrl"])
@@ -156,7 +95,9 @@ function toEvidenceItem(candidate: FusedRetrievalCandidate): EvidenceItem {
       headingPath: [...candidate.headingPath]
     },
     text: candidate.text,
-    supportTypes: supportTypesForCandidate(candidate),
+    supportTypes: [
+      ...new Set(supportedAspects.map((aspect) => aspect.supportType))
+    ],
     retrieval: {
       methods: [...candidate.methods],
       fusionRank: candidate.fusion.rank,
@@ -165,52 +106,48 @@ function toEvidenceItem(candidate: FusedRetrievalCandidate): EvidenceItem {
       exactMatch: candidate.exactMatch ?? null,
       retrievalReasons: [...candidate.retrievalReasons]
     },
-    selectionReason: `selected:${candidate.authority.routePriority}:rank_${candidate.fusion.rank}`
+    selectionReason: `selected:aspect:${supportedAspects
+      .map((aspect) => aspect.aspectId)
+      .sort()
+      .join(",")}:${strength}`
   };
 }
 
-function detectConflicts(evidence: EvidenceItem[], requestedDomains: SourceDomain[]): EvidenceConflict[] {
+function detectConflicts(
+  evidence: EvidenceItem[],
+  aspectCoverage: EvidenceAspectCoverage
+): EvidenceConflict[] {
   const conflicts: EvidenceConflict[] = [];
-
-  const ga = evidence.filter((item) => item.source.sourceStatus === "ga");
-  const beta = evidence.filter((item) => item.source.sourceStatus === "beta" || item.source.sourceStatus === "preview");
-  if (ga.length > 0 && beta.length > 0) {
-    conflicts.push({
-      conflictId: "conflict:ga-vs-beta",
-      conflictType: "ga_vs_beta",
-      topic: "ga_beta_mixture",
-      evidenceIds: [...ga.slice(0, 1), ...beta.slice(0, 1)].map((item) => item.evidenceId),
-      notes: "bundle mixes GA and beta/preview evidence"
-    });
-  }
-
-  const deprecated = evidence.filter((item) => /deprecated|no longer supported/i.test(item.text));
-  const supported = evidence.filter((item) => /supported|recommended/i.test(item.text));
-  if (deprecated.length > 0 && supported.length > 0) {
-    const deprecatedItem = deprecated[0] as EvidenceItem;
-    const supportedItem = supported[0] as EvidenceItem;
-    conflicts.push({
-      conflictId: "conflict:deprecated-vs-supported",
-      conflictType: "contradiction",
-      topic: "support_status",
-      evidenceIds: [deprecatedItem.evidenceId, supportedItem.evidenceId],
-      notes: "inconsistent support/deprecation signals"
-    });
-  }
-
-  for (const item of evidence) {
-    const domain = item.source.sourceDomain;
-    if (domain !== "unknown" && !requestedDomains.includes(domain)) {
+  const byId = new Map(evidence.map((item) => [item.evidenceId, item]));
+  const mandatoryAspectIds = new Set(
+    aspectCoverage.aspects
+      .filter((aspect) => aspect.requirement === "mandatory")
+      .map((aspect) => aspect.aspectId)
+  );
+  for (const [aspectId, evidenceIds] of Object.entries(
+    aspectCoverage.evidenceByAspect
+  )) {
+    if (!mandatoryAspectIds.has(aspectId) || evidenceIds.length < 2) continue;
+    const items = evidenceIds
+      .map((evidenceId) => byId.get(evidenceId))
+      .filter((item): item is EvidenceItem => Boolean(item));
+    const negative = items.find((item) =>
+      /\b(deprecated|no longer supported|not supported)\b/i.test(item.text)
+    );
+    const positive = items.find((item) =>
+      /\b(is|remains|currently)\s+supported\b/i.test(item.text)
+    );
+    if (negative && positive && negative.evidenceId !== positive.evidenceId) {
       conflicts.push({
-        conflictId: `conflict:scope-mismatch:${item.evidenceId}`,
-        conflictType: "scope_mismatch",
-        topic: domain,
-        evidenceIds: [item.evidenceId],
-        notes: "selected evidence domain outside requested domains"
+        conflictId: `conflict:${aspectId}:support-status`,
+        conflictType: "contradiction",
+        topic: aspectId,
+        evidenceIds: [negative.evidenceId, positive.evidenceId],
+        notes:
+          "authoritative evidence directly supporting the same required aspect has incompatible support-status assertions"
       });
     }
   }
-
   return conflicts;
 }
 
@@ -242,18 +179,35 @@ function computeExactIdentifierValidation(
   selected: EvidenceItem[]
 ): EvidenceBundle["exactIdentifierValidation"] {
   const requiredDirectives = result.scope.exactMatchDirectives.filter((directive) => directive.required);
-  const missingFromRetrieval = new Set(
-    result.fusionDiagnostics.requiredExactMisses.map((miss) => `${miss.directiveType}:${normalizeText(miss.directiveValue)}`)
-  );
   const missing: Array<{ type: "cmdlet" | "policy" | "entity"; value: string }> = [];
   for (const directive of requiredDirectives) {
-    const key = `${directive.type}:${normalizeText(directive.value)}`;
-    const selectedMatch = selected.some(
-      (item) =>
-        item.retrieval.exactMatch?.directiveType === directive.type &&
-        normalizeText(item.retrieval.exactMatch.directiveValue) === normalizeText(directive.value)
-    );
-    if (!selectedMatch || missingFromRetrieval.has(key)) {
+    const normalizeIdentifier = (value: string): string =>
+      value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+    const pathLeaf = (value: string): string =>
+      value
+        .split(/[?#]/, 1)[0]
+        ?.replace(/\\/g, "/")
+        .split("/")
+        .filter(Boolean)
+        .pop()
+        ?.replace(/\.md$/i, "") ?? "";
+    const expected = normalizeIdentifier(directive.value);
+    const selectedMatch = selected.some((item) => {
+      const identityMatches = [
+        item.source.title,
+        pathLeaf(item.source.sourcePath),
+        pathLeaf(item.source.canonicalUrl)
+      ].some((value) => normalizeIdentifier(value) === expected);
+      if (!identityMatches) return false;
+      if (directive.type !== "cmdlet") return true;
+      return (
+        item.source.sourceId === "ms-teams-powershell" &&
+        item.source.authorityRoles.includes(
+          "teams_powershell_cmdlet_primary"
+        )
+      );
+    });
+    if (!selectedMatch) {
       missing.push({ type: directive.type, value: directive.value });
     }
   }
@@ -268,84 +222,325 @@ function computeExactIdentifierValidation(
   };
 }
 
-export function buildEvidenceBundle(result: HybridRetrievalResult): BuildEvidenceBundleResult {
+function facetsCovered(
+  aspect: EvidenceAspect,
+  selectedSupports: EvidenceAspectSupport[]
+): boolean {
+  const matched = new Set<EvidenceSupportFacet>();
+  for (const support of selectedSupports) {
+    if (support.strength !== "direct") continue;
+    for (const facet of support.matchedFacets) matched.add(facet);
+  }
+  return aspect.requiredFacets.every((facet) => matched.has(facet));
+}
+
+export function buildEvidenceBundle(
+  result: HybridRetrievalResult,
+  options: BuildEvidenceBundleOptions = {}
+): BuildEvidenceBundleResult {
   const started = performance.now();
   const selectionStarted = performance.now();
-  const requiredConcepts = buildRequiredConcepts(result);
-  const selected: EvidenceItem[] = [];
-  const rejected: RejectedEvidenceCandidate[] = [];
-  const seenText = new Set<string>();
-  const perDocument = new Map<string, number>();
-  let hasBlockedByBeta = false;
-
-  const rankedForEvidence = [...result.candidates].sort((left, right) => {
-    const leftScore = topicalRelevanceScore(result, left) + specificityScore(result, left);
-    const rightScore = topicalRelevanceScore(result, right) + specificityScore(result, right);
-    if (leftScore !== rightScore) return rightScore - leftScore;
-    return left.fusion.rank - right.fusion.rank;
+  const aspects = deriveEvidenceAspects(result);
+  const mandatoryAspects = aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  const optionalAspects = aspects.filter(
+    (aspect) => aspect.requirement === "optional"
+  );
+  const metadataByChunkId = loadCandidateEvidenceMetadata({
+    databasePath: options.databasePath,
+    chunkIds: result.candidates.map((candidate) => candidate.chunkId)
   });
 
-  for (const candidate of rankedForEvidence) {
+  const evaluations = new Map<string, Map<string, CandidateAspectEvaluation>>();
+  const supportByAspect: Record<string, EvidenceAspectSupport[]> = {};
+  for (const aspect of aspects) {
+    supportByAspect[aspect.aspectId] = [];
+  }
+  for (const candidate of result.candidates) {
+    const byAspect = new Map<string, CandidateAspectEvaluation>();
+    for (const aspect of aspects) {
+      const support = evaluateCandidateAspectSupport(
+        result,
+        candidate,
+        aspect,
+        { metadataByChunkId }
+      );
+      const evaluation: CandidateAspectEvaluation = {
+        aspectId: aspect.aspectId,
+        topical: support.topical,
+        direct: support.strength === "direct",
+        authoritative: support.authoritySatisfied,
+        canonicalIdentityVerified: support.canonicalIdentityVerified,
+        qualityScore: support.qualityScore,
+        support
+      };
+      byAspect.set(aspect.aspectId, evaluation);
+      supportByAspect[aspect.aspectId]?.push(support);
+    }
+    evaluations.set(candidate.candidateId, byAspect);
+  }
+  for (const aspectId of Object.keys(supportByAspect)) {
+    supportByAspect[aspectId] = [...(supportByAspect[aspectId] ?? [])].sort(
+      (left, right) => {
+        if (left.qualityScore !== right.qualityScore) {
+          return right.qualityScore - left.qualityScore;
+        }
+        return left.candidateId.localeCompare(right.candidateId);
+      }
+    );
+  }
+
+  const selectedCandidates = new Map<
+    string,
+    {
+      candidate: FusedRetrievalCandidate;
+      aspectIds: Set<string>;
+      strength: EvidenceAspectSupportStrength;
+    }
+  >();
+  const selectedSupportsByAspect = new Map<string, EvidenceAspectSupport[]>();
+  const authorityLimitedAspectIds = new Set<string>();
+  const supportingOnlyAspectIds = new Set<string>();
+  const contextualOnlyAspectIds = new Set<string>();
+  const maxEvidenceItems = Math.max(
+    EVIDENCE_POLICY.maxEvidenceItems,
+    mandatoryAspects.length
+  );
+
+  const eligibleDirectForAspect = (
+    aspect: EvidenceAspect
+  ): Array<{ candidate: FusedRetrievalCandidate; support: EvidenceAspectSupport }> => {
+    const rows: Array<{
+      candidate: FusedRetrievalCandidate;
+      support: EvidenceAspectSupport;
+    }> = [];
+    for (const candidate of result.candidates) {
+      const support = evaluations
+        .get(candidate.candidateId)
+        ?.get(aspect.aspectId)?.support;
+      if (!support || support.strength !== "direct") continue;
+      const betaLike =
+        candidate.authority.sourceStatus === "beta" ||
+        candidate.authority.sourceStatus === "preview";
+      if (betaLike && !result.intent.allowsBetaSources) continue;
+      rows.push({ candidate, support });
+    }
+    return rows.sort((left, right) => {
+      if (left.support.qualityScore !== right.support.qualityScore) {
+        return right.support.qualityScore - left.support.qualityScore;
+      }
+      return left.candidate.fusion.rank - right.candidate.fusion.rank;
+    });
+  };
+
+  const selectForAspect = (
+    candidate: FusedRetrievalCandidate,
+    aspect: EvidenceAspect,
+    support: EvidenceAspectSupport
+  ): void => {
+    const existing = selectedCandidates.get(candidate.candidateId);
+    if (existing) {
+      existing.aspectIds.add(aspect.aspectId);
+      if (support.strength === "direct") existing.strength = "direct";
+    } else {
+      selectedCandidates.set(candidate.candidateId, {
+        candidate,
+        aspectIds: new Set([aspect.aspectId]),
+        strength: support.strength
+      });
+    }
+    const list = selectedSupportsByAspect.get(aspect.aspectId) ?? [];
+    list.push(support);
+    selectedSupportsByAspect.set(aspect.aspectId, list);
+  };
+
+  for (const aspect of mandatoryAspects) {
+    const supports = supportByAspect[aspect.aspectId] ?? [];
+    const hasDirect = supports.some((support) => support.strength === "direct");
+    const hasSupporting = supports.some(
+      (support) => support.strength === "supporting"
+    );
+    const hasContextual = supports.some(
+      (support) => support.strength === "contextual" && support.topical
+    );
+    if (
+      supports.some(
+        (support) => support.topical && !support.authoritySatisfied
+      )
+    ) {
+      authorityLimitedAspectIds.add(aspect.aspectId);
+    }
+    if (!hasDirect && hasSupporting) {
+      supportingOnlyAspectIds.add(aspect.aspectId);
+    } else if (!hasDirect && !hasSupporting && hasContextual) {
+      contextualOnlyAspectIds.add(aspect.aspectId);
+    }
+
+    const eligible = eligibleDirectForAspect(aspect);
+    for (const row of eligible) {
+      if (
+        !selectedCandidates.has(row.candidate.candidateId) &&
+        selectedCandidates.size >= maxEvidenceItems
+      ) {
+        continue;
+      }
+      selectForAspect(row.candidate, aspect, row.support);
+      if (facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])) {
+        break;
+      }
+    }
+
+    const selectedForAspect = selectedSupportsByAspect.get(aspect.aspectId) ?? [];
+    if (selectedForAspect.length === 0) continue;
+    const primary = eligible[0]?.candidate;
+    if (!primary) continue;
+    const primaryNegative =
+      /\b(deprecated|no longer supported|not supported)\b/i.test(primary.text);
+    const primaryPositive =
+      /\b(is|remains|currently)\s+supported\b/i.test(primary.text);
+    const incompatible = eligible.slice(1).find(({ candidate }) => {
+      const negative =
+        /\b(deprecated|no longer supported|not supported)\b/i.test(
+          candidate.text
+        );
+      const positive =
+        /\b(is|remains|currently)\s+supported\b/i.test(candidate.text);
+      return (
+        (primaryNegative && positive) || (primaryPositive && negative)
+      );
+    });
+    if (incompatible) {
+      selectForAspect(
+        incompatible.candidate,
+        aspect,
+        incompatible.support
+      );
+    }
+  }
+
+  if (selectedCandidates.size > 0) {
+    for (const aspect of optionalAspects) {
+      const primary = eligibleDirectForAspect(aspect).find(({ candidate }) =>
+        selectedCandidates.has(candidate.candidateId)
+      );
+      if (!primary) continue;
+      selectForAspect(primary.candidate, aspect, primary.support);
+    }
+  }
+
+  const selected = [...selectedCandidates.values()]
+    .sort(
+      (left, right) =>
+        left.candidate.fusion.rank - right.candidate.fusion.rank
+    )
+    .map(({ candidate, aspectIds, strength }) =>
+      toEvidenceItem(
+        candidate,
+        aspects.filter((aspect) => aspectIds.has(aspect.aspectId)),
+        strength
+      )
+    );
+  const evidenceIdByCandidateId = new Map(
+    [...selectedCandidates.values()].map(({ candidate }) => [
+      candidate.candidateId,
+      `evidence:${candidate.chunkId}`
+    ])
+  );
+  const evidenceByAspect: Record<string, string[]> = {};
+  for (const aspect of aspects) {
+    evidenceByAspect[aspect.aspectId] = [
+      ...selectedCandidates.values()
+    ]
+      .filter(({ aspectIds }) => aspectIds.has(aspect.aspectId))
+      .map(({ candidate }) => evidenceIdByCandidateId.get(candidate.candidateId))
+      .filter((evidenceId): evidenceId is string => Boolean(evidenceId));
+  }
+
+  const supportedMandatoryAspectIds = mandatoryAspects
+    .filter((aspect) =>
+      facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])
+    )
+    .map((aspect) => aspect.aspectId);
+  const unsupportedMandatoryAspectIds = mandatoryAspects
+    .filter((aspect) => !supportedMandatoryAspectIds.includes(aspect.aspectId))
+    .map((aspect) => aspect.aspectId);
+  const supportedOptionalAspectIds = optionalAspects
+    .filter((aspect) =>
+      facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])
+    )
+    .map((aspect) => aspect.aspectId);
+
+  const aspectCoverage: EvidenceAspectCoverage = {
+    aspects,
+    evidenceByAspect,
+    supportByAspect,
+    supportedMandatoryAspectIds,
+    unsupportedMandatoryAspectIds,
+    authorityLimitedAspectIds: [...authorityLimitedAspectIds].sort(),
+    supportingOnlyAspectIds: [...supportingOnlyAspectIds].sort(),
+    contextualOnlyAspectIds: [...contextualOnlyAspectIds].sort(),
+    supportedOptionalAspectIds
+  };
+
+  const rejected: RejectedEvidenceCandidate[] = [];
+  for (const candidate of result.candidates) {
+    if (selectedCandidates.has(candidate.candidateId)) continue;
     const reasons: EvidenceRejectionReason[] = [];
-    const status = candidate.authority.sourceStatus;
-    const betaLike = status === "beta" || status === "preview";
+    const betaLike =
+      candidate.authority.sourceStatus === "beta" ||
+      candidate.authority.sourceStatus === "preview";
     if (betaLike && !result.intent.allowsBetaSources) {
       reasons.push("beta_not_allowed");
-      hasBlockedByBeta = true;
     }
-
-    const relevance = topicalRelevanceScore(result, candidate);
-    if (relevance < EVIDENCE_POLICY.minTopicalRelevanceScore) reasons.push("low_topical_relevance");
-
-    const textKey = normalizeText(candidate.text).slice(0, 240);
-    if (seenText.has(textKey)) reasons.push("redundant");
-
-    const docCount = perDocument.get(candidate.documentId) ?? 0;
-    if (docCount >= EVIDENCE_POLICY.maxPerDocument) reasons.push("redundant");
-
-    if (selected.length >= EVIDENCE_POLICY.maxEvidenceItems) reasons.push("candidate_cap");
-
-    if (reasons.length > 0) {
-      rejected.push({
-        candidateId: candidate.candidateId,
-        chunkId: candidate.chunkId,
-        documentId: candidate.documentId,
-        title: candidate.title,
-        sourceId: candidate.authority.sourceId,
-        fusionRank: candidate.fusion.rank,
-        reasons: [...new Set(reasons)]
-      });
-      continue;
+    const candidateSupports = [
+      ...(evaluations.get(candidate.candidateId)?.values() ?? [])
+    ].map((evaluation) => evaluation.support);
+    const bestStrength = candidateSupports.some(
+      (support) => support.strength === "direct"
+    )
+      ? "direct"
+      : candidateSupports.some((support) => support.strength === "supporting")
+        ? "supporting"
+        : "contextual";
+    const topical = candidateSupports.some((support) => support.topical);
+    if (!topical || bestStrength === "contextual") {
+      reasons.push("low_topical_relevance", "insufficient_direct_support");
+    } else if (bestStrength === "supporting") {
+      reasons.push("insufficient_direct_support");
+      if (candidateSupports.some((support) => !support.authoritySatisfied)) {
+        reasons.push("lower_authority");
+      }
+    } else if (selectedCandidates.size >= maxEvidenceItems) {
+      reasons.push("candidate_cap");
+    } else {
+      reasons.push("redundant");
     }
-
-    selected.push(toEvidenceItem(candidate));
-    seenText.add(textKey);
-    perDocument.set(candidate.documentId, docCount + 1);
+    rejected.push({
+      candidateId: candidate.candidateId,
+      chunkId: candidate.chunkId,
+      documentId: candidate.documentId,
+      title: candidate.title,
+      sourceId: candidate.authority.sourceId,
+      fusionRank: candidate.fusion.rank,
+      reasons: [...new Set(reasons)]
+    });
   }
   const selectionLatencyMs = performance.now() - selectionStarted;
 
   const conflictStarted = performance.now();
   const requestedDomains = [...result.intent.domains] as SourceDomain[];
-  const cmdletDiscoveryIntent =
-    (result.intent.commandNames ?? []).length > 0 ||
-    result.intent.normalizedQuestion.includes("which cmdlet") ||
-    result.intent.normalizedQuestion.includes("powershell command") ||
-    result.intent.normalizedQuestion.includes("powershell cmdlet");
-  const primaryExpectedDomains = cmdletDiscoveryIntent
-    ? (["teams_powershell"] as SourceDomain[])
-    : requestedDomains;
-  const conflicts = detectConflicts(selected, requestedDomains);
+  const conflicts = detectConflicts(selected, aspectCoverage);
   const conflictLatencyMs = performance.now() - conflictStarted;
 
   const coveredDomains = [...new Set(selected.map((item) => item.source.sourceDomain).filter((domain) => domain !== "unknown"))] as SourceDomain[];
-  const missingDomains = primaryExpectedDomains.filter((domain) => !coveredDomains.includes(domain));
+  const missingDomains = requestedDomains.filter((domain) => !coveredDomains.includes(domain));
   const freshness = computeFreshnessState(result);
   const exactIdentifierValidation = computeExactIdentifierValidation(result, selected);
 
-  const supportedConcepts = requiredConcepts.filter((concept) =>
-    selected.some((item) => evidenceSupportsConcept(item, concept))
-  );
-  const requiredConceptCoverage = requiredConcepts.length === 0 || supportedConcepts.length > 0;
+  const requiredConceptCoverage =
+    mandatoryAspects.length > 0 &&
+    supportedMandatoryAspectIds.length === mandatoryAspects.length;
   const authoritativeEvidencePresent = selected.some((item) => item.source.authorityTier === "tier1");
   const provenanceComplete = selected.every(
     (item) => item.source.canonicalUrl.length > 0 && item.source.sourcePath.length > 0 && item.source.title.length > 0
@@ -367,6 +562,7 @@ export function buildEvidenceBundle(result: HybridRetrievalResult): BuildEvidenc
     conflicts,
     freshness,
     exactIdentifierValidation,
+    aspectCoverage,
     authorityCoverage: {
       requestedDomains,
       coveredDomains,
@@ -384,14 +580,6 @@ export function buildEvidenceBundle(result: HybridRetrievalResult): BuildEvidenc
   });
   const answerabilityLatencyMs = performance.now() - answerabilityStarted;
 
-  if (hasBlockedByBeta && selected.length === 0) {
-    for (const row of rejected) {
-      if (!row.reasons.includes("adjacent_domain_authority_missing")) {
-        row.reasons.push("adjacent_domain_authority_missing");
-      }
-    }
-  }
-
   const decisionState: EvidenceBundleDecisionState = {
     question: result.intent.originalQuestion,
     intent: result.intent,
@@ -401,6 +589,7 @@ export function buildEvidenceBundle(result: HybridRetrievalResult): BuildEvidenc
     conflicts,
     freshness,
     exactIdentifierValidation,
+    aspectCoverage,
     authorityCoverage: {
       requestedDomains,
       coveredDomains,

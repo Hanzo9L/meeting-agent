@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { resolve } from "node:path";
 import { DEFAULT_TOPIC, DEFAULT_TOPIC_PROMPT } from "../../src/shared/constants";
 import { runLegacyBaseline } from "./legacyScorer";

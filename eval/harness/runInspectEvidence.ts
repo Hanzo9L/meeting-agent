@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { inspectEvidenceForQuestion } from "../../src/main/services/answerV2";
 
 function resolveQuestionFromArgs(): string {

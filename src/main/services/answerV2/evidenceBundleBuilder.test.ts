@@ -14,6 +14,9 @@ function makeCandidate(params: {
   chunkId?: string;
   sourceStatus?: "ga" | "beta" | "preview" | "unknown";
   exact?: { type: "cmdlet" | "policy" | "entity"; value: string; required: boolean };
+  authorityTier?: "tier1" | "secondary" | "unknown";
+  sourcePath?: string;
+  headingPath?: string[];
 }): FusedRetrievalCandidate {
   const chunkId = params.chunkId ?? `chunk-${params.rank}-${params.sourceId}`;
   const documentId = params.documentId ?? `doc-${params.sourceId}-${params.rank}`;
@@ -23,22 +26,29 @@ function makeCandidate(params: {
     documentId,
     chunkId,
     sectionId: "section-a",
-    headingPath: ["h1", "h2"],
+    headingPath: params.headingPath ?? ["h1", "h2"],
     title: params.title,
     text: params.text,
     authority: {
       sourceId: params.sourceId,
       trackId: "ga",
       sourceStatus: params.sourceStatus ?? "ga",
-      authorityTier: "tier1",
-      authorityRoles: params.sourceId === "ms-teams-powershell" ? ["teams_powershell_cmdlet_primary"] : ["teams_admin_primary"],
+      authorityTier: params.authorityTier ?? "tier1",
+      authorityRoles:
+        params.sourceId === "ms-teams-powershell"
+          ? ["teams_powershell_cmdlet_primary"]
+          : params.sourceId === "ms-entra-docs"
+            ? ["entra_identity_primary"]
+            : params.sourceId === "ms-graph-docs"
+              ? ["graph_api_primary"]
+              : ["teams_admin_primary"],
       routePriority: params.routePriority
     },
     provenance: {
-      sourcePath: "path/to/doc.md",
+      sourcePath: params.sourcePath ?? "path/to/doc.md",
       canonicalUrl: params.url,
       sourceRevision: { transport: "github", commitSha: "abc" },
-      headingPath: ["h1", "h2"],
+      headingPath: params.headingPath ?? ["h1", "h2"],
       sectionId: "section-a"
     },
     scores: {
@@ -94,6 +104,10 @@ function makeHybrid(params: {
   domains?: Array<"teams_admin" | "teams_powershell" | "graph" | "entra" | "m365" | "teams_dev">;
   requiredDirective?: { type: "cmdlet" | "policy" | "entity"; value: string };
   missedRequired?: boolean;
+  entities?: string[];
+  policyNames?: string[];
+  operationIntents?: string[];
+  answerType?: "conceptual" | "procedural" | "troubleshooting" | "configuration" | "comparison" | "reference";
 }): HybridRetrievalResult {
   const intent = {
     originalQuestion: params.question,
@@ -101,13 +115,13 @@ function makeHybrid(params: {
     domains: params.domains ?? ["teams_admin"],
     products: ["teams"],
     technologies: ["teams"],
-    entities: ["voice routing policy"],
-    operationIntents: ["grant"],
+    entities: params.entities ?? [],
+    operationIntents: params.operationIntents ?? [],
     commandNames: params.commandNames ?? [],
-    policyNames: [],
+    policyNames: params.policyNames ?? [],
     requiresFreshnessCheck: false,
     allowsBetaSources: params.allowsBeta ?? false,
-    expectedAnswerType: "reference" as const,
+    expectedAnswerType: params.answerType ?? "conceptual",
     retrievalHints: [],
     unresolvedAmbiguity: []
   };
@@ -219,6 +233,7 @@ function makeHybrid(params: {
 test("HybridRetrievalResult converts to compact EvidenceBundle", () => {
   const hybrid = makeHybrid({
     question: "How does Teams Direct Routing voice routing work?",
+    entities: ["direct routing", "voice routing"],
     candidates: [
       makeCandidate({
         rank: 1,
@@ -247,6 +262,7 @@ test("candidates are not blindly copied and redundant evidence is rejected", () 
   });
   const hybrid = makeHybrid({
     question: "How does Teams Direct Routing voice routing work?",
+    entities: ["direct routing", "voice routing"],
     candidates: [
       makeCandidate({
         rank: 1,
@@ -317,22 +333,25 @@ test("beta is excluded by default and preserved when allowed", () => {
     sourceId: "ms-teams-admin",
     routePriority: "primary",
     sourceStatus: "beta",
-    title: "Preview policy feature",
-    text: "Preview policy feature details.",
-    url: "https://learn.microsoft.com/en-us/microsoftteams/preview-feature"
+    title: "Meeting policies",
+    text: "Meeting policies control meeting capabilities for users.",
+    headingPath: ["Meeting policies", "Overview"],
+    url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-preview"
   });
   const gaCandidate = makeCandidate({
     rank: 2,
     sourceId: "ms-teams-admin",
     routePriority: "primary",
-    title: "GA policy feature",
-    text: "GA policy feature details.",
-    url: "https://learn.microsoft.com/en-us/microsoftteams/ga-feature"
+    title: "Meeting policies",
+    text: "Meeting policies control meeting capabilities for users.",
+    headingPath: ["Meeting policies", "Overview"],
+    url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview"
   });
 
   const blocked = buildEvidenceBundle(
     makeHybrid({
       question: "How do Teams meeting policies work?",
+      entities: ["meeting policies"],
       allowsBeta: false,
       candidates: [betaCandidate, gaCandidate]
     })
@@ -342,6 +361,7 @@ test("beta is excluded by default and preserved when allowed", () => {
   const allowed = buildEvidenceBundle(
     makeHybrid({
       question: "How do Teams meeting policies work in preview?",
+      entities: ["meeting policies"],
       allowsBeta: true,
       candidates: [betaCandidate]
     })
@@ -349,89 +369,570 @@ test("beta is excluded by default and preserved when allowed", () => {
   assert.equal(allowed.evidence.some((item) => item.source.sourceStatus === "beta"), true);
 });
 
-test("meeting-policy and external-access direct evidence outrank generic pages", () => {
-  const meeting = buildEvidenceBundle(
+test("high-authority but irrelevant evidence is rejected before ranking bonuses", () => {
+  const bundle = buildEvidenceBundle(
     makeHybrid({
-      question: "How do Teams meeting policies work?",
+      question: "How does federation work?",
+      entities: ["federation"],
       candidates: [
         makeCandidate({
           rank: 1,
           sourceId: "ms-teams-admin",
           routePriority: "primary",
-          title: "Meeting policies overview",
-          text: "Meeting policy assignment and behavior in Teams.",
-          url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview"
-        }),
-        makeCandidate({
-          rank: 2,
-          sourceId: "ms-teams-admin",
-          routePriority: "primary",
-          title: "Manage Teams with policies",
-          text: "Generic policy guidance across teams.",
-          url: "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-with-policies"
+          title: "Authoritative meeting deployment",
+          text: "Configure meeting organizers and lobby settings.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/federation"
         })
       ]
     })
   ).bundle;
-  assert.ok(meeting.evidence[0]?.source.canonicalUrl.includes("meeting-policies-overview"));
-
-  const external = buildEvidenceBundle(
-    makeHybrid({
-      question: "How does external access work in Teams?",
-      candidates: [
-        makeCandidate({
-          rank: 1,
-          sourceId: "ms-teams-admin",
-          routePriority: "primary",
-          title: "Manage external access",
-          text: "External access configuration and behavior in Teams.",
-          url: "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access"
-        }),
-        makeCandidate({
-          rank: 2,
-          sourceId: "ms-teams-admin",
-          routePriority: "primary",
-          title: "Deploy chat and channels",
-          text: "Landing page for broad Teams deployment.",
-          url: "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page"
-        })
-      ]
-    })
-  ).bundle;
-  assert.ok(external.evidence[0]?.source.canonicalUrl.includes("manage-external-access"));
+  assert.equal(bundle.evidence.length, 0);
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  assert.ok(
+    bundle.rejectedCandidates[0]?.reasons.includes("low_topical_relevance")
+  );
 });
 
-test("conflicts, partial state, missing authority, and evidence cap are represented", () => {
-  const candidates: FusedRetrievalCandidate[] = [];
-  for (let i = 1; i <= 12; i += 1) {
-    candidates.push(
-      makeCandidate({
-        rank: i,
-        sourceId: i % 2 === 0 ? "ms-teams-admin" : "ms-teams-powershell",
-        routePriority: "primary",
-        title: i === 1 ? "Deprecated policy behavior" : `Candidate ${i}`,
-        text:
-          i === 1
-            ? "This behavior is deprecated."
-            : i === 2
-              ? "This behavior is supported and recommended."
-              : `Evidence candidate ${i}`,
-        url: `https://learn.microsoft.com/en-us/microsoftteams/candidate-${i}`,
-        sourceStatus: i === 3 ? "beta" : "ga",
-        documentId: `doc-${Math.ceil(i / 2)}`
+test("two-part question with one supported aspect is partial", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Explain federation and tenant restrictions.",
+      entities: ["federation", "tenant restrictions"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Federation behavior",
+          text: "Federation lets organizations communicate across tenants.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-a"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "partial");
+  assert.equal(bundle.aspectCoverage.supportedMandatoryAspectIds.length, 1);
+  assert.equal(bundle.aspectCoverage.unsupportedMandatoryAspectIds.length, 1);
+});
+
+test("multi-part operations remain separate and clause-bound", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do I assign a routing policy and remove a dial plan?",
+      entities: ["routing policy", "dial plan"],
+      operationIntents: ["assign", "remove"],
+      answerType: "procedural",
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Assign a routing policy",
+          text: "Use these steps to assign a routing policy.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-i"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Remove a dial plan",
+          text: "Use these steps to remove a dial plan.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-j"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 2);
+  assert.deepEqual(
+    mandatory.map((aspect) => `${aspect.subject}:${aspect.operation}`).sort(),
+    ["dial plan:remove", "routing policy:assign"]
+  );
+  assert.equal(bundle.answerability, "answered");
+});
+
+test("no supported required aspects is insufficient evidence", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Explain federation and tenant restrictions.",
+      entities: ["federation", "tenant restrictions"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Meeting lobby settings",
+          text: "Meeting organizers can configure lobby behavior.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-b"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  assert.equal(bundle.aspectCoverage.supportedMandatoryAspectIds.length, 0);
+});
+
+test("all mandatory aspects supported is answered and distractors stay out", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Explain federation and tenant restrictions.",
+      entities: ["federation", "tenant restrictions"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Unrelated authoritative landing page",
+          text: "General deployment navigation.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/index"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Federation behavior",
+          text: "Federation lets organizations communicate across tenants.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-c"
+        }),
+        makeCandidate({
+          rank: 3,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Tenant restrictions",
+          text: "Tenant restrictions constrain cross-tenant access.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-d"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "answered");
+  assert.equal(bundle.aspectCoverage.supportedMandatoryAspectIds.length, 2);
+  assert.equal(bundle.evidence.length, 2);
+  assert.equal(
+    bundle.evidence.some((item) =>
+      item.source.title.includes("Unrelated authoritative")
+    ),
+    false
+  );
+});
+
+test("question phrases in URLs do not create topical eligibility", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does packet mediation work?",
+      entities: ["packet mediation"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Generic landing page",
+          text: "Navigation for deployment guidance.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/packet-mediation"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "supporting",
+          title: "Packet mediation",
+          text: "Packet mediation controls the approved media path.",
+          headingPath: ["Packet mediation", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/opaque-article"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.evidence.length, 1);
+  assert.equal(bundle.evidence[0]?.source.title, "Packet mediation");
+});
+
+test("generic policy wording does not imply parameter semantics", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "What is a retention policy?",
+      entities: ["retention policy"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Retention policy overview",
+          text: "A retention policy controls lifecycle behavior.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/retention"
+        })
+      ]
+    })
+  ).bundle;
+  assert.deepEqual(bundle.evidence[0]?.supportTypes, ["concept_definition"]);
+});
+
+test("unrelated GA and preview evidence do not create a conflict", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Explain federation and tenant restrictions.",
+      entities: ["federation", "tenant restrictions"],
+      allowsBeta: true,
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          sourceStatus: "ga",
+          title: "Federation behavior",
+          text: "Federation enables cross-organization communication.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-e"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          sourceStatus: "preview",
+          title: "Tenant restrictions preview",
+          text: "Tenant restrictions constrain cross-tenant access.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-f"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "answered");
+  assert.equal(bundle.conflicts.length, 0);
+});
+
+test("only incompatible evidence for the same aspect creates a conflict", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Is federation supported?",
+      entities: ["federation"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Federation status",
+          text: "Federation is currently supported.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-g"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Federation status notice",
+          text: "Federation is deprecated.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/topic-h"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.conflicts.length, 1);
+  assert.equal(bundle.conflicts[0]?.topic.includes("federation"), true);
+  assert.equal(bundle.answerability, "insufficient_evidence");
+});
+
+test("retrieval exact-match metadata cannot spoof canonical identifier identity", () => {
+  const command = "Set-CsDefinitelyNotARealCmdlet";
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: `What does ${command} do?`,
+      commandNames: [command],
+      domains: ["teams_powershell"],
+      requiredDirective: { type: "cmdlet", value: command },
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-powershell",
+          routePriority: "primary",
+          title: "Set-CsOnlineVoiceRoutingPolicy",
+          text: `${command} was reported as an exact retrieval match.`,
+          sourcePath: "module/set-csonlinevoiceroutingpolicy.md",
+          url: "https://learn.microsoft.com/powershell/module/microsoftteams/set-csonlinevoiceroutingpolicy",
+          exact: { type: "cmdlet", value: command, required: true }
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.exactIdentifierValidation.verified, false);
+  assert.equal(bundle.evidence.length, 0);
+  assert.equal(bundle.answerability, "insufficient_evidence");
+});
+
+test("existing admin and cmdlet scenarios remain resolver regressions", () => {
+  const scenarios = [
+    {
+      question: "How do Microsoft Teams Calling Plans work?",
+      entities: ["calling plans"],
+      operationIntents: [] as string[],
+      domains: ["teams_admin"] as const,
+      sourceId: "ms-teams-admin",
+      title: "Calling plans",
+      text: "Calling plans provide PSTN calling through Microsoft.",
+      headingPath: ["Calling plans", "Overview"],
+      url: "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365"
+    },
+    {
+      question: "How do Teams meeting policies work?",
+      entities: ["meeting policies"],
+      operationIntents: [] as string[],
+      domains: ["teams_admin"] as const,
+      sourceId: "ms-teams-admin",
+      title: "Meeting policies",
+      text: "Meeting policies control meeting capabilities for users.",
+      headingPath: ["Meeting policies", "Overview"],
+      url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview"
+    },
+    {
+      question: "How does external access work in Teams?",
+      entities: ["external access"],
+      operationIntents: [] as string[],
+      domains: ["teams_admin"] as const,
+      sourceId: "ms-teams-admin",
+      title: "External access",
+      text: "External access lets Teams users communicate with other organizations.",
+      headingPath: ["External access", "Overview"],
+      url: "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access"
+    },
+    {
+      question: "Which cmdlet assigns a Teams voice routing policy to a user?",
+      entities: ["voice routing policy"],
+      operationIntents: ["assign"],
+      domains: ["teams_powershell"] as const,
+      sourceId: "ms-teams-powershell",
+      title: "Grant-CsOnlineVoiceRoutingPolicy",
+      text: "Grant-CsOnlineVoiceRoutingPolicy assigns a voice routing policy to a user.",
+      headingPath: ["Grant-CsOnlineVoiceRoutingPolicy", "DESCRIPTION"],
+      url: "https://learn.microsoft.com/powershell/module/microsoftteams/grant-csonlinevoiceroutingpolicy"
+    }
+  ];
+
+  for (const [index, scenario] of scenarios.entries()) {
+    const bundle = buildEvidenceBundle(
+      makeHybrid({
+        question: scenario.question,
+        entities: scenario.entities,
+        operationIntents: scenario.operationIntents,
+        domains: [...scenario.domains],
+        answerType:
+          scenario.operationIntents.length > 0 ? "configuration" : "conceptual",
+        candidates: [
+          makeCandidate({
+            rank: index + 1,
+            sourceId: scenario.sourceId,
+            routePriority: "primary",
+            title: scenario.title,
+            text: scenario.text,
+            headingPath: scenario.headingPath,
+            url: scenario.url
+          })
+        ]
       })
+    ).bundle;
+    assert.equal(
+      bundle.answerability,
+      "answered",
+      `${scenario.question} should remain answerable`
     );
   }
+});
+
+test("implicit cmdlet requires authoritative cmdlet identity not admin procedure", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "Which cmdlet assigns a Teams voice routing policy to a user?",
+      entities: ["voice routing policy"],
+      operationIntents: ["assign"],
+      domains: ["teams_powershell", "teams_admin"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Configure call routing for Direct Routing",
+          text: "Assign the voice routing policy to user1@contoso.com.",
+          headingPath: [
+            "Configure call routing for Direct Routing",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy"
+          ],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-powershell",
+          routePriority: "primary",
+          title: "Grant-CsOnlineVoiceRoutingPolicy",
+          text: "Grant-CsOnlineVoiceRoutingPolicy assigns a voice routing policy to a user.",
+          headingPath: ["Grant-CsOnlineVoiceRoutingPolicy", "DESCRIPTION"],
+          url: "https://learn.microsoft.com/powershell/module/microsoftteams/grant-csonlinevoiceroutingpolicy"
+        })
+      ]
+    })
+  ).bundle;
+  const aspect = bundle.aspectCoverage.aspects[0];
+  assert.equal(aspect?.answerObject, "cmdlet_identifier");
+  assert.equal(aspect?.operation, "assign");
+  assert.equal(bundle.answerability, "answered");
+  assert.equal(bundle.evidence[0]?.source.title, "Grant-CsOnlineVoiceRoutingPolicy");
+  assert.equal(
+    bundle.rejectedCandidates.some(
+      (candidate) =>
+        candidate.title.includes("Configure call routing") &&
+        candidate.reasons.includes("insufficient_direct_support")
+    ),
+    true
+  );
+});
+
+test("broad meeting-policy question is not satisfied by a narrow settings subsection", () => {
+  const narrowOnly = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do Teams meeting policies work?",
+      entities: ["meeting policies"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Meeting policy settings for audio & video",
+          text: "For a user, the most restrictive policy setting for video takes precedence.",
+          headingPath: [
+            "Meeting policy settings for audio & video",
+            "Video conferencing",
+            "Which video policy setting takes precedence?"
+          ],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-audio-and-video"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(narrowOnly.answerability, "insufficient_evidence");
+  assert.ok(
+    narrowOnly.aspectCoverage.supportingOnlyAspectIds.length > 0 ||
+      narrowOnly.aspectCoverage.unsupportedMandatoryAspectIds.length > 0
+  );
+
+  const withOverview = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do Teams meeting policies work?",
+      entities: ["meeting policies"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Meeting policy settings for audio & video",
+          text: "For a user, the most restrictive policy setting for video takes precedence.",
+          headingPath: [
+            "Meeting policy settings for audio & video",
+            "Video conferencing",
+            "Which video policy setting takes precedence?"
+          ],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-audio-and-video"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Meeting policies",
+          text: "Meeting policies determine the features available to users in meetings.",
+          headingPath: ["Meeting policies", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(withOverview.answerability, "answered");
+  assert.equal(withOverview.evidence[0]?.source.title, "Meeting policies");
+});
+
+test("relational Conditional Access question stays one relationship aspect", () => {
   const bundle = buildEvidenceBundle(
     makeHybrid({
       question: "How does Conditional Access affect Teams on unmanaged devices?",
+      entities: ["conditional access", "unmanaged devices"],
       domains: ["entra", "teams_admin"],
-      candidates
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Chat, teams, channels, & apps in Microsoft Teams",
+          text: "Will I need to configure conditional access for Teams?",
+          headingPath: [
+            "Chat, teams, channels, & apps in Microsoft Teams",
+            "Additional deployment decisions",
+            "Conditional access"
+          ],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-entra-docs",
+          routePriority: "primary",
+          title: "Conditional Access and unmanaged devices",
+          text: "Conditional Access affects Teams access on unmanaged devices by requiring compliant controls.",
+          headingPath: ["Conditional Access", "Unmanaged devices"],
+          url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/unmanaged"
+        })
+      ]
     })
   ).bundle;
-  assert.ok(bundle.conflicts.length > 0);
-  assert.ok(bundle.answerability === "partial" || bundle.answerability === "insufficient_evidence");
-  assert.ok(bundle.authorityCoverage.missingDomains.includes("entra"));
-  assert.ok(bundle.evidence.length <= 8);
-  assert.ok(bundle.rejectedCandidates.some((candidate) => candidate.reasons.includes("candidate_cap")));
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 1);
+  assert.equal(mandatory[0]?.answerObject, "relationship");
+  assert.equal(mandatory[0]?.relationship?.predicate, "affects");
+  assert.equal(bundle.answerability, "answered");
+  assert.equal(
+    bundle.evidence[0]?.source.title,
+    "Conditional Access and unmanaged devices"
+  );
+  assert.equal(
+    bundle.rejectedCandidates.some(
+      (candidate) =>
+        candidate.title.includes("Chat, teams, channels") &&
+        candidate.reasons.includes("insufficient_direct_support")
+    ),
+    true
+  );
+});
+
+test("landing and related-links content is contextual not direct", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How does external access work in Teams?",
+      entities: ["external access"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Chat, teams, channels, & apps in Microsoft Teams",
+          text: "External access (federation) lets your users communicate with people outside of your organization via chat.",
+          headingPath: [
+            "Chat, teams, channels, & apps in Microsoft Teams",
+            "Core deployment decisions",
+            "External access"
+          ],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "External access",
+          text: "External access lets Teams users communicate with other organizations.",
+          headingPath: ["External access", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "answered");
+  assert.equal(bundle.evidence[0]?.source.title, "External access");
+  const landingSupport = bundle.aspectCoverage.supportByAspect[
+    bundle.aspectCoverage.aspects[0]?.aspectId ?? ""
+  ]?.find((support) => support.candidateId.includes("chunk-1"));
+  assert.equal(landingSupport?.strength, "contextual");
 });

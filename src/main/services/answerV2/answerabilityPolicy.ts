@@ -7,17 +7,26 @@ export interface AnswerabilityDecision {
 
 export function classifyAnswerability(bundle: Pick<
   EvidenceBundle,
-  "evidence" | "conflicts" | "freshness" | "exactIdentifierValidation" | "authorityCoverage" | "diagnostics"
+  | "evidence"
+  | "conflicts"
+  | "freshness"
+  | "exactIdentifierValidation"
+  | "aspectCoverage"
+  | "authorityCoverage"
+  | "diagnostics"
 >): AnswerabilityDecision {
   const rationale: string[] = [];
-  const hasEvidence = bundle.evidence.length > 0;
-  if (!hasEvidence) {
-    rationale.push("no_selected_evidence");
-    return { status: "insufficient_evidence", rationale };
-  }
-
-  if (!bundle.exactIdentifierValidation.verified && bundle.exactIdentifierValidation.required) {
-    rationale.push("required_exact_identifier_not_verified");
+  const mandatoryAspectIds = bundle.aspectCoverage.aspects
+    .filter((aspect) => aspect.requirement === "mandatory")
+    .map((aspect) => aspect.aspectId);
+  const supportedMandatory = new Set(
+    bundle.aspectCoverage.supportedMandatoryAspectIds
+  );
+  const supportedCount = mandatoryAspectIds.filter((aspectId) =>
+    supportedMandatory.has(aspectId)
+  ).length;
+  if (mandatoryAspectIds.length === 0 || supportedCount === 0) {
+    rationale.push("no_mandatory_aspect_has_direct_authoritative_support");
     return { status: "insufficient_evidence", rationale };
   }
 
@@ -26,26 +35,29 @@ export function classifyAnswerability(bundle: Pick<
   );
   if (hasCriticalConflict) {
     rationale.push("critical_conflict_present");
-    return { status: "insufficient_evidence", rationale };
-  }
-
-  const missingAuthority = bundle.authorityCoverage.missingDomains.length > 0;
-  const freshnessLimited = bundle.freshness.state === "verification_required";
-  const conceptCoverage = bundle.diagnostics.policySignals.requiredConceptCoverage;
-  const authoritativePresent = bundle.diagnostics.policySignals.authoritativeEvidencePresent;
-
-  if (authoritativePresent && conceptCoverage && !missingAuthority && !freshnessLimited) {
-    rationale.push("authoritative_evidence_sufficient");
-    return { status: "answered", rationale };
-  }
-
-  if (authoritativePresent && (conceptCoverage || !missingAuthority)) {
-    if (missingAuthority) rationale.push("missing_adjacent_domain_authority");
-    if (freshnessLimited) rationale.push("freshness_verification_required");
-    if (!conceptCoverage) rationale.push("incomplete_required_concept_support");
+    if (mandatoryAspectIds.length === 1) {
+      return { status: "insufficient_evidence", rationale };
+    }
     return { status: "partial", rationale };
   }
 
-  rationale.push("authoritative_support_insufficient");
-  return { status: "insufficient_evidence", rationale };
+  const freshnessLimited = bundle.freshness.state === "verification_required";
+  const exactIdentifierLimited =
+    bundle.exactIdentifierValidation.required &&
+    !bundle.exactIdentifierValidation.verified;
+  const allMandatorySupported = supportedCount === mandatoryAspectIds.length;
+
+  if (allMandatorySupported && !freshnessLimited && !exactIdentifierLimited) {
+    rationale.push("all_mandatory_aspects_have_direct_authoritative_support");
+    return { status: "answered", rationale };
+  }
+
+  if (!allMandatorySupported) {
+    rationale.push("incomplete_mandatory_aspect_support");
+  }
+  if (freshnessLimited) rationale.push("freshness_verification_required");
+  if (exactIdentifierLimited) {
+    rationale.push("required_exact_identifier_not_verified");
+  }
+  return { status: "partial", rationale };
 }

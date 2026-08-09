@@ -1,3 +1,4 @@
+import "./cliEnvironment";
 import { resolve } from "node:path";
 import { runWb17l0Spike } from "../../src/main/services/eval/wb17l0Spike";
 

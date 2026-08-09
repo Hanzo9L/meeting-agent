@@ -9,6 +9,7 @@ import {
   type EvidenceBundleDecisionState,
   validateGroundingDecisionBoundary
 } from "./groundingDecisionSnapshot";
+import { makeTestAspectCoverage } from "./testAspectFixtures";
 import type { EvidenceBundle, EvidenceItem } from "./types";
 
 function makeEvidence(text: string): EvidenceItem {
@@ -108,6 +109,9 @@ function makeBundle(params?: { question?: string; evidenceText?: string }): Evid
       requiredDirectives: [],
       missingRequiredDirectives: []
     },
+    aspectCoverage: makeTestAspectCoverage({
+      evidenceIds: ["evidence:chunk-1"]
+    }),
     authorityCoverage: {
       requestedDomains: ["teams_admin"],
       coveredDomains: ["teams_admin"],
@@ -185,6 +189,36 @@ test("mutated EvidenceBundle content fails its immutable snapshot", () => {
 
   assert.equal(validation.valid, false);
   assert.ok(validation.issues.some((issue) => issue.code === "bundle_snapshot_hash_mismatch"));
+});
+
+test("R2.1 aspect decisions and resolver policy are snapshot-bound", () => {
+  const bundle = makeBundle();
+  const plan = buildAnswerPlan(bundle);
+  assert.equal(
+    bundle.decisionSnapshot.resolverPolicyVersion,
+    "proposition-aware-evidence-policy/r2.1"
+  );
+  const changedCoverage: EvidenceBundle = {
+    ...bundle,
+    aspectCoverage: {
+      ...bundle.aspectCoverage,
+      supportedMandatoryAspectIds: [],
+      unsupportedMandatoryAspectIds: [
+        "mandatory:entity:direct-routing:general"
+      ]
+    }
+  };
+
+  const validation = validateGroundingDecisionBoundary({
+    bundle: changedCoverage,
+    plan
+  });
+  assert.equal(validation.valid, false);
+  assert.ok(
+    validation.issues.some(
+      (issue) => issue.code === "bundle_snapshot_hash_mismatch"
+    )
+  );
 });
 
 test("snapshot failure result has no renderable answerText", async () => {

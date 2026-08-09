@@ -7,6 +7,7 @@ import {
   bindEvidenceBundleSnapshot,
   type EvidenceBundleDecisionState
 } from "./groundingDecisionSnapshot";
+import { makeTestAspectCoverage } from "./testAspectFixtures";
 
 function makeEvidence(params: {
   id: string;
@@ -128,6 +129,9 @@ function makeBundle(overrides: Partial<EvidenceBundleDecisionState> = {}): Evide
       requiredDirectives: [],
       missingRequiredDirectives: []
     },
+    aspectCoverage: makeTestAspectCoverage({
+      evidenceIds: ["ev-direct-routing", "ev-grant-cmdlet"]
+    }),
     authorityCoverage: {
       requestedDomains: ["teams_admin", "teams_powershell"],
       coveredDomains: ["teams_admin", "teams_powershell"],
