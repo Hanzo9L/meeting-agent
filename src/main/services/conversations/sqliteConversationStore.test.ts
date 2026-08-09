@@ -97,7 +97,7 @@ test("creates, lists, loads, and reopens conversations", async () => {
   let conversationId = "";
   const first = createSqliteConversationStore({ databasePath: temp.databasePath });
   try {
-    assert.equal(first.getSchemaVersion(), 2);
+    assert.equal(first.getSchemaVersion(), 3);
     const conversation = first.createConversation({ title: "Teams Voice" });
     conversationId = conversation.id;
     assert.equal(first.listConversations().length, 1);
@@ -178,7 +178,7 @@ test("version 2 migration preserves existing version 1 messages", async () => {
     databasePath: temp.databasePath
   });
   try {
-    assert.equal(migrated.getSchemaVersion(), 2);
+    assert.equal(migrated.getSchemaVersion(), 3);
     assert.equal(
       migrated.loadOrderedMessages("conv-v1")[0]?.content,
       "Existing question"
@@ -463,6 +463,41 @@ test("grounded completion rolls back when snapshot identity conflicts", async ()
   });
 });
 
+test("repeated deterministic snapshot identity tolerates a later observation timestamp", async () => {
+  await withStore((store) => {
+    const first = createQuestionRun(store);
+    advanceToValidating(store, first.run);
+    store.appendGroundedAssistantMessage({
+      answerRunId: first.run.id,
+      content: "First answer",
+      answerability: "answered",
+      snapshot: SNAPSHOT_A,
+      citations: []
+    });
+    const secondUser = store.appendUserMessage({
+      conversationId: first.conversationId,
+      content: "Repeat the same deterministic question",
+      inputOrigin: "typed"
+    });
+    const secondRun = store.createAnswerRun({
+      conversationId: first.conversationId,
+      triggeringUserMessageId: secondUser.id
+    });
+    advanceToValidating(store, secondRun);
+    const completed = store.appendGroundedAssistantMessage({
+      answerRunId: secondRun.id,
+      content: "Repeated answer",
+      answerability: "answered",
+      snapshot: {
+        ...SNAPSHOT_A,
+        createdAt: "2026-08-09T01:00:00.000Z"
+      },
+      citations: []
+    });
+    assert.equal(completed.answerRun.state, "completed");
+  });
+});
+
 test("restart recovery marks interrupted nonterminal run failed without assistant content", async () => {
   const temp = await makeTempDatabase();
   let conversationId = "";
@@ -577,6 +612,73 @@ test("clear history logically removes all active conversations", async () => {
   });
 });
 
+test("Live Assist session remains bound to its original conversation", async () => {
+  await withStore((store) => {
+    const firstConversation = store.createConversation({
+      title: "Live conversation"
+    });
+    const secondConversation = store.createConversation({
+      title: "Other conversation"
+    });
+    const session = store.startLiveAssistSession(
+      firstConversation.id
+    );
+    assert.equal(session.state, "active");
+    assert.equal(
+      session.conversationId,
+      firstConversation.id
+    );
+    assert.throws(
+      () =>
+        store.startLiveAssistSession(secondConversation.id),
+      /already attached/
+    );
+    assert.equal(
+      store.updateLiveAssistCaptureStatus(
+        session.id,
+        "capturing"
+      ).captureStatus,
+      "capturing"
+    );
+    const stopped = store.stopLiveAssistSession(
+      session.id,
+      "user_stopped"
+    );
+    assert.equal(stopped.state, "inactive");
+    assert.equal(stopped.captureStatus, "stopped");
+    assert.equal(store.getActiveLiveAssistSession(), null);
+  });
+});
+
+test("active Live Assist session is recovered as interrupted after restart", async () => {
+  const temp = await makeTempDatabase();
+  const first = createSqliteConversationStore({
+    databasePath: temp.databasePath
+  });
+  const conversation = first.createConversation({
+    title: "Interrupted session"
+  });
+  const session = first.startLiveAssistSession(conversation.id);
+  first.close();
+
+  const reopened = createSqliteConversationStore({
+    databasePath: temp.databasePath
+  });
+  try {
+    assert.equal(reopened.getActiveLiveAssistSession(), null);
+    const recovered = reopened.getLiveAssistSession(session.id);
+    assert.equal(recovered?.state, "inactive");
+    assert.equal(recovered?.captureStatus, "interrupted");
+    assert.equal(
+      recovered?.stopReason,
+      "application_interrupted"
+    );
+  } finally {
+    reopened.close();
+    await rm(temp.root, { recursive: true, force: true });
+  }
+});
+
 test("conversation database path is separate from Knowledge V2", () => {
   const userDataPath = resolve("test-user-data");
   const conversationPath = resolveConversationDatabasePath({ userDataPath, env: {} });
@@ -594,6 +696,7 @@ test("only the execution-port adapter imports frozen grounding implementations",
     "migrationRunner.ts",
     "sqliteConversationStore.ts",
     "helpdeskService.ts",
+    "liveAssistService.ts",
     "index.ts"
   ];
   for (const filename of productionFiles) {

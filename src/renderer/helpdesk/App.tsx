@@ -12,6 +12,7 @@ import type {
   HelpdeskConversationView,
   HelpdeskMessage
 } from "@shared/helpdesk";
+import type { LiveAssistSessionView } from "@shared/types";
 import {
   buildHelpdeskTimeline,
   copyAnswerText,
@@ -287,6 +288,11 @@ function ConversationTimeline(props: {
                   You
                   {row.message.inputOrigin === "pasted" ? (
                     <span className="origin-label">Pasted</span>
+                  ) : row.message.inputOrigin ===
+                    "live_transcript" ? (
+                    <span className="origin-label">
+                      Live transcript
+                    </span>
                   ) : null}
                 </div>
               ) : null}
@@ -391,7 +397,15 @@ export function HelpdeskApp() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [liveSession, setLiveSession] =
+    useState<LiveAssistSessionView | null>(null);
+  const [liveBusy, setLiveBusy] = useState(false);
   const loadRequest = useRef(0);
+  const activeIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    activeIdRef.current = activeId;
+  }, [activeId]);
 
   const loadConversation = useCallback(async (conversationId: string) => {
     const requestId = ++loadRequest.current;
@@ -442,6 +456,35 @@ export function HelpdeskApp() {
     })();
     return () => {
       cancelled = true;
+    };
+  }, [loadConversation]);
+
+  useEffect(() => {
+    void window.helpdeskApi
+      .getLiveAssistSession()
+      .then((result) => {
+        if (result.ok) setLiveSession(result.data);
+      })
+      .catch(() => undefined);
+    const stopSession = window.helpdeskApi.onLiveAssistSession(
+      setLiveSession
+    );
+    const stopConversation =
+      window.helpdeskApi.onConversationUpdated(
+        (conversationId) => {
+          if (activeIdRef.current === conversationId) {
+            void loadConversation(conversationId);
+          }
+          void window.helpdeskApi
+            .listConversations()
+            .then((result) => {
+              if (result.ok) setConversations(result.data);
+            });
+        }
+      );
+    return () => {
+      stopSession();
+      stopConversation();
     };
   }, [loadConversation]);
 
@@ -516,6 +559,12 @@ export function HelpdeskApp() {
     }
     setBusy(true);
     try {
+      if (
+        liveSession?.state === "active" &&
+        liveSession.conversationId === conversationId
+      ) {
+        await window.helpdeskApi.stopLiveAssist();
+      }
       const result = await window.helpdeskApi.deleteConversation(conversationId);
       if (!result.ok || !result.data.deleted) {
         setError(
@@ -546,6 +595,59 @@ export function HelpdeskApp() {
       setBusy(false);
     }
   };
+
+  const startLiveAssist = async (): Promise<void> => {
+    if (!activeId) return;
+    setLiveBusy(true);
+    try {
+      const result =
+        await window.helpdeskApi.startLiveAssist(activeId);
+      if (!result.ok) {
+        setError(
+          resultErrorMessage(
+            "Live Assist could not be started.",
+            result
+          )
+        );
+      } else {
+        setLiveSession(result.data);
+        setError(null);
+      }
+    } catch {
+      setError("Live Assist could not be started.");
+    } finally {
+      setLiveBusy(false);
+    }
+  };
+
+  const stopLiveAssist = async (): Promise<void> => {
+    setLiveBusy(true);
+    try {
+      const result = await window.helpdeskApi.stopLiveAssist();
+      if (!result.ok) {
+        setError(
+          resultErrorMessage(
+            "Live Assist could not be stopped.",
+            result
+          )
+        );
+      } else {
+        setLiveSession(result.data);
+        setError(null);
+      }
+    } catch {
+      setError("Live Assist could not be stopped.");
+    } finally {
+      setLiveBusy(false);
+    }
+  };
+
+  const attachedConversation =
+    liveSession?.state === "active"
+      ? conversations.find(
+          (item) => item.id === liveSession.conversationId
+        )
+      : null;
 
   const submitMessage = async (
     content: string,
@@ -595,8 +697,38 @@ export function HelpdeskApp() {
             <div className="eyebrow">Relay: Real-Time Operations</div>
             <h2>{view?.conversation.title ?? "Relay"}</h2>
           </div>
-          <div className={`engine-state${busy ? " active" : ""}`}>
-            {busy ? "Grounding answer…" : "Grounded answers ready"}
+          <div className="live-assist-controls">
+            <div
+              className={`engine-state${
+                liveSession?.state === "active" ? " active" : ""
+              }`}
+            >
+              {liveSession?.state === "active"
+                ? `Live Assist · ${
+                    attachedConversation?.title ??
+                    "attached conversation"
+                  } · ${liveSession.captureStatus}`
+                : busy
+                  ? "Grounding answer…"
+                  : "Grounded answers ready"}
+            </div>
+            {liveSession?.state === "active" ? (
+              <button
+                type="button"
+                disabled={liveBusy}
+                onClick={() => void stopLiveAssist()}
+              >
+                {liveBusy ? "Stopping…" : "Stop Live Assist"}
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={!activeId || liveBusy}
+                onClick={() => void startLiveAssist()}
+              >
+                {liveBusy ? "Starting…" : "Start Live Assist"}
+              </button>
+            )}
           </div>
         </header>
         {error ? (

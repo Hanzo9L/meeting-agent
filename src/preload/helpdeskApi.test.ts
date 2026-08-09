@@ -9,6 +9,12 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     async invoke(channel, ...args) {
       calls.push({ channel, args });
       return { ok: true, data: null };
+    },
+    on() {
+      return undefined;
+    },
+    off() {
+      return undefined;
     }
   };
   const api = createHelpdeskApi(ipc);
@@ -17,10 +23,15 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
   assert.deepEqual(Object.keys(api).sort(), [
     "createConversation",
     "deleteConversation",
+    "getLiveAssistSession",
     "listConversations",
     "loadConversation",
+    "onConversationUpdated",
+    "onLiveAssistSession",
     "openCitation",
     "renameConversation",
+    "startLiveAssist",
+    "stopLiveAssist",
     "submitMessage"
   ]);
   assert.equal("invoke" in api, false);
@@ -40,6 +51,9 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     messageId: "msg-1",
     citationId: "citation-1"
   });
+  await api.getLiveAssistSession();
+  await api.startLiveAssist("conv-1");
+  await api.stopLiveAssist();
 
   assert.deepEqual(calls, [
     { channel: IPC_CHANNELS.helpdeskListConversations, args: [] },
@@ -71,6 +85,18 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
           citationId: "citation-1"
         }
       ]
+    },
+    {
+      channel: IPC_CHANNELS.helpdeskGetLiveAssistSession,
+      args: []
+    },
+    {
+      channel: IPC_CHANNELS.helpdeskStartLiveAssist,
+      args: ["conv-1"]
+    },
+    {
+      channel: IPC_CHANNELS.helpdeskStopLiveAssist,
+      args: []
     }
   ]);
 });

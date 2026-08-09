@@ -226,6 +226,28 @@ button:disabled {
   color: #d7dfff;
 }
 
+.live-assist-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.live-assist-controls button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--text);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.live-assist-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .error-banner {
   display: flex;
   align-items: center;

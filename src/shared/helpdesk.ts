@@ -1,3 +1,5 @@
+import type { LiveAssistSessionView } from "./types";
+
 export type HelpdeskInputOrigin = "typed" | "pasted" | "live_transcript";
 export type HelpdeskAnswerability =
   | "answered"
@@ -120,4 +122,19 @@ export interface HelpdeskApi {
   openCitation(
     input: OpenHelpdeskCitationInput
   ): Promise<HelpdeskResult<{ opened: true }>>;
+  getLiveAssistSession(): Promise<
+    HelpdeskResult<LiveAssistSessionView | null>
+  >;
+  startLiveAssist(
+    conversationId: string
+  ): Promise<HelpdeskResult<LiveAssistSessionView>>;
+  stopLiveAssist(): Promise<
+    HelpdeskResult<LiveAssistSessionView | null>
+  >;
+  onLiveAssistSession(
+    handler: (session: LiveAssistSessionView | null) => void
+  ): () => void;
+  onConversationUpdated(
+    handler: (conversationId: string) => void
+  ): () => void;
 }

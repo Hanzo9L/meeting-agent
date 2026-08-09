@@ -249,5 +249,52 @@ export const CONVERSATION_MIGRATIONS: readonly ConversationMigration[] = [
       CREATE INDEX idx_message_citations_message_range
         ON message_citations(message_id, answer_range_start, answer_range_end);
     `
+  },
+  {
+    version: 3,
+    name: "durable_live_assist_sessions",
+    sql: `
+      CREATE TABLE live_assist_sessions (
+        live_session_id TEXT PRIMARY KEY,
+        conversation_id TEXT NOT NULL,
+        state TEXT NOT NULL CHECK (state IN ('active', 'inactive')),
+        capture_status TEXT NOT NULL CHECK (
+          capture_status IN (
+            'starting',
+            'capturing',
+            'error',
+            'stopped',
+            'interrupted'
+          )
+        ),
+        started_at TEXT NOT NULL,
+        stopped_at TEXT,
+        stop_reason TEXT,
+        FOREIGN KEY (conversation_id)
+          REFERENCES conversations(conversation_id) ON DELETE RESTRICT,
+        CHECK (
+          (
+            state = 'active'
+            AND stopped_at IS NULL
+            AND stop_reason IS NULL
+            AND capture_status IN ('starting', 'capturing', 'error')
+          )
+          OR
+          (
+            state = 'inactive'
+            AND stopped_at IS NOT NULL
+            AND stop_reason IS NOT NULL
+            AND capture_status IN ('stopped', 'interrupted')
+          )
+        )
+      );
+
+      CREATE UNIQUE INDEX idx_live_assist_single_active
+        ON live_assist_sessions(state)
+        WHERE state = 'active';
+
+      CREATE INDEX idx_live_assist_conversation_started
+        ON live_assist_sessions(conversation_id, started_at DESC);
+    `
   }
 ];

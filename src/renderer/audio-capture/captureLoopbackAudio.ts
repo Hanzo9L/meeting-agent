@@ -16,15 +16,23 @@ let context: AudioContext | null = null;
 let captureNodes: CaptureNode[] = [];
 let keepAliveInterval: number | null = null;
 let loopbackBridgeEnabled = false;
+let captureSessionId: string | null = null;
 
-export async function startLoopbackCapture(mode: CaptureSourceMode): Promise<CaptureStartResult> {
+export async function startLoopbackCapture(
+  mode: CaptureSourceMode,
+  sessionId: string
+): Promise<CaptureStartResult> {
   if (captureNodes.length > 0 && context) {
-    return {
-      activeSources: captureNodes.map((node) => node.source),
-      statusMessage: `Using ${captureNodes.map((node) => node.source).join(" + ")} source(s).`
-    };
+    if (captureSessionId === sessionId) {
+      return {
+        activeSources: captureNodes.map((node) => node.source),
+        statusMessage: `Using ${captureNodes.map((node) => node.source).join(" + ")} source(s).`
+      };
+    }
+    await stopLoopbackCapture();
   }
 
+  captureSessionId = sessionId;
   context = new AudioContext({ sampleRate: 48000 });
   await context.resume();
   keepAliveInterval = window.setInterval(() => {
@@ -40,7 +48,7 @@ export async function startLoopbackCapture(mode: CaptureSourceMode): Promise<Cap
   for (const source of requestedSources) {
     try {
       const stream = source === "system" ? await requestSystemStream() : await requestMicrophoneStream();
-      attachSourceToProcessor(source, stream);
+      attachSourceToProcessor(source, stream, sessionId);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown capture error";
       failures.push(`${source}: ${message}`);
@@ -69,6 +77,7 @@ export async function stopLoopbackCapture(): Promise<void> {
     node.stream.getTracks().forEach((track) => track.stop());
   });
   captureNodes = [];
+  captureSessionId = null;
 
   if (loopbackBridgeEnabled) {
     await window.overlayApi.disableLoopbackAudio().catch(() => undefined);
@@ -120,7 +129,11 @@ async function requestMicrophoneStream(): Promise<MediaStream> {
   });
 }
 
-function attachSourceToProcessor(source: CaptureSourceTag, stream: MediaStream): void {
+function attachSourceToProcessor(
+  source: CaptureSourceTag,
+  stream: MediaStream,
+  sessionId: string
+): void {
   if (!context) throw new Error("Audio context is not initialized.");
 
   stream.getAudioTracks().forEach((track) => {
@@ -151,7 +164,11 @@ function attachSourceToProcessor(source: CaptureSourceTag, stream: MediaStream):
       pcm16.byteOffset,
       pcm16.byteOffset + pcm16.byteLength
     ) as ArrayBuffer;
-    window.overlayApi.sendAudioChunk({ source, buffer });
+    window.overlayApi.sendAudioChunk({
+      sessionId,
+      source,
+      buffer
+    });
   };
 
   captureNodes.push({ source, stream, sourceNode, processorNode });

@@ -19,6 +19,8 @@ import type {
   CreateAnswerRunInput,
   CreateConversationInput,
   GroundingSnapshotReference,
+  LiveAssistCaptureStatus,
+  LiveAssistSessionRecord,
   MessageCitationRecord,
   SaveContextResolutionInput,
   StartedAnswerRun,
@@ -100,6 +102,16 @@ type MessageCitationRow = {
   grounding_snapshot_id: string;
 };
 
+type LiveAssistSessionRow = {
+  live_session_id: string;
+  conversation_id: string;
+  state: "active" | "inactive";
+  capture_status: LiveAssistCaptureStatus;
+  started_at: string;
+  stopped_at: string | null;
+  stop_reason: string | null;
+};
+
 const ACTIVE_STATES: readonly AnswerRunState[] = [
   "received",
   "resolving_context",
@@ -111,7 +123,9 @@ const ACTIVE_STATES: readonly AnswerRunState[] = [
 
 const ACTIVE_STATE_ORDER = new Map(ACTIVE_STATES.map((state, index) => [state, index]));
 
-function newId(prefix: "conv" | "msg" | "run" | "ctx"): string {
+function newId(
+  prefix: "conv" | "msg" | "run" | "ctx" | "live"
+): string {
   return `${prefix}_${randomUUID()}`;
 }
 
@@ -185,6 +199,20 @@ function mapCitation(row: MessageCitationRow): MessageCitationRecord {
   };
 }
 
+function mapLiveAssistSession(
+  row: LiveAssistSessionRow
+): LiveAssistSessionRecord {
+  return {
+    id: row.live_session_id,
+    conversationId: row.conversation_id,
+    state: row.state,
+    captureStatus: row.capture_status,
+    startedAt: row.started_at,
+    stoppedAt: row.stopped_at,
+    stopReason: row.stop_reason
+  };
+}
+
 function mapAnswerRun(row: AnswerRunRow): AnswerRunRecord {
   return {
     id: row.answer_run_id,
@@ -215,6 +243,7 @@ export class SqliteConversationStore implements ConversationStore {
     this.db.pragma("journal_mode = WAL");
     this.db.pragma("synchronous = NORMAL");
     runConversationMigrations(this.db, this.now);
+    this.recoverInterruptedLiveAssistSessions();
     this.recoverInterruptedAnswerRuns();
   }
 
@@ -287,6 +316,11 @@ export class SqliteConversationStore implements ConversationStore {
         "conversation_deleted",
         { reason: "Conversation was deleted before answer completion." }
       );
+      this.stopActiveLiveSessionsForConversation(
+        conversationId,
+        timestamp,
+        "conversation_deleted"
+      );
       return true;
     }).immediate();
   }
@@ -303,6 +337,11 @@ export class SqliteConversationStore implements ConversationStore {
           timestamp,
           "history_cleared",
           { reason: "Conversation history was cleared before answer completion." }
+        );
+        this.stopActiveLiveSessionsForConversation(
+          row.conversation_id,
+          timestamp,
+          "history_cleared"
         );
       }
       return this.db
@@ -520,6 +559,119 @@ export class SqliteConversationStore implements ConversationStore {
       | MessageCitationRow
       | undefined;
     return row ? mapCitation(row) : null;
+  }
+
+  startLiveAssistSession(
+    conversationId: string
+  ): LiveAssistSessionRecord {
+    return this.db.transaction(() => {
+      this.requireConversation(conversationId);
+      const active = this.getActiveLiveAssistSession();
+      if (active) {
+        if (active.conversationId === conversationId) return active;
+        throw new Error(
+          `Live Assist is already attached to conversation ${active.conversationId}`
+        );
+      }
+      const id = newId("live");
+      this.db
+        .prepare(
+          `INSERT INTO live_assist_sessions (
+            live_session_id,
+            conversation_id,
+            state,
+            capture_status,
+            started_at,
+            stopped_at,
+            stop_reason
+          ) VALUES (?, ?, 'active', 'starting', ?, NULL, NULL)`
+        )
+        .run(id, conversationId, this.now());
+      return this.requireLiveAssistSession(id);
+    }).immediate();
+  }
+
+  getActiveLiveAssistSession(): LiveAssistSessionRecord | null {
+    const row = this.db
+      .prepare(
+        `SELECT *
+         FROM live_assist_sessions
+         WHERE state = 'active'
+         LIMIT 1`
+      )
+      .get() as LiveAssistSessionRow | undefined;
+    return row ? mapLiveAssistSession(row) : null;
+  }
+
+  getLiveAssistSession(
+    sessionId: string
+  ): LiveAssistSessionRecord | null {
+    const row = this.db
+      .prepare(
+        "SELECT * FROM live_assist_sessions WHERE live_session_id = ?"
+      )
+      .get(sessionId) as LiveAssistSessionRow | undefined;
+    return row ? mapLiveAssistSession(row) : null;
+  }
+
+  updateLiveAssistCaptureStatus(
+    sessionId: string,
+    status: Exclude<
+      LiveAssistCaptureStatus,
+      "stopped" | "interrupted"
+    >
+  ): LiveAssistSessionRecord {
+    const result = this.db
+      .prepare(
+        `UPDATE live_assist_sessions
+         SET capture_status = ?
+         WHERE live_session_id = ? AND state = 'active'`
+      )
+      .run(status, sessionId);
+    if (result.changes !== 1) {
+      throw new Error(`Active Live Assist session not found: ${sessionId}`);
+    }
+    return this.requireLiveAssistSession(sessionId);
+  }
+
+  stopLiveAssistSession(
+    sessionId: string,
+    reason: string
+  ): LiveAssistSessionRecord {
+    const result = this.db
+      .prepare(
+        `UPDATE live_assist_sessions
+         SET state = 'inactive',
+             capture_status = 'stopped',
+             stopped_at = ?,
+             stop_reason = ?
+         WHERE live_session_id = ? AND state = 'active'`
+      )
+      .run(
+        this.now(),
+        requiredText(reason, "Live Assist stop reason"),
+        sessionId
+      );
+    if (result.changes !== 1) {
+      const existing = this.getLiveAssistSession(sessionId);
+      if (existing?.state === "inactive") return existing;
+      throw new Error(`Active Live Assist session not found: ${sessionId}`);
+    }
+    return this.requireLiveAssistSession(sessionId);
+  }
+
+  recoverInterruptedLiveAssistSessions(): number {
+    const timestamp = this.now();
+    return this.db
+      .prepare(
+        `UPDATE live_assist_sessions
+         SET state = 'inactive',
+             capture_status = 'interrupted',
+             stopped_at = ?,
+             stop_reason = 'application_interrupted'
+         WHERE state = 'active'`
+      )
+      .run(timestamp).changes;
   }
 
   loadAnswerRuns(conversationId: string): AnswerRunRecord[] {
@@ -807,6 +959,16 @@ export class SqliteConversationStore implements ConversationStore {
     return this.mapMessageWithCitations(row);
   }
 
+  private requireLiveAssistSession(
+    sessionId: string
+  ): LiveAssistSessionRecord {
+    const session = this.getLiveAssistSession(sessionId);
+    if (!session) {
+      throw new Error(`Live Assist session not found: ${sessionId}`);
+    }
+    return session;
+  }
+
   private mapMessageWithCitations(
     row: MessageRow
   ): ConversationMessage {
@@ -913,8 +1075,7 @@ export class SqliteConversationStore implements ConversationStore {
         row.snapshot_hash === snapshot.snapshotHash &&
         row.schema_version === snapshot.schemaVersion &&
         row.resolver_policy_version === snapshot.resolverPolicyVersion &&
-        row.corpus_revision_hash === snapshot.corpusRevisionHash &&
-        row.created_at === snapshot.createdAt;
+        row.corpus_revision_hash === snapshot.corpusRevisionHash;
       if (!matches) {
         throw new Error(
           `Grounding snapshot identity conflict for ${snapshot.snapshotId}`
@@ -978,6 +1139,23 @@ export class SqliteConversationStore implements ConversationStore {
         conversationId,
         ...ACTIVE_STATES
       ).changes;
+  }
+
+  private stopActiveLiveSessionsForConversation(
+    conversationId: string,
+    timestamp: string,
+    reason: string
+  ): number {
+    return this.db
+      .prepare(
+        `UPDATE live_assist_sessions
+         SET state = 'inactive',
+             capture_status = 'stopped',
+             stopped_at = ?,
+             stop_reason = ?
+         WHERE conversation_id = ? AND state = 'active'`
+      )
+      .run(timestamp, reason, conversationId).changes;
   }
 }
 

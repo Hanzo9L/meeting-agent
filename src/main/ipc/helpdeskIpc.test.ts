@@ -83,6 +83,16 @@ test("typed Helpdesk IPC persists grounded answers and opens only stored citatio
     isTrustedSender: (event) => event.sender.id === 7,
     openExternal: async (url) => {
       openedUrls.push(url);
+    },
+    getLiveAssistSession: () =>
+      store.getActiveLiveAssistSession(),
+    startLiveAssist: (conversationId) =>
+      store.startLiveAssistSession(conversationId),
+    stopLiveAssist: async () => {
+      const active = store.getActiveLiveAssistSession();
+      return active
+        ? store.stopLiveAssistSession(active.id, "test_stopped")
+        : null;
     }
   });
 
@@ -103,6 +113,33 @@ test("typed Helpdesk IPC persists grounded answers and opens only stored citatio
     if (!created.ok) throw new Error(created.error.message);
     assert.equal(created.ok, true);
     const conversationId = created.data.conversation.id;
+
+    const startedLive = await invoke<{
+      id: string;
+      conversationId: string;
+      state: string;
+    }>(
+      IPC_CHANNELS.helpdeskStartLiveAssist,
+      conversationId
+    );
+    assert.equal(
+      startedLive.ok && startedLive.data.conversationId,
+      conversationId
+    );
+    const activeLive = await invoke<{
+      id: string;
+    } | null>(IPC_CHANNELS.helpdeskGetLiveAssistSession);
+    assert.equal(
+      activeLive.ok && activeLive.data?.id,
+      startedLive.ok ? startedLive.data.id : null
+    );
+    const stoppedLive = await invoke<{
+      state: string;
+    } | null>(IPC_CHANNELS.helpdeskStopLiveAssist);
+    assert.equal(
+      stoppedLive.ok && stoppedLive.data?.state,
+      "inactive"
+    );
 
     const listed = await invoke<Array<{ id: string }>>(
       IPC_CHANNELS.helpdeskListConversations
@@ -190,7 +227,12 @@ test("Helpdesk IPC rejects untrusted senders and malformed messages safely", asy
     isTrustedSender: (event) => event.sender.id === 7,
     openExternal: async () => {
       throw new Error("must not open");
-    }
+    },
+    getLiveAssistSession: () => null,
+    startLiveAssist: () => {
+      throw new Error("must not start");
+    },
+    stopLiveAssist: async () => null
   });
 
   try {

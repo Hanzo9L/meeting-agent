@@ -4,6 +4,7 @@ import type {
   HelpdeskResult,
   SubmitHelpdeskMessageInput
 } from "@shared/helpdesk";
+import type { LiveAssistSessionView } from "@shared/types";
 import {
   HelpdeskService,
   HelpdeskServiceError
@@ -27,6 +28,11 @@ export interface RegisterHelpdeskIpcOptions {
   service: HelpdeskService;
   isTrustedSender(event: IpcEventLike): boolean;
   openExternal(url: string): Promise<void>;
+  getLiveAssistSession(): LiveAssistSessionView | null;
+  startLiveAssist(
+    conversationId: string
+  ): LiveAssistSessionView;
+  stopLiveAssist(): Promise<LiveAssistSessionView | null>;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -171,5 +177,28 @@ export function registerHelpdeskIpcHandlers(
       await options.openExternal(url);
       return { opened: true as const };
     })
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.helpdeskGetLiveAssistSession,
+    secureHandler(options, () => options.getLiveAssistSession())
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.helpdeskStartLiveAssist,
+    secureHandler(options, (rawConversationId) =>
+      options.startLiveAssist(
+        requiredString(
+          rawConversationId,
+          "Conversation ID",
+          200
+        )
+      )
+    )
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.helpdeskStopLiveAssist,
+    secureHandler(options, () => options.stopLiveAssist())
   );
 }

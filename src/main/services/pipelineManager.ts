@@ -1,220 +1,206 @@
-import { BrowserWindow } from "electron";
-import { IPC_CHANNELS } from "@shared/constants";
 import type {
-  AnswerChunkMessage,
-  AnswerSourceRef,
-  AnswerStartMessage,
-  AnswerSourcesMessage,
   AnswerTriggerMode,
   CaptureSourceTag,
   ConnectionStatus,
   TranscriptMessage
 } from "@shared/types";
 import { looksLikeQuestion } from "./questionDetector";
-import type { LlmProvider } from "./llmProvider";
-import type { LlmContextChunk } from "./llmProvider";
 import type { SttProvider } from "./sttProvider";
 
 type StatusHandler = (status: ConnectionStatus) => void;
+type AcceptedQuestionHandler = (
+  question: string,
+  source: CaptureSourceTag
+) => Promise<void>;
 type SourceLabelMode = "single" | "multi";
 
+/**
+ * Audio/STT/question-acceptance adapter only.
+ *
+ * Accepted questions are serialized and delegated to Relay's durable
+ * conversation service. This class contains no factual answer generator.
+ */
 export class PipelineManager {
   private readonly sttProviderFactory: () => SttProvider;
-  private readonly llmProvider: LlmProvider;
-  private readonly getTopic: () => { topic: string; topicPromptTemplate: string };
-  private readonly getKnowledgeContext: (question: string) => Promise<LlmContextChunk[]>;
+  private readonly onAcceptedQuestion: AcceptedQuestionHandler;
   private readonly sendStatus: StatusHandler;
-  private readonly sttProviders = new Map<CaptureSourceTag, SttProvider>();
+  private readonly sendTranscript: (
+    payload: TranscriptMessage
+  ) => void;
+  private readonly sttProviders = new Map<
+    CaptureSourceTag,
+    SttProvider
+  >();
   private active = false;
-  private answering = false;
   private answerTriggerMode: AnswerTriggerMode = "questions_only";
   private answerSourcePreference: CaptureSourceTag | "any" = "any";
   private sourceLabelMode: SourceLabelMode = "single";
+  private acceptedQueue: Promise<void> = Promise.resolve();
 
   constructor(params: {
     sttProviderFactory: () => SttProvider;
-    llmProvider: LlmProvider;
-    getTopic: () => { topic: string; topicPromptTemplate: string };
-    getKnowledgeContext?: (question: string) => Promise<LlmContextChunk[]>;
+    onAcceptedQuestion: AcceptedQuestionHandler;
     sendStatus: StatusHandler;
+    sendTranscript: (payload: TranscriptMessage) => void;
   }) {
     this.sttProviderFactory = params.sttProviderFactory;
-    this.llmProvider = params.llmProvider;
-    this.getTopic = params.getTopic;
-    this.getKnowledgeContext = params.getKnowledgeContext ?? (async () => []);
+    this.onAcceptedQuestion = params.onAcceptedQuestion;
     this.sendStatus = params.sendStatus;
+    this.sendTranscript = params.sendTranscript;
   }
 
-  async start(config: { sources: CaptureSourceTag[]; answerTriggerMode: AnswerTriggerMode }): Promise<void> {
+  async start(config: {
+    sources: CaptureSourceTag[];
+    answerTriggerMode: AnswerTriggerMode;
+  }): Promise<void> {
     if (this.active) return;
     if (config.sources.length === 0) {
-      throw new Error("No capture sources were provided to pipeline start.");
+      throw new Error(
+        "No capture sources were provided to pipeline start."
+      );
     }
     this.active = true;
-    this.answering = false;
     this.answerTriggerMode = config.answerTriggerMode;
-    this.sourceLabelMode = config.sources.length > 1 ? "multi" : "single";
-    // When both sources are active, either one may carry the user question.
+    this.sourceLabelMode =
+      config.sources.length > 1 ? "multi" : "single";
     this.answerSourcePreference =
-      config.sources.length === 1 ? (config.sources[0] ?? "any") : "any";
+      config.sources.length === 1
+        ? (config.sources[0] ?? "any")
+        : "any";
     this.sendStatus("capturing");
 
-    await Promise.all(
-      config.sources.map(async (source) => {
-        const provider = this.sttProviderFactory();
-        this.sttProviders.set(source, provider);
-        await provider.start({
-          onInterim: (text) => this.broadcastTranscript(text, false, source),
-          onFinal: (text) => void this.handleFinalTranscript(text, source),
-          onError: (message) => {
-            this.broadcastTranscript(`STT error (${source}): ${message}`, false, source);
-            this.sendStatus("error");
-          }
-        });
-      })
-    );
+    try {
+      await Promise.all(
+        config.sources.map(async (source) => {
+          const provider = this.sttProviderFactory();
+          this.sttProviders.set(source, provider);
+          await provider.start({
+            onInterim: (text) =>
+              this.broadcastTranscript(text, false, source),
+            onFinal: (text) =>
+              void this.handleFinalTranscript(text, source),
+            onError: (message) => {
+              this.broadcastTranscript(
+                `STT error (${source}): ${message}`,
+                false,
+                source
+              );
+              this.sendStatus("error");
+            }
+          });
+        })
+      );
+    } catch (error) {
+      this.active = false;
+      this.sttProviders.clear();
+      this.sendStatus("error");
+      throw error;
+    }
   }
 
-  sendAudioChunk(source: CaptureSourceTag, chunk: Int16Array): void {
+  sendAudioChunk(
+    source: CaptureSourceTag,
+    chunk: Int16Array
+  ): void {
     if (!this.active) return;
     this.sttProviders.get(source)?.sendAudio(chunk);
   }
 
   async stop(): Promise<void> {
-    if (!this.active) return;
+    if (!this.active && this.sttProviders.size === 0) return;
+    // Prevent provider flushes during stop from promoting new questions.
+    this.active = false;
     await Promise.all(
       Array.from(this.sttProviders.values()).map(async (provider) => {
         await provider.stop();
       })
     );
     this.sttProviders.clear();
-    this.active = false;
-    this.answering = false;
     this.sendStatus("idle");
+    // Already accepted turns intentionally continue through acceptedQueue.
   }
 
-  async askQuestion(question: string, source: CaptureSourceTag = "microphone"): Promise<void> {
+  async askQuestion(
+    question: string,
+    source: CaptureSourceTag = "microphone"
+  ): Promise<void> {
     const text = question.trim();
     if (!text) return;
-    await this.generateAnswer(text, source, true);
+    this.broadcastTranscript(text, true, source);
+    await this.enqueueAcceptedQuestion(text, source);
   }
 
-  private formatWithSource(text: string, source: CaptureSourceTag): string {
+  private formatWithSource(
+    text: string,
+    source: CaptureSourceTag
+  ): string {
     if (this.sourceLabelMode === "single") return text;
-    const prefix = source === "system" ? "[System]" : "[Microphone]";
+    const prefix =
+      source === "system" ? "[System]" : "[Microphone]";
     return `${prefix} ${text}`;
   }
 
-  private broadcastTranscript(text: string, isFinal: boolean, source: CaptureSourceTag): void {
+  private broadcastTranscript(
+    text: string,
+    isFinal: boolean,
+    source: CaptureSourceTag
+  ): void {
     const payload: TranscriptMessage = {
       text: this.formatWithSource(text, source),
       isFinal,
       timestamp: Date.now()
     };
-    BrowserWindow.getAllWindows().forEach((window) =>
-      window.webContents.send(IPC_CHANNELS.transcript, payload)
-    );
+    this.sendTranscript(payload);
   }
 
-  private shouldAnswer(source: CaptureSourceTag, text: string): boolean {
-    if (this.answerSourcePreference !== "any" && source !== this.answerSourcePreference) {
+  private shouldAccept(
+    source: CaptureSourceTag,
+    text: string
+  ): boolean {
+    if (
+      this.answerSourcePreference !== "any" &&
+      source !== this.answerSourcePreference
+    ) {
       return false;
     }
     if (this.answerTriggerMode === "all_final") return true;
     return looksLikeQuestion(text);
   }
 
-  private toSourceRefs(context: LlmContextChunk[], question: string): AnswerSourceRef[] {
-    const deduped = new Map<string, AnswerSourceRef>();
-    for (const item of context) {
-      const cleanedPath = item.path.replace(/^\/+/, "");
-      const url = `https://github.com/MicrosoftDocs/msteams-docs/blob/main/msteams-platform/${cleanedPath}`;
-      if (!deduped.has(cleanedPath)) {
-        deduped.set(cleanedPath, {
-          title: item.title,
-          path: item.path,
-          url
-        });
-      }
-    }
-    const refs = Array.from(deduped.values()).slice(0, 3);
-    if (refs.length > 0) return refs;
-
-    return [
-      {
-        title: "Search Microsoft Learn for this topic",
-        path: "learn.microsoft.com search",
-        url: `https://learn.microsoft.com/en-us/search/?terms=${encodeURIComponent(question)}`
-      }
-    ];
-  }
-
-  private async handleFinalTranscript(text: string, source: CaptureSourceTag): Promise<void> {
-    this.broadcastTranscript(text, true, source);
-    if (!this.shouldAnswer(source, text)) return;
-    await this.generateAnswer(text, source, false);
-  }
-
-  private async generateAnswer(
+  private async handleFinalTranscript(
     text: string,
-    source: CaptureSourceTag,
-    force: boolean
+    source: CaptureSourceTag
   ): Promise<void> {
-    if (!force && this.answering) return;
-    if (force) {
-      this.broadcastTranscript(text, true, source);
-      if (this.answering) return;
-    }
-    const answerStartPayload: AnswerStartMessage = {
-      question: this.formatWithSource(text, source),
-      timestamp: Date.now()
-    };
-    BrowserWindow.getAllWindows().forEach((window) =>
-      window.webContents.send(IPC_CHANNELS.answerStart, answerStartPayload)
-    );
-    this.answering = true;
-    this.sendStatus("answering");
+    this.broadcastTranscript(text, true, source);
+    if (!this.active || !this.shouldAccept(source, text)) return;
+    await this.enqueueAcceptedQuestion(text, source);
+  }
 
-    try {
-      const { topic, topicPromptTemplate } = this.getTopic();
-      const context = await this.getKnowledgeContext(text);
-      const sourcePayload: AnswerSourcesMessage = {
-        sources: this.toSourceRefs(context, text),
-        timestamp: Date.now()
-      };
-      BrowserWindow.getAllWindows().forEach((window) =>
-        window.webContents.send(IPC_CHANNELS.answerSources, sourcePayload)
-      );
-      for await (const chunk of this.llmProvider.streamAnswer({
-        topic,
-        topicPromptTemplate,
-        question: text,
-        context
-      })) {
-        const payload: AnswerChunkMessage = {
-          text: chunk,
-          timestamp: Date.now()
-        };
-        BrowserWindow.getAllWindows().forEach((window) =>
-          window.webContents.send(IPC_CHANNELS.answerChunk, payload)
+  private enqueueAcceptedQuestion(
+    text: string,
+    source: CaptureSourceTag
+  ): Promise<void> {
+    const execute = async (): Promise<void> => {
+      this.sendStatus("answering");
+      try {
+        await this.onAcceptedQuestion(text, source);
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Unknown accepted-question error";
+        this.broadcastTranscript(
+          `Grounded answer error: ${message}`,
+          false,
+          source
         );
+        this.sendStatus("error");
+      } finally {
+        if (this.active) this.sendStatus("capturing");
       }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown answer error";
-      this.broadcastTranscript(`Answer error: ${message}`, false, source);
-      const fallback: AnswerChunkMessage = {
-        text: "I could not generate an answer right now. Please verify API key, network, and knowledge base sync.",
-        timestamp: Date.now()
-      };
-      BrowserWindow.getAllWindows().forEach((window) =>
-        window.webContents.send(IPC_CHANNELS.answerChunk, fallback)
-      );
-    } finally {
-      BrowserWindow.getAllWindows().forEach((window) =>
-        window.webContents.send(IPC_CHANNELS.answerDone)
-      );
-      this.answering = false;
-      this.sendStatus(this.active ? "capturing" : "idle");
-    }
+    };
+    const result = this.acceptedQueue.then(execute);
+    this.acceptedQueue = result.catch(() => undefined);
+    return result;
   }
 }

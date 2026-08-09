@@ -30,6 +30,12 @@ export function createOverlayWindow(
   });
 
   window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  window.webContents.setWindowOpenHandler(() => ({
+    action: "deny"
+  }));
+  window.webContents.on("will-navigate", (event) => {
+    event.preventDefault();
+  });
   // Demo mode turns capture exclusion off so the overlay appears in screen shares.
   window.setContentProtection(!demoMode);
   window.setOpacity(preferences.opacity);

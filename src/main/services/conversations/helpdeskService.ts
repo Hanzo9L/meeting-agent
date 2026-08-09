@@ -11,7 +11,8 @@ import type {
   AnswerRunRecord,
   ConversationMessage,
   ConversationRecord,
-  ConversationStore
+  ConversationStore,
+  StartedAnswerRun
 } from "./types";
 
 export class HelpdeskServiceError extends Error {
@@ -77,6 +78,11 @@ function toAnswerRun(record: AnswerRunRecord): HelpdeskAnswerRun {
 }
 
 export class HelpdeskService {
+  private readonly executionQueues = new Map<
+    string,
+    Promise<void>
+  >();
+
   constructor(
     private readonly store: ConversationStore,
     private readonly answerExecution: AnswerExecutionPort
@@ -165,6 +171,24 @@ export class HelpdeskService {
   async submitMessage(
     input: SubmitHelpdeskMessageInput
   ): Promise<SubmitHelpdeskMessageResult> {
+    return this.submitTurn(input);
+  }
+
+  async submitLiveQuestion(input: {
+    conversationId: string;
+    content: string;
+  }): Promise<SubmitHelpdeskMessageResult> {
+    return this.submitTurn({
+      ...input,
+      inputOrigin: "live_transcript"
+    });
+  }
+
+  private async submitTurn(input: {
+    conversationId: string;
+    content: string;
+    inputOrigin: "typed" | "pasted" | "live_transcript";
+  }): Promise<SubmitHelpdeskMessageResult> {
     const content = input.content.trim();
     if (!content) {
       throw new HelpdeskServiceError("invalid_request", "Message text is required.");
@@ -175,7 +199,46 @@ export class HelpdeskService {
       content,
       inputOrigin: input.inputOrigin
     });
+    return this.enqueueExecution(
+      input.conversationId,
+      () =>
+        this.executeStartedTurn({
+          conversationId: input.conversationId,
+          content,
+          started
+        })
+    );
+  }
 
+  private enqueueExecution<T>(
+    conversationId: string,
+    execute: () => Promise<T>
+  ): Promise<T> {
+    const previous =
+      this.executionQueues.get(conversationId) ??
+      Promise.resolve();
+    const result = previous
+      .catch(() => undefined)
+      .then(execute);
+    const tail = result.then(
+      () => undefined,
+      () => undefined
+    );
+    this.executionQueues.set(conversationId, tail);
+    void tail.finally(() => {
+      if (this.executionQueues.get(conversationId) === tail) {
+        this.executionQueues.delete(conversationId);
+      }
+    });
+    return result;
+  }
+
+  private async executeStartedTurn(params: {
+    conversationId: string;
+    content: string;
+    started: StartedAnswerRun;
+  }): Promise<SubmitHelpdeskMessageResult> {
+    const { conversationId, content, started } = params;
     this.store.updateAnswerRun({
       answerRunId: started.answerRun.id,
       state: "retrieving"
@@ -186,7 +249,7 @@ export class HelpdeskService {
     >;
     try {
       result = await this.answerExecution.execute({
-        conversationId: input.conversationId,
+        conversationId,
         userMessageId: started.message.id,
         question: content
       });
@@ -211,7 +274,7 @@ export class HelpdeskService {
         }
       });
       return {
-        view: this.loadConversation(input.conversationId),
+        view: this.loadConversation(conversationId),
         outcome: "failed"
       };
     }
@@ -261,12 +324,12 @@ export class HelpdeskService {
         }
       });
       return {
-        view: this.loadConversation(input.conversationId),
+        view: this.loadConversation(conversationId),
         outcome: "failed"
       };
     }
     return {
-      view: this.loadConversation(input.conversationId),
+      view: this.loadConversation(conversationId),
       outcome: result.answerability
     };
   }

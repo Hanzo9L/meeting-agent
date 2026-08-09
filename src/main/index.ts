@@ -16,6 +16,7 @@ import {
   createSqliteConversationStore,
   GroundedAnswerExecutionPort,
   HelpdeskService,
+  LiveAssistService,
   resolveConversationDatabasePath,
   type SqliteConversationStore
 } from "./services/conversations";
@@ -23,7 +24,6 @@ import { createOverlayWindow } from "./windows/overlayWindow";
 import { createSettingsWindow } from "./windows/settingsWindow";
 import { createHelpdeskWindow } from "./windows/helpdeskWindow";
 import { DeepgramSttProvider } from "./services/deepgramSttProvider";
-import { OpenAiLlmProvider } from "./services/openAiLlmProvider";
 import { PipelineManager } from "./services/pipelineManager";
 import { KnowledgeBaseService } from "./services/knowledgeBase";
 import type {
@@ -33,7 +33,12 @@ import type {
   ConnectionStatus,
   KnowledgeBaseSettings,
   OverlayPrefs,
-  RuntimeCaptureConfig
+  RuntimeCaptureConfig,
+  TranscriptMessage
+} from "@shared/types";
+import type {
+  LiveAssistProjection,
+  LiveAssistSessionView
 } from "@shared/types";
 
 const preloadRoot = join(__dirname, "../preload");
@@ -52,6 +57,7 @@ let helpdeskWindow: BrowserWindow | null = null;
 let pipelineManager: PipelineManager | null = null;
 let conversationStore: SqliteConversationStore | null = null;
 let helpdeskService: HelpdeskService | null = null;
+let liveAssistService: LiveAssistService | null = null;
 const settingsStore = new SettingsStore();
 const knowledgeBaseService = new KnowledgeBaseService(
   join(app.getPath("userData"), "knowledge-base"),
@@ -63,17 +69,46 @@ function sendStatus(status: ConnectionStatus): void {
   overlayWindow?.webContents.send(IPC_CHANNELS.connectionStatus, status);
 }
 
+function sendTranscript(payload: TranscriptMessage): void {
+  BrowserWindow.getAllWindows().forEach((window) =>
+    window.webContents.send(IPC_CHANNELS.transcript, payload)
+  );
+}
+
+function broadcastLiveSession(
+  session: LiveAssistSessionView | null
+): void {
+  helpdeskWindow?.webContents.send(
+    IPC_CHANNELS.liveAssistSessionChanged,
+    session
+  );
+  overlayWindow?.webContents.send(
+    IPC_CHANNELS.liveAssistSessionChanged,
+    session
+  );
+}
+
+function sendLiveProjection(
+  projection: LiveAssistProjection
+): void {
+  overlayWindow?.webContents.send(
+    IPC_CHANNELS.liveAssistProjection,
+    projection
+  );
+}
+
 function createPipeline(): PipelineManager {
   const { apiKeys } = settingsStore.getSettings();
   return new PipelineManager({
     sttProviderFactory: () => new DeepgramSttProvider(apiKeys.deepgramApiKey),
-    llmProvider: new OpenAiLlmProvider(apiKeys.openAiApiKey),
-    getTopic: () => {
-      const settings = settingsStore.getSettings();
-      return { topic: settings.topic, topicPromptTemplate: settings.topicPromptTemplate };
+    onAcceptedQuestion: async (question) => {
+      if (!liveAssistService) {
+        throw new Error("Live Assist session service is unavailable.");
+      }
+      await liveAssistService.acceptQuestion(question);
     },
-    getKnowledgeContext: async (question) => knowledgeBaseService.retrieve(question),
-    sendStatus
+    sendStatus,
+    sendTranscript
   });
 }
 
@@ -131,6 +166,30 @@ function registerIpcHandlers(): void {
       answerTriggerMode: settings.answerTriggerMode
     };
   });
+  ipcMain.handle(IPC_CHANNELS.liveAssistGetSession, (event) => {
+    if (
+      !overlayWindow ||
+      event.sender.id !== overlayWindow.webContents.id
+    ) {
+      throw new Error("Live Assist session request is not allowed.");
+    }
+    return liveAssistService?.getActiveSession() ?? null;
+  });
+  ipcMain.handle(IPC_CHANNELS.liveAssistCaptureError, (event, sessionId: string) => {
+    if (
+      !overlayWindow ||
+      event.sender.id !== overlayWindow.webContents.id
+    ) {
+      throw new Error("Live Assist capture update is not allowed.");
+    }
+    if (
+      typeof sessionId !== "string" ||
+      liveAssistService?.getActiveSession()?.id !== sessionId
+    ) {
+      return;
+    }
+    liveAssistService?.setCaptureStatus("error");
+  });
 
   ipcMain.handle(IPC_CHANNELS.updateTopic, (_event, topic: string) => {
     settingsStore.updateTopic(topic);
@@ -180,37 +239,123 @@ function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.syncKnowledgeBase, async () => knowledgeBaseService.sync());
 
-  ipcMain.handle(IPC_CHANNELS.startCapture, async (_event, config: CaptureStartConfig) => {
+  ipcMain.handle(IPC_CHANNELS.startCapture, async (event, config: CaptureStartConfig) => {
+    if (
+      !overlayWindow ||
+      event.sender.id !== overlayWindow.webContents.id
+    ) {
+      throw new Error("Capture start request is not allowed.");
+    }
+    const service = liveAssistService;
+    const activeSession =
+      service?.getActiveSession() ?? null;
+    if (
+      !service ||
+      !activeSession ||
+      !config ||
+      config.sessionId !== activeSession.id ||
+      !Array.isArray(config.sources) ||
+      config.sources.length === 0 ||
+      config.sources.some(
+        (source) =>
+          source !== "system" && source !== "microphone"
+      )
+    ) {
+      throw new Error(
+        "Capture does not match the active Live Assist session."
+      );
+    }
     audioChunkCount = 0;
     if (!pipelineManager) {
       pipelineManager = createPipeline();
     }
-    await pipelineManager.start(config);
+    try {
+      await pipelineManager.start({
+        sources: [...new Set(config.sources)],
+        answerTriggerMode:
+          settingsStore.getSettings().answerTriggerMode
+      });
+      service.setCaptureStatus("capturing");
+    } catch (error) {
+      service.setCaptureStatus("error");
+      throw error;
+    }
   });
 
-  ipcMain.handle(IPC_CHANNELS.stopCapture, async () => {
+  ipcMain.handle(IPC_CHANNELS.stopCapture, async (event, sessionId: string) => {
+    if (
+      !overlayWindow ||
+      event.sender.id !== overlayWindow.webContents.id
+    ) {
+      throw new Error("Capture stop request is not allowed.");
+    }
+    const activeSession =
+      liveAssistService?.getActiveSession() ?? null;
+    if (!activeSession || activeSession.id !== sessionId) {
+      return;
+    }
     await pipelineManager?.stop();
+    liveAssistService?.stop("capture_stopped");
   });
 
-  ipcMain.handle(IPC_CHANNELS.askQuestion, async (_event, question: string) => {
+  ipcMain.handle(IPC_CHANNELS.askQuestion, async (event, question: string) => {
+    if (
+      !overlayWindow ||
+      event.sender.id !== overlayWindow.webContents.id
+    ) {
+      throw new Error("Question acceptance request is not allowed.");
+    }
     const text = typeof question === "string" ? question.trim() : "";
     if (!text) return;
+    if (!liveAssistService?.getActiveSession()) return;
     if (!pipelineManager) {
       pipelineManager = createPipeline();
     }
     await pipelineManager.askQuestion(text, "microphone");
   });
 
-  ipcMain.handle(IPC_CHANNELS.clearFeed, () => {
-    overlayWindow?.webContents.send(IPC_CHANNELS.answerDone);
-  });
+  ipcMain.handle(
+    IPC_CHANNELS.liveAssistOpenCitation,
+    async (event, messageId: string, citationId: string) => {
+      if (
+        !overlayWindow ||
+        event.sender.id !== overlayWindow.webContents.id ||
+        typeof messageId !== "string" ||
+        typeof citationId !== "string" ||
+        !messageId.trim() ||
+        !citationId.trim() ||
+        !helpdeskService
+      ) {
+        throw new Error("Live Assist citation request is not allowed.");
+      }
+      const url = helpdeskService.getActionableCitationUrl(
+        messageId.trim(),
+        citationId.trim()
+      );
+      await shell.openExternal(url);
+    }
+  );
 
-  ipcMain.handle(IPC_CHANNELS.openExternalUrl, async (_event, url: string) => {
-    await shell.openExternal(url);
-  });
-
-  ipcMain.on(IPC_CHANNELS.audioChunk, (_event, payload: AudioChunkPayload) => {
-    if (!pipelineManager) return;
+  ipcMain.on(IPC_CHANNELS.audioChunk, (event, payload: AudioChunkPayload) => {
+    if (
+      !overlayWindow ||
+      event.sender.id !== overlayWindow.webContents.id
+    ) {
+      return;
+    }
+    if (
+      !pipelineManager
+    ) {
+      return;
+    }
+    const activeSession =
+      liveAssistService?.getActiveSession() ?? null;
+    if (
+      !activeSession ||
+      payload?.sessionId !== activeSession.id
+    ) {
+      return;
+    }
     if (!payload || (payload.source !== "system" && payload.source !== "microphone")) return;
     const audioBuffer: unknown = payload.buffer;
     let chunk: Int16Array | null = null;
@@ -252,6 +397,31 @@ function registerHelpdeskHandlers(): void {
       event.sender.id === helpdeskWindow.webContents.id,
     openExternal: async (url) => {
       await shell.openExternal(url);
+    },
+    getLiveAssistSession: () =>
+      liveAssistService?.getActiveSession() ?? null,
+    startLiveAssist: (conversationId) => {
+      if (!liveAssistService) {
+        throw new Error("Live Assist service is unavailable.");
+      }
+      const session = liveAssistService.start(conversationId);
+      overlayWindow?.webContents.send(
+        IPC_CHANNELS.liveAssistCaptureCommand,
+        { action: "start", sessionId: session.id }
+      );
+      return session;
+    },
+    stopLiveAssist: async () => {
+      const active = liveAssistService?.getActiveSession();
+      if (!active) return null;
+      await pipelineManager?.stop();
+      const stopped =
+        liveAssistService?.stop("user_stopped") ?? null;
+      overlayWindow?.webContents.send(
+        IPC_CHANNELS.liveAssistCaptureCommand,
+        { action: "stop", sessionId: active.id }
+      );
+      return stopped;
     }
   });
 }
@@ -272,6 +442,20 @@ app.whenReady().then(() => {
     helpdeskService = new HelpdeskService(
       conversationStore,
       new GroundedAnswerExecutionPort()
+    );
+    liveAssistService = new LiveAssistService(
+      conversationStore,
+      helpdeskService,
+      {
+        sessionChanged: broadcastLiveSession,
+        projectionChanged: sendLiveProjection,
+        conversationUpdated: (conversationId) => {
+          helpdeskWindow?.webContents.send(
+            IPC_CHANNELS.helpdeskConversationUpdated,
+            conversationId
+          );
+        }
+      }
     );
     registerIpcHandlers();
     registerHelpdeskHandlers();
@@ -297,7 +481,9 @@ app.on("window-all-closed", async () => {
 });
 
 app.on("will-quit", () => {
+  liveAssistService?.stop("application_shutdown");
   conversationStore?.close();
   conversationStore = null;
   helpdeskService = null;
+  liveAssistService = null;
 });

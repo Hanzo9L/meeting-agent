@@ -9,34 +9,6 @@ export interface TranscriptMessage {
   timestamp: number;
 }
 
-export interface AnswerChunkMessage {
-  text: string;
-  timestamp: number;
-}
-
-export interface AnswerStartMessage {
-  question: string;
-  timestamp: number;
-}
-
-export interface AnswerSourceRef {
-  title: string;
-  path: string;
-  url: string;
-}
-
-export interface AnswerSourcesMessage {
-  sources: AnswerSourceRef[];
-  timestamp: number;
-}
-
-export interface QaItem {
-  question: string;
-  answer: string;
-  sources?: AnswerSourceRef[];
-  createdAt: number;
-}
-
 export interface ApiKeys {
   deepgramApiKey: string;
   openAiApiKey: string;
@@ -78,8 +50,8 @@ export interface AppSettings {
 }
 
 export interface CaptureStartConfig {
+  sessionId: string;
   sources: CaptureSourceTag[];
-  answerTriggerMode: AnswerTriggerMode;
 }
 
 export interface RuntimeCaptureConfig {
@@ -88,27 +60,86 @@ export interface RuntimeCaptureConfig {
 }
 
 export interface AudioChunkPayload {
+  sessionId: string;
   source: CaptureSourceTag;
   buffer: ArrayBuffer;
 }
 
+export interface LiveAssistSessionView {
+  id: string;
+  conversationId: string;
+  state: "active" | "inactive";
+  captureStatus:
+    | "starting"
+    | "capturing"
+    | "error"
+    | "stopped"
+    | "interrupted";
+  startedAt: string;
+  stoppedAt: string | null;
+  stopReason: string | null;
+}
+
+export interface LiveAssistCaptureCommand {
+  action: "start" | "stop";
+  sessionId: string;
+}
+
+export interface LiveAssistProjectionSource {
+  messageId: string;
+  citationId: string;
+  title: string;
+}
+
+export interface LiveAssistProjection {
+  sessionId: string;
+  conversationId: string;
+  question: string;
+  state:
+    | "accepted"
+    | "executing"
+    | "answered"
+    | "partial"
+    | "insufficient_evidence"
+    | "failed";
+  answerText: string | null;
+  answerability:
+    | "answered"
+    | "partial"
+    | "insufficient_evidence"
+    | null;
+  sources: LiveAssistProjectionSource[];
+  timestamp: number;
+}
+
 export interface OverlayApi {
+  getLiveAssistSession: () => Promise<LiveAssistSessionView | null>;
+  reportLiveAssistCaptureError: (
+    sessionId: string
+  ) => Promise<void>;
   startCapture: (config: CaptureStartConfig) => Promise<void>;
-  stopCapture: () => Promise<void>;
+  stopCapture: (sessionId: string) => Promise<void>;
   askQuestion: (question: string) => Promise<void>;
-  clearFeed: () => Promise<void>;
   enableLoopbackAudio: () => Promise<void>;
   disableLoopbackAudio: () => Promise<void>;
   sendAudioChunk: (payload: AudioChunkPayload) => void;
   getRuntimeCaptureConfig: () => Promise<RuntimeCaptureConfig>;
   getDemoMode: () => Promise<boolean>;
-  openExternalUrl: (url: string) => Promise<void>;
+  openLiveCitation: (
+    messageId: string,
+    citationId: string
+  ) => Promise<void>;
+  onLiveAssistCaptureCommand: (
+    handler: (command: LiveAssistCaptureCommand) => void
+  ) => () => void;
+  onLiveAssistProjection: (
+    handler: (projection: LiveAssistProjection) => void
+  ) => () => void;
+  onLiveAssistSession: (
+    handler: (session: LiveAssistSessionView | null) => void
+  ) => () => void;
   onDemoMode: (handler: (enabled: boolean) => void) => () => void;
   onTranscript: (handler: (payload: TranscriptMessage) => void) => () => void;
-  onAnswerStart: (handler: (payload: AnswerStartMessage) => void) => () => void;
-  onAnswerChunk: (handler: (payload: AnswerChunkMessage) => void) => () => void;
-  onAnswerSources: (handler: (payload: AnswerSourcesMessage) => void) => () => void;
-  onAnswerDone: (handler: () => void) => () => void;
   onStatus: (handler: (status: ConnectionStatus) => void) => () => void;
 }
 

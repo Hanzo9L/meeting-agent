@@ -3,7 +3,6 @@ export const IPC_CHANNELS = {
   stopCapture: "capture:stop",
   askQuestion: "capture:ask-question",
   audioChunk: "capture:audio-chunk",
-  clearFeed: "feed:clear",
   updateTopic: "settings:update-topic",
   updateApiKeys: "settings:update-api-keys",
   updateCaptureSourceMode: "settings:update-capture-source-mode",
@@ -16,13 +15,8 @@ export const IPC_CHANNELS = {
   getDemoMode: "settings:get-demo-mode",
   getKnowledgeBaseStatus: "settings:get-knowledge-base-status",
   syncKnowledgeBase: "settings:sync-knowledge-base",
-  openExternalUrl: "shell:open-external-url",
   demoModeChanged: "settings:demo-mode-changed",
   transcript: "pipeline:transcript",
-  answerStart: "pipeline:answer-start",
-  answerChunk: "pipeline:answer-chunk",
-  answerSources: "pipeline:answer-sources",
-  answerDone: "pipeline:answer-done",
   connectionStatus: "pipeline:status",
   helpdeskListConversations: "helpdesk:list-conversations",
   helpdeskCreateConversation: "helpdesk:create-conversation",
@@ -30,7 +24,17 @@ export const IPC_CHANNELS = {
   helpdeskRenameConversation: "helpdesk:rename-conversation",
   helpdeskDeleteConversation: "helpdesk:delete-conversation",
   helpdeskSubmitMessage: "helpdesk:submit-message",
-  helpdeskOpenCitation: "helpdesk:open-citation"
+  helpdeskOpenCitation: "helpdesk:open-citation",
+  helpdeskGetLiveAssistSession: "helpdesk:live-assist:get",
+  helpdeskStartLiveAssist: "helpdesk:live-assist:start",
+  helpdeskStopLiveAssist: "helpdesk:live-assist:stop",
+  helpdeskConversationUpdated: "helpdesk:conversation-updated",
+  liveAssistSessionChanged: "live-assist:session-changed",
+  liveAssistCaptureCommand: "live-assist:capture-command",
+  liveAssistGetSession: "live-assist:get-session",
+  liveAssistCaptureError: "live-assist:capture-error",
+  liveAssistProjection: "live-assist:projection",
+  liveAssistOpenCitation: "live-assist:open-citation"
 } as const;
 
 export const DEFAULT_TOPIC_PROMPT =

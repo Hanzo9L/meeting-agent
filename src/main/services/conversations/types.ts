@@ -64,6 +64,23 @@ export interface GroundingSnapshotReference {
   createdAt: string;
 }
 
+export type LiveAssistCaptureStatus =
+  | "starting"
+  | "capturing"
+  | "error"
+  | "stopped"
+  | "interrupted";
+
+export interface LiveAssistSessionRecord {
+  id: string;
+  conversationId: string;
+  state: "active" | "inactive";
+  captureStatus: LiveAssistCaptureStatus;
+  startedAt: string;
+  stoppedAt: string | null;
+  stopReason: string | null;
+}
+
 export interface AnswerRunRecord {
   id: string;
   conversationId: string;
@@ -154,6 +171,22 @@ export interface ConversationStore {
     messageId: string,
     citationId: string
   ): MessageCitationRecord | null;
+  startLiveAssistSession(
+    conversationId: string
+  ): LiveAssistSessionRecord;
+  getActiveLiveAssistSession(): LiveAssistSessionRecord | null;
+  getLiveAssistSession(
+    sessionId: string
+  ): LiveAssistSessionRecord | null;
+  updateLiveAssistCaptureStatus(
+    sessionId: string,
+    status: Exclude<LiveAssistCaptureStatus, "stopped" | "interrupted">
+  ): LiveAssistSessionRecord;
+  stopLiveAssistSession(
+    sessionId: string,
+    reason: string
+  ): LiveAssistSessionRecord;
+  recoverInterruptedLiveAssistSessions(): number;
   loadAnswerRuns(conversationId: string): AnswerRunRecord[];
   createAnswerRun(input: CreateAnswerRunInput): AnswerRunRecord;
   updateAnswerRun(input: UpdateAnswerRunInput): AnswerRunRecord;

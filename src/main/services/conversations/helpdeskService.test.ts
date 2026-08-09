@@ -164,6 +164,62 @@ test("typed and pasted turns reach the same grounded execution port", async () =
   }
 });
 
+test("typed and live turns persist immediately and execute in accepted order", async () => {
+  const fixture = await makeStore();
+  let releaseFirst!: () => void;
+  const firstGate = new Promise<void>((resolvePromise) => {
+    releaseFirst = resolvePromise;
+  });
+  const requests: string[] = [];
+  const port: AnswerExecutionPort = {
+    execute: async (request) => {
+      requests.push(request.question);
+      if (requests.length === 1) await firstGate;
+      return structuredClone(success());
+    }
+  };
+  const service = new HelpdeskService(fixture.store, port);
+  try {
+    const created = service.createConversation("Mixed input");
+    const live = service.submitLiveQuestion({
+      conversationId: created.conversation.id,
+      content: "Live question"
+    });
+    const typed = service.submitMessage({
+      conversationId: created.conversation.id,
+      content: "Typed question",
+      inputOrigin: "typed"
+    });
+    await new Promise((resolvePromise) =>
+      setTimeout(resolvePromise, 0)
+    );
+    assert.deepEqual(requests, ["Live question"]);
+    assert.deepEqual(
+      service
+        .loadConversation(created.conversation.id)
+        .messages.map((message) => message.inputOrigin),
+      ["live_transcript", "typed"]
+    );
+
+    releaseFirst();
+    await Promise.all([live, typed]);
+    assert.deepEqual(requests, [
+      "Live question",
+      "Typed question"
+    ]);
+    const completed = service.loadConversation(
+      created.conversation.id
+    );
+    assert.deepEqual(
+      completed.answerRuns.map((run) => run.state),
+      ["completed", "completed"]
+    );
+  } finally {
+    fixture.store.close();
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
 for (const answerability of [
   "answered",
   "partial",

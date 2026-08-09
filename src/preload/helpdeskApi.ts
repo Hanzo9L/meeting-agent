@@ -8,9 +8,18 @@ import type {
   SubmitHelpdeskMessageInput,
   SubmitHelpdeskMessageResult
 } from "@shared/helpdesk";
+import type { LiveAssistSessionView } from "@shared/types";
 
 export interface HelpdeskIpcInvoker {
   invoke(channel: string, ...args: unknown[]): Promise<unknown>;
+  on(
+    channel: string,
+    listener: (_event: unknown, payload: unknown) => void
+  ): void;
+  off(
+    channel: string,
+    listener: (_event: unknown, payload: unknown) => void
+  ): void;
 }
 
 function invokeAs<T>(
@@ -63,6 +72,47 @@ export function createHelpdeskApi(ipc: HelpdeskIpcInvoker): HelpdeskApi {
         ipc,
         IPC_CHANNELS.helpdeskOpenCitation,
         input
-      )
+      ),
+    getLiveAssistSession: () =>
+      invokeAs<LiveAssistSessionView | null>(
+        ipc,
+        IPC_CHANNELS.helpdeskGetLiveAssistSession
+      ),
+    startLiveAssist: (conversationId: string) =>
+      invokeAs<LiveAssistSessionView>(
+        ipc,
+        IPC_CHANNELS.helpdeskStartLiveAssist,
+        conversationId
+      ),
+    stopLiveAssist: () =>
+      invokeAs<LiveAssistSessionView | null>(
+        ipc,
+        IPC_CHANNELS.helpdeskStopLiveAssist
+      ),
+    onLiveAssistSession: (
+      handler: (session: LiveAssistSessionView | null) => void
+    ) => {
+      const listener = (_event: unknown, payload: unknown) =>
+        handler(payload as LiveAssistSessionView | null);
+      ipc.on(IPC_CHANNELS.liveAssistSessionChanged, listener);
+      return () =>
+        ipc.off(
+          IPC_CHANNELS.liveAssistSessionChanged,
+          listener
+        );
+    },
+    onConversationUpdated: (
+      handler: (conversationId: string) => void
+    ) => {
+      const listener = (_event: unknown, payload: unknown) => {
+        if (typeof payload === "string") handler(payload);
+      };
+      ipc.on(IPC_CHANNELS.helpdeskConversationUpdated, listener);
+      return () =>
+        ipc.off(
+          IPC_CHANNELS.helpdeskConversationUpdated,
+          listener
+        );
+    }
   });
 }
