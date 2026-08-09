@@ -1,6 +1,20 @@
+export type SttUtteranceCompletionSignal =
+  | "speech_final"
+  | "utterance_end";
+
+export interface CompletedSttUtterance {
+  utteranceId: string;
+  text: string;
+  completionSignal: SttUtteranceCompletionSignal;
+  segmentCount: number;
+  sourceStartSeconds: number | null;
+  sourceEndSeconds: number | null;
+  speechFinalObserved: boolean;
+}
+
 export interface SttEvents {
   onInterim: (text: string) => void;
-  onFinal: (text: string) => void;
+  onUtterance: (utterance: CompletedSttUtterance) => void;
   onError: (message: string) => void;
 }
 

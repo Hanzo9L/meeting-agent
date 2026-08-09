@@ -8,6 +8,7 @@ import type { SttEvents, SttProvider } from "./sttProvider";
 class FakeSttProvider implements SttProvider {
   events: SttEvents | null = null;
   finalOnStop: string | null = null;
+  private sequence = 0;
 
   async start(events: SttEvents): Promise<void> {
     this.events = events;
@@ -17,17 +18,31 @@ class FakeSttProvider implements SttProvider {
 
   async stop(): Promise<void> {
     if (this.finalOnStop) {
-      this.events?.onFinal(this.finalOnStop);
+      this.utterance(this.finalOnStop);
     }
     this.events = null;
   }
 
-  final(text: string): void {
-    this.events?.onFinal(text);
+  interim(text: string): void {
+    this.events?.onInterim(text);
+  }
+
+  utterance(text: string, utteranceId?: string): void {
+    this.sequence += 1;
+    this.events?.onUtterance({
+      utteranceId:
+        utteranceId ?? `fake-utterance:${this.sequence}`,
+      text,
+      completionSignal: "utterance_end",
+      segmentCount: 1,
+      sourceStartSeconds: this.sequence,
+      sourceEndSeconds: this.sequence + 0.5,
+      speechFinalObserved: true
+    });
   }
 }
 
-test("existing question detection promotes only accepted final transcripts", async () => {
+test("question detection promotes only completed utterances", async () => {
   const provider = new FakeSttProvider();
   const accepted: string[] = [];
   const manager = new PipelineManager({
@@ -42,8 +57,9 @@ test("existing question detection promotes only accepted final transcripts", asy
     sources: ["microphone"],
     answerTriggerMode: "questions_only"
   });
-  provider.final("This is a statement.");
-  provider.final("How do Calling Plans work?");
+  provider.interim("How do Microsoft");
+  provider.utterance("This is a statement.");
+  provider.utterance("How do Calling Plans work?");
   await new Promise((resolvePromise) =>
     setTimeout(resolvePromise, 0)
   );
@@ -72,8 +88,8 @@ test("accepted questions are serialized instead of dropped", async () => {
     sources: ["microphone"],
     answerTriggerMode: "all_final"
   });
-  provider.final("First");
-  provider.final("Second");
+  provider.utterance("First");
+  provider.utterance("Second");
   await new Promise((resolvePromise) =>
     setTimeout(resolvePromise, 0)
   );
@@ -83,6 +99,67 @@ test("accepted questions are serialized instead of dropped", async () => {
     setTimeout(resolvePromise, 0)
   );
   assert.deepEqual(started, ["First", "Second"]);
+});
+
+test("one completed utterance ID is promoted at most once", async () => {
+  const provider = new FakeSttProvider();
+  const accepted: string[] = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => provider,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sources: ["microphone"],
+    answerTriggerMode: "questions_only"
+  });
+
+  provider.utterance(
+    "How do Microsoft Teams Calling Plans work?",
+    "utterance:one"
+  );
+  provider.utterance(
+    "How do Microsoft Teams Calling Plans work?",
+    "utterance:one"
+  );
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+
+  assert.deepEqual(accepted, [
+    "How do Microsoft Teams Calling Plans work?"
+  ]);
+});
+
+test("the same question in a later utterance remains eligible", async () => {
+  const provider = new FakeSttProvider();
+  const accepted: string[] = [];
+  const manager = new PipelineManager({
+    sttProviderFactory: () => provider,
+    onAcceptedQuestion: async (question) => {
+      accepted.push(question);
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sources: ["microphone"],
+    answerTriggerMode: "questions_only"
+  });
+
+  provider.utterance("How do Calling Plans work?", "utterance:first");
+  provider.utterance("How do Calling Plans work?", "utterance:later");
+  await new Promise((resolvePromise) =>
+    setTimeout(resolvePromise, 0)
+  );
+
+  assert.deepEqual(accepted, [
+    "How do Calling Plans work?",
+    "How do Calling Plans work?"
+  ]);
 });
 
 test("stopping capture prevents provider flush from accepting another question", async () => {

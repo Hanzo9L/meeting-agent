@@ -1,24 +1,17 @@
 import { DeepgramClient } from "@deepgram/sdk";
 import type { SttEvents, SttProvider } from "./sttProvider";
-
-type DeepgramLiveMessage = {
-  type?: string;
-  channel?: {
-    alternatives?: Array<{
-      transcript?: string;
-    }>;
-  };
-  is_final?: boolean;
-  speech_final?: boolean;
-};
+import {
+  DeepgramUtteranceProcessor,
+  type DeepgramTranscriptMessage
+} from "./deepgramUtteranceAssembler";
 
 export class DeepgramSttProvider implements SttProvider {
   private readonly client: DeepgramClient;
   private connection: Awaited<ReturnType<DeepgramClient["listen"]["v1"]["connect"]>> | null = null;
   private events: SttEvents | null = null;
   private sentAudioDiagnostics = false;
-  /** Finalized segments for the current utterance; must be joined until speech_final. */
-  private utteranceParts: string[] = [];
+  private readonly transcriptProcessor =
+    new DeepgramUtteranceProcessor();
 
   constructor(apiKey: string) {
     this.client = new DeepgramClient({ apiKey });
@@ -26,7 +19,7 @@ export class DeepgramSttProvider implements SttProvider {
 
   async start(events: SttEvents): Promise<void> {
     this.events = events;
-    this.utteranceParts = [];
+    this.transcriptProcessor.clear();
     this.sentAudioDiagnostics = false;
     this.connection = await this.client.listen.v1.connect({
       model: "nova-3",
@@ -43,39 +36,15 @@ export class DeepgramSttProvider implements SttProvider {
     });
 
     this.connection.on("message", (data: unknown) => {
-      const message = data as DeepgramLiveMessage;
-
-      if (message.type === "UtteranceEnd") {
-        this.flushUtterance();
-        return;
+      const result = this.transcriptProcessor.process(
+        data as DeepgramTranscriptMessage
+      );
+      if (result.interimText) {
+        this.events?.onInterim(result.interimText);
       }
-
-      if (message.type !== "Results") return;
-
-      const transcript = message.channel?.alternatives?.[0]?.transcript?.trim() ?? "";
-      const isFinal = Boolean(message.is_final);
-      const speechFinal = Boolean(message.speech_final);
-
-      if (!transcript && !(speechFinal && this.utteranceParts.length > 0)) return;
-
-      if (isFinal && transcript) {
-        this.utteranceParts.push(transcript);
+      if (result.completedUtterance) {
+        this.events?.onUtterance(result.completedUtterance);
       }
-
-      const assembled = this.utteranceParts.join(" ").replace(/\s+/g, " ").trim();
-      const liveText =
-        !isFinal && transcript
-          ? [assembled, transcript].filter(Boolean).join(" ").replace(/\s+/g, " ").trim()
-          : assembled;
-
-      if (speechFinal) {
-        const finalText = assembled || transcript;
-        this.utteranceParts = [];
-        if (finalText) this.events?.onFinal(finalText);
-        return;
-      }
-
-      if (liveText) this.events?.onInterim(liveText);
     });
 
     this.connection.on("error", (error: unknown) => {
@@ -100,18 +69,13 @@ export class DeepgramSttProvider implements SttProvider {
   }
 
   async stop(): Promise<void> {
-    this.flushUtterance();
+    // Stop/session termination must never promote a pending fragment.
+    this.transcriptProcessor.clear();
     if (!this.connection) return;
     this.connection.socket.close();
     this.connection = null;
     this.events = null;
     this.sentAudioDiagnostics = false;
-    this.utteranceParts = [];
-  }
-
-  private flushUtterance(): void {
-    const finalText = this.utteranceParts.join(" ").replace(/\s+/g, " ").trim();
-    this.utteranceParts = [];
-    if (finalText) this.events?.onFinal(finalText);
+    this.transcriptProcessor.clear();
   }
 }

@@ -15,6 +15,30 @@ import type {
 import { HelpdeskService } from "./helpdeskService";
 import { LiveAssistService } from "./liveAssistService";
 import { createSqliteConversationStore } from "./sqliteConversationStore";
+import { PipelineManager } from "../pipelineManager";
+import type {
+  CompletedSttUtterance,
+  SttEvents,
+  SttProvider
+} from "../sttProvider";
+
+class CompletedUtteranceProvider implements SttProvider {
+  private events: SttEvents | null = null;
+
+  async start(events: SttEvents): Promise<void> {
+    this.events = events;
+  }
+
+  sendAudio(): void {}
+
+  async stop(): Promise<void> {
+    this.events = null;
+  }
+
+  emit(utterance: CompletedSttUtterance): void {
+    this.events?.onUtterance(utterance);
+  }
+}
 
 function success(
   answerability:
@@ -160,6 +184,69 @@ test("accepted question becomes a durable live_transcript turn using the shared 
     );
     assert.equal(context.updated[0], conversation.id);
     assert.equal(session.conversationId, conversation.id);
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("one completed STT utterance creates one durable turn and one grounded execution", async () => {
+  const context = await fixture([success()]);
+  const provider = new CompletedUtteranceProvider();
+  try {
+    const conversation = context.store.createConversation({
+      title: "Assembled utterance"
+    });
+    context.live.start(conversation.id);
+    const pipeline = new PipelineManager({
+      sttProviderFactory: () => provider,
+      onAcceptedQuestion: async (question) => {
+        await context.live.acceptQuestion(question);
+      },
+      sendStatus: () => undefined,
+      sendTranscript: () => undefined
+    });
+    await pipeline.start({
+      sources: ["microphone"],
+      answerTriggerMode: "questions_only"
+    });
+
+    provider.emit({
+      utteranceId: "utterance:assembled-question",
+      text: "How do Microsoft Teams calling plans work?",
+      completionSignal: "utterance_end",
+      segmentCount: 2,
+      sourceStartSeconds: 1,
+      sourceEndSeconds: 3,
+      speechFinalObserved: true
+    });
+    for (
+      let attempts = 0;
+      attempts < 20 && context.port.questions.length === 0;
+      attempts += 1
+    ) {
+      await new Promise((resolvePromise) =>
+        setTimeout(resolvePromise, 1)
+      );
+    }
+
+    const messages =
+      context.store.loadOrderedMessages(conversation.id);
+    assert.equal(
+      messages.filter(
+        (message) => message.inputOrigin === "live_transcript"
+      ).length,
+      1
+    );
+    assert.equal(
+      messages.filter((message) => message.role === "assistant")
+        .length,
+      1
+    );
+    assert.deepEqual(context.port.questions, [
+      "How do Microsoft Teams calling plans work?"
+    ]);
+    await pipeline.stop();
   } finally {
     context.store.close();
     await rm(context.root, { recursive: true, force: true });

@@ -5,7 +5,10 @@ import type {
   TranscriptMessage
 } from "@shared/types";
 import { looksLikeQuestion } from "./questionDetector";
-import type { SttProvider } from "./sttProvider";
+import type {
+  CompletedSttUtterance,
+  SttProvider
+} from "./sttProvider";
 
 type StatusHandler = (status: ConnectionStatus) => void;
 type AcceptedQuestionHandler = (
@@ -36,6 +39,10 @@ export class PipelineManager {
   private answerSourcePreference: CaptureSourceTag | "any" = "any";
   private sourceLabelMode: SourceLabelMode = "single";
   private acceptedQueue: Promise<void> = Promise.resolve();
+  private readonly completedUtteranceIds = new Map<
+    CaptureSourceTag,
+    Set<string>
+  >();
 
   constructor(params: {
     sttProviderFactory: () => SttProvider;
@@ -60,6 +67,7 @@ export class PipelineManager {
       );
     }
     this.active = true;
+    this.completedUtteranceIds.clear();
     this.answerTriggerMode = config.answerTriggerMode;
     this.sourceLabelMode =
       config.sources.length > 1 ? "multi" : "single";
@@ -77,8 +85,11 @@ export class PipelineManager {
           await provider.start({
             onInterim: (text) =>
               this.broadcastTranscript(text, false, source),
-            onFinal: (text) =>
-              void this.handleFinalTranscript(text, source),
+            onUtterance: (utterance) =>
+              void this.handleCompletedUtterance(
+                utterance,
+                source
+              ),
             onError: (message) => {
               this.broadcastTranscript(
                 `STT error (${source}): ${message}`,
@@ -116,6 +127,7 @@ export class PipelineManager {
       })
     );
     this.sttProviders.clear();
+    this.completedUtteranceIds.clear();
     this.sendStatus("idle");
     // Already accepted turns intentionally continue through acceptedQueue.
   }
@@ -167,10 +179,17 @@ export class PipelineManager {
     return looksLikeQuestion(text);
   }
 
-  private async handleFinalTranscript(
-    text: string,
+  private async handleCompletedUtterance(
+    utterance: CompletedSttUtterance,
     source: CaptureSourceTag
   ): Promise<void> {
+    const completedForSource =
+      this.completedUtteranceIds.get(source) ?? new Set<string>();
+    this.completedUtteranceIds.set(source, completedForSource);
+    if (completedForSource.has(utterance.utteranceId)) return;
+    completedForSource.add(utterance.utteranceId);
+    const text = utterance.text.trim();
+    if (!text) return;
     this.broadcastTranscript(text, true, source);
     if (!this.active || !this.shouldAccept(source, text)) return;
     await this.enqueueAcceptedQuestion(text, source);
