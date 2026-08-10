@@ -2,18 +2,23 @@ import { performance } from "node:perf_hooks";
 import {
   assembleDeterministicAnswer,
   buildAnswerPlan,
+  buildExplanationContext,
   mapAnswerCitations,
+  presentGroundedAnswer,
   runQuestionToEvidenceBundle
 } from "../answerV2";
 import type {
   AnswerabilityStatus,
   GroundingDecisionSnapshot
 } from "../answerV2";
+import type { AnswerPresentationProfile } from "../answerV2/answerPresentationTypes";
+import type { ContextReference } from "../answerV2/explanationContextTypes";
 
 export interface AnswerExecutionRequest {
   conversationId: string;
   userMessageId: string;
   question: string;
+  presentationProfile?: AnswerPresentationProfile;
 }
 
 export interface AnswerExecutionCitation {
@@ -36,7 +41,13 @@ export interface AnswerExecutionCitation {
 export interface GroundedAnswerExecutionSuccess {
   ok: true;
   answerability: AnswerabilityStatus;
+  /** Profile-selected presented answer shown to the user. */
   answerText: string;
+  /** Unchanged R4 extractive factual baseline. */
+  factualAnswerText: string;
+  presentationProfile: AnswerPresentationProfile;
+  helpdeskDetailedText: string;
+  liveAssistQuickText: string;
   snapshot: Pick<
     GroundingDecisionSnapshot,
     | "snapshotId"
@@ -46,13 +57,19 @@ export interface GroundedAnswerExecutionSuccess {
     | "corpusRevisionHash"
     | "createdAt"
   >;
+  /** WB-21 factual citations (ranges relative to factualAnswerText). */
   citations: AnswerExecutionCitation[];
+  /** Presentation-layer context source attribution (not R4 claims). */
+  contextReferences: ContextReference[];
   diagnostics: {
     retrievalMs: number;
     evidenceResolutionMs: number;
     planningMs: number;
     assemblyMs: number;
     citationMappingMs: number;
+    contextBuildMs: number;
+    presentationPlanningMs: number;
+    presentationRenderMs: number;
     pipelineTotalMs: number;
     answerGenerationRequestCount: 0;
   };
@@ -198,6 +215,37 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
       };
     }
 
+    const provenance = assembled.answer.extractiveAssembly;
+    if (!provenance) {
+      return {
+        ok: false,
+        code: "grounded_answer_validation_failed",
+        stage: "extractive_assembly",
+        userSafeMessage:
+          "Relay rejected the answer because extractive provenance was missing."
+      };
+    }
+
+    const contextStarted = performance.now();
+    const explanation = buildExplanationContext({
+      bundle: groundingRun.bundle,
+      plan
+    });
+    const contextBuildMs = performance.now() - contextStarted;
+    const presented = presentGroundedAnswer({
+      plan,
+      answer: assembled.answer,
+      provenance,
+      contextBlocks: explanation.blocks
+    });
+
+    const profile: AnswerPresentationProfile =
+      request.presentationProfile ?? "helpdesk_detailed";
+    const presentedAnswer =
+      profile === "live_assist_quick"
+        ? presented.liveAssistQuick
+        : presented.helpdeskDetailed;
+
     const citations: AnswerExecutionCitation[] =
       citationMapping.citations
         .filter(
@@ -224,7 +272,11 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
     return {
       ok: true,
       answerability: assembled.answer.answerability,
-      answerText: assembled.answer.answerText,
+      answerText: presentedAnswer.answerText || assembled.answer.answerText,
+      factualAnswerText: assembled.answer.answerText,
+      presentationProfile: profile,
+      helpdeskDetailedText: presented.helpdeskDetailed.answerText,
+      liveAssistQuickText: presented.liveAssistQuick.answerText,
       snapshot: {
         snapshotId: snapshot.snapshotId,
         snapshotHash: snapshot.snapshotHash,
@@ -234,6 +286,7 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
         createdAt: snapshot.createdAt
       },
       citations,
+      contextReferences: presentedAnswer.contextReferences,
       diagnostics: {
         retrievalMs: Math.max(0, groundingMs - evidenceResolutionMs),
         evidenceResolutionMs,
@@ -241,6 +294,10 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
         assemblyMs: assembled.answer.diagnostics.totalLatencyMs,
         citationMappingMs:
           citationMapping.diagnostics.latencyMs,
+        contextBuildMs:
+          contextBuildMs + explanation.diagnostics.latencyMs,
+        presentationPlanningMs: presented.planningLatencyMs,
+        presentationRenderMs: presented.renderingLatencyMs,
         pipelineTotalMs: performance.now() - pipelineStarted,
         answerGenerationRequestCount: 0
       }

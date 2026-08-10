@@ -24,13 +24,18 @@ function success(
     | "partial"
     | "insufficient_evidence" = "answered"
 ): AnswerExecutionResult {
+  const answerText =
+    answerability === "insufficient_evidence"
+      ? "Unable to provide a factual answer from the approved evidence."
+      : ANSWER_TEXT;
   return {
     ok: true,
     answerability,
-    answerText:
-      answerability === "insufficient_evidence"
-        ? "Unable to provide a factual answer from the approved evidence."
-        : ANSWER_TEXT,
+    answerText,
+    factualAnswerText: answerText,
+    presentationProfile: "helpdesk_detailed",
+    helpdeskDetailedText: answerText,
+    liveAssistQuickText: answerText,
     snapshot: {
       snapshotId: "grounding:slice3",
       snapshotHash: "a".repeat(64),
@@ -62,12 +67,16 @@ function success(
               preview: false
             }
           ],
+    contextReferences: [],
     diagnostics: {
       retrievalMs: 1,
       evidenceResolutionMs: 1,
       planningMs: 1,
       assemblyMs: 1,
       citationMappingMs: 1,
+      contextBuildMs: 0,
+      presentationPlanningMs: 0,
+      presentationRenderMs: 0,
       pipelineTotalMs: 5,
       answerGenerationRequestCount: 0
     }

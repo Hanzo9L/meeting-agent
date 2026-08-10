@@ -73,6 +73,10 @@ class IpcGroundedPort implements AnswerExecutionPort {
       ok: true as const,
       answerability: "answered" as const,
       answerText,
+      factualAnswerText: answerText,
+      presentationProfile: "helpdesk_detailed" as const,
+      helpdeskDetailedText: answerText,
+      liveAssistQuickText: answerText,
       snapshot: {
         snapshotId: "grounding:ipc",
         snapshotHash: "a".repeat(64),
@@ -102,12 +106,16 @@ class IpcGroundedPort implements AnswerExecutionPort {
           preview: false
         }
       ],
+      contextReferences: [],
       diagnostics: {
         retrievalMs: 1,
         evidenceResolutionMs: 1,
         planningMs: 1,
         assemblyMs: 1,
         citationMappingMs: 1,
+        contextBuildMs: 0,
+        presentationPlanningMs: 0,
+        presentationRenderMs: 0,
         pipelineTotalMs: 5,
         answerGenerationRequestCount: 0 as const
       }

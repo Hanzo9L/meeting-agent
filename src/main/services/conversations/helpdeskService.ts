@@ -205,7 +205,11 @@ export class HelpdeskService {
         this.executeStartedTurn({
           conversationId: input.conversationId,
           content,
-          started
+          started,
+          presentationProfile:
+            input.inputOrigin === "live_transcript"
+              ? "live_assist_quick"
+              : "helpdesk_detailed"
         })
     );
   }
@@ -237,6 +241,9 @@ export class HelpdeskService {
     conversationId: string;
     content: string;
     started: StartedAnswerRun;
+    presentationProfile:
+      | "helpdesk_detailed"
+      | "live_assist_quick";
   }): Promise<SubmitHelpdeskMessageResult> {
     const { conversationId, content, started } = params;
     this.store.updateAnswerRun({
@@ -251,7 +258,8 @@ export class HelpdeskService {
       result = await this.answerExecution.execute({
         conversationId,
         userMessageId: started.message.id,
-        question: content
+        question: content,
+        presentationProfile: params.presentationProfile
       });
     } catch {
       result = {
@@ -293,25 +301,53 @@ export class HelpdeskService {
       snapshot: result.snapshot
     });
     try {
+      const seenUrls = new Set(
+        result.citations.map((citation) => citation.canonicalUrl)
+      );
+      const contextCitations = result.contextReferences
+        .filter((reference) => {
+          if (!reference.canonicalUrl || seenUrls.has(reference.canonicalUrl)) {
+            return false;
+          }
+          seenUrls.add(reference.canonicalUrl);
+          return true;
+        })
+        .map((reference) => ({
+          citationId: `context-ref:${reference.contextBlockId}`,
+          factualRangeId: `context-block:${reference.contextBlockId}`,
+          answerRangeStart: 0,
+          answerRangeEnd: 0,
+          sourceTitle: reference.sourceTitle,
+          canonicalUrl: reference.canonicalUrl,
+          sourceId: reference.sourceId,
+          authorityRole: reference.authorityRole,
+          headingPath: [...reference.headingPath],
+          sectionId: reference.sectionId,
+          sourceStatus: "ga",
+          preview: reference.preview
+        }));
       this.store.appendGroundedAssistantMessage({
         answerRunId: started.answerRun.id,
         content: result.answerText,
         answerability: result.answerability,
         snapshot: result.snapshot,
-        citations: result.citations.map((citation) => ({
-          citationId: citation.citationId,
-          factualRangeId: citation.factualRangeId,
-          answerRangeStart: citation.answerRange.startOffset,
-          answerRangeEnd: citation.answerRange.endOffset,
-          sourceTitle: citation.sourceTitle,
-          canonicalUrl: citation.canonicalUrl,
-          sourceId: citation.sourceId,
-          authorityRole: citation.authorityRole,
-          headingPath: [...citation.headingPath],
-          sectionId: citation.sectionId,
-          sourceStatus: citation.sourceStatus,
-          preview: citation.preview
-        }))
+        citations: [
+          ...result.citations.map((citation) => ({
+            citationId: citation.citationId,
+            factualRangeId: citation.factualRangeId,
+            answerRangeStart: citation.answerRange.startOffset,
+            answerRangeEnd: citation.answerRange.endOffset,
+            sourceTitle: citation.sourceTitle,
+            canonicalUrl: citation.canonicalUrl,
+            sourceId: citation.sourceId,
+            authorityRole: citation.authorityRole,
+            headingPath: [...citation.headingPath],
+            sectionId: citation.sectionId,
+            sourceStatus: citation.sourceStatus,
+            preview: citation.preview
+          })),
+          ...contextCitations
+        ]
       });
     } catch {
       this.store.updateAnswerRun({

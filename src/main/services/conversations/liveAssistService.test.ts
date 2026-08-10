@@ -54,6 +54,10 @@ function success(
     ok: true,
     answerability,
     answerText,
+    factualAnswerText: answerText,
+    presentationProfile: "live_assist_quick",
+    helpdeskDetailedText: answerText,
+    liveAssistQuickText: answerText,
     snapshot: {
       snapshotId: `grounding:${answerability}`,
       snapshotHash: "a".repeat(64),
@@ -85,12 +89,16 @@ function success(
               preview: false
             }
           ],
+    contextReferences: [],
     diagnostics: {
       retrievalMs: 1,
       evidenceResolutionMs: 1,
       planningMs: 1,
       assemblyMs: 1,
       citationMappingMs: 1,
+      contextBuildMs: 0,
+      presentationPlanningMs: 0,
+      presentationRenderMs: 0,
       pipelineTotalMs: 5,
       answerGenerationRequestCount: 0
     }
