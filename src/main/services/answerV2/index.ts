@@ -1,4 +1,6 @@
 export * from "./types";
+export * from "./operationMatching";
+export * from "./methodConstraintPolicy";
 export * from "./answerabilityPolicy";
 export * from "./evidenceBundleBuilder";
 export * from "./groundingDecisionSnapshot";

@@ -1,3 +1,4 @@
+import { methodGapsForBundle } from "./methodConstraintPolicy";
 import type { AnswerabilityStatus, EvidenceBundle } from "./types";
 
 export interface AnswerabilityDecision {
@@ -46,8 +47,24 @@ export function classifyAnswerability(bundle: Pick<
     bundle.exactIdentifierValidation.required &&
     !bundle.exactIdentifierValidation.verified;
   const allMandatorySupported = supportedCount === mandatoryAspectIds.length;
+  const methodGaps = methodGapsForBundle({
+    aspects: bundle.aspectCoverage.aspects,
+    supportedMandatoryAspectIds:
+      bundle.aspectCoverage.supportedMandatoryAspectIds,
+    evidenceByAspect: bundle.aspectCoverage.evidenceByAspect,
+    evidence: bundle.evidence
+  });
+  const methodLimited = methodGaps.length > 0;
+  if (methodLimited) {
+    rationale.push("requested_method_not_satisfied");
+  }
 
-  if (allMandatorySupported && !freshnessLimited && !exactIdentifierLimited) {
+  if (
+    allMandatorySupported &&
+    !freshnessLimited &&
+    !exactIdentifierLimited &&
+    !methodLimited
+  ) {
     rationale.push("all_mandatory_aspects_have_direct_authoritative_support");
     return { status: "answered", rationale };
   }

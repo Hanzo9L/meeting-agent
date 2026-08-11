@@ -333,7 +333,7 @@ test("claim for an unsupported aspect cannot be rendered", () => {
       {
         kind: "entity",
         value: "external access",
-        terms: ["external", "access"]
+        terms: ["external", "access"], aliases: [String("external access").toLowerCase()], questionSpans: ["external access"]
       }
     ]
   });
@@ -345,7 +345,7 @@ test("claim for an unsupported aspect cannot be rendered", () => {
       {
         kind: "entity",
         value: "guest access",
-        terms: ["guest", "access"]
+        terms: ["guest", "access"], aliases: [String("guest access").toLowerCase()], questionSpans: ["guest access"]
       }
     ]
   });
@@ -389,7 +389,7 @@ test("partial renders supported facts and typed limitations only", () => {
       {
         kind: "entity",
         value: "external access",
-        terms: ["external", "access"]
+        terms: ["external", "access"], aliases: [String("external access").toLowerCase()], questionSpans: ["external access"]
       }
     ]
   });
@@ -401,7 +401,7 @@ test("partial renders supported facts and typed limitations only", () => {
       {
         kind: "entity",
         value: "guest access",
-        terms: ["guest", "access"]
+        terms: ["guest", "access"], aliases: [String("guest access").toLowerCase()], questionSpans: ["guest access"]
       }
     ]
   });
@@ -527,7 +527,7 @@ test("explicit cmdlet rendering adds no unplanned parameters", () => {
       {
         kind: "cmdlet",
         value: "Set-CsPolicy",
-        terms: ["set-cspolicy"]
+        terms: ["set-cspolicy"], aliases: [String("Set-CsPolicy").toLowerCase()], questionSpans: ["Set-CsPolicy"]
       }
     ],
     answerObject: "cmdlet_semantics",

@@ -1,4 +1,29 @@
-import type { EvidenceAspect, EvidenceAspectCoverage } from "./types";
+import type {
+  EvidenceAspect,
+  EvidenceAspectCoverage,
+  EvidenceAspectSubject,
+  EvidenceAspectSubjectKind
+} from "./types";
+
+export function makeTestSubject(
+  kind: EvidenceAspectSubjectKind,
+  value: string,
+  terms?: string[]
+): EvidenceAspectSubject {
+  const resolvedTerms =
+    terms ??
+    value
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((term) => term.length >= 3);
+  return {
+    kind,
+    value,
+    terms: resolvedTerms,
+    aliases: [value.toLowerCase()],
+    questionSpans: [value]
+  };
+}
 
 export function makeTestAspect(
   overrides: Partial<EvidenceAspect> = {}
@@ -10,10 +35,9 @@ export function makeTestAspect(
     requirement: overrides.requirement ?? "mandatory",
     subject,
     subjectTerms: terms,
-    subjects: overrides.subjects ?? [
-      { kind: "entity", value: subject, terms }
-    ],
+    subjects: overrides.subjects ?? [makeTestSubject("entity", subject, terms)],
     operation: overrides.operation ?? null,
+    methodConstraints: overrides.methodConstraints ?? [],
     answerObject: overrides.answerObject ?? "mechanism",
     relationship: overrides.relationship ?? null,
     breadth: overrides.breadth ?? "broad",

@@ -360,7 +360,7 @@ test("implicit cmdlet produces one canonical identifier and operation claim", ()
       {
         kind: "policy",
         value: "voice routing policy",
-        terms: ["voice", "routing", "policy"]
+        terms: ["voice", "routing", "policy"], aliases: [String("voice routing policy").toLowerCase()], questionSpans: ["voice routing policy"]
       }
     ],
     operation: "assign",
@@ -417,7 +417,7 @@ test("explicit cmdlet semantics remains exact-span source-bound", () => {
       {
         kind: "cmdlet",
         value: "Set-CsOnlineVoiceRoutingPolicy",
-        terms: ["set-csonlinevoiceroutingpolicy"]
+        terms: ["set-csonlinevoiceroutingpolicy"], aliases: [String("Set-CsOnlineVoiceRoutingPolicy").toLowerCase()], questionSpans: ["Set-CsOnlineVoiceRoutingPolicy"]
       }
     ],
     answerObject: "cmdlet_semantics",
@@ -531,7 +531,7 @@ test("partial answer plans claims only for directly supported aspects", () => {
       {
         kind: "entity",
         value: "external access",
-        terms: ["external", "access"]
+        terms: ["external", "access"], aliases: [String("external access").toLowerCase()], questionSpans: ["external access"]
       }
     ]
   });
@@ -543,7 +543,7 @@ test("partial answer plans claims only for directly supported aspects", () => {
       {
         kind: "entity",
         value: "guest access",
-        terms: ["guest", "access"]
+        terms: ["guest", "access"], aliases: [String("guest access").toLowerCase()], questionSpans: ["guest access"]
       }
     ]
   });
@@ -692,12 +692,12 @@ test("generic compound subject planning has no scenario-specific URL or title ru
       {
         kind: "entity",
         value: "packet mediation",
-        terms: ["packet", "mediation"]
+        terms: ["packet", "mediation"], aliases: [String("packet mediation").toLowerCase()], questionSpans: ["packet mediation"]
       },
       {
         kind: "entity",
         value: "media path",
-        terms: ["media", "path"]
+        terms: ["media", "path"], aliases: [String("media path").toLowerCase()], questionSpans: ["media path"]
       }
     ],
     requiredFacets: ["purpose", "mechanism"]
@@ -731,7 +731,7 @@ test("broad conceptual planning does not substitute a trailing procedure list fo
       {
         kind: "entity",
         value: "external access",
-        terms: ["external", "access"]
+        terms: ["external", "access"], aliases: [String("external access").toLowerCase()], questionSpans: ["external access"]
       }
     ],
     requiredFacets: ["purpose", "mechanism"]

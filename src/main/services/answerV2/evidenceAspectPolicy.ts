@@ -5,6 +5,7 @@ import type {
   HybridRetrievalResult,
   QueryIntent
 } from "../retrievalV2";
+import { operationMatchesText } from "./operationMatching";
 import type {
   EvidenceAspect,
   EvidenceAspectAnswerObject,
@@ -15,6 +16,8 @@ import type {
   EvidenceAspectSubjectKind,
   EvidenceAspectSupport,
   EvidenceAspectSupportStrength,
+  EvidenceMethodConstraint,
+  EvidenceMethodConstraintKind,
   EvidenceSupportFacet,
   EvidenceSupportType
 } from "./types";
@@ -46,19 +49,6 @@ const QUESTION_STOP_TERMS = new Set([
   "works",
   "would"
 ]);
-
-const OPERATION_ALIASES: Record<string, string[]> = {
-  assign: ["assign", "grant", "apply"],
-  grant: ["grant", "assign", "apply"],
-  remove: ["remove", "unassign", "clear", "delete"],
-  get: ["get", "view", "retrieve", "list", "show"],
-  set: ["set", "configure", "update", "change"],
-  configure: ["configure", "set", "update", "change"],
-  create: ["create", "add", "new"],
-  enable: ["enable", "allow", "turn on"],
-  disable: ["disable", "block", "turn off"],
-  troubleshoot: ["troubleshoot", "diagnose", "resolve", "fix"]
-};
 
 const RELATION_PREDICATES: Array<{ predicate: string; pattern: RegExp }> = [
   { predicate: "affects", pattern: /\baffect(?:s|ing)?\b/i },
@@ -169,29 +159,117 @@ function supportTypeForAnswerObject(
   return "concept_definition";
 }
 
-function makeSubject(
-  kind: EvidenceAspectSubjectKind,
-  value: string
-): EvidenceAspectSubject {
+type MethodToolDefinition = {
+  kind: EvidenceMethodConstraintKind;
+  /** Normalized labels that identify this tool as a technology/product seed. */
+  technologyLabels: string[];
+  questionPatterns: RegExp[];
+  domains: SourceDomain[];
+  authorityRoles: SourceAuthorityRole[];
+  label: string;
+};
+
+const METHOD_TOOL_DEFINITIONS: MethodToolDefinition[] = [
+  {
+    kind: "powershell",
+    technologyLabels: ["powershell", "teams powershell"],
+    questionPatterns: [/\bpowershell\b/i, /\bcmdlets?\b/i],
+    domains: ["teams_powershell"],
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    label: "PowerShell"
+  },
+  {
+    kind: "graph",
+    technologyLabels: ["microsoft graph", "graph"],
+    questionPatterns: [/\b(?:microsoft\s+)?graph\b/i],
+    domains: ["graph"],
+    authorityRoles: ["graph_api_primary"],
+    label: "Microsoft Graph"
+  },
+  {
+    kind: "teams_admin_center",
+    technologyLabels: ["teams admin center", "admin center"],
+    questionPatterns: [/\bteams\s+admin\s+center\b/i, /\badmin\s+center\b/i],
+    domains: ["teams_admin"],
+    authorityRoles: ["teams_admin_primary"],
+    label: "Teams Admin Center"
+  },
+  {
+    kind: "pnp_powershell",
+    technologyLabels: ["pnp powershell", "pnp"],
+    questionPatterns: [/\bpnp\s*powershell\b/i],
+    domains: ["teams_powershell"],
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    label: "PnP PowerShell"
+  }
+];
+
+function deriveSubjectAliases(
+  canonical: string,
+  question: string,
+  span: string
+): { aliases: string[]; questionSpans: string[] } {
+  const aliases = new Set<string>();
+  const questionSpans = new Set<string>();
+  const canonNorm = normalizeEvidenceText(canonical);
+  if (canonNorm) aliases.add(canonNorm);
+  const spanNorm = normalizeEvidenceText(span);
+  if (spanNorm) {
+    aliases.add(spanNorm);
+    questionSpans.add(span);
+  }
+  const questionNorm = normalizeEvidenceText(question);
+  const canonTokens = tokens(canonical);
+  for (let start = 0; start < canonTokens.length; start += 1) {
+    for (let end = start + 1; end <= canonTokens.length; end += 1) {
+      const slice = canonTokens.slice(start, end).join(" ");
+      if (!slice) continue;
+      if (questionNorm.includes(slice)) {
+        aliases.add(slice);
+        questionSpans.add(slice);
+      }
+    }
+  }
   return {
-    kind,
-    value,
-    terms: distinctiveTerms(value)
+    aliases: [...aliases],
+    questionSpans: [...questionSpans]
   };
 }
 
+function makeSubject(
+  kind: EvidenceAspectSubjectKind,
+  value: string,
+  options: { question?: string; span?: string } = {}
+): EvidenceAspectSubject {
+  const question = options.question ?? value;
+  const span = options.span ?? value;
+  const { aliases, questionSpans } = deriveSubjectAliases(value, question, span);
+  return {
+    kind,
+    value,
+    terms: distinctiveTerms(value),
+    aliases,
+    questionSpans
+  };
+}
+
+/** Shared with R3 via operationMatchesText — null never matches. */
 function operationSupported(text: string, operation: string | null): boolean {
-  if (!operation) return true;
-  const normalized = normalizeEvidenceText(text);
-  const aliases = OPERATION_ALIASES[operation] ?? [operation];
-  return aliases.some((alias) => {
-    const normalizedAlias = normalizeEvidenceText(alias);
-    if (normalized.includes(normalizedAlias)) return true;
-    const aliasStem = normalizedAlias.replace(/e$/, "");
-    return tokens(normalized).some(
-      (term) => aliasStem.length >= 4 && term.startsWith(aliasStem)
-    );
-  });
+  return operationMatchesText(text, operation);
+}
+
+function fieldContainsTokenSequence(field: string, phrase: string): boolean {
+  const fieldTokens = tokens(field);
+  const phraseTokens = tokens(phrase);
+  if (phraseTokens.length === 0 || fieldTokens.length < phraseTokens.length) {
+    return false;
+  }
+  for (let index = 0; index <= fieldTokens.length - phraseTokens.length; index += 1) {
+    if (phraseTokens.every((token, offset) => fieldTokens[index + offset] === token)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function fieldContainsSubjectTerms(
@@ -200,11 +278,134 @@ function fieldContainsSubjectTerms(
 ): boolean {
   const normalized = normalizeEvidenceText(field);
   const subjectText = normalizeEvidenceText(subject.value);
-  if (subjectText && normalized.includes(subjectText)) return true;
+  if (subjectText && fieldContainsTokenSequence(normalized, subjectText)) {
+    return true;
+  }
+  for (const alias of subject.aliases) {
+    if (alias && fieldContainsTokenSequence(normalized, alias)) return true;
+  }
   const fieldTerms = new Set(tokens(field));
   return (
     subject.terms.length > 0 &&
     subject.terms.every((term) => fieldTerms.has(term))
+  );
+}
+
+function isMethodToolTechnology(value: string): MethodToolDefinition | null {
+  const normalized = normalizeEvidenceText(value);
+  for (const definition of METHOD_TOOL_DEFINITIONS) {
+    if (definition.technologyLabels.some((label) => label === normalized)) {
+      return definition;
+    }
+  }
+  return null;
+}
+
+function isToolAsSubjectQuestion(intent: QueryIntent, toolLabel: string): boolean {
+  const q = intent.normalizedQuestion;
+  const toolNorm = normalizeEvidenceText(toolLabel);
+  const toolTokens = tokens(toolLabel).filter(
+    (term) => term !== "microsoft" && !GENERIC_SUBJECT_TERMS.has(term)
+  );
+  const mentioned =
+    q.includes(toolNorm) || toolTokens.some((term) => q.includes(term));
+  if (!mentioned) return false;
+  if (/^(?:what|what's)\s+(?:is|are)\b/.test(q)) return true;
+  if (/^what\s+does\b/.test(q)) {
+    const after = q.replace(/^what\s+does\s+/, "");
+    if (
+      after.startsWith(toolNorm) ||
+      toolTokens.some((term) => after.startsWith(term))
+    ) {
+      return true;
+    }
+  }
+  if (/\b(?:overview|introduction)\b/.test(q) && toolTokens.some((t) => q.includes(t))) {
+    return true;
+  }
+  return false;
+}
+
+function isProceduralOrConfiguration(intent: QueryIntent): boolean {
+  return (
+    intent.expectedAnswerType === "procedural" ||
+    intent.expectedAnswerType === "configuration"
+  );
+}
+
+function questionFramesToolAsMethod(intent: QueryIntent, toolLabel: string): boolean {
+  if (isToolAsSubjectQuestion(intent, toolLabel)) return false;
+  const q = intent.normalizedQuestion;
+  const toolNorm = normalizeEvidenceText(toolLabel);
+  const toolTokens = tokens(toolLabel).filter(
+    (term) => term !== "microsoft" && term.length >= 3
+  );
+  const mentioned =
+    q.includes(toolNorm) || toolTokens.some((term) => q.includes(term));
+  if (!mentioned) return false;
+  if (isProceduralOrConfiguration(intent)) return true;
+  // Classifier may miss procedural framing; treat using/with/via/in + tool as method.
+  if (
+    /\b(?:using|with|via|through)\b/.test(q) ||
+    /\bin\s+teams\s+admin\s+center\b/.test(q) ||
+    /\bin\s+the\s+admin\s+center\b/.test(q)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export function detectMethodConstraints(intent: QueryIntent): EvidenceMethodConstraint[] {
+  const constraints: EvidenceMethodConstraint[] = [];
+  const seen = new Set<EvidenceMethodConstraintKind>();
+  const question = intent.originalQuestion;
+
+  for (const technology of intent.technologies) {
+    const definition = isMethodToolTechnology(technology);
+    if (!definition) continue;
+    if (!questionFramesToolAsMethod(intent, technology)) continue;
+    if (seen.has(definition.kind)) continue;
+    seen.add(definition.kind);
+    constraints.push({
+      kind: definition.kind,
+      label: definition.label,
+      required: true,
+      domains: [...definition.domains],
+      authorityRoles: [...definition.authorityRoles]
+    });
+  }
+
+  for (const definition of METHOD_TOOL_DEFINITIONS) {
+    if (seen.has(definition.kind)) continue;
+    if (!definition.questionPatterns.some((pattern) => pattern.test(question))) {
+      continue;
+    }
+    if (!questionFramesToolAsMethod(intent, definition.label)) continue;
+    seen.add(definition.kind);
+    constraints.push({
+      kind: definition.kind,
+      label: definition.label,
+      required: true,
+      domains: [...definition.domains],
+      authorityRoles: [...definition.authorityRoles]
+    });
+  }
+
+  return constraints;
+}
+
+function subjectAppearsInClause(
+  clause: string,
+  seed: SubjectSeed,
+  intent: QueryIntent
+): boolean {
+  const { aliases } = deriveSubjectAliases(
+    seed.value,
+    intent.normalizedQuestion,
+    seed.span
+  );
+  return aliases.some(
+    (alias) => alias.length > 0 && fieldContainsTokenSequence(clause, alias)
   );
 }
 
@@ -331,7 +532,6 @@ function clauseBoundOperationsForSeed(
   intent: QueryIntent,
   operations: string[]
 ): string[] {
-  const normalizedSubject = normalizeEvidenceText(seed.value);
   const questionClauses = intent.normalizedQuestion
     .split(/[?;,]|\b(?:and|also|then|while|but)\b/)
     .map((clause) => normalizeEvidenceText(clause))
@@ -339,7 +539,7 @@ function clauseBoundOperationsForSeed(
   return operations.filter((operation) =>
     questionClauses.some(
       (clause) =>
-        clause.includes(normalizedSubject) &&
+        subjectAppearsInClause(clause, seed, intent) &&
         operationSupported(clause, operation)
     )
   );
@@ -477,13 +677,24 @@ function bindCompoundSubjectSeeds(
   return [...cmdlets, ...merged, ...unlocated, ...optional];
 }
 
-function subjectsForSeed(seed: SubjectSeed): EvidenceAspectSubject[] {
+function subjectsForSeed(
+  seed: SubjectSeed,
+  intent: QueryIntent
+): EvidenceAspectSubject[] {
   if (seed.components && seed.components.length > 0) {
     return seed.components.map((component) =>
-      makeSubject(component.kind, component.value)
+      makeSubject(component.kind, component.value, {
+        question: intent.normalizedQuestion,
+        span: component.span
+      })
     );
   }
-  return [makeSubject(seed.kind, seed.value)];
+  return [
+    makeSubject(seed.kind, seed.value, {
+      question: intent.normalizedQuestion,
+      span: seed.span
+    })
+  ];
 }
 
 function fallbackSubject(intent: QueryIntent): string {
@@ -502,7 +713,8 @@ function authorityFor(
   answerObject: EvidenceAspectAnswerObject,
   intent: QueryIntent,
   requireCanonicalIdentity: boolean,
-  identityType: EvidenceAspectAuthorityRequirement["identityType"]
+  identityType: EvidenceAspectAuthorityRequirement["identityType"],
+  methodConstraints: EvidenceMethodConstraint[] = []
 ): EvidenceAspectAuthorityRequirement {
   if (
     answerObject === "cmdlet_identifier" ||
@@ -515,11 +727,32 @@ function authorityFor(
       identityType
     };
   }
-  const domains = [...intent.domains] as SourceDomain[];
-  const roles = domains.flatMap((domain) => domainAuthorityRoles(domain));
+  const domains = new Set<SourceDomain>([...intent.domains] as SourceDomain[]);
+  const roles = new Set<SourceAuthorityRole>();
+  for (const domain of domains) {
+    for (const role of domainAuthorityRoles(domain)) roles.add(role);
+  }
+  // Complementary admin + tool authority on one aspect when a method is requested.
+  for (const constraint of methodConstraints) {
+    for (const domain of constraint.domains) domains.add(domain);
+    for (const role of constraint.authorityRoles) roles.add(role);
+  }
+  if (
+    (answerObject === "procedure" || answerObject === "configuration_behavior") &&
+    (intent.domains.includes("teams_admin") ||
+      intent.products.some((product) =>
+        normalizeEvidenceText(product).includes("teams")
+      ) ||
+      intent.technologies.some((technology) =>
+        normalizeEvidenceText(technology).includes("teams")
+      ))
+  ) {
+    domains.add("teams_admin");
+    for (const role of domainAuthorityRoles("teams_admin")) roles.add(role);
+  }
   return {
-    requiredRoles: [...new Set(roles)],
-    requiredDomains: domains,
+    requiredRoles: [...roles],
+    requiredDomains: [...domains],
     requireCanonicalIdentity,
     identityType
   };
@@ -554,7 +787,10 @@ function breadthAndFacets(params: {
   if (params.answerObject === "procedure") {
     return {
       breadth: "bounded",
-      requiredFacets: ["procedure", "operation"]
+      // Null operation must not require an unplannable/vacuous operation facet.
+      requiredFacets: params.operation
+        ? ["procedure", "operation"]
+        : ["procedure"]
     };
   }
   if (
@@ -584,6 +820,7 @@ export function deriveEvidenceAspects(
   result: HybridRetrievalResult
 ): EvidenceAspect[] {
   const intent = result.intent;
+  const methodConstraints = detectMethodConstraints(intent);
   const directives = result.scope.exactMatchDirectives.filter(
     (directive) => directive.required
   );
@@ -642,6 +879,11 @@ export function deriveEvidenceAspects(
 
   const hasMandatorySubject = seeds.some((seed) => seed.requirement === "mandatory");
   for (const technology of intent.technologies) {
+    const methodTool = isMethodToolTechnology(technology);
+    if (methodTool && questionFramesToolAsMethod(intent, technology)) {
+      // Method/tool constraint — not an independent mandatory aspect.
+      continue;
+    }
     if (
       hasMandatorySubject &&
       tokens(technology).every((term) => GENERIC_SUBJECT_TERMS.has(term))
@@ -657,6 +899,10 @@ export function deriveEvidenceAspects(
     });
   }
   for (const product of intent.products) {
+    const methodTool = isMethodToolTechnology(product);
+    if (methodTool && questionFramesToolAsMethod(intent, product)) {
+      continue;
+    }
     if (
       hasMandatorySubject &&
       tokens(product).every((term) => GENERIC_SUBJECT_TERMS.has(term))
@@ -711,7 +957,12 @@ export function deriveEvidenceAspects(
   // not collapsed into a single compound noun-phrase aspect.
   const mandatorySubjects = uniqueSeeds
     .filter((seed) => seed.requirement === "mandatory")
-    .map((seed) => makeSubject(seed.kind, seed.value));
+    .map((seed) =>
+      makeSubject(seed.kind, seed.value, {
+        question: intent.normalizedQuestion,
+        span: seed.span
+      })
+    );
   const relationship = detectRelationship(intent, mandatorySubjects);
   if (!relationship) {
     uniqueSeeds = bindCompoundSubjectSeeds(uniqueSeeds, intent);
@@ -723,6 +974,7 @@ export function deriveEvidenceAspects(
         .filter(Boolean)
     )
   ];
+  const aspectMethodConstraints = methodConstraints;
 
   if (implicitCmdlet) {
     const primarySubject =
@@ -745,9 +997,20 @@ export function deriveEvidenceAspects(
             primarySubject?.value ?? fallbackSubject(intent)
           ),
           subjects: primarySubject
-            ? [makeSubject(primarySubject.kind, primarySubject.value)]
-            : [makeSubject("unresolved", fallbackSubject(intent))],
+            ? [
+                makeSubject(primarySubject.kind, primarySubject.value, {
+                  question: intent.normalizedQuestion,
+                  span: primarySubject.span
+                })
+              ]
+            : [
+                makeSubject("unresolved", fallbackSubject(intent), {
+                  question: intent.normalizedQuestion,
+                  span: intent.originalQuestion
+                })
+              ],
           operation: null,
+          methodConstraints: aspectMethodConstraints,
           answerObject: "cmdlet_identifier",
           relationship: null,
           breadth: "narrow",
@@ -756,7 +1019,8 @@ export function deriveEvidenceAspects(
             "cmdlet_identifier",
             intent,
             true,
-            "cmdlet"
+            "cmdlet",
+            aspectMethodConstraints
           ),
           minimumSupportStrength: "direct",
           supportType: "cmdlet_semantics",
@@ -769,7 +1033,10 @@ export function deriveEvidenceAspects(
         }
       ];
     }
-    const subject = makeSubject(primarySubject.kind, primarySubject.value);
+    const subject = makeSubject(primarySubject.kind, primarySubject.value, {
+      question: intent.normalizedQuestion,
+      span: primarySubject.span
+    });
     const { breadth, requiredFacets } = breadthAndFacets({
       answerObject: "cmdlet_identifier",
       intent,
@@ -788,6 +1055,7 @@ export function deriveEvidenceAspects(
         subjectTerms: subject.terms,
         subjects: [subject],
         operation,
+        methodConstraints: aspectMethodConstraints,
         answerObject: "cmdlet_identifier",
         relationship: null,
         breadth,
@@ -796,7 +1064,8 @@ export function deriveEvidenceAspects(
           "cmdlet_identifier",
           intent,
           true,
-          "cmdlet"
+          "cmdlet",
+          aspectMethodConstraints
         ),
         minimumSupportStrength: "direct",
         supportType: "cmdlet_semantics",
@@ -840,11 +1109,18 @@ export function deriveEvidenceAspects(
           (participant) => participant.subject
         ),
         operation: null,
+        methodConstraints: aspectMethodConstraints,
         answerObject: "relationship",
         relationship,
         breadth,
         requiredFacets,
-        authorityRequirement: authorityFor("relationship", intent, false, null),
+        authorityRequirement: authorityFor(
+          "relationship",
+          intent,
+          false,
+          null,
+          aspectMethodConstraints
+        ),
         minimumSupportStrength: "direct",
         supportType: supportTypeForAnswerObject("relationship"),
         canonicalIdentifier: null,
@@ -860,7 +1136,10 @@ export function deriveEvidenceAspects(
     for (const seed of uniqueSeeds.filter(
       (item) => item.requirement === "optional"
     )) {
-      const subject = makeSubject(seed.kind, seed.value);
+      const subject = makeSubject(seed.kind, seed.value, {
+        question: intent.normalizedQuestion,
+        span: seed.span
+      });
       relationshipAspects.push({
         aspectId: ["optional", seed.kind, stableId(seed.value), "general"].join(
           ":"
@@ -870,6 +1149,7 @@ export function deriveEvidenceAspects(
         subjectTerms: subject.terms,
         subjects: [subject],
         operation: null,
+        methodConstraints: [],
         answerObject: "fact",
         relationship: null,
         breadth: "narrow",
@@ -900,11 +1180,10 @@ export function deriveEvidenceAspects(
   const aspects: EvidenceAspect[] = [];
 
   for (const seed of uniqueSeeds) {
-    const normalizedSubject = normalizeEvidenceText(seed.value);
     const clauseBoundOperations = operations.filter((operation) =>
       questionClauses.some(
         (clause) =>
-          clause.includes(normalizedSubject) &&
+          subjectAppearsInClause(clause, seed, intent) &&
           operationSupported(clause, operation)
       )
     );
@@ -937,7 +1216,7 @@ export function deriveEvidenceAspects(
         answerObject = "fact";
       }
 
-      const subjects = subjectsForSeed(seed);
+      const subjects = subjectsForSeed(seed, intent);
       const subjectTerms = [
         ...new Set(subjects.flatMap((subject) => subject.terms))
       ];
@@ -948,6 +1227,8 @@ export function deriveEvidenceAspects(
       });
       const unresolved = seed.kind === "unresolved";
       const compound = Boolean(seed.components && seed.components.length > 1);
+      const seedMethodConstraints =
+        seed.requirement === "mandatory" ? aspectMethodConstraints : [];
       aspects.push({
         aspectId: [
           seed.requirement,
@@ -960,6 +1241,7 @@ export function deriveEvidenceAspects(
         subjectTerms,
         subjects,
         operation,
+        methodConstraints: seedMethodConstraints,
         answerObject,
         relationship: null,
         breadth,
@@ -968,7 +1250,8 @@ export function deriveEvidenceAspects(
           answerObject,
           intent,
           Boolean(seed.canonicalIdentifier),
-          seed.canonicalIdentifier?.type ?? null
+          seed.canonicalIdentifier?.type ?? null,
+          seedMethodConstraints
         ),
         minimumSupportStrength: "direct",
         supportType: supportTypeForAnswerObject(answerObject),
@@ -978,6 +1261,9 @@ export function deriveEvidenceAspects(
             "subject_seed",
             ...(compound ? (["compound_subject_binding"] as const) : []),
             operation ? "clause_bound_operation" : "general_subject",
+            ...(seedMethodConstraints.length > 0
+              ? (["method_constraint_attached"] as const)
+              : []),
             `answer_object:${answerObject}`,
             `breadth:${breadth}`
           ],

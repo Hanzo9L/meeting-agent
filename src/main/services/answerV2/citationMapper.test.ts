@@ -303,7 +303,7 @@ test("valid source-bound span produces a valid Microsoft citation", () => {
       {
         kind: "cmdlet",
         value: "Set-CsPolicy",
-        terms: ["set-cspolicy"]
+        terms: ["set-cspolicy"], aliases: [String("Set-CsPolicy").toLowerCase()], questionSpans: ["Set-CsPolicy"]
       }
     ],
     answerObject: "cmdlet_semantics",
@@ -588,7 +588,7 @@ test("partial answer cites only supported factual ranges", () => {
       {
         kind: "entity",
         value: "guest access",
-        terms: ["guest", "access"]
+        terms: ["guest", "access"], aliases: [String("guest access").toLowerCase()], questionSpans: ["guest access"]
       }
     ]
   });

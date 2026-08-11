@@ -69,10 +69,30 @@ export type EvidenceAspectSubjectKind =
   | "product"
   | "unresolved";
 
+/** Interface/tool constraint attached to a primary administrative aspect. */
+export type EvidenceMethodConstraintKind =
+  | "powershell"
+  | "graph"
+  | "teams_admin_center"
+  | "pnp_powershell";
+
+export interface EvidenceMethodConstraint {
+  kind: EvidenceMethodConstraintKind;
+  label: string;
+  required: boolean;
+  domains: SourceDomain[];
+  authorityRoles: SourceAuthorityRole[];
+}
+
 export interface EvidenceAspectSubject {
   kind: EvidenceAspectSubjectKind;
+  /** Canonical subject label. */
   value: string;
   terms: string[];
+  /** Normalized surface forms / aliases retained from the question. */
+  aliases: string[];
+  /** Exact question spans that justified this subject. */
+  questionSpans: string[];
 }
 
 export interface EvidenceAspectRelationship {
@@ -104,6 +124,8 @@ export interface EvidenceAspect {
   subjectTerms: string[];
   subjects: EvidenceAspectSubject[];
   operation: string | null;
+  /** Requested method/tool/interface constraints (not peer aspects). */
+  methodConstraints: EvidenceMethodConstraint[];
   answerObject: EvidenceAspectAnswerObject;
   relationship: EvidenceAspectRelationship | null;
   breadth: EvidenceAspectBreadth;

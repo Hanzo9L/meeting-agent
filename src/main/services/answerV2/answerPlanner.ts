@@ -7,6 +7,7 @@ import {
   type AnswerPlanState
 } from "./answerPlanIntegrity";
 import { snapshotBinding } from "./groundingDecisionSnapshot";
+import { operationMatchesText } from "./operationMatching";
 import type {
   AnswerPlan,
   AnswerPlanSectionId,
@@ -237,7 +238,10 @@ function sentenceSpans(
     ) {
       continue;
     }
-    const sentencePattern = inCodeBlock
+    // Keep "Step N. ..." / "N. ..." lines intact so the marker is not split away.
+    const stepLine = /^(?:step|phase)\s+\d+[.)]\s+\S+/i.test(trimmedLine)
+      || /^(?:[-*]\s*)?\d+[.)]\s+\S+/.test(trimmedLine);
+    const sentencePattern = inCodeBlock || stepLine
       ? /.+/g
       : /[^.!?]+(?:[.!?]+(?=\s|$)|$)/g;
     let sentenceMatch: RegExpExecArray | null;
@@ -279,12 +283,9 @@ function sentenceSpans(
           span,
           evidence,
           normalized: normalize(text),
-          procedureStep:
-            procedureStepFrom(text) ??
-            procedureStepFrom(
-              evidence.location.headingPath[evidence.location.headingPath.length - 1] ??
-                ""
-            )
+          // Only per-line step markers. Heading labels like "Step 1: ..." must not
+          // stamp every child span as the same procedureStep (breaks order validation).
+          procedureStep: procedureStepFrom(text)
         });
         sentenceIndex += 1;
       }
@@ -340,23 +341,55 @@ function subjectPresent(candidate: SpanCandidate, aspect: EvidenceAspect): boole
       " "
     )} ${candidate.span.text}`
   );
+  const contextTokens = context.split(" ").filter(Boolean);
+  const containsPhrase = (phrase: string): boolean => {
+    const phraseTokens = normalize(phrase).split(" ").filter(Boolean);
+    if (phraseTokens.length === 0 || contextTokens.length < phraseTokens.length) {
+      return false;
+    }
+    for (
+      let index = 0;
+      index <= contextTokens.length - phraseTokens.length;
+      index += 1
+    ) {
+      if (
+        phraseTokens.every(
+          (token, offset) => contextTokens[index + offset] === token
+        )
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
   return aspect.subjects.some((subject) => {
-    const value = normalize(subject.value);
-    if (value && context.includes(value)) return true;
+    if (containsPhrase(subject.value)) return true;
+    for (const alias of subject.aliases ?? []) {
+      if (containsPhrase(alias)) return true;
+    }
     return (
       subject.terms.length > 0 &&
-      subject.terms.every((term) => context.includes(normalize(term)))
+      subject.terms.every((term) => contextTokens.includes(normalize(term)))
     );
   });
 }
 
+/** Shared R2/R3 semantics — null operation never matches. */
 function operationPresent(text: string, operation: string | null): boolean {
-  if (!operation) return false;
-  const normalized = normalize(text);
-  const value = normalize(operation);
-  if (normalized.includes(value)) return true;
-  const stem = value.replace(/(?:ing|ed|es|s)$/, "");
-  return stem.length >= 3 && normalized.includes(stem);
+  return operationMatchesText(text, operation);
+}
+
+function prefersMethodCommandSpan(
+  aspect: EvidenceAspect,
+  text: string
+): boolean {
+  const wantsPowerShell = aspect.methodConstraints.some(
+    (constraint) =>
+      constraint.required &&
+      (constraint.kind === "powershell" || constraint.kind === "pnp_powershell")
+  );
+  if (!wantsPowerShell) return false;
+  return CMDLET_PATTERN.test(text);
 }
 
 function facetScore(
@@ -677,7 +710,10 @@ function deriveProcedureClaims(params: {
           (right.procedureStep ?? Number.MAX_SAFE_INTEGER) ||
         left.span.sourceOrder - right.span.sourceOrder ||
         (left.span.sentenceIndex ?? Number.MAX_SAFE_INTEGER) -
-          (right.span.sentenceIndex ?? Number.MAX_SAFE_INTEGER)
+          (right.span.sentenceIndex ?? Number.MAX_SAFE_INTEGER) ||
+        // Prefer method-satisfying command spans only within the same procedure order.
+        Number(prefersMethodCommandSpan(params.aspect, right.span.text)) -
+          Number(prefersMethodCommandSpan(params.aspect, left.span.text))
     );
   const selected =
     structured.length > 0
