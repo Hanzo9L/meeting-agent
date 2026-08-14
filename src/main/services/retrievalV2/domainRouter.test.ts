@@ -181,6 +181,60 @@ test("candidate budgets remain bounded for all representative queries", () => {
   }
 });
 
+test("unresolved domain survives routing without pretending Teams Admin is authoritative", () => {
+  const result = route(
+    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+  );
+  assert.deepEqual(result.scope.selectedDomains, []);
+  assert.deepEqual(result.scope.eligibleSources, []);
+  assert.ok(!sourceIds(result).includes("ms-teams-admin"));
+  assert.ok(
+    result.scope.routingWarnings.includes(
+      "domain_unresolved_no_authoritative_scope"
+    )
+  );
+  assert.ok(result.scope.routingRationale.includes("domain_unresolved"));
+  assert.ok(
+    result.scope.routingRationale.includes("primary_domain:unresolved")
+  );
+  assert.equal(result.scope.estimatedCandidatePopulation, 0);
+});
+
+test("second unresolved-domain question (Exchange) also produces an empty authoritative scope", () => {
+  const result = route("How do I delegate access to a shared Exchange mailbox?");
+  assert.deepEqual(result.scope.selectedDomains, []);
+  assert.deepEqual(result.scope.eligibleSources, []);
+});
+
+test("Conditional Access regression: genuine Entra detection remains routed with Teams Admin support", () => {
+  const result = route(
+    "How does Conditional Access affect Teams on unmanaged devices?"
+  );
+  assert.equal(result.scope.eligibleSources[0]?.sourceId, "ms-entra-docs");
+  assert.ok(sourceIds(result).includes("ms-teams-admin"));
+  assert.ok(!result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope"));
+});
+
+test("Teams Rooms regression: genuine Teams detection routes to Teams Admin", () => {
+  const result = route("How do I configure a Teams Rooms device account?");
+  assert.equal(result.scope.eligibleSources[0]?.sourceId, "ms-teams-admin");
+  assert.ok(!result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope"));
+});
+
+test("Calling Plans regression: recognized without literal teams keyword", () => {
+  const result = route("How do I assign a Calling Plan phone number to a user?");
+  assert.equal(result.scope.eligibleSources[0]?.sourceId, "ms-teams-admin");
+  assert.ok(!result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope"));
+});
+
+test("service principal questions route to Entra without treating Teams as primary", () => {
+  const result = route("How do I create a service principal?");
+  assert.equal(result.scope.eligibleSources[0]?.sourceId, "ms-entra-docs");
+  assert.ok(result.scope.selectedDomains.includes("entra"));
+  assert.ok(result.scope.focusSubdomains.includes("app_service_principal"));
+  assert.ok(!result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope"));
+});
+
 test("routing output is deterministic and retrieval free", () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = (() => {

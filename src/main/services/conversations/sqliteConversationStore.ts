@@ -20,7 +20,9 @@ import type {
   CreateConversationInput,
   GroundingSnapshotReference,
   LiveAssistCaptureStatus,
+  LiveAssistSessionProfile,
   LiveAssistSessionRecord,
+  MessageCaptureSource,
   MessageCitationRecord,
   SaveContextResolutionInput,
   StartedAnswerRun,
@@ -49,6 +51,7 @@ type MessageRow = {
   role: "user" | "assistant";
   content: string;
   input_origin: "typed" | "pasted" | "live_transcript" | null;
+  capture_source: "system" | "microphone" | null;
   answerability: "answered" | "partial" | "insufficient_evidence" | null;
   grounding_snapshot_id: string | null;
   created_at: string;
@@ -105,6 +108,7 @@ type MessageCitationRow = {
 type LiveAssistSessionRow = {
   live_session_id: string;
   conversation_id: string;
+  profile: "live_assist" | "qa_assist";
   state: "active" | "inactive";
   capture_status: LiveAssistCaptureStatus;
   started_at: string;
@@ -173,6 +177,7 @@ function mapMessage(row: MessageRow): ConversationMessage {
     role: row.role,
     content: row.content,
     inputOrigin: row.input_origin,
+    captureSource: row.capture_source,
     answerability: row.answerability,
     groundingSnapshotId: row.grounding_snapshot_id,
     citations: [],
@@ -205,6 +210,7 @@ function mapLiveAssistSession(
   return {
     id: row.live_session_id,
     conversationId: row.conversation_id,
+    profile: row.profile,
     state: row.state,
     captureStatus: row.capture_status,
     startedAt: row.started_at,
@@ -411,10 +417,11 @@ export class SqliteConversationStore implements ConversationStore {
             role,
             content,
             input_origin,
+            capture_source,
             answerability,
             grounding_snapshot_id,
             created_at
-          ) VALUES (?, ?, ?, 'assistant', ?, NULL, ?, ?, ?)`
+          ) VALUES (?, ?, ?, 'assistant', ?, NULL, NULL, ?, ?, ?)`
         )
         .run(
           messageId,
@@ -562,7 +569,8 @@ export class SqliteConversationStore implements ConversationStore {
   }
 
   startLiveAssistSession(
-    conversationId: string
+    conversationId: string,
+    profile: LiveAssistSessionProfile = "live_assist"
   ): LiveAssistSessionRecord {
     return this.db.transaction(() => {
       this.requireConversation(conversationId);
@@ -579,14 +587,15 @@ export class SqliteConversationStore implements ConversationStore {
           `INSERT INTO live_assist_sessions (
             live_session_id,
             conversation_id,
+            profile,
             state,
             capture_status,
             started_at,
             stopped_at,
             stop_reason
-          ) VALUES (?, ?, 'active', 'starting', ?, NULL, NULL)`
+          ) VALUES (?, ?, ?, 'active', 'starting', ?, NULL, NULL)`
         )
-        .run(id, conversationId, this.now());
+        .run(id, conversationId, profile, this.now());
       return this.requireLiveAssistSession(id);
     }).immediate();
   }
@@ -887,6 +896,7 @@ export class SqliteConversationStore implements ConversationStore {
 
   private insertUserMessage(input: AppendUserMessageInput): ConversationMessage {
     this.requireConversation(input.conversationId);
+    const captureSource = this.resolveCaptureSource(input);
     const timestamp = this.now();
     const messageId = newId("msg");
     const turnIndex = this.nextTurnIndex(input.conversationId);
@@ -899,10 +909,11 @@ export class SqliteConversationStore implements ConversationStore {
           role,
           content,
           input_origin,
+          capture_source,
           answerability,
           grounding_snapshot_id,
           created_at
-        ) VALUES (?, ?, ?, 'user', ?, ?, NULL, NULL, ?)`
+        ) VALUES (?, ?, ?, 'user', ?, ?, ?, NULL, NULL, ?)`
       )
       .run(
         messageId,
@@ -910,10 +921,26 @@ export class SqliteConversationStore implements ConversationStore {
         turnIndex,
         requiredText(input.content, "message content"),
         input.inputOrigin,
+        captureSource,
         timestamp
       );
     this.touchConversation(input.conversationId, timestamp);
     return this.requireMessage(messageId);
+  }
+
+  private resolveCaptureSource(
+    input: AppendUserMessageInput
+  ): MessageCaptureSource | null {
+    const captureSource = input.captureSource ?? null;
+    if (input.inputOrigin !== "live_transcript") {
+      if (captureSource !== null) {
+        throw new Error(
+          "captureSource must not be set for typed or pasted messages"
+        );
+      }
+      return null;
+    }
+    return captureSource;
   }
 
   private insertAnswerRun(input: CreateAnswerRunInput): AnswerRunRecord {

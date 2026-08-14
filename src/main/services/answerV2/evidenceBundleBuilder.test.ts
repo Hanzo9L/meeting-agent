@@ -108,13 +108,16 @@ function makeHybrid(params: {
   policyNames?: string[];
   operationIntents?: string[];
   answerType?: "conceptual" | "procedural" | "troubleshooting" | "configuration" | "comparison" | "reference";
+  products?: string[];
+  technologies?: string[];
+  unresolvedAmbiguity?: string[];
 }): HybridRetrievalResult {
   const intent = {
     originalQuestion: params.question,
     normalizedQuestion: params.question.toLowerCase(),
     domains: params.domains ?? ["teams_admin"],
-    products: ["teams"],
-    technologies: ["teams"],
+    products: params.products ?? ["teams"],
+    technologies: params.technologies ?? ["teams"],
     entities: params.entities ?? [],
     operationIntents: params.operationIntents ?? [],
     commandNames: params.commandNames ?? [],
@@ -123,7 +126,7 @@ function makeHybrid(params: {
     allowsBetaSources: params.allowsBeta ?? false,
     expectedAnswerType: params.answerType ?? "conceptual",
     retrievalHints: [],
-    unresolvedAmbiguity: []
+    unresolvedAmbiguity: params.unresolvedAmbiguity ?? []
   };
   return {
     intent,
@@ -1219,6 +1222,105 @@ test("Conditional Access without direct relational evidence is insufficient", ()
   assert.equal(mandatory[0]?.answerObject, "relationship");
   assert.equal(bundle.answerability, "insufficient_evidence");
   assert.equal(bundle.evidence.length, 0);
+});
+
+test("unresolved fallback aspect cannot achieve direct support from an off-topic authoritative-source candidate", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question:
+        "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+      domains: [],
+      products: [],
+      technologies: [],
+      entities: [],
+      unresolvedAmbiguity: ["domain_unresolved", "no_explicit_entity"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Guest access in Microsoft Teams",
+          text: "Guest access lets external users join Teams and can also touch SharePoint sites shared with a team.",
+          headingPath: ["Guest access", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/guest-access"
+        })
+      ]
+    })
+  ).bundle;
+  const mandatory = bundle.aspectCoverage.aspects.filter(
+    (aspect) => aspect.requirement === "mandatory"
+  );
+  assert.equal(mandatory.length, 1);
+  assert.equal(mandatory[0]?.derivation.unresolved, true);
+  assert.deepEqual(mandatory[0]?.authorityRequirement.requiredDomains, []);
+  const supports =
+    bundle.aspectCoverage.supportByAspect[mandatory[0]?.aspectId ?? ""] ?? [];
+  assert.ok(supports.length > 0);
+  assert.ok(supports.every((support) => support.strength !== "direct"));
+  assert.equal(bundle.evidence.length, 0);
+  assert.equal(bundle.answerability, "insufficient_evidence");
+});
+
+test("incidental single-token match cannot make an unresolved aspect answered", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do I delegate access to a shared Exchange mailbox?",
+      domains: [],
+      products: [],
+      technologies: [],
+      entities: [],
+      unresolvedAmbiguity: ["domain_unresolved", "no_explicit_entity"],
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Shared channels errors in Microsoft Teams",
+          text: "This article lists shared channel error codes and how to resolve them for Teams users.",
+          headingPath: ["Shared channels errors", "Overview"],
+          url: "https://learn.microsoft.com/en-us/microsoftteams/shared-channels-errors"
+        })
+      ]
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  assert.equal(bundle.evidence.length, 0);
+  assert.equal(bundle.aspectCoverage.supportedMandatoryAspectIds.length, 0);
+});
+
+test("SharePoint/Copilot security diagnostic case fails closed without corpus expansion", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question:
+        "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+      domains: [],
+      products: [],
+      technologies: [],
+      entities: [],
+      unresolvedAmbiguity: ["domain_unresolved", "no_explicit_entity"],
+      candidates: []
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  assert.equal(bundle.evidence.length, 0);
+  assert.equal(bundle.aspectCoverage.aspects[0]?.derivation.unresolved, true);
+});
+
+test("Exchange mailbox delegation diagnostic case fails closed without corpus expansion", () => {
+  const bundle = buildEvidenceBundle(
+    makeHybrid({
+      question: "How do I delegate access to a shared Exchange mailbox?",
+      domains: [],
+      products: [],
+      technologies: [],
+      entities: [],
+      unresolvedAmbiguity: ["domain_unresolved", "no_explicit_entity"],
+      candidates: []
+    })
+  ).bundle;
+  assert.equal(bundle.answerability, "insufficient_evidence");
+  assert.equal(bundle.evidence.length, 0);
+  assert.equal(bundle.aspectCoverage.aspects[0]?.derivation.unresolved, true);
 });
 
 test("compound binding does not introduce scenario-specific product hardcoding", () => {

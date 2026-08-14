@@ -13,6 +13,15 @@ test("loads and validates the seed dataset schema", async () => {
   assert.ok(ids.includes("Q-001"), "vertical-slice question ID should exist");
 });
 
+test("loads and validates the Entra K1 evaluation set", async () => {
+  const dataset = await loadEvaluationDataset("eval/datasets/entra-qa-k1.jsonl");
+  assert.equal(dataset.length, 7);
+  assert.equal(dataset[0]?.expectedDomain, "entra");
+  assert.equal(dataset[5]?.expectedDomain, "unknown");
+  assert.equal(dataset[6]?.expectedDomain, "teams_admin");
+  assert.ok(dataset[5]?.evaluationNotes.includes("insufficient_evidence"));
+});
+
 test("rejects duplicate question IDs", async () => {
   const dir = await mkdtemp(join(tmpdir(), "meeting-agent-eval-"));
   const filePath = join(dir, "dup.jsonl");

@@ -83,7 +83,16 @@ function hasDeveloperSignals(intent: QueryIntent): boolean {
   );
 }
 
-function inferPrimaryDomain(intent: QueryIntent): SourceDomain {
+/**
+ * Returns the genuinely detected primary domain, or null when no domain
+ * signal was resolved from the question. Unlike earlier behavior, this
+ * function must never guess "teams_admin" as an arbitrary default -- an
+ * unresolved domain must stay unresolved through routing (see
+ * shouldIncludeSource / buildSourceRouteScopes) so an unmodeled subject
+ * (e.g. SharePoint, Copilot, Exchange) cannot be silently treated as a
+ * Teams Admin question.
+ */
+function inferPrimaryDomain(intent: QueryIntent): SourceDomain | null {
   if (intent.commandNames && intent.commandNames.length > 0) {
     return "teams_powershell";
   }
@@ -99,11 +108,20 @@ function inferPrimaryDomain(intent: QueryIntent): SourceDomain {
   if (hasDeveloperSignals(intent)) {
     return "teams_dev";
   }
-  return "teams_admin";
+  if (intent.domains.includes("teams_admin")) {
+    return "teams_admin";
+  }
+  if (intent.domains.includes("m365")) {
+    return "m365";
+  }
+  return null;
 }
 
-function buildSelectedDomains(intent: QueryIntent, primary: SourceDomain): SourceDomain[] {
-  const ordered: SourceDomain[] = [primary];
+function buildSelectedDomains(
+  intent: QueryIntent,
+  primary: SourceDomain | null
+): SourceDomain[] {
+  const ordered: SourceDomain[] = primary ? [primary] : [];
   for (const domain of intent.domains) {
     if (!ordered.includes(domain as SourceDomain)) {
       ordered.push(domain as SourceDomain);
@@ -146,6 +164,9 @@ function buildFocusSubdomains(intent: QueryIntent): string[] {
   if (entitySet.has("conditional access")) {
     subdomains.add("conditional_access");
     subdomains.add("device_access");
+  }
+  if (entitySet.has("service principal") || entitySet.has("app registration")) {
+    subdomains.add("app_service_principal");
   }
   if (entitySet.has("meeting policy") || entitySet.has("meeting policies")) {
     subdomains.add("meeting_policy");
@@ -264,6 +285,10 @@ function estimateCandidatePopulation(params: {
   exactMatchDirectives: ExactMatchDirective[];
   scopeMode: ScopeMode;
 }): number {
+  if (params.selectedDomains.length === 0) {
+    // Unresolved domain: fail-closed scope, no authoritative region to scan.
+    return 0;
+  }
   if (params.exactMatchDirectives.some((directive) => directive.type === "cmdlet")) {
     return 1200;
   }
@@ -298,9 +323,17 @@ function budgetForMode(mode: ScopeMode): BudgetProfile {
   return "narrow";
 }
 
-function buildRationale(intent: QueryIntent, primaryDomain: SourceDomain): string[] {
+function buildRationale(
+  intent: QueryIntent,
+  primaryDomain: SourceDomain | null
+): string[] {
   const rationale = new Set<string>();
-  rationale.add(`primary_domain:${primaryDomain}`);
+  rationale.add(
+    primaryDomain ? `primary_domain:${primaryDomain}` : "primary_domain:unresolved"
+  );
+  if (!primaryDomain) {
+    rationale.add("domain_unresolved");
+  }
   rationale.add(`answer_type:${intent.expectedAnswerType}`);
   if (intent.commandNames && intent.commandNames.length > 0) {
     rationale.add("exact_cmdlet_detected");
@@ -370,7 +403,7 @@ function shouldIncludeSource(params: {
 
 function buildSourceRouteScopes(params: {
   selectedDomains: SourceDomain[];
-  primaryDomain: SourceDomain;
+  primaryDomain: SourceDomain | null;
   intent: QueryIntent;
   allowsBetaSources: boolean;
   focusSubdomains: string[];
@@ -388,9 +421,11 @@ function buildSourceRouteScopes(params: {
       getSourcePriorityChainForDomain(domain).map((source) => source.id)
     )
   );
-  const primaryChain = getSourcePriorityChainForDomain(params.primaryDomain).map(
-    (source) => source.id
-  );
+  const primaryChain = params.primaryDomain
+    ? getSourcePriorityChainForDomain(params.primaryDomain).map(
+        (source) => source.id
+      )
+    : [];
 
   const eligibleSources: SourceRouteScope[] = [];
   const excludedSources: Array<{ sourceId: string; reason: string }> = [];
@@ -509,6 +544,11 @@ export function routeQueryIntent(intent: QueryIntent): DomainRouteResult {
   }
   if (scopeMode === "broad_due_to_ambiguity") {
     warnings.push("scope_broadened_due_to_unresolved_ambiguity");
+  }
+  if (selectedDomains.length === 0) {
+    // Fail-closed: no genuinely resolved domain, so no source is treated as
+    // authoritative and no candidates are retrieved for this question.
+    warnings.push("domain_unresolved_no_authoritative_scope");
   }
 
   const strategy = {

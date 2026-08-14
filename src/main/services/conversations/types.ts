@@ -4,6 +4,14 @@ export type PersistedAnswerability =
   | "answered"
   | "partial"
   | "insufficient_evidence";
+/** The capture source that actually produced an accepted live-transcript question. */
+export type MessageCaptureSource = "system" | "microphone";
+/**
+ * "live_assist" is the existing configurable microphone/system/both profile.
+ * "qa_assist" forces system-only capture and excludes the microphone by
+ * construction (see PipelineManager.start / LiveAssistService).
+ */
+export type LiveAssistSessionProfile = "live_assist" | "qa_assist";
 
 export type AnswerRunState =
   | "received"
@@ -32,6 +40,12 @@ export interface ConversationMessage {
   role: ConversationMessageRole;
   content: string;
   inputOrigin: ConversationInputOrigin | null;
+  /**
+   * The capture source that actually produced this message when
+   * inputOrigin is "live_transcript"; null otherwise. Never inferred from
+   * session/settings state after the fact.
+   */
+  captureSource: MessageCaptureSource | null;
   answerability: PersistedAnswerability | null;
   groundingSnapshotId: string | null;
   citations: MessageCitationRecord[];
@@ -74,6 +88,7 @@ export type LiveAssistCaptureStatus =
 export interface LiveAssistSessionRecord {
   id: string;
   conversationId: string;
+  profile: LiveAssistSessionProfile;
   state: "active" | "inactive";
   captureStatus: LiveAssistCaptureStatus;
   startedAt: string;
@@ -112,6 +127,12 @@ export interface AppendUserMessageInput {
   conversationId: string;
   content: string;
   inputOrigin: ConversationInputOrigin;
+  /**
+   * Required (and must be "system" or "microphone") when inputOrigin is
+   * "live_transcript"; must be omitted/null otherwise. Not inferred from
+   * settings — pass exactly what produced the accepted utterance.
+   */
+  captureSource?: MessageCaptureSource | null;
 }
 
 export interface CreateAnswerRunInput {
@@ -172,7 +193,8 @@ export interface ConversationStore {
     citationId: string
   ): MessageCitationRecord | null;
   startLiveAssistSession(
-    conversationId: string
+    conversationId: string,
+    profile?: LiveAssistSessionProfile
   ): LiveAssistSessionRecord;
   getActiveLiveAssistSession(): LiveAssistSessionRecord | null;
   getLiveAssistSession(

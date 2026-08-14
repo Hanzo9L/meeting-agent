@@ -224,14 +224,15 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
         "authentication",
         "authorization",
         "guest_identity",
-        "device_identity"
+        "device_identity",
+        "app_service_principal"
       ],
       audiences: ["administrator", "security", "it_pro"],
       sourceType: "documentation",
       authorityTier: "tier1",
       authorityRoles: ["entra_identity_primary"],
       defaultRetrievalEligible: true,
-      synchronizationEnabled: false,
+      synchronizationEnabled: true,
       acquisition: {
         transport: "github",
         owner: "MicrosoftDocs",
@@ -244,12 +245,27 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
         {
           id: "ga",
           status: "ga",
-          includeGlobs: ["docs/**/*.md"],
-          excludeGlobs: ["**/archive/**", "**/media/**"],
+          includeGlobs: [
+            "docs/identity/conditional-access/**/*.md",
+            "docs/identity/authentication/**/*.md",
+            "docs/identity/role-based-access-control/**/*.md",
+            "docs/identity/devices/**/*.md",
+            "docs/identity-platform/**/*.md"
+          ],
+          excludeGlobs: ["**/archive/**", "**/media/**", "**/includes/**"],
           defaultRetrievalEligible: true,
-          synchronizationEnabled: false
+          synchronizationEnabled: true
         }
-      ]
+      ],
+      learnMapping: {
+        productAreas: ["entra"],
+        preferredLocale: "en-us",
+        githubCanonicalUrl: {
+          learnBaseUrl: "https://learn.microsoft.com/entra",
+          repoPathPrefix: "docs/",
+          expectedPathPattern: "^/entra/"
+        }
+      }
     },
     {
       id: SOURCE_IDS.m365,
@@ -317,7 +333,12 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
       ],
       learnMapping: {
         productAreas: ["microsoftteams"],
-        preferredLocale: "en-us"
+        preferredLocale: "en-us",
+        githubCanonicalUrl: {
+          learnBaseUrl: "https://learn.microsoft.com/en-us/microsoftteams/platform",
+          repoPathPrefix: "msteams-platform/",
+          expectedPathPattern: "^/en-us/microsoftteams/platform/"
+        }
       }
     }
   ]

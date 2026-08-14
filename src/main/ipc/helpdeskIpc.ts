@@ -38,6 +38,9 @@ export interface RegisterHelpdeskIpcOptions {
   startLiveAssist(
     conversationId: string
   ): LiveAssistSessionView;
+  startQaAssist(
+    conversationId: string
+  ): LiveAssistSessionView;
   stopLiveAssist(): Promise<LiveAssistSessionView | null>;
   getRelaySettings(): RelaySettingsSnapshot;
   updateRelaySettings(
@@ -317,6 +320,19 @@ export function registerHelpdeskIpcHandlers(
     IPC_CHANNELS.helpdeskStartLiveAssist,
     secureHandler(options, (rawConversationId) =>
       options.startLiveAssist(
+        requiredString(
+          rawConversationId,
+          "Conversation ID",
+          200
+        )
+      )
+    )
+  );
+
+  options.registrar.handle(
+    IPC_CHANNELS.helpdeskStartQaAssist,
+    secureHandler(options, (rawConversationId) =>
+      options.startQaAssist(
         requiredString(
           rawConversationId,
           "Conversation ID",

@@ -95,6 +95,56 @@ test("implicit cmdlet intent captures operation intent", () => {
   assert.ok(result.intent.retrievalHints.includes("operation:grant"));
 });
 
+test("no domain detected does not default to teams_admin", () => {
+  const result = extractQueryIntent(
+    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+  );
+  assert.ok(!result.intent.domains.includes("teams_admin"));
+  assert.deepEqual(result.intent.domains, []);
+  assert.ok(result.intent.unresolvedAmbiguity.includes("domain_unresolved"));
+});
+
+test("second unmodeled subject also stays unresolved rather than defaulting", () => {
+  const result = extractQueryIntent(
+    "How do I delegate access to a shared Exchange mailbox?"
+  );
+  assert.deepEqual(result.intent.domains, []);
+  assert.ok(result.intent.unresolvedAmbiguity.includes("domain_unresolved"));
+});
+
+test("genuine Teams detection still yields teams_admin normally", () => {
+  const result = extractQueryIntent(
+    "How do I configure a Teams Rooms device account?"
+  );
+  assert.ok(result.intent.domains.includes("teams_admin"));
+  assert.ok(!result.intent.unresolvedAmbiguity.includes("domain_unresolved"));
+});
+
+test("Calling Plans phrasing without the literal word teams is still genuinely detected", () => {
+  const result = extractQueryIntent(
+    "How do I assign a Calling Plan phone number to a user?"
+  );
+  assert.ok(result.intent.domains.includes("teams_admin"));
+  assert.ok(!result.intent.unresolvedAmbiguity.includes("domain_unresolved"));
+});
+
+test("service principal and app registration are Entra signals without adding a new domain", () => {
+  const servicePrincipal = extractQueryIntent("How do I create a service principal?");
+  assert.ok(servicePrincipal.intent.domains.includes("entra"));
+  assert.ok(servicePrincipal.intent.entities.includes("service principal"));
+  assert.ok(servicePrincipal.intent.products.includes("Microsoft Entra"));
+  assert.ok(!servicePrincipal.intent.unresolvedAmbiguity.includes("domain_unresolved"));
+
+  const appRegistration = extractQueryIntent("How do I create an app registration?");
+  assert.ok(appRegistration.intent.domains.includes("entra"));
+  assert.ok(appRegistration.intent.entities.includes("app registration"));
+
+  const stillUnresolved = extractQueryIntent(
+    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+  );
+  assert.deepEqual(stillUnresolved.intent.domains, []);
+});
+
 test("repeatability and no network dependency", () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = (() => {

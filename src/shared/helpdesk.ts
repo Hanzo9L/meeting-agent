@@ -1,5 +1,6 @@
 import type {
   AudioChunkPayload,
+  CaptureSourceTag,
   CaptureStartConfig,
   LiveAssistCaptureCommand,
   LiveAssistSessionView,
@@ -42,6 +43,13 @@ export interface HelpdeskMessage {
   role: "user" | "assistant";
   content: string;
   inputOrigin: HelpdeskInputOrigin | null;
+  /**
+   * The capture source that actually produced this accepted question, when
+   * inputOrigin is "live_transcript". Always null for typed/pasted/assistant
+   * messages. Never inferred from session settings; persisted exactly as
+   * produced by the ingestion boundary.
+   */
+  captureSource: CaptureSourceTag | null;
   answerability: HelpdeskAnswerability | null;
   groundingSnapshotId: string | null;
   citations: HelpdeskCitation[];
@@ -137,6 +145,13 @@ export interface HelpdeskApi {
     HelpdeskResult<LiveAssistSessionView | null>
   >;
   startLiveAssist(
+    conversationId: string
+  ): Promise<HelpdeskResult<LiveAssistSessionView>>;
+  /**
+   * Starts a system-audio-only QA Assist session: forces capture mode to
+   * "system", so no microphone provider or MediaStream is ever created.
+   */
+  startQaAssist(
     conversationId: string
   ): Promise<HelpdeskResult<LiveAssistSessionView>>;
   stopLiveAssist(): Promise<

@@ -6,6 +6,7 @@ import type {
   SubmitHelpdeskMessageInput,
   SubmitHelpdeskMessageResult
 } from "@shared/helpdesk";
+import type { CaptureSourceTag } from "@shared/types";
 import type { AnswerExecutionPort } from "./answerExecutionPort";
 import type {
   AnswerRunRecord,
@@ -42,6 +43,7 @@ function toMessage(record: ConversationMessage): HelpdeskMessage {
     role: record.role,
     content: record.content,
     inputOrigin: record.inputOrigin,
+    captureSource: record.captureSource,
     answerability: record.answerability,
     groundingSnapshotId: record.groundingSnapshotId,
     citations: record.citations.map((citation) => ({
@@ -177,10 +179,13 @@ export class HelpdeskService {
   async submitLiveQuestion(input: {
     conversationId: string;
     content: string;
+    captureSource?: CaptureSourceTag;
   }): Promise<SubmitHelpdeskMessageResult> {
     return this.submitTurn({
-      ...input,
-      inputOrigin: "live_transcript"
+      conversationId: input.conversationId,
+      content: input.content,
+      inputOrigin: "live_transcript",
+      captureSource: input.captureSource ?? "microphone"
     });
   }
 
@@ -188,6 +193,7 @@ export class HelpdeskService {
     conversationId: string;
     content: string;
     inputOrigin: "typed" | "pasted" | "live_transcript";
+    captureSource?: CaptureSourceTag;
   }): Promise<SubmitHelpdeskMessageResult> {
     const content = input.content.trim();
     if (!content) {
@@ -197,7 +203,11 @@ export class HelpdeskService {
     const started = this.store.appendUserMessageAndCreateAnswerRun({
       conversationId: input.conversationId,
       content,
-      inputOrigin: input.inputOrigin
+      inputOrigin: input.inputOrigin,
+      captureSource:
+        input.inputOrigin === "live_transcript"
+          ? input.captureSource ?? null
+          : null
     });
     return this.enqueueExecution(
       input.conversationId,

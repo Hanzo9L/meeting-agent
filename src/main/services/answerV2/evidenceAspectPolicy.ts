@@ -1560,10 +1560,15 @@ function authoritySatisfied(
     aspect.authorityRequirement.requiredRoles.length === 0 ||
     aspect.authorityRequirement.requiredRoles.some((role) => roles.has(role));
   const domain = sourceDomainFromSourceId(candidate.authority.sourceId);
+  // An aspect with no required domain has no resolved authoritative subject
+  // (e.g. an unresolved/fallback aspect for an unmodeled question), so it
+  // must never be treated as satisfied by whichever domain retrieval
+  // happened to return. Authority must come from a genuinely resolved
+  // domain requirement, never from the candidate's domain alone.
   const domainOk =
-    aspect.authorityRequirement.requiredDomains.length === 0 ||
-    (domain !== "unknown" &&
-      aspect.authorityRequirement.requiredDomains.includes(domain));
+    aspect.authorityRequirement.requiredDomains.length > 0 &&
+    domain !== "unknown" &&
+    aspect.authorityRequirement.requiredDomains.includes(domain);
   return (
     roleOk &&
     domainOk &&

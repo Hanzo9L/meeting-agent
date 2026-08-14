@@ -173,6 +173,38 @@ test("typed and pasted turns reach the same grounded execution port", async () =
   }
 });
 
+test("live questions persist the actual capture source; typed/pasted never carry one", async () => {
+  const fixture = await makeStore();
+  const service = new HelpdeskService(
+    fixture.store,
+    new RecordingPort(success())
+  );
+  try {
+    const created = service.createConversation("Provenance");
+    await service.submitLiveQuestion({
+      conversationId: created.conversation.id,
+      content: "System-sourced live question",
+      captureSource: "system"
+    });
+    await service.submitMessage({
+      conversationId: created.conversation.id,
+      content: "Typed question",
+      inputOrigin: "typed"
+    });
+    const view = service.loadConversation(created.conversation.id);
+    const userMessages = view.messages.filter(
+      (message) => message.role === "user"
+    );
+    assert.deepEqual(
+      userMessages.map((message) => message.captureSource),
+      ["system", null]
+    );
+  } finally {
+    fixture.store.close();
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
 test("typed and live turns persist immediately and execute in accepted order", async () => {
   const fixture = await makeStore();
   let releaseFirst!: () => void;

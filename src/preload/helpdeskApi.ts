@@ -96,6 +96,12 @@ export function createHelpdeskApi(ipc: HelpdeskIpcInvoker): HelpdeskApi {
         IPC_CHANNELS.helpdeskStartLiveAssist,
         conversationId
       ),
+    startQaAssist: (conversationId: string) =>
+      invokeAs<LiveAssistSessionView>(
+        ipc,
+        IPC_CHANNELS.helpdeskStartQaAssist,
+        conversationId
+      ),
     stopLiveAssist: () =>
       invokeAs<LiveAssistSessionView | null>(
         ipc,

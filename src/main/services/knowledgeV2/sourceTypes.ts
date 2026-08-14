@@ -59,9 +59,26 @@ export interface LearnMcpTransportConfig {
 
 export type AcquisitionConfig = GitHubTransportConfig | LearnMcpTransportConfig;
 
+/**
+ * Deterministic rule for reconstructing a trusted Microsoft Learn canonical URL
+ * from a GitHub-transport source's persisted repository path. Only defined for
+ * sources whose repo-path-to-Learn-URL mapping has been verified against real
+ * Microsoft Learn pages (no version/moniker query strings, no locale ambiguity).
+ */
+export interface GitHubLearnUrlMapping {
+  /** Learn base URL the mapped path is appended to, e.g. "https://learn.microsoft.com/entra". */
+  learnBaseUrl: string;
+  /** Repo-relative prefix stripped from the persisted source path before mapping, e.g. "docs/". */
+  repoPathPrefix: string;
+  /** Regex (source string) the resulting Learn pathname must match, defense-in-depth against misconfiguration. */
+  expectedPathPattern: string;
+}
+
 export interface LearnMapping {
   productAreas: string[];
   preferredLocale: string;
+  /** Present only when this source's GitHub path structure has a verified 1:1 Learn URL mapping. */
+  githubCanonicalUrl?: GitHubLearnUrlMapping;
 }
 
 export interface SourceNormalizationHints {

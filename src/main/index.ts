@@ -142,13 +142,13 @@ function createPipeline(): PipelineManager {
       new DeepgramSttProvider(
         settingsStore.getProviderCredential("deepgram")
       ),
-    onAcceptedQuestion: async (question) => {
+    onAcceptedQuestion: async (question, source) => {
       if (!liveAssistService) {
         throw new Error(
           "Live Assist session service is unavailable."
         );
       }
-      await liveAssistService.acceptQuestion(question);
+      await liveAssistService.acceptQuestion(question, source);
     },
     sendStatus,
     sendTranscript,
@@ -159,6 +159,55 @@ function createPipeline(): PipelineManager {
       );
     }
   });
+}
+
+/**
+ * QA Assist always forces system-only capture, regardless of the user's
+ * configured Relay settings capture mode. Normal Live Assist continues to
+ * use the configured microphone/system/both mode. Main dictates this to
+ * the renderer via the capture-start command rather than letting the
+ * renderer infer it from settings.
+ */
+function sourceModeForProfile(
+  profile: "live_assist" | "qa_assist"
+): "system" | "microphone" | "both" {
+  return profile === "qa_assist"
+    ? "system"
+    : settingsStore.getRelaySettings().speech.captureSourceMode;
+}
+
+function startLiveAssistSession(
+  conversationId: string,
+  profile: "live_assist" | "qa_assist"
+): LiveAssistSessionView {
+  if (!liveAssistService) {
+    throw new HelpdeskServiceError(
+      "operation_failed",
+      "Live Assist service is unavailable."
+    );
+  }
+  if (
+    settingsStore.getProviderStatus("deepgram").state !==
+    "configured"
+  ) {
+    throw new HelpdeskServiceError(
+      "invalid_request",
+      "Configure Deepgram STT in Relay Settings before starting Live Assist."
+    );
+  }
+  const session = liveAssistService.start(conversationId, profile);
+  helpdeskWindow?.webContents.send(
+    IPC_CHANNELS.liveAssistCaptureCommand,
+    {
+      action: "start",
+      sessionId: session.id,
+      sourceMode: sourceModeForProfile(profile)
+    }
+  );
+  if (settingsStore.getRelaySettings().overlay.autoShow) {
+    void showOverlay();
+  }
+  return session;
 }
 
 function loadHelpdeskWindow(): void {
@@ -319,6 +368,16 @@ function registerRuntimeIpcHandlers(): void {
           "Capture does not match the active Live Assist session."
         );
       }
+      if (
+        activeSession.profile === "qa_assist" &&
+        config.sources.includes("microphone")
+      ) {
+        // Defense-in-depth: QA Assist must never instantiate a
+        // microphone provider, even if a client requested it.
+        throw new Error(
+          "QA Assist sessions must not request microphone capture."
+        );
+      }
       audioChunkCount = 0;
       pipelineManager ??= createPipeline();
       try {
@@ -399,6 +458,14 @@ function registerRuntimeIpcHandlers(): void {
       ) {
         return;
       }
+      if (
+        activeSession.profile === "qa_assist" &&
+        payload.source === "microphone"
+      ) {
+        // Defense-in-depth: drop any microphone audio that reaches the
+        // ingestion boundary during a QA Assist session.
+        return;
+      }
       const audioBuffer: unknown = payload.buffer;
       let chunk: Int16Array | null = null;
       if (audioBuffer instanceof ArrayBuffer) {
@@ -446,32 +513,10 @@ function registerHelpdeskHandlers(): void {
     },
     getLiveAssistSession: () =>
       liveAssistService?.getActiveSession() ?? null,
-    startLiveAssist: (conversationId) => {
-      if (!liveAssistService) {
-        throw new HelpdeskServiceError(
-          "operation_failed",
-          "Live Assist service is unavailable."
-        );
-      }
-      if (
-        settingsStore.getProviderStatus("deepgram").state !==
-        "configured"
-      ) {
-        throw new HelpdeskServiceError(
-          "invalid_request",
-          "Configure Deepgram STT in Relay Settings before starting Live Assist."
-        );
-      }
-      const session = liveAssistService.start(conversationId);
-      helpdeskWindow?.webContents.send(
-        IPC_CHANNELS.liveAssistCaptureCommand,
-        { action: "start", sessionId: session.id }
-      );
-      if (settingsStore.getRelaySettings().overlay.autoShow) {
-        void showOverlay();
-      }
-      return session;
-    },
+    startLiveAssist: (conversationId) =>
+      startLiveAssistSession(conversationId, "live_assist"),
+    startQaAssist: (conversationId) =>
+      startLiveAssistSession(conversationId, "qa_assist"),
     stopLiveAssist: async () => {
       const active = liveAssistService?.getActiveSession();
       if (!active) return null;
@@ -531,6 +576,12 @@ async function initializeRelay(): Promise<void> {
         helpdeskWindow?.webContents.send(
           IPC_CHANNELS.helpdeskConversationUpdated,
           conversationId
+        );
+      },
+      microphoneRejected: (event) => {
+        console.info(
+          "[Relay QA Assist] microphone-sourced question rejected",
+          JSON.stringify(event)
         );
       }
     }

@@ -54,6 +54,7 @@ export interface SourceCitation {
   canonicalUrlSource:
     | "persisted_revision"
     | "powershell_document_identity"
+    | "source_registry_learn_mapping"
     | null;
   sourceStatus: EvidenceItem["source"]["sourceStatus"];
   sourceRevision: Record<string, unknown>;
@@ -99,6 +100,7 @@ export interface CanonicalCitationUrlResolution {
   source:
     | "persisted_revision"
     | "powershell_document_identity"
+    | "source_registry_learn_mapping"
     | null;
   failureReason:
     | "canonical_url_missing"

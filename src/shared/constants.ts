@@ -24,6 +24,7 @@ export const IPC_CHANNELS = {
   helpdeskOpenCitation: "helpdesk:open-citation",
   helpdeskGetLiveAssistSession: "helpdesk:live-assist:get",
   helpdeskStartLiveAssist: "helpdesk:live-assist:start",
+  helpdeskStartQaAssist: "helpdesk:live-assist:start-qa",
   helpdeskStopLiveAssist: "helpdesk:live-assist:stop",
   helpdeskConversationUpdated: "helpdesk:conversation-updated",
   liveAssistSessionChanged: "live-assist:session-changed",

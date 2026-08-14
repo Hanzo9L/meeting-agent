@@ -2,6 +2,13 @@ export type ConnectionStatus = "idle" | "capturing" | "transcribing" | "answerin
 export type CaptureSourceMode = "system" | "microphone" | "both";
 export type CaptureSourceTag = "system" | "microphone";
 export type AnswerTriggerMode = "questions_only" | "all_final";
+/**
+ * QA Assist is a system-audio-only Live Assist session profile for
+ * interview/technical-QA/troubleshooting/support use. It forces
+ * `sources = ["system"]` and never instantiates a microphone provider.
+ * "live_assist" is the existing configurable microphone/system/both profile.
+ */
+export type LiveAssistSessionProfile = "live_assist" | "qa_assist";
 
 export interface TranscriptMessage {
   text: string;
@@ -116,6 +123,7 @@ export interface AudioChunkPayload {
 export interface LiveAssistSessionView {
   id: string;
   conversationId: string;
+  profile: LiveAssistSessionProfile;
   state: "active" | "inactive";
   captureStatus:
     | "starting"
@@ -131,6 +139,12 @@ export interface LiveAssistSessionView {
 export interface LiveAssistCaptureCommand {
   action: "start" | "stop";
   sessionId: string;
+  /**
+   * Present only for "start". Main dictates the exact capture mode to use;
+   * for QA Assist this is always forced to "system" regardless of the
+   * user's configured Relay settings capture mode.
+   */
+  sourceMode?: CaptureSourceMode;
 }
 
 export interface LiveAssistProjectionSource {

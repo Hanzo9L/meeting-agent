@@ -48,6 +48,7 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     "showOverlay",
     "startCapture",
     "startLiveAssist",
+    "startQaAssist",
     "stopCapture",
     "stopLiveAssist",
     "submitMessage",
@@ -72,6 +73,7 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
   });
   await api.getLiveAssistSession();
   await api.startLiveAssist("conv-1");
+  await api.startQaAssist("conv-1");
   await api.stopLiveAssist();
 
   assert.deepEqual(calls, [
@@ -111,6 +113,10 @@ test("Helpdesk preload exposes only typed command and query methods", async () =
     },
     {
       channel: IPC_CHANNELS.helpdeskStartLiveAssist,
+      args: ["conv-1"]
+    },
+    {
+      channel: IPC_CHANNELS.helpdeskStartQaAssist,
       args: ["conv-1"]
     },
     {

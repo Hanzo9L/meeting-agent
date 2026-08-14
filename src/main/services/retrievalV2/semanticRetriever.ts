@@ -132,7 +132,12 @@ function buildPairOrderSql(
   pairs: Array<{ sourceId: string; trackId: string }>
 ): { sql: string; params: string[] } {
   if (pairs.length === 0) {
-    return { sql: "0", params: [] };
+    // A bare integer literal in ORDER BY is parsed by SQLite as a 1-based
+    // column-ordinal reference, not a constant. An arithmetic expression
+    // evaluates to a constant instead, which is required now that a
+    // genuinely unresolved domain can legitimately produce zero scope
+    // pairs (fail-closed routing, no eligible sources).
+    return { sql: "0 + 0", params: [] };
   }
   const cases: string[] = [];
   const params: string[] = [];

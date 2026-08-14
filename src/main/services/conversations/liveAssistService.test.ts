@@ -137,12 +137,20 @@ async function fixture(results: AnswerExecutionResult[]) {
   const sessions: Array<LiveAssistSessionView | null> = [];
   const projections: LiveAssistProjection[] = [];
   const updated: string[] = [];
+  const microphoneRejections: Array<{
+    sessionId: string;
+    conversationId: string;
+    reason: string;
+    timestamp: number;
+  }> = [];
   const live = new LiveAssistService(store, helpdesk, {
     sessionChanged: (session) => sessions.push(session),
     projectionChanged: (projection) =>
       projections.push(projection),
     conversationUpdated: (conversationId) =>
-      updated.push(conversationId)
+      updated.push(conversationId),
+    microphoneRejected: (event) =>
+      microphoneRejections.push(event)
   });
   return {
     root,
@@ -152,7 +160,8 @@ async function fixture(results: AnswerExecutionResult[]) {
     live,
     sessions,
     projections,
-    updated
+    updated,
+    microphoneRejections
   };
 }
 
@@ -504,6 +513,113 @@ test("execution failure persists only the live user turn and failed run", async 
   }
 });
 
+test("QA Assist session persists a promoted system question with captureSource=system and its session ID", async () => {
+  const context = await fixture([success()]);
+  try {
+    const conversation = context.store.createConversation({
+      title: "QA Assist"
+    });
+    const session = context.live.start(
+      conversation.id,
+      "qa_assist"
+    );
+    assert.equal(session.profile, "qa_assist");
+    await context.live.acceptQuestion(
+      "How would you secure SharePoint data?",
+      "system"
+    );
+
+    const messages = context.store.loadOrderedMessages(
+      conversation.id
+    );
+    const userMessage = messages.find(
+      (message) => message.role === "user"
+    );
+    assert.equal(userMessage?.captureSource, "system");
+    assert.equal(userMessage?.inputOrigin, "live_transcript");
+    assert.deepEqual(context.port.questions, [
+      "How would you secure SharePoint data?"
+    ]);
+    assert.equal(
+      context.store.getActiveLiveAssistSession()?.id,
+      session.id
+    );
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("QA Assist defensively rejects a microphone-sourced accepted utterance before durable promotion", async () => {
+  const context = await fixture([success()]);
+  try {
+    const conversation = context.store.createConversation({
+      title: "QA Assist defensive reject"
+    });
+    const session = context.live.start(
+      conversation.id,
+      "qa_assist"
+    );
+    await context.live.acceptQuestion(
+      "This must not become durable.",
+      "microphone"
+    );
+
+    assert.equal(
+      context.store.loadOrderedMessages(conversation.id).length,
+      0
+    );
+    assert.equal(
+      context.store.loadAnswerRuns(conversation.id).length,
+      0
+    );
+    assert.deepEqual(context.port.questions, []);
+    assert.equal(context.microphoneRejections.length, 1);
+    assert.equal(
+      context.microphoneRejections[0]?.sessionId,
+      session.id
+    );
+    assert.equal(
+      context.microphoneRejections[0]?.reason,
+      "qa_assist_microphone_excluded"
+    );
+    assert.deepEqual(
+      context.projections.map((item) => item.state),
+      []
+    );
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("normal Live Assist accepts a microphone-sourced question and is unaffected by QA Assist rejection logic", async () => {
+  const context = await fixture([success()]);
+  try {
+    const conversation = context.store.createConversation({
+      title: "Normal Live Assist"
+    });
+    context.live.start(conversation.id, "live_assist");
+    await context.live.acceptQuestion(
+      "How do Calling Plans work?",
+      "microphone"
+    );
+
+    const messages = context.store.loadOrderedMessages(
+      conversation.id
+    );
+    assert.equal(
+      messages.find((message) => message.role === "user")
+        ?.captureSource,
+      "microphone"
+    );
+    assert.equal(context.microphoneRejections.length, 0);
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
 test("Slice 4 persists no raw audio or continuous transcript and adds no TTS path", () => {
   const migrations = readFileSync(
     resolve(
@@ -558,4 +674,53 @@ test("Slice 4 persists no raw audio or continuous transcript and adds no TTS pat
   assert.match(capture, /sessionId/);
   assert.match(overlayWindow, /setWindowOpenHandler/);
   assert.match(overlayWindow, /will-navigate/);
+});
+
+test("QA Assist is platform-agnostic, forces system-only capture, and adds no meeting-vendor integration", () => {
+  const main = readFileSync(
+    resolve("src/main/index.ts"),
+    "utf8"
+  );
+  const capture = readFileSync(
+    resolve(
+      "src/renderer/audio-capture/captureLoopbackAudio.ts"
+    ),
+    "utf8"
+  );
+  const app = readFileSync(
+    resolve("src/renderer/helpdesk/App.tsx"),
+    "utf8"
+  );
+
+  // Main forces system-only capture for QA Assist, independent of
+  // whichever meeting/calling application produced the system audio.
+  assert.match(main, /sourceModeForProfile/);
+  assert.match(
+    main,
+    /profile === "qa_assist"\s*\n\s*\?\s*"system"/
+  );
+  // Defensive rejection at the capture-start and audio-chunk boundaries.
+  assert.match(
+    main,
+    /activeSession\.profile === "qa_assist"/
+  );
+  assert.match(
+    main,
+    /QA Assist sessions must not request microphone capture/
+  );
+
+  // No Teams-specific (or other vendor-specific) meeting API/SDK coupling
+  // anywhere in the capture path.
+  const vendorCouplingPattern =
+    /(TeamsJS|teams-js|botframework|webex-sdk|zoom-sdk|meet-sdk|GoogleMeetApi|graph\.microsoft\.com\/.*\/meetings|teams\.microsoft\.com\/api)/i;
+  assert.doesNotMatch(main, vendorCouplingPattern);
+  assert.doesNotMatch(capture, vendorCouplingPattern);
+  assert.doesNotMatch(app, vendorCouplingPattern);
+  assert.doesNotMatch(main, /meeting.?vendor/i);
+
+  // No answer-generation LLM is introduced by QA Assist wiring.
+  assert.doesNotMatch(
+    main,
+    /(OpenAiLlmProvider|openAiGroundedAnswerGenerator|streamAnswer)/
+  );
 });

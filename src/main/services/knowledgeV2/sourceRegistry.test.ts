@@ -68,6 +68,40 @@ test("identifies Teams PowerShell as cmdlet authority", () => {
   assert.ok(teamsPowerShell?.authorityRoles.includes("teams_powershell_cmdlet_primary"));
 });
 
+test("scopes ms-entra-docs to QA Assist first-pass identity paths and enables github sync", () => {
+  const entra = getSourceById("ms-entra-docs");
+  assert.ok(entra);
+  assert.equal(entra?.synchronizationEnabled, true);
+  assert.deepEqual(entra?.authorityRoles, ["entra_identity_primary"]);
+  assert.ok(entra?.subdomains.includes("conditional_access"));
+  assert.ok(entra?.subdomains.includes("authentication"));
+  assert.ok(entra?.subdomains.includes("authorization"));
+  assert.ok(entra?.subdomains.includes("guest_identity"));
+  assert.ok(entra?.subdomains.includes("device_identity"));
+  assert.ok(entra?.subdomains.includes("app_service_principal"));
+  assert.equal(entra?.acquisition.transport, "github");
+  if (entra?.acquisition.transport === "github") {
+    assert.equal(entra.acquisition.owner, "MicrosoftDocs");
+    assert.equal(entra.acquisition.repo, "entra-docs");
+    assert.equal(entra.acquisition.branch, "main");
+  }
+  const gaTrack = entra?.contentTracks.find((track) => track.id === "ga");
+  assert.ok(gaTrack);
+  assert.equal(gaTrack?.synchronizationEnabled, true);
+  assert.deepEqual(gaTrack?.includeGlobs, [
+    "docs/identity/conditional-access/**/*.md",
+    "docs/identity/authentication/**/*.md",
+    "docs/identity/role-based-access-control/**/*.md",
+    "docs/identity/devices/**/*.md",
+    "docs/identity-platform/**/*.md"
+  ]);
+  assert.ok(gaTrack?.excludeGlobs.includes("**/includes/**"));
+  assert.ok(!gaTrack?.includeGlobs.some((glob) => glob === "docs/**/*.md"));
+  assert.ok(!gaTrack?.includeGlobs.some((glob) => glob.includes("id-governance")));
+  assert.ok(!gaTrack?.includeGlobs.some((glob) => glob.includes("permissions-management")));
+  assert.ok(!gaTrack?.includeGlobs.some((glob) => glob.includes("verified-id")));
+});
+
 test("represents Graph GA and beta tracks separately", () => {
   const graph = getSourceById("ms-graph-docs");
   assert.ok(graph);

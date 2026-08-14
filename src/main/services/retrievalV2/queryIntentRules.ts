@@ -45,7 +45,9 @@ const MULTIWORD_TECHNICAL_CONCEPTS = [
   "external access",
   "guest access",
   "direct routing",
-  "calling plans"
+  "calling plans",
+  "service principal",
+  "app registration"
 ] as const;
 
 const OPERATION_PATTERNS: Array<{ operation: string; pattern: RegExp }> = [
@@ -127,13 +129,16 @@ function detectDomains(
   const domains = new Set<QueryDomain>();
   const hasTeams =
     normalized.includes("teams") ||
+    normalized.includes("calling plan") ||
     DIRECT_ROUTING_TERMS.some((term) => normalized.includes(term));
   const hasGraph = normalized.includes("graph");
   const hasEntra =
     normalized.includes("entra") ||
     normalized.includes("conditional access") ||
     normalized.includes("azure ad") ||
-    normalized.includes("identity");
+    normalized.includes("identity") ||
+    normalized.includes("service principal") ||
+    normalized.includes("app registration");
   const hasM365 =
     normalized.includes("microsoft 365") ||
     normalized.includes("m365") ||
@@ -157,9 +162,9 @@ function detectDomains(
   if (hasM365) domains.add("m365");
   if (hasDev) domains.add("teams_dev");
 
-  if (domains.size === 0) {
-    domains.add("teams_admin");
-  }
+  // No implicit default domain: an unrecognized subject must remain
+  // unresolved rather than silently becoming a Teams Admin question.
+  // See detectAmbiguity's "domain_unresolved" marker.
   return [...domains];
 }
 
@@ -224,7 +229,9 @@ function detectProducts(normalized: string): string[] {
   if (normalized.includes("graph")) products.add("Microsoft Graph");
   if (
     normalized.includes("entra") ||
-    normalized.includes("conditional access")
+    normalized.includes("conditional access") ||
+    normalized.includes("service principal") ||
+    normalized.includes("app registration")
   ) {
     products.add("Microsoft Entra");
   }
@@ -280,10 +287,17 @@ function detectOperationIntents(question: string, normalized: string): string[] 
   return uniqueSorted(operations);
 }
 
-function detectAmbiguity(normalized: string, entities: string[]): string[] {
+function detectAmbiguity(
+  normalized: string,
+  entities: string[],
+  domains: QueryDomain[]
+): string[] {
   const ambiguity: string[] = [];
   if (entities.length === 0) {
     ambiguity.push("no_explicit_entity");
+  }
+  if (domains.length === 0) {
+    ambiguity.push("domain_unresolved");
   }
   if (
     normalized.includes("feature") &&
@@ -319,7 +333,7 @@ export function extractQueryIntent(question: string): QueryIntentExtractionResul
     normalizedQuestion.includes(term)
   );
   const expectedAnswerType = classifyAnswerType(normalizedQuestion, cmdlets);
-  const unresolvedAmbiguity = detectAmbiguity(normalizedQuestion, entities);
+  const unresolvedAmbiguity = detectAmbiguity(normalizedQuestion, entities, domains);
   const retrievalHints = buildRetrievalHints({
     domains,
     cmdlets,

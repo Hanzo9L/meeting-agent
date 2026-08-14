@@ -13,6 +13,7 @@ import type {
   HelpdeskMessage
 } from "@shared/helpdesk";
 import type {
+  CaptureSourceMode,
   CaptureSourceTag,
   ConnectionStatus,
   LiveAssistSessionView,
@@ -505,7 +506,10 @@ export function HelpdeskApp() {
   }, [loadConversation]);
 
   const startCaptureFlow = useCallback(
-    async (sessionId: string): Promise<void> => {
+    async (
+      sessionId: string,
+      sourceMode: CaptureSourceMode
+    ): Promise<void> => {
       if (captureStartingRef.current) return;
       const currentSettings = settingsRef.current;
       if (!currentSettings) {
@@ -517,7 +521,7 @@ export function HelpdeskApp() {
       captureStartingRef.current = true;
       try {
         const result = await startLoopbackCapture(
-          currentSettings.speech.captureSourceMode,
+          sourceMode,
           sessionId,
           {
             enableLoopbackAudio:
@@ -598,7 +602,10 @@ export function HelpdeskApp() {
       window.helpdeskApi.onLiveAssistCaptureCommand(
         (command) => {
           if (command.action === "start") {
-            void startCaptureFlow(command.sessionId);
+            void startCaptureFlow(
+              command.sessionId,
+              command.sourceMode ?? "microphone"
+            );
           } else {
             void stopCaptureFlow(command.sessionId);
           }
@@ -755,6 +762,30 @@ export function HelpdeskApp() {
     }
   };
 
+  const startQaAssist = async (): Promise<void> => {
+    if (!activeId) return;
+    setLiveBusy(true);
+    try {
+      const result =
+        await window.helpdeskApi.startQaAssist(activeId);
+      if (!result.ok) {
+        setError(
+          resultErrorMessage(
+            "QA Assist could not be started.",
+            result
+          )
+        );
+      } else {
+        setLiveSession(result.data);
+        setError(null);
+      }
+    } catch {
+      setError("QA Assist could not be started.");
+    } finally {
+      setLiveBusy(false);
+    }
+  };
+
   const stopLiveAssist = async (): Promise<void> => {
     setLiveBusy(true);
     try {
@@ -855,21 +886,29 @@ export function HelpdeskApp() {
               }`}
             >
               {liveSession?.state === "active"
-                ? `Live Assist · ${
-                    attachedConversation?.title ??
-                    "attached conversation"
-                  } · ${liveSession.captureStatus}`
+                ? liveSession.profile === "qa_assist"
+                  ? `QA Assist · Far Side / System Audio · Microphone Excluded · ${
+                      attachedConversation?.title ??
+                      "attached conversation"
+                    } · ${liveSession.captureStatus}`
+                  : `Live Assist · ${
+                      attachedConversation?.title ??
+                      "attached conversation"
+                    } · ${liveSession.captureStatus}`
                 : busy
                   ? "Grounding answer…"
                   : "Grounded answers ready"}
             </div>
             <span className="capture-summary">
-              {settings
-                ? `${settings.speech.captureSourceMode} · ${
-                    settings.speech.microphoneLabel ??
-                    "default microphone"
-                  }`
-                : "Loading audio settings…"}
+              {liveSession?.state === "active" &&
+              liveSession.profile === "qa_assist"
+                ? "system · microphone excluded"
+                : settings
+                  ? `${settings.speech.captureSourceMode} · ${
+                      settings.speech.microphoneLabel ??
+                      "default microphone"
+                    }`
+                  : "Loading audio settings…"}
               {activeSources.length > 0
                 ? ` · ${captureStatus}`
                 : ""}
@@ -894,22 +933,41 @@ export function HelpdeskApp() {
                 disabled={liveBusy}
                 onClick={() => void stopLiveAssist()}
               >
-                {liveBusy ? "Stopping…" : "Stop Live Assist"}
+                {liveBusy
+                  ? "Stopping…"
+                  : liveSession.profile === "qa_assist"
+                    ? "Stop QA Assist"
+                    : "Stop Live Assist"}
               </button>
             ) : (
-              <button
-                type="button"
-                disabled={
-                  !activeId ||
-                  liveBusy ||
-                  !settings ||
-                  settings.providers.deepgram.state !==
-                    "configured"
-                }
-                onClick={() => void startLiveAssist()}
-              >
-                {liveBusy ? "Starting…" : "Start Live Assist"}
-              </button>
+              <>
+                <button
+                  type="button"
+                  disabled={
+                    !activeId ||
+                    liveBusy ||
+                    !settings ||
+                    settings.providers.deepgram.state !==
+                      "configured"
+                  }
+                  onClick={() => void startLiveAssist()}
+                >
+                  {liveBusy ? "Starting…" : "Start Live Assist"}
+                </button>
+                <button
+                  type="button"
+                  disabled={
+                    !activeId ||
+                    liveBusy ||
+                    !settings ||
+                    settings.providers.deepgram.state !==
+                      "configured"
+                  }
+                  onClick={() => void startQaAssist()}
+                >
+                  {liveBusy ? "Starting…" : "Start QA Assist"}
+                </button>
+              </>
             )}
           </div>
         </header>

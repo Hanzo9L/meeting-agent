@@ -194,6 +194,118 @@ export interface TeamsPowerShellCorpusJobRequest {
   documentLimit?: number;
 }
 
+export interface EntraCorpusStats {
+  documents: {
+    totalCanonical: number;
+    parseSuccess: number;
+    parseWarning: number;
+    parseFailed: number;
+    bySubdomain: Record<string, number>;
+  };
+  chunks: {
+    totalActive: number;
+    chunkKindDistribution: Record<string, number>;
+    averageChunksPerDocument: number;
+    medianChunksPerDocument: number;
+    largestChunkProducingDocuments: Array<{
+      documentId: string;
+      sourcePath: string;
+      chunkCount: number;
+    }>;
+    chunkTextSizeSummary: {
+      min: number;
+      p50: number;
+      p95: number;
+      max: number;
+    };
+  };
+  fts: {
+    indexedActiveRows: number;
+    activeChunkCount: number;
+    consistent: boolean;
+  };
+  embeddings: {
+    totalActiveChunks: number;
+    currentCompatibleEmbeddings: number;
+    missingEmbeddings: number;
+    staleOrIncompatibleEmbeddings: number;
+    semanticReadyPercentage: number;
+    providerId: string;
+    model: string;
+    dimensions: number;
+    embeddingSchemaVersion: string;
+  };
+}
+
+export interface EntraCorpusRunResult {
+  runId: string;
+  mode: CorpusJobMode;
+  startedAt: string;
+  completedAt: string;
+  durationMs: number;
+  corpusClassification: "LIMITED_REAL" | "blocked_empty";
+  databasePath: string;
+  source: {
+    sourceId: "ms-entra-docs";
+    trackId: "ga";
+    authorityRoles: ["entra_identity_primary"];
+    resolvedCommitSha: string | null;
+    eligibleFileCount: number;
+    includeGlobs: string[];
+    counts: {
+      added: number;
+      modified: number;
+      unchanged: number;
+      deleted: number;
+      errors: number;
+    };
+  };
+  sync: {
+    startCheckpointRevision: string | null;
+    endCheckpointRevision: string | null;
+    checkpointUpdated: boolean;
+  };
+  acquisitionResult: SyncTrackResult;
+  plan: CorpusPlanEstimates;
+  execution: CorpusExecutionSummary | null;
+  indexingDocuments: IndexingDocumentResult[];
+  failures: CorpusDocumentFailure[];
+  smoke: {
+    conditionalAccessMfa: RetrievalSmokeCaseResult | null;
+    appRegistration: RetrievalSmokeCaseResult | null;
+    sharePointNegativeControl: RetrievalSmokeCaseResult | null;
+  };
+  corpusStats: EntraCorpusStats | null;
+  embeddingUsage: {
+    providerId: string;
+    model: string;
+    dimensions: number;
+    embeddingSchemaVersion: string;
+    requests: number;
+    generated: number;
+    reused: number;
+    missing: number;
+    failed: number;
+    inputTokens: number;
+    retries: number | null;
+    credentialAvailable: boolean;
+  };
+  warnings: string[];
+  errors: string[];
+  cancelled: boolean;
+  artifactPaths: CorpusRunArtifacts;
+}
+
+export interface EntraCorpusJobRequest {
+  mode: CorpusJobMode;
+  dbPath?: string;
+  artifactsDir?: string;
+  parserVersion: string;
+  chunkerVersion: string;
+  signal?: AbortSignal;
+  documentLimit?: number;
+}
+
 export type AcquiredDocumentBuilder = (input: {
   syncPath: string;
   syncBlobSha: string;

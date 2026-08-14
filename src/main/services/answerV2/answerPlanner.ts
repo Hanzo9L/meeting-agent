@@ -654,6 +654,91 @@ function bestCandidateForFacet(
   );
 }
 
+/**
+ * Heading-corroborated operation facet closure (P2).
+ *
+ * R2 may establish the requested operation from aggregated context that
+ * includes heading labels (a common Microsoft Learn authoring pattern:
+ * "Configure X", "Grant Y"). R3's per-sentence facet scoring intentionally
+ * excludes non-body spans for every facet except `identifier`, so an
+ * operation signal that lives only in a heading can never be planned by the
+ * normal facet-claim derivation. This corroboration step closes that gap
+ * narrowly: a heading span may supplement (never originate) the `operation`
+ * facet on a claim that already has substantive, independently-derived body
+ * evidence for the same aspect and the same evidence item.
+ *
+ * Invariant: heading signal + substantive body evidence => facet coverage.
+ *            heading signal + no substantive body evidence => still unplanned.
+ */
+function isSubstantiveProceduralOrConfigurationClaim(claim: DraftClaim): boolean {
+  return (
+    (claim.coveredFacets.includes("procedure") ||
+      claim.coveredFacets.includes("configuration")) &&
+    claim.sourceSpans.some((span) => span.sourceField === "text")
+  );
+}
+
+function headingOperationCorroborationSpan(params: {
+  aspect: EvidenceAspect;
+  candidates: SpanCandidate[];
+  evidenceIds: Set<string>;
+}): ClaimSourceSpan | null {
+  const matches = params.candidates
+    .filter(
+      (candidate) =>
+        candidate.span.sourceField === "heading" &&
+        params.evidenceIds.has(candidate.span.evidenceId) &&
+        operationPresent(candidate.normalized, params.aspect.operation) &&
+        subjectPresent(candidate, params.aspect)
+    )
+    .sort(
+      (left, right) =>
+        (left.span.fieldIndex ?? 0) - (right.span.fieldIndex ?? 0) ||
+        left.span.spanId.localeCompare(right.span.spanId)
+    );
+  return matches[0]?.span ?? null;
+}
+
+export function applyHeadingOperationCorroboration(params: {
+  aspect: EvidenceAspect;
+  candidates: SpanCandidate[];
+  claims: DraftClaim[];
+}): DraftClaim[] {
+  if (!params.aspect.requiredFacets.includes("operation")) return params.claims;
+  if (params.claims.some((claim) => claim.coveredFacets.includes("operation"))) {
+    return params.claims;
+  }
+
+  for (let index = 0; index < params.claims.length; index += 1) {
+    const claim = params.claims[index]!;
+    if (!isSubstantiveProceduralOrConfigurationClaim(claim)) continue;
+    const evidenceIds = new Set(claim.sourceSpans.map((span) => span.evidenceId));
+    const headingSpan = headingOperationCorroborationSpan({
+      aspect: params.aspect,
+      candidates: params.candidates,
+      evidenceIds
+    });
+    if (!headingSpan) continue;
+    const spans = uniqueSpans([...claim.sourceSpans, headingSpan]);
+    const updated: DraftClaim = {
+      ...claim,
+      coveredFacets: [...new Set([...claim.coveredFacets, "operation" as const])],
+      sourceSpans: spans,
+      evidenceIds: [...new Set(spans.map((span) => span.evidenceId))],
+      authorityContext: {
+        ...claim.authorityContext,
+        authorityRoles: [
+          ...new Set([...claim.authorityContext.authorityRoles, headingSpan.authorityRole])
+        ]
+      }
+    };
+    const result = [...params.claims];
+    result[index] = updated;
+    return result;
+  }
+  return params.claims;
+}
+
 function deriveCmdletClaim(params: {
   bundle: EvidenceBundle;
   aspect: EvidenceAspect;
@@ -1089,10 +1174,14 @@ export function buildAnswerPlan(bundle: EvidenceBundle): AnswerPlan {
           : [];
       });
       draftClaims.push(
-        ...deriveFacetClaims({
-          bundle,
+        ...applyHeadingOperationCorroboration({
           aspect,
-          candidates
+          candidates,
+          claims: deriveFacetClaims({
+            bundle,
+            aspect,
+            candidates
+          })
         })
       );
     }

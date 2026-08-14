@@ -147,7 +147,9 @@ test("typed Helpdesk IPC persists grounded answers and opens only stored citatio
     getLiveAssistSession: () =>
       store.getActiveLiveAssistSession(),
     startLiveAssist: (conversationId) =>
-      store.startLiveAssistSession(conversationId),
+      store.startLiveAssistSession(conversationId, "live_assist"),
+    startQaAssist: (conversationId) =>
+      store.startLiveAssistSession(conversationId, "qa_assist"),
     stopLiveAssist: async () => {
       const active = store.getActiveLiveAssistSession();
       return active
@@ -269,6 +271,61 @@ test("typed Helpdesk IPC persists grounded answers and opens only stored citatio
   }
 });
 
+test("QA Assist IPC channel starts a qa_assist-profile session via the injected port", async () => {
+  const root = await mkdtemp(join(tmpdir(), "meeting-agent-helpdesk-ipc-qa-"));
+  const store = createSqliteConversationStore({
+    databasePath: join(root, "conversations.sqlite")
+  });
+  const handlers = new Map<
+    string,
+    (event: IpcEventLike, ...args: unknown[]) => unknown
+  >();
+  registerHelpdeskIpcHandlers({
+    registrar: {
+      handle: (channel, listener) => {
+        handlers.set(channel, listener);
+      }
+    },
+    service: new HelpdeskService(store, new IpcGroundedPort()),
+    isTrustedSender: (event) => event.sender.id === 7,
+    openExternal: async () => undefined,
+    getLiveAssistSession: () => store.getActiveLiveAssistSession(),
+    startLiveAssist: (conversationId) =>
+      store.startLiveAssistSession(conversationId, "live_assist"),
+    startQaAssist: (conversationId) =>
+      store.startLiveAssistSession(conversationId, "qa_assist"),
+    stopLiveAssist: async () => null,
+    ...relayShellOptions
+  });
+
+  const invoke = async <T>(
+    channel: string,
+    ...args: unknown[]
+  ): Promise<HelpdeskResult<T>> => {
+    const handler = handlers.get(channel);
+    assert.ok(handler, `Missing handler for ${channel}`);
+    return (await handler({ sender: { id: 7 } }, ...args)) as HelpdeskResult<T>;
+  };
+
+  try {
+    const created = await invoke<{ conversation: { id: string } }>(
+      IPC_CHANNELS.helpdeskCreateConversation,
+      "QA Assist Chat"
+    );
+    if (!created.ok) throw new Error(created.error.message);
+    const conversationId = created.data.conversation.id;
+
+    const started = await invoke<{ profile: string }>(
+      IPC_CHANNELS.helpdeskStartQaAssist,
+      conversationId
+    );
+    assert.equal(started.ok && started.data.profile, "qa_assist");
+  } finally {
+    store.close();
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("Helpdesk IPC rejects untrusted senders and malformed messages safely", async () => {
   const root = await mkdtemp(join(tmpdir(), "meeting-agent-helpdesk-ipc-safe-"));
   const store = createSqliteConversationStore({
@@ -291,6 +348,9 @@ test("Helpdesk IPC rejects untrusted senders and malformed messages safely", asy
     },
     getLiveAssistSession: () => null,
     startLiveAssist: () => {
+      throw new Error("must not start");
+    },
+    startQaAssist: () => {
       throw new Error("must not start");
     },
     stopLiveAssist: async () => null,

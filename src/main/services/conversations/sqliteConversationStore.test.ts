@@ -97,7 +97,7 @@ test("creates, lists, loads, and reopens conversations", async () => {
   let conversationId = "";
   const first = createSqliteConversationStore({ databasePath: temp.databasePath });
   try {
-    assert.equal(first.getSchemaVersion(), 3);
+    assert.equal(first.getSchemaVersion(), 4);
     const conversation = first.createConversation({ title: "Teams Voice" });
     conversationId = conversation.id;
     assert.equal(first.listConversations().length, 1);
@@ -178,7 +178,7 @@ test("version 2 migration preserves existing version 1 messages", async () => {
     databasePath: temp.databasePath
   });
   try {
-    assert.equal(migrated.getSchemaVersion(), 3);
+    assert.equal(migrated.getSchemaVersion(), 4);
     assert.equal(
       migrated.loadOrderedMessages("conv-v1")[0]?.content,
       "Existing question"
@@ -647,6 +647,89 @@ test("Live Assist session remains bound to its original conversation", async () 
     assert.equal(stopped.state, "inactive");
     assert.equal(stopped.captureStatus, "stopped");
     assert.equal(store.getActiveLiveAssistSession(), null);
+  });
+});
+
+test("QA Assist session persists a qa_assist profile distinct from live_assist", async () => {
+  await withStore((store) => {
+    const conversation = store.createConversation({
+      title: "QA Assist conversation"
+    });
+    const session = store.startLiveAssistSession(
+      conversation.id,
+      "qa_assist"
+    );
+    assert.equal(session.profile, "qa_assist");
+    assert.equal(
+      store.getActiveLiveAssistSession()?.profile,
+      "qa_assist"
+    );
+    assert.equal(
+      store.getLiveAssistSession(session.id)?.profile,
+      "qa_assist"
+    );
+  });
+});
+
+test("Live Assist session defaults to the live_assist profile", async () => {
+  await withStore((store) => {
+    const conversation = store.createConversation({
+      title: "Default profile"
+    });
+    const session = store.startLiveAssistSession(conversation.id);
+    assert.equal(session.profile, "live_assist");
+  });
+});
+
+test("live-transcript messages persist the actual capture source that produced them", async () => {
+  await withStore((store) => {
+    const conversation = store.createConversation({
+      title: "Source provenance"
+    });
+    const systemMessage = store.appendUserMessage({
+      conversationId: conversation.id,
+      content: "System-sourced question",
+      inputOrigin: "live_transcript",
+      captureSource: "system"
+    });
+    const micMessage = store.appendUserMessage({
+      conversationId: conversation.id,
+      content: "Microphone-sourced question",
+      inputOrigin: "live_transcript",
+      captureSource: "microphone"
+    });
+    assert.equal(systemMessage.captureSource, "system");
+    assert.equal(micMessage.captureSource, "microphone");
+    assert.deepEqual(
+      store
+        .loadOrderedMessages(conversation.id)
+        .map((message) => message.captureSource),
+      ["system", "microphone"]
+    );
+  });
+});
+
+test("typed and pasted messages never carry a capture source", async () => {
+  await withStore((store) => {
+    const conversation = store.createConversation({
+      title: "Typed and pasted"
+    });
+    const typed = store.appendUserMessage({
+      conversationId: conversation.id,
+      content: "Typed question",
+      inputOrigin: "typed"
+    });
+    assert.equal(typed.captureSource, null);
+    assert.throws(
+      () =>
+        store.appendUserMessage({
+          conversationId: conversation.id,
+          content: "Invalid typed with capture source",
+          inputOrigin: "typed",
+          captureSource: "system"
+        }),
+      /captureSource must not be set/
+    );
   });
 });
 

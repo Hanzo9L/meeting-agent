@@ -1,3 +1,4 @@
+import { getSourceById } from "../knowledgeV2";
 import type { EvidenceItem } from "./types";
 import type { CanonicalCitationUrlResolution } from "./citationTypes";
 
@@ -85,6 +86,64 @@ function persistedRevisionCanonicalUrl(
   };
 }
 
+/**
+ * Reconstructs a trusted Learn canonical URL for GitHub-transport sources whose
+ * repo-path-to-Learn-URL mapping is declared and verified in the source registry
+ * (`learnMapping.githubCanonicalUrl`). The URL is derived only from the persisted
+ * acquisition revision path (never from title, retrieval display text, or web
+ * lookups), so an unmapped or malformed path fails closed with no fallback guess.
+ */
+function sourceRegistryGithubLearnUrl(
+  evidence: EvidenceItem
+): CanonicalCitationUrlResolution | null {
+  const source = getSourceById(evidence.source.sourceId);
+  if (!source || source.acquisition.transport !== "github") return null;
+  const mapping = source.learnMapping?.githubCanonicalUrl;
+  if (!mapping) return null;
+
+  const revision = evidence.source.sourceRevision;
+  const revisionTransport = revisionString(revision, "transport").toLowerCase();
+  if (revisionTransport && revisionTransport !== "github") return null;
+
+  const revisionPath = revisionString(revision, "path").replace(/\\/g, "/");
+  const sourcePath = evidence.source.sourcePath.replace(/\\/g, "/");
+  if (
+    revisionPath &&
+    sourcePath &&
+    revisionPath.toLowerCase() !== sourcePath.toLowerCase()
+  ) {
+    return null;
+  }
+  const path = (revisionPath || sourcePath).replace(/^\/+/, "");
+  if (!path) return null;
+
+  const prefix = mapping.repoPathPrefix;
+  if (!path.toLowerCase().startsWith(prefix.toLowerCase())) return null;
+  if (!path.toLowerCase().endsWith(".md")) return null;
+
+  const rest = path.slice(prefix.length).replace(/\.md$/i, "");
+  if (!rest || rest.includes("..") || rest.startsWith("/")) return null;
+
+  const candidate = `${mapping.learnBaseUrl.replace(/\/+$/, "")}/${rest}`;
+  const normalized = normalizeLearnUrl(candidate);
+  if (!normalized) return null;
+
+  const parsed = new URL(normalized);
+  const expectedPattern = new RegExp(mapping.expectedPathPattern, "i");
+  if (
+    !expectedPattern.test(parsed.pathname) ||
+    !expectedLearnPath(evidence.source.sourceId, parsed.pathname)
+  ) {
+    return null;
+  }
+
+  return {
+    canonicalUrl: normalized,
+    source: "source_registry_learn_mapping",
+    failureReason: null
+  };
+}
+
 function powershellDocumentIdentity(
   evidence: EvidenceItem
 ): CanonicalCitationUrlResolution | null {
@@ -131,6 +190,8 @@ export function resolveCanonicalCitationUrl(
 ): CanonicalCitationUrlResolution {
   const persisted = persistedRevisionCanonicalUrl(evidence);
   if (persisted) return persisted;
+  const registryMapped = sourceRegistryGithubLearnUrl(evidence);
+  if (registryMapped) return registryMapped;
   const powershell = powershellDocumentIdentity(evidence);
   if (powershell) return powershell;
   return {

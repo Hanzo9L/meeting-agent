@@ -296,5 +296,150 @@ export const CONVERSATION_MIGRATIONS: readonly ConversationMigration[] = [
       CREATE INDEX idx_live_assist_conversation_started
         ON live_assist_sessions(conversation_id, started_at DESC);
     `
+  },
+  {
+    version: 4,
+    name: "qa_assist_session_profile_and_source_provenance",
+    foreignKeysOff: true,
+    sql: `
+      PRAGMA legacy_alter_table = ON;
+
+      ALTER TABLE messages RENAME TO messages_v3;
+
+      CREATE TABLE messages (
+        message_id TEXT PRIMARY KEY,
+        conversation_id TEXT NOT NULL,
+        turn_index INTEGER NOT NULL CHECK (turn_index > 0),
+        role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
+        content TEXT NOT NULL CHECK (length(trim(content)) > 0),
+        input_origin TEXT CHECK (input_origin IN ('typed', 'pasted', 'live_transcript')),
+        capture_source TEXT CHECK (capture_source IN ('system', 'microphone')),
+        answerability TEXT CHECK (
+          answerability IN ('answered', 'partial', 'insufficient_evidence')
+        ),
+        grounding_snapshot_id TEXT,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id) ON DELETE RESTRICT,
+        FOREIGN KEY (grounding_snapshot_id) REFERENCES grounding_snapshot_refs(snapshot_id) ON DELETE RESTRICT,
+        UNIQUE (conversation_id, turn_index),
+        CHECK (
+          (
+            role = 'user'
+            AND input_origin IS NOT NULL
+            AND answerability IS NULL
+            AND grounding_snapshot_id IS NULL
+            AND (input_origin = 'live_transcript' OR capture_source IS NULL)
+          )
+          OR
+          (
+            role = 'assistant'
+            AND input_origin IS NULL
+            AND capture_source IS NULL
+            AND answerability IS NOT NULL
+            AND grounding_snapshot_id IS NOT NULL
+          )
+        )
+      );
+
+      INSERT INTO messages (
+        message_id,
+        conversation_id,
+        turn_index,
+        role,
+        content,
+        input_origin,
+        capture_source,
+        answerability,
+        grounding_snapshot_id,
+        created_at
+      )
+      SELECT
+        message_id,
+        conversation_id,
+        turn_index,
+        role,
+        content,
+        input_origin,
+        NULL,
+        answerability,
+        grounding_snapshot_id,
+        created_at
+      FROM messages_v3;
+
+      DROP TABLE messages_v3;
+
+      CREATE INDEX idx_messages_conversation_order
+        ON messages(conversation_id, turn_index);
+
+      ALTER TABLE live_assist_sessions RENAME TO live_assist_sessions_v3;
+
+      CREATE TABLE live_assist_sessions (
+        live_session_id TEXT PRIMARY KEY,
+        conversation_id TEXT NOT NULL,
+        profile TEXT NOT NULL CHECK (profile IN ('live_assist', 'qa_assist')),
+        state TEXT NOT NULL CHECK (state IN ('active', 'inactive')),
+        capture_status TEXT NOT NULL CHECK (
+          capture_status IN (
+            'starting',
+            'capturing',
+            'error',
+            'stopped',
+            'interrupted'
+          )
+        ),
+        started_at TEXT NOT NULL,
+        stopped_at TEXT,
+        stop_reason TEXT,
+        FOREIGN KEY (conversation_id)
+          REFERENCES conversations(conversation_id) ON DELETE RESTRICT,
+        CHECK (
+          (
+            state = 'active'
+            AND stopped_at IS NULL
+            AND stop_reason IS NULL
+            AND capture_status IN ('starting', 'capturing', 'error')
+          )
+          OR
+          (
+            state = 'inactive'
+            AND stopped_at IS NOT NULL
+            AND stop_reason IS NOT NULL
+            AND capture_status IN ('stopped', 'interrupted')
+          )
+        )
+      );
+
+      INSERT INTO live_assist_sessions (
+        live_session_id,
+        conversation_id,
+        profile,
+        state,
+        capture_status,
+        started_at,
+        stopped_at,
+        stop_reason
+      )
+      SELECT
+        live_session_id,
+        conversation_id,
+        'live_assist',
+        state,
+        capture_status,
+        started_at,
+        stopped_at,
+        stop_reason
+      FROM live_assist_sessions_v3;
+
+      DROP TABLE live_assist_sessions_v3;
+
+      CREATE UNIQUE INDEX idx_live_assist_single_active
+        ON live_assist_sessions(state)
+        WHERE state = 'active';
+
+      CREATE INDEX idx_live_assist_conversation_started
+        ON live_assist_sessions(conversation_id, started_at DESC);
+
+      PRAGMA legacy_alter_table = OFF;
+    `
   }
 ];
