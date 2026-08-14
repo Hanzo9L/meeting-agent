@@ -41,7 +41,11 @@ function makeCandidate(params: {
             ? ["entra_identity_primary"]
             : params.sourceId === "ms-graph-docs"
               ? ["graph_api_primary"]
-              : ["teams_admin_primary"],
+              : params.sourceId === "ms-sharepoint-powershell"
+                ? ["sharepoint_powershell_cmdlet_primary"]
+                : params.sourceId === "ms-sharepoint-docs"
+                  ? ["sharepoint_admin_primary"]
+                  : ["teams_admin_primary"],
       routePriority: params.routePriority
     },
     provenance: {
@@ -101,7 +105,9 @@ function makeHybrid(params: {
   candidates: FusedRetrievalCandidate[];
   allowsBeta?: boolean;
   commandNames?: string[];
-  domains?: Array<"teams_admin" | "teams_powershell" | "graph" | "entra" | "m365" | "teams_dev">;
+  domains?: Array<
+    "teams_admin" | "teams_powershell" | "graph" | "entra" | "m365" | "teams_dev" | "sharepoint"
+  >;
   requiredDirective?: { type: "cmdlet" | "policy" | "entity"; value: string };
   missedRequired?: boolean;
   entities?: string[];
@@ -305,6 +311,30 @@ test("provenance and exact cmdlet validation are preserved", () => {
   assert.equal(bundle.exactIdentifierValidation.verified, true);
   assert.equal(bundle.answerability, "answered");
   assert.equal(bundle.evidence[0]?.source.sourceId, "ms-teams-powershell");
+});
+
+test("K2: SharePoint SPO* cmdlet exact-identifier validation is authoritative, not hardcoded to ms-teams-powershell", () => {
+  const hybrid = makeHybrid({
+    question: "What does Set-SPOSite do?",
+    commandNames: ["Set-SPOSite"],
+    domains: ["sharepoint"],
+    requiredDirective: { type: "cmdlet", value: "Set-SPOSite" },
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-sharepoint-powershell",
+        routePriority: "primary",
+        title: "Set-SPOSite",
+        text: "Set-SPOSite sets properties on a site.",
+        url: "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+        exact: { type: "cmdlet", value: "Set-SPOSite", required: true }
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.equal(bundle.exactIdentifierValidation.verified, true);
+  assert.equal(bundle.answerability, "answered");
+  assert.equal(bundle.evidence[0]?.source.sourceId, "ms-sharepoint-powershell");
 });
 
 test("nonexistent required exact cmdlet is insufficient evidence", () => {

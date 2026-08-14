@@ -182,9 +182,7 @@ test("candidate budgets remain bounded for all representative queries", () => {
 });
 
 test("unresolved domain survives routing without pretending Teams Admin is authoritative", () => {
-  const result = route(
-    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
-  );
+  const result = route("How do I delegate access to a shared Exchange mailbox?");
   assert.deepEqual(result.scope.selectedDomains, []);
   assert.deepEqual(result.scope.eligibleSources, []);
   assert.ok(!sourceIds(result).includes("ms-teams-admin"));
@@ -198,6 +196,16 @@ test("unresolved domain survives routing without pretending Teams Admin is autho
     result.scope.routingRationale.includes("primary_domain:unresolved")
   );
   assert.equal(result.scope.estimatedCandidatePopulation, 0);
+});
+
+test("K2: SharePoint/Copilot data-exposure question routes to SharePoint authority, not Teams Admin", () => {
+  const result = route(
+    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+  );
+  assert.deepEqual(result.scope.selectedDomains, ["sharepoint"]);
+  assert.ok(sourceIds(result).includes("ms-sharepoint-docs"));
+  assert.ok(!sourceIds(result).includes("ms-teams-admin"));
+  assert.ok(!result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope"));
 });
 
 test("second unresolved-domain question (Exchange) also produces an empty authoritative scope", () => {
@@ -233,6 +241,41 @@ test("service principal questions route to Entra without treating Teams as prima
   assert.ok(result.scope.selectedDomains.includes("entra"));
   assert.ok(result.scope.focusSubdomains.includes("app_service_principal"));
   assert.ok(!result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope"));
+});
+
+test("K2: SPO* cmdlet routes to SharePoint PowerShell with exact match directive, not Teams PowerShell", () => {
+  const result = route("What does Set-SPOSite do?");
+  assert.equal(result.scope.eligibleSources[0]?.sourceId, "ms-sharepoint-powershell");
+  assert.ok(!sourceIds(result).includes("ms-teams-powershell"));
+  assert.ok(sourceIds(result).includes("ms-sharepoint-docs"));
+  assert.ok(
+    result.scope.exactMatchDirectives.some(
+      (directive) => directive.type === "cmdlet" && directive.value === "Set-SPOSite" && directive.required
+    )
+  );
+});
+
+test("K2: Cs* cmdlet still routes to Teams PowerShell, not SharePoint", () => {
+  const result = route("What does Set-CsOnlineVoiceRoutingPolicy do?");
+  assert.equal(result.scope.eligibleSources[0]?.sourceId, "ms-teams-powershell");
+  assert.ok(!sourceIds(result).includes("ms-sharepoint-powershell"));
+  assert.ok(!sourceIds(result).includes("ms-sharepoint-docs"));
+});
+
+test("K2: unknown cmdlet namespace does not default to Teams Admin, Teams PowerShell, or SharePoint", () => {
+  const result = route("What does Set-ExoMailbox do?");
+  assert.deepEqual(result.scope.selectedDomains, []);
+  assert.ok(!sourceIds(result).includes("ms-teams-powershell"));
+  assert.ok(!sourceIds(result).includes("ms-sharepoint-powershell"));
+  assert.ok(
+    result.scope.routingWarnings.includes("domain_unresolved_no_authoritative_scope")
+  );
+});
+
+test("K2: Teams admin question does not incidentally pull in SharePoint sources", () => {
+  const result = route("How does Teams Direct Routing voice routing work?");
+  assert.ok(!sourceIds(result).includes("ms-sharepoint-docs"));
+  assert.ok(!sourceIds(result).includes("ms-sharepoint-powershell"));
 });
 
 test("routing output is deterministic and retrieval free", () => {

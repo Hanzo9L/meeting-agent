@@ -4,7 +4,8 @@ export type QueryDomain =
   | "graph"
   | "entra"
   | "m365"
-  | "teams_dev";
+  | "teams_dev"
+  | "sharepoint";
 
 export type QueryAnswerType =
   | "conceptual"

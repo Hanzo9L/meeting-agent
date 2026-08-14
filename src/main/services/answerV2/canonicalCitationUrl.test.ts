@@ -313,6 +313,134 @@ test("no title-based URL construction occurs for the generalized GitHub mapping"
   assert.equal(resolution.canonicalUrl, "https://learn.microsoft.com/entra/identity/conditional-access/overview");
 });
 
+test("K2: SharePoint admin docs (learn_mcp) resolve through the same persisted-revision trust path as Teams Admin", () => {
+  const evidence = makeEvidence({
+    sourceId: "ms-sharepoint-docs",
+    sourcePath: "restricted-content-discovery",
+    revision: {
+      transport: "learn_mcp",
+      canonicalUrl: "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+      contentHash: "fixture"
+    }
+  });
+  const resolution = resolveCanonicalCitationUrl(evidence);
+  assert.equal(resolution.source, "persisted_revision");
+  assert.equal(
+    resolution.canonicalUrl,
+    "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery"
+  );
+});
+
+test("K2: SharePoint PowerShell (SPO*) GitHub path reconstructs the deterministic Learn module URL", () => {
+  const evidence = makeEvidence({
+    sourceId: "ms-sharepoint-powershell",
+    sourcePath: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md",
+    title: "Set-SPOSite",
+    revision: {
+      transport: "github",
+      repository: "MicrosoftDocs/OfficeDocs-SharePoint-PowerShell",
+      branch: "main",
+      commitSha: "a".repeat(40),
+      blobSha: "b".repeat(40),
+      path: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md"
+    }
+  });
+  const resolution = resolveCanonicalCitationUrl(evidence);
+  assert.equal(resolution.failureReason, null);
+  assert.equal(resolution.source, "source_registry_learn_mapping");
+  assert.equal(
+    resolution.canonicalUrl,
+    "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite"
+  );
+});
+
+test("K2: malformed or untrusted SharePoint paths fail closed rather than guessing a URL", () => {
+  const wrongHost = makeEvidence({
+    sourceId: "ms-sharepoint-docs",
+    sourcePath: "restricted-content-discovery",
+    revision: {
+      transport: "learn_mcp",
+      canonicalUrl: "https://evil.example.com/en-us/sharepoint/restricted-content-discovery",
+      contentHash: "fixture"
+    }
+  });
+  assert.equal(resolveCanonicalCitationUrl(wrongHost).failureReason, "canonical_url_untrusted");
+
+  const nonSharePointLearnPath = makeEvidence({
+    sourceId: "ms-sharepoint-docs",
+    sourcePath: "restricted-content-discovery",
+    revision: {
+      transport: "learn_mcp",
+      canonicalUrl: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing",
+      contentHash: "fixture"
+    }
+  });
+  assert.equal(
+    resolveCanonicalCitationUrl(nonSharePointLearnPath).failureReason,
+    "canonical_url_untrusted"
+  );
+
+  const titleMismatch = makeEvidence({
+    sourceId: "ms-sharepoint-powershell",
+    sourcePath: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md",
+    title: "Totally Different Title",
+    revision: {
+      transport: "github",
+      repository: "MicrosoftDocs/OfficeDocs-SharePoint-PowerShell",
+      branch: "main",
+      commitSha: "a".repeat(40),
+      blobSha: "b".repeat(40),
+      path: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md"
+    }
+  });
+  assert.equal(resolveCanonicalCitationUrl(titleMismatch).failureReason, "canonical_url_missing");
+
+  const notACmdletShape = makeEvidence({
+    sourceId: "ms-sharepoint-powershell",
+    sourcePath: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/overview.md",
+    title: "overview",
+    revision: {
+      transport: "github",
+      repository: "MicrosoftDocs/OfficeDocs-SharePoint-PowerShell",
+      branch: "main",
+      commitSha: "a".repeat(40),
+      blobSha: "b".repeat(40),
+      path: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/overview.md"
+    }
+  });
+  assert.equal(resolveCanonicalCitationUrl(notACmdletShape).failureReason, "canonical_url_missing");
+
+  const outsideModuleDirectory = makeEvidence({
+    sourceId: "ms-sharepoint-powershell",
+    sourcePath: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/nested/Set-SPOSite.md",
+    title: "Set-SPOSite",
+    revision: {
+      transport: "github",
+      repository: "MicrosoftDocs/OfficeDocs-SharePoint-PowerShell",
+      branch: "main",
+      commitSha: "a".repeat(40),
+      blobSha: "b".repeat(40),
+      path: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/nested/Set-SPOSite.md"
+    }
+  });
+  assert.equal(resolveCanonicalCitationUrl(outsideModuleDirectory).failureReason, "canonical_url_missing");
+});
+
+test("K2: SharePoint word appearing inside Teams admin GitHub docs cannot be cited as SharePoint authority (wrong source registry entry)", () => {
+  const evidence = makeEvidence({
+    sourceId: "ms-teams-admin",
+    sourcePath: "microsoftteams/sharepoint-integration-notes",
+    revision: {
+      transport: "learn_mcp",
+      canonicalUrl: "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+      contentHash: "fixture"
+    }
+  });
+  // Even though the persisted canonical URL happens to point at a SharePoint
+  // path, ms-teams-admin's expectedLearnPath only trusts /microsoftteams/ URLs.
+  assert.equal(resolveCanonicalCitationUrl(evidence).failureReason, "canonical_url_untrusted");
+});
+
 test("revision path and source path mismatch is rejected (provenance inconsistency)", () => {
   const evidence = makeEvidence({
     sourceId: "ms-entra-docs",

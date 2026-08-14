@@ -4,7 +4,8 @@ export type SourceDomain =
   | "graph"
   | "entra"
   | "m365"
-  | "teams_dev";
+  | "teams_dev"
+  | "sharepoint";
 
 export type SourceAudience =
   | "administrator"
@@ -26,7 +27,9 @@ export type SourceAuthorityRole =
   | "graph_api_primary"
   | "entra_identity_primary"
   | "m365_tenant_primary"
-  | "teams_dev_specialized";
+  | "teams_dev_specialized"
+  | "sharepoint_admin_primary"
+  | "sharepoint_powershell_cmdlet_primary";
 
 export interface SourceContentTrack {
   id: string;
@@ -74,11 +77,33 @@ export interface GitHubLearnUrlMapping {
   expectedPathPattern: string;
 }
 
+/**
+ * Deterministic rule for reconstructing a trusted Microsoft Learn
+ * PowerShell-module canonical URL from a GitHub-transport source whose
+ * documents are one-file-per-cmdlet with a title that equals the cmdlet
+ * name (Learn URL slug = title.toLowerCase()). Generalizes the pattern
+ * originally hardcoded for Teams PowerShell (see K1.1 diagnosis) to any
+ * registered PowerShell reference source without introducing case- or
+ * structure-transforming guesswork elsewhere.
+ */
+export interface GitHubPowerShellModuleMapping {
+  /** Learn PowerShell module URL segment, e.g. "microsoftteams" or "microsoft.online.sharepoint.powershell". */
+  learnModuleSegment: string;
+  /** Repo-relative directory containing exactly one file per cmdlet, e.g. "teams/teams-ps/MicrosoftTeams/". */
+  repoPathPrefix: string;
+  /** "owner/repo" this mapping is verified against; defense-in-depth against a misconfigured source pointing at the wrong repo. */
+  repository: string;
+  /** Regex (source string) a genuine cmdlet title must match, e.g. verb-prefixed module noun. */
+  cmdletTitlePattern: string;
+}
+
 export interface LearnMapping {
   productAreas: string[];
   preferredLocale: string;
   /** Present only when this source's GitHub path structure has a verified 1:1 Learn URL mapping. */
   githubCanonicalUrl?: GitHubLearnUrlMapping;
+  /** Present only for one-file-per-cmdlet GitHub sources with a verified Learn PowerShell module mapping. */
+  githubPowerShellModule?: GitHubPowerShellModuleMapping;
 }
 
 export interface SourceNormalizationHints {

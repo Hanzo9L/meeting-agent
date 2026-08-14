@@ -14,13 +14,15 @@ test("loads all approved initial sources with stable unique IDs", () => {
   const registry = getDefaultSourceRegistry();
   const ids = registry.sources.map((source) => source.id);
   assert.equal(new Set(ids).size, ids.length);
-  assert.equal(ids.length, 6);
+  assert.equal(ids.length, 8);
   assert.ok(ids.includes("ms-teams-admin"));
   assert.ok(ids.includes("ms-teams-powershell"));
   assert.ok(ids.includes("ms-graph-docs"));
   assert.ok(ids.includes("ms-entra-docs"));
   assert.ok(ids.includes("ms-m365-docs"));
   assert.ok(ids.includes("ms-teams-dev-docs"));
+  assert.ok(ids.includes("ms-sharepoint-docs"));
+  assert.ok(ids.includes("ms-sharepoint-powershell"));
 });
 
 test("has required repository branch and include globs", () => {

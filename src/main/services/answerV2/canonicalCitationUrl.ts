@@ -49,6 +49,10 @@ function expectedLearnPath(
       return /\/microsoft-365\//.test(path);
     case "ms-teams-dev-docs":
       return /\/microsoftteams\/platform\//.test(path);
+    case "ms-sharepoint-docs":
+      return /\/sharepoint\//.test(path);
+    case "ms-sharepoint-powershell":
+      return /\/powershell\/module\/microsoft\.online\.sharepoint\.powershell\//.test(path);
     default:
       return false;
   }
@@ -144,6 +148,72 @@ function sourceRegistryGithubLearnUrl(
   };
 }
 
+/**
+ * Reconstructs a trusted Learn PowerShell-module canonical URL for
+ * GitHub-transport, one-file-per-cmdlet sources whose registry mapping
+ * declares `learnMapping.githubPowerShellModule` (see sourceTypes.ts). This
+ * generalizes the pattern originally hardcoded only for Teams PowerShell
+ * (`powershellDocumentIdentity` below, left unchanged to guarantee zero
+ * regression) to other registered PowerShell reference sources such as
+ * SharePoint Online. The URL is derived only from the persisted acquisition
+ * revision path/repository and the document title (which must equal the
+ * filename), never from retrieval display text or web lookups.
+ */
+function sourceRegistryGithubPowerShellModuleUrl(
+  evidence: EvidenceItem
+): CanonicalCitationUrlResolution | null {
+  const source = getSourceById(evidence.source.sourceId);
+  if (!source || source.acquisition.transport !== "github") return null;
+  const mapping = source.learnMapping?.githubPowerShellModule;
+  if (!mapping) return null;
+
+  const revision = evidence.source.sourceRevision;
+  const revisionTransport = revisionString(revision, "transport").toLowerCase();
+  if (revisionTransport && revisionTransport !== "github") return null;
+
+  const repository = revisionString(revision, "repository").toLowerCase();
+  if (repository && repository !== mapping.repository.toLowerCase()) return null;
+
+  const revisionPath = revisionString(revision, "path").replace(/\\/g, "/");
+  const sourcePath = evidence.source.sourcePath.replace(/\\/g, "/");
+  if (
+    revisionPath &&
+    sourcePath &&
+    revisionPath.toLowerCase() !== sourcePath.toLowerCase()
+  ) {
+    return null;
+  }
+  const path = (revisionPath || sourcePath).replace(/^\/+/, "");
+  if (!path) return null;
+
+  const prefix = mapping.repoPathPrefix;
+  if (!path.toLowerCase().startsWith(prefix.toLowerCase())) return null;
+  if (!path.toLowerCase().endsWith(".md")) return null;
+
+  const rest = path.slice(prefix.length).replace(/\.md$/i, "");
+  // Must be exactly one file directly inside the cmdlet-reference directory.
+  if (!rest || rest.includes("/") || rest.includes("..")) return null;
+
+  const title = evidence.source.title.trim();
+  if (rest.toLowerCase() !== title.toLowerCase()) return null;
+
+  const cmdletTitlePattern = new RegExp(mapping.cmdletTitlePattern);
+  if (!cmdletTitlePattern.test(title)) return null;
+
+  const candidate = `https://learn.microsoft.com/powershell/module/${mapping.learnModuleSegment}/${title.toLowerCase()}`;
+  const normalized = normalizeLearnUrl(candidate);
+  if (!normalized) return null;
+
+  const parsed = new URL(normalized);
+  if (!expectedLearnPath(evidence.source.sourceId, parsed.pathname)) return null;
+
+  return {
+    canonicalUrl: normalized,
+    source: "source_registry_learn_mapping",
+    failureReason: null
+  };
+}
+
 function powershellDocumentIdentity(
   evidence: EvidenceItem
 ): CanonicalCitationUrlResolution | null {
@@ -192,6 +262,8 @@ export function resolveCanonicalCitationUrl(
   if (persisted) return persisted;
   const registryMapped = sourceRegistryGithubLearnUrl(evidence);
   if (registryMapped) return registryMapped;
+  const registryPowerShellModule = sourceRegistryGithubPowerShellModuleUrl(evidence);
+  if (registryPowerShellModule) return registryPowerShellModule;
   const powershell = powershellDocumentIdentity(evidence);
   if (powershell) return powershell;
   return {

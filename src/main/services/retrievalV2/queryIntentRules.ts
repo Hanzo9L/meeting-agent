@@ -47,7 +47,43 @@ const MULTIWORD_TECHNICAL_CONCEPTS = [
   "direct routing",
   "calling plans",
   "service principal",
-  "app registration"
+  "app registration",
+  "site permissions",
+  "sharing link",
+  "restricted content discovery",
+  "data access governance",
+  "sharepoint oversharing",
+  "sharepoint advanced management"
+] as const;
+
+/**
+ * Multiword SharePoint admin/governance signals scoped to the K2 knowledge
+ * pack (site/sharing/governance/Copilot-content-discovery concerns). Kept
+ * narrow and deliberate: bare "copilot" must never resolve SharePoint on its
+ * own (see COPILOT_SHAREPOINT_CONTEXT_TERMS below).
+ */
+const SHAREPOINT_MULTIWORD_SIGNALS = [
+  "sharepoint online",
+  "site permissions",
+  "sharing link",
+  "restricted content discovery",
+  "data access governance",
+  "sharepoint oversharing",
+  "sharepoint advanced management"
+] as const;
+
+/**
+ * Microsoft 365 Copilot only acts as a SharePoint-domain signal when it
+ * co-occurs with content/data/access/permission/governance semantics (or
+ * another genuinely SharePoint-resolving signal handled elsewhere). A bare
+ * "copilot" mention must never resolve the sharepoint domain by itself.
+ */
+const COPILOT_SHAREPOINT_CONTEXT_TERMS = [
+  "content",
+  "data",
+  "access",
+  "permission",
+  "governance"
 ] as const;
 
 const OPERATION_PATTERNS: Array<{ operation: string; pattern: RegExp }> = [
@@ -75,6 +111,39 @@ function uniqueSorted(values: Iterable<string>): string[] {
 function extractCmdlets(question: string): string[] {
   const matches = question.match(CMDLET_PATTERN) ?? [];
   return uniqueSorted(matches);
+}
+
+/**
+ * Deterministic cmdlet-module-prefix -> domain routing. A cmdlet's noun
+ * segment (the part after the verb-hyphen) carries the module identity by
+ * PowerShell convention (e.g. "CsOnlineVoiceUser", "SPOSite"). Unknown
+ * prefixes intentionally return null: an unrecognized cmdlet module must
+ * never be silently assumed to be Teams PowerShell (see K2 cmdlet-routing
+ * prerequisite).
+ */
+function cmdletDomain(cmdlet: string): QueryDomain | null {
+  const match = /^[A-Za-z]+-([A-Za-z][A-Za-z0-9]*)$/.exec(cmdlet);
+  const noun = match?.[1] ?? "";
+  if (/^Cs[A-Z]/.test(noun)) return "teams_powershell";
+  if (/^SPO[A-Z]/.test(noun)) return "sharepoint";
+  return null;
+}
+
+function classifyCmdlets(cmdlets: string[]): {
+  domains: QueryDomain[];
+  hasUnresolvedCmdlet: boolean;
+} {
+  const domains = new Set<QueryDomain>();
+  let hasUnresolvedCmdlet = false;
+  for (const cmdlet of cmdlets) {
+    const domain = cmdletDomain(cmdlet);
+    if (domain) {
+      domains.add(domain);
+    } else {
+      hasUnresolvedCmdlet = true;
+    }
+  }
+  return { domains: [...domains], hasUnresolvedCmdlet };
 }
 
 function classifyAnswerType(
@@ -127,6 +196,10 @@ function detectDomains(
   cmdlets: string[]
 ): QueryDomain[] {
   const domains = new Set<QueryDomain>();
+  const { domains: cmdletDomains } = classifyCmdlets(cmdlets);
+  const hasKnownPowerShellCmdlet = cmdletDomains.includes("teams_powershell");
+  const hasKnownSharePointCmdlet = cmdletDomains.includes("sharepoint");
+
   const hasTeams =
     normalized.includes("teams") ||
     normalized.includes("calling plan") ||
@@ -148,19 +221,38 @@ function detectDomains(
     normalized.includes("manifest") ||
     normalized.includes("bot") ||
     normalized.includes("tab app");
-  const hasPowerShell =
+  const hasCopilot = normalized.includes("copilot");
+  const hasCopilotSharePointContext =
+    hasCopilot &&
+    COPILOT_SHAREPOINT_CONTEXT_TERMS.some((term) => normalized.includes(term));
+  const hasSharePoint =
+    normalized.includes("sharepoint") ||
+    /\bspo\b/.test(normalized) ||
+    SHAREPOINT_MULTIWORD_SIGNALS.some((term) => normalized.includes(term)) ||
+    hasKnownSharePointCmdlet ||
+    hasCopilotSharePointContext;
+  // Cmdlet shape alone no longer implies Teams PowerShell: only a genuine
+  // Cs*-prefixed cmdlet, or explicit generic PowerShell/cmdlet phrasing with
+  // no other resolved cmdlet module, resolves it. Generic phrasing (the
+  // words "cmdlet"/"powershell") must never override a genuinely resolved
+  // cmdlet-module domain (e.g. a SharePoint SPO* cmdlet) with the
+  // historical Teams-only PowerShell default.
+  const hasGenericPowerShellPhrasing =
     normalized.includes("powershell") ||
     normalized.includes("cmdlet") ||
-    normalized.includes("which command") ||
-    cmdlets.length > 0 ||
-    /\bcs[a-z]/i.test(normalized);
+    normalized.includes("which command");
 
   if (hasTeams) domains.add("teams_admin");
-  if (hasPowerShell) domains.add("teams_powershell");
+  if (hasKnownPowerShellCmdlet) {
+    domains.add("teams_powershell");
+  } else if (hasGenericPowerShellPhrasing && !hasKnownSharePointCmdlet) {
+    domains.add("teams_powershell");
+  }
   if (hasGraph) domains.add("graph");
   if (hasEntra) domains.add("entra");
   if (hasM365) domains.add("m365");
   if (hasDev) domains.add("teams_dev");
+  if (hasSharePoint) domains.add("sharepoint");
 
   // No implicit default domain: an unrecognized subject must remain
   // unresolved rather than silently becoming a Teams Admin question.

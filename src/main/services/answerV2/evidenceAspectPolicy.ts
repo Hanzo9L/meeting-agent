@@ -132,6 +132,9 @@ function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
   if (sourceId === "ms-entra-docs") return "entra";
   if (sourceId === "ms-m365-docs") return "m365";
   if (sourceId === "ms-teams-dev-docs") return "teams_dev";
+  if (sourceId === "ms-sharepoint-docs" || sourceId === "ms-sharepoint-powershell") {
+    return "sharepoint";
+  }
   return "unknown";
 }
 
@@ -142,7 +145,30 @@ function domainAuthorityRoles(domain: SourceDomain): SourceAuthorityRole[] {
   if (domain === "entra") return ["entra_identity_primary"];
   if (domain === "m365") return ["m365_tenant_primary"];
   if (domain === "teams_dev") return ["teams_dev_specialized"];
+  if (domain === "sharepoint") {
+    return ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"];
+  }
   return [];
+}
+
+/** Authority roles that grant genuine PowerShell cmdlet-reference authority, across module families. */
+const CMDLET_AUTHORITY_ROLES: SourceAuthorityRole[] = [
+  "teams_powershell_cmdlet_primary",
+  "sharepoint_powershell_cmdlet_primary"
+];
+
+export function hasCmdletAuthority(authority: {
+  authorityRoles: SourceAuthorityRole[];
+}): boolean {
+  return CMDLET_AUTHORITY_ROLES.some((role) => authority.authorityRoles.includes(role));
+}
+
+/** Which cmdlet-authoritative domain(s) the query intent actually resolved to (cmdlet-prefix or explicit signal). */
+function cmdletDomainsForIntent(intent: QueryIntent): SourceDomain[] {
+  const domains = (intent.domains as SourceDomain[]).filter(
+    (domain) => domain === "teams_powershell" || domain === "sharepoint"
+  );
+  return domains.length > 0 ? domains : ["teams_powershell"];
 }
 
 function supportTypeForAnswerObject(
@@ -355,6 +381,35 @@ function questionFramesToolAsMethod(intent: QueryIntent, toolLabel: string): boo
   return false;
 }
 
+/**
+ * The generic "powershell" method tool covers multiple PowerShell module
+ * families (Teams, SharePoint). Its domain/role requirement must follow the
+ * domain the query intent actually resolved (via cmdlet prefix or explicit
+ * product keywords), not default unconditionally to Teams. When the intent
+ * gives no distinguishing signal, Teams remains the default for backward
+ * compatibility with existing "using PowerShell" questions.
+ */
+function resolveMethodToolAuthority(
+  definition: MethodToolDefinition,
+  intent: QueryIntent
+): { domains: SourceDomain[]; authorityRoles: SourceAuthorityRole[] } {
+  if (definition.kind !== "powershell") {
+    return { domains: [...definition.domains], authorityRoles: [...definition.authorityRoles] };
+  }
+  const domains = new Set<SourceDomain>();
+  const roles = new Set<SourceAuthorityRole>();
+  const intentDomains = intent.domains as SourceDomain[];
+  if (intentDomains.includes("sharepoint")) {
+    domains.add("sharepoint");
+    roles.add("sharepoint_powershell_cmdlet_primary");
+  }
+  if (domains.size === 0 || intentDomains.includes("teams_powershell")) {
+    domains.add("teams_powershell");
+    roles.add("teams_powershell_cmdlet_primary");
+  }
+  return { domains: [...domains], authorityRoles: [...roles] };
+}
+
 export function detectMethodConstraints(intent: QueryIntent): EvidenceMethodConstraint[] {
   const constraints: EvidenceMethodConstraint[] = [];
   const seen = new Set<EvidenceMethodConstraintKind>();
@@ -366,12 +421,13 @@ export function detectMethodConstraints(intent: QueryIntent): EvidenceMethodCons
     if (!questionFramesToolAsMethod(intent, technology)) continue;
     if (seen.has(definition.kind)) continue;
     seen.add(definition.kind);
+    const resolved = resolveMethodToolAuthority(definition, intent);
     constraints.push({
       kind: definition.kind,
       label: definition.label,
       required: true,
-      domains: [...definition.domains],
-      authorityRoles: [...definition.authorityRoles]
+      domains: resolved.domains,
+      authorityRoles: resolved.authorityRoles
     });
   }
 
@@ -382,12 +438,13 @@ export function detectMethodConstraints(intent: QueryIntent): EvidenceMethodCons
     }
     if (!questionFramesToolAsMethod(intent, definition.label)) continue;
     seen.add(definition.kind);
+    const resolved = resolveMethodToolAuthority(definition, intent);
     constraints.push({
       kind: definition.kind,
       label: definition.label,
       required: true,
-      domains: [...definition.domains],
-      authorityRoles: [...definition.authorityRoles]
+      domains: resolved.domains,
+      authorityRoles: resolved.authorityRoles
     });
   }
 
@@ -720,9 +777,16 @@ function authorityFor(
     answerObject === "cmdlet_identifier" ||
     answerObject === "cmdlet_semantics"
   ) {
+    const resolvedDomains = cmdletDomainsForIntent(intent);
+    const roles = new Set<SourceAuthorityRole>();
+    for (const domain of resolvedDomains) {
+      for (const role of domainAuthorityRoles(domain)) {
+        if (CMDLET_AUTHORITY_ROLES.includes(role)) roles.add(role);
+      }
+    }
     return {
-      requiredRoles: ["teams_powershell_cmdlet_primary"],
-      requiredDomains: ["teams_powershell"],
+      requiredRoles: [...roles],
+      requiredDomains: resolvedDomains,
       requireCanonicalIdentity,
       identityType
     };
@@ -1296,26 +1360,14 @@ export function candidateHasCanonicalIdentity(
     title === expected || sourcePath === expected || canonicalUrl === expected;
   if (!identityMatches) return false;
   if (identifier.type !== "cmdlet") return true;
-  return (
-    candidate.authority.sourceId === "ms-teams-powershell" &&
-    candidate.authority.authorityRoles.includes(
-      "teams_powershell_cmdlet_primary"
-    )
-  );
+  return hasCmdletAuthority(candidate.authority);
 }
 
 function discoveredCmdletIdentity(
   candidate: FusedRetrievalCandidate
 ): string | null {
   if (!CMDLET_TITLE_PATTERN.test(candidate.title.trim())) return null;
-  if (
-    candidate.authority.sourceId !== "ms-teams-powershell" ||
-    !candidate.authority.authorityRoles.includes(
-      "teams_powershell_cmdlet_primary"
-    )
-  ) {
-    return null;
-  }
+  if (!hasCmdletAuthority(candidate.authority)) return null;
   return candidate.title.trim();
 }
 

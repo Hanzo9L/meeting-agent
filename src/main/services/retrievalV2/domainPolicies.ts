@@ -94,7 +94,16 @@ function hasDeveloperSignals(intent: QueryIntent): boolean {
  */
 function inferPrimaryDomain(intent: QueryIntent): SourceDomain | null {
   if (intent.commandNames && intent.commandNames.length > 0) {
-    return "teams_powershell";
+    // A detected cmdlet only implies a PowerShell-authoritative domain when
+    // its module prefix actually resolved to one (see queryIntentRules'
+    // cmdletDomain). An unrecognized cmdlet prefix must not default to
+    // Teams PowerShell (K2 cmdlet-routing prerequisite).
+    if (intent.domains.includes("sharepoint")) {
+      return "sharepoint";
+    }
+    if (intent.domains.includes("teams_powershell")) {
+      return "teams_powershell";
+    }
   }
   if (isImplicitCmdletIntent(intent)) {
     return "teams_powershell";
@@ -113,6 +122,9 @@ function inferPrimaryDomain(intent: QueryIntent): SourceDomain | null {
   }
   if (intent.domains.includes("m365")) {
     return "m365";
+  }
+  if (intent.domains.includes("sharepoint")) {
+    return "sharepoint";
   }
   return null;
 }
@@ -182,6 +194,25 @@ function buildFocusSubdomains(intent: QueryIntent): string[] {
   }
   if (intent.commandNames && intent.commandNames.length > 0) {
     subdomains.add("cmdlet_reference");
+    if (intent.domains.includes("sharepoint")) {
+      subdomains.add("admin_powershell");
+    }
+  }
+  if (entitySet.has("site permissions")) {
+    subdomains.add("site_permissions");
+  }
+  if (entitySet.has("sharing link")) {
+    subdomains.add("sharing_links");
+  }
+  if (entitySet.has("restricted content discovery")) {
+    subdomains.add("copilot_content_discovery");
+  }
+  if (
+    entitySet.has("data access governance") ||
+    entitySet.has("sharepoint oversharing") ||
+    entitySet.has("sharepoint advanced management")
+  ) {
+    subdomains.add("sensitivity_governance");
   }
   if (intent.domains.includes("graph")) {
     subdomains.add("api_reference");
@@ -258,6 +289,29 @@ function filterEligibleTracks(
     return { eligible: [], excludedBeta };
   }
   return { eligible, excludedBeta };
+}
+
+/**
+ * SharePoint (unlike Teams) is modeled as a single merged domain covering
+ * both admin/governance and PowerShell cmdlet authority, so its static
+ * DOMAIN_AUTHORITY_PRIORITY chain cannot itself distinguish "this is a
+ * cmdlet-reference question" from "this is a conceptual admin question."
+ * When a genuine SPO* cmdlet is detected, the cmdlet-primary source must
+ * win the within-domain tie-break, exactly as ms-teams-powershell already
+ * does for Cs* cmdlets via its own dedicated domain key.
+ */
+function reorderForCmdletAuthority(chain: string[], intent: QueryIntent): string[] {
+  const hasSharePointCmdlet = (intent.commandNames ?? []).some((cmdlet) =>
+    /-SPO[A-Za-z0-9]/i.test(cmdlet)
+  );
+  if (!hasSharePointCmdlet) return chain;
+  const psIndex = chain.indexOf("ms-sharepoint-powershell");
+  const docsIndex = chain.indexOf("ms-sharepoint-docs");
+  if (psIndex < 0 || docsIndex < 0 || psIndex < docsIndex) return chain;
+  const reordered = [...chain];
+  reordered[docsIndex] = "ms-sharepoint-powershell";
+  reordered[psIndex] = "ms-sharepoint-docs";
+  return reordered;
 }
 
 function toReasonablePriority(
@@ -375,11 +429,31 @@ function shouldIncludeSource(params: {
     return { include: true };
   }
   if (source.id === "ms-teams-powershell") {
-    if (!(hasCmdlet || voiceSignals || implicitCmdlet)) {
+    // A detected cmdlet only counts here when its module prefix actually
+    // resolved to Teams PowerShell; an unrelated (e.g. SharePoint) cmdlet
+    // must not make the Teams PowerShell source eligible.
+    const teamsCmdletSignal = hasCmdlet && selectedDomains.includes("teams_powershell");
+    if (!(teamsCmdletSignal || voiceSignals || implicitCmdlet)) {
       return {
         include: false,
         reason: "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
       };
+    }
+    return { include: true };
+  }
+  if (source.id === "ms-sharepoint-powershell") {
+    const sharePointCmdletSignal = hasCmdlet && selectedDomains.includes("sharepoint");
+    if (!(sharePointCmdletSignal || selectedDomains.includes("sharepoint"))) {
+      return {
+        include: false,
+        reason: "sharepoint_powershell_source_requires_sharepoint_signal"
+      };
+    }
+    return { include: true };
+  }
+  if (source.id === "ms-sharepoint-docs") {
+    if (!selectedDomains.includes("sharepoint")) {
+      return { include: false, reason: "sharepoint_source_requires_sharepoint_domain" };
     }
     return { include: true };
   }
@@ -416,14 +490,18 @@ function buildSourceRouteScopes(params: {
   const registry = getDefaultSourceRegistry();
   const sourceById = new Map(registry.sources.map((source) => [source.id, source]));
 
-  const chain = uniqueOrdered(
-    params.selectedDomains.flatMap((domain) =>
-      getSourcePriorityChainForDomain(domain).map((source) => source.id)
-    )
+  const chain = reorderForCmdletAuthority(
+    uniqueOrdered(
+      params.selectedDomains.flatMap((domain) =>
+        getSourcePriorityChainForDomain(domain).map((source) => source.id)
+      )
+    ),
+    params.intent
   );
   const primaryChain = params.primaryDomain
-    ? getSourcePriorityChainForDomain(params.primaryDomain).map(
-        (source) => source.id
+    ? reorderForCmdletAuthority(
+        getSourcePriorityChainForDomain(params.primaryDomain).map((source) => source.id),
+        params.intent
       )
     : [];
 

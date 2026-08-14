@@ -97,11 +97,20 @@ test("implicit cmdlet intent captures operation intent", () => {
 
 test("no domain detected does not default to teams_admin", () => {
   const result = extractQueryIntent(
-    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+    "How do I delegate access to a shared Exchange mailbox?"
   );
   assert.ok(!result.intent.domains.includes("teams_admin"));
   assert.deepEqual(result.intent.domains, []);
   assert.ok(result.intent.unresolvedAmbiguity.includes("domain_unresolved"));
+});
+
+test("K2: SharePoint/Copilot data-exposure question genuinely resolves to sharepoint, not teams_admin", () => {
+  const result = extractQueryIntent(
+    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+  );
+  assert.ok(!result.intent.domains.includes("teams_admin"));
+  assert.deepEqual(result.intent.domains, ["sharepoint"]);
+  assert.ok(!result.intent.unresolvedAmbiguity.includes("domain_unresolved"));
 });
 
 test("second unmodeled subject also stays unresolved rather than defaulting", () => {
@@ -140,9 +149,47 @@ test("service principal and app registration are Entra signals without adding a 
   assert.ok(appRegistration.intent.entities.includes("app registration"));
 
   const stillUnresolved = extractQueryIntent(
-    "How would you secure SharePoint data so it is not accessible by all Copilot users?"
+    "How do I delegate access to a shared Exchange mailbox?"
   );
   assert.deepEqual(stillUnresolved.intent.domains, []);
+});
+
+test("K2: bare Copilot mention does not imply SharePoint", () => {
+  const result = extractQueryIntent("What is Microsoft 365 Copilot?");
+  assert.ok(!result.intent.domains.includes("sharepoint"));
+});
+
+test("K2: Copilot co-occurring with content/access/governance context resolves to sharepoint even without the literal word sharepoint", () => {
+  const result = extractQueryIntent("Does Microsoft 365 Copilot bypass existing permissions?");
+  assert.ok(!result.intent.normalizedQuestion.includes("sharepoint"));
+  assert.ok(result.intent.domains.includes("sharepoint"));
+});
+
+test("K2: SPO* cmdlet routes deterministically to sharepoint, not teams_powershell", () => {
+  const result = extractQueryIntent("What does Set-SPOSite do?");
+  assert.deepEqual(result.intent.commandNames, ["Set-SPOSite"]);
+  assert.ok(result.intent.domains.includes("sharepoint"));
+  assert.ok(!result.intent.domains.includes("teams_powershell"));
+});
+
+test("K2: Cs* cmdlet still routes deterministically to teams_powershell, not sharepoint", () => {
+  const result = extractQueryIntent("What does Set-CsOnlineVoiceRoutingPolicy do?");
+  assert.ok(result.intent.domains.includes("teams_powershell"));
+  assert.ok(!result.intent.domains.includes("sharepoint"));
+});
+
+test("K2: generic 'cmdlet' phrasing does not force teams_powershell alongside a genuinely resolved SharePoint cmdlet", () => {
+  const result = extractQueryIntent("What does the Set-SPOSite cmdlet do?");
+  assert.deepEqual(result.intent.commandNames, ["Set-SPOSite"]);
+  assert.ok(result.intent.domains.includes("sharepoint"));
+  assert.ok(!result.intent.domains.includes("teams_powershell"));
+});
+
+test("K2: unknown cmdlet namespace does not silently default to teams_powershell or sharepoint", () => {
+  const result = extractQueryIntent("What does Set-ExoMailbox do?");
+  assert.ok(!result.intent.domains.includes("teams_powershell"));
+  assert.ok(!result.intent.domains.includes("sharepoint"));
+  assert.deepEqual(result.intent.commandNames, ["Set-ExoMailbox"]);
 });
 
 test("repeatability and no network dependency", () => {

@@ -22,6 +22,19 @@ test("loads and validates the Entra K1 evaluation set", async () => {
   assert.ok(dataset[5]?.evaluationNotes.includes("insufficient_evidence"));
 });
 
+test("loads and validates the SharePoint K2 evaluation set", async () => {
+  const dataset = await loadEvaluationDataset("eval/datasets/sharepoint-qa-k2.jsonl");
+  assert.equal(dataset.length, 10);
+  assert.equal(dataset[0]?.expectedDomain, "sharepoint");
+  assert.ok(dataset[0]?.question.includes("Copilot users"));
+  assert.equal(dataset[6]?.expectedDomain, "sharepoint");
+  assert.ok(dataset[6]?.question.includes("Set-SPOSite"), "cmdlet question should be present");
+  assert.equal(dataset[7]?.expectedDomain, "teams_admin");
+  assert.equal(dataset[8]?.expectedDomain, "entra");
+  assert.equal(dataset[9]?.expectedDomain, "unknown");
+  assert.ok(dataset[9]?.evaluationNotes.includes("insufficient_evidence"));
+});
+
 test("rejects duplicate question IDs", async () => {
   const dir = await mkdtemp(join(tmpdir(), "meeting-agent-eval-"));
   const filePath = join(dir, "dup.jsonl");

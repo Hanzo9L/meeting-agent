@@ -5,6 +5,7 @@ import { classifyAnswerability } from "./answerabilityPolicy";
 import {
   deriveEvidenceAspects,
   evaluateCandidateAspectSupport,
+  hasCmdletAuthority,
   loadCandidateEvidenceMetadata,
   type CandidateAspectEvaluation,
   type CandidateEvidenceMetadata
@@ -203,12 +204,10 @@ function computeExactIdentifierValidation(
       ].some((value) => normalizeIdentifier(value) === expected);
       if (!identityMatches) return false;
       if (directive.type !== "cmdlet") return true;
-      return (
-        item.source.sourceId === "ms-teams-powershell" &&
-        item.source.authorityRoles.includes(
-          "teams_powershell_cmdlet_primary"
-        )
-      );
+      // Cmdlet-identity verification must accept authority from any
+      // genuine PowerShell cmdlet-reference domain (Teams, SharePoint,
+      // etc.), not assume every cmdlet belongs to Teams PowerShell.
+      return hasCmdletAuthority({ authorityRoles: item.source.authorityRoles });
     });
     if (!selectedMatch) {
       missing.push({ type: directive.type, value: directive.value });

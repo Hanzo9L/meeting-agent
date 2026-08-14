@@ -19,7 +19,9 @@ const SOURCE_IDS = {
   graph: "ms-graph-docs",
   entra: "ms-entra-docs",
   m365: "ms-m365-docs",
-  teamsDev: "ms-teams-dev-docs"
+  teamsDev: "ms-teams-dev-docs",
+  sharepoint: "ms-sharepoint-docs",
+  sharepointPowerShell: "ms-sharepoint-powershell"
 } as const;
 
 const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
@@ -29,7 +31,9 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.m365,
     SOURCE_IDS.entra,
     SOURCE_IDS.graph,
-    SOURCE_IDS.teamsDev
+    SOURCE_IDS.teamsDev,
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell
   ],
   teams_powershell: [
     SOURCE_IDS.teamsPowerShell,
@@ -37,7 +41,9 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.m365,
     SOURCE_IDS.entra,
     SOURCE_IDS.graph,
-    SOURCE_IDS.teamsDev
+    SOURCE_IDS.teamsDev,
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell
   ],
   graph: [
     SOURCE_IDS.graph,
@@ -45,7 +51,9 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.m365,
     SOURCE_IDS.teamsAdmin,
     SOURCE_IDS.teamsDev,
-    SOURCE_IDS.teamsPowerShell
+    SOURCE_IDS.teamsPowerShell,
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell
   ],
   entra: [
     SOURCE_IDS.entra,
@@ -53,7 +61,9 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.teamsAdmin,
     SOURCE_IDS.graph,
     SOURCE_IDS.teamsDev,
-    SOURCE_IDS.teamsPowerShell
+    SOURCE_IDS.teamsPowerShell,
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell
   ],
   m365: [
     SOURCE_IDS.m365,
@@ -61,7 +71,9 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.entra,
     SOURCE_IDS.graph,
     SOURCE_IDS.teamsPowerShell,
-    SOURCE_IDS.teamsDev
+    SOURCE_IDS.teamsDev,
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell
   ],
   teams_dev: [
     SOURCE_IDS.teamsDev,
@@ -69,7 +81,19 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.entra,
     SOURCE_IDS.teamsAdmin,
     SOURCE_IDS.teamsPowerShell,
-    SOURCE_IDS.m365
+    SOURCE_IDS.m365,
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell
+  ],
+  sharepoint: [
+    SOURCE_IDS.sharepoint,
+    SOURCE_IDS.sharepointPowerShell,
+    SOURCE_IDS.m365,
+    SOURCE_IDS.entra,
+    SOURCE_IDS.teamsAdmin,
+    SOURCE_IDS.graph,
+    SOURCE_IDS.teamsPowerShell,
+    SOURCE_IDS.teamsDev
   ]
 };
 
@@ -340,6 +364,146 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
           expectedPathPattern: "^/en-us/microsoftteams/platform/"
         }
       }
+    },
+    {
+      id: SOURCE_IDS.sharepoint,
+      displayName: "SharePoint Admin & Governance Docs",
+      description:
+        "Primary authority for SharePoint administration: site/library permissions, sharing controls, oversharing governance, and how SharePoint permissions affect Microsoft 365 Copilot content discovery. Scoped to admin/security/governance content; excludes SPFx and general SharePoint development.",
+      product: "SharePoint",
+      domains: ["sharepoint"],
+      subdomains: [
+        "site_permissions",
+        "sharing_links",
+        "sensitivity_governance",
+        "copilot_content_discovery"
+      ],
+      audiences: ["administrator", "security", "it_pro"],
+      sourceType: "documentation",
+      authorityTier: "tier1",
+      authorityRoles: ["sharepoint_admin_primary"],
+      defaultRetrievalEligible: true,
+      synchronizationEnabled: false,
+      acquisition: {
+        transport: "learn_mcp",
+        endpoint: LEARN_MCP_ENDPOINT,
+        canonicalBaseUrl: "https://learn.microsoft.com/en-us/sharepoint",
+        locale: "en-us",
+        searchScope: {
+          includePathPrefixes: ["/en-us/sharepoint/"]
+        },
+        cacheEnabled: true
+      },
+      contentTracks: [
+        {
+          id: "ga",
+          status: "ga",
+          includeGlobs: ["sharepoint/**"],
+          excludeGlobs: ["**/archive/**", "**/includes/**", "**/media/**", "**/spfx/**"],
+          defaultRetrievalEligible: true,
+          synchronizationEnabled: false
+        }
+      ],
+      learnMapping: {
+        productAreas: ["sharepoint"],
+        preferredLocale: "en-us"
+      },
+      normalizationHints: {
+        dateFields: ["ms.date", "updated_at"],
+        statusFields: ["ms.topic", "ms.service", "ms.subservice"],
+        ownerFields: ["author", "ms.author"]
+      }
+    },
+    {
+      id: SOURCE_IDS.sharepointPowerShell,
+      displayName: "SharePoint Online PowerShell Docs",
+      description: "Primary authority for SharePoint Online (SPO*) cmdlet semantics.",
+      product: "SharePoint",
+      domains: ["sharepoint"],
+      subdomains: ["admin_powershell"],
+      audiences: ["administrator", "it_pro"],
+      sourceType: "reference",
+      authorityTier: "tier1",
+      authorityRoles: ["sharepoint_powershell_cmdlet_primary"],
+      defaultRetrievalEligible: true,
+      synchronizationEnabled: true,
+      acquisition: {
+        transport: "github",
+        owner: "MicrosoftDocs",
+        repo: "OfficeDocs-SharePoint-PowerShell",
+        branch: "main",
+        webBaseUrl: "https://github.com/MicrosoftDocs/OfficeDocs-SharePoint-PowerShell/blob/main",
+        rawBaseUrl:
+          "https://raw.githubusercontent.com/MicrosoftDocs/OfficeDocs-SharePoint-PowerShell/main"
+      },
+      contentTracks: [
+        {
+          id: "ga",
+          status: "ga",
+          // K2 is deliberately bounded to cmdlets relevant to site/library
+          // permissions, sharing controls, external users, oversharing
+          // reporting, data-access governance, restricted access insights,
+          // and Copilot/M365 agent content-discovery insights. The module
+          // has 300+ cmdlets covering unrelated areas (CDN, migration,
+          // containers, taxonomy, geo-move, themes, etc.) that are out of
+          // scope for this slice and are intentionally excluded here rather
+          // than ingested and never surfaced as authoritative.
+          includeGlobs: [
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Connect-SPOService.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Disconnect-SPOService.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOSite.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/New-SPOSite.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Remove-SPOSite.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOTenant.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOTenant.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOUser.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Add-SPOUser.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOUser.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Remove-SPOUser.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOSiteGroup.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/New-SPOSiteGroup.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSiteGroup.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Remove-SPOSiteGroup.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOExternalUser.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Remove-SPOExternalUser.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOSiteUserInvitations.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Remove-SPOSiteUserInvitations.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/New-SPOSiteSharingReportJob.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPODataAccessGovernanceInsight.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Start-SPODataAccessGovernanceInsight.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Export-SPODataAccessGovernanceInsight.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Remove-SPODataAccessGovernanceInsight.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPORestrictedAccessForSitesInsights.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Start-SPORestrictedAccessForSitesInsights.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOCopilotAgentInsightsReport.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Start-SPOCopilotAgentInsightsReport.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Get-SPOM365AgentAccessInsightsReport.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Start-SPOM365AgentAccessInsightsReport.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOCopilotPromoOptInStatus.md",
+            "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Revoke-SPOUserSession.md"
+          ],
+          excludeGlobs: ["**/archive/**", "**/media/**"],
+          defaultRetrievalEligible: true,
+          synchronizationEnabled: true
+        }
+      ],
+      learnMapping: {
+        productAreas: ["powershell", "sharepoint"],
+        preferredLocale: "en-us",
+        githubPowerShellModule: {
+          learnModuleSegment: "microsoft.online.sharepoint.powershell",
+          repoPathPrefix: "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/",
+          repository: "microsoftdocs/officedocs-sharepoint-powershell",
+          cmdletTitlePattern:
+            "^(?:Get|Set|Grant|Revoke|Remove|New|Test|Enable|Disable|Add|Repair|Start|Stop|Register|Unregister|Approve|Deny|Request|Restore|Move|Rename|Connect|Disconnect|Import|Export|Invoke|Recover|Submit|Update|Upgrade)-SPO[A-Za-z0-9]+$"
+        }
+      },
+      normalizationHints: {
+        dateFields: ["ms.date", "updatedDate"],
+        statusFields: ["ms.topic", "ms.service"],
+        ownerFields: ["author", "ms.author"]
+      }
     }
   ]
 };
@@ -391,7 +555,8 @@ function assertValidAuthorityRoles(source: KnowledgeSourceDefinition): void {
     graph: ["graph_api_primary"],
     entra: ["entra_identity_primary"],
     m365: ["m365_tenant_primary"],
-    teams_dev: ["teams_dev_specialized"]
+    teams_dev: ["teams_dev_specialized"],
+    sharepoint: ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"]
   };
 
   if (source.authorityRoles.length === 0) {
