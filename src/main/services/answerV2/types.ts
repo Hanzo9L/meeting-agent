@@ -34,7 +34,9 @@ export type EvidenceRejectionReason =
   | "superseded"
   | "insufficient_direct_support"
   | "candidate_cap"
-  | "adjacent_domain_authority_missing";
+  | "adjacent_domain_authority_missing"
+  | "redundant_same_concept"
+  | "bounded_selection_limit";
 
 export type EvidenceAspectAnswerObject =
   | "mechanism"

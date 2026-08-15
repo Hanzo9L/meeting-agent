@@ -13,6 +13,7 @@ function makeCandidate(params: {
   text: string;
   url: string;
   headingPath?: string[];
+  rank?: number;
 }): FusedRetrievalCandidate {
   return {
     candidateId: `cand-${params.sourceId}`,
@@ -48,7 +49,7 @@ function makeCandidate(params: {
       semantic: { similarity: 0.8, rank: 1 }
     },
     fusion: {
-      rank: 1,
+      rank: params.rank ?? 1,
       score: 90,
       contributions: {
         exactScore: 0,
@@ -167,4 +168,110 @@ test("K2: SPO* cmdlet question requires sharepoint_powershell_cmdlet_primary aut
   });
   const support = evaluateCandidateAspectSupport(result, teamsPowerShellCandidate, cmdletAspect!);
   assert.equal(support.authoritySatisfied, false);
+});
+
+test("U1: identifier-verification bonus does not apply when 'identifier' is not a required facet (conceptual preference)", () => {
+  const { result, aspects } = deriveSharePointAspects(
+    "What is Restricted Content Discovery?"
+  );
+  const mandatory = aspects.find((aspect) => aspect.requirement === "mandatory");
+  assert.ok(mandatory);
+  assert.ok(!mandatory!.requiredFacets.includes("identifier"));
+
+  // Retrieval (lexical/semantic fusion) is what actually orders these two in
+  // production for this question: the conceptual article ranks well ahead of
+  // the parameter reference (see eval/runs/indexing/u1-validation.json,
+  // "restricted-content-discovery" — rank 1 vs rank 5). Reflect that real
+  // ordering here rather than an artificial tie, since quality-score bonuses
+  // for facets the aspect never asked for (e.g. "identifier") must not be
+  // used to manufacture a preference — that is exactly the CA-MFA failure
+  // mode this slice fixes, just pointed the other direction.
+  const cmdletParameterCandidate = makeCandidate({
+    sourceId: "ms-sharepoint-powershell",
+    authorityRoles: ["sharepoint_powershell_cmdlet_primary"],
+    routePriority: "primary",
+    title: "Set-SPOSite",
+    text: "Set-SPOSite -RestrictedAccessControl sets restricted content discovery on a site.",
+    url: "https://learn.microsoft.com/powershell/module/sharepoint-online/set-sposite",
+    rank: 5
+  });
+  const conceptualCandidate = makeCandidate({
+    sourceId: "ms-sharepoint-docs",
+    authorityRoles: ["sharepoint_admin_primary"],
+    routePriority: "primary",
+    title: "Restrict discovery of SharePoint sites and content",
+    text: "Restricted Content Discovery lets admins prevent high-risk sites and files from being referenced by Microsoft 365 Copilot and other AI experiences, without changing existing permissions.",
+    url: "https://learn.microsoft.com/en-us/sharepoint/restrict-content-discovery",
+    rank: 1
+  });
+  const metadataByChunkId = new Map([
+    [conceptualCandidate.chunkId, { chunkKind: "conceptual" }]
+  ]);
+  const cmdletSupport = evaluateCandidateAspectSupport(result, cmdletParameterCandidate, mandatory!);
+  const conceptualSupport = evaluateCandidateAspectSupport(result, conceptualCandidate, mandatory!, {
+    metadataByChunkId
+  });
+  assert.equal(cmdletSupport.strength, "direct");
+  assert.equal(conceptualSupport.strength, "direct");
+  // Neither candidate earns a quality-score bonus for a facet this aspect
+  // never required (identifier for the cmdlet, purpose/mechanism for the
+  // conceptual article) — the only remaining difference is the small
+  // retrieval-rank tiebreak term, which correctly favors the conceptual
+  // candidate because that is how retrieval actually ranked them.
+  assert.ok(
+    conceptualSupport.qualityScore > cmdletSupport.qualityScore,
+    `expected conceptual evidence (${conceptualSupport.qualityScore}) to outrank a cmdlet-shaped title (${cmdletSupport.qualityScore})`
+  );
+  assert.ok(
+    Math.abs(
+      conceptualSupport.qualityScore -
+        cmdletSupport.qualityScore -
+        (cmdletParameterCandidate.fusion.rank - conceptualCandidate.fusion.rank) / 20
+    ) < 1e-9,
+    "the entire margin must come from retrieval-rank ordering, not from an unearned facet bonus"
+  );
+});
+
+test("U1: a procedure that performs the requested operation counts as configuration content even without the literal word 'configure'", () => {
+  const { result, aspects } = deriveSharePointAspects(
+    "How would I configure a Conditional Access policy to require MFA for all admin roles?"
+  );
+  const mandatory = aspects.find((aspect) => aspect.requirement === "mandatory");
+  assert.ok(mandatory);
+  assert.ok(mandatory!.requiredFacets.includes("configuration"));
+
+  const stepByStepCandidate = makeCandidate({
+    sourceId: "ms-entra-docs",
+    authorityRoles: ["entra_identity_primary"],
+    routePriority: "primary",
+    title: "Require MFA for administrators with Conditional Access",
+    headingPath: ["Require MFA for administrators", "Create a Conditional Access policy"],
+    text: [
+      "The following steps help create a Conditional Access policy to require those",
+      "assigned administrative roles to perform multifactor authentication.",
+      "1. Sign in to the Microsoft Entra admin center as at least a Conditional Access Administrator.",
+      "2. Browse to Entra ID > Conditional Access > Policies.",
+      "3. Select New policy.",
+      "4. Give your policy a name.",
+      "5. Under Assignments, select Users or workload identities. Under Include, select Directory roles and choose at least the previously listed roles.",
+      "6. Under Target resources > Resources > Include, select All resources.",
+      "7. Under Access controls > Grant, select Grant access, Require multifactor authentication, and select Select.",
+      "8. Confirm your settings and set Enable policy to Report-only.",
+      "9. Select Create to enable your policy."
+    ].join(" "),
+    url: "https://learn.microsoft.com/entra/identity/conditional-access/policy-mfa-admins"
+  });
+  const metadataByChunkId = new Map([
+    [stepByStepCandidate.chunkId, { chunkKind: "procedure" }]
+  ]);
+  const support = evaluateCandidateAspectSupport(result, stepByStepCandidate, mandatory!, {
+    metadataByChunkId
+  });
+  assert.ok(support.matchedFacets.includes("procedure"));
+  assert.ok(support.matchedFacets.includes("operation"));
+  assert.ok(
+    support.matchedFacets.includes("configuration"),
+    `expected 'configuration' to be inferred from procedure+operation content; matchedFacets=${support.matchedFacets.join(",")}`
+  );
+  assert.equal(support.strength, "direct");
 });

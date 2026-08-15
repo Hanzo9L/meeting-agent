@@ -22,7 +22,7 @@ import type {
   EvidenceSupportType
 } from "./types";
 
-const GENERIC_SUBJECT_TERMS = new Set([
+export const GENERIC_SUBJECT_TERMS = new Set([
   "microsoft",
   "teams",
   "admin",
@@ -1593,7 +1593,11 @@ function matchedFacetsForCandidate(params: {
   }
   if (
     chunkKind === "configuration" ||
-    /configure|configuration|policy setting/.test(heading)
+    /configure|configuration|policy setting/.test(heading) ||
+    // A procedure that performs the requested operation is, by definition,
+    // configuration content even when it never uses the literal word
+    // "configure" (e.g. numbered admin-center click-through steps).
+    (matched.has("procedure") && matched.has("operation"))
   ) {
     matched.add("configuration");
   }
@@ -1720,14 +1724,30 @@ export function evaluateCandidateAspectSupport(
     reasonCodes.push("authority_does_not_upgrade_strength");
   }
 
+  // A facet's quality-score bonus only reflects genuine answer quality when
+  // the aspect actually requires that facet. Otherwise a candidate can
+  // out-rank genuinely more relevant evidence purely by incidentally
+  // pattern-matching a facet nobody asked for — e.g. an unrelated "Overview"
+  // section earning the same +40 purpose/mechanism bonus as a document that
+  // is actually about the requested subject, or a cmdlet-shaped title
+  // earning an identifier bonus on a plain conceptual question. Gate every
+  // bonus the same way "identifier" already was.
+  const identifierFacetRequired = aspect.requiredFacets.includes("identifier");
+  const purposeFacetRequired = aspect.requiredFacets.includes("purpose");
+  const mechanismFacetRequired = aspect.requiredFacets.includes("mechanism");
+  const relationshipFacetRequired = aspect.requiredFacets.includes("relationship");
+  const operationFacetRequired = aspect.requiredFacets.includes("operation");
+
   let qualityScore = 0;
   if (strength === "direct") {
-    if (canonicalIdentityVerified || discoveredCmdlet) qualityScore += 100;
-    if (matchedFacets.includes("purpose")) qualityScore += 20;
-    if (matchedFacets.includes("mechanism")) qualityScore += 20;
-    if (matchedFacets.includes("relationship")) qualityScore += 24;
-    if (matchedFacets.includes("identifier")) qualityScore += 30;
-    if (matchedFacets.includes("operation")) qualityScore += 16;
+    if ((canonicalIdentityVerified || discoveredCmdlet) && identifierFacetRequired) {
+      qualityScore += 100;
+    }
+    if (matchedFacets.includes("purpose") && purposeFacetRequired) qualityScore += 20;
+    if (matchedFacets.includes("mechanism") && mechanismFacetRequired) qualityScore += 20;
+    if (matchedFacets.includes("relationship") && relationshipFacetRequired) qualityScore += 24;
+    if (matchedFacets.includes("identifier") && identifierFacetRequired) qualityScore += 30;
+    if (matchedFacets.includes("operation") && operationFacetRequired) qualityScore += 16;
     if (candidate.authority.sourceStatus === "ga") qualityScore += 6;
     if (candidate.authority.routePriority === "primary") qualityScore += 4;
     qualityScore += Math.min(candidate.methods.length, 3);

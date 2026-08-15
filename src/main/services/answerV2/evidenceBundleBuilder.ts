@@ -11,6 +11,13 @@ import {
   type CandidateEvidenceMetadata
 } from "./evidenceAspectPolicy";
 import {
+  areConceptsRedundant,
+  computeConceptSignature,
+  isBroadSelectionAspect,
+  BROAD_ASPECT_CONCEPT_CAP,
+  type ConceptSignature
+} from "./evidenceConceptDistinctness";
+import {
   bindEvidenceBundleSnapshot,
   type EvidenceBundleDecisionState
 } from "./groundingDecisionSnapshot";
@@ -45,6 +52,9 @@ function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
   if (sourceId === "ms-entra-docs") return "entra";
   if (sourceId === "ms-m365-docs") return "m365";
   if (sourceId === "ms-teams-dev-docs") return "teams_dev";
+  if (sourceId === "ms-sharepoint-docs" || sourceId === "ms-sharepoint-powershell") {
+    return "sharepoint";
+  }
   return "unknown";
 }
 
@@ -65,7 +75,8 @@ function canonicalFromSourcePath(sourceId: string, sourcePath: string): string {
 function toEvidenceItem(
   candidate: FusedRetrievalCandidate,
   supportedAspects: EvidenceAspect[],
-  strength: EvidenceAspectSupportStrength
+  strength: EvidenceAspectSupportStrength,
+  conceptSelectionNote?: string
 ): EvidenceItem {
   const revisionCanonicalUrl =
     typeof candidate.provenance.sourceRevision["canonicalUrl"] === "string"
@@ -113,7 +124,7 @@ function toEvidenceItem(
     selectionReason: `selected:aspect:${supportedAspects
       .map((aspect) => aspect.aspectId)
       .sort()
-      .join(",")}:${strength}`
+      .join(",")}:${strength}${conceptSelectionNote ? `:${conceptSelectionNote}` : ""}`
   };
 }
 
@@ -311,6 +322,11 @@ export function buildEvidenceBundle(
     EVIDENCE_POLICY.maxEvidenceItems,
     mandatoryAspects.length
   );
+  /** Per-candidate overrides for the final rejection-reason pass, populated by
+   * the broad-aspect concept-distinctness selection loop below. */
+  const conceptDecisionOverrides = new Map<string, EvidenceRejectionReason>();
+  /** Per-candidate "why selected" note for broad-aspect diagnostics. */
+  const conceptSelectionNotes = new Map<string, string>();
 
   const eligibleDirectForAspect = (
     aspect: EvidenceAspect
@@ -382,16 +398,55 @@ export function buildEvidenceBundle(
     }
 
     const eligible = eligibleDirectForAspect(aspect);
-    for (const row of eligible) {
-      if (
-        !selectedCandidates.has(row.candidate.candidateId) &&
-        selectedCandidates.size >= maxEvidenceItems
-      ) {
-        continue;
+    const broadSelection = isBroadSelectionAspect(aspect);
+    if (!broadSelection) {
+      // Narrow/bounded aspects preserve the original minimal-selection
+      // behavior: stop as soon as the aspect's required facets are covered.
+      for (const row of eligible) {
+        if (
+          !selectedCandidates.has(row.candidate.candidateId) &&
+          selectedCandidates.size >= maxEvidenceItems
+        ) {
+          continue;
+        }
+        selectForAspect(row.candidate, aspect, row.support);
+        if (facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])) {
+          break;
+        }
       }
-      selectForAspect(row.candidate, aspect, row.support);
-      if (facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])) {
-        break;
+    } else {
+      // Broad aspects: keep inspecting authoritative direct candidates beyond
+      // the first, but only accept one when it contributes a materially
+      // distinct concept (not merely a higher-ranked restatement), and stop
+      // at a small bounded maximum. Every accepted candidate already
+      // satisfies the same direct+authoritative requirements as narrow
+      // aspects (via eligibleDirectForAspect) — breadth never relaxes
+      // authority or promotes supporting/contextual evidence.
+      const acceptedConcepts: ConceptSignature[] = [];
+      for (const row of eligible) {
+        if (acceptedConcepts.length >= BROAD_ASPECT_CONCEPT_CAP) {
+          if (!selectedCandidates.has(row.candidate.candidateId)) {
+            conceptDecisionOverrides.set(row.candidate.candidateId, "bounded_selection_limit");
+          }
+          continue;
+        }
+        if (
+          !selectedCandidates.has(row.candidate.candidateId) &&
+          selectedCandidates.size >= maxEvidenceItems
+        ) {
+          continue;
+        }
+        const signature = computeConceptSignature(row.candidate, aspect);
+        if (acceptedConcepts.length > 0 && areConceptsRedundant(signature, acceptedConcepts)) {
+          conceptDecisionOverrides.set(row.candidate.candidateId, "redundant_same_concept");
+          continue;
+        }
+        selectForAspect(row.candidate, aspect, row.support);
+        conceptSelectionNotes.set(
+          row.candidate.candidateId,
+          acceptedConcepts.length === 0 ? "primary_direct_selected" : "distinct_concept_selected"
+        );
+        acceptedConcepts.push(signature);
       }
     }
 
@@ -442,7 +497,8 @@ export function buildEvidenceBundle(
       toEvidenceItem(
         candidate,
         aspects.filter((aspect) => aspectIds.has(aspect.aspectId)),
-        strength
+        strength,
+        conceptSelectionNotes.get(candidate.candidateId)
       )
     );
   const evidenceIdByCandidateId = new Map(
@@ -497,28 +553,37 @@ export function buildEvidenceBundle(
     if (betaLike && !result.intent.allowsBetaSources) {
       reasons.push("beta_not_allowed");
     }
-    const candidateSupports = [
-      ...(evaluations.get(candidate.candidateId)?.values() ?? [])
-    ].map((evaluation) => evaluation.support);
-    const bestStrength = candidateSupports.some(
-      (support) => support.strength === "direct"
-    )
-      ? "direct"
-      : candidateSupports.some((support) => support.strength === "supporting")
-        ? "supporting"
-        : "contextual";
-    const topical = candidateSupports.some((support) => support.topical);
-    if (!topical || bestStrength === "contextual") {
-      reasons.push("low_topical_relevance", "insufficient_direct_support");
-    } else if (bestStrength === "supporting") {
-      reasons.push("insufficient_direct_support");
-      if (candidateSupports.some((support) => !support.authoritySatisfied)) {
-        reasons.push("lower_authority");
-      }
-    } else if (selectedCandidates.size >= maxEvidenceItems) {
-      reasons.push("candidate_cap");
+    const conceptOverrideReason = conceptDecisionOverrides.get(candidate.candidateId);
+    if (conceptOverrideReason) {
+      // This candidate was evaluated as an authoritative direct candidate for
+      // a broad aspect but was not accepted because it restates an
+      // already-selected concept or exceeded the bounded per-aspect cap —
+      // not because it lacked authority/directness.
+      reasons.push(conceptOverrideReason);
     } else {
-      reasons.push("redundant");
+      const candidateSupports = [
+        ...(evaluations.get(candidate.candidateId)?.values() ?? [])
+      ].map((evaluation) => evaluation.support);
+      const bestStrength = candidateSupports.some(
+        (support) => support.strength === "direct"
+      )
+        ? "direct"
+        : candidateSupports.some((support) => support.strength === "supporting")
+          ? "supporting"
+          : "contextual";
+      const topical = candidateSupports.some((support) => support.topical);
+      if (!topical || bestStrength === "contextual") {
+        reasons.push("low_topical_relevance", "insufficient_direct_support");
+      } else if (bestStrength === "supporting") {
+        reasons.push("insufficient_direct_support");
+        if (candidateSupports.some((support) => !support.authoritySatisfied)) {
+          reasons.push("lower_authority");
+        }
+      } else if (selectedCandidates.size >= maxEvidenceItems) {
+        reasons.push("candidate_cap");
+      } else {
+        reasons.push("redundant");
+      }
     }
     rejected.push({
       candidateId: candidate.candidateId,

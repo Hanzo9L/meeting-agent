@@ -286,7 +286,304 @@ test("candidates are not blindly copied and redundant evidence is rejected", () 
   });
   const bundle = buildEvidenceBundle(hybrid).bundle;
   assert.equal(bundle.evidence.length, 1);
-  assert.ok(bundle.rejectedCandidates.some((candidate) => candidate.reasons.includes("redundant")));
+  // This is a broad ("how ... work") mechanism aspect, so the near-duplicate
+  // is rejected via the concept-distinctness path rather than the generic
+  // narrow-aspect redundancy reason.
+  assert.ok(
+    bundle.rejectedCandidates.some(
+      (candidate) =>
+        candidate.reasons.includes("redundant") ||
+        candidate.reasons.includes("redundant_same_concept")
+    )
+  );
+});
+
+test("U1: broad unresolved-subject aspect selects multiple concept-distinct direct candidates", () => {
+  const hybrid = makeHybrid({
+    question: "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+    domains: ["sharepoint"],
+    products: [],
+    technologies: [],
+    entities: [],
+    answerType: "conceptual",
+    unresolvedAmbiguity: ["no_explicit_entity"],
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Manage access to agents in SharePoint",
+        headingPath: ["Manage access to agents in SharePoint", "Control user access through licensing"],
+        text: "Control who can access Microsoft 365 Copilot agents in SharePoint through licensing assignment, restricting broad Copilot access to SharePoint data.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint"
+      }),
+      makeCandidate({
+        rank: 2,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Restrict discovery of SharePoint sites and content",
+        headingPath: ["Restrict discovery of SharePoint sites and content"],
+        text: "Restricted Content Discovery prevents high-risk sites and files from being referenced by Microsoft 365 Copilot and other AI experiences.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/restrict-content-discovery"
+      }),
+      makeCandidate({
+        rank: 3,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Data access governance reports for SharePoint and OneDrive sites",
+        headingPath: ["Data access governance reports for SharePoint and OneDrive sites"],
+        text: "Use data access governance reports to find overshared SharePoint and OneDrive sites and remediate broad sharing before enabling Copilot.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports"
+      }),
+      makeCandidate({
+        rank: 4,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+        headingPath: ["Overview of external sharing in SharePoint and OneDrive in Microsoft 365"],
+        text: "Configure external sharing settings to control which SharePoint sites can be shared outside your organization.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/turn-external-sharing-on-or-off"
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.equal(bundle.answerability, "answered");
+  assert.ok(
+    bundle.evidence.length >= 3,
+    `expected multiple concept-distinct items to be selected, got ${bundle.evidence.length}`
+  );
+  const titles = bundle.evidence.map((item) => item.source.title);
+  assert.ok(titles.includes("Manage access to agents in SharePoint"));
+  assert.ok(titles.includes("Restrict discovery of SharePoint sites and content"));
+  assert.ok(
+    bundle.evidence.some((item) => item.selectionReason.includes("distinct_concept_selected"))
+  );
+});
+
+test("U1: near-duplicate chunks from the same concept remain redundant even for a broad aspect", () => {
+  const hybrid = makeHybrid({
+    question: "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+    domains: ["sharepoint"],
+    products: [],
+    technologies: [],
+    entities: [],
+    answerType: "conceptual",
+    unresolvedAmbiguity: ["no_explicit_entity"],
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Manage access to agents in SharePoint",
+        headingPath: ["Manage access to agents in SharePoint", "Control user access through licensing"],
+        text: "Control who can access Microsoft 365 Copilot agents in SharePoint through licensing assignment.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint"
+      }),
+      makeCandidate({
+        rank: 2,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Manage access to agents in SharePoint",
+        headingPath: ["Manage access to agents in SharePoint", "Control user access through licensing"],
+        text: "Control who can access Microsoft 365 Copilot agents in SharePoint through licensing assignment.",
+        documentId: "doc-ms-sharepoint-docs-1",
+        url: "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint"
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.equal(bundle.evidence.length, 1);
+  const rejected = bundle.rejectedCandidates.find((candidate) => candidate.fusionRank === 2);
+  assert.ok(rejected);
+  assert.ok(rejected!.reasons.includes("redundant_same_concept"));
+});
+
+test("U1: same required facet on two candidates does not automatically imply redundancy", () => {
+  const hybrid = makeHybrid({
+    question: "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+    domains: ["sharepoint"],
+    products: [],
+    technologies: [],
+    entities: [],
+    answerType: "conceptual",
+    unresolvedAmbiguity: ["no_explicit_entity"],
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Manage access to agents in SharePoint",
+        headingPath: ["Manage access to agents in SharePoint"],
+        text: "Control who can access Microsoft 365 Copilot agents in SharePoint through licensing assignment.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint"
+      }),
+      makeCandidate({
+        rank: 2,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Restrict discovery of SharePoint sites and content",
+        headingPath: ["Restrict discovery of SharePoint sites and content"],
+        text: "Restricted Content Discovery prevents high-risk sites and files from being referenced by Microsoft 365 Copilot.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/restrict-content-discovery"
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  // Both candidates match the same coarse "behavior" facet, but each contributes
+  // a materially distinct concept, so both should survive.
+  assert.equal(bundle.evidence.length, 2);
+});
+
+test("U1: broad-aspect selection remains bounded at a small maximum", () => {
+  const conceptTitles = [
+    "Manage access to agents in SharePoint",
+    "Restrict discovery of SharePoint sites and content",
+    "Data access governance reports for SharePoint and OneDrive sites",
+    "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+    "Get your organization's site permissions baseline with the snapshot report",
+    "Get the sensitivity label snapshot report for SharePoint and OneDrive sites"
+  ];
+  const hybrid = makeHybrid({
+    question: "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+    domains: ["sharepoint"],
+    products: [],
+    technologies: [],
+    entities: [],
+    answerType: "conceptual",
+    unresolvedAmbiguity: ["no_explicit_entity"],
+    candidates: conceptTitles.map((title, index) =>
+      makeCandidate({
+        rank: index + 1,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title,
+        headingPath: [title],
+        text: `${title}. Distinct authoritative content about ${title.toLowerCase()}.`,
+        url: `https://learn.microsoft.com/en-us/sharepoint/${index}`
+      })
+    )
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.ok(
+    bundle.evidence.length <= 4,
+    `expected a small bounded maximum, got ${bundle.evidence.length}`
+  );
+  assert.ok(
+    bundle.rejectedCandidates.some((candidate) => candidate.reasons.includes("bounded_selection_limit"))
+  );
+});
+
+test("U1: every additional broad-aspect selection still independently satisfies authority", () => {
+  const hybrid = makeHybrid({
+    question: "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+    domains: ["sharepoint"],
+    products: [],
+    technologies: [],
+    entities: [],
+    answerType: "conceptual",
+    unresolvedAmbiguity: ["no_explicit_entity"],
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Manage access to agents in SharePoint",
+        headingPath: ["Manage access to agents in SharePoint"],
+        text: "Control who can access Microsoft 365 Copilot agents in SharePoint through licensing assignment.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint"
+      }),
+      // Distinct concept but from a Teams Admin source, which cannot satisfy
+      // the mandatory SharePoint aspect's authority requirement even though
+      // it is topically about a different SharePoint governance mechanism.
+      makeCandidate({
+        rank: 2,
+        sourceId: "ms-teams-admin",
+        routePriority: "supporting",
+        title: "Restrict discovery of SharePoint sites and content",
+        headingPath: ["Restrict discovery of SharePoint sites and content"],
+        text: "Restricted Content Discovery prevents high-risk sites and files from being referenced by Microsoft 365 Copilot.",
+        url: "https://learn.microsoft.com/en-us/microsoftteams/restrict-content-discovery"
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.equal(bundle.evidence.length, 1);
+  assert.equal(bundle.evidence[0]!.source.sourceId, "ms-sharepoint-docs");
+  const rejected = bundle.rejectedCandidates.find((candidate) => candidate.sourceId === "ms-teams-admin");
+  assert.ok(rejected);
+  assert.ok(!rejected!.reasons.includes("redundant_same_concept"));
+});
+
+test("U1: a narrow resolved-entity question remains minimal even with several distinct-looking candidates", () => {
+  const hybrid = makeHybrid({
+    question: "What is Restricted Content Discovery?",
+    domains: ["sharepoint"],
+    products: [],
+    technologies: [],
+    entities: ["restricted content discovery"],
+    answerType: "conceptual",
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Restrict discovery of SharePoint sites and content",
+        headingPath: ["Restrict discovery of SharePoint sites and content"],
+        text: "Restricted Content Discovery prevents high-risk sites and files from being referenced by Microsoft 365 Copilot.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/restrict-content-discovery"
+      }),
+      makeCandidate({
+        rank: 2,
+        sourceId: "ms-sharepoint-docs",
+        routePriority: "primary",
+        title: "Manage access to agents in SharePoint",
+        headingPath: ["Manage access to agents in SharePoint"],
+        text: "Control who can access Microsoft 365 Copilot agents in SharePoint through licensing assignment.",
+        url: "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint"
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.equal(bundle.evidence.length, 1);
+  assert.equal(bundle.evidence[0]!.source.title, "Restrict discovery of SharePoint sites and content");
+});
+
+test("U1: a compact single-document 'how does X work' question is not artificially inflated", () => {
+  const hybrid = makeHybrid({
+    question: "How do Microsoft Teams Calling Plans work?",
+    domains: ["teams_admin"],
+    products: ["Microsoft Teams"],
+    technologies: ["Calling Plans"],
+    entities: [],
+    answerType: "conceptual",
+    candidates: [
+      makeCandidate({
+        rank: 1,
+        sourceId: "ms-teams-admin",
+        routePriority: "primary",
+        title: "Calling Plans overview",
+        headingPath: ["Calling Plans overview"],
+        text: "Calling Plans is a telephony service from Microsoft that provides a PSTN calling service in Microsoft 365, enabling users to make and receive phone calls on any device.",
+        url: "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-overview"
+      }),
+      makeCandidate({
+        rank: 2,
+        sourceId: "ms-teams-admin",
+        routePriority: "primary",
+        title: "Calling Plans overview details",
+        headingPath: ["Calling Plans overview", "How it works"],
+        text: "Calling Plans is a telephony service from Microsoft that provides a PSTN calling service in Microsoft 365, enabling users to make and receive phone calls on any device.",
+        documentId: "doc-ms-teams-admin-1",
+        url: "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-overview"
+      })
+    ]
+  });
+  const bundle = buildEvidenceBundle(hybrid).bundle;
+  assert.equal(
+    bundle.evidence.length,
+    1,
+    "a near-duplicate restating the same mechanism must not inflate an already-good compact answer"
+  );
 });
 
 test("provenance and exact cmdlet validation are preserved", () => {
