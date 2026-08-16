@@ -313,6 +313,49 @@ test("no title-based URL construction occurs for the generalized GitHub mapping"
   assert.equal(resolution.canonicalUrl, "https://learn.microsoft.com/entra/identity/conditional-access/overview");
 });
 
+test("G2.2 bounded PowerShell Core path resolves only through its exact Learn mapping", () => {
+  const evidence = makeEvidence({
+    sourceId: "ms-powershell-core",
+    sourcePath:
+      "reference/7.6/Microsoft.PowerShell.Utility/Export-Csv.md",
+    title: "Export-Csv",
+    revision: {
+      transport: "github",
+      repository: "MicrosoftDocs/PowerShell-Docs",
+      branch: "main",
+      commitSha: "a".repeat(40),
+      blobSha: "b".repeat(40),
+      path: "reference/7.6/Microsoft.PowerShell.Utility/Export-Csv.md"
+    }
+  });
+  const resolution = resolveCanonicalCitationUrl(evidence);
+  assert.equal(resolution.failureReason, null);
+  assert.equal(resolution.source, "source_registry_learn_mapping");
+  assert.equal(
+    resolution.canonicalUrl,
+    "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/export-csv?view=powershell-7.6"
+  );
+
+  const outsidePack = makeEvidence({
+    sourceId: "ms-powershell-core",
+    sourcePath:
+      "reference/7.6/Microsoft.PowerShell.Core/Start-Job.md",
+    title: "Start-Job",
+    revision: {
+      transport: "github",
+      repository: "MicrosoftDocs/PowerShell-Docs",
+      branch: "main",
+      commitSha: "a".repeat(40),
+      blobSha: "b".repeat(40),
+      path: "reference/7.6/Microsoft.PowerShell.Core/Start-Job.md"
+    }
+  });
+  assert.equal(
+    resolveCanonicalCitationUrl(outsidePack).failureReason,
+    "canonical_url_missing"
+  );
+});
+
 test("K2: SharePoint admin docs (learn_mcp) resolve through the same persisted-revision trust path as Teams Admin", () => {
   const evidence = makeEvidence({
     sourceId: "ms-sharepoint-docs",

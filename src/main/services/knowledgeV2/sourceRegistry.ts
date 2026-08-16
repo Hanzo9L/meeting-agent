@@ -21,7 +21,8 @@ const SOURCE_IDS = {
   m365: "ms-m365-docs",
   teamsDev: "ms-teams-dev-docs",
   sharepoint: "ms-sharepoint-docs",
-  sharepointPowerShell: "ms-sharepoint-powershell"
+  sharepointPowerShell: "ms-sharepoint-powershell",
+  powerShellCore: "ms-powershell-core"
 } as const;
 
 const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
@@ -94,6 +95,9 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
     SOURCE_IDS.graph,
     SOURCE_IDS.teamsPowerShell,
     SOURCE_IDS.teamsDev
+  ],
+  powershell_core: [
+    SOURCE_IDS.powerShellCore
   ]
 };
 
@@ -504,6 +508,69 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
         statusFields: ["ms.topic", "ms.service"],
         ownerFields: ["author", "ms.author"]
       }
+    },
+    {
+      id: SOURCE_IDS.powerShellCore,
+      displayName: "PowerShell Core Workflow Primitives",
+      description:
+        "Bounded primary authority for the generic PowerShell iteration, filtering, object-construction, and CSV-export primitives required by Relay's Teams audit workflow.",
+      product: "PowerShell",
+      domains: ["powershell_core"],
+      subdomains: [
+        "pipeline_iteration",
+        "pipeline_filtering",
+        "object_construction",
+        "csv_export"
+      ],
+      audiences: ["administrator", "it_pro"],
+      sourceType: "reference",
+      authorityTier: "tier1",
+      authorityRoles: ["powershell_core_primary"],
+      defaultRetrievalEligible: true,
+      synchronizationEnabled: true,
+      acquisition: {
+        transport: "github",
+        owner: "MicrosoftDocs",
+        repo: "PowerShell-Docs",
+        branch: "main",
+        webBaseUrl: "https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main",
+        rawBaseUrl:
+          "https://raw.githubusercontent.com/MicrosoftDocs/PowerShell-Docs/main"
+      },
+      contentTracks: [
+        {
+          id: "ga",
+          status: "ga",
+          includeGlobs: [
+            "reference/7.6/Microsoft.PowerShell.Core/ForEach-Object.md",
+            "reference/7.6/Microsoft.PowerShell.Core/Where-Object.md",
+            "reference/7.6/Microsoft.PowerShell.Core/About/about_PSCustomObject.md",
+            "reference/7.6/Microsoft.PowerShell.Utility/Export-Csv.md"
+          ],
+          excludeGlobs: [],
+          defaultRetrievalEligible: true,
+          synchronizationEnabled: true
+        }
+      ],
+      learnMapping: {
+        productAreas: ["powershell"],
+        preferredLocale: "en-us",
+        githubExactCanonicalUrls: {
+          "reference/7.6/Microsoft.PowerShell.Core/ForEach-Object.md":
+            "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/foreach-object?view=powershell-7.6",
+          "reference/7.6/Microsoft.PowerShell.Core/Where-Object.md":
+            "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.6",
+          "reference/7.6/Microsoft.PowerShell.Core/About/about_PSCustomObject.md":
+            "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_pscustomobject?view=powershell-7.6",
+          "reference/7.6/Microsoft.PowerShell.Utility/Export-Csv.md":
+            "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/export-csv?view=powershell-7.6"
+        }
+      },
+      normalizationHints: {
+        dateFields: ["ms.date", "updated_at"],
+        statusFields: ["ms.topic", "schema"],
+        ownerFields: ["author", "ms.author"]
+      }
     }
   ]
 };
@@ -556,7 +623,8 @@ function assertValidAuthorityRoles(source: KnowledgeSourceDefinition): void {
     entra: ["entra_identity_primary"],
     m365: ["m365_tenant_primary"],
     teams_dev: ["teams_dev_specialized"],
-    sharepoint: ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"]
+    sharepoint: ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"],
+    powershell_core: ["powershell_core_primary"]
   };
 
   if (source.authorityRoles.length === 0) {

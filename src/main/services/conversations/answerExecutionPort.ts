@@ -303,6 +303,11 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
       visibleProofFactRanges =
         synthesisAttempt.rendered.proofFactRanges;
       synthesisAccepted = true;
+    } else if (
+      profile === "helpdesk_detailed" &&
+      synthesisPayload?.executableWorkflow
+    ) {
+      visibleAnswerText = `${visibleAnswerText.trim()}\n\nRunnable PowerShell\n\`\`\`powershell\n${synthesisPayload.executableWorkflow.script}\n\`\`\``;
     }
     const presentedRangeByClaimId = new Map(
       visibleProofFactRanges.map((range) => [

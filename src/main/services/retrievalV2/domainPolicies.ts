@@ -16,7 +16,10 @@ import type {
   ScopeMode,
   SourceRouteScope
 } from "./domainRouter";
-import { isImplicitCmdletIntent } from "./implicitCmdletSignals";
+import {
+  isImplicitCmdletIntent,
+  isWorkflowPowerShellAnchoringQuestion
+} from "./implicitCmdletSignals";
 
 type BudgetProfile = "narrow" | "cross_domain" | "broad";
 
@@ -132,6 +135,9 @@ function inferPrimaryDomain(intent: QueryIntent): SourceDomain | null {
     if (intent.domains.includes("teams_powershell")) {
       return "teams_powershell";
     }
+    if (intent.domains.includes("powershell_core")) {
+      return "powershell_core";
+    }
   }
   if (isImplicitCmdletIntent(intent)) {
     return "teams_powershell";
@@ -153,6 +159,9 @@ function inferPrimaryDomain(intent: QueryIntent): SourceDomain | null {
   }
   if (intent.domains.includes("sharepoint")) {
     return "sharepoint";
+  }
+  if (intent.domains.includes("powershell_core")) {
+    return "powershell_core";
   }
   return null;
 }
@@ -246,6 +255,21 @@ function buildFocusSubdomains(intent: QueryIntent): string[] {
     subdomains.add("api_reference");
     subdomains.add("teams_graph_dependencies");
   }
+  if (intent.domains.includes("powershell_core")) {
+    if (entitySet.has("csv export")) subdomains.add("csv_export");
+    if (entitySet.has("pscustomobject") || entitySet.has("object construction")) {
+      subdomains.add("object_construction");
+    }
+    if (entitySet.has("per-user iteration")) {
+      subdomains.add("pipeline_iteration");
+    }
+    const commands = new Set(
+      (intent.commandNames ?? []).map((command) => command.toLowerCase())
+    );
+    if (commands.has("export-csv")) subdomains.add("csv_export");
+    if (commands.has("foreach-object")) subdomains.add("pipeline_iteration");
+    if (commands.has("where-object")) subdomains.add("pipeline_filtering");
+  }
   if (hasDeveloperSignals(intent)) {
     subdomains.add("apps");
     subdomains.add("platform");
@@ -296,6 +320,23 @@ function buildExactMatchDirectives(intent: QueryIntent): ExactMatchDirective[] {
       // text/headings (unlike canonical-like policy directives), which is
       // what actually anchors to cmdlet reference prose that describes
       // these concepts without repeating the exact PascalCase cmdlet name.
+      directives.push({
+        type: "entity",
+        value,
+        required: false
+      });
+    }
+  }
+  if (
+    intent.domains.includes("powershell_core") &&
+    isWorkflowPowerShellAnchoringQuestion(intent)
+  ) {
+    for (const value of [
+      "ForEach-Object",
+      "Where-Object",
+      "about_PSCustomObject",
+      "Export-Csv"
+    ]) {
       directives.push({
         type: "entity",
         value,
@@ -503,6 +544,15 @@ function shouldIncludeSource(params: {
   if (source.id === "ms-sharepoint-docs") {
     if (!selectedDomains.includes("sharepoint")) {
       return { include: false, reason: "sharepoint_source_requires_sharepoint_domain" };
+    }
+    return { include: true };
+  }
+  if (source.id === "ms-powershell-core") {
+    if (!selectedDomains.includes("powershell_core")) {
+      return {
+        include: false,
+        reason: "powershell_core_source_requires_bounded_core_signal"
+      };
     }
     return { include: true };
   }

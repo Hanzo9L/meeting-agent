@@ -14,7 +14,7 @@ test("loads all approved initial sources with stable unique IDs", () => {
   const registry = getDefaultSourceRegistry();
   const ids = registry.sources.map((source) => source.id);
   assert.equal(new Set(ids).size, ids.length);
-  assert.equal(ids.length, 8);
+  assert.equal(ids.length, 9);
   assert.ok(ids.includes("ms-teams-admin"));
   assert.ok(ids.includes("ms-teams-powershell"));
   assert.ok(ids.includes("ms-graph-docs"));
@@ -23,6 +23,7 @@ test("loads all approved initial sources with stable unique IDs", () => {
   assert.ok(ids.includes("ms-teams-dev-docs"));
   assert.ok(ids.includes("ms-sharepoint-docs"));
   assert.ok(ids.includes("ms-sharepoint-powershell"));
+  assert.ok(ids.includes("ms-powershell-core"));
 });
 
 test("has required repository branch and include globs", () => {
@@ -68,6 +69,30 @@ test("identifies Teams PowerShell as cmdlet authority", () => {
   assert.ok(teamsPowerShell);
   assert.ok(teamsPowerShell?.domains.includes("teams_powershell"));
   assert.ok(teamsPowerShell?.authorityRoles.includes("teams_powershell_cmdlet_primary"));
+});
+
+test("G2.2 PowerShell Core source is exact-path bounded with verified Learn mappings", () => {
+  const source = getSourceById("ms-powershell-core");
+  assert.equal(source?.acquisition.transport, "github");
+  if (source?.acquisition.transport === "github") {
+    assert.equal(source.acquisition.owner, "MicrosoftDocs");
+    assert.equal(source.acquisition.repo, "PowerShell-Docs");
+    assert.equal(source.acquisition.branch, "main");
+  }
+  assert.deepEqual(source?.domains, ["powershell_core"]);
+  assert.deepEqual(source?.authorityRoles, ["powershell_core_primary"]);
+  assert.equal(source?.contentTracks[0]?.includeGlobs.length, 4);
+  assert.equal(
+    Object.keys(
+      source?.learnMapping?.githubExactCanonicalUrls ?? {}
+    ).length,
+    4
+  );
+  assert.ok(
+    Object.values(
+      source?.learnMapping?.githubExactCanonicalUrls ?? {}
+    ).every((url) => url.startsWith("https://learn.microsoft.com/"))
+  );
 });
 
 test("scopes ms-entra-docs to QA Assist first-pass identity paths and enables github sync", () => {

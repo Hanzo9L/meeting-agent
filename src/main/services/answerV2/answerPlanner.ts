@@ -9,6 +9,7 @@ import {
 import {
   canBindPerUserEvidence,
   canonicalSubjectPhraseAppears,
+  evidenceEstablishesPowerShellSyntax,
   evidenceEstablishesReturnedUserValue,
   evidenceEstablishesUserTarget,
   OUTPUT_TRANSFORMATION_RULE_ID
@@ -233,6 +234,49 @@ function sentenceSpans(
           start: (blockMatch.index ?? 0) + prefixLength,
           end: (blockMatch.index ?? 0) + raw.length
         });
+      }
+    }
+  }
+
+  if (aspect.requiredFacets.includes("syntax")) {
+    const subject = aspect.subject.toLowerCase();
+    const pattern =
+      subject === "per-user iteration"
+        ? /\b(?:[A-Z][A-Za-z0-9]+-[A-Z][A-Za-z0-9]+\s*\|\s*)?ForEach-Object\s*\{[^}]*\$_[^}]*\}/gi
+        : subject === "policy assignment filtering"
+          ? /\b(?:[A-Z][A-Za-z0-9]+-[A-Z][A-Za-z0-9]+\s*\|\s*)?Where-Object\s*\{[^}]*\$_[^}]*\}/gi
+          : subject === "output object construction"
+            ? /\[pscustomobject\]\s*@\{[^}]+\}/gi
+            : subject === "csv export"
+              ? /\bExport-Csv\b[^\r\n]*\s-Path\b[^\r\n]*\s-NoTypeInformation\b[^\r\n]*/gi
+              : null;
+    if (pattern) {
+      let syntaxMatch: RegExpExecArray | null;
+      while ((syntaxMatch = pattern.exec(evidence.text)) !== null) {
+        const text = syntaxMatch[0].trim();
+        const startOffset =
+          (syntaxMatch.index ?? 0) +
+          (syntaxMatch[0].match(/^\s*/)?.[0].length ?? 0);
+        const span = createSpan({
+          evidence,
+          aspect,
+          sourceField: "text",
+          fieldIndex: null,
+          sentenceIndex,
+          startOffset,
+          endOffset: startOffset + text.length,
+          text,
+          sourceOrder
+        });
+        if (span) {
+          candidates.push({
+            span,
+            evidence,
+            normalized: normalize(text),
+            procedureStep: null
+          });
+          sentenceIndex += 1;
+        }
       }
     }
   }
@@ -579,6 +623,18 @@ function facetScore(
       }
       score += 75;
       break;
+    case "syntax":
+      if (
+        !isText ||
+        !evidenceEstablishesPowerShellSyntax(
+          candidate.span.text,
+          aspect.subject
+        )
+      ) {
+        return Number.NEGATIVE_INFINITY;
+      }
+      score += 90;
+      break;
   }
   return score;
 }
@@ -598,6 +654,7 @@ function claimTypeForFacets(
   }
   if (facets.includes("relationship")) return "relationship";
   if (facets.includes("procedure")) return "procedure_step";
+  if (facets.includes("syntax")) return "procedure_step";
   if (facets.includes("configuration")) return "configuration";
   if (facets.includes("state")) return "configuration";
   if (
@@ -619,6 +676,7 @@ function sectionForFacets(
 ): AnswerPlanSectionId {
   if (facets.includes("relationship")) return "relationships";
   if (facets.includes("procedure")) return "steps";
+  if (facets.includes("syntax")) return "steps";
   if (facets.includes("configuration")) return "configuration";
   // "state" claims are placed in the same section as "configuration" claims
   // (rather than e.g. "key_components", which is absent from the

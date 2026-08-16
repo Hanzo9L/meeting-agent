@@ -246,6 +246,37 @@ export function evidenceEstablishesReturnedUserValue(
   return true;
 }
 
+export function evidenceEstablishesPowerShellSyntax(
+  value: string,
+  subject: string
+): boolean {
+  const normalizedSubject = normalizeEvidenceText(subject);
+  if (normalizedSubject === "per user iteration") {
+    return (
+      /\bForEach-Object\s*\{[^}]*\$_/i.test(value) &&
+      !/\b-Parallel\b/i.test(value)
+    );
+  }
+  if (normalizedSubject === "policy assignment filtering") {
+    return (
+      /\bWhere-Object\b/i.test(value) &&
+      /\$_/.test(value) &&
+      /\s-eq\b/i.test(value)
+    );
+  }
+  if (normalizedSubject === "output object construction") {
+    return /\[pscustomobject\]\s*@\{/i.test(value);
+  }
+  if (normalizedSubject === "csv export") {
+    return (
+      /\bExport-Csv\b/i.test(value) &&
+      /\s-Path\b/i.test(value) &&
+      /\s-NoTypeInformation\b/i.test(value)
+    );
+  }
+  return false;
+}
+
 function stableId(value: string): string {
   return normalizeEvidenceText(value).replace(/\s+/g, "-");
 }
@@ -295,6 +326,7 @@ function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
   if (sourceId === "ms-sharepoint-docs" || sourceId === "ms-sharepoint-powershell") {
     return "sharepoint";
   }
+  if (sourceId === "ms-powershell-core") return "powershell_core";
   return "unknown";
 }
 
@@ -308,13 +340,15 @@ function domainAuthorityRoles(domain: SourceDomain): SourceAuthorityRole[] {
   if (domain === "sharepoint") {
     return ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"];
   }
+  if (domain === "powershell_core") return ["powershell_core_primary"];
   return [];
 }
 
 /** Authority roles that grant genuine PowerShell cmdlet-reference authority, across module families. */
 const CMDLET_AUTHORITY_ROLES: SourceAuthorityRole[] = [
   "teams_powershell_cmdlet_primary",
-  "sharepoint_powershell_cmdlet_primary"
+  "sharepoint_powershell_cmdlet_primary",
+  "powershell_core_primary"
 ];
 
 export function hasCmdletAuthority(authority: {
@@ -326,7 +360,10 @@ export function hasCmdletAuthority(authority: {
 /** Which cmdlet-authoritative domain(s) the query intent actually resolved to (cmdlet-prefix or explicit signal). */
 function cmdletDomainsForIntent(intent: QueryIntent): SourceDomain[] {
   const domains = (intent.domains as SourceDomain[]).filter(
-    (domain) => domain === "teams_powershell" || domain === "sharepoint"
+    (domain) =>
+      domain === "teams_powershell" ||
+      domain === "sharepoint" ||
+      domain === "powershell_core"
   );
   return domains.length > 0 ? domains : ["teams_powershell"];
 }
@@ -718,6 +755,14 @@ function resolveMethodToolAuthority(
     domains.add("sharepoint");
     roles.add("sharepoint_powershell_cmdlet_primary");
   }
+  if (
+    intentDomains.includes("powershell_core") &&
+    !intentDomains.includes("teams_powershell") &&
+    !intentDomains.includes("sharepoint")
+  ) {
+    domains.add("powershell_core");
+    roles.add("powershell_core_primary");
+  }
   if (domains.size === 0 || intentDomains.includes("teams_powershell")) {
     domains.add("teams_powershell");
     roles.add("teams_powershell_cmdlet_primary");
@@ -1107,7 +1152,11 @@ function authorityFor(
       identityType
     };
   }
-  const domains = new Set<SourceDomain>([...intent.domains] as SourceDomain[]);
+  const domains = new Set<SourceDomain>(
+    (intent.domains as SourceDomain[]).filter(
+      (domain) => domain !== "powershell_core"
+    )
+  );
   const roles = new Set<SourceAuthorityRole>();
   for (const domain of domains) {
     for (const role of domainAuthorityRoles(domain)) roles.add(role);
@@ -1212,7 +1261,9 @@ function breadthAndFacets(params: {
  * from `unresolved` (fallback subject) so diagnostics/planner code can
  * render an explicit, specific caveat instead of a generic one. */
 export const OUTPUT_TRANSFORMATION_RULE_ID =
-  "workflow_output_transformation_outside_authoritative_scope";
+  "workflow_output_transformation_powershell_core";
+export const WORKFLOW_ORCHESTRATION_RULE_ID =
+  "workflow_orchestration_powershell_core";
 
 /**
  * V1 — CSV/output transformation is a requested output of the workflow, not
@@ -1228,34 +1279,64 @@ function buildOutputTransformationAspect(
   intent: QueryIntent,
   label: string
 ): EvidenceAspect {
-  const subject = makeSubject("entity", label, {
+  return buildPowerShellCoreWorkflowAspect(intent, {
+    label,
+    evidenceSubject: "Export-Csv",
+    canonicalIdentifier: { type: "cmdlet", value: "Export-Csv" },
+    ruleId: OUTPUT_TRANSFORMATION_RULE_ID
+  });
+}
+
+function buildPowerShellCoreWorkflowAspect(
+  intent: QueryIntent,
+  params: {
+    label: string;
+    evidenceSubject: string;
+    canonicalIdentifier: NonNullable<EvidenceAspect["canonicalIdentifier"]>;
+    ruleId: string;
+  }
+): EvidenceAspect {
+  const subject = makeSubject("entity", params.evidenceSubject, {
     question: intent.normalizedQuestion,
-    span: label
+    span: params.evidenceSubject
   });
   return {
-    aspectId: ["mandatory", "entity", stableId(label), "output-transformation"].join(":"),
+    aspectId: [
+      "mandatory",
+      "entity",
+      stableId(params.label),
+      "powershell-core"
+    ].join(":"),
     requirement: "mandatory",
-    subject: label,
+    subject: params.label,
     subjectTerms: subject.terms,
     subjects: [subject],
     operation: null,
-    methodConstraints: [],
-    answerObject: "fact",
+    methodConstraints: [
+      {
+        kind: "powershell",
+        label: "PowerShell",
+        required: true,
+        domains: ["powershell_core"],
+        authorityRoles: ["powershell_core_primary"]
+      }
+    ],
+    answerObject: "mechanism",
     relationship: null,
     breadth: "narrow",
-    requiredFacets: ["behavior"],
+    requiredFacets: ["behavior", "syntax"],
     authorityRequirement: {
-      requiredRoles: [],
-      requiredDomains: [],
-      requireCanonicalIdentity: false,
-      identityType: null
+      requiredRoles: ["powershell_core_primary"],
+      requiredDomains: ["powershell_core"],
+      requireCanonicalIdentity: true,
+      identityType: params.canonicalIdentifier.type
     },
     minimumSupportStrength: "direct",
     supportType: "concept_definition",
-    canonicalIdentifier: null,
+    canonicalIdentifier: params.canonicalIdentifier,
     derivation: {
-      ruleIds: [OUTPUT_TRANSFORMATION_RULE_ID],
-      questionSpans: [label],
+      ruleIds: [params.ruleId],
+      questionSpans: [params.label],
       unresolved: false
     }
   };
@@ -1809,6 +1890,29 @@ export function deriveEvidenceAspects(
   }
 
   if (isWorkflowEnumeration) {
+    aspects.push(
+      buildPowerShellCoreWorkflowAspect(intent, {
+        label: "per-user iteration",
+        evidenceSubject: "ForEach-Object",
+        canonicalIdentifier: { type: "cmdlet", value: "ForEach-Object" },
+        ruleId: WORKFLOW_ORCHESTRATION_RULE_ID
+      }),
+      buildPowerShellCoreWorkflowAspect(intent, {
+        label: "policy assignment filtering",
+        evidenceSubject: "Where-Object",
+        canonicalIdentifier: { type: "cmdlet", value: "Where-Object" },
+        ruleId: WORKFLOW_ORCHESTRATION_RULE_ID
+      }),
+      buildPowerShellCoreWorkflowAspect(intent, {
+        label: "output object construction",
+        evidenceSubject: "about_PSCustomObject",
+        canonicalIdentifier: {
+          type: "entity",
+          value: "about_PSCustomObject"
+        },
+        ruleId: WORKFLOW_ORCHESTRATION_RULE_ID
+      })
+    );
     const outputTransformation = detectOutputTransformationRequest(intent.originalQuestion);
     if (outputTransformation.requested) {
       aspects.push(buildOutputTransformationAspect(intent, outputTransformation.label));
@@ -1985,6 +2089,13 @@ function matchedFacetsForCandidate(params: {
   );
   if (!subjectPresent && aspect.answerObject !== "cmdlet_identifier") {
     return [];
+  }
+
+  if (
+    aspect.requiredFacets.includes("syntax") &&
+    evidenceEstablishesPowerShellSyntax(candidate.text, aspect.subject)
+  ) {
+    matched.add("syntax");
   }
 
   if (aspect.answerObject === "cmdlet_identifier") {

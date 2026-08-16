@@ -13,7 +13,10 @@ import {
   type AcquiredDocumentInput
 } from "../knowledgeV2";
 import { routeQueryIntent } from "./domainPolicies";
-import { scoreHybridCandidate } from "./hybridFusionPolicy";
+import {
+  inferExpectedAuthorityRoleHints,
+  scoreHybridCandidate
+} from "./hybridFusionPolicy";
 import {
   HybridRetrievalAbortedError,
   retrieveHybridCandidates
@@ -821,6 +824,29 @@ test("irrelevant primary authority cannot outrank relevant supporting candidate 
     }
   });
   assert.ok(right.contributions.total > left.contributions.total);
+});
+
+test("G2.2 explicit Core cmdlets receive Core authority hints rather than Teams authority", () => {
+  const core = extractQueryIntent("What does Export-Csv do?").intent;
+  assert.deepEqual(inferExpectedAuthorityRoleHints(core), [
+    "powershell_core_primary"
+  ]);
+
+  const workflow = extractQueryIntent(
+    "Use PowerShell to find Teams users and export the results with Export-Csv."
+  ).intent;
+  assert.ok(
+    inferExpectedAuthorityRoleHints(workflow).includes(
+      "powershell_core_primary"
+    )
+  );
+
+  const teams = extractQueryIntent(
+    "What does Get-CsOnlineUser do?"
+  ).intent;
+  assert.deepEqual(inferExpectedAuthorityRoleHints(teams), [
+    "teams_powershell_cmdlet_primary"
+  ]);
 });
 
 test("hybrid cancellation propagates and no MCP/LLM or evidence bundle is produced", async () => {

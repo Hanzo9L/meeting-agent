@@ -5,7 +5,8 @@ export type QueryDomain =
   | "entra"
   | "m365"
   | "teams_dev"
-  | "sharepoint";
+  | "sharepoint"
+  | "powershell_core";
 
 export type QueryAnswerType =
   | "conceptual"

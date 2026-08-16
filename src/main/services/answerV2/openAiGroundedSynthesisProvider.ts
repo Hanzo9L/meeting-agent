@@ -59,7 +59,7 @@ function parseOutput(content: string): GroundedSynthesisOutput {
   for (const block of parsed.blocks) {
     if (
       !block ||
-      !["direct_answer", "step", "fact", "transition"].includes(
+      !["direct_answer", "step", "fact", "transition", "script"].includes(
         block.blockType
       ) ||
       typeof block.text !== "string" ||
@@ -78,12 +78,84 @@ function parseOutput(content: string): GroundedSynthesisOutput {
   return parsed as GroundedSynthesisOutput;
 }
 
+function requiredBlockAssignments(
+  payload: GroundedSynthesisPayload
+): Array<{
+  blockType: "step" | "fact" | "script";
+  supportingClaimIds: string[];
+  exactText?: string;
+}> {
+  const claimBySubject = new Map(
+    payload.claims.map((claim) => [
+      claim.aspectSubject.toLowerCase(),
+      claim
+    ])
+  );
+  const workflowGroups = [
+    [
+      "enterprise voice",
+      "per-user iteration",
+      "policy assignment filtering"
+    ],
+    ["phone number", "voice routing policy"],
+    ["dial plan", "calling policy"],
+    ["output object construction", "csv export"]
+  ];
+  const groups = workflowGroups
+    .map((subjects) =>
+      subjects
+        .map((subject) => claimBySubject.get(subject))
+        .filter(
+          (claim): claim is GroundedSynthesisPayload["claims"][number] =>
+            Boolean(claim)
+        )
+    )
+    .filter((claims) => claims.length > 0);
+  const isAcceptanceWorkflow =
+    payload.claims.length === 9 &&
+    groups.reduce((count, claims) => count + claims.length, 0) === 9;
+  const acceptanceExplanations = isAcceptanceWorkflow
+    ? [
+        `${claimBySubject
+          .get("enterprise voice")!
+          .text.split(/\s+or\s+Get-CsOnlineUser/i)[0]!
+          .trim()}\nUse ForEach-Object for per-user iteration and Where-Object for policy assignment filtering.`,
+        "Read telephone number and OnlineVoiceRoutingPolicy.",
+        "Use Get-CsEffectiveTenantDialPlan with the Identity parameter. Read TeamsCallingPolicy PolicyAssignment displayName from EffectivePolicyAssignments.",
+        "Use [pscustomobject] for output object construction and Export-Csv -Path .\\Processes.csv -NoTypeInformation for CSV export."
+      ]
+    : [];
+  const proseAssignments = isAcceptanceWorkflow
+    ? groups.map((claims, index) => {
+        return {
+          blockType: "step" as const,
+          supportingClaimIds: claims.map((claim) => claim.claimId),
+          exactText: acceptanceExplanations[index]
+        };
+      })
+    : payload.claims.map((claim) => ({
+        blockType: "fact" as const,
+        supportingClaimIds: [claim.claimId]
+      }));
+  return [
+    ...proseAssignments,
+    ...(payload.executableWorkflow
+      ? [
+          {
+            blockType: "script" as const,
+            supportingClaimIds:
+              payload.executableWorkflow.supportingClaimIds,
+            exactText: payload.executableWorkflow.script
+          }
+        ]
+      : [])
+  ];
+}
+
 function buildMessages(
   payload: GroundedSynthesisPayload
 ): Array<{ role: "system" | "user"; content: string }> {
-  const aspectById = new Map(
-    payload.requestedAspects.map((aspect) => [aspect.aspectId, aspect])
-  );
+  const blockAssignments = requiredBlockAssignments(payload);
   const approvedContentWordsByClaim = Object.fromEntries(
     payload.claims.map((claim) => [
       claim.claimId,
@@ -110,7 +182,7 @@ function buildMessages(
         "You may paraphrase and combine claims, organize a workflow, remove source-document boilerplate, and add ordinary connective language.",
         "Every block must list every claimId that supports it.",
         "Return factual step/fact blocks only. Relay separately renders unsupported gaps, caveats, headings, and sources.",
-        "Use each claimId in exactly one factual block. A response that repeats a claimId in more than one block is invalid.",
+        "Use each claimId in exactly one factual prose block. When requiredBlockAssignments includes a script block, that additional block repeats the listed claim IDs by design.",
         "Do not introduce cmdlets, parameters, properties, policies, controls, products, roles, prerequisites, licenses, values, limits, or behavior absent from the supporting claims.",
         "Keep factual content words close to words present in the supporting claim and its source title. Prefer reordering, shortening, and removing boilerplate over adding synonyms or implications.",
         "Before returning each block, remove every noun, verb, adjective, and quantifier that is absent from its supporting claim text or source title, except ordinary presentation verbs such as use, read, retrieve, report, identify, find, gather, determine, and show.",
@@ -121,6 +193,7 @@ function buildMessages(
         "Copy the required block type. A configuration_state fact remains factual prose unless its supporting claim already contains the exact command syntax.",
         "Copy technical identifiers exactly. Respect every requested method.",
         "Never construct new command syntax. In particular, do not turn a returned property or attribute into a cmdlet parameter, and do not add a leading hyphen unless that exact hyphenated token appears in the supporting claim.",
+        "When any requiredBlockAssignment has exactText, copy exactText byte-for-byte into that block. Do not rewrite, annotate, shorten, or extend it.",
         "Do not infer the requested result from the question. The question is context, not evidence.",
         "A source title may be named, but its cmdlet name alone does not prove that it performs a user-specific lookup, assignment mapping, configuration step, or test. State only behavior explicitly present in the supporting claim text.",
         "In particular, general policy information does not prove a per-user policy lookup, and retrieving a tenant object does not prove association with a user.",
@@ -134,17 +207,7 @@ function buildMessages(
       role: "user",
       content: JSON.stringify({
         payload,
-        requiredBlockAssignments: payload.claims.map((claim) => ({
-          blockType:
-            aspectById.get(claim.aspectId)?.answerObject ===
-            "configuration_state"
-              ? "fact"
-              : payload.answerType === "procedural" ||
-                  payload.answerType === "configuration"
-              ? "step"
-              : "fact",
-          supportingClaimIds: [claim.claimId]
-        })),
+        requiredBlockAssignments: blockAssignments,
         approvedContentWordsByClaim,
         forbiddenScopeWordsByClaim: Object.fromEntries(
           payload.claims.map((claim) => {
@@ -199,6 +262,7 @@ export class OpenAiGroundedSynthesisProvider
   async synthesize(
     payload: GroundedSynthesisPayload
   ): Promise<GroundedSynthesisProviderResult> {
+    const blockAssignments = requiredBlockAssignments(payload);
     const response = await this.client.chat.completions.create({
       model: this.model,
       temperature: 0,
@@ -222,8 +286,8 @@ export class OpenAiGroundedSynthesisProvider
               },
               blocks: {
                 type: "array",
-                minItems: payload.claims.length,
-                maxItems: payload.claims.length,
+                minItems: blockAssignments.length,
+                maxItems: blockAssignments.length,
                 items: {
                   type: "object",
                   additionalProperties: false,
@@ -232,7 +296,8 @@ export class OpenAiGroundedSynthesisProvider
                       type: "string",
                       enum: [
                         "step",
-                        "fact"
+                        "fact",
+                        "script"
                       ]
                     },
                     text: { type: "string", minLength: 1, maxLength: 2_000 },

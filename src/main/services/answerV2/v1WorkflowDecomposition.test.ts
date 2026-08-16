@@ -37,7 +37,7 @@ function mandatoryTeamsOutputAspects(aspects: EvidenceAspect[]): EvidenceAspect[
   return aspects.filter(
     (aspect) =>
       aspect.requirement === "mandatory" &&
-      !aspect.derivation.ruleIds.includes(OUTPUT_TRANSFORMATION_RULE_ID)
+      aspect.answerObject === "configuration_state"
   );
 }
 
@@ -111,11 +111,12 @@ test("V1.7: CSV export requirement is represented as an explicit mandatory outpu
   );
   assert.ok(csvAspect, "expected an explicit CSV output-transformation aspect");
   assert.equal(csvAspect!.requirement, "mandatory");
-  // This aspect is intentionally never authority-satisfiable in V1: CSV
-  // serialization is outside the Teams-authoritative corpus and must remain
-  // an explicit caveat rather than a fabricated authority.
-  assert.deepEqual(csvAspect!.authorityRequirement.requiredDomains, []);
-  assert.deepEqual(csvAspect!.authorityRequirement.requiredRoles, []);
+  assert.deepEqual(csvAspect!.authorityRequirement.requiredDomains, [
+    "powershell_core"
+  ]);
+  assert.deepEqual(csvAspect!.authorityRequirement.requiredRoles, [
+    "powershell_core_primary"
+  ]);
 });
 
 // --- Item 8: one workflow, multiple required output aspects ---------------
@@ -123,7 +124,7 @@ test("V1.7: CSV export requirement is represented as an explicit mandatory outpu
 test("V1.8: one workflow contains multiple required output aspects rather than a single merged compound subject", () => {
   const { aspects } = deriveAspectsFor(ACCEPTANCE_QUESTION);
   const teamsOutputs = mandatoryTeamsOutputAspects(aspects);
-  // All five Teams-side outputs plus the CSV output-transformation aspect.
+  // All five Teams-side outputs remain distinct from Core orchestration.
   assert.equal(teamsOutputs.length, 5, `expected 5 Teams-side output aspects, got ${teamsOutputs.length}`);
   const subjects = teamsOutputs.map((aspect) => aspect.subject).sort();
   assert.deepEqual(subjects, [
@@ -143,7 +144,11 @@ test("V1.8: one workflow contains multiple required output aspects rather than a
     );
   }
   const total = aspects.filter((aspect) => aspect.requirement === "mandatory");
-  assert.equal(total.length, 6, "expected 5 Teams outputs + 1 CSV output-transformation aspect");
+  assert.equal(
+    total.length,
+    9,
+    "expected 5 Teams outputs + 4 bounded PowerShell Core aspects"
+  );
 });
 
 // --- Item 9: Teams PowerShell authority is required per output ------------
@@ -329,8 +334,20 @@ function makeWorkflowBundle(): EvidenceBundle {
     evidenceByAspect,
     supportByAspect,
     supportedMandatoryAspectIds: teamsOutputs.map((aspect) => aspect.aspectId),
-    unsupportedMandatoryAspectIds: [csvAspect.aspectId],
-    authorityLimitedAspectIds: [csvAspect.aspectId],
+    unsupportedMandatoryAspectIds: aspects
+      .filter(
+        (aspect) =>
+          aspect.requirement === "mandatory" &&
+          !teamsOutputs.some((team) => team.aspectId === aspect.aspectId)
+      )
+      .map((aspect) => aspect.aspectId),
+    authorityLimitedAspectIds: aspects
+      .filter(
+        (aspect) =>
+          aspect.requirement === "mandatory" &&
+          !teamsOutputs.some((team) => team.aspectId === aspect.aspectId)
+      )
+      .map((aspect) => aspect.aspectId),
     supportingOnlyAspectIds: [],
     contextualOnlyAspectIds: [],
     supportedOptionalAspectIds: []

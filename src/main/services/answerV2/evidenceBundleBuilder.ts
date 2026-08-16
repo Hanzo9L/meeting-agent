@@ -57,6 +57,7 @@ function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
   if (sourceId === "ms-sharepoint-docs" || sourceId === "ms-sharepoint-powershell") {
     return "sharepoint";
   }
+  if (sourceId === "ms-powershell-core") return "powershell_core";
   return "unknown";
 }
 

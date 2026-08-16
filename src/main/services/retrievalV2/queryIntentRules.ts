@@ -55,7 +55,11 @@ const MULTIWORD_TECHNICAL_CONCEPTS = [
   "sharepoint oversharing",
   "sharepoint advanced management",
   "enterprise voice",
-  "phone number"
+  "phone number",
+  "csv export",
+  "object construction",
+  "per-user iteration",
+  "pscustomobject"
 ] as const;
 
 /**
@@ -171,6 +175,11 @@ function extractCmdlets(question: string): string[] {
  * prerequisite).
  */
 function cmdletDomain(cmdlet: string): QueryDomain | null {
+  if (
+    /^(?:Export-Csv|ForEach-Object|Where-Object)$/i.test(cmdlet)
+  ) {
+    return "powershell_core";
+  }
   const match = /^[A-Za-z]+-([A-Za-z][A-Za-z0-9]*)$/.exec(cmdlet);
   const noun = match?.[1] ?? "";
   if (/^Cs[A-Z]/.test(noun)) return "teams_powershell";
@@ -248,6 +257,7 @@ function detectDomains(
   const { domains: cmdletDomains } = classifyCmdlets(cmdlets);
   const hasKnownPowerShellCmdlet = cmdletDomains.includes("teams_powershell");
   const hasKnownSharePointCmdlet = cmdletDomains.includes("sharepoint");
+  const hasKnownCoreCmdlet = cmdletDomains.includes("powershell_core");
 
   const hasTeams =
     normalized.includes("teams") ||
@@ -290,13 +300,27 @@ function detectDomains(
     normalized.includes("powershell") ||
     normalized.includes("cmdlet") ||
     normalized.includes("which command");
+  const hasBoundedPowerShellCoreSignal =
+    hasKnownCoreCmdlet ||
+    normalized.includes("export csv") ||
+    normalized.includes("csv export") ||
+    normalized.includes("foreach object") ||
+    normalized.includes("where object") ||
+    normalized.includes("pscustomobject") ||
+    normalized.includes("object construction") ||
+    /\bcsv\b/.test(normalized);
 
   if (hasTeams) domains.add("teams_admin");
   if (hasKnownPowerShellCmdlet) {
     domains.add("teams_powershell");
-  } else if (hasGenericPowerShellPhrasing && !hasKnownSharePointCmdlet) {
+  } else if (
+    hasGenericPowerShellPhrasing &&
+    hasTeams &&
+    !hasKnownSharePointCmdlet
+  ) {
     domains.add("teams_powershell");
   }
+  if (hasBoundedPowerShellCoreSignal) domains.add("powershell_core");
   if (hasGraph) domains.add("graph");
   if (hasEntra) domains.add("entra");
   if (hasM365) domains.add("m365");

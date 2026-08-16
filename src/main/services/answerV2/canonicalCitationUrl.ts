@@ -53,6 +53,10 @@ function expectedLearnPath(
       return /\/sharepoint\//.test(path);
     case "ms-sharepoint-powershell":
       return /\/powershell\/module\/microsoft\.online\.sharepoint\.powershell\//.test(path);
+    case "ms-powershell-core":
+      return /\/powershell\/module\/microsoft\.powershell\.(?:core|utility)\//.test(
+        path
+      );
     default:
       return false;
   }
@@ -86,6 +90,53 @@ function persistedRevisionCanonicalUrl(
   return {
     canonicalUrl: normalized,
     source: "persisted_revision",
+    failureReason: null
+  };
+}
+
+function sourceRegistryGithubExactLearnUrl(
+  evidence: EvidenceItem
+): CanonicalCitationUrlResolution | null {
+  const source = getSourceById(evidence.source.sourceId);
+  if (!source || source.acquisition.transport !== "github") return null;
+  const mappings = source.learnMapping?.githubExactCanonicalUrls;
+  if (!mappings) return null;
+
+  const revision = evidence.source.sourceRevision;
+  const transport = revisionString(revision, "transport").toLowerCase();
+  if (transport && transport !== "github") return null;
+  const repository = revisionString(revision, "repository").toLowerCase();
+  const expectedRepository =
+    `${source.acquisition.owner}/${source.acquisition.repo}`.toLowerCase();
+  if (repository && repository !== expectedRepository) return null;
+
+  const revisionPath = revisionString(revision, "path").replace(/\\/g, "/");
+  const sourcePath = evidence.source.sourcePath.replace(/\\/g, "/");
+  if (
+    revisionPath &&
+    sourcePath &&
+    revisionPath.toLowerCase() !== sourcePath.toLowerCase()
+  ) {
+    return null;
+  }
+  const path = (revisionPath || sourcePath).replace(/^\/+/, "");
+  const configuredPath = Object.keys(mappings).find(
+    (candidate) => candidate.toLowerCase() === path.toLowerCase()
+  );
+  if (!configuredPath) return null;
+  const normalized = normalizeLearnUrl(mappings[configuredPath]!);
+  if (!normalized) return null;
+  if (
+    !expectedLearnPath(
+      evidence.source.sourceId,
+      new URL(normalized).pathname
+    )
+  ) {
+    return null;
+  }
+  return {
+    canonicalUrl: normalized,
+    source: "source_registry_learn_mapping",
     failureReason: null
   };
 }
@@ -260,6 +311,8 @@ export function resolveCanonicalCitationUrl(
 ): CanonicalCitationUrlResolution {
   const persisted = persistedRevisionCanonicalUrl(evidence);
   if (persisted) return persisted;
+  const exactRegistryMapped = sourceRegistryGithubExactLearnUrl(evidence);
+  if (exactRegistryMapped) return exactRegistryMapped;
   const registryMapped = sourceRegistryGithubLearnUrl(evidence);
   if (registryMapped) return registryMapped;
   const registryPowerShellModule = sourceRegistryGithubPowerShellModuleUrl(evidence);

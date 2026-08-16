@@ -6,6 +6,8 @@ import type {
 } from "./types";
 
 const CMDLET_PATTERN = /\b[A-Z][A-Za-z0-9]+-[A-Z][A-Za-z0-9]+\b/;
+const POWERSHELL_OBJECT_CONSTRUCTION_PATTERN =
+  /\[pscustomobject\]\s*@\{/i;
 
 export function evidenceSatisfiesMethodConstraint(
   evidence: EvidenceItem,
@@ -21,7 +23,11 @@ export function evidenceSatisfiesMethodConstraint(
   if (constraint.kind === "powershell" || constraint.kind === "pnp_powershell") {
     // Admin-only material quoting a command does not satisfy a PowerShell method.
     // Exact command assertions require PowerShell authority/domain.
-    return (hasRole || hasDomain) && CMDLET_PATTERN.test(evidence.text);
+    return (
+      (hasRole || hasDomain) &&
+      (CMDLET_PATTERN.test(evidence.text) ||
+        POWERSHELL_OBJECT_CONSTRUCTION_PATTERN.test(evidence.text))
+    );
   }
   if (constraint.kind === "graph") {
     return hasRole || hasDomain;

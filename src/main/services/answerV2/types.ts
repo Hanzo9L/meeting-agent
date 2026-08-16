@@ -80,7 +80,9 @@ export type EvidenceSupportFacet =
   // bound spans from the same canonical operation; unrelated identity and
   // property mentions must never be stitched together.
   | "user_target"
-  | "returned_value";
+  | "returned_value"
+  // G2.2 — exact executable PowerShell token/syntax evidence.
+  | "syntax";
 
 export type EvidenceAspectSubjectKind =
   | "cmdlet"

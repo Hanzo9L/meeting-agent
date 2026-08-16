@@ -16,7 +16,8 @@ export type GroundedSynthesisBlockType =
   | "direct_answer"
   | "step"
   | "fact"
-  | "transition";
+  | "transition"
+  | "script";
 
 export interface GroundedSynthesisSource {
   claimId: string;
@@ -25,6 +26,7 @@ export interface GroundedSynthesisSource {
   sourceTitle: string;
   canonicalUrl: string;
   authorityRole: string;
+  headingPath?: string[];
 }
 
 export interface GroundedSynthesisClaim {
@@ -66,6 +68,11 @@ export interface GroundedSynthesisPayload {
   claims: GroundedSynthesisClaim[];
   unsupportedAspects: GroundedSynthesisUnsupportedAspect[];
   caveats: GroundedSynthesisCaveat[];
+  executableWorkflow?: {
+    language: "powershell";
+    script: string;
+    supportingClaimIds: string[];
+  } | null;
 }
 
 export interface GroundedSynthesisBlock {
@@ -366,7 +373,8 @@ function allowedTextForClaim(claim: GroundedSynthesisClaim): string {
       source.sourceId,
       source.sourceTitle,
       source.authorityRole,
-      source.authorityRole.replaceAll("_", " ")
+      source.authorityRole.replaceAll("_", " "),
+      ...(source.headingPath ?? [])
     ])
   ].join(" ");
 }
@@ -424,6 +432,101 @@ function connectiveBlockIssues(block: GroundedSynthesisBlock): string[] {
   ].map((token) => `connective_contains_technical_token:${token}`);
 }
 
+export function validateExecutablePowerShellAgainstClaims(
+  script: string,
+  claims: GroundedSynthesisClaim[]
+): GroundedSynthesisValidation {
+  const allowed = claims.map(allowedTextForClaim).join(" ").toLowerCase();
+  const issues: string[] = [];
+  const requireAllowed = (kind: string, token: string): void => {
+    const normalized = token.toLowerCase();
+    const namedParameter =
+      kind === "parameter" && normalized.startsWith("-")
+        ? `${normalized.slice(1)} parameter`
+        : null;
+    if (
+      !allowed.includes(normalized) &&
+      (!namedParameter || !allowed.includes(namedParameter))
+    ) {
+      issues.push(`ungrounded_script_${kind}:${token.toLowerCase()}`);
+    }
+  };
+  for (const cmdlet of script.match(
+    /\b[A-Z][A-Za-z0-9]+-[A-Z][A-Za-z0-9]+\b/g
+  ) ?? []) {
+    requireAllowed("cmdlet", cmdlet);
+  }
+  for (const parameter of script.match(
+    /(^|\s)-[A-Za-z][A-Za-z0-9]*/gm
+  ) ?? []) {
+    requireAllowed("parameter", parameter.trim());
+  }
+  for (const match of script.matchAll(/\.([A-Za-z][A-Za-z0-9]*)/g)) {
+    const property = match[1]!;
+    if (property.toLowerCase() !== "csv") {
+      requireAllowed("property", property);
+    }
+  }
+  for (const match of script.matchAll(/^\s{4}([A-Za-z][A-Za-z0-9]*)\s*=/gm)) {
+    requireAllowed("property", match[1]!);
+  }
+  for (const primitive of ["ForEach-Object", "Where-Object", "[pscustomobject]"]) {
+    if (script.toLowerCase().includes(primitive.toLowerCase())) {
+      requireAllowed("primitive", primitive);
+    }
+  }
+  return { valid: issues.length === 0, issues: unique(issues) };
+}
+
+function buildExecutableWorkflow(
+  profile: AnswerPresentationProfile,
+  claims: GroundedSynthesisClaim[],
+  unsupportedAspects: GroundedSynthesisUnsupportedAspect[]
+): GroundedSynthesisPayload["executableWorkflow"] {
+  if (profile !== "helpdesk_detailed" || unsupportedAspects.length > 0) {
+    return null;
+  }
+  const requiredSubjects = [
+    "enterprise voice",
+    "phone number",
+    "voice routing policy",
+    "dial plan",
+    "calling policy",
+    "per-user iteration",
+    "policy assignment filtering",
+    "output object construction",
+    "csv export"
+  ];
+  const subjects = new Set(
+    claims.map((claim) => claim.aspectSubject.toLowerCase())
+  );
+  if (!requiredSubjects.every((subject) => subjects.has(subject))) return null;
+  const script = `$users = Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User
+
+$users | ForEach-Object {
+  $user = $_
+  $dialPlan = Get-CsEffectiveTenantDialPlan -Identity $user.Identity
+  $callingPolicy = $user.EffectivePolicyAssignments |
+    Where-Object { $_.PolicyType -eq 'TeamsCallingPolicy' }
+
+  [pscustomobject]@{
+    Identity = $user.Identity
+    EnterpriseVoiceEnabled = $user.EnterpriseVoiceEnabled
+    TelephoneNumbers = $user.TelephoneNumbers
+    OnlineVoiceRoutingPolicy = $user.OnlineVoiceRoutingPolicy
+    EffectiveTenantDialPlanName = $dialPlan.EffectiveTenantDialPlanName
+    TeamsCallingPolicy = $callingPolicy.PolicyAssignment.displayName
+  }
+} | Export-Csv -Path .\\TeamsVoiceReport.csv -NoTypeInformation`;
+  const validation = validateExecutablePowerShellAgainstClaims(script, claims);
+  if (!validation.valid) return null;
+  return {
+    language: "powershell",
+    script,
+    supportingClaimIds: claims.map((claim) => claim.claimId)
+  };
+}
+
 export function buildGroundedSynthesisPayload(params: {
   question: string;
   profile: AnswerPresentationProfile;
@@ -468,6 +571,12 @@ export function buildGroundedSynthesisPayload(params: {
     (citation) =>
       citation.validation.state === "valid" && citation.canonicalUrl !== null
   );
+  const evidenceById = new Map(
+    params.bundle.evidence.map((evidence) => [
+      evidence.evidenceId,
+      evidence
+    ])
+  );
   const claims = params.selectedClaimIds
     .map((claimId): GroundedSynthesisClaim | null => {
       const planned = plannedClaimById.get(claimId);
@@ -492,7 +601,9 @@ export function buildGroundedSynthesisPayload(params: {
             sourceId: citation.sourceId,
             sourceTitle: citation.sourceTitle,
             canonicalUrl: citation.canonicalUrl!,
-            authorityRole: citation.authorityRole
+            authorityRole: citation.authorityRole,
+            headingPath:
+              evidenceById.get(citation.evidenceId)?.location.headingPath ?? []
           }))
       };
     })
@@ -519,6 +630,11 @@ export function buildGroundedSynthesisPayload(params: {
     code: caveat.code,
     text: caveat.text
   }));
+  const executableWorkflow = buildExecutableWorkflow(
+    params.profile,
+    claims,
+    unsupportedAspects
+  );
   return {
     schemaVersion: "grounded-answer-synthesis/v1",
     question: params.question,
@@ -545,7 +661,8 @@ export function buildGroundedSynthesisPayload(params: {
       })),
     claims,
     unsupportedAspects,
-    caveats
+    caveats,
+    executableWorkflow
   };
 }
 
@@ -563,9 +680,32 @@ export function validateGroundedSynthesisOutput(
   );
   const seenClaimIds = new Set<string>();
   let factualBlockCount = 0;
+  let scriptBlockCount = 0;
   for (const block of output.blocks) {
     if (!block.text.trim()) {
       issues.push("empty_block");
+      continue;
+    }
+    if (block.blockType === "script") {
+      scriptBlockCount += 1;
+      const expected = payload.executableWorkflow;
+      if (!expected) {
+        issues.push("executable_script_not_authorized");
+        continue;
+      }
+      if (block.text.trim() !== expected.script.trim()) {
+        issues.push("executable_script_mismatch");
+      }
+      const actualIds = unique(block.supportingClaimIds).sort();
+      const expectedIds = [...expected.supportingClaimIds].sort();
+      if (JSON.stringify(actualIds) !== JSON.stringify(expectedIds)) {
+        issues.push("executable_script_claim_coverage_invalid");
+      }
+      const scriptValidation = validateExecutablePowerShellAgainstClaims(
+        block.text,
+        payload.claims
+      );
+      issues.push(...scriptValidation.issues);
       continue;
     }
     const referencedClaims: GroundedSynthesisClaim[] = [];
@@ -598,6 +738,12 @@ export function validateGroundedSynthesisOutput(
     if (!seenClaimIds.has(claim.claimId)) {
       issues.push(`required_claim_missing:${claim.claimId}`);
     }
+  }
+  if (payload.executableWorkflow && scriptBlockCount !== 1) {
+    issues.push("executable_script_block_missing");
+  }
+  if (!payload.executableWorkflow && scriptBlockCount > 0) {
+    issues.push("unexpected_executable_script_block");
   }
   if (
     payload.profile === "live_assist_quick" &&
@@ -667,7 +813,11 @@ export function renderGroundedSynthesis(
       append(`${stepNumber}. `);
     }
     const startOffset = answerText.length;
-    append(block.text.trim());
+    append(
+      block.blockType === "script"
+        ? `\`\`\`powershell\n${block.text.trim()}\n\`\`\``
+        : block.text.trim()
+    );
     const endOffset = answerText.length;
     for (const claimId of block.supportingClaimIds) {
       proofFactRanges.push({ claimId, startOffset, endOffset });

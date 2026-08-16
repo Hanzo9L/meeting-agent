@@ -118,9 +118,13 @@ test("V1.2.8: an irrelevant PowerShell candidate does not gain a reserved slot f
   });
   assert.ok(
     !result.selected.some((candidate) => candidate.chunkId === irrelevantPs.chunkId),
-    "an off-topic PowerShell candidate must not be preserved for any of the five directives"
+    "an off-topic PowerShell candidate must not be preserved for any workflow directive"
   );
   assert.deepEqual(result.diagnostics.noUpstreamCandidateDirectives.sort(), [
+    "Export-Csv",
+    "ForEach-Object",
+    "Where-Object",
+    "about_PSCustomObject",
     "calling policy",
     "dial plan",
     "enterprise voice",
@@ -379,14 +383,19 @@ test("S5: workflow read-property aliases are bounded to recognized read outputs"
     "EffectivePolicyAssignments",
     "EffectiveTenantDialPlanName",
     "EnterpriseVoiceEnabled",
+    "Export-Csv",
+    "ForEach-Object",
     "Get-CsEffectiveTenantDialPlan",
     "Get-CsUserPolicyAssignment",
     "LineURI",
+    "NoTypeInformation",
     "OnlineVoiceRoutingPolicy",
     "TeamsCallingPolicy",
     "TelephoneNumber",
     "TelephoneNumbers",
-    "TenantDialPlan"
+    "TenantDialPlan",
+    "Where-Object",
+    "pscustomobject"
   ]);
   assert.deepEqual(
     workflowReadPropertyAliases({

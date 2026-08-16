@@ -9,6 +9,13 @@ import {
 
 const POWERSHELL_AUTHORITY_ROLE = "teams_powershell_cmdlet_primary";
 const TEAMS_ADMIN_AUTHORITY_ROLE = "teams_admin_primary";
+const POWERSHELL_CORE_AUTHORITY_ROLE = "powershell_core_primary";
+const POWERSHELL_CORE_WORKFLOW_DIRECTIVES = new Set([
+  "foreach-object",
+  "where-object",
+  "about_pscustomobject",
+  "export-csv"
+]);
 const MIN_CONCEPT_COMPACT_LENGTH = 6;
 const WORKFLOW_READ_PROPERTY_ALIASES: Record<string, string[]> = {
   "enterprise voice": ["EnterpriseVoiceEnabled"],
@@ -73,7 +80,15 @@ export function workflowReadPropertyAliases(intent: QueryIntent): string[] {
         WORKFLOW_READ_PROPERTY_ALIASES[value.trim().toLowerCase()] ?? []
     )
     .filter((group) => group.length > 0);
-  const aliases: string[] = [];
+  const aliases: string[] = intent.domains.includes("powershell_core")
+    ? [
+        "ForEach-Object",
+        "pscustomobject",
+        "Where-Object",
+        "Export-Csv",
+        "NoTypeInformation"
+      ]
+    : [];
   const maxGroupLength = Math.max(0, ...groups.map((group) => group.length));
   for (let index = 0; index < maxGroupLength; index += 1) {
     for (const group of groups) {
@@ -159,7 +174,10 @@ export function directiveTopicallyMatchesCandidate(
 
 function isPowerShellAuthoritative(candidate: PreservationCandidate): boolean {
   if (
-    candidate.authority.authorityRoles.includes(POWERSHELL_AUTHORITY_ROLE)
+    candidate.authority.authorityRoles.includes(POWERSHELL_AUTHORITY_ROLE) ||
+    candidate.authority.authorityRoles.includes(
+      POWERSHELL_CORE_AUTHORITY_ROLE
+    )
   ) {
     return true;
   }
@@ -169,6 +187,51 @@ function isPowerShellAuthoritative(candidate: PreservationCandidate): boolean {
       candidate.text
     )
   );
+}
+
+function establishesCoreWorkflowSyntax(
+  directiveValue: string,
+  candidate: PreservationCandidate
+): boolean {
+  if (
+    !candidate.authority.authorityRoles.includes(
+      POWERSHELL_CORE_AUTHORITY_ROLE
+    )
+  ) {
+    return false;
+  }
+  const key = directiveValue.toLowerCase();
+  if (key === "foreach-object") {
+    return (
+      candidate.title.toLowerCase() === key &&
+      /\bForEach-Object\s*\{[^}]*\$_/i.test(candidate.text) &&
+      !/\b-Parallel\b/i.test(candidate.text)
+    );
+  }
+  if (key === "where-object") {
+    return (
+      candidate.title.toLowerCase() === key &&
+      /\bWhere-Object\b/i.test(candidate.text) &&
+      /\$_/.test(candidate.text) &&
+      /\s-eq\b/i.test(candidate.text)
+    );
+  }
+  if (key === "about_pscustomobject") {
+    return (
+      candidate.title.toLowerCase() === key &&
+      /\[pscustomobject\]\s*@\{/i.test(candidate.text)
+    );
+  }
+  if (key === "export-csv") {
+    return (
+      candidate.title.toLowerCase() === key &&
+      /\bGet-Process\s*\|\s*Export-Csv\b/i.test(candidate.text) &&
+      /\s-Path\b/i.test(candidate.text) &&
+      /\s-NoTypeInformation\b/i.test(candidate.text) &&
+      !/\bFormat-(?:Table|List|Wide|Custom)\b/i.test(candidate.text)
+    );
+  }
+  return false;
 }
 
 function splitIntoWords(value: string): string[] {
@@ -388,6 +451,39 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
   const toPreserve: T[] = [];
   const preservedChunkIds = new Set<string>();
   for (const directive of outputDirectives) {
+    if (
+      POWERSHELL_CORE_WORKFLOW_DIRECTIVES.has(
+        directive.value.toLowerCase()
+      )
+    ) {
+      const alreadyCoreSatisfied = params.selected.some((candidate) =>
+        establishesCoreWorkflowSyntax(directive.value, candidate)
+      );
+      if (alreadyCoreSatisfied) {
+        diagnostics.alreadySatisfiedDirectives.push(directive.value);
+        continue;
+      }
+      const bestCoreCandidate = params.sortedFused
+        .filter(
+          (candidate) =>
+            !selectedIds.has(candidate.chunkId) &&
+            !preservedChunkIds.has(candidate.chunkId) &&
+            establishesCoreWorkflowSyntax(directive.value, candidate)
+        )
+        .sort((left, right) => right.fusion.score - left.fusion.score)[0];
+      if (!bestCoreCandidate) {
+        diagnostics.noUpstreamCandidateDirectives.push(directive.value);
+        continue;
+      }
+      toPreserve.push(bestCoreCandidate);
+      preservedChunkIds.add(bestCoreCandidate.chunkId);
+      diagnostics.preservedDirectives.push({
+        directiveValue: directive.value,
+        chunkId: bestCoreCandidate.chunkId,
+        title: bestCoreCandidate.title
+      });
+      continue;
+    }
     if (!hasReadOperation) {
       const alreadyWriteSatisfied = params.selected.some(
         (candidate) =>
@@ -561,6 +657,19 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
   // existing coverage for a different requested output.
   const soleCoverageIds = new Set<string>();
   for (const directive of outputDirectives) {
+    if (
+      POWERSHELL_CORE_WORKFLOW_DIRECTIVES.has(
+        directive.value.toLowerCase()
+      )
+    ) {
+      const coreRelevant = params.selected.filter((candidate) =>
+        establishesCoreWorkflowSyntax(directive.value, candidate)
+      );
+      if (coreRelevant.length === 1) {
+        soleCoverageIds.add(coreRelevant[0]!.chunkId);
+      }
+      continue;
+    }
     const relevant = params.selected.filter((candidate) =>
       directiveTopicallyMatchesCandidate(directive.value, candidate) ||
       statePropertyEvidenceScore(directive.value, candidate) > 0

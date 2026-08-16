@@ -5,7 +5,8 @@ export type SourceDomain =
   | "entra"
   | "m365"
   | "teams_dev"
-  | "sharepoint";
+  | "sharepoint"
+  | "powershell_core";
 
 export type SourceAudience =
   | "administrator"
@@ -29,7 +30,8 @@ export type SourceAuthorityRole =
   | "m365_tenant_primary"
   | "teams_dev_specialized"
   | "sharepoint_admin_primary"
-  | "sharepoint_powershell_cmdlet_primary";
+  | "sharepoint_powershell_cmdlet_primary"
+  | "powershell_core_primary";
 
 export interface SourceContentTrack {
   id: string;
@@ -100,6 +102,12 @@ export interface GitHubPowerShellModuleMapping {
 export interface LearnMapping {
   productAreas: string[];
   preferredLocale: string;
+  /**
+   * Verified one-to-one mappings for a deliberately bounded set of GitHub
+   * source paths whose Learn URL shape is not safely derivable by a generic
+   * path transform.
+   */
+  githubExactCanonicalUrls?: Record<string, string>;
   /** Present only when this source's GitHub path structure has a verified 1:1 Learn URL mapping. */
   githubCanonicalUrl?: GitHubLearnUrlMapping;
   /** Present only for one-file-per-cmdlet GitHub sources with a verified Learn PowerShell module mapping. */

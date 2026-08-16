@@ -74,7 +74,7 @@ function hasExplicitBetaIntent(intent: QueryIntent): boolean {
   return q.includes(" beta ") || q.endsWith(" beta") || q.includes(" preview ");
 }
 
-function inferExpectedAuthorityRoleHints(intent: QueryIntent): string[] {
+export function inferExpectedAuthorityRoleHints(intent: QueryIntent): string[] {
   const implicitCmdletSignal =
     (intent.commandNames ?? []).length === 0 &&
     (intent.normalizedQuestion.includes("which cmdlet") ||
@@ -82,7 +82,19 @@ function inferExpectedAuthorityRoleHints(intent: QueryIntent): string[] {
       intent.normalizedQuestion.includes("powershell cmdlet")) &&
     (intent.operationIntents ?? []).length > 0;
   if ((intent.commandNames ?? []).length > 0) {
-    return ["teams_powershell_cmdlet_primary"];
+    const roles: string[] = [];
+    if (intent.domains.includes("powershell_core")) {
+      roles.push("powershell_core_primary");
+    }
+    if (intent.domains.includes("sharepoint")) {
+      roles.push("sharepoint_powershell_cmdlet_primary");
+    }
+    if (intent.domains.includes("teams_powershell")) {
+      roles.push("teams_powershell_cmdlet_primary");
+    }
+    return roles.length > 0
+      ? roles
+      : ["teams_powershell_cmdlet_primary"];
   }
   if (implicitCmdletSignal) {
     return ["teams_powershell_cmdlet_primary", "teams_admin_primary"];
