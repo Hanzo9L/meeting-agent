@@ -18,7 +18,8 @@ import { extractQueryIntent } from "./queryIntentRules";
 import {
   applyWorkflowOutputPreservation,
   directiveTopicallyMatchesCandidate,
-  type PreservationCandidate
+  type PreservationCandidate,
+  workflowReadPropertyAliases
 } from "./workflowOutputPreservation";
 
 // V1.2 — Required-Output Candidate Preservation Through Hybrid Fusion.
@@ -131,6 +132,8 @@ test("V1.2.8: an irrelevant PowerShell candidate does not gain a reserved slot f
 test("V1.2.9: an already-selected relevant PowerShell candidate satisfies a directive without wasting a reservation", () => {
   const relevantPs = makeUnitCandidate({
     title: "Get-CsTeamsCallingPolicy",
+    text:
+      "Returns information about the Teams calling policies configured for the organization.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     score: 46
   });
@@ -249,6 +252,137 @@ test("V1.2 precision safeguard: a read-verb cmdlet is preferred over an equally 
   assert.equal(preserved?.title, "Get-CsTeamsCallingPolicy");
 });
 
+test("S5: read workflow preservation prefers state-bearing Get evidence over a higher-scoring setter", () => {
+  const setter = makeUnitCandidate({
+    title: "Set-CsUser",
+    headingPath: ["Set-CsUser", "PARAMETERS", "-EnterpriseVoiceEnabled"],
+    text:
+      "Indicates whether the user has been enabled for Enterprise Voice.",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 30
+  });
+  const getter = makeUnitCandidate({
+    title: "Get-CsOnlineUser",
+    headingPath: ["Get-CsOnlineUser", "PARAMETERS", "-Filter"],
+    text:
+      "This filter returns only users who have been enabled for Enterprise Voice: EnterpriseVoiceEnabled -eq $True.",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 20
+  });
+  const admin = makeUnitCandidate({ title: "Admin overview", score: 50 });
+  const result = applyWorkflowOutputPreservation({
+    sortedFused: [admin, setter, getter],
+    selected: [admin],
+    intent: WORKFLOW_INTENT,
+    directives: WORKFLOW_DIRECTIVES.filter(
+      (directive) => directive.value === "enterprise voice"
+    ),
+    maxPerDocument: 4
+  });
+  assert.equal(
+    result.diagnostics.preservedDirectives[0]?.title,
+    "Get-CsOnlineUser"
+  );
+});
+
+test("S5: write workflow preservation still prefers matching Set evidence", () => {
+  const setter = makeUnitCandidate({
+    title: "Set-CsUser",
+    headingPath: ["Set-CsUser", "PARAMETERS", "-EnterpriseVoiceEnabled"],
+    text: "Sets whether the user is enabled for Enterprise Voice.",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 20
+  });
+  const getter = makeUnitCandidate({
+    title: "Get-CsOnlineUser",
+    text: "Returns whether the user is enabled for Enterprise Voice.",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 30
+  });
+  const writeIntent = {
+    ...WORKFLOW_INTENT,
+    operationIntents: ["set"]
+  };
+  const result = applyWorkflowOutputPreservation({
+    sortedFused: [setter, getter],
+    selected: [],
+    intent: writeIntent,
+    directives: WORKFLOW_DIRECTIVES.filter(
+      (directive) => directive.value === "enterprise voice"
+    ),
+    maxPerDocument: 4
+  });
+  assert.equal(result.diagnostics.preservedDirectives[0]?.title, "Set-CsUser");
+});
+
+test("S5: assigned-number state prose outranks a policy-assignment syntax overlap", () => {
+  const policySyntax = makeUnitCandidate({
+    title: "Get-CsPhoneNumberPolicyAssignment",
+    headingPath: [
+      "Get-CsPhoneNumberPolicyAssignment",
+      "SYNTAX",
+      "Policy assignment for individual telephone number"
+    ],
+    text:
+      "Get-CsPhoneNumberPolicyAssignment [-TelephoneNumber <String>]",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 30
+  });
+  const assignedNumberState = makeUnitCandidate({
+    title: "Get-CsOnlineVoiceUser",
+    headingPath: ["Get-CsOnlineVoiceUser", "DESCRIPTION"],
+    text:
+      "The Number output field maps to LineUri and returns the same phone number assigned to the user.",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 20
+  });
+  const directAssignmentLookup = makeUnitCandidate({
+    title: "Get-CsPhoneNumberAssignment",
+    headingPath: [
+      "Get-CsPhoneNumberAssignment",
+      "PARAMETERS",
+      "-AssignedPstnTargetId"
+    ],
+    text:
+      "AssignedPstnTargetId filters the returned results based on the user or resource account ID the phone number is assigned to.",
+    authorityRoles: ["teams_powershell_cmdlet_primary"],
+    score: 10
+  });
+  const result = applyWorkflowOutputPreservation({
+    sortedFused: [
+      policySyntax,
+      assignedNumberState,
+      directAssignmentLookup
+    ],
+    selected: [policySyntax],
+    intent: WORKFLOW_INTENT,
+    directives: WORKFLOW_DIRECTIVES.filter(
+      (directive) => directive.value === "phone number"
+    ),
+    maxPerDocument: 4
+  });
+  assert.equal(
+    result.diagnostics.preservedDirectives[0]?.title,
+    "Get-CsPhoneNumberAssignment"
+  );
+});
+
+test("S5: workflow read-property aliases are bounded to recognized read outputs", () => {
+  assert.deepEqual(workflowReadPropertyAliases(WORKFLOW_INTENT).sort(), [
+    "AssignedPstnTargetId",
+    "EnterpriseVoiceEnabled",
+    "LineURI",
+    "TelephoneNumber"
+  ]);
+  assert.deepEqual(
+    workflowReadPropertyAliases({
+      ...WORKFLOW_INTENT,
+      operationIntents: ["set"]
+    }),
+    []
+  );
+});
+
 test("V1.2.15: the preservation algorithm is a pure, synchronous function requiring no provider, network, or LLM call", () => {
   const admin = makeUnitCandidate({ title: "Admin overview", score: 50 });
   const started = Date.now();
@@ -348,15 +482,10 @@ test("directiveTopicallyMatchesCandidate: does not match an unrelated cmdlet wit
 // ---------------------------------------------------------------------------
 // Integration-level: a real end-to-end pass through retrieveHybridCandidates
 // (exact + lexical + semantic + fusion + preservation) against a seeded
-// SQLite fixture, replicating the acceptance-question shape: three outputs
-// (dial plan, phone number, voice-routing policy) whose PowerShell reference
-// prose contains the literal directive phrase and so already earns exact-
-// match credit, and two outputs (Enterprise Voice, calling policy) whose
-// reference prose only uses a plural ("calling policies") or a PascalCase
-// parameter/heading ("-EnterpriseVoiceEnabled"), so they only reach the
-// candidate pool via lexical/semantic signals and depend on the V1.2
-// preservation step to survive the final top-24 cut against a crowd of
-// generic admin filler documents that agree across all three channels.
+// SQLite fixture replicating the acceptance-question shape with authoritative
+// read primitives for each output. Enterprise Voice and assigned-number
+// evidence use their canonical state properties, matching S5's bounded
+// lexical hints and read-compatible preservation behavior.
 // ---------------------------------------------------------------------------
 
 async function makeTempDbPath(): Promise<string> {
@@ -449,10 +578,11 @@ async function seedAcceptanceWorkflowFixture(): Promise<Fixture> {
     text: "Get-CsTenantDialPlan retrieves the dial plan configured for a Teams user."
   });
   addPsDoc({
-    cmdlet: "Get-CsPhoneNumberAssignment",
-    url: "get-csphonenumberassignment",
-    heading: ["Get-CsPhoneNumberAssignment", "DESCRIPTION"],
-    text: "Get-CsPhoneNumberAssignment retrieves the phone number assigned to a Teams user."
+    cmdlet: "Get-CsOnlineVoiceUser",
+    url: "get-csonlinevoiceuser",
+    heading: ["Get-CsOnlineVoiceUser", "DESCRIPTION", "Output fields"],
+    text:
+      "The Number output field is LineURI in the Get-CsOnlineUser output and represents the same phone number assigned to the user."
   });
   addPsDoc({
     cmdlet: "Get-CsOnlineVoiceRoutingPolicy",
@@ -470,15 +600,14 @@ async function seedAcceptanceWorkflowFixture(): Promise<Fixture> {
     heading: ["Get-CsTeamsCallingPolicy", "SYNOPSIS"],
     text: "Returns information about the teams calling policies configured for use in your organization."
   });
-  // Deliberately expresses the concept only via a PascalCase parameter
-  // heading, never as literal prose — replicating the real
-  // "-EnterpriseVoiceEnabled" parameter-heading gap on a generically named
-  // cmdlet document.
+  // Mirrors the real read-oriented filter evidence instead of the
+  // write-oriented setter that V1.2 previously preserved.
   const enterpriseVoiceChunkId = addPsDoc({
-    cmdlet: "Set-CsUser",
-    url: "set-csuser",
-    heading: ["Set-CsUser", "PARAMETERS", "-EnterpriseVoiceEnabled"],
-    text: "Enables or disables a user for voice functionality within your organization."
+    cmdlet: "Get-CsOnlineUser",
+    url: "get-csonlineuser",
+    heading: ["Get-CsOnlineUser", "PARAMETERS", "-Filter"],
+    text:
+      "The filter returns only users who have been enabled for Enterprise Voice: EnterpriseVoiceEnabled -eq $True."
   });
 
   // A crowd of generic, broadly-matching admin filler documents that agree
@@ -592,10 +721,10 @@ test("V1.2.1: all five acceptance-workflow Teams-side outputs retain an eligible
       .map((c) => c.title)
   );
   assert.ok(psTitles.has("Get-CsTenantDialPlan"), "dial plan candidate missing from final pool");
-  assert.ok(psTitles.has("Get-CsPhoneNumberAssignment"), "phone number candidate missing from final pool");
+  assert.ok(psTitles.has("Get-CsOnlineVoiceUser"), "phone number candidate missing from final pool");
   assert.ok(psTitles.has("Get-CsOnlineVoiceRoutingPolicy"), "voice-routing-policy candidate missing from final pool");
   assert.ok(psTitles.has("Get-CsTeamsCallingPolicy"), "calling-policy candidate missing from final pool");
-  assert.ok(psTitles.has("Set-CsUser"), "enterprise-voice candidate missing from final pool");
+  assert.ok(psTitles.has("Get-CsOnlineUser"), "enterprise-voice candidate missing from final pool");
   assert.ok(
     result.fusionDiagnostics.workflowOutputPreservation.triggered,
     "expected preservation to have engaged for at least the two gap outputs"
@@ -604,7 +733,7 @@ test("V1.2.1: all five acceptance-workflow Teams-side outputs retain an eligible
 
 test("V1.2.2: Enterprise Voice candidate survives final fusion", async () => {
   const { candidates } = await runAcceptanceQuestion();
-  assert.ok(candidates.some((c) => c.title === "Set-CsUser" && c.authority.sourceId === "ms-teams-powershell"));
+  assert.ok(candidates.some((c) => c.title === "Get-CsOnlineUser" && c.authority.sourceId === "ms-teams-powershell"));
 });
 
 test("V1.2.3: calling-policy candidate survives final fusion", async () => {
@@ -625,7 +754,7 @@ test("V1.2.5: phone-number candidate still survives final fusion (unchanged from
   const { candidates } = await runAcceptanceQuestion();
   assert.ok(
     candidates.some(
-      (c) => c.title === "Get-CsPhoneNumberAssignment" && c.authority.sourceId === "ms-teams-powershell"
+      (c) => c.title === "Get-CsOnlineVoiceUser" && c.authority.sourceId === "ms-teams-powershell"
     )
   );
 });
@@ -666,3 +795,4 @@ test("V1.2.14: R2 evidence-bundle construction is unaffected by the new preserva
   assert.ok(bundleResult.bundle.evidence.length >= 0);
   assert.ok(bundleResult.bundle.aspectCoverage);
 });
+

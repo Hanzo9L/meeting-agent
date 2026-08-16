@@ -9,6 +9,42 @@ import {
 
 const POWERSHELL_AUTHORITY_ROLE = "teams_powershell_cmdlet_primary";
 const MIN_CONCEPT_COMPACT_LENGTH = 6;
+const WORKFLOW_READ_PROPERTY_ALIASES: Record<string, string[]> = {
+  "enterprise voice": ["EnterpriseVoiceEnabled"],
+  "phone number": ["AssignedPstnTargetId", "LineURI", "TelephoneNumber"]
+};
+const WORKFLOW_READ_EVIDENCE_TERMS: Record<string, string[]> = {
+  "enterprise voice": ["filter", "returns only users"],
+  "phone number": [
+    "filters the returned results based on the user",
+    "returns information about the phone number assigned to",
+    "output field",
+    "in the output"
+  ]
+};
+const READ_PRIMITIVE_PREFIXES = [
+  "get-",
+  "show-",
+  "test-",
+  "find-",
+  "search-",
+  "measure-",
+  "select-",
+  "compare-"
+];
+
+export function workflowReadPropertyAliases(intent: QueryIntent): string[] {
+  if (!isWorkflowPowerShellAnchoringQuestion(intent)) return [];
+  if (!cmdletOperationPrefixes(intent).includes("get-")) return [];
+  return [
+    ...new Set(
+      [...intent.entities, ...(intent.policyNames ?? [])].flatMap(
+        (value) =>
+          WORKFLOW_READ_PROPERTY_ALIASES[value.trim().toLowerCase()] ?? []
+      )
+    )
+  ];
+}
 
 /**
  * V1.2 — minimal structural shape this module needs from a fused candidate.
@@ -95,6 +131,52 @@ function splitIntoWords(value: string): string[] {
     .toLowerCase()
     .split(/[^a-z0-9]+/)
     .filter((word) => word.length > 0);
+}
+
+function singularizeBodyWord(word: string): string {
+  if (word.endsWith("ies") && word.length > 4) {
+    return `${word.slice(0, -3)}y`;
+  }
+  if (word.endsWith("s") && !word.endsWith("ss") && word.length > 3) {
+    return word.slice(0, -1);
+  }
+  return word;
+}
+
+function directiveAppearsInCandidateBody(
+  directiveValue: string,
+  candidate: Pick<PreservationCandidate, "text">
+): boolean {
+  const directiveWords = directiveValue
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+    .map(singularizeBodyWord);
+  const bodyWords = candidate.text
+    // Lowercase before tokenization so PascalCase identifiers remain one
+    // token. A property/cmdlet name alone is not proof that the body
+    // describes the requested user state.
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+    .map(singularizeBodyWord);
+  return Number.isFinite(
+    contiguousWordMatchPenalty(directiveWords, bodyWords)
+  );
+}
+
+function statePropertyEvidenceScore(
+  directiveValue: string,
+  candidate: Pick<PreservationCandidate, "text">
+): number {
+  const directiveKey = directiveValue.trim().toLowerCase();
+  const aliases =
+    WORKFLOW_READ_PROPERTY_ALIASES[directiveKey] ?? [];
+  if (aliases.length === 0) return 0;
+  const body = candidate.text.toLowerCase();
+  if (!aliases.some((alias) => body.includes(alias.toLowerCase()))) return 0;
+  const evidenceTerms = WORKFLOW_READ_EVIDENCE_TERMS[directiveKey] ?? [];
+  return evidenceTerms.some((term) => body.includes(term)) ? 2 : 1;
 }
 
 function contiguousWordMatchPenalty(directiveWords: string[], words: string[]): number {
@@ -203,7 +285,19 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
   // identify/determine/report a value prefers a matching-verb cmdlet
   // (e.g. "Get-") over an equally topical but semantically mismatched one
   // (e.g. "Remove-") when both are otherwise tied on topical precision.
-  const preferredPrefixes = cmdletOperationPrefixes(params.intent);
+  const inferredPrefixes = cmdletOperationPrefixes(params.intent);
+  const hasReadOperation = inferredPrefixes.some((prefix) =>
+    READ_PRIMITIVE_PREFIXES.includes(prefix)
+  );
+  const preferredPrefixes = hasReadOperation
+    ? READ_PRIMITIVE_PREFIXES
+    : inferredPrefixes;
+  const operationAligned = (candidate: T): boolean =>
+    operationPrefixAligned(
+      preferredPrefixes,
+      candidate.title,
+      candidate.provenance.canonicalUrl
+    );
 
   // For every directive still needing coverage, find the best upstream
   // (pre-cap) PowerShell-authoritative candidate not already selected.
@@ -213,7 +307,16 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
     const alreadySatisfied = params.selected.some(
       (candidate) =>
         isPowerShellAuthoritative(candidate) &&
-        directiveTopicallyMatchesCandidate(directive.value, candidate)
+        directiveTopicallyMatchesCandidate(directive.value, candidate) &&
+        operationAligned(candidate) &&
+        ((WORKFLOW_READ_PROPERTY_ALIASES[
+          directive.value.trim().toLowerCase()
+        ]?.length ?? 0) === 0 ||
+          statePropertyEvidenceScore(
+            directive.value,
+            candidate
+          ) > 0) &&
+        directiveAppearsInCandidateBody(directive.value, candidate)
     );
     if (alreadySatisfied) {
       diagnostics.alreadySatisfiedDirectives.push(directive.value);
@@ -232,11 +335,31 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
     // actual canonical object (e.g. "Calling Policy") merely because it
     // happened to also pick up an exact-match score bonus upstream.
     const bestUpstream = [...eligibleUpstream].sort((a, b) => {
-      const penaltyDelta = wordAdjacencyPenalty(directive.value, a) - wordAdjacencyPenalty(directive.value, b);
-      if (penaltyDelta !== 0) return penaltyDelta;
-      const aAligned = operationPrefixAligned(preferredPrefixes, a.title, a.provenance.canonicalUrl);
-      const bAligned = operationPrefixAligned(preferredPrefixes, b.title, b.provenance.canonicalUrl);
+      const aAligned = operationAligned(a);
+      const bAligned = operationAligned(b);
       if (aAligned !== bAligned) return aAligned ? -1 : 1;
+      const aPropertyScore = statePropertyEvidenceScore(
+        directive.value,
+        a
+      );
+      const bPropertyScore = statePropertyEvidenceScore(
+        directive.value,
+        b
+      );
+      if (aPropertyScore !== bPropertyScore) {
+        return bPropertyScore - aPropertyScore;
+      }
+      const aBodyMatch = directiveAppearsInCandidateBody(directive.value, a);
+      const bBodyMatch = directiveAppearsInCandidateBody(directive.value, b);
+      if (aBodyMatch !== bBodyMatch) return aBodyMatch ? -1 : 1;
+      const aPenalty = wordAdjacencyPenalty(directive.value, a);
+      const bPenalty = wordAdjacencyPenalty(directive.value, b);
+      if (Number.isFinite(aPenalty) !== Number.isFinite(bPenalty)) {
+        return Number.isFinite(aPenalty) ? -1 : 1;
+      }
+      if (aPenalty !== bPenalty) {
+        return aPenalty - bPenalty;
+      }
       return b.fusion.score - a.fusion.score;
     })[0];
     if (!bestUpstream) {

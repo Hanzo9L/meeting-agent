@@ -21,6 +21,7 @@ import {
   objectAligned,
   operationPrefixAligned
 } from "./implicitCmdletSignals";
+import { workflowReadPropertyAliases } from "./workflowOutputPreservation";
 
 const STOPWORDS = new Set([
   "the",
@@ -82,6 +83,7 @@ function buildLexicalQuery(scope: RetrievalScope): { query: string; queryTerms: 
   for (const policy of scope.intent.policyNames ?? []) addTerm(policy);
   for (const entity of scope.intent.entities) addTerm(entity);
   for (const hint of scope.focusSubdomains) addTerm(hint.replaceAll("_", " "));
+  for (const alias of workflowReadPropertyAliases(scope.intent)) addTerm(alias);
   for (const hint of buildOperationLexicalHints(scope)) addTerm(hint);
 
   const normalizedQuestionTokens = tokenizeForMatch(scope.intent.normalizedQuestion).filter(
