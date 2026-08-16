@@ -14,6 +14,8 @@ export * from "./explanationContextTypes";
 export * from "./explanationContextBuilder";
 export * from "./answerPresentationTypes";
 export * from "./deterministicAnswerPresenter";
+export * from "./groundedAnswerSynthesis";
+export * from "./openAiGroundedSynthesisProvider";
 export * from "./inspectEvidence";
 export * from "./inspectAnswerPlan";
 export * from "./inspectGroundedAnswer";

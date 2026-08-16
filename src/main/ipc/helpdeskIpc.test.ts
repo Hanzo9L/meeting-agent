@@ -121,8 +121,12 @@ class IpcGroundedPort implements AnswerExecutionPort {
         contextBuildMs: 0,
         presentationPlanningMs: 0,
         presentationRenderMs: 0,
+        synthesisMs: 0,
         pipelineTotalMs: 5,
-        answerGenerationRequestCount: 0 as const
+        factualGroundingGenerationRequests: 0 as const,
+        presentationSynthesisRequests: 0 as const,
+        presentationSynthesisStatus: "not_configured" as const,
+        presentationSynthesisFallbackReason: null
       }
     };
   }

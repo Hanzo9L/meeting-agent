@@ -119,8 +119,10 @@ async function main(): Promise<void> {
             )
           : null,
         endToVisibleAnswerMs,
-        answerGenerationRequestCount:
-          diagnostics?.answerGenerationRequestCount ?? 0
+        factualGroundingGenerationRequests:
+          diagnostics?.factualGroundingGenerationRequests ?? 0,
+        presentationSynthesisRequests:
+          diagnostics?.presentationSynthesisRequests ?? 0
       });
     }
   } finally {
@@ -170,10 +172,16 @@ async function main(): Promise<void> {
       exactAnswerPersistence: cases.filter(
         (entry) => entry["answerTextUnchanged"] === true
       ).length,
-      answerGenerationRequestCount: cases.reduce(
+      factualGroundingGenerationRequests: cases.reduce(
         (sum, entry) =>
           sum +
-          Number(entry["answerGenerationRequestCount"] ?? 0),
+          Number(entry["factualGroundingGenerationRequests"] ?? 0),
+        0
+      ),
+      presentationSynthesisRequests: cases.reduce(
+        (sum, entry) =>
+          sum +
+          Number(entry["presentationSynthesisRequests"] ?? 0),
         0
       ),
       latencyMs: {

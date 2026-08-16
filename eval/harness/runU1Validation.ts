@@ -149,7 +149,12 @@ async function main(): Promise<void> {
               canonicalUrl: citation.canonicalUrl,
               preview: citation.preview
             })),
-            answerGenerationRequestCount: executedDetailed.diagnostics.answerGenerationRequestCount,
+            factualGroundingGenerationRequests:
+              executedDetailed.diagnostics
+                .factualGroundingGenerationRequests,
+            presentationSynthesisRequests:
+              executedDetailed.diagnostics
+                .presentationSynthesisRequests,
             latencyMs: executedDetailed.diagnostics.pipelineTotalMs
           }
         : {

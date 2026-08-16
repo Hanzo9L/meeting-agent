@@ -88,7 +88,10 @@ async function main(): Promise<void> {
               preview: citation.preview
             })),
             latencyMs: executed.diagnostics.pipelineTotalMs,
-            answerGenerationRequestCount: executed.diagnostics.answerGenerationRequestCount
+            factualGroundingGenerationRequests:
+              executed.diagnostics.factualGroundingGenerationRequests,
+            presentationSynthesisRequests:
+              executed.diagnostics.presentationSynthesisRequests
           }
         : {
             ok: false,

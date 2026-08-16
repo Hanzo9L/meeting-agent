@@ -82,8 +82,12 @@ function success(
       contextBuildMs: 0,
       presentationPlanningMs: 0,
       presentationRenderMs: 0,
+      synthesisMs: 0,
       pipelineTotalMs: 5,
-      answerGenerationRequestCount: 0
+      factualGroundingGenerationRequests: 0,
+      presentationSynthesisRequests: 0,
+      presentationSynthesisStatus: "not_configured",
+      presentationSynthesisFallbackReason: null
     }
   };
 }
@@ -559,7 +563,14 @@ test("Helpdesk service consumes only the execution port contract", () => {
     resolve("src/main/index.ts"),
     "utf8"
   );
-  assert.match(mainSource, /new GroundedAnswerExecutionPort\(\)/);
+  assert.match(
+    mainSource,
+    /new GroundedAnswerExecutionPort\(\{\s*synthesisProvider:\s*createConfiguredGroundedSynthesisProvider\(\)/
+  );
+  assert.doesNotMatch(
+    mainSource,
+    /OpenAiGroundedAnswerGenerator|OpenAiLlmProvider/
+  );
   assert.doesNotMatch(
     mainSource,
     /new UnavailableAnswerExecutionPort\(\)/

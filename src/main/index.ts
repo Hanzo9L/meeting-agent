@@ -35,6 +35,7 @@ import { createOverlayWindow } from "./windows/overlayWindow";
 import { createHelpdeskWindow } from "./windows/helpdeskWindow";
 import { DeepgramSttProvider } from "./services/deepgramSttProvider";
 import { PipelineManager } from "./services/pipelineManager";
+import { createConfiguredGroundedSynthesisProvider } from "./services/answerV2";
 
 const preloadRoot = join(__dirname, "../preload");
 const rendererRoot = join(__dirname, "../../out/renderer");
@@ -564,7 +565,9 @@ async function initializeRelay(): Promise<void> {
   });
   helpdeskService = new HelpdeskService(
     conversationStore,
-    new GroundedAnswerExecutionPort()
+    new GroundedAnswerExecutionPort({
+      synthesisProvider: createConfiguredGroundedSynthesisProvider()
+    })
   );
   liveAssistService = new LiveAssistService(
     conversationStore,

@@ -140,8 +140,10 @@ async function main(): Promise<void> {
         answerText: assistant?.content ?? null,
         citationCount: assistant?.citations.length ?? 0,
         snapshotId: assistant?.groundingSnapshotId ?? null,
-        answerGenerationRequestCount:
-          diagnostics?.answerGenerationRequestCount ?? 0,
+        factualGroundingGenerationRequests:
+          diagnostics?.factualGroundingGenerationRequests ?? 0,
+        presentationSynthesisRequests:
+          diagnostics?.presentationSynthesisRequests ?? 0,
         latencyMs: {
           stt: null,
           sttExcludedReason:
@@ -188,10 +190,16 @@ async function main(): Promise<void> {
       durableLiveTurns: cases.filter(
         (entry) => entry["durableUserMessage"] === true
       ).length,
-      answerGenerationRequestCount: cases.reduce(
+      factualGroundingGenerationRequests: cases.reduce(
         (sum, entry) =>
           sum +
-          Number(entry["answerGenerationRequestCount"] ?? 0),
+          Number(entry["factualGroundingGenerationRequests"] ?? 0),
+        0
+      ),
+      presentationSynthesisRequests: cases.reduce(
+        (sum, entry) =>
+          sum +
+          Number(entry["presentationSynthesisRequests"] ?? 0),
         0
       ),
       latencyMs: {

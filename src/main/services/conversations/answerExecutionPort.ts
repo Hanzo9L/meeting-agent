@@ -1,14 +1,17 @@
 import { performance } from "node:perf_hooks";
 import {
   assembleDeterministicAnswer,
+  attemptGroundedSynthesis,
   buildAnswerPlan,
   buildExplanationContext,
+  buildGroundedSynthesisPayload,
   mapAnswerCitations,
   presentGroundedAnswer,
   runQuestionToEvidenceBundle
 } from "../answerV2";
 import type {
   AnswerabilityStatus,
+  GroundedSynthesisProvider,
   GroundingDecisionSnapshot
 } from "../answerV2";
 import type { AnswerPresentationProfile } from "../answerV2/answerPresentationTypes";
@@ -75,8 +78,17 @@ export interface GroundedAnswerExecutionSuccess {
     contextBuildMs: number;
     presentationPlanningMs: number;
     presentationRenderMs: number;
+    synthesisMs: number;
     pipelineTotalMs: number;
-    answerGenerationRequestCount: 0;
+    factualGroundingGenerationRequests: 0;
+    presentationSynthesisRequests: 0 | 1;
+    presentationSynthesisStatus:
+      | "not_configured"
+      | "bypassed_insufficient_evidence"
+      | "succeeded"
+      | "provider_failed"
+      | "validation_failed";
+    presentationSynthesisFallbackReason: string | null;
   };
 }
 
@@ -119,6 +131,7 @@ export class UnavailableAnswerExecutionPort implements AnswerExecutionPort {
 
 export interface GroundedAnswerExecutionPortOptions {
   databasePath?: string;
+  synthesisProvider?: GroundedSynthesisProvider | null;
 }
 
 export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
@@ -246,12 +259,53 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
 
     const profile: AnswerPresentationProfile =
       request.presentationProfile ?? "helpdesk_detailed";
-    const presentedAnswer =
+    const deterministicPresentedAnswer =
       profile === "live_assist_quick"
         ? presented.liveAssistQuick
         : presented.helpdeskDetailed;
+    let visibleAnswerText = deterministicPresentedAnswer.answerText;
+    let visibleProofFactRanges =
+      deterministicPresentedAnswer.proofFactRanges;
+    let synthesisMs = 0;
+    let presentationSynthesisRequests: 0 | 1 = 0;
+    let presentationSynthesisStatus:
+      GroundedAnswerExecutionSuccess["diagnostics"]["presentationSynthesisStatus"] =
+      "not_configured";
+    let presentationSynthesisFallbackReason: string | null = null;
+    let synthesisAccepted = false;
+    const synthesisPayload = buildGroundedSynthesisPayload({
+      question: request.question,
+      profile,
+      bundle: groundingRun.bundle,
+      plan,
+      answer: assembled.answer,
+      provenance,
+      citationMapping,
+      selectedClaimIds: provenance.renderedClaims.map(
+        (claim) => claim.claimId
+      ),
+      selectedCaveats: deterministicPresentedAnswer.plan.selectedCaveats,
+      selectedUnsupportedGaps:
+        deterministicPresentedAnswer.plan.unsupportedGaps
+    });
+    const synthesisStarted = performance.now();
+    const synthesisAttempt = await attemptGroundedSynthesis({
+      provider: this.options.synthesisProvider,
+      payload: synthesisPayload
+    });
+    synthesisMs = performance.now() - synthesisStarted;
+    presentationSynthesisRequests = synthesisAttempt.requestCount;
+    presentationSynthesisStatus = synthesisAttempt.status;
+    presentationSynthesisFallbackReason =
+      synthesisAttempt.fallbackReason;
+    if (synthesisAttempt.rendered) {
+      visibleAnswerText = synthesisAttempt.rendered.answerText;
+      visibleProofFactRanges =
+        synthesisAttempt.rendered.proofFactRanges;
+      synthesisAccepted = true;
+    }
     const presentedRangeByClaimId = new Map(
-      presentedAnswer.proofFactRanges.map((range) => [
+      visibleProofFactRanges.map((range) => [
         range.claimId,
         range
       ])
@@ -274,13 +328,21 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
             citation.answerRange.startOffset,
             citation.answerRange.endOffset
           );
-          const presentedText = presentedAnswer.answerText.slice(
+          const presentedText = visibleAnswerText.slice(
             presentedRange.startOffset,
             presentedRange.endOffset
           );
-          if (factualText !== presentedText) {
+          if (
+            !synthesisAccepted &&
+            factualText !== presentedText
+          ) {
             throw new Error(
               `Presented proof range diverged from WB-21 factual range for ${citation.claimId}`
+            );
+          }
+          if (!presentedText.trim()) {
+            throw new Error(
+              `Presented proof range is empty for ${citation.claimId}`
             );
           }
           return {
@@ -320,11 +382,17 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
     return {
       ok: true,
       answerability: assembled.answer.answerability,
-      answerText: presentedAnswer.answerText || assembled.answer.answerText,
+      answerText: visibleAnswerText || assembled.answer.answerText,
       factualAnswerText: assembled.answer.answerText,
       presentationProfile: profile,
-      helpdeskDetailedText: presented.helpdeskDetailed.answerText,
-      liveAssistQuickText: presented.liveAssistQuick.answerText,
+      helpdeskDetailedText:
+        profile === "helpdesk_detailed" && synthesisAccepted
+          ? visibleAnswerText
+          : presented.helpdeskDetailed.answerText,
+      liveAssistQuickText:
+        profile === "live_assist_quick" && synthesisAccepted
+          ? visibleAnswerText
+          : presented.liveAssistQuick.answerText,
       snapshot: {
         snapshotId: snapshot.snapshotId,
         snapshotHash: snapshot.snapshotHash,
@@ -334,7 +402,8 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
         createdAt: snapshot.createdAt
       },
       citations,
-      contextReferences: presentedAnswer.contextReferences,
+      contextReferences:
+        deterministicPresentedAnswer.contextReferences,
       diagnostics: {
         retrievalMs: Math.max(0, groundingMs - evidenceResolutionMs),
         evidenceResolutionMs,
@@ -346,8 +415,12 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
           contextBuildMs + explanation.diagnostics.latencyMs,
         presentationPlanningMs: presented.planningLatencyMs,
         presentationRenderMs: presented.renderingLatencyMs,
+        synthesisMs,
         pipelineTotalMs: performance.now() - pipelineStarted,
-        answerGenerationRequestCount: 0
+        factualGroundingGenerationRequests: 0,
+        presentationSynthesisRequests,
+        presentationSynthesisStatus,
+        presentationSynthesisFallbackReason
       }
     };
   }

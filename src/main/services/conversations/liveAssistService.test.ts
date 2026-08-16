@@ -104,8 +104,12 @@ function success(
       contextBuildMs: 0,
       presentationPlanningMs: 0,
       presentationRenderMs: 0,
+      synthesisMs: 0,
       pipelineTotalMs: 5,
-      answerGenerationRequestCount: 0
+      factualGroundingGenerationRequests: 0,
+      presentationSynthesisRequests: 0,
+      presentationSynthesisStatus: "not_configured",
+      presentationSynthesisFallbackReason: null
     }
   };
 }
