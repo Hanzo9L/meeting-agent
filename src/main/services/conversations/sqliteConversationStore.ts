@@ -24,6 +24,7 @@ import type {
   LiveAssistSessionRecord,
   MessageCaptureSource,
   MessageCitationRecord,
+  MessageContextReferenceRecord,
   SaveContextResolutionInput,
   StartedAnswerRun,
   UpdateAnswerRunInput
@@ -53,6 +54,7 @@ type MessageRow = {
   input_origin: "typed" | "pasted" | "live_transcript" | null;
   capture_source: "system" | "microphone" | null;
   answerability: "answered" | "partial" | "insufficient_evidence" | null;
+  presentation_profile: "helpdesk_detailed" | "live_assist_quick" | null;
   grounding_snapshot_id: string | null;
   created_at: string;
 };
@@ -92,8 +94,13 @@ type MessageCitationRow = {
   message_id: string;
   citation_id: string;
   factual_range_id: string;
+  claim_id: string | null;
   answer_range_start: number;
   answer_range_end: number;
+  evidence_id: string | null;
+  span_id: string | null;
+  supporting_span_ids_json: string;
+  document_id: string | null;
   source_title: string;
   canonical_url: string;
   source_id: string;
@@ -101,6 +108,26 @@ type MessageCitationRow = {
   heading_path_json: string;
   section_id: string;
   source_status: string;
+  preview: number;
+  grounding_snapshot_id: string;
+};
+
+type MessageContextReferenceRow = {
+  message_id: string;
+  context_block_id: string;
+  evidence_id: string;
+  document_id: string;
+  chunk_id: string;
+  source_title: string;
+  canonical_url: string;
+  source_id: string;
+  authority_role: string;
+  heading_path_json: string;
+  section_id: string;
+  source_start_offset: number;
+  source_end_offset: number;
+  source_content_hash: string;
+  context_type: string;
   preview: number;
   grounding_snapshot_id: string;
 };
@@ -179,8 +206,10 @@ function mapMessage(row: MessageRow): ConversationMessage {
     inputOrigin: row.input_origin,
     captureSource: row.capture_source,
     answerability: row.answerability,
+    presentationProfile: row.presentation_profile,
     groundingSnapshotId: row.grounding_snapshot_id,
     citations: [],
+    contextReferences: [],
     createdAt: row.created_at
   };
 }
@@ -190,8 +219,15 @@ function mapCitation(row: MessageCitationRow): MessageCitationRecord {
     messageId: row.message_id,
     citationId: row.citation_id,
     factualRangeId: row.factual_range_id,
+    claimId: row.claim_id,
     answerRangeStart: row.answer_range_start,
     answerRangeEnd: row.answer_range_end,
+    evidenceId: row.evidence_id,
+    spanId: row.span_id,
+    supportingSpanIds: JSON.parse(
+      row.supporting_span_ids_json
+    ) as string[],
+    documentId: row.document_id,
     sourceTitle: row.source_title,
     canonicalUrl: row.canonical_url,
     sourceId: row.source_id,
@@ -199,6 +235,30 @@ function mapCitation(row: MessageCitationRow): MessageCitationRecord {
     headingPath: JSON.parse(row.heading_path_json) as string[],
     sectionId: row.section_id,
     sourceStatus: row.source_status,
+    preview: row.preview === 1,
+    groundingSnapshotId: row.grounding_snapshot_id
+  };
+}
+
+function mapContextReference(
+  row: MessageContextReferenceRow
+): MessageContextReferenceRecord {
+  return {
+    messageId: row.message_id,
+    contextBlockId: row.context_block_id,
+    evidenceId: row.evidence_id,
+    documentId: row.document_id,
+    chunkId: row.chunk_id,
+    sourceTitle: row.source_title,
+    canonicalUrl: row.canonical_url,
+    sourceId: row.source_id,
+    authorityRole: row.authority_role,
+    headingPath: JSON.parse(row.heading_path_json) as string[],
+    sectionId: row.section_id,
+    sourceStartOffset: row.source_start_offset,
+    sourceEndOffset: row.source_end_offset,
+    sourceContentHash: row.source_content_hash,
+    contextType: row.context_type,
     preview: row.preview === 1,
     groundingSnapshotId: row.grounding_snapshot_id
   };
@@ -419,9 +479,10 @@ export class SqliteConversationStore implements ConversationStore {
             input_origin,
             capture_source,
             answerability,
+            presentation_profile,
             grounding_snapshot_id,
             created_at
-          ) VALUES (?, ?, ?, 'assistant', ?, NULL, NULL, ?, ?, ?)`
+          ) VALUES (?, ?, ?, 'assistant', ?, NULL, NULL, ?, ?, ?, ?)`
         )
         .run(
           messageId,
@@ -432,6 +493,7 @@ export class SqliteConversationStore implements ConversationStore {
             "assistant message content"
           ),
           input.answerability,
+          input.presentationProfile ?? "helpdesk_detailed",
           input.snapshot.snapshotId,
           timestamp
         );
@@ -441,8 +503,13 @@ export class SqliteConversationStore implements ConversationStore {
           message_id,
           citation_id,
           factual_range_id,
+          claim_id,
           answer_range_start,
           answer_range_end,
+          evidence_id,
+          span_id,
+          supporting_span_ids_json,
+          document_id,
           source_title,
           canonical_url,
           source_id,
@@ -452,7 +519,7 @@ export class SqliteConversationStore implements ConversationStore {
           source_status,
           preview,
           grounding_snapshot_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       );
       for (const citation of input.citations) {
         if (
@@ -481,8 +548,21 @@ export class SqliteConversationStore implements ConversationStore {
             citation.factualRangeId,
             "factual range ID"
           ),
+          citation.claimId == null
+            ? null
+            : requiredText(citation.claimId, "claim ID"),
           citation.answerRangeStart,
           citation.answerRangeEnd,
+          citation.evidenceId == null
+            ? null
+            : requiredText(citation.evidenceId, "evidence ID"),
+          citation.spanId == null
+            ? null
+            : requiredText(citation.spanId, "span ID"),
+          JSON.stringify(citation.supportingSpanIds ?? []),
+          citation.documentId == null
+            ? null
+            : requiredText(citation.documentId, "document ID"),
           requiredText(citation.sourceTitle, "source title"),
           citation.canonicalUrl,
           requiredText(citation.sourceId, "source ID"),
@@ -497,6 +577,69 @@ export class SqliteConversationStore implements ConversationStore {
             "citation source status"
           ),
           citation.preview ? 1 : 0,
+          input.snapshot.snapshotId
+        );
+      }
+
+      const insertContextReference = this.db.prepare(
+        `INSERT INTO message_context_references (
+          message_id,
+          context_block_id,
+          evidence_id,
+          document_id,
+          chunk_id,
+          source_title,
+          canonical_url,
+          source_id,
+          authority_role,
+          heading_path_json,
+          section_id,
+          source_start_offset,
+          source_end_offset,
+          source_content_hash,
+          context_type,
+          preview,
+          grounding_snapshot_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      );
+      for (const reference of input.contextReferences ?? []) {
+        if (
+          reference.sourceStartOffset < 0 ||
+          reference.sourceEndOffset <= reference.sourceStartOffset
+        ) {
+          throw new Error(
+            `Context reference ${reference.contextBlockId} has an invalid source range`
+          );
+        }
+        const canonical = new URL(reference.canonicalUrl);
+        if (
+          canonical.protocol !== "https:" ||
+          canonical.hostname.toLowerCase() !== "learn.microsoft.com"
+        ) {
+          throw new Error(
+            `Context reference ${reference.contextBlockId} does not have an actionable Microsoft Learn URL`
+          );
+        }
+        insertContextReference.run(
+          messageId,
+          requiredText(reference.contextBlockId, "context block ID"),
+          requiredText(reference.evidenceId, "context evidence ID"),
+          requiredText(reference.documentId, "context document ID"),
+          requiredText(reference.chunkId, "context chunk ID"),
+          requiredText(reference.sourceTitle, "context source title"),
+          reference.canonicalUrl,
+          requiredText(reference.sourceId, "context source ID"),
+          requiredText(reference.authorityRole, "context authority role"),
+          JSON.stringify(reference.headingPath),
+          requiredText(reference.sectionId, "context section ID"),
+          reference.sourceStartOffset,
+          reference.sourceEndOffset,
+          requiredText(
+            reference.sourceContentHash,
+            "context source content hash"
+          ),
+          requiredText(reference.contextType, "context type"),
+          reference.preview ? 1 : 0,
           input.snapshot.snapshotId
         );
       }
@@ -1009,9 +1152,18 @@ export class SqliteConversationStore implements ConversationStore {
          ORDER BY answer_range_start ASC, citation_id ASC`
       )
       .all(row.message_id) as MessageCitationRow[];
+    const contextReferences = this.db
+      .prepare(
+        `SELECT *
+         FROM message_context_references
+         WHERE message_id = ?
+         ORDER BY context_block_id ASC`
+      )
+      .all(row.message_id) as MessageContextReferenceRow[];
     return {
       ...message,
-      citations: citations.map(mapCitation)
+      citations: citations.map(mapCitation),
+      contextReferences: contextReferences.map(mapContextReference)
     };
   }
 

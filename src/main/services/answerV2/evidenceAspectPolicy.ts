@@ -1,5 +1,9 @@
 import Database from "better-sqlite3";
 import type { SourceAuthorityRole, SourceDomain } from "../knowledgeV2";
+import {
+  detectOutputTransformationRequest,
+  questionEnumeratesPopulationWithReporting
+} from "../retrievalV2";
 import type {
   FusedRetrievalCandidate,
   HybridRetrievalResult,
@@ -58,6 +62,22 @@ const RELATION_PREDICATES: Array<{ predicate: string; pattern: RegExp }> = [
 
 const CMDLET_TITLE_PATTERN = /^[A-Z][A-Za-z0-9]+-[A-Z][A-Za-z0-9]+$/;
 
+// V1.1 — canonical operation labels (see queryIntentRules.ts OPERATION_PATTERNS)
+// that represent an actual configuration *change*. Used to keep read/reporting
+// workflow aspects (identify/determine/report/list/...) from being coerced into
+// a write-shaped clause match purely because a state-descriptive word (e.g.
+// "assigned phone number") happens to share a verb form with a write operation.
+const WRITE_OPERATIONS = new Set(["grant", "set", "new", "enable", "remove"]);
+
+function isWriteOperation(operation: string | null): boolean {
+  return operation !== null && WRITE_OPERATIONS.has(operation);
+}
+
+// V1.1 — a Get-/Show-/Test-/Find-/Search- style cmdlet is, by its own verb,
+// a read/reporting primitive regardless of the exact prose used in its
+// synopsis ("returns", "displays", "retrieves" all occur in the corpus).
+const READ_CMDLET_VERB_PATTERN = /^(?:get|show|test|find|search|measure|select|compare)-/i;
+
 export interface CandidateEvidenceMetadata {
   chunkKind?: string;
   exactEntities?: Array<{ type: string; value: string }>;
@@ -78,10 +98,19 @@ export interface CandidateAspectEvaluation {
   support: EvidenceAspectSupport;
 }
 
+/**
+ * General punctuation/hyphen-variance normalization shared by subject/facet
+ * matching. Hyphens (ascii and common unicode dash variants) are treated as
+ * word separators so a candidate document written as `voice-routing policy`
+ * and a subject derived from `voice routing policy` decompose into the same
+ * token sequence. Does not touch normalizeIdentifier (used for exact
+ * cmdlet/canonical-identity comparisons), which must stay untouched.
+ */
 export function normalizeEvidenceText(value: string): string {
   return value
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, " ")
+    .replace(/[-\u2010-\u2015]/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -179,6 +208,7 @@ function supportTypeForAnswerObject(
   }
   if (answerObject === "procedure") return "procedure";
   if (answerObject === "configuration_behavior") return "configuration_behavior";
+  if (answerObject === "configuration_state") return "licensing_or_status";
   if (answerObject === "comparison") return "comparison_dimension";
   if (answerObject === "status") return "licensing_or_status";
   if (answerObject === "relationship") return "configuration_behavior";
@@ -233,7 +263,8 @@ const METHOD_TOOL_DEFINITIONS: MethodToolDefinition[] = [
 function deriveSubjectAliases(
   canonical: string,
   question: string,
-  span: string
+  span: string,
+  kind: EvidenceAspectSubjectKind = "entity"
 ): { aliases: string[]; questionSpans: string[] } {
   const aliases = new Set<string>();
   const questionSpans = new Set<string>();
@@ -250,6 +281,34 @@ function deriveSubjectAliases(
     for (let end = start + 1; end <= canonTokens.length; end += 1) {
       const slice = canonTokens.slice(start, end).join(" ");
       if (!slice) continue;
+      // V1.1 — a single-token sub-slice of a multi-word canonical subject is
+      // only safe as a standalone alias when that token is a recognized
+      // domain-umbrella term (e.g. "Teams" out of "Microsoft Teams": the
+      // whole corpus scope is already Teams, so the word is never a false
+      // topicality signal). An arbitrary single-token slice of a narrower
+      // multi-word concept (e.g. "voice" out of "Enterprise Voice") is not
+      // safe: that single common word also occurs in many unrelated Teams
+      // voice/calling documents, producing false topical matches. Multi-word
+      // sub-phrase slices remain unrestricted since a real phrase match is
+      // inherently distinctive.
+      //
+      // This precision requirement is intentionally scoped to canonically
+      // identified subjects (a specific policy, cmdlet, product, technology,
+      // or named entity) where a false single-word match would misattribute
+      // support to an unrelated concept. It does not apply to "unresolved"
+      // subjects: those are a deliberate decomposition of a broad, no-single-
+      // entity question (e.g. "secure SharePoint data ... accessible ...")
+      // into its distinctive question words, precisely so that candidates
+      // touching on any one of those distinctive words can be recognized as
+      // concept-relevant for a broad answer. Suppressing single-word aliases
+      // there would collapse broad-aspect recall back to requiring the full,
+      // rarely-literal question phrase.
+      const isSingleGenericToken =
+        kind !== "unresolved" &&
+        end - start === 1 &&
+        !GENERIC_SUBJECT_TERMS.has(slice) &&
+        canonTokens.length > 1;
+      if (isSingleGenericToken) continue;
       if (questionNorm.includes(slice)) {
         aliases.add(slice);
         questionSpans.add(slice);
@@ -269,7 +328,7 @@ function makeSubject(
 ): EvidenceAspectSubject {
   const question = options.question ?? value;
   const span = options.span ?? value;
-  const { aliases, questionSpans } = deriveSubjectAliases(value, question, span);
+  const { aliases, questionSpans } = deriveSubjectAliases(value, question, span, kind);
   return {
     kind,
     value,
@@ -298,23 +357,148 @@ function fieldContainsTokenSequence(field: string, phrase: string): boolean {
   return false;
 }
 
-function fieldContainsSubjectTerms(
+function singularize(term: string): string {
+  if (term.endsWith("ies") && term.length > 4) return `${term.slice(0, -3)}y`;
+  if (term.endsWith("s") && !term.endsWith("ss") && term.length > 4) {
+    return term.slice(0, -1);
+  }
+  return term;
+}
+
+const DISTINCT_POLICY_SUBJECTS = [
+  "emergency calling policy",
+  "voice routing policy",
+  "meeting policy"
+] as const;
+
+function isUnsafePolicySubphrase(
+  fieldTokens: string[],
+  matchStart: number,
+  matchLength: number,
+  subjectTokens: string[]
+): boolean {
+  const matchEnd = matchStart + matchLength;
+  for (const distinctPolicy of DISTINCT_POLICY_SUBJECTS) {
+    const distinctTokens = tokens(distinctPolicy).map(singularize);
+    if (
+      distinctTokens.length <= subjectTokens.length ||
+      distinctTokens.join(" ") === subjectTokens.join(" ")
+    ) {
+      continue;
+    }
+    for (
+      let index = 0;
+      index <= fieldTokens.length - distinctTokens.length;
+      index += 1
+    ) {
+      const distinctEnd = index + distinctTokens.length;
+      if (
+        distinctTokens.every(
+          (token, offset) => fieldTokens[index + offset] === token
+        ) &&
+        matchStart >= index &&
+        matchEnd <= distinctEnd
+      ) {
+        return true;
+      }
+    }
+  }
+  return (
+    subjectTokens.at(-1) !== "policy" &&
+    fieldTokens[matchEnd] === "policy"
+  );
+}
+
+/**
+ * Shared R2/R3 canonical subject identity. Policy subjects allow only
+ * adjacent, token-complete singular/plural morphology and reject a match
+ * embedded in a different recognized policy name.
+ */
+export function canonicalSubjectPhraseAppears(
   field: string,
   subject: EvidenceAspectSubject
 ): boolean {
   const normalized = normalizeEvidenceText(field);
-  const subjectText = normalizeEvidenceText(subject.value);
-  if (subjectText && fieldContainsTokenSequence(normalized, subjectText)) {
-    return true;
+  const phrases = [subject.value, ...subject.aliases];
+  if (subject.kind !== "policy") {
+    return phrases.some(
+      (phrase) =>
+        Boolean(normalizeEvidenceText(phrase)) &&
+        fieldContainsTokenSequence(normalized, phrase)
+    );
   }
-  for (const alias of subject.aliases) {
-    if (alias && fieldContainsTokenSequence(normalized, alias)) return true;
+
+  const fieldTokens = tokens(normalized).map(singularize);
+  for (const phrase of phrases) {
+    const phraseTokens = tokens(phrase).map(singularize);
+    if (
+      phraseTokens.length === 0 ||
+      fieldTokens.length < phraseTokens.length
+    ) {
+      continue;
+    }
+    for (
+      let index = 0;
+      index <= fieldTokens.length - phraseTokens.length;
+      index += 1
+    ) {
+      if (
+        phraseTokens.every(
+          (token, offset) => fieldTokens[index + offset] === token
+        ) &&
+        !isUnsafePolicySubphrase(
+          fieldTokens,
+          index,
+          phraseTokens.length,
+          phraseTokens
+        )
+      ) {
+        return true;
+      }
+    }
   }
-  const fieldTerms = new Set(tokens(field));
-  return (
-    subject.terms.length > 0 &&
-    subject.terms.every((term) => fieldTerms.has(term))
-  );
+  return false;
+}
+
+function fieldContainsSubjectTerms(
+  field: string,
+  subject: EvidenceAspectSubject
+): boolean {
+  if (canonicalSubjectPhraseAppears(field, subject)) return true;
+  if (subject.terms.length === 0) return false;
+  // Named policy objects (e.g. "calling policy", "voice routing policy") are
+  // precise, canonically-identified configuration objects, not free-text
+  // topics. A "terms present somewhere nearby" fallback is unsafe for them:
+  // Teams has multiple distinct, easily confusable policy-shaped concepts
+  // that share individual words (e.g. "Calling Plan" vs. "Calling Policy",
+  // or "voice routing policy" vs. "dial plan" both mentioning "voice" and
+  // "policy" in the same overview paragraph). Require the literal phrase (or
+  // a recognized alias) rather than scattered term co-occurrence — but still
+  // tolerate ordinary plural/singular authoring variance (e.g. a "Meeting
+  // policies" heading for a "meeting policy" subject), since that is a
+  // genuine phrase match, not a different concept.
+  if (subject.kind === "policy") {
+    return false;
+  }
+  const soleTerm = subject.terms.length === 1 ? subject.terms[0] : undefined;
+  if (soleTerm) {
+    return tokens(field).includes(soleTerm);
+  }
+  // V1.1: for multi-term subjects the fallback must not treat scattered,
+  // unrelated occurrences of each individual term as topical support (e.g.
+  // an unrelated "Enterprise E5 license" mention plus an unrelated "Voice >
+  // Phone numbers" nav heading elsewhere in a long chunk should not satisfy
+  // an "enterprise voice" subject). Require all distinctive terms to
+  // co-occur within a bounded token window instead.
+  const fieldTokens = tokens(field);
+  const windowSize = 10;
+  for (let start = 0; start < fieldTokens.length; start += 1) {
+    const windowTerms = new Set(fieldTokens.slice(start, start + windowSize));
+    if (subject.terms.every((term) => windowTerms.has(term))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function isMethodToolTechnology(value: string): MethodToolDefinition | null {
@@ -459,7 +643,8 @@ function subjectAppearsInClause(
   const { aliases } = deriveSubjectAliases(
     seed.value,
     intent.normalizedQuestion,
-    seed.span
+    seed.span,
+    seed.kind
   );
   return aliases.some(
     (alias) => alias.length > 0 && fieldContainsTokenSequence(clause, alias)
@@ -802,7 +987,9 @@ function authorityFor(
     for (const role of constraint.authorityRoles) roles.add(role);
   }
   if (
-    (answerObject === "procedure" || answerObject === "configuration_behavior") &&
+    (answerObject === "procedure" ||
+      answerObject === "configuration_behavior" ||
+      answerObject === "configuration_state") &&
     (intent.domains.includes("teams_admin") ||
       intent.products.some((product) =>
         normalizeEvidenceText(product).includes("teams")
@@ -874,9 +1061,69 @@ function breadthAndFacets(params: {
         : ["configuration"]
     };
   }
+  if (params.answerObject === "configuration_state") {
+    return {
+      breadth: "narrow",
+      requiredFacets: ["state"]
+    };
+  }
   return {
     breadth: "bounded",
     requiredFacets: ["behavior"]
+  };
+}
+
+/** Marks an aspect as a generic output/transformation requirement that no
+ * currently-modeled Relay domain can be authoritative for. Kept distinct
+ * from `unresolved` (fallback subject) so diagnostics/planner code can
+ * render an explicit, specific caveat instead of a generic one. */
+export const OUTPUT_TRANSFORMATION_RULE_ID =
+  "workflow_output_transformation_outside_authoritative_scope";
+
+/**
+ * V1 — CSV/output transformation is a requested output of the workflow, not
+ * a Teams-authoritative technical fact. It is modeled as its own mandatory
+ * aspect (so it is tracked and explicitly caveated rather than silently
+ * dropped) with an authority requirement that can never be satisfied by any
+ * domain, regardless of which candidates happen to be textually topical for
+ * it. This deliberately keeps the gap isolated: it can never "borrow"
+ * authority from an unrelated Teams PowerShell/Admin candidate, and it can
+ * never invalidate the independently-supported Teams-side aspects.
+ */
+function buildOutputTransformationAspect(
+  intent: QueryIntent,
+  label: string
+): EvidenceAspect {
+  const subject = makeSubject("entity", label, {
+    question: intent.normalizedQuestion,
+    span: label
+  });
+  return {
+    aspectId: ["mandatory", "entity", stableId(label), "output-transformation"].join(":"),
+    requirement: "mandatory",
+    subject: label,
+    subjectTerms: subject.terms,
+    subjects: [subject],
+    operation: null,
+    methodConstraints: [],
+    answerObject: "fact",
+    relationship: null,
+    breadth: "narrow",
+    requiredFacets: ["behavior"],
+    authorityRequirement: {
+      requiredRoles: [],
+      requiredDomains: [],
+      requireCanonicalIdentity: false,
+      identityType: null
+    },
+    minimumSupportStrength: "direct",
+    supportType: "concept_definition",
+    canonicalIdentifier: null,
+    derivation: {
+      ruleIds: [OUTPUT_TRANSFORMATION_RULE_ID],
+      questionSpans: [label],
+      unresolved: false
+    }
   };
 }
 
@@ -1028,7 +1275,21 @@ export function deriveEvidenceAspects(
       })
     );
   const relationship = detectRelationship(intent, mandatorySubjects);
-  if (!relationship) {
+  const mandatoryOutputSeedCount = uniqueSeeds.filter(
+    (seed) => seed.requirement === "mandatory" && seed.kind !== "cmdlet"
+  ).length;
+  // V1 — a request that enumerates a population and asks for the combined
+  // result to be reported/exported is a single multi-output workflow: each
+  // independently requested technical value must remain its own required
+  // aspect. The general adjacent-noun-phrase binder below exists to merge
+  // modifiers of ONE concept (e.g. "Conditional Access policy") and would
+  // otherwise collapse a comma-separated list of distinct requested outputs
+  // into one compound subject, which is the opposite of what this request
+  // shape needs.
+  const isWorkflowEnumeration =
+    mandatoryOutputSeedCount >= 3 &&
+    questionEnumeratesPopulationWithReporting(intent.originalQuestion);
+  if (!relationship && !isWorkflowEnumeration) {
     uniqueSeeds = bindCompoundSubjectSeeds(uniqueSeeds, intent);
   }
   const operations = [
@@ -1244,13 +1505,27 @@ export function deriveEvidenceAspects(
   const aspects: EvidenceAspect[] = [];
 
   for (const seed of uniqueSeeds) {
-    const clauseBoundOperations = operations.filter((operation) =>
+    const rawClauseBoundOperations = operations.filter((operation) =>
       questionClauses.some(
         (clause) =>
           subjectAppearsInClause(clause, seed, intent) &&
           operationSupported(clause, operation)
       )
     );
+    // V1.1 — within a population-enumeration + reporting workflow, a clause
+    // like "determines their assigned phone number" is a read/reporting
+    // request even though "assigned" incidentally shares a verb form with
+    // the write operation "grant". A write-operation clause match is
+    // dropped for these mandatory per-output seeds (falling through to an
+    // unbound/null operation, same as the workflow's other reporting
+    // outputs) rather than mis-classifying the aspect as a configuration
+    // change. This never applies outside the enumeration+reporting shape, so
+    // a genuine write question ("assign a phone number to this user") is
+    // completely unaffected.
+    const clauseBoundOperations =
+      isWorkflowEnumeration && seed.requirement === "mandatory" && seed.kind !== "cmdlet"
+        ? rawClauseBoundOperations.filter((operation) => !isWriteOperation(operation))
+        : rawClauseBoundOperations;
     const applicableOperations =
       clauseBoundOperations.length > 0
         ? clauseBoundOperations
@@ -1273,7 +1548,17 @@ export function deriveEvidenceAspects(
         intent.expectedAnswerType === "configuration" ||
         Boolean(operation)
       ) {
-        answerObject = "configuration_behavior";
+        // V1.1 — a mandatory per-output seed inside a population-enumeration
+        // + reporting workflow (isWorkflowEnumeration), whose bound operation
+        // (if any) is not itself a write operation, is a read/reporting
+        // request for the current value/state of a configuration object —
+        // not a request to change it. This is scoped strictly to the
+        // workflow-enumeration shape so ordinary "configure/enable/assign"
+        // questions keep requiring "configuration_behavior" unchanged.
+        answerObject =
+          isWorkflowEnumeration && !isWriteOperation(operation)
+            ? "configuration_state"
+            : "configuration_behavior";
       } else if (isBroadHowQuestion(intent.normalizedQuestion)) {
         answerObject = "mechanism";
       } else {
@@ -1341,6 +1626,13 @@ export function deriveEvidenceAspects(
           unresolved
         }
       });
+    }
+  }
+
+  if (isWorkflowEnumeration) {
+    const outputTransformation = detectOutputTransformationRequest(intent.originalQuestion);
+    if (outputTransformation.requested) {
+      aspects.push(buildOutputTransformationAspect(intent, outputTransformation.label));
     }
   }
 
@@ -1516,6 +1808,27 @@ function matchedFacetsForCandidate(params: {
   if (aspect.answerObject === "cmdlet_semantics") {
     if (params.canonicalIdentityVerified) matched.add("identifier");
     if (subjectPresent) matched.add("behavior");
+    return [...matched];
+  }
+
+  if (aspect.answerObject === "configuration_state") {
+    // V1.1 — cmdlet-reference authority rule: canonical Get-/Show-/Test-
+    // style cmdlet-reference evidence directly supports a read/reporting
+    // aspect once it is topically about the requested subject (subjectPresent,
+    // already gated above). A candidate that is not itself a discovered
+    // read-verb cmdlet can still qualify if its own prose uses read/reporting
+    // language (get/view/retrieve/list/show/check) — this keeps Teams Admin
+    // prose eligible for "direct" support when it genuinely describes
+    // reading/checking a value, without ever treating an unrelated or
+    // write-shaped (Set-/Grant-/New-/Remove-) PowerShell page as sufficient
+    // merely because it is authoritative.
+    const readCmdlet =
+      Boolean(params.discoveredCmdlet) &&
+      READ_CMDLET_VERB_PATTERN.test(params.discoveredCmdlet as string);
+    const readOperationLanguage = operationSupported(allContext, "get");
+    if (readCmdlet || readOperationLanguage) {
+      matched.add("state");
+    }
     return [...matched];
   }
 
@@ -1748,6 +2061,17 @@ export function evaluateCandidateAspectSupport(
     if (matchedFacets.includes("relationship") && relationshipFacetRequired) qualityScore += 24;
     if (matchedFacets.includes("identifier") && identifierFacetRequired) qualityScore += 30;
     if (matchedFacets.includes("operation") && operationFacetRequired) qualityScore += 16;
+    if (matchedFacets.includes("state") && aspect.requiredFacets.includes("state")) {
+      // V1.1 — evidence-selection expectation: when several candidates all
+      // reach "direct" for a read/reporting aspect, canonical PowerShell
+      // cmdlet-reference material (verified read-verb cmdlet identity) must
+      // outrank generic admin prose that only incidentally contains a
+      // read-language word (e.g. "checks") elsewhere in a much larger,
+      // otherwise procedural/write-shaped passage. The prose fallback still
+      // wins when no cmdlet-reference evidence exists for the aspect.
+      qualityScore +=
+        discoveredCmdlet && READ_CMDLET_VERB_PATTERN.test(discoveredCmdlet) ? 70 : 18;
+    }
     if (candidate.authority.sourceStatus === "ga") qualityScore += 6;
     if (candidate.authority.routePriority === "primary") qualityScore += 4;
     qualityScore += Math.min(candidate.methods.length, 3);

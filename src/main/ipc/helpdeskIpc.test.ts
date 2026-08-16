@@ -91,10 +91,15 @@ class IpcGroundedPort implements AnswerExecutionPort {
         {
           citationId: "citation:ipc",
           factualRangeId: "factual-range:ipc",
+          claimId: "claim:ipc",
           answerRange: {
             startOffset: 0,
             endOffset: answerText.length
           },
+          evidenceId: "evidence:ipc",
+          spanId: "span:ipc",
+          supportingSpanIds: [],
+          documentId: "document:ipc",
           sourceTitle: "Microsoft Teams Calling Plans",
           canonicalUrl:
             "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",

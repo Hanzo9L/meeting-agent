@@ -62,6 +62,16 @@ export interface AnswerPresentationPlan {
 export interface PresentedAnswer {
   profile: AnswerPresentationProfile;
   answerText: string;
+  /**
+   * Exact character coordinates of R4 proof facts in answerText. These are
+   * produced structurally while rendering; they are never recovered by
+   * searching the rendered string.
+   */
+  proofFactRanges: Array<{
+    claimId: string;
+    startOffset: number;
+    endOffset: number;
+  }>;
   plan: AnswerPresentationPlan;
   contextBlocksUsed: ExplanationContextBlock[];
   contextReferences: ContextReference[];

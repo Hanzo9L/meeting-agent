@@ -21,6 +21,7 @@ import {
   bindEvidenceBundleSnapshot,
   type EvidenceBundleDecisionState
 } from "./groundingDecisionSnapshot";
+import { aspectMethodConstraintsSatisfiedByDirectEvidence } from "./methodConstraintPolicy";
 import type {
   BuildEvidenceBundleResult,
   EvidenceAspect,
@@ -517,11 +518,50 @@ export function buildEvidenceBundle(
       .filter((evidenceId): evidenceId is string => Boolean(evidenceId));
   }
 
-  const supportedMandatoryAspectIds = mandatoryAspects
-    .filter((aspect) =>
-      facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])
-    )
+  const selectedEvidenceById = new Map(
+    selected.map((item) => [item.evidenceId, item])
+  );
+  const factuallySupportedMandatoryAspects = mandatoryAspects.filter(
+    (aspect) =>
+      facetsCovered(
+        aspect,
+        selectedSupportsByAspect.get(aspect.aspectId) ?? []
+      )
+  );
+  const methodLimitedAspectIds = factuallySupportedMandatoryAspects
+    .filter((aspect) => {
+      const evidenceWithSupport = (
+        selectedSupportsByAspect.get(aspect.aspectId) ?? []
+      )
+        .map((support) => ({
+          support,
+          item: selectedEvidenceById.get(
+            evidenceIdByCandidateId.get(support.candidateId) ?? ""
+          )
+        }))
+        .filter(
+          (
+            entry
+          ): entry is {
+            support: EvidenceAspectSupport;
+            item: EvidenceItem;
+          } => Boolean(entry.item)
+        )
+        .map(({ support, item }) => ({
+          item,
+          strength: support.strength
+        }));
+      return !aspectMethodConstraintsSatisfiedByDirectEvidence(
+        aspect,
+        evidenceWithSupport
+      );
+    })
     .map((aspect) => aspect.aspectId);
+  const methodLimited = new Set(methodLimitedAspectIds);
+  const supportedMandatoryAspectIds =
+    factuallySupportedMandatoryAspects
+      .filter((aspect) => !methodLimited.has(aspect.aspectId))
+      .map((aspect) => aspect.aspectId);
   const unsupportedMandatoryAspectIds = mandatoryAspects
     .filter((aspect) => !supportedMandatoryAspectIds.includes(aspect.aspectId))
     .map((aspect) => aspect.aspectId);
@@ -537,6 +577,7 @@ export function buildEvidenceBundle(
     supportByAspect,
     supportedMandatoryAspectIds,
     unsupportedMandatoryAspectIds,
+    methodLimitedAspectIds: [...methodLimitedAspectIds].sort(),
     authorityLimitedAspectIds: [...authorityLimitedAspectIds].sort(),
     supportingOnlyAspectIds: [...supportingOnlyAspectIds].sort(),
     contextualOnlyAspectIds: [...contextualOnlyAspectIds].sort(),

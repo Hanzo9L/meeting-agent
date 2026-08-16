@@ -13,7 +13,10 @@ import {
   evaluateCandidateAspectSupport
 } from "./evidenceAspectPolicy";
 import { operationMatchesText } from "./operationMatching";
-import { aspectMethodConstraintsSatisfied } from "./methodConstraintPolicy";
+import {
+  aspectMethodConstraintsSatisfied,
+  aspectMethodConstraintsSatisfiedByDirectEvidence
+} from "./methodConstraintPolicy";
 import { makeTestAspect, makeTestSubject } from "./testAspectFixtures";
 import type { ClaimSourceSpan, EvidenceItem } from "./types";
 
@@ -309,7 +312,15 @@ function hybridFromQuestion(
       authorityDistribution: {},
       cap: { finalCandidateCap: 24, maxPerDocument: 4, truncated: false },
       requiredExactMisses: [],
-      warnings: []
+      warnings: [],
+      workflowOutputPreservation: {
+        triggered: false,
+        consideredDirectives: [],
+        alreadySatisfiedDirectives: [],
+        preservedDirectives: [],
+        noUpstreamCandidateDirectives: [],
+        evictedCandidateIds: []
+      }
     },
     diagnostics: {
       exactLatencyMs: 1,
@@ -469,6 +480,14 @@ test("method gap produces partial answerability", () => {
   );
   assert.ok(aspect);
   assert.ok(
+    bundle.aspectCoverage.supportByAspect[aspect!.aspectId]?.some(
+      (support) =>
+        support.strength === "direct" &&
+        support.authoritySatisfied &&
+        support.missingFacets.length === 0
+    )
+  );
+  assert.ok(
     !aspectMethodConstraintsSatisfied(
       aspect!,
       bundle.evidence.filter((item) =>
@@ -476,6 +495,96 @@ test("method gap produces partial answerability", () => {
           item.evidenceId
         )
       )
+    )
+  );
+  assert.ok(
+    !bundle.aspectCoverage.supportedMandatoryAspectIds.includes(
+      aspect!.aspectId
+    )
+  );
+  assert.ok(
+    bundle.aspectCoverage.methodLimitedAspectIds?.includes(
+      aspect!.aspectId
+    )
+  );
+  const plan = buildAnswerPlan(bundle);
+  assert.ok(
+    !plan.plannedClaims.some(
+      (claim) => claim.requiredAspectId === aspect!.aspectId
+    )
+  );
+  assert.ok(
+    plan.unsupportedAspects.some(
+      (item) =>
+        item.aspectId === aspect!.aspectId &&
+        item.reason === "required_method_unsatisfied"
+    )
+  );
+  const adminEvidence = bundle.evidence[0]!;
+  const powershellEvidence: EvidenceItem = {
+    ...structuredClone(adminEvidence),
+    evidenceId: "evidence:supporting-powershell",
+    text:
+      "Set-CsPhoneNumberAssignment is related PowerShell reference material.",
+    source: {
+      ...structuredClone(adminEvidence.source),
+      sourceId: "ms-teams-powershell",
+      sourceDomain: "teams_powershell",
+      authorityRoles: ["teams_powershell_cmdlet_primary"],
+      title: "Set-CsPhoneNumberAssignment"
+    }
+  };
+  assert.equal(
+    aspectMethodConstraintsSatisfiedByDirectEvidence(aspect!, [
+      { item: adminEvidence, strength: "direct" },
+      { item: powershellEvidence, strength: "supporting" }
+    ]),
+    false
+  );
+  assert.equal(
+    aspectMethodConstraintsSatisfiedByDirectEvidence(aspect!, [
+      { item: powershellEvidence, strength: "direct" }
+    ]),
+    true
+  );
+});
+
+test("Admin evidence remains fully usable when PowerShell is not requested", () => {
+  const admin = makeCandidate({
+    rank: 1,
+    sourceId: "ms-teams-admin",
+    title: "Assign phone numbers to users",
+    headingPath: ["Assign phone numbers", "Procedure in Teams admin center"],
+    text:
+      "Steps:\n1. In the Teams admin center, select a user.\n2. Assign a phone number and save."
+  });
+  const { bundle } = buildEvidenceBundle(
+    hybridFromQuestion(
+      "How do I assign a phone number to a Teams user?",
+      [admin]
+    )
+  );
+  const aspect = bundle.aspectCoverage.aspects.find(
+    (entry) => entry.requirement === "mandatory"
+  );
+  assert.ok(aspect);
+  assert.ok(
+    !aspect.methodConstraints.some(
+      (constraint) =>
+        constraint.required && constraint.kind === "powershell"
+    )
+  );
+  assert.ok(
+    bundle.aspectCoverage.supportedMandatoryAspectIds.includes(
+      aspect.aspectId
+    ),
+    JSON.stringify(
+      bundle.aspectCoverage.supportByAspect[aspect.aspectId]
+    )
+  );
+  assert.ok(
+    !bundle.aspectCoverage.methodLimitedAspectIds?.includes(
+      aspect.aspectId
     )
   );
 });

@@ -1,5 +1,6 @@
 import type {
   EvidenceAspect,
+  EvidenceAspectSupportStrength,
   EvidenceItem,
   EvidenceMethodConstraint
 } from "./types";
@@ -48,6 +49,21 @@ export function aspectMethodConstraintsSatisfied(
     evidenceItems.some((evidence) =>
       evidenceSatisfiesMethodConstraint(evidence, constraint)
     )
+  );
+}
+
+export function aspectMethodConstraintsSatisfiedByDirectEvidence(
+  aspect: EvidenceAspect,
+  evidence: Array<{
+    item: EvidenceItem;
+    strength: EvidenceAspectSupportStrength;
+  }>
+): boolean {
+  return aspectMethodConstraintsSatisfied(
+    aspect,
+    evidence
+      .filter((entry) => entry.strength === "direct")
+      .map((entry) => entry.item)
   );
 }
 

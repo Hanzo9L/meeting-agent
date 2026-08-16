@@ -17,6 +17,10 @@ import {
   type SemanticRetrievalResult
 } from "./semanticRetriever";
 import { RetrievalAbortedError, ensureNotAborted } from "./retrievalAbort";
+import {
+  applyWorkflowOutputPreservation,
+  type WorkflowOutputPreservationDiagnostics
+} from "./workflowOutputPreservation";
 
 export interface FusedRetrievalCandidate extends RetrievalCandidate {
   methods: Array<"exact" | "lexical" | "semantic">;
@@ -61,6 +65,7 @@ export interface HybridFusionDiagnostics {
     required: boolean;
   }>;
   warnings: HybridPolicyWarning[];
+  workflowOutputPreservation: WorkflowOutputPreservationDiagnostics;
 }
 
 export interface HybridRetrievalDiagnostics {
@@ -378,7 +383,14 @@ export async function retrieveHybridCandidates(params: {
   });
 
   const capped = applyPostFusionCaps(fused);
-  const ranked = capped.selected.map((candidate, index) => ({
+  const preservation = applyWorkflowOutputPreservation({
+    sortedFused: fused,
+    selected: capped.selected,
+    intent: params.scope.intent,
+    directives: params.scope.exactMatchDirectives,
+    maxPerDocument: HYBRID_FUSION_POLICY.maxPerDocument
+  });
+  const ranked = preservation.selected.map((candidate, index) => ({
     ...candidate,
     fusion: {
       ...candidate.fusion,
@@ -432,7 +444,8 @@ export async function retrieveHybridCandidates(params: {
         truncated: capped.truncated
       },
       requiredExactMisses,
-      warnings: fusionWarnings
+      warnings: fusionWarnings,
+      workflowOutputPreservation: preservation.diagnostics
     },
     diagnostics,
     warnings

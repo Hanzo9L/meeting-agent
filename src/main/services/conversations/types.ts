@@ -4,6 +4,9 @@ export type PersistedAnswerability =
   | "answered"
   | "partial"
   | "insufficient_evidence";
+export type PersistedPresentationProfile =
+  | "helpdesk_detailed"
+  | "live_assist_quick";
 /** The capture source that actually produced an accepted live-transcript question. */
 export type MessageCaptureSource = "system" | "microphone";
 /**
@@ -47,8 +50,10 @@ export interface ConversationMessage {
    */
   captureSource: MessageCaptureSource | null;
   answerability: PersistedAnswerability | null;
+  presentationProfile: PersistedPresentationProfile | null;
   groundingSnapshotId: string | null;
   citations: MessageCitationRecord[];
+  contextReferences: MessageContextReferenceRecord[];
   createdAt: string;
 }
 
@@ -56,8 +61,13 @@ export interface MessageCitationRecord {
   messageId: string;
   citationId: string;
   factualRangeId: string;
+  claimId: string | null;
   answerRangeStart: number;
   answerRangeEnd: number;
+  evidenceId: string | null;
+  spanId: string | null;
+  supportingSpanIds: string[];
+  documentId: string | null;
   sourceTitle: string;
   canonicalUrl: string;
   sourceId: string;
@@ -65,6 +75,26 @@ export interface MessageCitationRecord {
   headingPath: string[];
   sectionId: string;
   sourceStatus: string;
+  preview: boolean;
+  groundingSnapshotId: string;
+}
+
+export interface MessageContextReferenceRecord {
+  messageId: string;
+  contextBlockId: string;
+  evidenceId: string;
+  documentId: string;
+  chunkId: string;
+  sourceTitle: string;
+  canonicalUrl: string;
+  sourceId: string;
+  authorityRole: string;
+  headingPath: string[];
+  sectionId: string;
+  sourceStartOffset: number;
+  sourceEndOffset: number;
+  sourceContentHash: string;
+  contextType: string;
   preview: boolean;
   groundingSnapshotId: string;
 }
@@ -152,9 +182,32 @@ export interface AppendGroundedAssistantMessageInput {
   answerRunId: string;
   content: string;
   answerability: PersistedAnswerability;
+  presentationProfile?: PersistedPresentationProfile;
   snapshot: GroundingSnapshotReference;
   citations: Array<
-    Omit<MessageCitationRecord, "messageId" | "groundingSnapshotId">
+    Omit<
+      MessageCitationRecord,
+      | "messageId"
+      | "groundingSnapshotId"
+      | "claimId"
+      | "evidenceId"
+      | "spanId"
+      | "supportingSpanIds"
+      | "documentId"
+    > &
+      Partial<
+        Pick<
+          MessageCitationRecord,
+          | "claimId"
+          | "evidenceId"
+          | "spanId"
+          | "supportingSpanIds"
+          | "documentId"
+        >
+      >
+  >;
+  contextReferences?: Array<
+    Omit<MessageContextReferenceRecord, "messageId" | "groundingSnapshotId">
   >;
 }
 

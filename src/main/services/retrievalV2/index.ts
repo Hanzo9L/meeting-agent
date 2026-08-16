@@ -10,4 +10,5 @@ export * from "./vectorSearchAdapter";
 export * from "./semanticScorer";
 export * from "./semanticRetriever";
 export * from "./hybridFusionPolicy";
+export * from "./workflowOutputPreservation";
 export * from "./hybridRetriever";

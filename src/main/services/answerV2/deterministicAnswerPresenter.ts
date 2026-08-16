@@ -158,12 +158,18 @@ function toContextReference(
 ): ContextReference {
   return {
     contextBlockId: block.contextBlockId,
+    evidenceId: block.evidenceId,
+    documentId: block.documentId,
+    chunkId: block.chunkId,
     sourceTitle: block.sourceTitle,
     canonicalUrl: block.canonicalUrl,
     sourceId: block.sourceId,
     authorityRole: block.authorityRole,
     headingPath: [...block.headingPath],
     sectionId: block.sectionId,
+    sourceStartOffset: block.startOffset,
+    sourceEndOffset: block.endOffset,
+    sourceContentHash: block.contentHash,
     contextType: block.contextType,
     preview: false
   };
@@ -405,41 +411,54 @@ export function renderPresentedAnswer(params: {
     ])
   );
 
-  const parts: string[] = [];
+  const parts: Array<{
+    text: string;
+    proofFactRanges: Array<{
+      claimId: string;
+      startOffset: number;
+      endOffset: number;
+    }>;
+  }> = [];
   const usedBlocks: ExplanationContextBlock[] = [];
 
   if (
     params.presentationPlan.answerability === "insufficient_evidence" &&
     params.presentationPlan.selectedProofFacts.length === 0
   ) {
-    parts.push(
-      "Unable to provide a factual answer from the approved evidence."
-    );
+    parts.push({
+      text: "Unable to provide a factual answer from the approved evidence.",
+      proofFactRanges: []
+    });
   }
 
   for (const section of params.presentationPlan.sections) {
-    const body: string[] = [];
+    const body: Array<{ text: string; proofFactClaimId?: string }> = [];
     for (const claimId of section.proofFactClaimIds) {
       const fact = proofById.get(claimId);
-      if (fact?.renderedText) body.push(fact.renderedText);
+      if (fact?.renderedText) {
+        body.push({
+          text: fact.renderedText,
+          proofFactClaimId: claimId
+        });
+      }
     }
     for (const contextBlockId of section.contextBlockIds) {
       if (section.sectionId === "sources") continue;
       const block = byId.get(contextBlockId);
       if (!block) continue;
       usedBlocks.push(block);
-      body.push(renderContextBlock(block));
+      body.push({ text: renderContextBlock(block) });
     }
     for (const code of section.caveatCodes) {
       const caveat = caveatByCode.get(code);
-      if (caveat) body.push(caveat.text);
+      if (caveat) body.push({ text: caveat.text });
     }
     for (const aspectId of section.unsupportedAspectIds) {
       const gap = gapById.get(aspectId);
       if (gap) {
-        body.push(
-          `Not established from available authoritative evidence (${gap.aspectId}): ${gap.detail}`
-        );
+        body.push({
+          text: `Not established from available authoritative evidence (${gap.aspectId}): ${gap.detail}`
+        });
       }
     }
     if (section.sectionId === "sources") {
@@ -453,14 +472,34 @@ export function renderPresentedAnswer(params: {
           `${block.sourceTitle} — ${block.canonicalUrl}`
         );
       }
-      body.push(...urls.values());
+      body.push(
+        ...[...urls.values()].map((text) => ({ text }))
+      );
     }
     if (body.length === 0) continue;
-    if (params.presentationPlan.profile === "helpdesk_detailed") {
-      parts.push(`${section.title}\n${body.join("\n\n")}`);
-    } else {
-      parts.push(body.join("\n\n"));
+    const prefix =
+      params.presentationPlan.profile === "helpdesk_detailed"
+        ? `${section.title}\n`
+        : "";
+    let bodyText = "";
+    const proofFactRanges: Array<{
+      claimId: string;
+      startOffset: number;
+      endOffset: number;
+    }> = [];
+    for (const item of body) {
+      if (bodyText.length > 0) bodyText += "\n\n";
+      const startOffset = prefix.length + bodyText.length;
+      bodyText += item.text;
+      if (item.proofFactClaimId) {
+        proofFactRanges.push({
+          claimId: item.proofFactClaimId,
+          startOffset,
+          endOffset: startOffset + item.text.length
+        });
+      }
     }
+    parts.push({ text: `${prefix}${bodyText}`, proofFactRanges });
   }
 
   const uniqueBlocks = [
@@ -469,9 +508,33 @@ export function renderPresentedAnswer(params: {
     ).values()
   ];
 
+  let untrimmed = "";
+  const untrimmedProofFactRanges: PresentedAnswer["proofFactRanges"] = [];
+  for (const part of parts) {
+    if (untrimmed.length > 0) untrimmed += "\n\n";
+    const partStart = untrimmed.length;
+    untrimmed += part.text;
+    untrimmedProofFactRanges.push(
+      ...part.proofFactRanges.map((range) => ({
+        ...range,
+        startOffset: partStart + range.startOffset,
+        endOffset: partStart + range.endOffset
+      }))
+    );
+  }
+  const leadingTrimLength =
+    untrimmed.length - untrimmed.trimStart().length;
+  const answerText = untrimmed.trim();
+  const proofFactRanges = untrimmedProofFactRanges.map((range) => ({
+    ...range,
+    startOffset: range.startOffset - leadingTrimLength,
+    endOffset: range.endOffset - leadingTrimLength
+  }));
+
   return {
     profile: params.presentationPlan.profile,
-    answerText: parts.join("\n\n").trim(),
+    answerText,
+    proofFactRanges,
     plan: params.presentationPlan,
     contextBlocksUsed: uniqueBlocks,
     contextReferences: uniqueBlocks.map(toContextReference),

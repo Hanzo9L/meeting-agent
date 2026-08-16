@@ -1,4 +1,5 @@
 import type { QueryIntent } from "./queryIntent";
+import { questionEnumeratesPopulationWithReporting } from "./queryIntentRules";
 
 const GENERIC_OBJECT_TERMS = new Set([
   "policy",
@@ -16,7 +17,7 @@ const GENERIC_OBJECT_TERMS = new Set([
   "calling"
 ]);
 
-function compact(value: string): string {
+export function compact(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
 
@@ -56,6 +57,20 @@ export function isCmdletDiscoveryQuestion(intent: QueryIntent): boolean {
     intent.normalizedQuestion.startsWith("how do i ") &&
     intent.normalizedQuestion.includes("powershell") &&
     !intent.normalizedQuestion.includes("steps")
+  );
+}
+
+// A multi-output PowerShell workflow (enumerate a population, collect several
+// named technical properties, report/export the result) is not phrased as a
+// "which cmdlet" discovery question, but it still needs canonical cmdlet
+// documentation to out-rank generic conceptual pages for each requested
+// output. Scoped narrowly to workflow-enumeration + explicit PowerShell
+// method so unrelated PowerShell questions are not affected.
+export function isWorkflowPowerShellAnchoringQuestion(intent: QueryIntent): boolean {
+  return (
+    isImplicitCmdletIntent(intent) &&
+    intent.technologies.includes("PowerShell") &&
+    questionEnumeratesPopulationWithReporting(intent.originalQuestion)
   );
 }
 

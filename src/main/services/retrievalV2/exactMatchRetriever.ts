@@ -1,6 +1,8 @@
 import { performance } from "node:perf_hooks";
 import type { RetrievalScope } from "./domainRouter";
+import { requestsPowerShellMethod } from "./domainPolicies";
 import type {
+  ExactMatchAttempt,
   ExactMatchDiagnostics,
   RetrievalCandidate
 } from "./retrievalCandidates";
@@ -17,6 +19,16 @@ import {
 import { ensureNotAborted } from "./retrievalAbort";
 
 const MAX_EXACT_CANDIDATES = 64;
+// Broad conceptual admin docs frequently win every slot of the per-directive
+// row LIMIT via heading (metadata_weak) matches, which starves out narrow
+// canonical PowerShell cmdlet docs that only match via body text
+// (chunk_text_weak, a lower-ranked field in the same ORDER BY). When the
+// requested method is PowerShell, reserve a small number of slots per
+// directive exclusively for ms-teams-powershell so canonical cmdlet evidence
+// for the requested output concept is guaranteed a chance to enter the
+// candidate pool and be ranked on its own merits downstream.
+const POWERSHELL_RESERVED_SLOTS_PER_DIRECTIVE = 16;
+const POWERSHELL_RESERVED_SOURCE_ID = "ms-teams-powershell";
 
 type MatchedField =
   | "title"
@@ -150,6 +162,71 @@ function buildExactQuerySql(params: {
       `;
 }
 
+function mergeRowsIntoDedup(params: {
+  rows: ExactRow[];
+  attempt: ExactMatchAttempt;
+  dedup: Map<string, RetrievalCandidate>;
+  scope: RetrievalScope;
+  signal?: AbortSignal;
+}): void {
+  const { rows, attempt, dedup, scope } = params;
+  for (const row of rows) {
+    ensureNotAborted(params.signal);
+    const key = row.chunk_id;
+    const score = fieldScore(row.matched_field);
+    const existing = dedup.get(key);
+    if (existing) {
+      existing.retrievalReasons.push(
+        `exact_match:${attempt.directiveType}:${attempt.directiveValue}:${row.matched_field}`
+      );
+      if ((existing.scores.exactMatch ?? 0) < score) {
+        existing.scores.exactMatch = score;
+        existing.exactMatch = {
+          directiveType: attempt.directiveType,
+          directiveValue: attempt.directiveValue,
+          required: attempt.required,
+          matchedField: row.matched_field
+        };
+      }
+      continue;
+    }
+
+    const candidate: RetrievalCandidate = {
+      candidateId: makeCandidateId([
+        "exact",
+        row.chunk_id,
+        attempt.directiveType,
+        attempt.directiveValue,
+        row.matched_field
+      ]),
+      method: "exact",
+      documentId: row.document_id,
+      chunkId: row.chunk_id,
+      sectionId: row.section_id,
+      headingPath: buildProvenance(row).headingPath,
+      title: row.title ?? "(untitled)",
+      text: row.chunk_text,
+      authority: buildAuthorityContext(scope, row),
+      provenance: buildProvenance(row),
+      scores: {
+        lexical: null,
+        exactMatch: score,
+        semanticSimilarity: null
+      },
+      exactMatch: {
+        directiveType: attempt.directiveType,
+        directiveValue: attempt.directiveValue,
+        required: attempt.required,
+        matchedField: row.matched_field
+      },
+      retrievalReasons: [
+        `exact_match:${attempt.directiveType}:${attempt.directiveValue}:${row.matched_field}`
+      ]
+    };
+    dedup.set(key, candidate);
+  }
+}
+
 export function retrieveExactMatches(params: {
   databasePath: string;
   scope: RetrievalScope;
@@ -241,7 +318,10 @@ export function retrieveExactMatches(params: {
         normalizedValue,
         normalizedValue,
         phrase || normalizedValue,
-        ...(allowWeakSubstring ? [phrase || normalizedValue] : []),
+        // orderChunkPredicate (unlike whereChunkPredicate) always contains
+        // exactly one placeholder regardless of allowWeakSubstring — both of
+        // its branches emit a `?` (only the THEN rank differs) — so this
+        // final param is unconditional, not gated a second time.
         phrase || normalizedValue,
         MAX_EXACT_CANDIDATES
       ) as ExactRow[];
@@ -251,60 +331,48 @@ export function retrieveExactMatches(params: {
         diagnostics.missedRequired.push(attempt);
       }
 
-      for (const row of rows) {
-        ensureNotAborted(params.signal);
-        const key = row.chunk_id;
-        const score = fieldScore(row.matched_field);
-        const existing = dedup.get(key);
-        if (existing) {
-          existing.retrievalReasons.push(
-            `exact_match:${attempt.directiveType}:${attempt.directiveValue}:${row.matched_field}`
-          );
-          if ((existing.scores.exactMatch ?? 0) < score) {
-            existing.scores.exactMatch = score;
-            existing.exactMatch = {
-              directiveType: attempt.directiveType,
-              directiveValue: attempt.directiveValue,
-              required: attempt.required,
-              matchedField: row.matched_field
-            };
-          }
-          continue;
-        }
+      mergeRowsIntoDedup({ rows, attempt, dedup, scope, signal: params.signal });
 
-        const candidate: RetrievalCandidate = {
-          candidateId: makeCandidateId([
-            "exact",
-            row.chunk_id,
-            attempt.directiveType,
-            attempt.directiveValue,
-            row.matched_field
-          ]),
-          method: "exact",
-          documentId: row.document_id,
-          chunkId: row.chunk_id,
-          sectionId: row.section_id,
-          headingPath: buildProvenance(row).headingPath,
-          title: row.title ?? "(untitled)",
-          text: row.chunk_text,
-          authority: buildAuthorityContext(scope, row),
-          provenance: buildProvenance(row),
-          scores: {
-            lexical: null,
-            exactMatch: score,
-            semanticSimilarity: null
-          },
-          exactMatch: {
-            directiveType: attempt.directiveType,
-            directiveValue: attempt.directiveValue,
-            required: attempt.required,
-            matchedField: row.matched_field
-          },
-          retrievalReasons: [
-            `exact_match:${attempt.directiveType}:${attempt.directiveValue}:${row.matched_field}`
-          ]
-        };
-        dedup.set(key, candidate);
+      // The row LIMIT above is filled in matched_field rank order, so a
+      // directive with many generic-admin heading matches can exhaust the
+      // limit before any canonical PowerShell body-text match is returned.
+      // When PowerShell is the requested method, run a small supplemental
+      // query scoped to ms-teams-powershell only, so the requested output's
+      // canonical cmdlet evidence still gets a chance to enter the pool.
+      const powershellEligible = scope.eligibleSources.some(
+        (source) => source.sourceId === POWERSHELL_RESERVED_SOURCE_ID
+      );
+      if (allowWeakSubstring && powershellEligible && requestsPowerShellMethod(scope.intent)) {
+        const reservedSql = buildExactQuerySql({
+          scopeSql: `${scopeFilter.sql} AND d.source_id = ?`,
+          allowWeakSubstring
+        });
+        const reservedRows = db.prepare(reservedSql).all(
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          phrase || normalizedValue,
+          ...scopeFilter.params,
+          POWERSHELL_RESERVED_SOURCE_ID,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          phrase || normalizedValue,
+          phrase || normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          normalizedValue,
+          phrase || normalizedValue,
+          phrase || normalizedValue,
+          POWERSHELL_RESERVED_SLOTS_PER_DIRECTIVE
+        ) as ExactRow[];
+        mergeRowsIntoDedup({ rows: reservedRows, attempt, dedup, scope, signal: params.signal });
       }
     }
 
@@ -316,10 +384,34 @@ export function retrieveExactMatches(params: {
     });
 
     diagnostics.matchedPopulation = ordered.length;
-    const returned = ordered.slice(
-      0,
-      Math.min(MAX_EXACT_CANDIDATES, scope.candidateBudget.maxLexicalCandidates)
+    const outputCap = Math.min(MAX_EXACT_CANDIDATES, scope.candidateBudget.maxLexicalCandidates);
+    const powershellEligibleForOutput = scope.eligibleSources.some(
+      (source) => source.sourceId === POWERSHELL_RESERVED_SOURCE_ID
     );
+    let returned: RetrievalCandidate[];
+    if (powershellEligibleForOutput && requestsPowerShellMethod(scope.intent)) {
+      // The overall top-N cut is dominated by score, and generic admin docs
+      // routinely out-score narrow PowerShell body-text matches even after
+      // the per-directive reservation above. Reserve a slice of the final
+      // output too, so canonical PowerShell evidence reaches downstream
+      // aspect/fusion scoring instead of being trimmed here on raw score.
+      const reservedCount = Math.min(POWERSHELL_RESERVED_SLOTS_PER_DIRECTIVE, outputCap);
+      const reservedPowershell = ordered
+        .filter((candidate) => candidate.authority.sourceId === POWERSHELL_RESERVED_SOURCE_ID)
+        .slice(0, reservedCount);
+      const reservedIds = new Set(reservedPowershell.map((candidate) => candidate.chunkId));
+      const remainder = ordered
+        .filter((candidate) => !reservedIds.has(candidate.chunkId))
+        .slice(0, Math.max(0, outputCap - reservedPowershell.length));
+      returned = [...reservedPowershell, ...remainder].sort((left, right) => {
+        const leftScore = left.scores.exactMatch ?? 0;
+        const rightScore = right.scores.exactMatch ?? 0;
+        if (leftScore !== rightScore) return rightScore - leftScore;
+        return left.chunkId.localeCompare(right.chunkId);
+      });
+    } else {
+      returned = ordered.slice(0, outputCap);
+    }
     diagnostics.returnedPopulation = returned.length;
     return {
       candidates: returned,

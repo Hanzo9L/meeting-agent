@@ -6,12 +6,16 @@ import {
   validateAnswerPlanIntegrity
 } from "./answerPlanIntegrity";
 import { buildAnswerPlan } from "./answerPlanner";
+import { assembleDeterministicAnswer } from "./deterministicAnswerAssembler";
 import {
   bindEvidenceBundleSnapshot,
   type EvidenceBundleDecisionState,
   validateGroundingDecisionBoundary
 } from "./groundingDecisionSnapshot";
-import { makeTestAspect } from "./testAspectFixtures";
+import {
+  makeTestAspect,
+  makeTestSubject
+} from "./testAspectFixtures";
 import type {
   EvidenceAspect,
   EvidenceAspectCoverage,
@@ -757,4 +761,92 @@ test("broad conceptual planning does not substitute a trailing procedure list fo
     new Set(plan.plannedClaims[0]?.coveredFacets),
     new Set(["purpose", "mechanism"])
   );
+});
+
+test("R3 plans the exact plural calling-policy DESCRIPTION state span accepted by R2", () => {
+  const aspect = makeTestAspect({
+    aspectId: "mandatory:policy:calling-policy:general",
+    subject: "calling policy",
+    subjectTerms: ["calling", "policy"],
+    subjects: [
+      makeTestSubject(
+        "policy",
+        "calling policy",
+        ["calling", "policy"]
+      )
+    ],
+    answerObject: "configuration_state",
+    breadth: "narrow",
+    requiredFacets: ["state"],
+    methodConstraints: [
+      {
+        kind: "powershell",
+        label: "PowerShell",
+        required: true,
+        domains: ["teams_powershell"],
+        authorityRoles: ["teams_powershell_cmdlet_primary"]
+      }
+    ],
+    authorityRequirement: {
+      requiredRoles: ["teams_powershell_cmdlet_primary"],
+      requiredDomains: ["teams_powershell"],
+      requireCanonicalIdentity: false,
+      identityType: null
+    },
+    supportType: "licensing_or_status"
+  });
+  const exactText =
+    "Returns information about the teams calling policies configured for use in your organization.";
+  const evidence = makeEvidence({
+    id: "calling-policy-description",
+    sourceId: "ms-teams-powershell",
+    title: "Get-CsTeamsCallingPolicy",
+    headingPath: ["Get-CsTeamsCallingPolicy", "DESCRIPTION"],
+    text: exactText
+  });
+  const bundle = makeBundle({
+    intent: makeIntent({
+      originalQuestion:
+        "Determine the calling policy with PowerShell.",
+      normalizedQuestion:
+        "determine the calling policy with powershell",
+      domains: ["teams_powershell"],
+      technologies: ["PowerShell"],
+      entities: ["calling policy"],
+      policyNames: ["calling policy"],
+      expectedAnswerType: "configuration"
+    }),
+    aspects: [aspect],
+    evidence: [evidence],
+    evidenceByAspect: {
+      [aspect.aspectId]: [evidence.evidenceId]
+    },
+    answerability: "answered",
+    authorityCoverage: {
+      requestedDomains: ["teams_powershell"],
+      coveredDomains: ["teams_powershell"],
+      missingDomains: []
+    }
+  });
+
+  const plan = buildAnswerPlan(bundle);
+  const claim = plan.plannedClaims.find(
+    (item) => item.requiredAspectId === aspect.aspectId
+  );
+  assert.ok(claim);
+  assert.deepEqual(claim.coveredFacets, ["state"]);
+  assert.equal(claim.proposition, exactText);
+  assert.equal(claim.sourceSpans[0]?.text, exactText);
+  assert.ok(
+    !plan.unsupportedAspects.some(
+      (item) => item.aspectId === aspect.aspectId
+    )
+  );
+  const integrity = validateAnswerPlanIntegrity({ bundle, plan });
+  assert.equal(integrity.valid, true, JSON.stringify(integrity.issues));
+  const assembled = assembleDeterministicAnswer({ bundle, plan });
+  assert.equal(assembled.ok, true);
+  if (!assembled.ok) return;
+  assert.ok(assembled.answer.answerText.includes(exactText));
+  assert.equal(assembled.answer.diagnostics.requestCount, 0);
 });

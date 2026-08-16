@@ -3,7 +3,12 @@ import test from "node:test";
 import { routeQueryIntent } from "../retrievalV2/domainPolicies";
 import { extractQueryIntent } from "../retrievalV2/queryIntentRules";
 import type { FusedRetrievalCandidate, HybridRetrievalResult } from "../retrievalV2";
-import { deriveEvidenceAspects, evaluateCandidateAspectSupport } from "./evidenceAspectPolicy";
+import {
+  canonicalSubjectPhraseAppears,
+  deriveEvidenceAspects,
+  evaluateCandidateAspectSupport
+} from "./evidenceAspectPolicy";
+import { makeTestSubject } from "./testAspectFixtures";
 
 function makeCandidate(params: {
   sourceId: string;
@@ -67,6 +72,73 @@ function makeCandidate(params: {
     sourceDedup: { mergedFromCandidateIds: [] }
   };
 }
+
+test("canonical policy subject matching allows safe plurals without crossing policy identities", () => {
+  const callingPolicy = makeTestSubject(
+    "policy",
+    "calling policy",
+    ["calling", "policy"]
+  );
+  assert.equal(
+    canonicalSubjectPhraseAppears(
+      "Returns information about the Teams calling policies configured for use.",
+      callingPolicy
+    ),
+    true
+  );
+  for (const unrelated of [
+    "The emergency calling policy controls emergency locations.",
+    "The voice routing policy selects PSTN routes.",
+    "The meeting policy controls meeting features.",
+    "This text mentions calling and later discusses a policy.",
+    "A recalling policymaker creates only a substring overlap."
+  ]) {
+    assert.equal(
+      canonicalSubjectPhraseAppears(unrelated, callingPolicy),
+      false,
+      unrelated
+    );
+  }
+  assert.equal(
+    canonicalSubjectPhraseAppears(
+      "The dial plans policy controls normalization.",
+      makeTestSubject("policy", "dial plan", ["dial", "plan"])
+    ),
+    false
+  );
+});
+
+test("R2 treats the Get-CsTeamsCallingPolicy plural DESCRIPTION as direct state evidence", () => {
+  const intent = extractQueryIntent(
+    "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV."
+  ).intent;
+  const result = {
+    intent,
+    scope: routeQueryIntent(intent).scope
+  } as HybridRetrievalResult;
+  const aspect = deriveEvidenceAspects(result).find(
+    (item) => item.subject === "calling policy"
+  );
+  assert.ok(aspect);
+  const support = evaluateCandidateAspectSupport(
+    result,
+    makeCandidate({
+      sourceId: "ms-teams-powershell",
+      authorityRoles: ["teams_powershell_cmdlet_primary"],
+      routePriority: "primary",
+      title: "Get-CsTeamsCallingPolicy",
+      headingPath: ["Get-CsTeamsCallingPolicy", "DESCRIPTION"],
+      text:
+        "Returns information about the teams calling policies configured for use in your organization.",
+      url: "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+    }),
+    aspect
+  );
+  assert.equal(support.topical, true);
+  assert.equal(support.strength, "direct");
+  assert.deepEqual(support.matchedFacets, ["state"]);
+  assert.equal(support.authoritySatisfied, true);
+});
 
 function deriveSharePointAspects(question: string): {
   result: HybridRetrievalResult;

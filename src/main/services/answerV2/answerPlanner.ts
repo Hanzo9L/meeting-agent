@@ -6,6 +6,10 @@ import {
   makeClaimSourceSpanId,
   type AnswerPlanState
 } from "./answerPlanIntegrity";
+import {
+  canonicalSubjectPhraseAppears,
+  OUTPUT_TRANSFORMATION_RULE_ID
+} from "./evidenceAspectPolicy";
 import { snapshotBinding } from "./groundingDecisionSnapshot";
 import { operationMatchesText } from "./operationMatching";
 import type {
@@ -77,11 +81,23 @@ const BOILERPLATE_LINE =
   /^(?:document|heading path):|^```|^\|?\s*(?:---|:---|---:)(?:\s*\|.*)?$/i;
 const SUBSTANTIVE_WORD = /[a-z]{3,}/i;
 const CMDLET_PATTERN = /\b[A-Z][A-Za-z0-9]+-[A-Z][A-Za-z0-9]+\b/;
+// V1.1 — mirrors evidenceAspectPolicy.ts's READ_CMDLET_VERB_PATTERN: a
+// Get-/Show-/Test-/Find-/Search- style cmdlet is a read/reporting primitive
+// by its own verb, regardless of the exact synopsis wording used.
+const READ_CMDLET_PATTERN =
+  /\b(?:Get|Show|Test|Find|Search|Measure|Select|Compare)-[A-Za-z0-9]+\b/;
 
 function normalize(value: string): string {
   return value
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, " ")
+    // Hyphens must resolve as word separators, not literal characters:
+    // "voice-routing policy" (as authored in prose) and "voice routing
+    // policy" (as authored in the subject/question) must tokenize
+    // identically, matching R2's normalizeEvidenceText contract. Preserving
+    // hyphens here made phrase containment checks (subjectPresent) fail for
+    // otherwise on-topic hyphenated prose, producing an R2/R3 mismatch.
+    .replace(/[-\u2010-\u2015]/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -342,31 +358,9 @@ function subjectPresent(candidate: SpanCandidate, aspect: EvidenceAspect): boole
     )} ${candidate.span.text}`
   );
   const contextTokens = context.split(" ").filter(Boolean);
-  const containsPhrase = (phrase: string): boolean => {
-    const phraseTokens = normalize(phrase).split(" ").filter(Boolean);
-    if (phraseTokens.length === 0 || contextTokens.length < phraseTokens.length) {
-      return false;
-    }
-    for (
-      let index = 0;
-      index <= contextTokens.length - phraseTokens.length;
-      index += 1
-    ) {
-      if (
-        phraseTokens.every(
-          (token, offset) => contextTokens[index + offset] === token
-        )
-      ) {
-        return true;
-      }
-    }
-    return false;
-  };
   return aspect.subjects.some((subject) => {
-    if (containsPhrase(subject.value)) return true;
-    for (const alias of subject.aliases ?? []) {
-      if (containsPhrase(alias)) return true;
-    }
+    if (canonicalSubjectPhraseAppears(context, subject)) return true;
+    if (subject.kind === "policy") return false;
     return (
       subject.terms.length > 0 &&
       subject.terms.every((term) => contextTokens.includes(normalize(term)))
@@ -511,6 +505,16 @@ function facetScore(
       }
       score += 50;
       break;
+    case "state": {
+      if (!isText) return Number.NEGATIVE_INFINITY;
+      const readCmdlet = READ_CMDLET_PATTERN.test(candidate.evidence.source.title);
+      const readOperationLanguage = operationMatchesText(text, "get");
+      if (!readCmdlet && !readOperationLanguage) {
+        return Number.NEGATIVE_INFINITY;
+      }
+      score += readCmdlet ? 55 : 45;
+      break;
+    }
   }
   return score;
 }
@@ -531,6 +535,7 @@ function claimTypeForFacets(
   if (facets.includes("relationship")) return "relationship";
   if (facets.includes("procedure")) return "procedure_step";
   if (facets.includes("configuration")) return "configuration";
+  if (facets.includes("state")) return "configuration";
   if (facets.includes("purpose")) return "purpose";
   if (facets.includes("mechanism")) return "mechanism";
   if (facets.includes("behavior")) return "behavior";
@@ -545,6 +550,12 @@ function sectionForFacets(
   if (facets.includes("relationship")) return "relationships";
   if (facets.includes("procedure")) return "steps";
   if (facets.includes("configuration")) return "configuration";
+  // "state" claims are placed in the same section as "configuration" claims
+  // (rather than e.g. "key_components", which is absent from the
+  // "configuration" expectedAnswerType template and would be silently
+  // dropped from rendering) since both describe the properties of the same
+  // configuration object, just via read vs. write evidence.
+  if (facets.includes("state")) return "configuration";
   if (bundle.intent.expectedAnswerType === "reference") {
     if (facets.includes("identifier") || facets.includes("purpose")) {
       return "purpose";
@@ -683,13 +694,23 @@ function headingOperationCorroborationSpan(params: {
   candidates: SpanCandidate[];
   evidenceIds: Set<string>;
 }): ClaimSourceSpan | null {
+  // Note: no independent subjectPresent() re-check here. evidenceIds already
+  // scopes candidates to the same evidence item that produced the base claim
+  // (which itself only exists because a body span passed subjectPresent for
+  // this aspect), so this heading span is already known to belong to an
+  // on-topic evidence item. A second subjectPresent() call adds no real
+  // per-span discrimination — its context is title + the evidence item's
+  // full (shared) headingPath, identical for every heading span of that
+  // item — and can spuriously fail when the subject phrase is naturally
+  // split across title/heading ("Meeting policies") and body ("...according
+  // to policy...") with ordinary singular/plural variance. The genuine
+  // corroboration signal is operationPresent on the heading text itself.
   const matches = params.candidates
     .filter(
       (candidate) =>
         candidate.span.sourceField === "heading" &&
         params.evidenceIds.has(candidate.span.evidenceId) &&
-        operationPresent(candidate.normalized, params.aspect.operation) &&
-        subjectPresent(candidate, params.aspect)
+        operationPresent(candidate.normalized, params.aspect.operation)
     )
     .sort(
       (left, right) =>
@@ -1082,16 +1103,39 @@ function buildUnsupportedAspects(params: {
   const items: UnsupportedAspect[] = [];
   for (const aspectId of bundle.aspectCoverage.unsupportedMandatoryAspectIds) {
     const aspect = byId.get(aspectId);
+    const isGenericOutputTransformation = Boolean(
+      aspect?.derivation.ruleIds.includes(OUTPUT_TRANSFORMATION_RULE_ID)
+    );
+    const methodLimited =
+      bundle.aspectCoverage.methodLimitedAspectIds?.includes(aspectId) ??
+      false;
     items.push({
       aspectId,
-      reason: bundle.aspectCoverage.authorityLimitedAspectIds.includes(aspectId)
+      reason: isGenericOutputTransformation
         ? "missing_authority"
-        : "insufficient_evidence",
-      detail: aspect
-        ? `Unsupported required aspect: ${aspect.subject}; required facets: ${aspect.requiredFacets.join(
-            ", "
-          )}.`
-        : `Unsupported required aspect: ${aspectId}.`
+        : methodLimited
+          ? "required_method_unsatisfied"
+          : bundle.aspectCoverage.authorityLimitedAspectIds.includes(aspectId)
+            ? "missing_authority"
+            : "insufficient_evidence",
+      detail: isGenericOutputTransformation
+        ? `The Teams-side data retrieval for this workflow is authoritatively covered where supported; ${
+            aspect?.subject ?? "this output"
+          } is a generic PowerShell step not currently covered by Relay's authoritative corpus.`
+        : methodLimited
+          ? `Authoritative factual evidence exists for ${
+              aspect?.subject ?? "this output"
+            }, but it does not satisfy the required ${
+              aspect?.methodConstraints
+                .filter((constraint) => constraint.required)
+                .map((constraint) => constraint.label)
+                .join(" and ") || "method"
+            } constraint.`
+          : aspect
+            ? `Unsupported required aspect: ${aspect.subject}; required facets: ${aspect.requiredFacets.join(
+                ", "
+              )}.`
+            : `Unsupported required aspect: ${aspectId}.`
     });
   }
   for (const aspectId of params.missingFacetAspectIds) {

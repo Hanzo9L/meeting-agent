@@ -45,12 +45,18 @@ function toMessage(record: ConversationMessage): HelpdeskMessage {
     inputOrigin: record.inputOrigin,
     captureSource: record.captureSource,
     answerability: record.answerability,
+    presentationProfile: record.presentationProfile,
     groundingSnapshotId: record.groundingSnapshotId,
     citations: record.citations.map((citation) => ({
       citationId: citation.citationId,
       factualRangeId: citation.factualRangeId,
+      claimId: citation.claimId,
       answerRangeStart: citation.answerRangeStart,
       answerRangeEnd: citation.answerRangeEnd,
+      evidenceId: citation.evidenceId,
+      spanId: citation.spanId,
+      supportingSpanIds: [...citation.supportingSpanIds],
+      documentId: citation.documentId,
       sourceTitle: citation.sourceTitle,
       canonicalUrl: citation.canonicalUrl,
       sourceId: citation.sourceId,
@@ -60,6 +66,24 @@ function toMessage(record: ConversationMessage): HelpdeskMessage {
       sourceStatus: citation.sourceStatus,
       preview: citation.preview,
       groundingSnapshotId: citation.groundingSnapshotId
+    })),
+    contextReferences: record.contextReferences.map((reference) => ({
+      contextBlockId: reference.contextBlockId,
+      evidenceId: reference.evidenceId,
+      documentId: reference.documentId,
+      chunkId: reference.chunkId,
+      sourceTitle: reference.sourceTitle,
+      canonicalUrl: reference.canonicalUrl,
+      sourceId: reference.sourceId,
+      authorityRole: reference.authorityRole,
+      headingPath: [...reference.headingPath],
+      sectionId: reference.sectionId,
+      sourceStartOffset: reference.sourceStartOffset,
+      sourceEndOffset: reference.sourceEndOffset,
+      sourceContentHash: reference.sourceContentHash,
+      contextType: reference.contextType,
+      preview: reference.preview,
+      groundingSnapshotId: reference.groundingSnapshotId
     })),
     createdAt: record.createdAt
   };
@@ -311,53 +335,48 @@ export class HelpdeskService {
       snapshot: result.snapshot
     });
     try {
-      const seenUrls = new Set(
-        result.citations.map((citation) => citation.canonicalUrl)
-      );
-      const contextCitations = result.contextReferences
-        .filter((reference) => {
-          if (!reference.canonicalUrl || seenUrls.has(reference.canonicalUrl)) {
-            return false;
-          }
-          seenUrls.add(reference.canonicalUrl);
-          return true;
-        })
-        .map((reference) => ({
-          citationId: `context-ref:${reference.contextBlockId}`,
-          factualRangeId: `context-block:${reference.contextBlockId}`,
-          answerRangeStart: 0,
-          answerRangeEnd: 0,
+      this.store.appendGroundedAssistantMessage({
+        answerRunId: started.answerRun.id,
+        content: result.answerText,
+        answerability: result.answerability,
+        presentationProfile: result.presentationProfile,
+        snapshot: result.snapshot,
+        citations: result.citations.map((citation) => ({
+          citationId: citation.citationId,
+          factualRangeId: citation.factualRangeId,
+          claimId: citation.claimId,
+          answerRangeStart: citation.answerRange.startOffset,
+          answerRangeEnd: citation.answerRange.endOffset,
+          evidenceId: citation.evidenceId,
+          spanId: citation.spanId,
+          supportingSpanIds: [...citation.supportingSpanIds],
+          documentId: citation.documentId,
+          sourceTitle: citation.sourceTitle,
+          canonicalUrl: citation.canonicalUrl,
+          sourceId: citation.sourceId,
+          authorityRole: citation.authorityRole,
+          headingPath: [...citation.headingPath],
+          sectionId: citation.sectionId,
+          sourceStatus: citation.sourceStatus,
+          preview: citation.preview
+        })),
+        contextReferences: result.contextReferences.map((reference) => ({
+          contextBlockId: reference.contextBlockId,
+          evidenceId: reference.evidenceId,
+          documentId: reference.documentId,
+          chunkId: reference.chunkId,
           sourceTitle: reference.sourceTitle,
           canonicalUrl: reference.canonicalUrl,
           sourceId: reference.sourceId,
           authorityRole: reference.authorityRole,
           headingPath: [...reference.headingPath],
           sectionId: reference.sectionId,
-          sourceStatus: "ga",
+          sourceStartOffset: reference.sourceStartOffset,
+          sourceEndOffset: reference.sourceEndOffset,
+          sourceContentHash: reference.sourceContentHash,
+          contextType: reference.contextType,
           preview: reference.preview
-        }));
-      this.store.appendGroundedAssistantMessage({
-        answerRunId: started.answerRun.id,
-        content: result.answerText,
-        answerability: result.answerability,
-        snapshot: result.snapshot,
-        citations: [
-          ...result.citations.map((citation) => ({
-            citationId: citation.citationId,
-            factualRangeId: citation.factualRangeId,
-            answerRangeStart: citation.answerRange.startOffset,
-            answerRangeEnd: citation.answerRange.endOffset,
-            sourceTitle: citation.sourceTitle,
-            canonicalUrl: citation.canonicalUrl,
-            sourceId: citation.sourceId,
-            authorityRole: citation.authorityRole,
-            headingPath: [...citation.headingPath],
-            sectionId: citation.sectionId,
-            sourceStatus: citation.sourceStatus,
-            preview: citation.preview
-          })),
-          ...contextCitations
-        ]
+        }))
       });
     } catch {
       this.store.updateAnswerRun({

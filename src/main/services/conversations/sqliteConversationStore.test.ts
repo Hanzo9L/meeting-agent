@@ -97,7 +97,7 @@ test("creates, lists, loads, and reopens conversations", async () => {
   let conversationId = "";
   const first = createSqliteConversationStore({ databasePath: temp.databasePath });
   try {
-    assert.equal(first.getSchemaVersion(), 4);
+    assert.equal(first.getSchemaVersion(), 5);
     const conversation = first.createConversation({ title: "Teams Voice" });
     conversationId = conversation.id;
     assert.equal(first.listConversations().length, 1);
@@ -178,7 +178,7 @@ test("version 2 migration preserves existing version 1 messages", async () => {
     databasePath: temp.databasePath
   });
   try {
-    assert.equal(migrated.getSchemaVersion(), 4);
+    assert.equal(migrated.getSchemaVersion(), 5);
     assert.equal(
       migrated.loadOrderedMessages("conv-v1")[0]?.content,
       "Existing question"
@@ -329,8 +329,13 @@ test("persists validated citation ranges with the exact answer", async () => {
       messageId: completed.message.id,
       citationId: "citation:calling-plans",
       factualRangeId: "factual-range:calling-plans",
+      claimId: null,
       answerRangeStart: 0,
       answerRangeEnd: content.length,
+      evidenceId: null,
+      spanId: null,
+      supportingSpanIds: [],
+      documentId: null,
       sourceTitle: "Microsoft Teams Calling Plans",
       canonicalUrl:
         "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
@@ -342,6 +347,121 @@ test("persists validated citation ranges with the exact answer", async () => {
       preview: false,
       groundingSnapshotId: SNAPSHOT_A.snapshotId
     });
+  });
+});
+
+test("persists factual citations and explanation context as distinct atomic records", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    const claim = "SharePoint Restricted Content Discovery is available.";
+    const content = `Summary\n${claim}\n\nAuthoritative context\nAdditional security context.`;
+    const claimStart = content.indexOf(claim);
+    const completed = store.appendGroundedAssistantMessage({
+      answerRunId: fixture.run.id,
+      content,
+      answerability: "answered",
+      presentationProfile: "helpdesk_detailed",
+      snapshot: SNAPSHOT_A,
+      citations: [
+        {
+          citationId: "citation:sharepoint",
+          factualRangeId: "factual-range:sharepoint",
+          claimId: "claim:sharepoint",
+          answerRangeStart: claimStart,
+          answerRangeEnd: claimStart + claim.length,
+          evidenceId: "evidence:sharepoint",
+          spanId: "span:sharepoint",
+          supportingSpanIds: ["span:supporting"],
+          documentId: "document:sharepoint",
+          sourceTitle: "Restricted Content Discovery",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          sourceId: "ms-sharepoint-docs",
+          authorityRole: "sharepoint_admin_primary",
+          headingPath: ["Restricted Content Discovery", "Overview"],
+          sectionId: "overview",
+          sourceStatus: "ga",
+          preview: false
+        }
+      ],
+      contextReferences: [
+        {
+          contextBlockId: "context:oversharing",
+          evidenceId: "evidence:oversharing",
+          documentId: "document:oversharing",
+          chunkId: "chunk:oversharing",
+          sourceTitle: "Data security and governance",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-data-privacy",
+          sourceId: "ms-m365-docs",
+          authorityRole: "m365_primary",
+          headingPath: ["Data security", "Oversharing"],
+          sectionId: "oversharing",
+          sourceStartOffset: 12,
+          sourceEndOffset: 48,
+          sourceContentHash: "c".repeat(64),
+          contextType: "conceptual_explanation",
+          preview: false
+        }
+      ]
+    });
+
+    assert.equal(completed.message.presentationProfile, "helpdesk_detailed");
+    assert.equal(completed.message.citations.length, 1);
+    assert.equal(completed.message.contextReferences.length, 1);
+    assert.equal(
+      content.slice(
+        completed.message.citations[0]!.answerRangeStart,
+        completed.message.citations[0]!.answerRangeEnd
+      ),
+      claim
+    );
+    assert.equal(
+      completed.message.contextReferences[0]!.canonicalUrl,
+      "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-data-privacy"
+    );
+  });
+});
+
+test("invalid context reference rolls back assistant, citations, and context atomically", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    assert.throws(
+      () =>
+        store.appendGroundedAssistantMessage({
+          answerRunId: fixture.run.id,
+          content: "A valid factual answer.",
+          answerability: "answered",
+          snapshot: SNAPSHOT_A,
+          citations: [],
+          contextReferences: [
+            {
+              contextBlockId: "context:invalid",
+              evidenceId: "evidence:invalid",
+              documentId: "document:invalid",
+              chunkId: "chunk:invalid",
+              sourceTitle: "Invalid context",
+              canonicalUrl:
+                "https://learn.microsoft.com/en-us/microsoftteams/",
+              sourceId: "ms-teams-admin",
+              authorityRole: "teams_admin_primary",
+              headingPath: ["Invalid"],
+              sectionId: "invalid",
+              sourceStartOffset: 4,
+              sourceEndOffset: 4,
+              sourceContentHash: "d".repeat(64),
+              contextType: "supporting_context",
+              preview: false
+            }
+          ]
+        }),
+      /invalid source range/
+    );
+    assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 1);
+    assert.equal(store.getAnswerRun(fixture.run.id)?.state, "validating");
+    assert.equal(store.getAnswerRun(fixture.run.id)?.assistantMessageId, null);
   });
 });
 
@@ -380,6 +500,43 @@ test("rejects an unvalidated citation URL before assistant persistence", async (
       store.loadOrderedMessages(fixture.conversationId).length,
       1
     );
+  });
+});
+
+test("zero-length factual citation fails closed without partial persistence", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    assert.throws(
+      () =>
+        store.appendGroundedAssistantMessage({
+          answerRunId: fixture.run.id,
+          content: "A factual answer.",
+          answerability: "answered",
+          snapshot: SNAPSHOT_A,
+          citations: [
+            {
+              citationId: "citation:zero",
+              factualRangeId: "factual-range:zero",
+              answerRangeStart: 0,
+              answerRangeEnd: 0,
+              sourceTitle: "Microsoft Teams",
+              canonicalUrl:
+                "https://learn.microsoft.com/en-us/microsoftteams/",
+              sourceId: "ms-teams-admin",
+              authorityRole: "teams_admin_primary",
+              headingPath: ["Microsoft Teams"],
+              sectionId: "overview",
+              sourceStatus: "ga",
+              preview: false
+            }
+          ]
+        }),
+      /invalid answer range/
+    );
+    assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 1);
+    assert.equal(store.getAnswerRun(fixture.run.id)?.state, "validating");
+    assert.equal(store.getAnswerRun(fixture.run.id)?.assistantMessageId, null);
   });
 });
 

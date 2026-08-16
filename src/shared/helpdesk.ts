@@ -51,16 +51,26 @@ export interface HelpdeskMessage {
    */
   captureSource: CaptureSourceTag | null;
   answerability: HelpdeskAnswerability | null;
+  presentationProfile:
+    | "helpdesk_detailed"
+    | "live_assist_quick"
+    | null;
   groundingSnapshotId: string | null;
   citations: HelpdeskCitation[];
+  contextReferences: HelpdeskContextReference[];
   createdAt: string;
 }
 
 export interface HelpdeskCitation {
   citationId: string;
   factualRangeId: string;
+  claimId: string | null;
   answerRangeStart: number;
   answerRangeEnd: number;
+  evidenceId: string | null;
+  spanId: string | null;
+  supportingSpanIds: string[];
+  documentId: string | null;
   sourceTitle: string;
   canonicalUrl: string;
   sourceId: string;
@@ -68,6 +78,25 @@ export interface HelpdeskCitation {
   headingPath: string[];
   sectionId: string;
   sourceStatus: string;
+  preview: boolean;
+  groundingSnapshotId: string;
+}
+
+export interface HelpdeskContextReference {
+  contextBlockId: string;
+  evidenceId: string;
+  documentId: string;
+  chunkId: string;
+  sourceTitle: string;
+  canonicalUrl: string;
+  sourceId: string;
+  authorityRole: string;
+  headingPath: string[];
+  sectionId: string;
+  sourceStartOffset: number;
+  sourceEndOffset: number;
+  sourceContentHash: string;
+  contextType: string;
   preview: boolean;
   groundingSnapshotId: string;
 }

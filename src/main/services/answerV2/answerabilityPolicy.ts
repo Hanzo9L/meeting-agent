@@ -1,4 +1,3 @@
-import { methodGapsForBundle } from "./methodConstraintPolicy";
 import type { AnswerabilityStatus, EvidenceBundle } from "./types";
 
 export interface AnswerabilityDecision {
@@ -26,7 +25,20 @@ export function classifyAnswerability(bundle: Pick<
   const supportedCount = mandatoryAspectIds.filter((aspectId) =>
     supportedMandatory.has(aspectId)
   ).length;
-  if (mandatoryAspectIds.length === 0 || supportedCount === 0) {
+  const methodLimited =
+    (bundle.aspectCoverage.methodLimitedAspectIds?.length ?? 0) > 0;
+  if (mandatoryAspectIds.length === 0) {
+    rationale.push("no_mandatory_aspect_has_direct_authoritative_support");
+    return { status: "insufficient_evidence", rationale };
+  }
+  if (supportedCount === 0) {
+    if (methodLimited) {
+      rationale.push(
+        "requested_method_not_satisfied",
+        "incomplete_mandatory_aspect_support"
+      );
+      return { status: "partial", rationale };
+    }
     rationale.push("no_mandatory_aspect_has_direct_authoritative_support");
     return { status: "insufficient_evidence", rationale };
   }
@@ -47,14 +59,6 @@ export function classifyAnswerability(bundle: Pick<
     bundle.exactIdentifierValidation.required &&
     !bundle.exactIdentifierValidation.verified;
   const allMandatorySupported = supportedCount === mandatoryAspectIds.length;
-  const methodGaps = methodGapsForBundle({
-    aspects: bundle.aspectCoverage.aspects,
-    supportedMandatoryAspectIds:
-      bundle.aspectCoverage.supportedMandatoryAspectIds,
-    evidenceByAspect: bundle.aspectCoverage.evidenceByAspect,
-    evidence: bundle.evidence
-  });
-  const methodLimited = methodGaps.length > 0;
   if (methodLimited) {
     rationale.push("requested_method_not_satisfied");
   }

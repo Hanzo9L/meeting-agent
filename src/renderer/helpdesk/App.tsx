@@ -215,7 +215,9 @@ function AssistantMessage(props: {
         <button type="button" onClick={() => void copy()}>
           Copy answer
         </button>
-        {props.message.citations.length > 0 ? (
+        {props.message.citations.length +
+          props.message.contextReferences.length >
+        0 ? (
           <button
             type="button"
             aria-expanded={sourcesOpen}
@@ -223,7 +225,10 @@ function AssistantMessage(props: {
           >
             {sourcesOpen
               ? "Hide sources"
-              : `Sources (${props.message.citations.length})`}
+              : `Sources (${
+                  props.message.citations.length +
+                  props.message.contextReferences.length
+                })`}
           </button>
         ) : null}
         {notice ? <span role="status">{notice}</span> : null}
@@ -250,6 +255,26 @@ function AssistantMessage(props: {
                 {citation.canonicalUrl}
               </div>
               {citation.preview ? (
+                <span className="preview-label">Preview</span>
+              ) : null}
+            </div>
+          ))}
+          {props.message.contextReferences.map((reference) => (
+            <div
+              className="source-card"
+              key={`context:${reference.contextBlockId}`}
+            >
+              <div className="source-link">{reference.sourceTitle}</div>
+              <div className="source-heading">
+                Explanation context
+                {reference.headingPath.length > 0
+                  ? ` · ${reference.headingPath.join(" › ")}`
+                  : ""}
+              </div>
+              <div className="source-url">
+                {reference.canonicalUrl}
+              </div>
+              {reference.preview ? (
                 <span className="preview-label">Preview</span>
               ) : null}
             </div>

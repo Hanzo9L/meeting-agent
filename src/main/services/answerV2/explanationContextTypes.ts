@@ -60,12 +60,18 @@ export interface ExplanationContextBuildResult {
 
 export interface ContextReference {
   contextBlockId: string;
+  evidenceId: string;
+  documentId: string;
+  chunkId: string;
   sourceTitle: string;
   canonicalUrl: string;
   sourceId: string;
   authorityRole: string;
   headingPath: string[];
   sectionId: string;
+  sourceStartOffset: number;
+  sourceEndOffset: number;
+  sourceContentHash: string;
   contextType: ExplanationContextType;
   preview: boolean;
 }

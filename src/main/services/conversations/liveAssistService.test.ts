@@ -74,10 +74,15 @@ function success(
             {
               citationId: `citation:${answerability}`,
               factualRangeId: `range:${answerability}`,
+              claimId: `claim:${answerability}`,
               answerRange: {
                 startOffset: 0,
                 endOffset: answerText.length
               },
+              evidenceId: `evidence:${answerability}`,
+              spanId: `span:${answerability}`,
+              supportingSpanIds: [],
+              documentId: `document:${answerability}`,
               sourceTitle: "Microsoft Teams Calling Plans",
               canonicalUrl:
                 "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",

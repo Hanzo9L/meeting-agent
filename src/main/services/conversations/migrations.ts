@@ -441,5 +441,56 @@ export const CONVERSATION_MIGRATIONS: readonly ConversationMigration[] = [
 
       PRAGMA legacy_alter_table = OFF;
     `
+  },
+  {
+    version: 5,
+    name: "presented_citation_coordinates_and_context_references",
+    sql: `
+      ALTER TABLE messages ADD COLUMN presentation_profile TEXT
+        CHECK (
+          presentation_profile IN (
+            'helpdesk_detailed',
+            'live_assist_quick'
+          )
+        );
+
+      ALTER TABLE message_citations ADD COLUMN claim_id TEXT;
+      ALTER TABLE message_citations ADD COLUMN evidence_id TEXT;
+      ALTER TABLE message_citations ADD COLUMN span_id TEXT;
+      ALTER TABLE message_citations ADD COLUMN supporting_span_ids_json TEXT
+        NOT NULL DEFAULT '[]';
+      ALTER TABLE message_citations ADD COLUMN document_id TEXT;
+
+      CREATE TABLE message_context_references (
+        message_id TEXT NOT NULL,
+        context_block_id TEXT NOT NULL,
+        evidence_id TEXT NOT NULL,
+        document_id TEXT NOT NULL,
+        chunk_id TEXT NOT NULL,
+        source_title TEXT NOT NULL CHECK (length(trim(source_title)) > 0),
+        canonical_url TEXT NOT NULL CHECK (
+          canonical_url LIKE 'https://learn.microsoft.com/%'
+        ),
+        source_id TEXT NOT NULL,
+        authority_role TEXT NOT NULL,
+        heading_path_json TEXT NOT NULL,
+        section_id TEXT NOT NULL,
+        source_start_offset INTEGER NOT NULL CHECK (source_start_offset >= 0),
+        source_end_offset INTEGER NOT NULL CHECK (
+          source_end_offset > source_start_offset
+        ),
+        source_content_hash TEXT NOT NULL,
+        context_type TEXT NOT NULL,
+        preview INTEGER NOT NULL CHECK (preview IN (0, 1)),
+        grounding_snapshot_id TEXT NOT NULL,
+        PRIMARY KEY (message_id, context_block_id),
+        FOREIGN KEY (message_id) REFERENCES messages(message_id) ON DELETE CASCADE,
+        FOREIGN KEY (grounding_snapshot_id)
+          REFERENCES grounding_snapshot_refs(snapshot_id) ON DELETE RESTRICT
+      );
+
+      CREATE INDEX idx_message_context_references_message
+        ON message_context_references(message_id, context_block_id);
+    `
   }
 ];

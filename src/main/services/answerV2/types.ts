@@ -44,6 +44,14 @@ export type EvidenceAspectAnswerObject =
   | "cmdlet_semantics"
   | "procedure"
   | "configuration_behavior"
+  // V1.1 — reporting/read intent over a configuration object's *current
+  // value* (e.g. "what is the assigned calling policy") is a distinct
+  // contract from "configuration_behavior", which requires evidence that
+  // describes changing that value. Canonical Get-*/Show-*/Test-* style
+  // cmdlet-reference evidence (or read-language admin prose) can directly
+  // support this; write/procedure evidence is still required for
+  // "configuration_behavior".
+  | "configuration_state"
   | "relationship"
   | "status"
   | "comparison"
@@ -61,7 +69,12 @@ export type EvidenceSupportFacet =
   | "identifier"
   | "relationship"
   | "procedure"
-  | "configuration";
+  | "configuration"
+  // V1.1 — satisfied by evidence that reports/reflects the *current value*
+  // of a configuration object (canonical read-oriented cmdlet reference, or
+  // read-language prose), as opposed to "configuration" which requires
+  // change-oriented language.
+  | "state";
 
 export type EvidenceAspectSubjectKind =
   | "cmdlet"
@@ -161,6 +174,8 @@ export interface EvidenceAspectCoverage {
   supportByAspect: Record<string, EvidenceAspectSupport[]>;
   supportedMandatoryAspectIds: string[];
   unsupportedMandatoryAspectIds: string[];
+  /** Facets and subject authority are direct, but a required method is not. */
+  methodLimitedAspectIds?: string[];
   authorityLimitedAspectIds: string[];
   supportingOnlyAspectIds: string[];
   contextualOnlyAspectIds: string[];
@@ -371,6 +386,7 @@ export interface UnsupportedAspect {
   aspectId: string;
   reason:
     | "missing_authority"
+    | "required_method_unsatisfied"
     | "insufficient_evidence"
     | "exact_identifier_unverified"
     | "freshness_verification_required"

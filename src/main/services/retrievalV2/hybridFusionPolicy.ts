@@ -1,11 +1,13 @@
 import type { QueryIntent } from "./queryIntent";
 import type { RetrievalCandidate } from "./retrievalCandidates";
+import { questionEnumeratesPopulationWithReporting } from "./queryIntentRules";
 import {
   cmdletOperationPrefixes,
   extractObjectKeys,
   isCanonicalCmdletDocument,
   isCmdletDiscoveryQuestion,
   isModuleIndexDocument,
+  isWorkflowPowerShellAnchoringQuestion,
   objectAligned,
   operationPrefixAligned
 } from "./implicitCmdletSignals";
@@ -85,6 +87,12 @@ function inferExpectedAuthorityRoleHints(intent: QueryIntent): string[] {
   if (implicitCmdletSignal) {
     return ["teams_powershell_cmdlet_primary", "teams_admin_primary"];
   }
+  if (
+    intent.technologies.includes("PowerShell") &&
+    questionEnumeratesPopulationWithReporting(intent.originalQuestion)
+  ) {
+    return ["teams_powershell_cmdlet_primary", "teams_admin_primary"];
+  }
   if (intent.domains.includes("graph")) {
     return ["graph_api_primary"];
   }
@@ -114,7 +122,9 @@ export function scoreHybridCandidate(params: {
   );
   const explicitBetaIntent = hasExplicitBetaIntent(params.intent);
   const sourceStatus = params.candidate.authority.sourceStatus;
-  const cmdletDiscovery = isCmdletDiscoveryQuestion(params.intent);
+  const cmdletDiscovery =
+    isCmdletDiscoveryQuestion(params.intent) ||
+    isWorkflowPowerShellAnchoringQuestion(params.intent);
   const prefixes = cmdletOperationPrefixes(params.intent);
   const objectKeys = extractObjectKeys(params.intent);
 

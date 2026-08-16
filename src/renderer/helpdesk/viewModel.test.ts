@@ -32,8 +32,10 @@ test("timeline preserves message order and renders execution failure as non-mess
         inputOrigin: "pasted",
         captureSource: null,
         answerability: null,
+        presentationProfile: null,
         groundingSnapshotId: null,
         citations: [],
+        contextReferences: [],
         createdAt: "2026-08-08T00:00:01.000Z"
       },
       {
@@ -45,8 +47,10 @@ test("timeline preserves message order and renders execution failure as non-mess
         inputOrigin: "typed",
         captureSource: null,
         answerability: null,
+        presentationProfile: null,
         groundingSnapshotId: null,
         citations: [],
+        contextReferences: [],
         createdAt: "2026-08-08T00:00:00.000Z"
       }
     ],

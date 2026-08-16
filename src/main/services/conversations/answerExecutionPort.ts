@@ -24,10 +24,15 @@ export interface AnswerExecutionRequest {
 export interface AnswerExecutionCitation {
   citationId: string;
   factualRangeId: string;
+  claimId: string;
   answerRange: {
     startOffset: number;
     endOffset: number;
   };
+  evidenceId: string;
+  spanId: string;
+  supportingSpanIds: string[];
+  documentId: string;
   sourceTitle: string;
   canonicalUrl: string;
   sourceId: string;
@@ -245,29 +250,72 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
       profile === "live_assist_quick"
         ? presented.liveAssistQuick
         : presented.helpdeskDetailed;
+    const presentedRangeByClaimId = new Map(
+      presentedAnswer.proofFactRanges.map((range) => [
+        range.claimId,
+        range
+      ])
+    );
 
-    const citations: AnswerExecutionCitation[] =
-      citationMapping.citations
+    let citations: AnswerExecutionCitation[];
+    try {
+      citations = citationMapping.citations
         .filter(
           (citation) =>
             citation.validation.state === "valid" &&
-            citation.canonicalUrl !== null
+            citation.canonicalUrl !== null &&
+            presentedRangeByClaimId.has(citation.claimId)
         )
-        .map((citation) => ({
-          citationId: citation.citationId,
-          factualRangeId: citation.factualRangeId,
-          answerRange: { ...citation.answerRange },
-          sourceTitle: citation.sourceTitle,
-          canonicalUrl: citation.canonicalUrl!,
-          sourceId: citation.sourceId,
-          authorityRole: citation.authorityRole,
-          headingPath: [...citation.headingPath],
-          sectionId: citation.sectionId,
-          sourceStatus: citation.sourceStatus,
-          preview:
-            citation.sourceStatus.toLowerCase() === "preview" ||
-            citationMapping.previewState.previewEvidenceUsed
-        }));
+        .map((citation) => {
+          const presentedRange = presentedRangeByClaimId.get(
+            citation.claimId
+          )!;
+          const factualText = citationMapping.answerText.slice(
+            citation.answerRange.startOffset,
+            citation.answerRange.endOffset
+          );
+          const presentedText = presentedAnswer.answerText.slice(
+            presentedRange.startOffset,
+            presentedRange.endOffset
+          );
+          if (factualText !== presentedText) {
+            throw new Error(
+              `Presented proof range diverged from WB-21 factual range for ${citation.claimId}`
+            );
+          }
+          return {
+            citationId: citation.citationId,
+            factualRangeId: citation.factualRangeId,
+            claimId: citation.claimId,
+            answerRange: {
+              startOffset: presentedRange.startOffset,
+              endOffset: presentedRange.endOffset
+            },
+            evidenceId: citation.evidenceId,
+            spanId: citation.spanId,
+            supportingSpanIds: [...citation.supportingSpanIds],
+            documentId: citation.documentId,
+            sourceTitle: citation.sourceTitle,
+            canonicalUrl: citation.canonicalUrl!,
+            sourceId: citation.sourceId,
+            authorityRole: citation.authorityRole,
+            headingPath: [...citation.headingPath],
+            sectionId: citation.sectionId,
+            sourceStatus: citation.sourceStatus,
+            preview:
+              citation.sourceStatus.toLowerCase() === "preview" ||
+              citationMapping.previewState.previewEvidenceUsed
+          };
+        });
+    } catch {
+      return {
+        ok: false,
+        code: "citation_validation_failed",
+        stage: "citation_mapping",
+        userSafeMessage:
+          "Relay rejected the answer because its presented citation coordinates could not be validated."
+      };
+    }
     const snapshot = groundingRun.bundle.decisionSnapshot;
     return {
       ok: true,

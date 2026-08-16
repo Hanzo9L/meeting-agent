@@ -31,7 +31,7 @@ const FRESHNESS_TERMS = [
   "general availability"
 ] as const;
 
-const BETA_TERMS = ["beta", "preview", "prerelease", "pre-release"] as const;
+const BETA_TERMS = ["beta", "preview", "prerelease", "pre release"] as const;
 
 const AMBIGUOUS_ENTITY_TERMS = ["this feature", "the feature", "this policy", "the policy"] as const;
 
@@ -53,7 +53,9 @@ const MULTIWORD_TECHNICAL_CONCEPTS = [
   "restricted content discovery",
   "data access governance",
   "sharepoint oversharing",
-  "sharepoint advanced management"
+  "sharepoint advanced management",
+  "enterprise voice",
+  "phone number"
 ] as const;
 
 /**
@@ -86,19 +88,66 @@ const COPILOT_SHAREPOINT_CONTEXT_TERMS = [
   "governance"
 ] as const;
 
+/**
+ * V1 — deterministic "multi-output workflow" request shape: the question
+ * enumerates a population (all/each/every ... users/accounts/etc.) AND asks
+ * for the combined result to be produced/reported (export/report/output/
+ * csv). Used by the answerV2 aspect-derivation layer to keep independently
+ * requested technical values as separate required-output aspects instead of
+ * merging them into one compound noun-phrase subject. Deliberately a
+ * general population+reporting shape, not a hard-coded literal phrase list.
+ */
+const POPULATION_ENUMERATION_PATTERN =
+  /\b(?:all|each|every)\b[^.?!]{0,60}\b(?:users?|accounts?|members?|mailboxes?|devices?|employees?)\b/i;
+const OUTPUT_REPORTING_PATTERN =
+  /\bexports?\b|\bexported\b|\bexporting\b|\bcsv\b|\breports?\b|\breporting\b|\breported\b|\boutputs?\b/i;
+
+export function questionEnumeratesPopulationWithReporting(question: string): boolean {
+  return (
+    POPULATION_ENUMERATION_PATTERN.test(question) &&
+    OUTPUT_REPORTING_PATTERN.test(question)
+  );
+}
+
+/** Deterministic signal for an explicit output/export/report transformation request. */
+export function detectOutputTransformationRequest(question: string): {
+  requested: boolean;
+  label: string;
+} {
+  if (/\bcsv\b/i.test(question)) return { requested: true, label: "CSV export" };
+  if (/\bexports?\b|\bexported\b|\bexporting\b/i.test(question)) {
+    return { requested: true, label: "export/output" };
+  }
+  return { requested: false, label: "" };
+}
+
 const OPERATION_PATTERNS: Array<{ operation: string; pattern: RegExp }> = [
   { operation: "grant", pattern: /\b(grant|grants|granted|granting|assign|assigns|assigned|assigning)\b/i },
   { operation: "set", pattern: /\b(set|change|modify|update|configure)\b/i },
-  { operation: "get", pattern: /\b(get|show|list|view|retrieve|verify|check)\b/i },
+  {
+    operation: "get",
+    pattern:
+      /\b(get|show|list|view|retrieve|verify|check|identify|identifies|identifying|determine|determines|determining|report|reports|reporting)\b/i
+  },
   { operation: "remove", pattern: /\b(remove|delete|unassign|revoke)\b/i },
   { operation: "new", pattern: /\b(create|new|add|provision)\b/i },
   { operation: "enable", pattern: /\b(enable|disable|turn on|turn off)\b/i },
   { operation: "test", pattern: /\b(test|validate|diagnose|troubleshoot)\b/i }
 ];
 
+/**
+ * General punctuation/hyphen-variance normalization for phrase matching.
+ * Hyphens (ascii and common unicode dash variants) are treated as word
+ * separators so `voice-routing policy` and `voice routing policy` resolve
+ * to the same normalized phrase for entity/technology/domain detection.
+ * This is deliberately a general rule rather than literal duplicate
+ * vocabulary entries, and it never touches cmdlet extraction (which runs
+ * against the raw, unnormalized question via CMDLET_PATTERN).
+ */
 function normalizeQuestion(question: string): string {
   return question
     .trim()
+    .replace(/[-\u2010-\u2015]/g, " ")
     .replace(/\s+/g, " ")
     .replace(/[?!]+$/g, "")
     .toLowerCase();

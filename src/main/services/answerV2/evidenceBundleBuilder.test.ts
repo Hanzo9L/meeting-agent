@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { HybridRetrievalResult, FusedRetrievalCandidate } from "../retrievalV2";
+import { routeQueryIntent } from "../retrievalV2/domainPolicies";
+import { extractQueryIntent } from "../retrievalV2/queryIntentRules";
+import { buildAnswerPlan } from "./answerPlanner";
 import { buildEvidenceBundle } from "./evidenceBundleBuilder";
 
 function makeCandidate(params: {
@@ -225,7 +228,15 @@ function makeHybrid(params: {
       requiredExactMisses: params.requiredDirective && params.missedRequired
         ? [{ directiveType: params.requiredDirective.type, directiveValue: params.requiredDirective.value, required: true }]
         : [],
-      warnings: []
+      warnings: [],
+      workflowOutputPreservation: {
+        triggered: false,
+        consideredDirectives: [],
+        alreadySatisfiedDirectives: [],
+        preservedDirectives: [],
+        noUpstreamCandidateDirectives: [],
+        evictedCandidateIds: []
+      }
     },
     diagnostics: {
       exactLatencyMs: 1,
@@ -1678,4 +1689,105 @@ test("compound binding does not introduce scenario-specific product hardcoding",
     ["media path selection", "packet mediation"]
   );
   assert.equal(bundle.answerability, "answered");
+});
+
+test("S3 workflow gates Admin-only phone state without affecting PowerShell outputs", () => {
+  const question =
+    "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.";
+  const result = makeHybrid({
+      question,
+      domains: ["teams_admin", "teams_powershell"],
+      products: ["teams"],
+      technologies: ["powershell"],
+      operationIntents: ["get", "export"],
+      answerType: "procedural",
+      candidates: [
+        makeCandidate({
+          rank: 1,
+          sourceId: "ms-teams-admin",
+          routePriority: "primary",
+          title: "Get Teams Calling Plan phone numbers",
+          headingPath: ["Get phone numbers", "Teams admin center"],
+          text:
+            "Get the assigned phone number for a user in the Teams admin center.",
+          url: "https://learn.microsoft.com/en-us/microsoftteams/get-phone-numbers"
+        }),
+        makeCandidate({
+          rank: 2,
+          sourceId: "ms-teams-powershell",
+          routePriority: "primary",
+          title: "Get-CsOnlineVoiceRoutingPolicy",
+          text:
+            "Use Get-CsOnlineVoiceRoutingPolicy to retrieve online voice routing policies.",
+          url:
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        }),
+        makeCandidate({
+          rank: 3,
+          sourceId: "ms-teams-powershell",
+          routePriority: "primary",
+          title: "Get-CsTenantDialPlan",
+          text:
+            "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+          url:
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
+        }),
+        makeCandidate({
+          rank: 4,
+          sourceId: "ms-teams-powershell",
+          routePriority: "primary",
+          title: "Get-CsTeamsCallingPolicy",
+          text:
+            "Get-CsTeamsCallingPolicy\nReturns information about the teams calling policies configured for use in your organization.",
+          url:
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+        })
+      ]
+    });
+  const extraction = extractQueryIntent(question);
+  result.intent = extraction.intent;
+  result.scope = routeQueryIntent(extraction.intent).scope;
+  const bundle = buildEvidenceBundle(result).bundle;
+  const bySubject = new Map(
+    bundle.aspectCoverage.aspects.map((aspect) => [
+      aspect.subject,
+      aspect.aspectId
+    ])
+  );
+  const phoneId = bySubject.get("phone number");
+  assert.ok(phoneId);
+  assert.ok(bundle.aspectCoverage.methodLimitedAspectIds?.includes(phoneId));
+  assert.ok(
+    !bundle.aspectCoverage.supportedMandatoryAspectIds.includes(phoneId)
+  );
+  for (const subject of [
+    "voice routing policy",
+    "dial plan",
+    "calling policy"
+  ]) {
+    const aspectId = bySubject.get(subject);
+    assert.ok(aspectId, subject);
+    assert.ok(
+      bundle.aspectCoverage.supportedMandatoryAspectIds.includes(aspectId),
+      subject
+    );
+  }
+  assert.equal(
+    bundle.aspectCoverage.supportedMandatoryAspectIds.includes(
+      bySubject.get("enterprise voice") ?? ""
+    ),
+    false
+  );
+  assert.equal(
+    bundle.aspectCoverage.supportedMandatoryAspectIds.includes(
+      bySubject.get("CSV export") ?? ""
+    ),
+    false
+  );
+  const plan = buildAnswerPlan(bundle);
+  assert.ok(
+    !plan.plannedClaims.some(
+      (claim) => claim.requiredAspectId === phoneId
+    )
+  );
 });

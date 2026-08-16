@@ -51,6 +51,34 @@ const GENERIC_EXACT_POLICY_TERMS = new Set([
   "dial plan"
 ]);
 
+/**
+ * V1 — Teams voice-reporting concepts that are recognized requested outputs
+ * (see queryIntentRules' MULTIWORD_TECHNICAL_CONCEPTS) but whose canonical
+ * PowerShell reference docs were never entering the exact-match candidate
+ * pool: `buildExactMatchDirectives` intentionally excludes generic policy
+ * terminology like "calling policy"/"dial plan"/"voice routing policy" from
+ * the strict cmdlet/canonical-object exact-match path (see
+ * GENERIC_EXACT_POLICY_TERMS) to avoid over-anchoring ordinary policy
+ * questions onto cmdlet reference text. That exclusion is correct for
+ * regular admin/conceptual questions, but a request that also explicitly
+ * requires PowerShell as the method has a genuine, scoped need for the
+ * corresponding canonical Teams PowerShell evidence to be retrievable.
+ * Anchoring is deliberately narrow: only these named concepts, and only
+ * when PowerShell is a detected technology for the question (never a
+ * blanket boost of all policy cmdlets).
+ */
+const TEAMS_VOICE_REPORTING_ANCHOR_TERMS = new Set([
+  "calling policy",
+  "dial plan",
+  "voice routing policy",
+  "enterprise voice",
+  "phone number"
+]);
+
+export function requestsPowerShellMethod(intent: QueryIntent): boolean {
+  return intent.technologies.includes("PowerShell");
+}
+
 const DOMAIN_BUDGETS: Record<
   BudgetProfile,
   { lexical: number; semantic: number; warning: number }
@@ -255,6 +283,27 @@ function buildExactMatchDirectives(intent: QueryIntent): ExactMatchDirective[] {
       required: false
     });
   }
+
+  if (requestsPowerShellMethod(intent)) {
+    const anchored = new Set<string>();
+    for (const value of [...(intent.policyNames ?? []), ...intent.entities]) {
+      const normalized = value.trim().toLowerCase();
+      if (!TEAMS_VOICE_REPORTING_ANCHOR_TERMS.has(normalized) || anchored.has(normalized)) {
+        continue;
+      }
+      anchored.add(normalized);
+      // Entity-type directives allow weak substring matching against chunk
+      // text/headings (unlike canonical-like policy directives), which is
+      // what actually anchors to cmdlet reference prose that describes
+      // these concepts without repeating the exact PascalCase cmdlet name.
+      directives.push({
+        type: "entity",
+        value,
+        required: false
+      });
+    }
+  }
+
   return directives;
 }
 

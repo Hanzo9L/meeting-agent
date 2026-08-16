@@ -52,10 +52,15 @@ function success(
             {
               citationId: "citation:slice3",
               factualRangeId: "factual-range:slice3",
+              claimId: "claim:slice3",
               answerRange: {
                 startOffset: 0,
                 endOffset: ANSWER_TEXT.length
               },
+              evidenceId: "evidence:slice3",
+              spanId: "span:slice3",
+              supportingSpanIds: [],
+              documentId: "document:slice3",
               sourceTitle: "Microsoft Teams Calling Plans",
               canonicalUrl:
                 "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
@@ -80,6 +85,57 @@ function success(
       pipelineTotalMs: 5,
       answerGenerationRequestCount: 0
     }
+  };
+}
+
+function successWithContext(
+  profile: "helpdesk_detailed" | "live_assist_quick"
+): AnswerExecutionResult {
+  const contextText = "Use sensitivity labels as additional context.";
+  const answerText =
+    profile === "helpdesk_detailed"
+      ? `Summary\n${ANSWER_TEXT}\n\nAuthoritative context\n${contextText}`
+      : `${ANSWER_TEXT}\n\n${contextText}`;
+  const claimStart = answerText.indexOf(ANSWER_TEXT);
+  const result = success();
+  if (!result.ok) return result;
+  return {
+    ...result,
+    answerText,
+    presentationProfile: profile,
+    helpdeskDetailedText:
+      profile === "helpdesk_detailed"
+        ? answerText
+        : `Summary\n${ANSWER_TEXT}`,
+    liveAssistQuickText:
+      profile === "live_assist_quick" ? answerText : ANSWER_TEXT,
+    citations: result.citations.map((citation) => ({
+      ...citation,
+      answerRange: {
+        startOffset: claimStart,
+        endOffset: claimStart + ANSWER_TEXT.length
+      }
+    })),
+    contextReferences: [
+      {
+        contextBlockId: "context:labels",
+        evidenceId: "evidence:labels",
+        documentId: "document:labels",
+        chunkId: "chunk:labels",
+        sourceTitle: "Sensitivity labels",
+        canonicalUrl:
+          "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+        sourceId: "ms-m365-docs",
+        authorityRole: "m365_primary",
+        headingPath: ["Sensitivity labels", "Overview"],
+        sectionId: "overview",
+        sourceStartOffset: 10,
+        sourceEndOffset: 42,
+        sourceContentHash: "c".repeat(64),
+        contextType: "conceptual_explanation",
+        preview: false
+      }
+    ]
   };
 }
 
@@ -382,6 +438,110 @@ test("exact answer and citations survive store restart", async () => {
     } catch {
       // Closed before the restart assertion.
     }
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("Detailed presentation coordinates and context references survive restart separately", async () => {
+  const fixture = await makeStore();
+  let conversationId = "";
+  const expected = successWithContext("helpdesk_detailed");
+  assert.equal(expected.ok, true);
+  if (!expected.ok) return;
+  try {
+    const service = new HelpdeskService(
+      fixture.store,
+      new RecordingPort(expected)
+    );
+    const created = service.createConversation("Detailed persistence");
+    conversationId = created.conversation.id;
+    const submitted = await service.submitMessage({
+      conversationId,
+      content:
+        "How would you secure SharePoint data for Copilot?",
+      inputOrigin: "typed"
+    });
+    const before = submitted.view.messages.find(
+      (message) => message.role === "assistant"
+    );
+    assert.ok(before);
+    assert.equal(before.content, expected.answerText);
+    assert.equal(before.presentationProfile, "helpdesk_detailed");
+    assert.equal(before.citations.length, 1);
+    assert.equal(before.contextReferences.length, 1);
+    assert.equal(
+      before.content.slice(
+        before.citations[0]!.answerRangeStart,
+        before.citations[0]!.answerRangeEnd
+      ),
+      ANSWER_TEXT
+    );
+    assert.ok(
+      before.citations.every(
+        (citation) => citation.answerRangeEnd > citation.answerRangeStart
+      )
+    );
+    fixture.store.close();
+
+    const reopenedStore = createSqliteConversationStore({
+      databasePath: fixture.databasePath
+    });
+    try {
+      const after = new HelpdeskService(
+        reopenedStore,
+        new RecordingPort(expected)
+      )
+        .loadConversation(conversationId)
+        .messages.find((message) => message.role === "assistant");
+      assert.deepEqual(after, before);
+      assert.equal(
+        after?.contextReferences[0]?.sourceContentHash,
+        "c".repeat(64)
+      );
+    } finally {
+      reopenedStore.close();
+    }
+  } finally {
+    try {
+      fixture.store.close();
+    } catch {
+      // Closed before restart.
+    }
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("Live Assist Quick persists visible citation coordinates and profile", async () => {
+  const fixture = await makeStore();
+  const expected = successWithContext("live_assist_quick");
+  assert.equal(expected.ok, true);
+  if (!expected.ok) return;
+  const service = new HelpdeskService(
+    fixture.store,
+    new RecordingPort(expected)
+  );
+  try {
+    const created = service.createConversation("Quick persistence");
+    const submitted = await service.submitLiveQuestion({
+      conversationId: created.conversation.id,
+      content: "What should I say?",
+      captureSource: "system"
+    });
+    const assistant = submitted.view.messages.find(
+      (message) => message.role === "assistant"
+    );
+    assert.equal(assistant?.presentationProfile, "live_assist_quick");
+    assert.equal(assistant?.content, expected.answerText);
+    assert.equal(
+      assistant?.content.slice(
+        assistant.citations[0]!.answerRangeStart,
+        assistant.citations[0]!.answerRangeEnd
+      ),
+      ANSWER_TEXT
+    );
+    assert.equal(assistant?.contextReferences.length, 1);
+  } finally {
+    fixture.store.close();
     await rm(fixture.root, { recursive: true, force: true });
   }
 });

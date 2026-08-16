@@ -756,3 +756,65 @@ test("presentation planning is independent per profile", () => {
   });
   assert.ok(quick.answerText.length > 0);
 });
+
+test("rendered proof coordinates are structural across formatting and duplicate text", () => {
+  const repeatedText = "The same visible fact.";
+  const presented = renderPresentedAnswer({
+    presentationPlan: {
+      profile: "helpdesk_detailed",
+      answerability: "answered",
+      answerType: "conceptual",
+      sections: [
+        {
+          sectionId: "summary",
+          title: "Summary",
+          proofFactClaimIds: ["claim:first", "claim:second"],
+          contextBlockIds: [],
+          caveatCodes: [],
+          unsupportedAspectIds: []
+        }
+      ],
+      selectedProofFacts: [
+        {
+          claimId: "claim:first",
+          renderedText: repeatedText,
+          mandatory: true,
+          sectionId: "direct_answer"
+        },
+        {
+          claimId: "claim:second",
+          renderedText: repeatedText,
+          mandatory: true,
+          sectionId: "direct_answer"
+        }
+      ],
+      selectedContextBlockIds: [],
+      selectedCaveats: [],
+      unsupportedGaps: [],
+      sourceContextBlockIds: []
+    },
+    contextBlocks: []
+  });
+
+  assert.equal(
+    presented.answerText,
+    `Summary\n${repeatedText}\n\n${repeatedText}`
+  );
+  assert.deepEqual(
+    presented.proofFactRanges.map((range) => ({
+      claimId: range.claimId,
+      text: presented.answerText.slice(
+        range.startOffset,
+        range.endOffset
+      )
+    })),
+    [
+      { claimId: "claim:first", text: repeatedText },
+      { claimId: "claim:second", text: repeatedText }
+    ]
+  );
+  assert.notEqual(
+    presented.proofFactRanges[0]?.startOffset,
+    presented.proofFactRanges[1]?.startOffset
+  );
+});
