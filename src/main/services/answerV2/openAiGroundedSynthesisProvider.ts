@@ -81,6 +81,9 @@ function parseOutput(content: string): GroundedSynthesisOutput {
 function buildMessages(
   payload: GroundedSynthesisPayload
 ): Array<{ role: "system" | "user"; content: string }> {
+  const aspectById = new Map(
+    payload.requestedAspects.map((aspect) => [aspect.aspectId, aspect])
+  );
   const approvedContentWordsByClaim = Object.fromEntries(
     payload.claims.map((claim) => [
       claim.claimId,
@@ -113,9 +116,11 @@ function buildMessages(
         "Before returning each block, remove every noun, verb, adjective, and quantifier that is absent from its supporting claim text or source title, except ordinary presentation verbs such as use, read, retrieve, report, identify, find, gather, determine, and show.",
         "Never add user, users, assigned, associated, all, each, can, must, only, or similar scope/behavior words unless that exact idea appears in the supporting claim.",
         "The user message includes approvedContentWordsByClaim. Every content word in a block must appear in the union of the approved lists for that block's supporting claim IDs.",
+        "Treat that approved-word rule literally: do not add synonyms, derived word forms, relative clauses, or examples. Shorten by deletion and reorder approved wording when useful; if any word is uncertain, copy the supporting claim wording instead.",
         "Copy requiredBlockAssignments exactly for block type and supportingClaimIds. Obey forbiddenScopeWordsByClaim for each block.",
-        "When answerType is procedural or configuration, use step blocks in the grounded order. Otherwise use fact blocks.",
+        "Copy the required block type. A configuration_state fact remains factual prose unless its supporting claim already contains the exact command syntax.",
         "Copy technical identifiers exactly. Respect every requested method.",
+        "Never construct new command syntax. In particular, do not turn a returned property or attribute into a cmdlet parameter, and do not add a leading hyphen unless that exact hyphenated token appears in the supporting claim.",
         "Do not infer the requested result from the question. The question is context, not evidence.",
         "A source title may be named, but its cmdlet name alone does not prove that it performs a user-specific lookup, assignment mapping, configuration step, or test. State only behavior explicitly present in the supporting claim text.",
         "In particular, general policy information does not prove a per-user policy lookup, and retrieving a tenant object does not prove association with a user.",
@@ -131,8 +136,11 @@ function buildMessages(
         payload,
         requiredBlockAssignments: payload.claims.map((claim) => ({
           blockType:
-            payload.answerType === "procedural" ||
-            payload.answerType === "configuration"
+            aspectById.get(claim.aspectId)?.answerObject ===
+            "configuration_state"
+              ? "fact"
+              : payload.answerType === "procedural" ||
+                  payload.answerType === "configuration"
               ? "step"
               : "fact",
           supportingClaimIds: [claim.claimId]

@@ -32,13 +32,15 @@ function makeEvidence(params: {
   headingPath?: string[];
   routePriority?: "primary" | "supporting";
   fusionRank?: number;
+  documentId?: string;
+  sectionId?: string;
 }): EvidenceItem {
   const sourceId = params.sourceId ?? "ms-teams-admin";
   const powershell = sourceId === "ms-teams-powershell";
   return {
     evidenceId: params.id,
     chunkId: `${params.id}-chunk`,
-    documentId: `${params.id}-doc`,
+    documentId: params.documentId ?? `${params.id}-doc`,
     source: {
       sourceId,
       trackId: "ga",
@@ -57,7 +59,7 @@ function makeEvidence(params: {
       sourceRevision: { transport: "github", commitSha: "r3-fixture" }
     },
     location: {
-      sectionId: `section-${params.id}`,
+      sectionId: params.sectionId ?? `section-${params.id}`,
       headingPath: params.headingPath ?? [params.title]
     },
     text: params.text,
@@ -849,4 +851,114 @@ test("R3 plans the exact plural calling-policy DESCRIPTION state span accepted b
   if (!assembled.ok) return;
   assert.ok(assembled.answer.answerText.includes(exactText));
   assert.equal(assembled.answer.diagnostics.requestCount, 0);
+});
+
+test("G2.1 multi-span binding rejects unrelated target and returned-value documents", () => {
+  const aspect = makeTestAspect({
+    aspectId: "mandatory:policy:dial-plan:general",
+    subject: "dial plan",
+    subjectTerms: ["dial", "plan"],
+    subjects: [makeTestSubject("policy", "dial plan", ["dial", "plan"])],
+    answerObject: "configuration_state",
+    breadth: "narrow",
+    requiredFacets: ["user_target", "returned_value"],
+    authorityRequirement: {
+      requiredRoles: ["teams_powershell_cmdlet_primary"],
+      requiredDomains: ["teams_powershell"],
+      requireCanonicalIdentity: false,
+      identityType: null
+    }
+  });
+  const target = makeEvidence({
+    id: "target-other-doc",
+    title: "Get-CsEffectiveTenantDialPlan",
+    text: "The Identity parameter is the unique identifier of the user.",
+    sourceId: "ms-teams-powershell"
+  });
+  const value = makeEvidence({
+    id: "value-other-doc",
+    title: "Get-CsEffectiveTenantDialPlan",
+    text: "The returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName.",
+    sourceId: "ms-teams-powershell"
+  });
+  const bundle = makeBundle({
+    intent: makeIntent({
+      domains: ["teams_powershell"],
+      technologies: ["PowerShell"],
+      entities: ["dial plan"],
+      policyNames: ["dial plan"],
+      expectedAnswerType: "configuration"
+    }),
+    aspects: [aspect],
+    evidence: [target, value],
+    evidenceByAspect: {
+      [aspect.aspectId]: [target.evidenceId, value.evidenceId]
+    },
+    answerability: "answered"
+  });
+
+  const plan = buildAnswerPlan(bundle);
+  assert.equal(plan.plannedClaims.length, 0);
+  assert.ok(
+    plan.unsupportedAspects.some(
+      (item) =>
+        item.aspectId === aspect.aspectId &&
+        item.reason === "source_span_unavailable"
+    )
+  );
+});
+
+test("G2.1 multi-span binding allows target and value spans from one canonical operation", () => {
+  const aspect = makeTestAspect({
+    aspectId: "mandatory:policy:dial-plan:general",
+    subject: "dial plan",
+    subjectTerms: ["dial", "plan"],
+    subjects: [makeTestSubject("policy", "dial plan", ["dial", "plan"])],
+    answerObject: "configuration_state",
+    breadth: "narrow",
+    requiredFacets: ["user_target", "returned_value"],
+    authorityRequirement: {
+      requiredRoles: ["teams_powershell_cmdlet_primary"],
+      requiredDomains: ["teams_powershell"],
+      requireCanonicalIdentity: false,
+      identityType: null
+    }
+  });
+  const target = makeEvidence({
+    id: "target-same-doc",
+    title: "Get-CsEffectiveTenantDialPlan",
+    text: "The Identity parameter is the unique identifier of the user.",
+    sourceId: "ms-teams-powershell",
+    documentId: "effective-dial-plan-doc"
+  });
+  const value = makeEvidence({
+    id: "value-same-doc",
+    title: "Get-CsEffectiveTenantDialPlan",
+    text: "The returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName.",
+    sourceId: "ms-teams-powershell",
+    documentId: "effective-dial-plan-doc"
+  });
+  const bundle = makeBundle({
+    intent: makeIntent({
+      domains: ["teams_powershell"],
+      technologies: ["PowerShell"],
+      entities: ["dial plan"],
+      policyNames: ["dial plan"],
+      expectedAnswerType: "configuration"
+    }),
+    aspects: [aspect],
+    evidence: [target, value],
+    evidenceByAspect: {
+      [aspect.aspectId]: [target.evidenceId, value.evidenceId]
+    },
+    answerability: "answered"
+  });
+
+  const plan = buildAnswerPlan(bundle);
+  assert.equal(plan.plannedClaims.length, 1);
+  assert.deepEqual(plan.plannedClaims[0]?.coveredFacets, [
+    "user_target",
+    "returned_value"
+  ]);
+  assert.equal(plan.plannedClaims[0]?.sourceSpans.length, 2);
 });

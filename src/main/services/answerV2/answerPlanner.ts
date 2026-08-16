@@ -7,7 +7,10 @@ import {
   type AnswerPlanState
 } from "./answerPlanIntegrity";
 import {
+  canBindPerUserEvidence,
   canonicalSubjectPhraseAppears,
+  evidenceEstablishesReturnedUserValue,
+  evidenceEstablishesUserTarget,
   OUTPUT_TRANSFORMATION_RULE_ID
 } from "./evidenceAspectPolicy";
 import { snapshotBinding } from "./groundingDecisionSnapshot";
@@ -254,6 +257,39 @@ function sentenceSpans(
     ) {
       continue;
     }
+    const perUserFacetLine =
+      aspect.requiredFacets.includes("user_target") &&
+      aspect.requiredFacets.includes("returned_value") &&
+      (evidenceEstablishesUserTarget(trimmedLine) ||
+        evidenceEstablishesReturnedUserValue(
+          trimmedLine,
+          aspect.subject
+        ));
+    if (perUserFacetLine) {
+      const leading = line.match(/^\s*/)?.[0].length ?? 0;
+      const startOffset = (lineMatch.index ?? 0) + leading;
+      const span = createSpan({
+        evidence,
+        aspect,
+        sourceField: "text",
+        fieldIndex: null,
+        sentenceIndex,
+        startOffset,
+        endOffset: startOffset + trimmedLine.length,
+        text: trimmedLine,
+        sourceOrder
+      });
+      if (span) {
+        candidates.push({
+          span,
+          evidence,
+          normalized: normalize(trimmedLine),
+          procedureStep: null
+        });
+        sentenceIndex += 1;
+      }
+      continue;
+    }
     // Keep "Step N. ..." / "N. ..." lines intact so the marker is not split away.
     const stepLine = /^(?:step|phase)\s+\d+[.)]\s+\S+/i.test(trimmedLine)
       || /^(?:[-*]\s*)?\d+[.)]\s+\S+/.test(trimmedLine);
@@ -395,7 +431,14 @@ function facetScore(
   const isText = candidate.span.sourceField === "text";
   const isStructuredList = /\r?\n\s*[-*]\s+/.test(candidate.span.text);
   const topical = subjectPresent(candidate, aspect);
-  if (!topical && facet !== "identifier") return Number.NEGATIVE_INFINITY;
+  if (
+    !topical &&
+    facet !== "identifier" &&
+    facet !== "user_target" &&
+    facet !== "returned_value"
+  ) {
+    return Number.NEGATIVE_INFINITY;
+  }
   if (
     aspect.breadth === "broad" &&
     isStructuredList &&
@@ -515,6 +558,27 @@ function facetScore(
       score += readCmdlet ? 55 : 45;
       break;
     }
+    case "user_target":
+      if (
+        !isText ||
+        !evidenceEstablishesUserTarget(candidate.span.text)
+      ) {
+        return Number.NEGATIVE_INFINITY;
+      }
+      score += 70;
+      break;
+    case "returned_value":
+      if (
+        !isText ||
+        !evidenceEstablishesReturnedUserValue(
+          candidate.span.text,
+          aspect.subject
+        )
+      ) {
+        return Number.NEGATIVE_INFINITY;
+      }
+      score += 75;
+      break;
   }
   return score;
 }
@@ -536,6 +600,12 @@ function claimTypeForFacets(
   if (facets.includes("procedure")) return "procedure_step";
   if (facets.includes("configuration")) return "configuration";
   if (facets.includes("state")) return "configuration";
+  if (
+    facets.includes("user_target") ||
+    facets.includes("returned_value")
+  ) {
+    return "configuration";
+  }
   if (facets.includes("purpose")) return "purpose";
   if (facets.includes("mechanism")) return "mechanism";
   if (facets.includes("behavior")) return "behavior";
@@ -556,6 +626,12 @@ function sectionForFacets(
   // dropped from rendering) since both describe the properties of the same
   // configuration object, just via read vs. write evidence.
   if (facets.includes("state")) return "configuration";
+  if (
+    facets.includes("user_target") ||
+    facets.includes("returned_value")
+  ) {
+    return "configuration";
+  }
   if (bundle.intent.expectedAnswerType === "reference") {
     if (facets.includes("identifier") || facets.includes("purpose")) {
       return "purpose";
@@ -876,6 +952,91 @@ function deriveProcedureClaims(params: {
   return claims;
 }
 
+function derivePerUserStateClaim(params: {
+  bundle: EvidenceBundle;
+  aspect: EvidenceAspect;
+  candidates: SpanCandidate[];
+}): DraftClaim[] {
+  const targets = params.candidates
+    .filter(
+      (candidate) =>
+        candidate.span.sourceField === "text" &&
+        evidenceEstablishesUserTarget(candidate.span.text)
+    )
+    .map((candidate) => ({
+      candidate,
+      score:
+        90 -
+        (candidate.span.sentenceIndex ?? 0) +
+        (subjectPresent(candidate, params.aspect) ? 25 : 0)
+    }));
+  const values = params.candidates
+    .filter(
+      (candidate) =>
+        candidate.span.sourceField === "text" &&
+        evidenceEstablishesReturnedUserValue(
+          candidate.span.text,
+          params.aspect.subject
+        )
+    )
+    .map((candidate) => ({
+      candidate,
+      score:
+        95 -
+        (candidate.span.sentenceIndex ?? 0) +
+        (subjectPresent(candidate, params.aspect) ? 25 : 0)
+    }));
+
+  const pairs = targets.flatMap((target) =>
+    values
+      .filter((value) =>
+        canBindPerUserEvidence(
+          {
+            candidateId: target.candidate.evidence.evidenceId,
+            documentId: target.candidate.evidence.documentId,
+            sectionId: target.candidate.evidence.location.sectionId,
+            title: target.candidate.evidence.source.title
+          },
+          {
+            candidateId: value.candidate.evidence.evidenceId,
+            documentId: value.candidate.evidence.documentId,
+            sectionId: value.candidate.evidence.location.sectionId,
+            title: value.candidate.evidence.source.title
+          }
+        )
+      )
+      .map((value) => ({
+        target: target.candidate,
+        value: value.candidate,
+        score:
+          target.score +
+          value.score +
+          (target.candidate.span.spanId === value.candidate.span.spanId
+            ? 40
+            : target.candidate.evidence.evidenceId ===
+                value.candidate.evidence.evidenceId
+              ? 20
+              : 10)
+      }))
+  );
+  const best = pairs.sort(
+    (left, right) =>
+      right.score - left.score ||
+      left.target.span.sourceOrder - right.target.span.sourceOrder ||
+      left.value.span.sourceOrder - right.value.span.sourceOrder
+  )[0];
+  if (!best) return [];
+
+  return [
+    makeDraftClaim({
+      bundle: params.bundle,
+      aspect: params.aspect,
+      facets: ["user_target", "returned_value"],
+      spans: uniqueSpans([best.target.span, best.value.span])
+    })
+  ];
+}
+
 function deriveFacetClaims(params: {
   bundle: EvidenceBundle;
   aspect: EvidenceAspect;
@@ -886,6 +1047,12 @@ function deriveFacetClaims(params: {
     params.aspect.answerObject === "cmdlet_semantics"
   ) {
     return deriveCmdletClaim(params);
+  }
+  if (
+    params.aspect.requiredFacets.includes("user_target") &&
+    params.aspect.requiredFacets.includes("returned_value")
+  ) {
+    return derivePerUserStateClaim(params);
   }
   if (params.aspect.requiredFacets.includes("procedure")) {
     return deriveProcedureClaims(params);

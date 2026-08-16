@@ -1716,31 +1716,31 @@ test("S3 workflow gates Admin-only phone state without affecting PowerShell outp
           rank: 2,
           sourceId: "ms-teams-powershell",
           routePriority: "primary",
-          title: "Get-CsOnlineVoiceRoutingPolicy",
+          title: "Get-CsOnlineUser",
           text:
-            "Use Get-CsOnlineVoiceRoutingPolicy to retrieve online voice routing policies.",
+            "Get-CsOnlineUser -Identity user@contoso.com | Select OnlineVoiceRoutingPolicy returns that user's OnlineVoiceRoutingPolicy.",
           url:
-            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
         }),
         makeCandidate({
           rank: 3,
           sourceId: "ms-teams-powershell",
           routePriority: "primary",
-          title: "Get-CsTenantDialPlan",
+          title: "Get-CsEffectiveTenantDialPlan",
           text:
-            "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+            "Get-CsEffectiveTenantDialPlan -Identity user@contoso.com returns the EffectiveTenantDialPlanName effective for that user.",
           url:
-            "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan"
         }),
         makeCandidate({
           rank: 4,
           sourceId: "ms-teams-powershell",
           routePriority: "primary",
-          title: "Get-CsTeamsCallingPolicy",
+          title: "Get-CsUserPolicyAssignment",
           text:
-            "Get-CsTeamsCallingPolicy\nReturns information about the teams calling policies configured for use in your organization.",
+            "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user.",
           url:
-            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csuserpolicyassignment"
         })
       ]
     });
@@ -1756,9 +1756,13 @@ test("S3 workflow gates Admin-only phone state without affecting PowerShell outp
   );
   const phoneId = bySubject.get("phone number");
   assert.ok(phoneId);
-  assert.ok(bundle.aspectCoverage.methodLimitedAspectIds?.includes(phoneId));
   assert.ok(
     !bundle.aspectCoverage.supportedMandatoryAspectIds.includes(phoneId)
+  );
+  assert.ok(
+    bundle.aspectCoverage.supportByAspect[phoneId]?.some((support) =>
+      support.missingFacets.includes("returned_value")
+    )
   );
   for (const subject of [
     "voice routing policy",

@@ -91,14 +91,17 @@ function makeCandidate(params: {
 
 // --- Item 1: read/reporting intent is distinguished from configuration-changing intent
 
-test("V1.1.1: a read/reporting phrasing of Enterprise Voice state resolves to answerObject 'configuration_state' requiring the 'state' facet", () => {
+test("G2.1: a per-user Enterprise Voice report requires target and returned-value facets", () => {
   const { aspects } = deriveAspectsFor(ACCEPTANCE_QUESTION);
   const aspect = aspects.find(
     (item) => item.requirement === "mandatory" && item.subject === "enterprise voice"
   );
   assert.ok(aspect, "expected a mandatory 'enterprise voice' aspect");
   assert.equal(aspect!.answerObject, "configuration_state");
-  assert.deepEqual(aspect!.requiredFacets, ["state"]);
+  assert.deepEqual(aspect!.requiredFacets, [
+    "user_target",
+    "returned_value"
+  ]);
 });
 
 test("V1.1.1: a configuration-changing phrasing of Enterprise Voice still resolves to answerObject 'configuration_behavior' requiring the 'configuration' facet", () => {
@@ -114,7 +117,7 @@ test("V1.1.1: a configuration-changing phrasing of Enterprise Voice still resolv
 // --- Item 2/3: canonical Get-* reference evidence directly supports a relevant
 //     read/reporting aspect; unrelated Get-* evidence cannot.
 
-test("V1.1.2: a canonical Get-* cmdlet reference directly supports its relevant read/reporting aspect", () => {
+test("G2.1: a tenant dial-plan definition getter does not satisfy a per-user effective-value aspect", () => {
   const { result, aspects } = deriveAspectsFor(ACCEPTANCE_QUESTION);
   const dialPlanAspect = aspects.find(
     (item) => item.requirement === "mandatory" && item.subject === "dial plan"
@@ -130,8 +133,8 @@ test("V1.1.2: a canonical Get-* cmdlet reference directly supports its relevant 
     url: "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
   });
   const support = evaluateCandidateAspectSupport(result, cmdletCandidate, dialPlanAspect!);
-  assert.equal(support.strength, "direct");
-  assert.ok(support.matchedFacets.includes("state"));
+  assert.equal(support.strength, "supporting");
+  assert.ok(!support.matchedFacets.includes("returned_value"));
 });
 
 test("V1.1.3: an unrelated Get-* cmdlet cannot directly support a read/reporting aspect about a different subject", () => {
@@ -245,23 +248,23 @@ test("V1.1.6: each of the five acceptance-workflow read/reporting outputs can be
   const fixtures: Record<string, { title: string; text: string }> = {
     "enterprise voice": {
       title: "Get-CsOnlineUser",
-      text: "Use the Get-CsOnlineUser cmdlet to view Enterprise Voice enabled status for online users."
+      text: "Get-CsOnlineUser -Filter {EnterpriseVoiceEnabled -eq $True} returns users whose EnterpriseVoiceEnabled property is true."
     },
     "phone number": {
-      title: "Get-CsOnlineTelephoneNumber",
-      text: "Use the Get-CsOnlineTelephoneNumber cmdlet to retrieve the phone number assigned to a user."
+      title: "Get-CsOnlineUser",
+      text: "Get-CsOnlineUser -Identity user@contoso.com returns the TelephoneNumbers property for that user."
     },
     "voice routing policy": {
-      title: "Get-CsOnlineVoiceRoutingPolicy",
-      text: "Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to view voice routing policy settings assigned to a user."
+      title: "Get-CsOnlineUser",
+      text: "Get-CsOnlineUser -Identity user@contoso.com | Select OnlineVoiceRoutingPolicy returns that user's OnlineVoiceRoutingPolicy."
     },
     "dial plan": {
-      title: "Get-CsTenantDialPlan",
-      text: "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan."
+      title: "Get-CsEffectiveTenantDialPlan",
+      text: "Get-CsEffectiveTenantDialPlan -Identity user@contoso.com returns the EffectiveTenantDialPlanName effective for the user."
     },
     "calling policy": {
-      title: "Get-CsTeamsCallingPolicy",
-      text: "Use the Get-CsTeamsCallingPolicy cmdlet to view calling policy settings assigned to a user."
+      title: "Get-CsUserPolicyAssignment",
+      text: "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user."
     }
   };
   const teamsOutputs = aspects.filter(
@@ -286,7 +289,10 @@ test("V1.1.6: each of the five acceptance-workflow read/reporting outputs can be
       "direct",
       `expected direct support for ${aspect.subject} from ${fixture!.title}`
     );
-    assert.ok(support.matchedFacets.includes("state"));
+    assert.deepEqual(support.matchedFacets, [
+      "user_target",
+      "returned_value"
+    ]);
   }
 });
 
@@ -302,10 +308,10 @@ test("V1.1.7: a canonical read-cmdlet reference scores higher than generic Teams
     sourceId: "ms-teams-powershell",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     routePriority: "primary",
-    title: "Get-CsTenantDialPlan",
-    headingPath: ["Get-CsTenantDialPlan", "SYNOPSIS"],
-    text: "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
-    url: "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
+    title: "Get-CsEffectiveTenantDialPlan",
+    headingPath: ["Get-CsEffectiveTenantDialPlan", "DESCRIPTION"],
+    text: "Get-CsEffectiveTenantDialPlan -Identity user@contoso.com returns the EffectiveTenantDialPlanName effective for the user.",
+    url: "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan"
   });
   const adminProseCandidate = makeCandidate({
     sourceId: "ms-teams-admin",
@@ -416,20 +422,35 @@ function makeReadReportingBundle(): EvidenceBundle {
   const teamsOutputs = aspects.filter(
     (aspect) => aspect.requirement === "mandatory" && aspect.answerObject === "configuration_state"
   );
-  const evidence = teamsOutputs.map((aspect) => {
-    if (aspect.subject === "calling policy") {
-      return makeEvidence(
-        `ev-${aspect.aspectId}`,
-        "ms-teams-powershell",
-        "Get-CsTeamsCallingPolicy",
-        "Returns information about the teams calling policies configured for use in your organization."
-      );
+  const stateEvidence: Record<string, { title: string; text: string }> = {
+    "enterprise voice": {
+      title: "Get-CsOnlineUser",
+      text: "Get-CsOnlineUser -Filter {EnterpriseVoiceEnabled -eq $True} returns users whose EnterpriseVoiceEnabled property is true."
+    },
+    "phone number": {
+      title: "Get-CsOnlineUser",
+      text: "Get-CsOnlineUser -Identity user@contoso.com returns the TelephoneNumbers property for that user."
+    },
+    "voice routing policy": {
+      title: "Get-CsOnlineUser",
+      text: "Get-CsOnlineUser -Identity user@contoso.com | Select OnlineVoiceRoutingPolicy returns that user's OnlineVoiceRoutingPolicy."
+    },
+    "dial plan": {
+      title: "Get-CsEffectiveTenantDialPlan",
+      text: "Get-CsEffectiveTenantDialPlan -Identity user@contoso.com returns the EffectiveTenantDialPlanName effective for that user."
+    },
+    "calling policy": {
+      title: "Get-CsUserPolicyAssignment",
+      text: "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user."
     }
+  };
+  const evidence = teamsOutputs.map((aspect) => {
+    const fixture = stateEvidence[aspect.subject]!;
     return makeEvidence(
       `ev-${aspect.aspectId}`,
       "ms-teams-powershell",
-      `Get-Cs${aspect.subject.replace(/\s+/g, "")}`,
-      `Get-Cs${aspect.subject.replace(/\s+/g, "")} retrieves the ${aspect.subject} currently assigned to a Teams user.`
+      fixture.title,
+      fixture.text
     );
   });
   const evidenceByAspect: Record<string, string[]> = {};
@@ -491,7 +512,7 @@ function makeReadReportingBundle(): EvidenceBundle {
   return bindEvidenceBundleSnapshot(decisionState, "2026-08-14T00:00:00.000Z");
 }
 
-test("V1.1.12: R3 plans a claim with the 'state' facet for every R2-supported configuration_state aspect (no R2/R3 integrity mismatch)", () => {
+test("G2.1: R3 plans target/value claims for every R2-supported per-user state aspect", () => {
   const bundle = makeReadReportingBundle();
   const plan = buildAnswerPlan(bundle);
   const supportedIds = new Set(bundle.aspectCoverage.supportedMandatoryAspectIds);
@@ -513,7 +534,7 @@ test("V1.1.12: R3 plans a claim with the 'state' facet for every R2-supported co
   );
   assert.equal(
     callingPolicy?.proposition,
-    "Returns information about the teams calling policies configured for use in your organization."
+    "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user."
   );
   const integrity = validateAnswerPlanIntegrity({ bundle, plan });
   assert.equal(integrity.valid, true, JSON.stringify(integrity.issues));

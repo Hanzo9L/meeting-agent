@@ -295,10 +295,22 @@ function makeWorkflowBundle(): EvidenceBundle {
   // satisfy "configuration", the write-facet, which this read workflow does
   // not require) so R3's existing per-sentence claim derivation — unmodified
   // by V1.1 — can actually plan a claim from each output's evidence.
+  const evidenceTextBySubject: Record<string, string> = {
+    "enterprise voice":
+      "Get-CsOnlineUser -Filter {EnterpriseVoiceEnabled -eq $True} returns users whose EnterpriseVoiceEnabled property is true.",
+    "phone number":
+      "Get-CsOnlineUser -Identity user@contoso.com returns the TelephoneNumbers property for that user.",
+    "voice routing policy":
+      "Get-CsOnlineUser -Identity user@contoso.com | Select OnlineVoiceRoutingPolicy returns that user's OnlineVoiceRoutingPolicy.",
+    "dial plan":
+      "Get-CsEffectiveTenantDialPlan -Identity user@contoso.com returns the EffectiveTenantDialPlanName effective for that user.",
+    "calling policy":
+      "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user."
+  };
   const evidenceTextByAspectId: Record<string, string> = {};
   for (const aspect of teamsOutputs) {
     evidenceTextByAspectId[aspect.aspectId] =
-      `Get-CsOnlineUser retrieves the ${aspect.subject} currently assigned to a Teams user.`;
+      evidenceTextBySubject[aspect.subject]!;
   }
   const evidence = teamsOutputs.map((aspect) =>
     makeEvidence(`ev-${aspect.aspectId}`, "ms-teams-powershell", evidenceTextByAspectId[aspect.aspectId]!)

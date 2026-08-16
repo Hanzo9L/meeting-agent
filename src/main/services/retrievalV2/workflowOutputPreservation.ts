@@ -8,10 +8,38 @@ import {
 } from "./implicitCmdletSignals";
 
 const POWERSHELL_AUTHORITY_ROLE = "teams_powershell_cmdlet_primary";
+const TEAMS_ADMIN_AUTHORITY_ROLE = "teams_admin_primary";
 const MIN_CONCEPT_COMPACT_LENGTH = 6;
 const WORKFLOW_READ_PROPERTY_ALIASES: Record<string, string[]> = {
   "enterprise voice": ["EnterpriseVoiceEnabled"],
-  "phone number": ["AssignedPstnTargetId", "LineURI", "TelephoneNumber"]
+  "phone number": [
+    "TelephoneNumber",
+    "LineURI",
+    "TelephoneNumbers",
+    "AssignedPstnTargetId"
+  ],
+  "voice routing policy": [
+    "OnlineVoiceRoutingPolicy",
+    "EffectivePolicyAssignments",
+    "Get-CsUserPolicyAssignment"
+  ],
+  "dial plan": [
+    "Get-CsEffectiveTenantDialPlan",
+    "EffectiveTenantDialPlanName",
+    "TenantDialPlan"
+  ],
+  "calling policy": [
+    "TeamsCallingPolicy",
+    "EffectivePolicyAssignments",
+    "Get-CsUserPolicyAssignment"
+  ]
+};
+const WORKFLOW_RETURNED_VALUE_ALIASES: Record<string, string[]> = {
+  "enterprise voice": ["EnterpriseVoiceEnabled"],
+  "phone number": ["LineURI", "TelephoneNumber", "TelephoneNumbers"],
+  "voice routing policy": ["OnlineVoiceRoutingPolicy"],
+  "dial plan": ["EffectiveTenantDialPlanName", "TenantDialPlan"],
+  "calling policy": ["TeamsCallingPolicy"]
 };
 const WORKFLOW_READ_EVIDENCE_TERMS: Record<string, string[]> = {
   "enterprise voice": ["filter", "returns only users"],
@@ -20,7 +48,10 @@ const WORKFLOW_READ_EVIDENCE_TERMS: Record<string, string[]> = {
     "returns information about the phone number assigned to",
     "output field",
     "in the output"
-  ]
+  ],
+  "voice routing policy": ["select", "effective", "assigned", "policyname"],
+  "dial plan": ["effective", "effectivetenantdialplanname"],
+  "calling policy": ["effective", "assignment", "policyname", "policysource"]
 };
 const READ_PRIMITIVE_PREFIXES = [
   "get-",
@@ -36,14 +67,21 @@ const READ_PRIMITIVE_PREFIXES = [
 export function workflowReadPropertyAliases(intent: QueryIntent): string[] {
   if (!isWorkflowPowerShellAnchoringQuestion(intent)) return [];
   if (!cmdletOperationPrefixes(intent).includes("get-")) return [];
-  return [
-    ...new Set(
-      [...intent.entities, ...(intent.policyNames ?? [])].flatMap(
-        (value) =>
-          WORKFLOW_READ_PROPERTY_ALIASES[value.trim().toLowerCase()] ?? []
-      )
+  const groups = [...intent.entities, ...(intent.policyNames ?? [])]
+    .map(
+      (value) =>
+        WORKFLOW_READ_PROPERTY_ALIASES[value.trim().toLowerCase()] ?? []
     )
-  ];
+    .filter((group) => group.length > 0);
+  const aliases: string[] = [];
+  const maxGroupLength = Math.max(0, ...groups.map((group) => group.length));
+  for (let index = 0; index < maxGroupLength; index += 1) {
+    for (const group of groups) {
+      const alias = group[index];
+      if (alias && !aliases.includes(alias)) aliases.push(alias);
+    }
+  }
+  return aliases;
 }
 
 /**
@@ -120,7 +158,17 @@ export function directiveTopicallyMatchesCandidate(
 }
 
 function isPowerShellAuthoritative(candidate: PreservationCandidate): boolean {
-  return candidate.authority.authorityRoles.includes(POWERSHELL_AUTHORITY_ROLE);
+  if (
+    candidate.authority.authorityRoles.includes(POWERSHELL_AUTHORITY_ROLE)
+  ) {
+    return true;
+  }
+  return (
+    candidate.authority.authorityRoles.includes(TEAMS_ADMIN_AUTHORITY_ROLE) &&
+    /\b(?:Get|Show|Test|Find|Search|Select)-Cs[A-Za-z0-9]+\b/.test(
+      candidate.text
+    )
+  );
 }
 
 function splitIntoWords(value: string): string[] {
@@ -133,50 +181,82 @@ function splitIntoWords(value: string): string[] {
     .filter((word) => word.length > 0);
 }
 
-function singularizeBodyWord(word: string): string {
-  if (word.endsWith("ies") && word.length > 4) {
-    return `${word.slice(0, -3)}y`;
-  }
-  if (word.endsWith("s") && !word.endsWith("ss") && word.length > 3) {
-    return word.slice(0, -1);
-  }
-  return word;
+function candidateBody(value: string): string {
+  return value.replace(
+    /^Document:[^\r\n]*\r?\nHeading Path:[^\r\n]*\r?\n+/i,
+    ""
+  );
 }
 
-function directiveAppearsInCandidateBody(
+function workflowStateSignals(
   directiveValue: string,
   candidate: Pick<PreservationCandidate, "text">
-): boolean {
-  const directiveWords = directiveValue
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter(Boolean)
-    .map(singularizeBodyWord);
-  const bodyWords = candidate.text
-    // Lowercase before tokenization so PascalCase identifiers remain one
-    // token. A property/cmdlet name alone is not proof that the body
-    // describes the requested user state.
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter(Boolean)
-    .map(singularizeBodyWord);
-  return Number.isFinite(
-    contiguousWordMatchPenalty(directiveWords, bodyWords)
+): { userTarget: boolean; returnedValue: boolean } {
+  const directiveKey = directiveValue.trim().toLowerCase();
+  const aliases =
+    WORKFLOW_READ_PROPERTY_ALIASES[directiveKey] ?? [];
+  const body = candidateBody(candidate.text);
+  const normalizedBody = body.toLowerCase();
+  if (aliases.length === 0) {
+    return { userTarget: false, returnedValue: false };
+  }
+  const hasValueAlias = aliases.some((alias) =>
+    normalizedBody.includes(alias.toLowerCase())
   );
+  const evidenceTerms = WORKFLOW_READ_EVIDENCE_TERMS[directiveKey] ?? [];
+  const userTarget =
+    /\b(?:upn|userprincipalname|objectid|object id|assignedpstntargetid)\b/i.test(
+      body
+    ) ||
+    (/\bidentity\b/i.test(body) && /\buser\b/i.test(body)) ||
+    /\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/i.test(body) ||
+    (/\bfilter\b/i.test(body) && /\busers?\b/i.test(body));
+  const returnedAliases =
+    WORKFLOW_RETURNED_VALUE_ALIASES[directiveKey] ?? [];
+  let returnedValue =
+    hasValueAlias &&
+    returnedAliases.some((alias) =>
+      normalizedBody.includes(alias.toLowerCase())
+    ) &&
+    (evidenceTerms.some((term) => normalizedBody.includes(term)) ||
+      /\b(?:returns?|returned|output|select|effective|enabled|policyname|policysource)\b/i.test(
+        body
+      ) ||
+      /(?:TelephoneNumber|EnterpriseVoiceEnabled|OnlineVoiceRoutingPolicy|EffectiveTenantDialPlanName|TeamsCallingPolicy)\s*:/i.test(
+        body
+      ));
+  if (directiveKey === "dial plan") {
+    returnedValue =
+      /effectivetenantdialplanname/i.test(body) &&
+      /\b(?:effective|returns?|returned|output|property)\b/i.test(body);
+  } else if (directiveKey === "calling policy") {
+    returnedValue =
+      /teamscallingpolicy/i.test(body) &&
+      /effectivepolicyassignments|get-csuserpolicyassignment/i.test(body) &&
+      /\b(?:effective|assignment|policyname|policysource)\b/i.test(body);
+  } else if (directiveKey === "voice routing policy") {
+    returnedValue =
+      /onlinevoiceroutingpolicy/i.test(body) &&
+      /\b(?:select|effective|assigned|output|policyname)\b/i.test(body);
+  } else if (directiveKey === "phone number") {
+    returnedValue =
+      (/telephonenumbers/i.test(body) &&
+        /\b(?:output|property|attribute|list|includes?)\b/i.test(body)) ||
+      (/lineuri/i.test(body) &&
+        /\b(?:output field|represents|same phone number|format list)\b/i.test(
+          body
+        )) ||
+      /telephonenumber\s*:/i.test(body);
+  }
+  return { userTarget, returnedValue };
 }
 
 function statePropertyEvidenceScore(
   directiveValue: string,
   candidate: Pick<PreservationCandidate, "text">
 ): number {
-  const directiveKey = directiveValue.trim().toLowerCase();
-  const aliases =
-    WORKFLOW_READ_PROPERTY_ALIASES[directiveKey] ?? [];
-  if (aliases.length === 0) return 0;
-  const body = candidate.text.toLowerCase();
-  if (!aliases.some((alias) => body.includes(alias.toLowerCase()))) return 0;
-  const evidenceTerms = WORKFLOW_READ_EVIDENCE_TERMS[directiveKey] ?? [];
-  return evidenceTerms.some((term) => body.includes(term)) ? 2 : 1;
+  const signals = workflowStateSignals(directiveValue, candidate);
+  return Number(signals.userTarget) + Number(signals.returnedValue) * 2;
 }
 
 function contiguousWordMatchPenalty(directiveWords: string[], words: string[]): number {
@@ -297,26 +377,96 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
       preferredPrefixes,
       candidate.title,
       candidate.provenance.canonicalUrl
-    );
+    ) ||
+    (hasReadOperation &&
+      /\b(?:Get|Show|Test|Find|Search|Select)-Cs[A-Za-z0-9]+\b/.test(
+        candidate.text
+      ));
 
   // For every directive still needing coverage, find the best upstream
   // (pre-cap) PowerShell-authoritative candidate not already selected.
   const toPreserve: T[] = [];
   const preservedChunkIds = new Set<string>();
   for (const directive of outputDirectives) {
-    const alreadySatisfied = params.selected.some(
-      (candidate) =>
-        isPowerShellAuthoritative(candidate) &&
-        directiveTopicallyMatchesCandidate(directive.value, candidate) &&
-        operationAligned(candidate) &&
-        ((WORKFLOW_READ_PROPERTY_ALIASES[
-          directive.value.trim().toLowerCase()
-        ]?.length ?? 0) === 0 ||
-          statePropertyEvidenceScore(
+    if (!hasReadOperation) {
+      const alreadyWriteSatisfied = params.selected.some(
+        (candidate) =>
+          isPowerShellAuthoritative(candidate) &&
+          directiveTopicallyMatchesCandidate(
             directive.value,
             candidate
-          ) > 0) &&
-        directiveAppearsInCandidateBody(directive.value, candidate)
+          ) &&
+          operationAligned(candidate)
+      );
+      if (alreadyWriteSatisfied) {
+        diagnostics.alreadySatisfiedDirectives.push(directive.value);
+        continue;
+      }
+      const bestWriteCandidate = params.sortedFused
+        .filter(
+          (candidate) =>
+            !selectedIds.has(candidate.chunkId) &&
+            !preservedChunkIds.has(candidate.chunkId) &&
+            isPowerShellAuthoritative(candidate) &&
+            directiveTopicallyMatchesCandidate(
+              directive.value,
+              candidate
+            ) &&
+            operationAligned(candidate)
+        )
+        .sort((left, right) => {
+          const leftPenalty = wordAdjacencyPenalty(
+            directive.value,
+            left
+          );
+          const rightPenalty = wordAdjacencyPenalty(
+            directive.value,
+            right
+          );
+          if (leftPenalty !== rightPenalty) {
+            return leftPenalty - rightPenalty;
+          }
+          return right.fusion.score - left.fusion.score;
+        })[0];
+      if (!bestWriteCandidate) {
+        diagnostics.noUpstreamCandidateDirectives.push(directive.value);
+        continue;
+      }
+      toPreserve.push(bestWriteCandidate);
+      preservedChunkIds.add(bestWriteCandidate.chunkId);
+      diagnostics.preservedDirectives.push({
+        directiveValue: directive.value,
+        chunkId: bestWriteCandidate.chunkId,
+        title: bestWriteCandidate.title
+      });
+      continue;
+    }
+    const selectedForDirective = params.selected.filter(
+      (candidate) =>
+        isPowerShellAuthoritative(candidate) &&
+        (directiveTopicallyMatchesCandidate(
+          directive.value,
+          candidate
+        ) ||
+          statePropertyEvidenceScore(directive.value, candidate) > 0) &&
+        operationAligned(candidate) &&
+        statePropertyEvidenceScore(directive.value, candidate) > 0
+    );
+    const targetCandidates = selectedForDirective.filter(
+      (candidate) =>
+        workflowStateSignals(directive.value, candidate).userTarget
+    );
+    const valueCandidates = selectedForDirective.filter(
+      (candidate) =>
+        workflowStateSignals(directive.value, candidate).returnedValue
+    );
+    const alreadySatisfied = targetCandidates.some((target) =>
+      valueCandidates.some(
+        (value) =>
+          target.chunkId === value.chunkId ||
+          (target.documentId === value.documentId &&
+            target.title.toLowerCase() === value.title.toLowerCase())
+      )
     );
     if (alreadySatisfied) {
       diagnostics.alreadySatisfiedDirectives.push(directive.value);
@@ -327,52 +477,78 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
         !selectedIds.has(candidate.chunkId) &&
         !preservedChunkIds.has(candidate.chunkId) &&
         isPowerShellAuthoritative(candidate) &&
-        directiveTopicallyMatchesCandidate(directive.value, candidate)
+        (directiveTopicallyMatchesCandidate(
+          directive.value,
+          candidate
+        ) ||
+          statePropertyEvidenceScore(directive.value, candidate) > 0)
     );
-    // Prefer the most word-precise (least "extra modifier words") match
-    // over raw fusion score, so a differently-named-but-overlapping object
-    // (e.g. "Emergency Calling Policy") does not out-rank the directive's
-    // actual canonical object (e.g. "Calling Policy") merely because it
-    // happened to also pick up an exact-match score bonus upstream.
-    const bestUpstream = [...eligibleUpstream].sort((a, b) => {
-      const aAligned = operationAligned(a);
-      const bAligned = operationAligned(b);
-      if (aAligned !== bAligned) return aAligned ? -1 : 1;
-      const aPropertyScore = statePropertyEvidenceScore(
-        directive.value,
-        a
-      );
-      const bPropertyScore = statePropertyEvidenceScore(
-        directive.value,
-        b
-      );
-      if (aPropertyScore !== bPropertyScore) {
-        return bPropertyScore - aPropertyScore;
-      }
-      const aBodyMatch = directiveAppearsInCandidateBody(directive.value, a);
-      const bBodyMatch = directiveAppearsInCandidateBody(directive.value, b);
-      if (aBodyMatch !== bBodyMatch) return aBodyMatch ? -1 : 1;
-      const aPenalty = wordAdjacencyPenalty(directive.value, a);
-      const bPenalty = wordAdjacencyPenalty(directive.value, b);
-      if (Number.isFinite(aPenalty) !== Number.isFinite(bPenalty)) {
-        return Number.isFinite(aPenalty) ? -1 : 1;
-      }
-      if (aPenalty !== bPenalty) {
-        return aPenalty - bPenalty;
-      }
-      return b.fusion.score - a.fusion.score;
-    })[0];
-    if (!bestUpstream) {
+    const available = [...params.selected, ...toPreserve, ...eligibleUpstream];
+    const directiveCandidates = available.filter(
+      (candidate) =>
+        isPowerShellAuthoritative(candidate) &&
+        (directiveTopicallyMatchesCandidate(
+          directive.value,
+          candidate
+        ) ||
+          statePropertyEvidenceScore(directive.value, candidate) > 0) &&
+        operationAligned(candidate)
+    );
+    const targets = directiveCandidates.filter(
+      (candidate) =>
+        workflowStateSignals(directive.value, candidate).userTarget
+    );
+    const values = directiveCandidates.filter(
+      (candidate) =>
+        workflowStateSignals(directive.value, candidate).returnedValue
+    );
+    const pairs = targets.flatMap((target) =>
+      values
+        .filter(
+          (value) =>
+            target.chunkId === value.chunkId ||
+            (target.documentId === value.documentId &&
+              target.title.toLowerCase() === value.title.toLowerCase())
+        )
+        .map((value) => {
+          const additions = [...new Map(
+            [target, value]
+              .filter((candidate) => !selectedIds.has(candidate.chunkId))
+              .map((candidate) => [candidate.chunkId, candidate])
+          ).values()];
+          return {
+            target,
+            value,
+            additions,
+            stateScore:
+              statePropertyEvidenceScore(directive.value, target) +
+              statePropertyEvidenceScore(directive.value, value),
+            fusionScore: target.fusion.score + value.fusion.score
+          };
+        })
+    );
+    const bestPair = pairs.sort(
+      (left, right) =>
+        left.additions.length - right.additions.length ||
+        right.stateScore - left.stateScore ||
+        right.fusionScore - left.fusionScore ||
+        wordAdjacencyPenalty(directive.value, left.value) -
+          wordAdjacencyPenalty(directive.value, right.value)
+    )[0];
+    if (!bestPair || bestPair.additions.length === 0) {
       diagnostics.noUpstreamCandidateDirectives.push(directive.value);
       continue;
     }
-    toPreserve.push(bestUpstream);
-    preservedChunkIds.add(bestUpstream.chunkId);
-    diagnostics.preservedDirectives.push({
-      directiveValue: directive.value,
-      chunkId: bestUpstream.chunkId,
-      title: bestUpstream.title
-    });
+    for (const candidate of bestPair.additions) {
+      if (preservedChunkIds.has(candidate.chunkId)) continue;
+      toPreserve.push(candidate);
+      preservedChunkIds.add(candidate.chunkId);
+      diagnostics.preservedDirectives.push({
+        directiveValue: directive.value,
+        chunkId: candidate.chunkId,
+        title: candidate.title
+      });
+    }
   }
 
   if (toPreserve.length === 0) {
@@ -386,9 +562,33 @@ export function applyWorkflowOutputPreservation<T extends PreservationCandidate>
   const soleCoverageIds = new Set<string>();
   for (const directive of outputDirectives) {
     const relevant = params.selected.filter((candidate) =>
-      directiveTopicallyMatchesCandidate(directive.value, candidate)
+      directiveTopicallyMatchesCandidate(directive.value, candidate) ||
+      statePropertyEvidenceScore(directive.value, candidate) > 0
     );
-    if (relevant.length === 1) soleCoverageIds.add(relevant[0]!.chunkId);
+    if (!hasReadOperation) {
+      if (relevant.length === 1) soleCoverageIds.add(relevant[0]!.chunkId);
+      continue;
+    }
+    const targets = relevant.filter(
+      (candidate) =>
+        workflowStateSignals(directive.value, candidate).userTarget
+    );
+    const values = relevant.filter(
+      (candidate) =>
+        workflowStateSignals(directive.value, candidate).returnedValue
+    );
+    for (const target of targets) {
+      for (const value of values) {
+        if (
+          target.chunkId === value.chunkId ||
+          (target.documentId === value.documentId &&
+            target.title.toLowerCase() === value.title.toLowerCase())
+        ) {
+          soleCoverageIds.add(target.chunkId);
+          soleCoverageIds.add(value.chunkId);
+        }
+      }
+    }
   }
 
   const evictionOrder = [...params.selected]

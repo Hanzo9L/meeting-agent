@@ -115,6 +115,137 @@ export function normalizeEvidenceText(value: string): string {
     .trim();
 }
 
+const PER_USER_VALUE_ALIASES: Record<string, string[]> = {
+  "enterprise voice": ["EnterpriseVoiceEnabled"],
+  "phone number": ["TelephoneNumber", "TelephoneNumbers", "LineURI", "LineUri"],
+  "voice routing policy": ["OnlineVoiceRoutingPolicy"],
+  "dial plan": ["EffectiveTenantDialPlanName", "TenantDialPlan"],
+  "calling policy": ["TeamsCallingPolicy"]
+};
+
+function evidenceBody(value: string): string {
+  return value.replace(
+    /^Document:[^\r\n]*\r?\nHeading Path:[^\r\n]*\r?\n+/i,
+    ""
+  );
+}
+
+function perUserValueAliases(subject: string): string[] {
+  return PER_USER_VALUE_ALIASES[normalizeEvidenceText(subject)] ?? [subject];
+}
+
+export interface PerUserEvidenceBindingCandidate {
+  candidateId: string;
+  documentId: string;
+  sectionId: string;
+  title: string;
+}
+
+/**
+ * G2.1 multi-span binding invariant. Separate target/value evidence may be
+ * composed only within the same canonical document/operation. Cross-document
+ * material remains corroboration unless a future source model represents an
+ * explicit relationship; mere topical overlap is intentionally insufficient.
+ */
+export function canBindPerUserEvidence(
+  target: PerUserEvidenceBindingCandidate,
+  value: PerUserEvidenceBindingCandidate
+): boolean {
+  if (target.candidateId === value.candidateId) return true;
+  return (
+    target.documentId === value.documentId &&
+    normalizeEvidenceText(target.title) === normalizeEvidenceText(value.title)
+  );
+}
+
+/**
+ * G2.1 target-side proof. Generated document/heading envelopes are removed so
+ * a cmdlet title containing "User" cannot manufacture user-level semantics.
+ */
+export function evidenceEstablishesUserTarget(value: string): boolean {
+  const body = evidenceBody(value);
+  const normalized = normalizeEvidenceText(body);
+  const explicitIdentity =
+    /\b(?:upn|userprincipalname|objectid|object id|assignedpstntargetid)\b/i.test(
+      body
+    ) ||
+    /\bidentity\b/.test(normalized) &&
+      /\buser\b/.test(normalized);
+  const explicitAddress =
+    /\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/i.test(body);
+  const filteredPopulation =
+    /\bfilter\b/.test(normalized) &&
+    /\busers?\b/.test(normalized);
+  const boundedOperation =
+    /\b(?:filter|return|retrieve|get|select|output|effective|assigned|assignment|identity)\b/.test(
+      normalized
+    );
+  return (
+    boundedOperation &&
+    (explicitIdentity || explicitAddress || filteredPopulation)
+  );
+}
+
+/**
+ * G2.1 value-side proof. The requested value/property must occur in body text
+ * together with read/output/effective-state semantics. A topical Get-* title
+ * or a tenant-level definition sentence is insufficient.
+ */
+export function evidenceEstablishesReturnedUserValue(
+  value: string,
+  subject: string
+): boolean {
+  const body = evidenceBody(value);
+  const normalized = normalizeEvidenceText(body);
+  const aliases = perUserValueAliases(subject);
+  const hasValue = aliases.some((alias) =>
+    normalizeEvidenceText(body).includes(normalizeEvidenceText(alias))
+  );
+  if (!hasValue) return false;
+
+  const outputSemantics =
+    /\b(?:effective|assigned|assignment|returns?|returned|output|filter|select|property|attribute|enabled|policyname|policysource)\b/.test(
+      normalized
+    ) ||
+    /(?:TelephoneNumber|EnterpriseVoiceEnabled|OnlineVoiceRoutingPolicy|EffectiveTenantDialPlanName|TeamsCallingPolicy)\s*:/i.test(
+      body
+    );
+  if (!outputSemantics) return false;
+
+  const normalizedSubject = normalizeEvidenceText(subject);
+  if (normalizedSubject === "voice routing policy") {
+    return (
+      /\bonlinevoiceroutingpolicy\b/i.test(body) &&
+      /\b(?:select|effective|assigned|output|policyname)\b/.test(normalized)
+    );
+  }
+  if (normalizedSubject === "dial plan") {
+    return /\beffectivetenantdialplanname\b/i.test(body);
+  }
+  if (normalizedSubject === "calling policy") {
+    return (
+      /\bteamscallingpolicy\b/i.test(body) &&
+      /\b(?:effective|assignment|policyname|policysource|output)\b/.test(
+        normalized
+      )
+    );
+  }
+  if (normalizedSubject === "phone number") {
+    return (
+      (/\btelephonenumbers\b/i.test(body) &&
+        /\b(?:output|property|attribute|list|includes?)\b/.test(
+          normalized
+        )) ||
+      (/\blineuri\b/i.test(body) &&
+        /\b(?:output field|represents|same phone number|format list)\b/.test(
+          normalized
+        )) ||
+      /\btelephonenumber\s*:/i.test(body)
+    );
+  }
+  return true;
+}
+
 function stableId(value: string): string {
   return normalizeEvidenceText(value).replace(/\s+/g, "-");
 }
@@ -1013,6 +1144,7 @@ function breadthAndFacets(params: {
   answerObject: EvidenceAspectAnswerObject;
   intent: QueryIntent;
   operation: string | null;
+  perUserState?: boolean;
 }): {
   breadth: EvidenceAspectBreadth;
   requiredFacets: EvidenceSupportFacet[];
@@ -1064,7 +1196,9 @@ function breadthAndFacets(params: {
   if (params.answerObject === "configuration_state") {
     return {
       breadth: "narrow",
-      requiredFacets: ["state"]
+      requiredFacets: params.perUserState
+        ? ["user_target", "returned_value"]
+        : ["state"]
     };
   }
   return {
@@ -1125,6 +1259,26 @@ function buildOutputTransformationAspect(
       unresolved: false
     }
   };
+}
+
+function questionRequestsPerUserState(
+  intent: QueryIntent,
+  seed: SubjectSeed
+): boolean {
+  const question = normalizeEvidenceText(intent.originalQuestion);
+  const userScoped =
+    /\b(?:user|users|account|accounts|upn|object id|identity)\b/.test(
+      question
+    );
+  const stateScoped =
+    /\b(?:assigned|effective|current|identify|determine|read|retrieve|report|show|value)\b/.test(
+      question
+    );
+  return (
+    userScoped &&
+    stateScoped &&
+    subjectAppearsInClause(question, seed, intent)
+  );
 }
 
 export function deriveEvidenceAspects(
@@ -1569,15 +1723,37 @@ export function deriveEvidenceAspects(
       const subjectTerms = [
         ...new Set(subjects.flatMap((subject) => subject.terms))
       ];
+      const perUserState =
+        answerObject === "configuration_state" &&
+        seed.requirement === "mandatory" &&
+        (isWorkflowEnumeration || questionRequestsPerUserState(intent, seed));
       const { breadth, requiredFacets } = breadthAndFacets({
         answerObject,
         intent,
-        operation
+        operation,
+        perUserState
       });
       const unresolved = seed.kind === "unresolved";
       const compound = Boolean(seed.components && seed.components.length > 1);
       const seedMethodConstraints =
-        seed.requirement === "mandatory" ? aspectMethodConstraints : [];
+        seed.requirement === "mandatory"
+          ? aspectMethodConstraints.map((constraint) =>
+              perUserState && constraint.kind === "powershell"
+                ? {
+                    ...constraint,
+                    domains: [
+                      ...new Set([...constraint.domains, "teams_admin" as const])
+                    ],
+                    authorityRoles: [
+                      ...new Set([
+                        ...constraint.authorityRoles,
+                        "teams_admin_primary" as const
+                      ])
+                    ]
+                  }
+                : constraint
+            )
+          : [];
       aspects.push({
         aspectId: [
           seed.requirement,
@@ -1612,6 +1788,9 @@ export function deriveEvidenceAspects(
             operation ? "clause_bound_operation" : "general_subject",
             ...(seedMethodConstraints.length > 0
               ? (["method_constraint_attached"] as const)
+              : []),
+            ...(perUserState
+              ? (["per_user_state_required"] as const)
               : []),
             `answer_object:${answerObject}`,
             `breadth:${breadth}`
@@ -1782,6 +1961,22 @@ function matchedFacetsForCandidate(params: {
   const chunkKind = normalizeEvidenceText(metadata?.chunkKind ?? "");
   const heading = normalizeEvidenceText(candidate.headingPath.join(" "));
   const title = normalizeEvidenceText(candidate.title);
+
+  if (
+    aspect.answerObject === "configuration_state" &&
+    (aspect.requiredFacets.includes("user_target") ||
+      aspect.requiredFacets.includes("returned_value"))
+  ) {
+    if (evidenceEstablishesUserTarget(candidate.text)) {
+      matched.add("user_target");
+    }
+    if (
+      evidenceEstablishesReturnedUserValue(candidate.text, aspect.subject)
+    ) {
+      matched.add("returned_value");
+    }
+    return [...matched];
+  }
 
   const subjectPresent = aspect.subjects.some(
     (subject) =>
@@ -2071,6 +2266,18 @@ export function evaluateCandidateAspectSupport(
       // wins when no cmdlet-reference evidence exists for the aspect.
       qualityScore +=
         discoveredCmdlet && READ_CMDLET_VERB_PATTERN.test(discoveredCmdlet) ? 70 : 18;
+    }
+    if (
+      matchedFacets.includes("user_target") &&
+      matchedFacets.includes("returned_value") &&
+      aspect.requiredFacets.includes("user_target") &&
+      aspect.requiredFacets.includes("returned_value")
+    ) {
+      qualityScore +=
+        discoveredCmdlet &&
+        READ_CMDLET_VERB_PATTERN.test(discoveredCmdlet)
+          ? 70
+          : 18;
     }
     if (candidate.authority.sourceStatus === "ga") qualityScore += 6;
     if (candidate.authority.routePriority === "primary") qualityScore += 4;

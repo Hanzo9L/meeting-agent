@@ -131,9 +131,9 @@ test("V1.2.8: an irrelevant PowerShell candidate does not gain a reserved slot f
 
 test("V1.2.9: an already-selected relevant PowerShell candidate satisfies a directive without wasting a reservation", () => {
   const relevantPs = makeUnitCandidate({
-    title: "Get-CsTeamsCallingPolicy",
+    title: "Get-CsUserPolicyAssignment",
     text:
-      "Returns information about the Teams calling policies configured for the organization.",
+      "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     score: 46
   });
@@ -150,18 +150,20 @@ test("V1.2.9: an already-selected relevant PowerShell candidate satisfies a dire
   assert.deepEqual(result.selected, selected);
 });
 
-test("V1.2.9b: a second chunk from the same already-preserved cmdlet document does not consume a second reserved slot", () => {
+test("G2.1: bounded target/value chunks from one canonical operation are preserved together", () => {
   const docId = "doc-calling-policy";
   const synopsis = makeUnitCandidate({
-    title: "Get-CsTeamsCallingPolicy",
-    headingPath: ["Get-CsTeamsCallingPolicy", "SYNOPSIS"],
+    title: "Get-CsUserPolicyAssignment",
+    headingPath: ["Get-CsUserPolicyAssignment", "PARAMETERS", "-Identity"],
+    text: "For Get-CsUserPolicyAssignment, the Identity parameter specifies the user whose assignment is returned.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     documentId: docId,
     score: 22
   });
   const description = makeUnitCandidate({
-    title: "Get-CsTeamsCallingPolicy",
-    headingPath: ["Get-CsTeamsCallingPolicy", "DESCRIPTION"],
+    title: "Get-CsUserPolicyAssignment",
+    headingPath: ["Get-CsUserPolicyAssignment", "OUTPUT"],
+    text: "Get-CsUserPolicyAssignment for PolicyType TeamsCallingPolicy returns an effective assignment output containing PolicyName.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     documentId: docId,
     score: 21
@@ -175,7 +177,7 @@ test("V1.2.9b: a second chunk from the same already-preserved cmdlet document do
     maxPerDocument: 4
   });
   const preservedFromDoc = result.selected.filter((candidate) => candidate.documentId === docId);
-  assert.equal(preservedFromDoc.length, 1, "only one chunk from the calling-policy document should be preserved");
+  assert.equal(preservedFromDoc.length, 2, "both bounded calling-policy mapping chunks should be preserved");
 });
 
 test("V1.2.10: the final candidate population remains exactly the same bounded size after preservation", () => {
@@ -213,7 +215,9 @@ test("V1.2 precision safeguard: a differently-named, textually-overlapping objec
     score: 30 // deliberately higher score, e.g. via a spurious exact-match hit
   });
   const rightObject = makeUnitCandidate({
-    title: "Get-CsTeamsCallingPolicy",
+    title: "Get-CsUserPolicyAssignment",
+    text:
+      "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     score: 20
   });
@@ -226,7 +230,7 @@ test("V1.2 precision safeguard: a differently-named, textually-overlapping objec
     maxPerDocument: 4
   });
   const preserved = result.diagnostics.preservedDirectives.find((p) => p.directiveValue === "calling policy");
-  assert.equal(preserved?.title, "Get-CsTeamsCallingPolicy");
+  assert.equal(preserved?.title, "Get-CsUserPolicyAssignment");
 });
 
 test("V1.2 precision safeguard: a read-verb cmdlet is preferred over an equally topical write-verb cmdlet for a read/reporting workflow", () => {
@@ -236,7 +240,9 @@ test("V1.2 precision safeguard: a read-verb cmdlet is preferred over an equally 
     score: 25
   });
   const getVariant = makeUnitCandidate({
-    title: "Get-CsTeamsCallingPolicy",
+    title: "Get-CsUserPolicyAssignment",
+    text:
+      "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     score: 20
   });
@@ -249,7 +255,7 @@ test("V1.2 precision safeguard: a read-verb cmdlet is preferred over an equally 
     maxPerDocument: 4
   });
   const preserved = result.diagnostics.preservedDirectives.find((p) => p.directiveValue === "calling policy");
-  assert.equal(preserved?.title, "Get-CsTeamsCallingPolicy");
+  assert.equal(preserved?.title, "Get-CsUserPolicyAssignment");
 });
 
 test("S5: read workflow preservation prefers state-bearing Get evidence over a higher-scoring setter", () => {
@@ -332,7 +338,7 @@ test("S5: assigned-number state prose outranks a policy-assignment syntax overla
     title: "Get-CsOnlineVoiceUser",
     headingPath: ["Get-CsOnlineVoiceUser", "DESCRIPTION"],
     text:
-      "The Number output field maps to LineUri and returns the same phone number assigned to the user.",
+      "Get-CsOnlineUser -Identity user@contoso.com returns the Number output field as LineUri, representing the same phone number assigned to that user.",
     authorityRoles: ["teams_powershell_cmdlet_primary"],
     score: 20
   });
@@ -363,16 +369,24 @@ test("S5: assigned-number state prose outranks a policy-assignment syntax overla
   });
   assert.equal(
     result.diagnostics.preservedDirectives[0]?.title,
-    "Get-CsPhoneNumberAssignment"
+    "Get-CsOnlineVoiceUser"
   );
 });
 
 test("S5: workflow read-property aliases are bounded to recognized read outputs", () => {
   assert.deepEqual(workflowReadPropertyAliases(WORKFLOW_INTENT).sort(), [
     "AssignedPstnTargetId",
+    "EffectivePolicyAssignments",
+    "EffectiveTenantDialPlanName",
     "EnterpriseVoiceEnabled",
+    "Get-CsEffectiveTenantDialPlan",
+    "Get-CsUserPolicyAssignment",
     "LineURI",
-    "TelephoneNumber"
+    "OnlineVoiceRoutingPolicy",
+    "TeamsCallingPolicy",
+    "TelephoneNumber",
+    "TelephoneNumbers",
+    "TenantDialPlan"
   ]);
   assert.deepEqual(
     workflowReadPropertyAliases({
@@ -572,33 +586,33 @@ async function seedAcceptanceWorkflowFixture(): Promise<Fixture> {
   }
 
   addPsDoc({
-    cmdlet: "Get-CsTenantDialPlan",
-    url: "get-cstenantdialplan",
-    heading: ["Get-CsTenantDialPlan", "DESCRIPTION"],
-    text: "Get-CsTenantDialPlan retrieves the dial plan configured for a Teams user."
+    cmdlet: "Get-CsEffectiveTenantDialPlan",
+    url: "get-cseffectivetenantdialplan",
+    heading: ["Get-CsEffectiveTenantDialPlan", "DESCRIPTION"],
+    text: "Get-CsEffectiveTenantDialPlan -Identity user@contoso.com returns the EffectiveTenantDialPlanName effective for that user."
   });
   addPsDoc({
     cmdlet: "Get-CsOnlineVoiceUser",
     url: "get-csonlinevoiceuser",
     heading: ["Get-CsOnlineVoiceUser", "DESCRIPTION", "Output fields"],
     text:
-      "The Number output field is LineURI in the Get-CsOnlineUser output and represents the same phone number assigned to the user."
+      "Get-CsOnlineUser -Identity user@contoso.com returns the Number output field as LineURI, representing the same phone number assigned to that user."
   });
   addPsDoc({
-    cmdlet: "Get-CsOnlineVoiceRoutingPolicy",
-    url: "get-csonlinevoiceroutingpolicy",
-    heading: ["Get-CsOnlineVoiceRoutingPolicy", "DESCRIPTION"],
-    text: "Get-CsOnlineVoiceRoutingPolicy retrieves the voice routing policy assigned to a Teams user."
+    cmdlet: "Get-CsOnlineUser",
+    url: "get-csonlineuser-voice-routing",
+    heading: ["Get-CsOnlineUser", "OUTPUT"],
+    text: "Get-CsOnlineUser -Identity user@contoso.com | Select OnlineVoiceRoutingPolicy returns that user's OnlineVoiceRoutingPolicy."
   });
   // Deliberately uses the PLURAL "calling policies" — never the literal
   // singular phrase "calling policy" — replicating the real Microsoft Learn
   // reference prose gap that defeats the exact-match retriever's substring
   // check even though the concept is genuinely and canonically present.
   const callingPolicyChunkId = addPsDoc({
-    cmdlet: "Get-CsTeamsCallingPolicy",
-    url: "get-csteamscallingpolicy",
-    heading: ["Get-CsTeamsCallingPolicy", "SYNOPSIS"],
-    text: "Returns information about the teams calling policies configured for use in your organization."
+    cmdlet: "Get-CsUserPolicyAssignment",
+    url: "get-csuserpolicyassignment",
+    heading: ["Get-CsUserPolicyAssignment", "EXAMPLE"],
+    text: "Get-CsUserPolicyAssignment -Identity user@contoso.com -PolicyType TeamsCallingPolicy returns the effective assignment PolicyName for that user."
   });
   // Mirrors the real read-oriented filter evidence instead of the
   // write-oriented setter that V1.2 previously preserved.
@@ -720,10 +734,10 @@ test("V1.2.1: all five acceptance-workflow Teams-side outputs retain an eligible
       .filter((c) => c.authority.sourceId === "ms-teams-powershell")
       .map((c) => c.title)
   );
-  assert.ok(psTitles.has("Get-CsTenantDialPlan"), "dial plan candidate missing from final pool");
+  assert.ok(psTitles.has("Get-CsEffectiveTenantDialPlan"), "dial plan candidate missing from final pool");
   assert.ok(psTitles.has("Get-CsOnlineVoiceUser"), "phone number candidate missing from final pool");
-  assert.ok(psTitles.has("Get-CsOnlineVoiceRoutingPolicy"), "voice-routing-policy candidate missing from final pool");
-  assert.ok(psTitles.has("Get-CsTeamsCallingPolicy"), "calling-policy candidate missing from final pool");
+  assert.ok(psTitles.has("Get-CsOnlineUser"), "voice-routing-policy candidate missing from final pool");
+  assert.ok(psTitles.has("Get-CsUserPolicyAssignment"), "calling-policy candidate missing from final pool");
   assert.ok(psTitles.has("Get-CsOnlineUser"), "enterprise-voice candidate missing from final pool");
   assert.ok(
     result.fusionDiagnostics.workflowOutputPreservation.triggered,
@@ -739,14 +753,14 @@ test("V1.2.2: Enterprise Voice candidate survives final fusion", async () => {
 test("V1.2.3: calling-policy candidate survives final fusion", async () => {
   const { candidates } = await runAcceptanceQuestion();
   assert.ok(
-    candidates.some((c) => c.title === "Get-CsTeamsCallingPolicy" && c.authority.sourceId === "ms-teams-powershell")
+    candidates.some((c) => c.title === "Get-CsUserPolicyAssignment" && c.authority.sourceId === "ms-teams-powershell")
   );
 });
 
 test("V1.2.4: dial-plan candidate still survives final fusion (unchanged from V1.1)", async () => {
   const { candidates } = await runAcceptanceQuestion();
   assert.ok(
-    candidates.some((c) => c.title === "Get-CsTenantDialPlan" && c.authority.sourceId === "ms-teams-powershell")
+    candidates.some((c) => c.title === "Get-CsEffectiveTenantDialPlan" && c.authority.sourceId === "ms-teams-powershell")
   );
 });
 
@@ -763,7 +777,10 @@ test("V1.2.6: voice-routing-policy candidate still survives final fusion (unchan
   const { candidates } = await runAcceptanceQuestion();
   assert.ok(
     candidates.some(
-      (c) => c.title === "Get-CsOnlineVoiceRoutingPolicy" && c.authority.sourceId === "ms-teams-powershell"
+      (c) =>
+        c.title === "Get-CsOnlineUser" &&
+        c.authority.sourceId === "ms-teams-powershell" &&
+        c.text.includes("OnlineVoiceRoutingPolicy")
     )
   );
 });

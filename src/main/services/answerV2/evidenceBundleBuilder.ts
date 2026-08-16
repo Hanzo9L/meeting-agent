@@ -1,8 +1,9 @@
 import { performance } from "node:perf_hooks";
-import type { SourceDomain } from "../knowledgeV2";
+import { getSourceById, type SourceDomain } from "../knowledgeV2";
 import type { FusedRetrievalCandidate, HybridRetrievalResult } from "../retrievalV2";
 import { classifyAnswerability } from "./answerabilityPolicy";
 import {
+  canBindPerUserEvidence,
   deriveEvidenceAspects,
   evaluateCandidateAspectSupport,
   hasCmdletAuthority,
@@ -238,14 +239,56 @@ function computeExactIdentifierValidation(
 
 function facetsCovered(
   aspect: EvidenceAspect,
-  selectedSupports: EvidenceAspectSupport[]
+  selectedSupports: EvidenceAspectSupport[],
+  candidateById: Map<string, FusedRetrievalCandidate>
 ): boolean {
   const matched = new Set<EvidenceSupportFacet>();
   for (const support of selectedSupports) {
     if (support.strength !== "direct") continue;
     for (const facet of support.matchedFacets) matched.add(facet);
   }
-  return aspect.requiredFacets.every((facet) => matched.has(facet));
+  if (!aspect.requiredFacets.every((facet) => matched.has(facet))) {
+    return false;
+  }
+  if (
+    !aspect.requiredFacets.includes("user_target") ||
+    !aspect.requiredFacets.includes("returned_value")
+  ) {
+    return true;
+  }
+  const direct = selectedSupports.filter(
+    (support) => support.strength === "direct"
+  );
+  const targets = direct.filter((support) =>
+    support.matchedFacets.includes("user_target")
+  );
+  const values = direct.filter((support) =>
+    support.matchedFacets.includes("returned_value")
+  );
+  return targets.some((targetSupport) => {
+    const target = candidateById.get(targetSupport.candidateId);
+    if (!target) return false;
+    return values.some((valueSupport) => {
+      const value = candidateById.get(valueSupport.candidateId);
+      return Boolean(
+        value &&
+          canBindPerUserEvidence(
+            {
+              candidateId: target.candidateId,
+              documentId: target.documentId,
+              sectionId: target.sectionId,
+              title: target.title
+            },
+            {
+              candidateId: value.candidateId,
+              documentId: value.documentId,
+              sectionId: value.sectionId,
+              title: value.title
+            }
+          )
+      );
+    });
+  });
 }
 
 export function buildEvidenceBundle(
@@ -260,6 +303,9 @@ export function buildEvidenceBundle(
   );
   const optionalAspects = aspects.filter(
     (aspect) => aspect.requirement === "optional"
+  );
+  const candidateById = new Map(
+    result.candidates.map((candidate) => [candidate.candidateId, candidate])
   );
   const metadataByChunkId =
     options.metadataByChunkId ??
@@ -340,14 +386,65 @@ export function buildEvidenceBundle(
       const support = evaluations
         .get(candidate.candidateId)
         ?.get(aspect.aspectId)?.support;
-      if (!support || support.strength !== "direct") continue;
+      const perUserPairComponent =
+        aspect.requiredFacets.includes("user_target") &&
+        aspect.requiredFacets.includes("returned_value") &&
+        support?.authoritySatisfied &&
+        support.matchedFacets.some(
+          (facet) =>
+            facet === "user_target" || facet === "returned_value"
+        );
+      if (
+        !support ||
+        (support.strength !== "direct" && !perUserPairComponent)
+      ) {
+        continue;
+      }
       const betaLike =
         candidate.authority.sourceStatus === "beta" ||
         candidate.authority.sourceStatus === "preview";
       if (betaLike && !result.intent.allowsBetaSources) continue;
       rows.push({ candidate, support });
     }
+    const hasBoundComplement = (row: (typeof rows)[number]): boolean => {
+      const needsTarget = !row.support.matchedFacets.includes("user_target");
+      const needsValue = !row.support.matchedFacets.includes("returned_value");
+      if (!needsTarget && !needsValue) return true;
+      return rows.some((other) => {
+        if (other.candidate.candidateId === row.candidate.candidateId) {
+          return false;
+        }
+        const suppliesMissing =
+          (!needsTarget ||
+            other.support.matchedFacets.includes("user_target")) &&
+          (!needsValue ||
+            other.support.matchedFacets.includes("returned_value"));
+        return (
+          suppliesMissing &&
+          canBindPerUserEvidence(
+            {
+              candidateId: row.candidate.candidateId,
+              documentId: row.candidate.documentId,
+              sectionId: row.candidate.sectionId,
+              title: row.candidate.title
+            },
+            {
+              candidateId: other.candidate.candidateId,
+              documentId: other.candidate.documentId,
+              sectionId: other.candidate.sectionId,
+              title: other.candidate.title
+            }
+          )
+        );
+      });
+    };
     return rows.sort((left, right) => {
+      const leftComplete = left.support.strength === "direct";
+      const rightComplete = right.support.strength === "direct";
+      if (leftComplete !== rightComplete) return leftComplete ? -1 : 1;
+      const leftBindable = hasBoundComplement(left);
+      const rightBindable = hasBoundComplement(right);
+      if (leftBindable !== rightBindable) return leftBindable ? -1 : 1;
       if (left.support.qualityScore !== right.support.qualityScore) {
         return right.support.qualityScore - left.support.qualityScore;
       }
@@ -360,19 +457,39 @@ export function buildEvidenceBundle(
     aspect: EvidenceAspect,
     support: EvidenceAspectSupport
   ): void => {
+    const selectedSupport: EvidenceAspectSupport =
+      support.strength !== "direct" &&
+      aspect.requiredFacets.includes("user_target") &&
+      aspect.requiredFacets.includes("returned_value") &&
+      support.authoritySatisfied &&
+      support.matchedFacets.some(
+        (facet) =>
+          facet === "user_target" || facet === "returned_value"
+      )
+        ? {
+            ...support,
+            strength: "direct",
+            reasonCodes: [
+              ...support.reasonCodes,
+              "bounded_per_user_pair_component"
+            ]
+          }
+        : support;
     const existing = selectedCandidates.get(candidate.candidateId);
     if (existing) {
       existing.aspectIds.add(aspect.aspectId);
-      if (support.strength === "direct") existing.strength = "direct";
+      if (selectedSupport.strength === "direct") {
+        existing.strength = "direct";
+      }
     } else {
       selectedCandidates.set(candidate.candidateId, {
         candidate,
         aspectIds: new Set([aspect.aspectId]),
-        strength: support.strength
+        strength: selectedSupport.strength
       });
     }
     const list = selectedSupportsByAspect.get(aspect.aspectId) ?? [];
-    list.push(support);
+    list.push(selectedSupport);
     selectedSupportsByAspect.set(aspect.aspectId, list);
   };
 
@@ -411,7 +528,13 @@ export function buildEvidenceBundle(
           continue;
         }
         selectForAspect(row.candidate, aspect, row.support);
-        if (facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])) {
+        if (
+          facetsCovered(
+            aspect,
+            selectedSupportsByAspect.get(aspect.aspectId) ?? [],
+            candidateById
+          )
+        ) {
           break;
         }
       }
@@ -525,7 +648,8 @@ export function buildEvidenceBundle(
     (aspect) =>
       facetsCovered(
         aspect,
-        selectedSupportsByAspect.get(aspect.aspectId) ?? []
+        selectedSupportsByAspect.get(aspect.aspectId) ?? [],
+        candidateById
       )
   );
   const methodLimitedAspectIds = factuallySupportedMandatoryAspects
@@ -567,7 +691,11 @@ export function buildEvidenceBundle(
     .map((aspect) => aspect.aspectId);
   const supportedOptionalAspectIds = optionalAspects
     .filter((aspect) =>
-      facetsCovered(aspect, selectedSupportsByAspect.get(aspect.aspectId) ?? [])
+      facetsCovered(
+        aspect,
+        selectedSupportsByAspect.get(aspect.aspectId) ?? [],
+        candidateById
+      )
     )
     .map((aspect) => aspect.aspectId);
 
@@ -643,7 +771,17 @@ export function buildEvidenceBundle(
   const conflicts = detectConflicts(selected, aspectCoverage);
   const conflictLatencyMs = performance.now() - conflictStarted;
 
-  const coveredDomains = [...new Set(selected.map((item) => item.source.sourceDomain).filter((domain) => domain !== "unknown"))] as SourceDomain[];
+  const coveredDomains = [
+    ...new Set(
+      selected.flatMap((item) => {
+        const registered = getSourceById(item.source.sourceId)?.domains ?? [];
+        if (registered.length > 0) return registered;
+        return item.source.sourceDomain === "unknown"
+          ? []
+          : [item.source.sourceDomain];
+      })
+    )
+  ] as SourceDomain[];
   const missingDomains = requestedDomains.filter((domain) => !coveredDomains.includes(domain));
   const freshness = computeFreshnessState(result);
   const exactIdentifierValidation = computeExactIdentifierValidation(result, selected);

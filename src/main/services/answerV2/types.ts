@@ -74,7 +74,13 @@ export type EvidenceSupportFacet =
   // of a configuration object (canonical read-oriented cmdlet reference, or
   // read-language prose), as opposed to "configuration" which requires
   // change-oriented language.
-  | "state";
+  | "state"
+  // G2.1 — a per-user reporting workflow must establish both sides of the
+  // lookup contract. These facets may be supplied by one span or by safely
+  // bound spans from the same canonical operation; unrelated identity and
+  // property mentions must never be stitched together.
+  | "user_target"
+  | "returned_value";
 
 export type EvidenceAspectSubjectKind =
   | "cmdlet"

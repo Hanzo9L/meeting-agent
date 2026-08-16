@@ -108,7 +108,7 @@ test("canonical policy subject matching allows safe plurals without crossing pol
   );
 });
 
-test("R2 treats the Get-CsTeamsCallingPolicy plural DESCRIPTION as direct state evidence", () => {
+test("G2.1 rejects a calling-policy definition getter as per-user assignment evidence", () => {
   const intent = extractQueryIntent(
     "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV."
   ).intent;
@@ -135,8 +135,12 @@ test("R2 treats the Get-CsTeamsCallingPolicy plural DESCRIPTION as direct state 
     aspect
   );
   assert.equal(support.topical, true);
-  assert.equal(support.strength, "direct");
-  assert.deepEqual(support.matchedFacets, ["state"]);
+  assert.equal(support.strength, "supporting");
+  assert.deepEqual(support.matchedFacets, []);
+  assert.deepEqual(support.missingFacets, [
+    "user_target",
+    "returned_value"
+  ]);
   assert.equal(support.authoritySatisfied, true);
 });
 
