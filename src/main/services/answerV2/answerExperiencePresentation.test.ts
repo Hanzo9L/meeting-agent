@@ -100,7 +100,11 @@ function fixture(params?: {
         canonicalUrl:
           "https://learn.microsoft.com/en-us/microsoftteams/enable-users",
         sourcePath: "enable.md",
-        sourceRevision: {}
+        sourceRevision: {
+          transport: "learn_mcp",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/microsoftteams/enable-users"
+        }
       },
       location: {
         sectionId: "sec-enable",
@@ -134,7 +138,11 @@ function fixture(params?: {
         canonicalUrl:
           "https://learn.microsoft.com/en-us/microsoftteams/enable-users",
         sourcePath: "enable.md",
-        sourceRevision: {}
+        sourceRevision: {
+          transport: "learn_mcp",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/microsoftteams/enable-users"
+        }
       },
       location: {
         sectionId: "sec-steps",
@@ -168,7 +176,11 @@ function fixture(params?: {
         canonicalUrl:
           "https://learn.microsoft.com/en-us/microsoftteams/unrelated",
         sourcePath: "other.md",
-        sourceRevision: {}
+        sourceRevision: {
+          transport: "learn_mcp",
+          canonicalUrl:
+            "https://learn.microsoft.com/en-us/microsoftteams/unrelated"
+        }
       },
       location: {
         sectionId: "sec-x",
@@ -546,6 +558,108 @@ test("Explanation Context has exact provenance and content hash", () => {
     bundle.decisionSnapshot.snapshotId
   );
   assert.ok(procedureBlock?.canonicalUrl.startsWith("https://"));
+});
+
+test("Explanation Context reuses trusted canonical resolution across source transports", () => {
+  const scenarios = [
+    {
+      name: "Teams PowerShell",
+      sourceId: "ms-teams-powershell",
+      title: "Get-CsTenantDialPlan",
+      sourcePath:
+        "teams/teams-ps/MicrosoftTeams/Get-CsTenantDialPlan.md",
+      canonicalUrl:
+        "https://github.com/MicrosoftDocs/office-docs-powershell/blob/main/teams/teams-ps/MicrosoftTeams/Get-CsTenantDialPlan.md",
+      revision: {
+        transport: "github",
+        repository: "MicrosoftDocs/office-docs-powershell",
+        path: "teams/teams-ps/MicrosoftTeams/Get-CsTenantDialPlan.md"
+      },
+      expected:
+        "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
+    },
+    {
+      name: "SharePoint PowerShell",
+      sourceId: "ms-sharepoint-powershell",
+      title: "Set-SPOSite",
+      sourcePath:
+        "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md",
+      canonicalUrl:
+        "https://github.com/MicrosoftDocs/OfficeDocs-SharePoint-PowerShell/blob/main/sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md",
+      revision: {
+        transport: "github",
+        repository: "MicrosoftDocs/OfficeDocs-SharePoint-PowerShell",
+        path:
+          "sharepoint/sharepoint-ps/Microsoft.Online.SharePoint.PowerShell/Set-SPOSite.md"
+      },
+      expected:
+        "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite"
+    },
+    {
+      name: "Entra",
+      sourceId: "ms-entra-docs",
+      title: "Conditional Access overview",
+      sourcePath: "docs/identity/conditional-access/overview.md",
+      canonicalUrl:
+        "https://github.com/MicrosoftDocs/entra-docs/blob/main/docs/identity/conditional-access/overview.md",
+      revision: {
+        transport: "github",
+        repository: "MicrosoftDocs/entra-docs",
+        path: "docs/identity/conditional-access/overview.md"
+      },
+      expected:
+        "https://learn.microsoft.com/entra/identity/conditional-access/overview"
+    },
+    {
+      name: "Teams Admin Learn MCP",
+      sourceId: "ms-teams-admin",
+      title: "Enable users for voice",
+      sourcePath: "enable-users",
+      canonicalUrl:
+        "https://learn.microsoft.com/en-us/microsoftteams/enable-users",
+      revision: {
+        transport: "learn_mcp",
+        canonicalUrl:
+          "https://learn.microsoft.com/en-us/microsoftteams/enable-users"
+      },
+      expected:
+        "https://learn.microsoft.com/en-us/microsoftteams/enable-users"
+    }
+  ];
+  for (const scenario of scenarios) {
+    const { bundle, plan } = fixture();
+    for (const evidence of bundle.evidence.slice(0, 2)) {
+      evidence.source.sourceId = scenario.sourceId;
+      evidence.source.title = scenario.title;
+      evidence.source.sourcePath = scenario.sourcePath;
+      evidence.source.canonicalUrl = scenario.canonicalUrl;
+      evidence.source.sourceRevision = scenario.revision;
+    }
+    const context = buildExplanationContext({ bundle, plan });
+    assert.ok(context.blocks.length > 0, scenario.name);
+    assert.ok(
+      context.blocks.every(
+        (block) => block.canonicalUrl === scenario.expected
+      ),
+      scenario.name
+    );
+  }
+});
+
+test("Explanation Context excludes arbitrary GitHub provenance without a trusted mapping", () => {
+  const { bundle, plan } = fixture();
+  for (const evidence of bundle.evidence) {
+    evidence.source.sourceId = "unregistered-source";
+    evidence.source.sourcePath = "docs/arbitrary.md";
+    evidence.source.canonicalUrl =
+      "https://github.com/arbitrary/project/blob/main/docs/arbitrary.md";
+    evidence.source.sourceRevision = {
+      transport: "github",
+      repository: "arbitrary/project",
+      path: "docs/arbitrary.md"
+    };
+  }
+  assert.deepEqual(buildExplanationContext({ bundle, plan }).blocks, []);
 });
 
 test("context cannot change answerability and unsupported gaps stay gaps", () => {

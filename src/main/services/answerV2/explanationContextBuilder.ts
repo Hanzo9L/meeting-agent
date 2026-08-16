@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { performance } from "node:perf_hooks";
+import { resolveCanonicalCitationUrl } from "./canonicalCitationUrl";
 import type {
   AnswerPlan,
   EvidenceBundle,
@@ -116,6 +117,7 @@ function buildBlock(params: {
   plan: AnswerPlan;
   relevance: ExplanationContextBlock["relevance"];
   sequence: number;
+  canonicalUrl: string;
 }): ExplanationContextBlock {
   const exactText = normalizeWhitespace(params.item.text);
   const related = relatedClaims(params.item.evidenceId, params.plan);
@@ -140,7 +142,7 @@ function buildBlock(params: {
     startOffset: 0,
     endOffset: exactText.length,
     contentHash: sha256(exactText),
-    canonicalUrl: params.item.source.canonicalUrl,
+    canonicalUrl: params.canonicalUrl,
     contextType: inferContextType(params.item.supportTypes),
     relevance: params.relevance,
     relatedClaimIds: related.map((claim) => claim.claimId),
@@ -199,7 +201,8 @@ export function buildExplanationContext(params: {
       rejectedEvidenceExcluded += 1;
       continue;
     }
-    if (!item.source.canonicalUrl.trim()) continue;
+    const canonicalUrl = resolveCanonicalCitationUrl(item).canonicalUrl;
+    if (!canonicalUrl) continue;
     if (!normalizeWhitespace(item.text)) continue;
     usedEvidenceIds.add(evidenceId);
     selected.push(
@@ -210,7 +213,8 @@ export function buildExplanationContext(params: {
         relevance: claimLinked.has(evidenceId)
           ? "supports_claim"
           : "aspect_linked",
-        sequence: sequence++
+        sequence: sequence++,
+        canonicalUrl
       })
     );
   }
@@ -229,7 +233,8 @@ export function buildExplanationContext(params: {
       contextualOnlyExcluded += 1;
       continue;
     }
-    if (!item.source.canonicalUrl.trim()) continue;
+    const canonicalUrl = resolveCanonicalCitationUrl(item).canonicalUrl;
+    if (!canonicalUrl) continue;
     if (!normalizeWhitespace(item.text)) continue;
     usedEvidenceIds.add(item.evidenceId);
     sameDocumentAdjacentCount += 1;
@@ -239,7 +244,8 @@ export function buildExplanationContext(params: {
         bundle: params.bundle,
         plan: params.plan,
         relevance: "same_document_adjacent",
-        sequence: sequence++
+        sequence: sequence++,
+        canonicalUrl
       })
     );
   }

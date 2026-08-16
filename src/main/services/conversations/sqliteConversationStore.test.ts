@@ -465,6 +465,47 @@ test("invalid context reference rolls back assistant, citations, and context ato
   });
 });
 
+test("arbitrary GitHub context URL fails closed before assistant persistence", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    advanceToValidating(store, fixture.run);
+    assert.throws(
+      () =>
+        store.appendGroundedAssistantMessage({
+          answerRunId: fixture.run.id,
+          content: "A valid factual answer.",
+          answerability: "answered",
+          snapshot: SNAPSHOT_A,
+          citations: [],
+          contextReferences: [
+            {
+              contextBlockId: "context:github-untrusted",
+              evidenceId: "evidence:github-untrusted",
+              documentId: "document:github-untrusted",
+              chunkId: "chunk:github-untrusted",
+              sourceTitle: "Untrusted GitHub context",
+              canonicalUrl:
+                "https://github.com/arbitrary/project/blob/main/docs/context.md",
+              sourceId: "unregistered-source",
+              authorityRole: "unknown",
+              headingPath: ["Context"],
+              sectionId: "context",
+              sourceStartOffset: 0,
+              sourceEndOffset: 8,
+              sourceContentHash: "d".repeat(64),
+              contextType: "supporting_context",
+              preview: false
+            }
+          ]
+        }),
+      /does not have an actionable Microsoft Learn URL/
+    );
+    assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 1);
+    assert.equal(store.getAnswerRun(fixture.run.id)?.state, "validating");
+    assert.equal(store.getAnswerRun(fixture.run.id)?.assistantMessageId, null);
+  });
+});
+
 test("rejects an unvalidated citation URL before assistant persistence", async () => {
   await withStore((store) => {
     const fixture = createQuestionRun(store);
