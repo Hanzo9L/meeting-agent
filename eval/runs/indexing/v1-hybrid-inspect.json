@@ -1,0 +1,1299 @@
+{
+  "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "queryIntentLatencyMs": 7.208,
+  "routeLatencyMs": 1.205,
+  "hybridLatencyMs": 4597.73,
+  "queryIntent": {
+    "originalQuestion": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+    "normalizedQuestion": "write or describe a powershell process that identifies all teams users with enterprise voice enabled, determines their assigned phone number, voice routing policy, dial plan, and calling policy, and exports the results to csv.",
+    "domains": [
+      "teams_admin",
+      "teams_powershell"
+    ],
+    "products": [
+      "Microsoft Teams"
+    ],
+    "technologies": [
+      "Microsoft Teams",
+      "PowerShell",
+      "Voice Routing"
+    ],
+    "entities": [
+      "calling policy",
+      "dial plan",
+      "enterprise voice",
+      "phone number",
+      "policy",
+      "voice routing",
+      "voice routing policy"
+    ],
+    "operationIntents": [
+      "grant"
+    ],
+    "policyNames": [
+      "calling policy",
+      "dial plan",
+      "policy",
+      "voice routing policy"
+    ],
+    "requiresFreshnessCheck": false,
+    "allowsBetaSources": false,
+    "expectedAnswerType": "configuration",
+    "retrievalHints": [
+      "answer_type:configuration",
+      "domain:teams_admin",
+      "domain:teams_powershell",
+      "entity:calling policy",
+      "entity:dial plan",
+      "entity:enterprise voice",
+      "entity:phone number",
+      "entity:policy",
+      "entity:voice routing",
+      "entity:voice routing policy",
+      "operation:grant"
+    ],
+    "unresolvedAmbiguity": []
+  },
+  "routeSummary": {
+    "selectedDomains": [
+      "teams_powershell",
+      "teams_admin"
+    ],
+    "focusSubdomains": [
+      "calling",
+      "voice",
+      "voice_routing"
+    ],
+    "scopeMode": "cross_domain",
+    "candidateBudget": {
+      "maxLexicalCandidates": 2400,
+      "maxSemanticCandidates": 1300,
+      "broadScopeWarningThreshold": 3500
+    },
+    "sourcePriorityChain": [
+      "ms-teams-powershell",
+      "ms-teams-admin",
+      "ms-m365-docs",
+      "ms-entra-docs",
+      "ms-graph-docs",
+      "ms-teams-dev-docs",
+      "ms-sharepoint-docs",
+      "ms-sharepoint-powershell"
+    ],
+    "eligibleSources": [
+      {
+        "sourceId": "ms-teams-powershell",
+        "priority": "primary",
+        "roles": [
+          "teams_powershell_cmdlet_primary"
+        ],
+        "tracks": [
+          "ga"
+        ]
+      },
+      {
+        "sourceId": "ms-teams-admin",
+        "priority": "primary",
+        "roles": [
+          "teams_admin_primary"
+        ],
+        "tracks": [
+          "ga"
+        ]
+      }
+    ]
+  },
+  "exactDiagnostics": {
+    "eligiblePopulation": 17082,
+    "matchedPopulation": 289,
+    "returnedPopulation": 64,
+    "attempted": [
+      {
+        "directiveType": "entity",
+        "directiveValue": "calling policy",
+        "required": false,
+        "matchedCount": 64
+      },
+      {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedCount": 64
+      },
+      {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedCount": 64
+      },
+      {
+        "directiveType": "entity",
+        "directiveValue": "enterprise voice",
+        "required": false,
+        "matchedCount": 43
+      },
+      {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedCount": 64
+      }
+    ],
+    "missedRequired": []
+  },
+  "lexicalDiagnostics": {
+    "eligiblePopulation": 17082,
+    "matchedPopulation": 12047,
+    "returnedPopulation": 2400,
+    "lexicalQuery": "\"calling policy\" OR \"dial plan\" OR policy OR \"voice routing policy\" OR \"enterprise voice\" OR \"phone number\" OR \"voice routing\" OR calling OR voice OR \"grant cs\" OR write OR describe OR powershell OR process OR identifies OR all OR teams OR users",
+    "queryTerms": [
+      "calling policy",
+      "dial plan",
+      "policy",
+      "voice routing policy",
+      "enterprise voice",
+      "phone number",
+      "voice routing",
+      "calling",
+      "voice",
+      "grant cs",
+      "write",
+      "describe",
+      "powershell",
+      "process",
+      "identifies",
+      "all",
+      "teams",
+      "users"
+    ]
+  },
+  "semanticDiagnostics": {
+    "eligiblePopulation": 17082,
+    "preselectedPopulation": 1300,
+    "compatibleEmbeddingPopulation": 0,
+    "missingEmbeddingCount": 0,
+    "staleOrIncompatibleEmbeddingCount": 1300,
+    "corruptEmbeddingCount": 0,
+    "scoredPopulation": 0,
+    "returnedPopulation": 0,
+    "configuredSemanticBudget": 1300,
+    "prefilteredByBudget": true,
+    "latencyMs": {
+      "queryEmbedding": 2948.3179,
+      "sqlPreselection": 1420.4570999999996,
+      "sqlEmbeddingMetadata": 153.15809999999965,
+      "sqlEmbeddingBlobFetch": 0,
+      "compatibilityCheck": 3.3361000000004424,
+      "sqliteFetch": 1573.6151999999993,
+      "decode": 0,
+      "scoring": 0,
+      "topK": 0,
+      "total": 4526.5476
+    },
+    "embeddingIdentity": {
+      "providerId": "fake",
+      "model": "text-embedding-3-small",
+      "dimensions": 8,
+      "embeddingSchemaVersion": "v1"
+    },
+    "preselectionReasonCounts": {
+      "entity_title_shortlist": 280,
+      "powershell_cmdlet_specificity_shortlist": 0,
+      "lexical_shortlist": 585,
+      "powershell_operation_shortlist": 260,
+      "scope_reserve": 175
+    },
+    "warnings": []
+  },
+  "fusionDiagnostics": {
+    "exactCandidateCount": 64,
+    "lexicalCandidateCount": 2400,
+    "semanticCandidateCount": 0,
+    "uniqueCandidatesBeforeDedup": 2464,
+    "uniqueCandidatesAfterDedup": 2404,
+    "returnedCandidateCount": 24,
+    "methodOverlapCounts": {
+      "exactOnly": 4,
+      "lexicalOnly": 2340,
+      "semanticOnly": 0,
+      "exactAndLexical": 60,
+      "exactAndSemantic": 0,
+      "lexicalAndSemantic": 0,
+      "allThree": 0
+    },
+    "sourceDistribution": {
+      "ms-teams-admin": 1099,
+      "ms-teams-powershell": 1305
+    },
+    "authorityDistribution": {
+      "primary": 2404
+    },
+    "cap": {
+      "finalCandidateCap": 24,
+      "maxPerDocument": 4,
+      "truncated": true
+    },
+    "requiredExactMisses": [],
+    "warnings": []
+  },
+  "rankedCandidates": [
+    {
+      "rank": 1,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sectionId": "sec-9",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -38.93964121502697,
+      "lexicalRank": 1,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 50.2,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 13,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 50.2
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 2,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "sectionId": "sec-9",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -34.053566139918374,
+      "lexicalRank": 6,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 40.91428571428571,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 3.714285714285714,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 40.91428571428571
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 3,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Configure call routing for Direct Routing",
+      "sectionId": "sec-3",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -29.32089343866995,
+      "lexicalRank": 26,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 38.162962962962965,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.9629629629629629,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 38.162962962962965
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 4,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Configure call routing for Direct Routing",
+      "sectionId": "sec-15",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -27.807728890328118,
+      "lexicalRank": 33,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.964705882352945,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.7647058823529411,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.964705882352945
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 5,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Configure call routing for Direct Routing",
+      "sectionId": "sec-9",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -27.15829822150532,
+      "lexicalRank": 38,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.86666666666667,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.6666666666666666,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.86666666666667
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 6,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Configure call routing for Direct Routing",
+      "sectionId": "sec-26",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -27.04585069886859,
+      "lexicalRank": 39,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.849999999999994,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.65,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.849999999999994
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 7,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Translate phone numbers to an alternate format",
+      "sectionId": "sec-2",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -26.02335269161704,
+      "lexicalRank": 60,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.62622950819672,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.42622950819672134,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.62622950819672
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 8,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "sectionId": "sec-9",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -24.99585152450305,
+      "lexicalRank": 65,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.593939393939394,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.3939393939393939,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.593939393939394
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 9,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "sectionId": "sec-9",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "voice routing policy",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -23.805979460507295,
+      "lexicalRank": 83,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.50952380952381,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.30952380952380953,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.50952380952381
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 10,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sectionId": "sec-1",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -22.906175742720073,
+      "lexicalRank": 109,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.43636363636364,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.23636363636363636,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.43636363636364
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 11,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sectionId": "sec-6",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -21.48021387369361,
+      "lexicalRank": 121,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.41311475409836,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.21311475409836067,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.41311475409836
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 12,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Translate phone numbers to an alternate format",
+      "sectionId": "sec-1",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -21.497470985282334,
+      "lexicalRank": 134,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.39259259259259,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.1925925925925926,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.39259259259259
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 13,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sectionId": "sec-6",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -17.403853614018075,
+      "lexicalRank": 179,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.34444444444445,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.14444444444444446,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.34444444444445
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 14,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Create and manage dial plans",
+      "sectionId": "sec-10",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -16.372746763142228,
+      "lexicalRank": 232,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.31158798283262,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.11158798283261803,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.31158798283262
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 15,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "sectionId": "sec-4",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -15.15998594634608,
+      "lexicalRank": 283,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.291549295774644,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.09154929577464789,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.291549295774644
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 16,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Configure Operator Connect",
+      "sectionId": "sec-5",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -15.033503231971812,
+      "lexicalRank": 297,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.28724832214765,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.087248322147651,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.28724832214765
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 17,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "sectionId": "sec-4",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -14.960040380006568,
+      "lexicalRank": 300,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.286378737541526,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.08637873754152824,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.286378737541526
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 18,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Create and manage dial plans",
+      "sectionId": "sec-3",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -14.793908150147455,
+      "lexicalRank": 308,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.284142394822005,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.08414239482200647,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.284142394822005
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 19,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Set up Microsoft Calling Plans",
+      "sectionId": "sec-5",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -14.5380044394633,
+      "lexicalRank": 328,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.2790273556231,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.0790273556231003,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.2790273556231
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 20,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Create and manage dial plans",
+      "sectionId": "sec-10",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -13.822176341451645,
+      "lexicalRank": 366,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.2708446866485,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.07084468664850135,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.2708446866485
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 21,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Translate phone numbers to an alternate format",
+      "sectionId": "sec-3",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -13.6697770167561,
+      "lexicalRank": 374,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.269333333333336,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.06933333333333333,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.269333333333336
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 22,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Create and manage dial plans",
+      "sectionId": "sec-10",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "dial plan",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -13.596189896957203,
+      "lexicalRank": 378,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.26860158311345,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.06860158311345646,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.26860158311345
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 23,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "sectionId": "sec-5",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -13.076084178088866,
+      "lexicalRank": 416,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.26235011990408,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.06235011990407673,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.26235011990408
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    },
+    {
+      "rank": 24,
+      "sourceId": "ms-teams-admin",
+      "trackId": "ga",
+      "sourceStatus": "ga",
+      "authorityRoles": [
+        "teams_admin_primary"
+      ],
+      "title": "Set up Microsoft Calling Plans",
+      "sectionId": "sec-8",
+      "methods": [
+        "exact",
+        "lexical"
+      ],
+      "exactMatch": {
+        "directiveType": "entity",
+        "directiveValue": "phone number",
+        "required": false,
+        "matchedField": "metadata_weak"
+      },
+      "lexicalScore": -12.812435521810606,
+      "lexicalRank": 440,
+      "semanticSimilarity": null,
+      "semanticRank": null,
+      "fusionScore": 37.25895691609978,
+      "fusionContributions": {
+        "exactScore": 16.2,
+        "lexicalRank": 0.05895691609977324,
+        "semanticRank": 0,
+        "methodAgreement": 8,
+        "routePriority": 7,
+        "authorityRole": 6,
+        "betaPolicy": 0,
+        "implicitCmdletSpecificity": 0,
+        "total": 37.25895691609978
+      },
+      "rationale": [
+        "exact_match_signal",
+        "lexical_match_signal",
+        "multi_method_agreement",
+        "route_priority:primary",
+        "source_status:ga"
+      ]
+    }
+  ],
+  "warnings": []
+}

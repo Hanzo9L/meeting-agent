@@ -1,0 +1,1729 @@
+{
+  "generatedAt": "2026-08-11T01:42:38.203Z",
+  "results": [
+    {
+      "question": "How do I enable a Teams user for voice using PowerShell?",
+      "answerability": "partial",
+      "methodInfo": [
+        {
+          "aspectId": "mandatory:technology:microsoft-teams:enable",
+          "subject": "Microsoft Teams",
+          "operation": "enable",
+          "methodConstraints": [
+            {
+              "kind": "powershell",
+              "label": "PowerShell",
+              "required": true,
+              "domains": [
+                "teams_powershell"
+              ],
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ]
+            }
+          ],
+          "methodSatisfied": false,
+          "requiredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "authority": {
+            "requiredRoles": [
+              "teams_admin_primary",
+              "teams_powershell_cmdlet_primary"
+            ],
+            "requiredDomains": [
+              "teams_admin",
+              "teams_powershell"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        }
+      ],
+      "selectedEvidence": [
+        {
+          "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+          "title": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+          "domain": "teams_admin",
+          "roles": [
+            "teams_admin_primary"
+          ],
+          "headingPath": [
+            "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+            "Step 1: Assign licenses and enable users for voice"
+          ],
+          "supportTypes": [
+            "procedure"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claimId": "claim:46f9f8fe5ca18f2a7c49d0ee",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:78a1d9d3cb317bb2e3e59106",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "To assign a Teams Phone and Teams Premium license, do the following steps:",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:dba173db2303ab2968b17206",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": 1,
+          "proposition": "1. Use the Microsoft 365 admin center and go to Billing > Licenses.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:9d1e920342afbb9a2eedec4d",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": 2,
+          "proposition": "2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:5d71c9634990f5aedb062d96",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": 3,
+          "proposition": "3. Select Assign once you're finished.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:76e11adfbd65d23b670f324e",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": 4,
+          "proposition": "4. Repeat Steps 2 and 3 for a Teams Premium license.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:48814f798fba582334a00248",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "Before you can enable voice for your users, you must assign a license to them first.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:1da3dfab62722bd2bdbd96b8",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "To enable voice for your users, you can use the Teams admin center or PowerShell.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:d2bbf723753535348c6e49e7",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "- In the Teams admin center, go to a Users > Manage users and select the user you want to edit.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:71fd6270bef2f99c115847a3",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "Under the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        },
+        {
+          "claimId": "claim:16135f8678a9d45c68ad4f4e",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "procedure_step",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "sectionId": "steps",
+          "procedureStep": null,
+          "proposition": "- For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.",
+          "evidenceIds": [
+            "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "requiredCaveats": [
+        {
+          "code": "partial_coverage",
+          "detail": "Only supported portions should be answered."
+        },
+        {
+          "code": "missing_adjacent_authority",
+          "detail": "Missing authoritative domain coverage: teams_powershell"
+        }
+      ],
+      "r4": {
+        "ok": true,
+        "factualAnswerText": "Steps:\n- In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them.\n- To assign a Teams Phone and Teams Premium license, do the following steps:\n- 1. Use the Microsoft 365 admin center and go to Billing > Licenses.\n- 2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users.\n- 3. Select Assign once you're finished.\n- 4. Repeat Steps 2 and 3 for a Teams Premium license.\n- Before you can enable voice for your users, you must assign a license to them first.\n- To enable voice for your users, you can use the Teams admin center or PowerShell.\n- - In the Teams admin center, go to a Users > Manage users and select the user you want to edit.\n- Under the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save.\n- - For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.\n\nCaveats:\n- Only supported portions should be answered.\n- Missing authoritative domain coverage: teams_powershell",
+        "caveats": [
+          {
+            "code": "partial_coverage",
+            "text": "Only supported portions should be answered."
+          },
+          {
+            "code": "missing_adjacent_authority",
+            "text": "Missing authoritative domain coverage: teams_powershell"
+          }
+        ],
+        "unsupportedAspects": []
+      },
+      "explanationContext": [
+        {
+          "contextBlockId": "context:0b4ed7ece76c00a88100c451",
+          "contextType": "procedure",
+          "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+          "headingPath": [
+            "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+            "Step 1: Assign licenses and enable users for voice"
+          ],
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+          "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+          "exactText": "Document: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users Heading Path: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users -> Step 1: Assign licenses and enable users for voice Note In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them. For a complete list of authorized user settings that require a Teams Premium license, see Manage Teams voice applications policies. To assign a Teams Phone and Teams Premium license, do the following steps: 1. Use the Microsoft 365 admin center and go to Billing > Licenses. 2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users. 3. Select Assign once you're finished. 4. Repeat Steps 2 and 3 for a Teams Premium license. Before you can enable voice for your users, you must assign a license to them first. To enable voice for your users, you can use the Teams admin center or PowerShell. - In the Teams admin center, go to a Users > Manage users and select the user you want to edit. Under the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save. - For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.",
+          "contentHash": "7010efc127b95b6126e9d7495a2efb165433c947caa7b608503b9699a9ad4ef2",
+          "relatedClaimIds": [
+            "claim:46f9f8fe5ca18f2a7c49d0ee",
+            "claim:78a1d9d3cb317bb2e3e59106",
+            "claim:dba173db2303ab2968b17206",
+            "claim:9d1e920342afbb9a2eedec4d",
+            "claim:5d71c9634990f5aedb062d96",
+            "claim:76e11adfbd65d23b670f324e",
+            "claim:48814f798fba582334a00248",
+            "claim:1da3dfab62722bd2bdbd96b8",
+            "claim:d2bbf723753535348c6e49e7",
+            "claim:71fd6270bef2f99c115847a3",
+            "claim:16135f8678a9d45c68ad4f4e"
+          ],
+          "authorityRole": "teams_admin_primary"
+        }
+      ],
+      "helpdeskDetailed": "Summary\nIn order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them.\n\nTo assign a Teams Phone and Teams Premium license, do the following steps:\n\n1. Use the Microsoft 365 admin center and go to Billing > Licenses.\n\n2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users.\n\n3. Select Assign once you're finished.\n\n4. Repeat Steps 2 and 3 for a Teams Premium license.\n\nBefore you can enable voice for your users, you must assign a license to them first.\n\nTo enable voice for your users, you can use the Teams admin center or PowerShell.\n\n- In the Teams admin center, go to a Users > Manage users and select the user you want to edit.\n\nUnder the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save.\n\n- For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.\n\nWhat to do\n[Microsoft documentation context — procedure]\nSet up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users › Step 1: Assign licenses and enable users for voice\nDocument: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users Heading Path: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users -> Step 1: Assign licenses and enable users for voice Note In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them. For a complete list of authorized user settings that require a Teams Premium license, see Manage Teams voice applications policies. To assign a Teams Phone and Teams Premium license, do the following steps: 1. Use the Microsoft 365 admin center and go to Billing > Licenses. 2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users. 3. Select Assign once you're finished. 4. Repeat Steps 2 and 3 for a Teams Premium license. Before you can enable voice for your users, you must assign a license to them first. To enable voice for your users, you can use the Teams admin center or PowerShell. - In the Teams admin center, go to a Users > Manage users and select the user you want to edit. Under the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save. - For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.\nSource: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users\nhttps://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users\n\nCaveats / limitations\nOnly supported portions should be answered.\n\nMissing authoritative domain coverage: teams_powershell\n\nSources\nSet up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users — https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+      "liveAssistQuick": "In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them.\n\nTo assign a Teams Phone and Teams Premium license, do the following steps:\n\n[Microsoft documentation context — procedure]\nSet up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users › Step 1: Assign licenses and enable users for voice\nDocument: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users Heading Path: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users -> Step 1: Assign licenses and enable users for voice Note In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them. For a complete list of authorized user settings that require a Teams Premium license, see Manage Teams voice applications policies. To assign a Teams Phone and Teams Premium license, do the following steps: 1. Use the Microsoft 365 admin center and go to Billing > Licenses. 2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users. 3. Select Assign once you're finished. 4. Repeat Steps 2 and 3 for a Teams Premium license. Before you can enable voice for your users, you must assign a license to them first. To enable voice for your users, you can use the Teams admin center or PowerShell. - In the Teams admin center, go to a Users > Manage users and select the user you want to edit. Under the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save. - For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.\nSource: Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users\nhttps://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users\n\nOnly supported portions should be answered.\n\nMissing authoritative domain coverage: teams_powershell\n\nSet up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users — https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+      "helpdeskPlanSections": [
+        {
+          "id": "summary",
+          "title": "Summary",
+          "contextBlockIds": []
+        },
+        {
+          "id": "what_to_do",
+          "title": "What to do",
+          "contextBlockIds": [
+            "context:0b4ed7ece76c00a88100c451"
+          ]
+        },
+        {
+          "id": "caveats",
+          "title": "Caveats / limitations",
+          "contextBlockIds": []
+        },
+        {
+          "id": "sources",
+          "title": "Sources",
+          "contextBlockIds": [
+            "context:0b4ed7ece76c00a88100c451"
+          ]
+        }
+      ],
+      "quickPlanSections": [
+        {
+          "id": "summary",
+          "title": "Summary",
+          "contextBlockIds": [
+            "context:0b4ed7ece76c00a88100c451"
+          ]
+        },
+        {
+          "id": "caveats",
+          "title": "Caveats",
+          "contextBlockIds": []
+        },
+        {
+          "id": "sources",
+          "title": "Sources",
+          "contextBlockIds": [
+            "context:0b4ed7ece76c00a88100c451"
+          ]
+        }
+      ],
+      "contextReferences": {
+        "helpdesk": [
+          {
+            "contextBlockId": "context:0b4ed7ece76c00a88100c451",
+            "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "headingPath": [
+              "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "Step 1: Assign licenses and enable users for voice"
+            ],
+            "sectionId": "sec-3",
+            "contextType": "procedure",
+            "preview": false
+          }
+        ],
+        "quick": [
+          {
+            "contextBlockId": "context:0b4ed7ece76c00a88100c451",
+            "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "headingPath": [
+              "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "Step 1: Assign licenses and enable users for voice"
+            ],
+            "sectionId": "sec-3",
+            "contextType": "procedure",
+            "preview": false
+          }
+        ]
+      },
+      "citations": {
+        "error": {
+          "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+          "snapshotBinding": {
+            "snapshotId": "grounding:57ede033354bca53b8771525",
+            "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+            "schemaVersion": "grounding-decision-snapshot/v1",
+            "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+            "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+          },
+          "answerText": "Steps:\n- In order for your users to use the Microsoft Teams Queues app, they need to have a Teams Phone and Teams Premium license assigned to them.\n- To assign a Teams Phone and Teams Premium license, do the following steps:\n- 1. Use the Microsoft 365 admin center and go to Billing > Licenses.\n- 2. Select your Teams Phone license. On the product details page, select Assign licenses and assign the license to your users.\n- 3. Select Assign once you're finished.\n- 4. Repeat Steps 2 and 3 for a Teams Premium license.\n- Before you can enable voice for your users, you must assign a license to them first.\n- To enable voice for your users, you can use the Teams admin center or PowerShell.\n- - In the Teams admin center, go to a Users > Manage users and select the user you want to edit.\n- Under the Account tab > Assigned phone number, turn Enterprise Voice to On and select Save.\n- - For PowerShell, use the Set-CsPhoneNumberAssignment cmdlet and set the -EnterpriseVoiceEnabled parameter to $true.\n\nCaveats:\n- Only supported portions should be answered.\n- Missing authoritative domain coverage: teams_powershell",
+          "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+          "citations": [
+            {
+              "citationId": "citation:bf4bf56ecd455d62313bc520",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:b5bf2ea7ca565c28c1634d17",
+              "answerRange": {
+                "startOffset": 9,
+                "endOffset": 147
+              },
+              "claimId": "claim:46f9f8fe5ca18f2a7c49d0ee",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:22669a0b2ec9c3cd64a6ab32",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:1e8f7af5c012e38402aedb79",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:4f21aeb89e9fd4d2f6d8f10d",
+              "answerRange": {
+                "startOffset": 150,
+                "endOffset": 224
+              },
+              "claimId": "claim:78a1d9d3cb317bb2e3e59106",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:51e68e73cb1a740a638cd1f5",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:86f7343e4344bb9e44e09551",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:6670b276b750104b3a292cf0",
+              "answerRange": {
+                "startOffset": 227,
+                "endOffset": 294
+              },
+              "claimId": "claim:dba173db2303ab2968b17206",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:88058053b69f667c7d65e508",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:57efdd3090a93bdfde5a0805",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:3492ce737ac8b0be24e2c2ad",
+              "answerRange": {
+                "startOffset": 297,
+                "endOffset": 422
+              },
+              "claimId": "claim:9d1e920342afbb9a2eedec4d",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:16171fe456c150972e109082",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:84c3ccdf1e7cc8c64b29b95a",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:d11443a8536ade5d2a818570",
+              "answerRange": {
+                "startOffset": 425,
+                "endOffset": 463
+              },
+              "claimId": "claim:5d71c9634990f5aedb062d96",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:326928647b4a0145613488f4",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:a8b85df728469607548f02d9",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:e38a0632dde536674b8e50a4",
+              "answerRange": {
+                "startOffset": 466,
+                "endOffset": 518
+              },
+              "claimId": "claim:76e11adfbd65d23b670f324e",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:1724805e46b92a3e00f8c4a6",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:3c2d117f6d665322e9247ce1",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:dfccf66923ec9b0152b3bfdb",
+              "answerRange": {
+                "startOffset": 521,
+                "endOffset": 605
+              },
+              "claimId": "claim:48814f798fba582334a00248",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:098efcf4fa56f11d56f6355b",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:305806b9a2a1d4ad6e2f1468",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:46efdba20c77176cb94daaa9",
+              "answerRange": {
+                "startOffset": 608,
+                "endOffset": 689
+              },
+              "claimId": "claim:1da3dfab62722bd2bdbd96b8",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:cdf825202ebfff40fa07cad7",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:7faa03c3a3bc38417fc5b7ab",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:d61c5521181197738bb857a4",
+              "answerRange": {
+                "startOffset": 692,
+                "endOffset": 787
+              },
+              "claimId": "claim:d2bbf723753535348c6e49e7",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:885da5e8e07f5efec432a368",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:bf99a1dbb578191fbcf2b55c",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:9ecbb531a11579ee63a29f31",
+              "answerRange": {
+                "startOffset": 790,
+                "endOffset": 881
+              },
+              "claimId": "claim:71fd6270bef2f99c115847a3",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:fdfc4441c6786c560ed6c251",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            },
+            {
+              "citationId": "citation:d408a731074dec08f510b70b",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:57ede033354bca53b8771525",
+                "snapshotHash": "57ede033354bca53b8771525508505fca2a7838ff0770018bb66e00f5d9f331c",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "b6c219c5ad7a7f3420e219f1e9de53356ae032bed9b8410a6fba35cb24b4917f"
+              },
+              "answerTextHash": "7e28c77426e6991a47007f038a2793050040516e085fdcb92db049f4ae79ffe5",
+              "factualRangeId": "factual-range:07d561069a7ff3e961d8481a",
+              "answerRange": {
+                "startOffset": 884,
+                "endOffset": 1000
+              },
+              "claimId": "claim:16135f8678a9d45c68ad4f4e",
+              "evidenceId": "evidence:0001f9d0d6f349bbdeb3260a8e4261c283238468bcae1917e1f36c8edcfcc8c4",
+              "spanId": "span:8c9f944feef02d6bbc10ae87",
+              "supportingSpanIds": [],
+              "documentId": "1ab924ddfb7ecf8b4f66d6488a1050090756579e7b368a406d79ff17e6450ac2",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+              "headingPath": [
+                "Set up Teams Phone Agent, Auto Attendant, and Call Queue Authorized Users",
+                "Step 1: Assign licenses and enable users for voice"
+              ],
+              "sectionId": "sec-3",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-authorized-users",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:01.564Z",
+                "contentHash": "838a2a9d61a24805f764fa6ed550fb48eb867f82cb0044ad3dbf334403c0f005",
+                "sourcePath": "microsoftteams/aa-cq-setup-authorized-users"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ],
+          "factualRanges": [
+            {
+              "factualRangeId": "factual-range:b5bf2ea7ca565c28c1634d17",
+              "answerRange": {
+                "startOffset": 9,
+                "endOffset": 147
+              },
+              "claimId": "claim:46f9f8fe5ca18f2a7c49d0ee",
+              "citationIds": [
+                "citation:bf4bf56ecd455d62313bc520"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:4f21aeb89e9fd4d2f6d8f10d",
+              "answerRange": {
+                "startOffset": 150,
+                "endOffset": 224
+              },
+              "claimId": "claim:78a1d9d3cb317bb2e3e59106",
+              "citationIds": [
+                "citation:1e8f7af5c012e38402aedb79"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:6670b276b750104b3a292cf0",
+              "answerRange": {
+                "startOffset": 227,
+                "endOffset": 294
+              },
+              "claimId": "claim:dba173db2303ab2968b17206",
+              "citationIds": [
+                "citation:86f7343e4344bb9e44e09551"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:3492ce737ac8b0be24e2c2ad",
+              "answerRange": {
+                "startOffset": 297,
+                "endOffset": 422
+              },
+              "claimId": "claim:9d1e920342afbb9a2eedec4d",
+              "citationIds": [
+                "citation:57efdd3090a93bdfde5a0805"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:d11443a8536ade5d2a818570",
+              "answerRange": {
+                "startOffset": 425,
+                "endOffset": 463
+              },
+              "claimId": "claim:5d71c9634990f5aedb062d96",
+              "citationIds": [
+                "citation:84c3ccdf1e7cc8c64b29b95a"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:e38a0632dde536674b8e50a4",
+              "answerRange": {
+                "startOffset": 466,
+                "endOffset": 518
+              },
+              "claimId": "claim:76e11adfbd65d23b670f324e",
+              "citationIds": [
+                "citation:a8b85df728469607548f02d9"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:dfccf66923ec9b0152b3bfdb",
+              "answerRange": {
+                "startOffset": 521,
+                "endOffset": 605
+              },
+              "claimId": "claim:48814f798fba582334a00248",
+              "citationIds": [
+                "citation:3c2d117f6d665322e9247ce1"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:46efdba20c77176cb94daaa9",
+              "answerRange": {
+                "startOffset": 608,
+                "endOffset": 689
+              },
+              "claimId": "claim:1da3dfab62722bd2bdbd96b8",
+              "citationIds": [
+                "citation:305806b9a2a1d4ad6e2f1468"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:d61c5521181197738bb857a4",
+              "answerRange": {
+                "startOffset": 692,
+                "endOffset": 787
+              },
+              "claimId": "claim:d2bbf723753535348c6e49e7",
+              "citationIds": [
+                "citation:7faa03c3a3bc38417fc5b7ab"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:9ecbb531a11579ee63a29f31",
+              "answerRange": {
+                "startOffset": 790,
+                "endOffset": 881
+              },
+              "claimId": "claim:71fd6270bef2f99c115847a3",
+              "citationIds": [
+                "citation:bf99a1dbb578191fbcf2b55c"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            },
+            {
+              "factualRangeId": "factual-range:07d561069a7ff3e961d8481a",
+              "answerRange": {
+                "startOffset": 884,
+                "endOffset": 1000
+              },
+              "claimId": "claim:16135f8678a9d45c68ad4f4e",
+              "citationIds": [
+                "citation:d408a731074dec08f510b70b"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "failureReasons": []
+          },
+          "previewState": {
+            "previewEvidenceUsed": false,
+            "requiredLabel": false
+          },
+          "freshnessState": {
+            "mustVerifyBeforeFinalAnswer": false,
+            "reasons": []
+          },
+          "diagnostics": {
+            "latencyMs": 2.449200000000019,
+            "factualRangeCount": 11,
+            "validCitationCount": 11,
+            "invalidCitationCount": 0,
+            "rangesWithoutCitation": 0,
+            "providerRequestCount": 0
+          }
+        }
+      }
+    },
+    {
+      "question": "Assign a phone number using PowerShell.",
+      "answerability": "insufficient_evidence",
+      "methodInfo": [
+        {
+          "aspectId": "mandatory:unresolved:assign-phone-number-using:grant",
+          "subject": "assign phone number using",
+          "operation": "grant",
+          "methodConstraints": [
+            {
+              "kind": "powershell",
+              "label": "PowerShell",
+              "required": true,
+              "domains": [
+                "teams_powershell"
+              ],
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ]
+            }
+          ],
+          "methodSatisfied": false,
+          "requiredFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authority": {
+            "requiredRoles": [
+              "teams_powershell_cmdlet_primary"
+            ],
+            "requiredDomains": [
+              "teams_powershell"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "evidenceIds": []
+        }
+      ],
+      "selectedEvidence": [],
+      "claims": [],
+      "unsupported": [
+        {
+          "aspectId": "mandatory:unresolved:assign-phone-number-using:grant",
+          "reason": "missing_authority",
+          "detail": "Unsupported required aspect: assign phone number using; required facets: configuration, operation."
+        }
+      ],
+      "requiredCaveats": [
+        {
+          "code": "missing_adjacent_authority",
+          "detail": "Missing authoritative domain coverage: teams_powershell"
+        }
+      ],
+      "r4": {
+        "ok": true,
+        "factualAnswerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: assign phone number using; required facets: configuration, operation.\n\nCaveats:\n- Missing authoritative domain coverage: teams_powershell",
+        "caveats": [
+          {
+            "code": "missing_adjacent_authority",
+            "text": "Missing authoritative domain coverage: teams_powershell"
+          }
+        ],
+        "unsupportedAspects": [
+          {
+            "aspectId": "mandatory:unresolved:assign-phone-number-using:grant",
+            "text": "Unsupported required aspect: assign phone number using; required facets: configuration, operation."
+          }
+        ]
+      },
+      "explanationContext": [],
+      "helpdeskDetailed": "Unable to provide a factual answer from the approved evidence.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:unresolved:assign-phone-number-using:grant): Unsupported required aspect: assign phone number using; required facets: configuration, operation.\n\nNot established from available authoritative evidence (missing_authority): Unsupported required aspect: assign phone number using; required facets: configuration, operation.\n\nCaveats / limitations\nMissing authoritative domain coverage: teams_powershell",
+      "liveAssistQuick": "Unable to provide a factual answer from the approved evidence.\n\nMissing authoritative domain coverage: teams_powershell\n\nNot established from available authoritative evidence (mandatory:unresolved:assign-phone-number-using:grant): Unsupported required aspect: assign phone number using; required facets: configuration, operation.\n\nNot established from available authoritative evidence (missing_authority): Unsupported required aspect: assign phone number using; required facets: configuration, operation.",
+      "helpdeskPlanSections": [
+        {
+          "id": "unsupported_gaps",
+          "title": "Unsupported gaps",
+          "contextBlockIds": []
+        },
+        {
+          "id": "caveats",
+          "title": "Caveats / limitations",
+          "contextBlockIds": []
+        }
+      ],
+      "quickPlanSections": [
+        {
+          "id": "caveats",
+          "title": "Caveats",
+          "contextBlockIds": []
+        }
+      ],
+      "contextReferences": {
+        "helpdesk": [],
+        "quick": []
+      },
+      "citations": {
+        "error": {
+          "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+          "snapshotBinding": {
+            "snapshotId": "grounding:26c6204bc8fcb552d8eb4f9c",
+            "snapshotHash": "26c6204bc8fcb552d8eb4f9c67b513f3268202d1259957335e8d136ee3422f65",
+            "schemaVersion": "grounding-decision-snapshot/v1",
+            "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+            "corpusRevisionHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "answerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: assign phone number using; required facets: configuration, operation.\n\nCaveats:\n- Missing authoritative domain coverage: teams_powershell",
+          "answerTextHash": "eaf3f0ab9fbd100a5bbfffe1c86cdd1d7518948c053f1940d265ddaec80e693a",
+          "citations": [],
+          "factualRanges": [],
+          "validation": {
+            "valid": true,
+            "failureReasons": []
+          },
+          "previewState": {
+            "previewEvidenceUsed": false,
+            "requiredLabel": false
+          },
+          "freshnessState": {
+            "mustVerifyBeforeFinalAnswer": false,
+            "reasons": []
+          },
+          "diagnostics": {
+            "latencyMs": 1.169800000000123,
+            "factualRangeCount": 0,
+            "validCitationCount": 0,
+            "invalidCitationCount": 0,
+            "rangesWithoutCitation": 0,
+            "providerRequestCount": 0
+          }
+        }
+      }
+    },
+    {
+      "question": "Configure Teams calling policies.",
+      "answerability": "answered",
+      "methodInfo": [
+        {
+          "aspectId": "mandatory:technology:microsoft-teams:set",
+          "subject": "Microsoft Teams",
+          "operation": "set",
+          "methodConstraints": [],
+          "methodSatisfied": true,
+          "requiredFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authority": {
+            "requiredRoles": [
+              "teams_admin_primary"
+            ],
+            "requiredDomains": [
+              "teams_admin"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "evidenceIds": [
+            "evidence:1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be"
+          ]
+        }
+      ],
+      "selectedEvidence": [
+        {
+          "evidenceId": "evidence:1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be",
+          "title": "Configure call routing for Direct Routing",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "domain": "teams_admin",
+          "roles": [
+            "teams_admin_primary"
+          ],
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user1@contoso.com"
+          ],
+          "supportTypes": [
+            "configuration_behavior"
+          ]
+        }
+      ],
+      "claims": [],
+      "unsupported": [
+        {
+          "aspectId": "mandatory:technology:microsoft-teams:set",
+          "reason": "source_span_unavailable",
+          "detail": "No exact source span could be planned for all required facets of Microsoft Teams."
+        }
+      ],
+      "requiredCaveats": [],
+      "r4": {
+        "ok": false,
+        "failure": {
+          "code": "answer_plan_integrity_failed",
+          "message": "Deterministic assembly rejected an invalid source-bound answer plan.",
+          "planIntegrityIssues": [
+            {
+              "code": "required_facet_unplanned",
+              "message": "Required facet configuration has no source-bound claim for mandatory:technology:microsoft-teams:set.",
+              "aspectId": "mandatory:technology:microsoft-teams:set"
+            },
+            {
+              "code": "required_facet_unplanned",
+              "message": "Required facet operation has no source-bound claim for mandatory:technology:microsoft-teams:set.",
+              "aspectId": "mandatory:technology:microsoft-teams:set"
+            }
+          ],
+          "assemblyIssues": []
+        }
+      },
+      "helpdeskDetailed": null,
+      "liveAssistQuick": null,
+      "explanationContext": [],
+      "citations": [],
+      "contextReferences": []
+    },
+    {
+      "question": "Grant a voice routing policy with PowerShell.",
+      "answerability": "partial",
+      "methodInfo": [
+        {
+          "aspectId": "mandatory:policy:voice-routing-policy:grant",
+          "subject": "voice routing policy",
+          "operation": "grant",
+          "methodConstraints": [
+            {
+              "kind": "powershell",
+              "label": "PowerShell",
+              "required": true,
+              "domains": [
+                "teams_powershell"
+              ],
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ]
+            }
+          ],
+          "methodSatisfied": false,
+          "requiredFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authority": {
+            "requiredRoles": [
+              "teams_admin_primary",
+              "teams_powershell_cmdlet_primary"
+            ],
+            "requiredDomains": [
+              "teams_admin",
+              "teams_powershell"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "evidenceIds": [
+            "evidence:fc644f181ad717ea619e17707c51a25ea367cbb0f211bd16a9c0e9491a0eaccf"
+          ]
+        }
+      ],
+      "selectedEvidence": [
+        {
+          "evidenceId": "evidence:fc644f181ad717ea619e17707c51a25ea367cbb0f211bd16a9c0e9491a0eaccf",
+          "title": "Configure call routing for Direct Routing",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "domain": "teams_admin",
+          "roles": [
+            "teams_admin_primary"
+          ],
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 2: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user2@contoso.com"
+          ],
+          "supportTypes": [
+            "configuration_behavior"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claimId": "claim:7def8a21acaf9cbb2a565cde",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "configuration",
+          "coveredFacets": [
+            "configuration",
+            "operation"
+          ],
+          "sectionId": "configuration",
+          "procedureStep": null,
+          "proposition": "Grant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\"",
+          "evidenceIds": [
+            "evidence:fc644f181ad717ea619e17707c51a25ea367cbb0f211bd16a9c0e9491a0eaccf"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "requiredCaveats": [
+        {
+          "code": "partial_coverage",
+          "detail": "Only supported portions should be answered."
+        },
+        {
+          "code": "missing_adjacent_authority",
+          "detail": "Missing authoritative domain coverage: teams_powershell"
+        }
+      ],
+      "r4": {
+        "ok": true,
+        "factualAnswerText": "Steps:\n- Grant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\"\n\nCaveats:\n- Only supported portions should be answered.\n- Missing authoritative domain coverage: teams_powershell",
+        "caveats": [
+          {
+            "code": "partial_coverage",
+            "text": "Only supported portions should be answered."
+          },
+          {
+            "code": "missing_adjacent_authority",
+            "text": "Missing authoritative domain coverage: teams_powershell"
+          }
+        ],
+        "unsupportedAspects": []
+      },
+      "explanationContext": [
+        {
+          "contextBlockId": "context:096d53a0a11f4f582bc56c24",
+          "contextType": "conceptual_explanation",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 2: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user2@contoso.com"
+          ],
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "evidenceId": "evidence:fc644f181ad717ea619e17707c51a25ea367cbb0f211bd16a9c0e9491a0eaccf",
+          "exactText": "Document: Configure call routing for Direct Routing Heading Path: Configure call routing for Direct Routing -> Example 2: Configuration steps -> Using PowerShell -> Step 4: Assign the voice routing policy to user2@contoso.com ```PowerShell Grant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\" ```",
+          "contentHash": "b6fdf41f7bd33fac87683d15e69c523b71b992ac5c4b72d699b1836604071e80",
+          "relatedClaimIds": [
+            "claim:7def8a21acaf9cbb2a565cde"
+          ],
+          "authorityRole": "teams_admin_primary"
+        }
+      ],
+      "helpdeskDetailed": "Summary\nGrant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\"\n\nCaveats / limitations\nOnly supported portions should be answered.\n\nMissing authoritative domain coverage: teams_powershell\n\nSources\nConfigure call routing for Direct Routing — https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+      "liveAssistQuick": "Grant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\"\n\n[Microsoft documentation context — conceptual_explanation]\nConfigure call routing for Direct Routing › Example 2: Configuration steps › Using PowerShell › Step 4: Assign the voice routing policy to user2@contoso.com\nDocument: Configure call routing for Direct Routing Heading Path: Configure call routing for Direct Routing -> Example 2: Configuration steps -> Using PowerShell -> Step 4: Assign the voice routing policy to user2@contoso.com ```PowerShell Grant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\" ```\nSource: Configure call routing for Direct Routing\nhttps://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing\n\nOnly supported portions should be answered.\n\nMissing authoritative domain coverage: teams_powershell\n\nConfigure call routing for Direct Routing — https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+      "helpdeskPlanSections": [
+        {
+          "id": "summary",
+          "title": "Summary",
+          "contextBlockIds": []
+        },
+        {
+          "id": "caveats",
+          "title": "Caveats / limitations",
+          "contextBlockIds": []
+        },
+        {
+          "id": "sources",
+          "title": "Sources",
+          "contextBlockIds": [
+            "context:096d53a0a11f4f582bc56c24"
+          ]
+        }
+      ],
+      "quickPlanSections": [
+        {
+          "id": "summary",
+          "title": "Summary",
+          "contextBlockIds": [
+            "context:096d53a0a11f4f582bc56c24"
+          ]
+        },
+        {
+          "id": "caveats",
+          "title": "Caveats",
+          "contextBlockIds": []
+        },
+        {
+          "id": "sources",
+          "title": "Sources",
+          "contextBlockIds": [
+            "context:096d53a0a11f4f582bc56c24"
+          ]
+        }
+      ],
+      "contextReferences": {
+        "helpdesk": [
+          {
+            "contextBlockId": "context:096d53a0a11f4f582bc56c24",
+            "sourceTitle": "Configure call routing for Direct Routing",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "headingPath": [
+              "Configure call routing for Direct Routing",
+              "Example 2: Configuration steps",
+              "Using PowerShell",
+              "Step 4: Assign the voice routing policy to user2@contoso.com"
+            ],
+            "sectionId": "sec-27",
+            "contextType": "conceptual_explanation",
+            "preview": false
+          }
+        ],
+        "quick": [
+          {
+            "contextBlockId": "context:096d53a0a11f4f582bc56c24",
+            "sourceTitle": "Configure call routing for Direct Routing",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "headingPath": [
+              "Configure call routing for Direct Routing",
+              "Example 2: Configuration steps",
+              "Using PowerShell",
+              "Step 4: Assign the voice routing policy to user2@contoso.com"
+            ],
+            "sectionId": "sec-27",
+            "contextType": "conceptual_explanation",
+            "preview": false
+          }
+        ]
+      },
+      "citations": {
+        "error": {
+          "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+          "snapshotBinding": {
+            "snapshotId": "grounding:d41ac43dc0d7f77f25fbbc32",
+            "snapshotHash": "d41ac43dc0d7f77f25fbbc32e0c76158b29cd7dd02751aa094010d45ccf81d22",
+            "schemaVersion": "grounding-decision-snapshot/v1",
+            "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+            "corpusRevisionHash": "e71b6e834ba366a958472883af89656c5d1312ebff003e644aa1b2cc76e0a195"
+          },
+          "answerText": "Steps:\n- Grant-CsOnlineVoiceRoutingPolicy -Identity \"user2@contoso.com\" -PolicyName \"No Restrictions\"\n\nCaveats:\n- Only supported portions should be answered.\n- Missing authoritative domain coverage: teams_powershell",
+          "answerTextHash": "21540a268b9204112692d6089156b73250ed53b6dd169536dcd0b394024ccf3d",
+          "citations": [
+            {
+              "citationId": "citation:aeec1e75248ddec5d653dfe8",
+              "citationPolicyVersion": "source-bound-citation-mapper/wb21",
+              "snapshotBinding": {
+                "snapshotId": "grounding:d41ac43dc0d7f77f25fbbc32",
+                "snapshotHash": "d41ac43dc0d7f77f25fbbc32e0c76158b29cd7dd02751aa094010d45ccf81d22",
+                "schemaVersion": "grounding-decision-snapshot/v1",
+                "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+                "corpusRevisionHash": "e71b6e834ba366a958472883af89656c5d1312ebff003e644aa1b2cc76e0a195"
+              },
+              "answerTextHash": "21540a268b9204112692d6089156b73250ed53b6dd169536dcd0b394024ccf3d",
+              "factualRangeId": "factual-range:e6fe362056acac146aa92956",
+              "answerRange": {
+                "startOffset": 9,
+                "endOffset": 101
+              },
+              "claimId": "claim:7def8a21acaf9cbb2a565cde",
+              "evidenceId": "evidence:fc644f181ad717ea619e17707c51a25ea367cbb0f211bd16a9c0e9491a0eaccf",
+              "spanId": "span:22736695bcbb7a435764e027",
+              "supportingSpanIds": [],
+              "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+              "sourceId": "ms-teams-admin",
+              "authorityRole": "teams_admin_primary",
+              "sourceTitle": "Configure call routing for Direct Routing",
+              "headingPath": [
+                "Configure call routing for Direct Routing",
+                "Example 2: Configuration steps",
+                "Using PowerShell",
+                "Step 4: Assign the voice routing policy to user2@contoso.com"
+              ],
+              "sectionId": "sec-27",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+              "canonicalUrlSource": "persisted_revision",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:06.036Z",
+                "contentHash": "e948b4274144493ae85450f22c7f6446df3c986334054cbeb0243652cf4aa1b2",
+                "sourcePath": "microsoftteams/direct-routing-voice-routing"
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ],
+          "factualRanges": [
+            {
+              "factualRangeId": "factual-range:e6fe362056acac146aa92956",
+              "answerRange": {
+                "startOffset": 9,
+                "endOffset": 101
+              },
+              "claimId": "claim:7def8a21acaf9cbb2a565cde",
+              "citationIds": [
+                "citation:aeec1e75248ddec5d653dfe8"
+              ],
+              "invalidCitationIds": [],
+              "coverage": "one",
+              "complete": true
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "failureReasons": []
+          },
+          "previewState": {
+            "previewEvidenceUsed": false,
+            "requiredLabel": false
+          },
+          "freshnessState": {
+            "mustVerifyBeforeFinalAnswer": false,
+            "reasons": []
+          },
+          "diagnostics": {
+            "latencyMs": 1.8188000000000102,
+            "factualRangeCount": 1,
+            "validCitationCount": 1,
+            "invalidCitationCount": 0,
+            "rangesWithoutCitation": 0,
+            "providerRequestCount": 0
+          }
+        }
+      }
+    },
+    {
+      "question": "Create a new voice routing policy.",
+      "answerability": "answered",
+      "methodInfo": [
+        {
+          "aspectId": "mandatory:policy:voice-routing-policy:new",
+          "subject": "voice routing policy",
+          "operation": "new",
+          "methodConstraints": [],
+          "methodSatisfied": true,
+          "requiredFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authority": {
+            "requiredRoles": [
+              "teams_admin_primary"
+            ],
+            "requiredDomains": [
+              "teams_admin"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "evidenceIds": [
+            "evidence:50c0ba62ba4077e69350c93a9ac830f3e11718468baec583af33d39dd0cc0105"
+          ]
+        }
+      ],
+      "selectedEvidence": [
+        {
+          "evidenceId": "evidence:50c0ba62ba4077e69350c93a9ac830f3e11718468baec583af33d39dd0cc0105",
+          "title": "Manage call routing policies for Direct Routing",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+          "domain": "teams_admin",
+          "roles": [
+            "teams_admin_primary"
+          ],
+          "headingPath": [
+            "Manage call routing policies for Direct Routing",
+            "Create a custom call routing policy",
+            "Use PowerShell"
+          ],
+          "supportTypes": [
+            "configuration_behavior"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claimId": "claim:edcb16e1f33ec72fa8e5e274",
+          "mandatory": true,
+          "status": "mandatory",
+          "claimType": "concept_definition",
+          "coveredFacets": [
+            "operation"
+          ],
+          "sectionId": "key_components",
+          "procedureStep": null,
+          "proposition": "See New-CsOnlineVoiceRoutingPolicy.",
+          "evidenceIds": [
+            "evidence:50c0ba62ba4077e69350c93a9ac830f3e11718468baec583af33d39dd0cc0105"
+          ]
+        }
+      ],
+      "unsupported": [
+        {
+          "aspectId": "mandatory:policy:voice-routing-policy:new",
+          "reason": "source_span_unavailable",
+          "detail": "No exact source span could be planned for all required facets of voice routing policy."
+        }
+      ],
+      "requiredCaveats": [],
+      "r4": {
+        "ok": false,
+        "failure": {
+          "code": "answer_plan_integrity_failed",
+          "message": "Deterministic assembly rejected an invalid source-bound answer plan.",
+          "planIntegrityIssues": [
+            {
+              "code": "required_facet_unplanned",
+              "message": "Required facet configuration has no source-bound claim for mandatory:policy:voice-routing-policy:new.",
+              "aspectId": "mandatory:policy:voice-routing-policy:new"
+            }
+          ],
+          "assemblyIssues": []
+        }
+      },
+      "helpdeskDetailed": null,
+      "liveAssistQuick": null,
+      "explanationContext": [],
+      "citations": [],
+      "contextReferences": []
+    }
+  ]
+}

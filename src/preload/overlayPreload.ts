@@ -48,6 +48,15 @@ const overlayApi = Object.freeze<OverlayApi>({
       handler(status);
     ipcRenderer.on(IPC_CHANNELS.connectionStatus, listener);
     return () => ipcRenderer.off(IPC_CHANNELS.connectionStatus, listener);
+  },
+  onEvidenceStatus: (handler) => {
+    const listener = (
+      _event: Electron.IpcRendererEvent,
+      status: Parameters<typeof handler>[0]
+    ) => handler(status);
+    ipcRenderer.on(IPC_CHANNELS.liveAssistEvidenceStatus, listener);
+    return () =>
+      ipcRenderer.off(IPC_CHANNELS.liveAssistEvidenceStatus, listener);
   }
 });
 

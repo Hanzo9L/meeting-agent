@@ -1,0 +1,221 @@
+
+> meeting-agent@1.0.0 inspect:grounded-answer
+> tsx eval/harness/runInspectGroundedAnswer.ts Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.
+
+{
+  "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+  "provider": "openai",
+  "answerability": "partial",
+  "valid": true,
+  "validationIssues": [],
+  "diagnostics": {
+    "generatorProviderId": "openai",
+    "generationLatencyMs": 3721,
+    "validationLatencyMs": 1,
+    "totalLatencyMs": 1403,
+    "claimTaskCount": 3,
+    "mandatoryClaimTaskCount": 3,
+    "successfulClaimCount": 3,
+    "failedClaimCount": 0,
+    "requestCount": 3,
+    "retryCount": 0,
+    "firstAttemptValid": true,
+    "finalAttemptValid": true,
+    "firstAttemptIssues": [],
+    "attempts": [
+      {
+        "attempt": 1,
+        "mode": "initial",
+        "claimId": "claim:68ff7d72db533918a81fca02",
+        "latencyMs": 1050,
+        "validationValid": true,
+        "validationIssueCodes": [],
+        "tokenUsage": {
+          "inputTokens": 536,
+          "outputTokens": 37
+        }
+      },
+      {
+        "attempt": 2,
+        "mode": "initial",
+        "claimId": "claim:0a75a0fcb0c43f68a0754248",
+        "latencyMs": 1272,
+        "validationValid": true,
+        "validationIssueCodes": [],
+        "tokenUsage": {
+          "inputTokens": 457,
+          "outputTokens": 43
+        }
+      },
+      {
+        "attempt": 3,
+        "mode": "initial",
+        "claimId": "claim:9e5bf07e566330afc06e1c86",
+        "latencyMs": 1399,
+        "validationValid": true,
+        "validationIssueCodes": [],
+        "tokenUsage": {
+          "inputTokens": 989,
+          "outputTokens": 61
+        }
+      }
+    ],
+    "tokenUsage": {
+      "inputTokens": 1982,
+      "outputTokens": 141
+    }
+  },
+  "groundedAnswer": {
+    "snapshotBinding": {
+      "snapshotId": "grounding:f1fd95fae911ba8c93a7de1e",
+      "snapshotHash": "f1fd95fae911ba8c93a7de1e261ec38a81947b1dbe045fddaf9d956cb569ae2a",
+      "schemaVersion": "grounding-decision-snapshot/v1",
+      "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+      "corpusRevisionHash": "16434fcbca040882e2fbd62da01e62ed50c405eba350b124f80e2d157f1ea662"
+    },
+    "answerability": "partial",
+    "answerText": "configuration:\n- Online voice routing policies are utilized in Microsoft Phone System Direct Routing scenarios.\n- The Get-CsTenantDialPlan cmdlet is used to retrieve a tenant dial plan.\n- To identify all Teams users with Enterprise Voice enabled, retrieve their assigned phone numbers, voice-routing policies, dial plans, and calling policies, and export the results to a CSV file.\n\nCaveats:\n- Only part of the request is covered by authoritative evidence.\n\nNot fully supported:\n- The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n- Unsupported required aspect: enterprise voice; required facets: state.\n- No exact source span could be planned for all required facets of calling policy.",
+    "realizedClaims": [
+      {
+        "claimId": "claim:68ff7d72db533918a81fca02",
+        "generatedText": "Online voice routing policies are utilized in Microsoft Phone System Direct Routing scenarios.",
+        "evidenceIds": [
+          "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3"
+        ]
+      },
+      {
+        "claimId": "claim:0a75a0fcb0c43f68a0754248",
+        "generatedText": "The Get-CsTenantDialPlan cmdlet is used to retrieve a tenant dial plan.",
+        "evidenceIds": [
+          "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc"
+        ]
+      },
+      {
+        "claimId": "claim:9e5bf07e566330afc06e1c86",
+        "generatedText": "To identify all Teams users with Enterprise Voice enabled, retrieve their assigned phone numbers, voice-routing policies, dial plans, and calling policies, and export the results to a CSV file.",
+        "evidenceIds": [
+          "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c"
+        ]
+      }
+    ],
+    "caveats": [
+      {
+        "code": "partial_coverage",
+        "text": "Only part of the request is covered by authoritative evidence."
+      }
+    ],
+    "unsupportedAspects": [
+      {
+        "aspectId": "mandatory:entity:csv-export:output-transformation",
+        "text": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+      },
+      {
+        "aspectId": "mandatory:entity:enterprise-voice:general",
+        "text": "Unsupported required aspect: enterprise voice; required facets: state."
+      },
+      {
+        "aspectId": "mandatory:policy:calling-policy:general",
+        "text": "No exact source span could be planned for all required facets of calling policy."
+      }
+    ],
+    "evidenceReferences": {
+      "usedEvidenceIds": [
+        "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+        "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c",
+        "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3"
+      ],
+      "claimEvidenceMap": {
+        "claim:0a75a0fcb0c43f68a0754248": [
+          "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc"
+        ],
+        "claim:9e5bf07e566330afc06e1c86": [
+          "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c"
+        ],
+        "claim:68ff7d72db533918a81fca02": [
+          "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3"
+        ]
+      }
+    },
+    "freshnessState": {
+      "mustVerifyBeforeFinalAnswer": false,
+      "reasons": []
+    },
+    "previewState": {
+      "previewEvidenceUsed": false,
+      "requiredLabel": false
+    },
+    "exactIdentifierState": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    },
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "coverage": {
+        "mandatoryClaimsTotal": 3,
+        "mandatoryClaimsRealized": 3,
+        "unknownClaimCount": 0,
+        "missingCaveatCount": 0
+      }
+    },
+    "diagnostics": {
+      "generatorProviderId": "openai",
+      "generationLatencyMs": 3721,
+      "validationLatencyMs": 1,
+      "totalLatencyMs": 1403,
+      "claimTaskCount": 3,
+      "mandatoryClaimTaskCount": 3,
+      "successfulClaimCount": 3,
+      "failedClaimCount": 0,
+      "requestCount": 3,
+      "retryCount": 0,
+      "firstAttemptValid": true,
+      "finalAttemptValid": true,
+      "firstAttemptIssues": [],
+      "attempts": [
+        {
+          "attempt": 1,
+          "mode": "initial",
+          "claimId": "claim:68ff7d72db533918a81fca02",
+          "latencyMs": 1050,
+          "validationValid": true,
+          "validationIssueCodes": [],
+          "tokenUsage": {
+            "inputTokens": 536,
+            "outputTokens": 37
+          }
+        },
+        {
+          "attempt": 2,
+          "mode": "initial",
+          "claimId": "claim:0a75a0fcb0c43f68a0754248",
+          "latencyMs": 1272,
+          "validationValid": true,
+          "validationIssueCodes": [],
+          "tokenUsage": {
+            "inputTokens": 457,
+            "outputTokens": 43
+          }
+        },
+        {
+          "attempt": 3,
+          "mode": "initial",
+          "claimId": "claim:9e5bf07e566330afc06e1c86",
+          "latencyMs": 1399,
+          "validationValid": true,
+          "validationIssueCodes": [],
+          "tokenUsage": {
+            "inputTokens": 989,
+            "outputTokens": 61
+          }
+        }
+      ],
+      "tokenUsage": {
+        "inputTokens": 1982,
+        "outputTokens": 141
+      }
+    }
+  }
+}

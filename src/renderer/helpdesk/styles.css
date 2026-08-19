@@ -206,15 +206,21 @@ button:disabled {
 }
 
 .conversation-pane {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   min-height: 0;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  overflow: hidden;
   background: #101114;
+}
+
+.conversation-banners {
+  flex-shrink: 0;
 }
 
 .conversation-header {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   min-height: 68px;
@@ -407,6 +413,7 @@ button:disabled {
 }
 
 .timeline {
+  flex: 1;
   min-height: 0;
   overflow-y: auto;
 }
@@ -426,6 +433,14 @@ button:disabled {
   margin-left: auto;
   border-radius: 14px;
   background: #292c32;
+  padding: 14px 16px;
+}
+
+.message-row.assistant.interview-quick {
+  width: min(88%, 720px);
+  border-radius: 14px;
+  background: #1b1d22;
+  border: 1px solid #2d3340;
   padding: 14px 16px;
 }
 
@@ -471,12 +486,158 @@ button:disabled {
   color: #d0d3da;
 }
 
+.answerability-label.evidence {
+  background: #243248;
+  color: #d5e4ff;
+}
+
+.message-row.assistant.evidence-card-row {
+  width: min(88%, 720px);
+  border-radius: 14px;
+  background: #1b1d22;
+  border: 1px solid #2d3340;
+  padding: 14px 16px;
+}
+
+.evidence-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.evidence-item {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px 0 12px;
+  border-top: 1px solid #2a2d35;
+}
+
+.evidence-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.evidence-item-index {
+  color: #8b93a3;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding-top: 1px;
+}
+
+.evidence-item-body {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.evidence-title {
+  color: #f2f2f4;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.evidence-publisher {
+  color: #9aa4b8;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+.evidence-publisher[data-publisher="AudioCodes"] {
+  color: #c9b27a;
+}
+
+.evidence-publisher[data-publisher="Linux"] {
+  color: #8fb39a;
+}
+
+.evidence-section {
+  color: #a8b0c0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.evidence-preview {
+  margin: 0;
+  overflow: auto;
+  border-radius: 8px;
+  background: #15171c;
+  padding: 8px 10px;
+  color: #e8edf7;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.evidence-item[data-expanded="true"] .evidence-preview {
+  max-height: 360px;
+}
+
+.evidence-md-heading {
+  color: #d7dbe6;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 4px;
+}
+
+.evidence-md-heading.h1,
+.evidence-md-heading.h2 {
+  font-size: 13px;
+}
+
+.evidence-md-code {
+  margin: 6px 0;
+  overflow: auto;
+  border-radius: 6px;
+  background: #101218;
+  padding: 8px 10px;
+  color: #d7e7ff;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.evidence-md-bullet,
+.evidence-md-ordered {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.evidence-md-text {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.evidence-expand {
+  justify-self: start;
+}
+
+.evidence-source-line {
+  display: grid;
+  gap: 6px;
+  color: #9aa3b5;
+  font-size: 12px;
+}
+
 .message-content {
   overflow-wrap: anywhere;
   color: #f2f2f4;
   font-size: 15px;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+.quick-source-line {
+  margin-top: 10px;
+  color: #8b93a3;
+  font-size: 11px;
 }
 
 .assistant-actions {
@@ -567,7 +728,8 @@ button:disabled {
 
 .center-state {
   display: grid;
-  min-height: 100%;
+  min-height: 0;
+  height: 100%;
   place-content: center;
   padding: 32px;
   color: #9ca2ac;
@@ -587,8 +749,18 @@ button:disabled {
 }
 
 .composer-shell {
-  padding: 14px 24px 20px;
-  background: linear-gradient(transparent, #101114 18%);
+  flex-shrink: 0;
+  padding: 10px 24px 18px;
+  background: #101114;
+  border-top: 1px solid #2a2d35;
+}
+
+.composer-heading {
+  width: min(800px, 100%);
+  margin: 0 auto 8px;
+  color: #d7dbe6;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .composer {

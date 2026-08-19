@@ -1,0 +1,1944 @@
+{
+  "generatedAt": "2026-08-16T14:58:26.708Z",
+  "synthesisProviderId": "openai_grounded_presentation",
+  "synthesisRuntimeConfig": {
+    "provider": "openai",
+    "model": "gpt-4.1-mini",
+    "timeoutMs": 12000
+  },
+  "results": [
+    {
+      "scenario": "powershell_workflow",
+      "profile": "helpdesk_detailed",
+      "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+      "outcome": "partial",
+      "deterministicFactualText": "Steps:\n- Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.\n- Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.\n- Returns information about the teams calling policies configured for use in your organization.\n- Filters the returned results based on the user or resource account ID the phone number is assigned to.\n- For example, the following filter returns only users who have been enabled for Enterprise Voice: -Filter 'EnterpriseVoiceEnabled -eq $True' or -Filter \"EnterpriseVoiceEnabled -eq `$True\".\n\nLimitations:\n- The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats:\n- Only supported portions should be answered.\n- Missing authoritative domain coverage: teams_admin",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+        "profile": "helpdesk_detailed",
+        "answerability": "partial",
+        "answerType": "configuration",
+        "requestedMethods": [
+          "PowerShell"
+        ],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "answerObject": "fact",
+            "operation": null,
+            "supported": false,
+            "requestedMethods": []
+          },
+          {
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "subject": "enterprise voice",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:entity:phone-number:general",
+            "subject": "phone number",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "subject": "calling policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "subject": "dial plan",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "subject": "voice routing policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:83191852bac63ba67ce0837c",
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "aspectSubject": "enterprise voice",
+            "text": "For example, the following filter returns only users who have been enabled for Enterprise Voice: -Filter 'EnterpriseVoiceEnabled -eq $True' or -Filter \"EnterpriseVoiceEnabled -eq `$True\".",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:83191852bac63ba67ce0837c",
+                "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:52f6500505beb6fccdd1189c",
+            "aspectId": "mandatory:entity:phone-number:general",
+            "aspectSubject": "phone number",
+            "text": "Filters the returned results based on the user or resource account ID the phone number is assigned to.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:52f6500505beb6fccdd1189c",
+                "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsPhoneNumberAssignment",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:fe6caf187326ec4fd07be3aa",
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "aspectSubject": "voice routing policy",
+            "text": "Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:fe6caf187326ec4fd07be3aa",
+                "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:315ab84937d3d69b72fa0bb0",
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "aspectSubject": "dial plan",
+            "text": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:315ab84937d3d69b72fa0bb0",
+                "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsTenantDialPlan",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:9f75ac34c45f067f4ce5e7e3",
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "aspectSubject": "calling policy",
+            "text": "Returns information about the teams calling policies configured for use in your organization.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:9f75ac34c45f067f4ce5e7e3",
+                "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsTeamsCallingPolicy",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          },
+          {
+            "aspectId": "missing_authority",
+            "subject": "missing_authority",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          }
+        ],
+        "caveats": [
+          {
+            "code": "partial_coverage",
+            "text": "Only supported portions should be answered."
+          },
+          {
+            "code": "missing_adjacent_authority",
+            "text": "Missing authoritative domain coverage: teams_admin"
+          }
+        ]
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "helpdesk_detailed",
+        "blocks": [
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice.",
+            "supportingClaimIds": [
+              "claim:83191852bac63ba67ce0837c"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID.",
+            "supportingClaimIds": [
+              "claim:52f6500505beb6fccdd1189c"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios.",
+            "supportingClaimIds": [
+              "claim:fe6caf187326ec4fd07be3aa"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+            "supportingClaimIds": [
+              "claim:315ab84937d3d69b72fa0bb0"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in the organization.",
+            "supportingClaimIds": [
+              "claim:9f75ac34c45f067f4ce5e7e3"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [
+          "mandatory:entity:csv-export:output-transformation",
+          "missing_authority"
+        ],
+        "caveatCodes": [
+          "partial_coverage",
+          "missing_adjacent_authority"
+        ]
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "1. Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice.\n\n2. Use the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID.\n\n3. Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios.\n\n4. Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.\n\n5. Use the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in the organization.\n\nUnsupported gaps\nThe Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats\nOnly supported portions should be answered.\nMissing authoritative domain coverage: teams_admin\n\nSources\nGet-CsOnlineUser — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser\nGet-CsPhoneNumberAssignment — https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment\nGet-CsOnlineVoiceRoutingPolicy — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy\nGet-CsTenantDialPlan — https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan\nGet-CsTeamsCallingPolicy — https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+      "diagnostics": {
+        "retrievalMs": 3146.5856000000003,
+        "evidenceResolutionMs": 45.73409999999967,
+        "planningMs": 4.311200000000099,
+        "assemblyMs": 3.71979999999985,
+        "citationMappingMs": 3.858099999999922,
+        "contextBuildMs": 2.5515000000000327,
+        "presentationPlanningMs": 0.4722999999999047,
+        "presentationRenderMs": 0.354200000000219,
+        "synthesisMs": 3593.3724,
+        "pipelineTotalMs": 6801.6008,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "succeeded",
+        "presentationSynthesisFallbackReason": null
+      },
+      "persistenceAndServiceMs": 16.878100000000813,
+      "totalVisibleMs": 6818.8244,
+      "attribution": [
+        {
+          "claimId": "claim:315ab84937d3d69b72fa0bb0",
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "range": {
+            "startOffset": 415,
+            "endOffset": 482
+          },
+          "displayedSubstring": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan."
+        },
+        {
+          "claimId": "claim:fe6caf187326ec4fd07be3aa",
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "range": {
+            "startOffset": 266,
+            "endOffset": 410
+          },
+          "displayedSubstring": "Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios."
+        },
+        {
+          "claimId": "claim:9f75ac34c45f067f4ce5e7e3",
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "sourceTitle": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "range": {
+            "startOffset": 487,
+            "endOffset": 621
+          },
+          "displayedSubstring": "Use the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in the organization."
+        },
+        {
+          "claimId": "claim:52f6500505beb6fccdd1189c",
+          "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "sourceTitle": "Get-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+          "range": {
+            "startOffset": 138,
+            "endOffset": 261
+          },
+          "displayedSubstring": "Use the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID."
+        },
+        {
+          "claimId": "claim:83191852bac63ba67ce0837c",
+          "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "range": {
+            "startOffset": 3,
+            "endOffset": 133
+          },
+          "displayedSubstring": "Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice."
+        }
+      ],
+      "contextReferences": [
+        {
+          "contextBlockId": "context:fe18226da9f9c5056abb38a2",
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+          "chunkId": "0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 145,
+          "sourceContentHash": "34a42af17facea07d471fa15a87841b4ecdfd2959dc29e85cadfa1f4ff88ce1a",
+          "contextType": "supporting_context",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:b60c0ee3696d610b1fbd9559",
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+          "chunkId": "327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceRoutingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 643,
+          "sourceContentHash": "7e22646ce8c2b16385bdea71f8a7c884d54135133d3e525b478df4d504b1aefb",
+          "contextType": "supporting_context",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:5832c069f33a6c8c883ab2a2",
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "documentId": "f6a362e8969efd1c3a61af61626e856acf690635f0b2538bb977a0eb430d3e7f",
+          "chunkId": "f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "sourceTitle": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTeamsCallingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 339,
+          "sourceContentHash": "fd3fd97cca0a9ea8827bcae1a0d9766b2f2be7504c85e787466975b911c66b56",
+          "contextType": "supporting_context",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:8d96a72fba54f6d5b262f807",
+          "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "documentId": "12929337f19bd0018e7c57e86af75f341cb612532c52200bd68c97cfbdf464bc",
+          "chunkId": "46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "sourceTitle": "Get-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsPhoneNumberAssignment",
+            "PARAMETERS",
+            "-AssignedPstnTargetId"
+          ],
+          "sectionId": "sec-27",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 371,
+          "sourceContentHash": "bc8cfb1889ef73c3c839d2ab0adb631130ddbd3a72ee9f22c296ba7c37381e30",
+          "contextType": "supporting_context",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:a71a7843e42f2ceb0d237ced",
+          "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "chunkId": "b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "PARAMETERS",
+            "-Filter"
+          ],
+          "sectionId": "sec-15",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 936,
+          "sourceContentHash": "0eef45bac15a1f5d1b1297254801404865477b433eac0809719e8cbd23d91f12",
+          "contextType": "supporting_context",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "1. Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice.\n\n2. Use the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID.\n\n3. Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios.\n\n4. Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.\n\n5. Use the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in the organization.\n\nUnsupported gaps\nThe Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats\nOnly supported portions should be answered.\nMissing authoritative domain coverage: teams_admin\n\nSources\nGet-CsOnlineUser — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser\nGet-CsPhoneNumberAssignment — https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment\nGet-CsOnlineVoiceRoutingPolicy — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy\nGet-CsTenantDialPlan — https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan\nGet-CsTeamsCallingPolicy — https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "citationId": "citation:39ca0654d38a499838306ade",
+          "factualRangeId": "factual-range:b4c2118429d060b2636b3cc3",
+          "claimId": "claim:83191852bac63ba67ce0837c",
+          "answerRangeStart": 3,
+          "answerRangeEnd": 133,
+          "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "spanId": "span:08d37dfdebfa6df6e76d4e47",
+          "supportingSpanIds": [],
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "PARAMETERS",
+            "-Filter"
+          ],
+          "sectionId": "sec-15",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "citationId": "citation:0e3dc50d2566006dcb39d7fc",
+          "factualRangeId": "factual-range:886189aad4101dcd1e8c4d2f",
+          "claimId": "claim:52f6500505beb6fccdd1189c",
+          "answerRangeStart": 138,
+          "answerRangeEnd": 261,
+          "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "spanId": "span:279ddef09b5510c6f3987210",
+          "supportingSpanIds": [],
+          "documentId": "12929337f19bd0018e7c57e86af75f341cb612532c52200bd68c97cfbdf464bc",
+          "sourceTitle": "Get-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsPhoneNumberAssignment",
+            "PARAMETERS",
+            "-AssignedPstnTargetId"
+          ],
+          "sectionId": "sec-27",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "citationId": "citation:74b074eba2a34a89492c8d96",
+          "factualRangeId": "factual-range:091e659bcd0182484312cb27",
+          "claimId": "claim:fe6caf187326ec4fd07be3aa",
+          "answerRangeStart": 266,
+          "answerRangeEnd": 410,
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "spanId": "span:e412bf865c30820e7c243ac2",
+          "supportingSpanIds": [],
+          "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceRoutingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "citationId": "citation:14a99a73774473683d95c4a6",
+          "factualRangeId": "factual-range:b068ca7a1bba6f4a951e09c0",
+          "claimId": "claim:315ab84937d3d69b72fa0bb0",
+          "answerRangeStart": 415,
+          "answerRangeEnd": 482,
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "spanId": "span:03f58e621a1013f33d4d845b",
+          "supportingSpanIds": [],
+          "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "sectionId": "sec-2",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "citationId": "citation:e72c2276f92792dd1a46c2a0",
+          "factualRangeId": "factual-range:49ca517035a57f5facd4e54c",
+          "claimId": "claim:9f75ac34c45f067f4ce5e7e3",
+          "answerRangeStart": 487,
+          "answerRangeEnd": 621,
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "spanId": "span:f475018a4ea5452e67217a61",
+          "supportingSpanIds": [],
+          "documentId": "f6a362e8969efd1c3a61af61626e856acf690635f0b2538bb977a0eb430d3e7f",
+          "sourceTitle": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTeamsCallingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        }
+      ],
+      "reloadedContextReferences": [
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "contextBlockId": "context:5832c069f33a6c8c883ab2a2",
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "documentId": "f6a362e8969efd1c3a61af61626e856acf690635f0b2538bb977a0eb430d3e7f",
+          "chunkId": "f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "sourceTitle": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTeamsCallingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 339,
+          "sourceContentHash": "fd3fd97cca0a9ea8827bcae1a0d9766b2f2be7504c85e787466975b911c66b56",
+          "contextType": "supporting_context",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "contextBlockId": "context:8d96a72fba54f6d5b262f807",
+          "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "documentId": "12929337f19bd0018e7c57e86af75f341cb612532c52200bd68c97cfbdf464bc",
+          "chunkId": "46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "sourceTitle": "Get-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsPhoneNumberAssignment",
+            "PARAMETERS",
+            "-AssignedPstnTargetId"
+          ],
+          "sectionId": "sec-27",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 371,
+          "sourceContentHash": "bc8cfb1889ef73c3c839d2ab0adb631130ddbd3a72ee9f22c296ba7c37381e30",
+          "contextType": "supporting_context",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "contextBlockId": "context:a71a7843e42f2ceb0d237ced",
+          "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "chunkId": "b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "PARAMETERS",
+            "-Filter"
+          ],
+          "sectionId": "sec-15",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 936,
+          "sourceContentHash": "0eef45bac15a1f5d1b1297254801404865477b433eac0809719e8cbd23d91f12",
+          "contextType": "supporting_context",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "contextBlockId": "context:b60c0ee3696d610b1fbd9559",
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+          "chunkId": "327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceRoutingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 643,
+          "sourceContentHash": "7e22646ce8c2b16385bdea71f8a7c884d54135133d3e525b478df4d504b1aefb",
+          "contextType": "supporting_context",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        },
+        {
+          "messageId": "msg_dc33ece1-93bf-475a-b26e-b9293a7fd9e0",
+          "contextBlockId": "context:fe18226da9f9c5056abb38a2",
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+          "chunkId": "0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 145,
+          "sourceContentHash": "34a42af17facea07d471fa15a87841b4ecdfd2959dc29e85cadfa1f4ff88ce1a",
+          "contextType": "supporting_context",
+          "preview": false,
+          "groundingSnapshotId": "grounding:39e7aecf204d658129f3fbb1"
+        }
+      ]
+    },
+    {
+      "scenario": "powershell_workflow",
+      "profile": "live_assist_quick",
+      "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+      "outcome": "partial",
+      "deterministicFactualText": "Steps:\n- Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.\n- Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.\n- Returns information about the teams calling policies configured for use in your organization.\n- Filters the returned results based on the user or resource account ID the phone number is assigned to.\n- For example, the following filter returns only users who have been enabled for Enterprise Voice: -Filter 'EnterpriseVoiceEnabled -eq $True' or -Filter \"EnterpriseVoiceEnabled -eq `$True\".\n\nLimitations:\n- The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats:\n- Only supported portions should be answered.\n- Missing authoritative domain coverage: teams_admin",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+        "profile": "live_assist_quick",
+        "answerability": "partial",
+        "answerType": "configuration",
+        "requestedMethods": [
+          "PowerShell"
+        ],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "answerObject": "fact",
+            "operation": null,
+            "supported": false,
+            "requestedMethods": []
+          },
+          {
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "subject": "enterprise voice",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:entity:phone-number:general",
+            "subject": "phone number",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "subject": "calling policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "subject": "dial plan",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "subject": "voice routing policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:4e5b6ee3d4a4b6e7111d88d8",
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "aspectSubject": "enterprise voice",
+            "text": "For example, the following filter returns only users who have been enabled for Enterprise Voice: -Filter 'EnterpriseVoiceEnabled -eq $True' or -Filter \"EnterpriseVoiceEnabled -eq `$True\".",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:4e5b6ee3d4a4b6e7111d88d8",
+                "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:b3d952451c5f9446072ed5fc",
+            "aspectId": "mandatory:entity:phone-number:general",
+            "aspectSubject": "phone number",
+            "text": "Filters the returned results based on the user or resource account ID the phone number is assigned to.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:b3d952451c5f9446072ed5fc",
+                "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsPhoneNumberAssignment",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:db80e1f6402ac6e4ebceb787",
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "aspectSubject": "voice routing policy",
+            "text": "Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:db80e1f6402ac6e4ebceb787",
+                "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:f05ff3935269314d6fb538ae",
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "aspectSubject": "dial plan",
+            "text": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:f05ff3935269314d6fb538ae",
+                "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsTenantDialPlan",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:a05aca9fc205ff72468511b8",
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "aspectSubject": "calling policy",
+            "text": "Returns information about the teams calling policies configured for use in your organization.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:a05aca9fc205ff72468511b8",
+                "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsTeamsCallingPolicy",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          },
+          {
+            "aspectId": "missing_authority",
+            "subject": "missing_authority",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          }
+        ],
+        "caveats": [
+          {
+            "code": "partial_coverage",
+            "text": "Only supported portions should be answered."
+          },
+          {
+            "code": "missing_adjacent_authority",
+            "text": "Missing authoritative domain coverage: teams_admin"
+          }
+        ]
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "live_assist_quick",
+        "blocks": [
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice.",
+            "supportingClaimIds": [
+              "claim:4e5b6ee3d4a4b6e7111d88d8"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID.",
+            "supportingClaimIds": [
+              "claim:b3d952451c5f9446072ed5fc"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios.",
+            "supportingClaimIds": [
+              "claim:db80e1f6402ac6e4ebceb787"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+            "supportingClaimIds": [
+              "claim:f05ff3935269314d6fb538ae"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Use the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in your organization.",
+            "supportingClaimIds": [
+              "claim:a05aca9fc205ff72468511b8"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [
+          "mandatory:entity:csv-export:output-transformation",
+          "missing_authority"
+        ],
+        "caveatCodes": [
+          "partial_coverage",
+          "missing_adjacent_authority"
+        ]
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice.\n\nUse the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID.\n\nUse the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios.\n\nUse the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.\n\nUse the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in your organization.\n\nThe Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nOnly supported portions should be answered.\nMissing authoritative domain coverage: teams_admin",
+      "diagnostics": {
+        "retrievalMs": 2893.603500000001,
+        "evidenceResolutionMs": 42.867199999998775,
+        "planningMs": 1.4797000000016851,
+        "assemblyMs": 2.4375,
+        "citationMappingMs": 2.6520999999993364,
+        "contextBuildMs": 2.0144000000018423,
+        "presentationPlanningMs": 0.09349999999903957,
+        "presentationRenderMs": 0.10909999999967113,
+        "synthesisMs": 3220.1045999999988,
+        "pipelineTotalMs": 6164.822899999999,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "succeeded",
+        "presentationSynthesisFallbackReason": null
+      },
+      "persistenceAndServiceMs": 15.07379999999921,
+      "totalVisibleMs": 6179.9103,
+      "attribution": [
+        {
+          "claimId": "claim:f05ff3935269314d6fb538ae",
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "range": {
+            "startOffset": 403,
+            "endOffset": 470
+          },
+          "displayedSubstring": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan."
+        },
+        {
+          "claimId": "claim:db80e1f6402ac6e4ebceb787",
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "range": {
+            "startOffset": 257,
+            "endOffset": 401
+          },
+          "displayedSubstring": "Use the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios."
+        },
+        {
+          "claimId": "claim:a05aca9fc205ff72468511b8",
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "sourceTitle": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "range": {
+            "startOffset": 472,
+            "endOffset": 607
+          },
+          "displayedSubstring": "Use the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in your organization."
+        },
+        {
+          "claimId": "claim:b3d952451c5f9446072ed5fc",
+          "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "sourceTitle": "Get-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+          "range": {
+            "startOffset": 132,
+            "endOffset": 255
+          },
+          "displayedSubstring": "Use the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID."
+        },
+        {
+          "claimId": "claim:4e5b6ee3d4a4b6e7111d88d8",
+          "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "range": {
+            "startOffset": 0,
+            "endOffset": 130
+          },
+          "displayedSubstring": "Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice."
+        }
+      ],
+      "contextReferences": [
+        {
+          "contextBlockId": "context:c9bc170f74354fef7ebd399b",
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+          "chunkId": "0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 145,
+          "sourceContentHash": "34a42af17facea07d471fa15a87841b4ecdfd2959dc29e85cadfa1f4ff88ce1a",
+          "contextType": "supporting_context",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "Use the Get-CsOnlineUser cmdlet with the filter 'EnterpriseVoiceEnabled -eq $True' to identify users enabled for Enterprise Voice.\n\nUse the Get-CsPhoneNumberAssignment cmdlet to determine the phone number assigned based on the user or resource account ID.\n\nUse the Get-CsOnlineVoiceRoutingPolicy cmdlet to retrieve online voice routing policies used in Microsoft Phone System Direct Routing scenarios.\n\nUse the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.\n\nUse the Get-CsTeamsCallingPolicy cmdlet to return information about the Teams calling policies configured for use in your organization.\n\nThe Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nOnly supported portions should be answered.\nMissing authoritative domain coverage: teams_admin",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_023d0de8-d75b-4aef-81a6-8f779de7cba8",
+          "citationId": "citation:eb1b8e171d6a56c904588a12",
+          "factualRangeId": "factual-range:db2be9d2e69e3d103c5cd28a",
+          "claimId": "claim:4e5b6ee3d4a4b6e7111d88d8",
+          "answerRangeStart": 0,
+          "answerRangeEnd": 130,
+          "evidenceId": "evidence:b0a2cc9b3905823840bd5b18d2af33300e85f85b1bd2647169e1e6aa3e2de5ae",
+          "spanId": "span:08d37dfdebfa6df6e76d4e47",
+          "supportingSpanIds": [],
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "PARAMETERS",
+            "-Filter"
+          ],
+          "sectionId": "sec-15",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:ea3bd7db76d3e472cfedb552"
+        },
+        {
+          "messageId": "msg_023d0de8-d75b-4aef-81a6-8f779de7cba8",
+          "citationId": "citation:4ebb32fcc00b8493e3db296e",
+          "factualRangeId": "factual-range:a230223012575fca5b492074",
+          "claimId": "claim:b3d952451c5f9446072ed5fc",
+          "answerRangeStart": 132,
+          "answerRangeEnd": 255,
+          "evidenceId": "evidence:46faddfedf22a86e9a46a773cab83c5771922f2e7577a2b866bfb58b8e0b0aed",
+          "spanId": "span:279ddef09b5510c6f3987210",
+          "supportingSpanIds": [],
+          "documentId": "12929337f19bd0018e7c57e86af75f341cb612532c52200bd68c97cfbdf464bc",
+          "sourceTitle": "Get-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsPhoneNumberAssignment",
+            "PARAMETERS",
+            "-AssignedPstnTargetId"
+          ],
+          "sectionId": "sec-27",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:ea3bd7db76d3e472cfedb552"
+        },
+        {
+          "messageId": "msg_023d0de8-d75b-4aef-81a6-8f779de7cba8",
+          "citationId": "citation:c28a6c8d6c272d43902a6a54",
+          "factualRangeId": "factual-range:ac565b55e13894543d4d540d",
+          "claimId": "claim:db80e1f6402ac6e4ebceb787",
+          "answerRangeStart": 257,
+          "answerRangeEnd": 401,
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "spanId": "span:e412bf865c30820e7c243ac2",
+          "supportingSpanIds": [],
+          "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceRoutingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:ea3bd7db76d3e472cfedb552"
+        },
+        {
+          "messageId": "msg_023d0de8-d75b-4aef-81a6-8f779de7cba8",
+          "citationId": "citation:ab07da716828ebb74dba1896",
+          "factualRangeId": "factual-range:a88957de8afb85508a0568f9",
+          "claimId": "claim:f05ff3935269314d6fb538ae",
+          "answerRangeStart": 403,
+          "answerRangeEnd": 470,
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "spanId": "span:03f58e621a1013f33d4d845b",
+          "supportingSpanIds": [],
+          "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "sectionId": "sec-2",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:ea3bd7db76d3e472cfedb552"
+        },
+        {
+          "messageId": "msg_023d0de8-d75b-4aef-81a6-8f779de7cba8",
+          "citationId": "citation:7103606c07222fc44fe292d4",
+          "factualRangeId": "factual-range:482d23440ab061df6301e6ad",
+          "claimId": "claim:a05aca9fc205ff72468511b8",
+          "answerRangeStart": 472,
+          "answerRangeEnd": 607,
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "spanId": "span:f475018a4ea5452e67217a61",
+          "supportingSpanIds": [],
+          "documentId": "f6a362e8969efd1c3a61af61626e856acf690635f0b2538bb977a0eb430d3e7f",
+          "sourceTitle": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTeamsCallingPolicy",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-6",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:ea3bd7db76d3e472cfedb552"
+        }
+      ],
+      "reloadedContextReferences": [
+        {
+          "messageId": "msg_023d0de8-d75b-4aef-81a6-8f779de7cba8",
+          "contextBlockId": "context:c9bc170f74354fef7ebd399b",
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+          "chunkId": "0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "sourceTitle": "Get-CsTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 145,
+          "sourceContentHash": "34a42af17facea07d471fa15a87841b4ecdfd2959dc29e85cadfa1f4ff88ce1a",
+          "contextType": "supporting_context",
+          "preview": false,
+          "groundingSnapshotId": "grounding:ea3bd7db76d3e472cfedb552"
+        }
+      ]
+    },
+    {
+      "scenario": "sharepoint_copilot",
+      "profile": "helpdesk_detailed",
+      "question": "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+      "outcome": "answered",
+      "deterministicFactualText": "Currently, users with a Microsoft 365 Copilot license can use the agents.",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+        "profile": "helpdesk_detailed",
+        "answerability": "answered",
+        "answerType": "conceptual",
+        "requestedMethods": [],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:unresolved:secure-sharepoint-data-accessible:general",
+            "subject": "secure sharepoint data accessible",
+            "answerObject": "fact",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": []
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:10fd9e811b936947aaf8afa5",
+            "aspectId": "mandatory:unresolved:secure-sharepoint-data-accessible:general",
+            "aspectSubject": "secure sharepoint data accessible",
+            "text": "Currently, users with a Microsoft 365 Copilot license can use the agents.",
+            "mandatory": true,
+            "requestedMethods": [],
+            "sources": [
+              {
+                "claimId": "claim:10fd9e811b936947aaf8afa5",
+                "evidenceId": "evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+                "sourceId": "ms-sharepoint-docs",
+                "sourceTitle": "Manage access to agents in SharePoint",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+                "authorityRole": "sharepoint_admin_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [],
+        "caveats": []
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "helpdesk_detailed",
+        "blocks": [
+          {
+            "blockType": "fact",
+            "text": "Currently, users with a Microsoft 365 Copilot license can use the agents in SharePoint.",
+            "supportingClaimIds": [
+              "claim:10fd9e811b936947aaf8afa5"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [],
+        "caveatCodes": []
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "Currently, users with a Microsoft 365 Copilot license can use the agents in SharePoint.\n\nSources\nManage access to agents in SharePoint — https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "diagnostics": {
+        "retrievalMs": 838.8715000000011,
+        "evidenceResolutionMs": 9.904399999999441,
+        "planningMs": 3.3655999999991764,
+        "assemblyMs": 0.6810999999997875,
+        "citationMappingMs": 0.7813000000005559,
+        "contextBuildMs": 0.555000000000291,
+        "presentationPlanningMs": 0.07289999999920838,
+        "presentationRenderMs": 0.037000000000261934,
+        "synthesisMs": 1172.5275000000001,
+        "pipelineTotalMs": 2026.6754999999994,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "succeeded",
+        "presentationSynthesisFallbackReason": null
+      },
+      "persistenceAndServiceMs": 12.014999999997599,
+      "totalVisibleMs": 2038.703599999999,
+      "attribution": [
+        {
+          "claimId": "claim:10fd9e811b936947aaf8afa5",
+          "evidenceId": "evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "range": {
+            "startOffset": 0,
+            "endOffset": 87
+          },
+          "displayedSubstring": "Currently, users with a Microsoft 365 Copilot license can use the agents in SharePoint."
+        }
+      ],
+      "contextReferences": [
+        {
+          "contextBlockId": "context:f377914e4c00061a73ddbe64",
+          "evidenceId": "evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "chunkId": "dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage who can access the agents",
+            "Control user access through licensing"
+          ],
+          "sectionId": "sec-3",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 1066,
+          "sourceContentHash": "5fe756bcc084adbd2e7ddd7bf9367ef7f7f00b01b969337a15be6cff2409e26d",
+          "contextType": "definition",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:4b60a6780f545673cdfbf8b6",
+          "evidenceId": "evidence:7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9",
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "chunkId": "7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage what information a user can access through the agents",
+            "Use SharePoint Advanced Management"
+          ],
+          "sectionId": "sec-8",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 793,
+          "sourceContentHash": "f5f401defca7cfa388103c05491dbeed01b35129e45ab391189c82ab22cba330",
+          "contextType": "definition",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:0ac9c9e6864aedd5d825dc70",
+          "evidenceId": "evidence:b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b",
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "chunkId": "b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint"
+          ],
+          "sectionId": "sec-1",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 620,
+          "sourceContentHash": "48c0d5bca349db97ddb414ed6a34d6a3331ae7001dcf69a8350873905fa8c655",
+          "contextType": "definition",
+          "preview": false
+        },
+        {
+          "contextBlockId": "context:6bd39ea0c0672e34547dca35",
+          "evidenceId": "evidence:df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df",
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "chunkId": "df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df",
+          "sourceTitle": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "Frequently asked questions",
+            "How does Restricted Content Discovery fit into a Copilot readiness strategy?"
+          ],
+          "sectionId": "sec-23",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 674,
+          "sourceContentHash": "3f3a598903bbbb8676e6fab56f8751d8466ec8bf667a5f81d24552ea3f785d04",
+          "contextType": "definition",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "Currently, users with a Microsoft 365 Copilot license can use the agents in SharePoint.\n\nSources\nManage access to agents in SharePoint — https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_f4839e06-2944-44ec-9040-6c81cd3a1c1e",
+          "citationId": "citation:feed0ffa74700a5ab79e34c6",
+          "factualRangeId": "factual-range:9c559f377991b3da7c3edec9",
+          "claimId": "claim:10fd9e811b936947aaf8afa5",
+          "answerRangeStart": 0,
+          "answerRangeEnd": 87,
+          "evidenceId": "evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "spanId": "span:f84e0c3c06a6236205836f9b",
+          "supportingSpanIds": [],
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage who can access the agents",
+            "Control user access through licensing"
+          ],
+          "sectionId": "sec-3",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:fa731374e8023da31f5b7135"
+        }
+      ],
+      "reloadedContextReferences": [
+        {
+          "messageId": "msg_f4839e06-2944-44ec-9040-6c81cd3a1c1e",
+          "contextBlockId": "context:0ac9c9e6864aedd5d825dc70",
+          "evidenceId": "evidence:b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b",
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "chunkId": "b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint"
+          ],
+          "sectionId": "sec-1",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 620,
+          "sourceContentHash": "48c0d5bca349db97ddb414ed6a34d6a3331ae7001dcf69a8350873905fa8c655",
+          "contextType": "definition",
+          "preview": false,
+          "groundingSnapshotId": "grounding:fa731374e8023da31f5b7135"
+        },
+        {
+          "messageId": "msg_f4839e06-2944-44ec-9040-6c81cd3a1c1e",
+          "contextBlockId": "context:4b60a6780f545673cdfbf8b6",
+          "evidenceId": "evidence:7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9",
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "chunkId": "7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage what information a user can access through the agents",
+            "Use SharePoint Advanced Management"
+          ],
+          "sectionId": "sec-8",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 793,
+          "sourceContentHash": "f5f401defca7cfa388103c05491dbeed01b35129e45ab391189c82ab22cba330",
+          "contextType": "definition",
+          "preview": false,
+          "groundingSnapshotId": "grounding:fa731374e8023da31f5b7135"
+        },
+        {
+          "messageId": "msg_f4839e06-2944-44ec-9040-6c81cd3a1c1e",
+          "contextBlockId": "context:6bd39ea0c0672e34547dca35",
+          "evidenceId": "evidence:df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df",
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "chunkId": "df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df",
+          "sourceTitle": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "Frequently asked questions",
+            "How does Restricted Content Discovery fit into a Copilot readiness strategy?"
+          ],
+          "sectionId": "sec-23",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 674,
+          "sourceContentHash": "3f3a598903bbbb8676e6fab56f8751d8466ec8bf667a5f81d24552ea3f785d04",
+          "contextType": "definition",
+          "preview": false,
+          "groundingSnapshotId": "grounding:fa731374e8023da31f5b7135"
+        },
+        {
+          "messageId": "msg_f4839e06-2944-44ec-9040-6c81cd3a1c1e",
+          "contextBlockId": "context:f377914e4c00061a73ddbe64",
+          "evidenceId": "evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "documentId": "67860848f34c05036b8f2fee2be15b326285ed0bfa4fd8c246d6c04a7d16ebb9",
+          "chunkId": "dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "sourceTitle": "Manage access to agents in SharePoint",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRole": "sharepoint_admin_primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage who can access the agents",
+            "Control user access through licensing"
+          ],
+          "sectionId": "sec-3",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 1066,
+          "sourceContentHash": "5fe756bcc084adbd2e7ddd7bf9367ef7f7f00b01b969337a15be6cff2409e26d",
+          "contextType": "definition",
+          "preview": false,
+          "groundingSnapshotId": "grounding:fa731374e8023da31f5b7135"
+        }
+      ]
+    },
+    {
+      "scenario": "entra_conditional_access",
+      "profile": "helpdesk_detailed",
+      "question": "How do I configure Conditional Access to require MFA?",
+      "outcome": "answered",
+      "deterministicFactualText": "Steps:\n- Conditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users.\n- Before exploring how to configure the policy, examine the default configuration.",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "How do I configure Conditional Access to require MFA?",
+        "profile": "helpdesk_detailed",
+        "answerability": "answered",
+        "answerType": "procedural",
+        "requestedMethods": [],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:entity:conditional-access:set",
+            "subject": "conditional access",
+            "answerObject": "procedure",
+            "operation": "set",
+            "supported": true,
+            "requestedMethods": []
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:1fecfb755e6a4970ab129205",
+            "aspectId": "mandatory:entity:conditional-access:set",
+            "aspectSubject": "conditional access",
+            "text": "Conditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users.",
+            "mandatory": true,
+            "requestedMethods": [],
+            "sources": [
+              {
+                "claimId": "claim:1fecfb755e6a4970ab129205",
+                "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+                "sourceId": "ms-entra-docs",
+                "sourceTitle": "Conditional Access adaptive session lifetime policies",
+                "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+                "authorityRole": "entra_identity_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:d7d58f153d4fd8a05115e059",
+            "aspectId": "mandatory:entity:conditional-access:set",
+            "aspectSubject": "conditional access",
+            "text": "Before exploring how to configure the policy, examine the default configuration.",
+            "mandatory": true,
+            "requestedMethods": [],
+            "sources": [
+              {
+                "claimId": "claim:d7d58f153d4fd8a05115e059",
+                "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+                "sourceId": "ms-entra-docs",
+                "sourceTitle": "Conditional Access adaptive session lifetime policies",
+                "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+                "authorityRole": "entra_identity_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [],
+        "caveats": []
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "helpdesk_detailed",
+        "blocks": [
+          {
+            "blockType": "step",
+            "text": "First, create Conditional Access policies that provide adaptive session lifetime controls targeting specific use cases within your organization without affecting all.",
+            "supportingClaimIds": [
+              "claim:1fecfb755e6a4970ab129205"
+            ]
+          },
+          {
+            "blockType": "step",
+            "text": "Before configuring the policy, examine the current default Conditional Access configuration to determine the starting point for your settings.",
+            "supportingClaimIds": [
+              "claim:d7d58f153d4fd8a05115e059"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [],
+        "caveatCodes": []
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "Summary\nConditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users.\n\nBefore exploring how to configure the policy, examine the default configuration.\n\nWhat to do\n[Microsoft documentation context — procedure]\nConditional Access adaptive session lifetime policies › Overview\nDocument: Conditional Access adaptive session lifetime policies Heading Path: Conditional Access adaptive session lifetime policies -> Overview Conditional Access adaptive session lifetime policies let organizations restrict authentication sessions in complex deployments. Scenarios include: - Resource access from an unmanaged or shared device - Access to sensitive information from an external network - High impact users - Critical business applications Conditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users. Before exploring how to configure the policy, examine the default configuration.\nSource: Conditional Access adaptive session lifetime policies\nhttps://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime\n\nSources\nConditional Access adaptive session lifetime policies — https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+      "diagnostics": {
+        "retrievalMs": 1171.4251999999997,
+        "evidenceResolutionMs": 10.970000000001164,
+        "planningMs": 0.9269999999996799,
+        "assemblyMs": 0.8127999999996973,
+        "citationMappingMs": 1.2449000000015076,
+        "contextBuildMs": 0.3993999999984226,
+        "presentationPlanningMs": 0.1040000000029977,
+        "presentationRenderMs": 0.030900000001565786,
+        "synthesisMs": 2886.0658000000003,
+        "pipelineTotalMs": 4071.9879,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "validation_failed",
+        "presentationSynthesisFallbackReason": "unattributed_content_word:targeting,unattributed_content_word:configuring,unattributed_content_word:starting,unattributed_content_word:point,unattributed_content_word:setting"
+      },
+      "persistenceAndServiceMs": 13.003399999999601,
+      "totalVisibleMs": 4085.0054999999993,
+      "attribution": [
+        {
+          "claimId": "claim:1fecfb755e6a4970ab129205",
+          "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "sourceTitle": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "range": {
+            "startOffset": 8,
+            "endOffset": 190
+          },
+          "displayedSubstring": "Conditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users."
+        },
+        {
+          "claimId": "claim:d7d58f153d4fd8a05115e059",
+          "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "sourceTitle": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "range": {
+            "startOffset": 192,
+            "endOffset": 272
+          },
+          "displayedSubstring": "Before exploring how to configure the policy, examine the default configuration."
+        }
+      ],
+      "contextReferences": [
+        {
+          "contextBlockId": "context:12f1ba5443c7a9a1f68db9dd",
+          "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "documentId": "696b491d83541ce620ecae4ee850c59be201d9e52f9c1109c0d6ee130a6fa1f0",
+          "chunkId": "ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "sourceTitle": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "sourceId": "ms-entra-docs",
+          "authorityRole": "entra_identity_primary",
+          "headingPath": [
+            "Conditional Access adaptive session lifetime policies",
+            "Overview"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 720,
+          "sourceContentHash": "c1004190567bf1f8bce1707236e406298972e68b65b2f9ceb70b71a381f7a4d7",
+          "contextType": "procedure",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "Summary\nConditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users.\n\nBefore exploring how to configure the policy, examine the default configuration.\n\nWhat to do\n[Microsoft documentation context — procedure]\nConditional Access adaptive session lifetime policies › Overview\nDocument: Conditional Access adaptive session lifetime policies Heading Path: Conditional Access adaptive session lifetime policies -> Overview Conditional Access adaptive session lifetime policies let organizations restrict authentication sessions in complex deployments. Scenarios include: - Resource access from an unmanaged or shared device - Access to sensitive information from an external network - High impact users - Critical business applications Conditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users. Before exploring how to configure the policy, examine the default configuration.\nSource: Conditional Access adaptive session lifetime policies\nhttps://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime\n\nSources\nConditional Access adaptive session lifetime policies — https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_145b4f32-0e40-4626-8bc9-322cc7f7bee5",
+          "citationId": "citation:e7464b9b815a63818e080f89",
+          "factualRangeId": "factual-range:342b45965badc809976631a8",
+          "claimId": "claim:1fecfb755e6a4970ab129205",
+          "answerRangeStart": 8,
+          "answerRangeEnd": 190,
+          "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "spanId": "span:62777172523cdc40f4cd40e8",
+          "supportingSpanIds": [],
+          "documentId": "696b491d83541ce620ecae4ee850c59be201d9e52f9c1109c0d6ee130a6fa1f0",
+          "sourceTitle": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "sourceId": "ms-entra-docs",
+          "authorityRole": "entra_identity_primary",
+          "headingPath": [
+            "Conditional Access adaptive session lifetime policies",
+            "Overview"
+          ],
+          "sectionId": "sec-2",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:e896f9c1bbb8033495949312"
+        },
+        {
+          "messageId": "msg_145b4f32-0e40-4626-8bc9-322cc7f7bee5",
+          "citationId": "citation:c3d731c32f3db7c582f11d7f",
+          "factualRangeId": "factual-range:73c460a4445d9fefcbdd7e02",
+          "claimId": "claim:d7d58f153d4fd8a05115e059",
+          "answerRangeStart": 192,
+          "answerRangeEnd": 272,
+          "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "spanId": "span:d8d77b634cd25c025cb96082",
+          "supportingSpanIds": [],
+          "documentId": "696b491d83541ce620ecae4ee850c59be201d9e52f9c1109c0d6ee130a6fa1f0",
+          "sourceTitle": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "sourceId": "ms-entra-docs",
+          "authorityRole": "entra_identity_primary",
+          "headingPath": [
+            "Conditional Access adaptive session lifetime policies",
+            "Overview"
+          ],
+          "sectionId": "sec-2",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:e896f9c1bbb8033495949312"
+        }
+      ],
+      "reloadedContextReferences": [
+        {
+          "messageId": "msg_145b4f32-0e40-4626-8bc9-322cc7f7bee5",
+          "contextBlockId": "context:12f1ba5443c7a9a1f68db9dd",
+          "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "documentId": "696b491d83541ce620ecae4ee850c59be201d9e52f9c1109c0d6ee130a6fa1f0",
+          "chunkId": "ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+          "sourceTitle": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "sourceId": "ms-entra-docs",
+          "authorityRole": "entra_identity_primary",
+          "headingPath": [
+            "Conditional Access adaptive session lifetime policies",
+            "Overview"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 720,
+          "sourceContentHash": "c1004190567bf1f8bce1707236e406298972e68b65b2f9ceb70b71a381f7a4d7",
+          "contextType": "procedure",
+          "preview": false,
+          "groundingSnapshotId": "grounding:e896f9c1bbb8033495949312"
+        }
+      ]
+    },
+    {
+      "scenario": "calling_plans",
+      "profile": "helpdesk_detailed",
+      "question": "How do Calling Plans work?",
+      "outcome": "answered",
+      "deterministicFactualText": "For example, if you have 100 users located in the United States with a Domestic Calling Plan assigned, each user is allocated 3,000 minutes and they all share a pool of 300,000 minutes.\n\nThis diagram shows how Calling Plans connect Teams Phone to the PSTN for external calling.",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "How do Calling Plans work?",
+        "profile": "helpdesk_detailed",
+        "answerability": "answered",
+        "answerType": "conceptual",
+        "requestedMethods": [],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:entity:calling-plans:general",
+            "subject": "calling plans",
+            "answerObject": "mechanism",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": []
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:ee0f58c2ed5234383c0252cd",
+            "aspectId": "mandatory:entity:calling-plans:general",
+            "aspectSubject": "calling plans",
+            "text": "For example, if you have 100 users located in the United States with a Domestic Calling Plan assigned, each user is allocated 3,000 minutes and they all share a pool of 300,000 minutes.",
+            "mandatory": true,
+            "requestedMethods": [],
+            "sources": [
+              {
+                "claimId": "claim:ee0f58c2ed5234383c0252cd",
+                "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+                "sourceId": "ms-teams-admin",
+                "sourceTitle": "Microsoft Teams Calling Plans",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+                "authorityRole": "teams_admin_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:01a2180549d8150e78e8b03d",
+            "aspectId": "mandatory:entity:calling-plans:general",
+            "aspectSubject": "calling plans",
+            "text": "This diagram shows how Calling Plans connect Teams Phone to the PSTN for external calling.",
+            "mandatory": true,
+            "requestedMethods": [],
+            "sources": [
+              {
+                "claimId": "claim:01a2180549d8150e78e8b03d",
+                "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+                "sourceId": "ms-teams-admin",
+                "sourceTitle": "Microsoft Teams Calling Plans",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+                "authorityRole": "teams_admin_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [],
+        "caveats": []
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "helpdesk_detailed",
+        "blocks": [
+          {
+            "blockType": "fact",
+            "text": "For example, if 100 located in the United States with a Domestic Calling Plan assigned, each allocated 3,000 minutes and share a pool of 300,000 minutes.",
+            "supportingClaimIds": [
+              "claim:ee0f58c2ed5234383c0252cd"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "This diagram shows how Calling Plans connect Teams Phone to the PSTN for external calling.",
+            "supportingClaimIds": [
+              "claim:01a2180549d8150e78e8b03d"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [],
+        "caveatCodes": []
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "For example, if 100 located in the United States with a Domestic Calling Plan assigned, each allocated 3,000 minutes and share a pool of 300,000 minutes.\n\nThis diagram shows how Calling Plans connect Teams Phone to the PSTN for external calling.\n\nSources\nMicrosoft Teams Calling Plans — https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "diagnostics": {
+        "retrievalMs": 633.4109999999964,
+        "evidenceResolutionMs": 9.071400000000722,
+        "planningMs": 1.1667000000015832,
+        "assemblyMs": 0.7682000000022526,
+        "citationMappingMs": 1.069100000000617,
+        "contextBuildMs": 0.22599999999874854,
+        "presentationPlanningMs": 0.20119999999951688,
+        "presentationRenderMs": 0.04539999999906286,
+        "synthesisMs": 1948.7368999999999,
+        "pipelineTotalMs": 2594.7621,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "succeeded",
+        "presentationSynthesisFallbackReason": null
+      },
+      "persistenceAndServiceMs": 9.450000000000728,
+      "totalVisibleMs": 2604.2250999999997,
+      "attribution": [
+        {
+          "claimId": "claim:ee0f58c2ed5234383c0252cd",
+          "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "range": {
+            "startOffset": 0,
+            "endOffset": 153
+          },
+          "displayedSubstring": "For example, if 100 located in the United States with a Domestic Calling Plan assigned, each allocated 3,000 minutes and share a pool of 300,000 minutes."
+        },
+        {
+          "claimId": "claim:01a2180549d8150e78e8b03d",
+          "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "range": {
+            "startOffset": 155,
+            "endOffset": 245
+          },
+          "displayedSubstring": "This diagram shows how Calling Plans connect Teams Phone to the PSTN for external calling."
+        }
+      ],
+      "contextReferences": [
+        {
+          "contextBlockId": "context:d10a7fe6762aa5f1c9899222",
+          "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+          "chunkId": "473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Microsoft Teams Calling Plans",
+            "Calling Plan options"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 1507,
+          "sourceContentHash": "0b40e38d6b2d71445652722b9441108f991a49383820d9b5aedaf91363b21899",
+          "contextType": "definition",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "For example, if 100 located in the United States with a Domestic Calling Plan assigned, each allocated 3,000 minutes and share a pool of 300,000 minutes.\n\nThis diagram shows how Calling Plans connect Teams Phone to the PSTN for external calling.\n\nSources\nMicrosoft Teams Calling Plans — https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_43f09835-b00e-4b48-9d7a-688d97ff165d",
+          "citationId": "citation:04fbb273f1fd8e047c9f75e5",
+          "factualRangeId": "factual-range:3ee48f0d99536f47183c107e",
+          "claimId": "claim:ee0f58c2ed5234383c0252cd",
+          "answerRangeStart": 0,
+          "answerRangeEnd": 153,
+          "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "spanId": "span:ce3b156b267b5f9e83ea1152",
+          "supportingSpanIds": [],
+          "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Microsoft Teams Calling Plans",
+            "Calling Plan options"
+          ],
+          "sectionId": "sec-2",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:36087d5941244716006bea23"
+        },
+        {
+          "messageId": "msg_43f09835-b00e-4b48-9d7a-688d97ff165d",
+          "citationId": "citation:1838ebe022a51f4ba7e51252",
+          "factualRangeId": "factual-range:d16498775a9b807e99337c77",
+          "claimId": "claim:01a2180549d8150e78e8b03d",
+          "answerRangeStart": 155,
+          "answerRangeEnd": 245,
+          "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "spanId": "span:fa1964a1f588b2e719036452",
+          "supportingSpanIds": [],
+          "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Microsoft Teams Calling Plans",
+            "Calling Plan options"
+          ],
+          "sectionId": "sec-2",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:36087d5941244716006bea23"
+        }
+      ],
+      "reloadedContextReferences": [
+        {
+          "messageId": "msg_43f09835-b00e-4b48-9d7a-688d97ff165d",
+          "contextBlockId": "context:d10a7fe6762aa5f1c9899222",
+          "evidenceId": "evidence:473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+          "chunkId": "473295d3ef8876f7146d5b2171cb78f788c78ab207a0b1025d64235e5d0d758c",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Microsoft Teams Calling Plans",
+            "Calling Plan options"
+          ],
+          "sectionId": "sec-2",
+          "sourceStartOffset": 0,
+          "sourceEndOffset": 1507,
+          "sourceContentHash": "0b40e38d6b2d71445652722b9441108f991a49383820d9b5aedaf91363b21899",
+          "contextType": "definition",
+          "preview": false,
+          "groundingSnapshotId": "grounding:36087d5941244716006bea23"
+        }
+      ]
+    }
+  ]
+}

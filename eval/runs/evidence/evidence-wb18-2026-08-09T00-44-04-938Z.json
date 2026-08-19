@@ -1,0 +1,194 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "evidence-wb18-2026-08-09T00-44-04-938Z",
+  "createdAt": "2026-08-09T00:44:04.938Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\evidence-wb18.jsonl",
+  "summary": {
+    "total": 8,
+    "answerabilityMatch": 8,
+    "requiredSourcesMatch": 7,
+    "requiredUrlsMatch": 6,
+    "requiredTitlesMatch": 6,
+    "prohibitedUrlsPass": 7,
+    "exactVerificationMatch": 8,
+    "totalLatencyMsP50": 4.363,
+    "totalLatencyMsP95": 18.837
+  },
+  "cases": [
+    {
+      "questionId": "E-001",
+      "question": "How does Teams Direct Routing voice routing work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Teams settings and policies reference",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams"
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        }
+      ]
+    },
+    {
+      "questionId": "E-002",
+      "question": "How do Microsoft Teams Calling Plans work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365"
+        }
+      ]
+    },
+    {
+      "questionId": "E-003",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md"
+        }
+      ]
+    },
+    {
+      "questionId": "E-004",
+      "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": false,
+      "checks": {
+        "answerability": true,
+        "requiredSources": false,
+        "requiredUrls": false,
+        "requiredTitles": false,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        }
+      ]
+    },
+    {
+      "questionId": "E-005",
+      "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+      "expectedAnswerability": "insufficient_evidence",
+      "actualAnswerability": "insufficient_evidence",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": []
+    },
+    {
+      "questionId": "E-006",
+      "question": "How do Teams meeting policies work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Meeting policy settings for audio & video",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-audio-and-video"
+        }
+      ]
+    },
+    {
+      "questionId": "E-007",
+      "question": "How does external access work in Teams?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": false,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": false,
+        "requiredTitles": false,
+        "prohibitedUrls": false,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Chat, teams, channels, & apps in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page"
+        }
+      ]
+    },
+    {
+      "questionId": "E-008",
+      "question": "How does Conditional Access affect Teams on unmanaged devices?",
+      "expectedAnswerability": "partial",
+      "actualAnswerability": "partial",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Chat, teams, channels, & apps in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page"
+        }
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import type {
   SubmitHelpdeskMessageResult
 } from "@shared/helpdesk";
 import type { CaptureSourceTag } from "@shared/types";
+import { isAuthoritativeEvidenceUrl } from "@shared/evidenceCard";
 import type { AnswerExecutionPort } from "./answerExecutionPort";
 import type {
   AnswerRunRecord,
@@ -24,6 +25,11 @@ export class HelpdeskServiceError extends Error {
     super(message);
     this.name = "HelpdeskServiceError";
   }
+}
+
+export interface BegunHelpdeskTurn {
+  started: StartedAnswerRun;
+  completion: Promise<SubmitHelpdeskMessageResult>;
 }
 
 function toConversation(record: ConversationRecord): HelpdeskConversation {
@@ -178,11 +184,7 @@ export class HelpdeskService {
     }
     try {
       const parsed = new URL(citation.canonicalUrl);
-      if (
-        parsed.protocol !== "https:" ||
-        parsed.hostname.toLowerCase() !==
-          "learn.microsoft.com"
-      ) {
+      if (!isAuthoritativeEvidenceUrl(citation.canonicalUrl)) {
         throw new Error("untrusted citation URL");
       }
       return parsed.toString();
@@ -204,12 +206,23 @@ export class HelpdeskService {
     conversationId: string;
     content: string;
     captureSource?: CaptureSourceTag;
+    presentationSynthesis?: "optional" | "disabled";
   }): Promise<SubmitHelpdeskMessageResult> {
-    return this.submitTurn({
+    return this.beginLiveQuestion(input).completion;
+  }
+
+  beginLiveQuestion(input: {
+    conversationId: string;
+    content: string;
+    captureSource?: CaptureSourceTag;
+    presentationSynthesis?: "optional" | "disabled";
+  }): BegunHelpdeskTurn {
+    return this.beginTurn({
       conversationId: input.conversationId,
       content: input.content,
       inputOrigin: "live_transcript",
-      captureSource: input.captureSource ?? "microphone"
+      captureSource: input.captureSource ?? "microphone",
+      presentationSynthesis: input.presentationSynthesis ?? "optional"
     });
   }
 
@@ -219,6 +232,16 @@ export class HelpdeskService {
     inputOrigin: "typed" | "pasted" | "live_transcript";
     captureSource?: CaptureSourceTag;
   }): Promise<SubmitHelpdeskMessageResult> {
+    return this.beginTurn(input).completion;
+  }
+
+  private beginTurn(input: {
+    conversationId: string;
+    content: string;
+    inputOrigin: "typed" | "pasted" | "live_transcript";
+    captureSource?: CaptureSourceTag;
+    presentationSynthesis?: "optional" | "disabled";
+  }): BegunHelpdeskTurn {
     const content = input.content.trim();
     if (!content) {
       throw new HelpdeskServiceError("invalid_request", "Message text is required.");
@@ -233,7 +256,7 @@ export class HelpdeskService {
           ? input.captureSource ?? null
           : null
     });
-    return this.enqueueExecution(
+    const completion = this.enqueueExecution(
       input.conversationId,
       () =>
         this.executeStartedTurn({
@@ -243,9 +266,12 @@ export class HelpdeskService {
           presentationProfile:
             input.inputOrigin === "live_transcript"
               ? "live_assist_quick"
-              : "helpdesk_detailed"
+              : "helpdesk_detailed",
+          presentationSynthesis:
+            input.presentationSynthesis ?? "optional"
         })
     );
+    return { started, completion };
   }
 
   private enqueueExecution<T>(
@@ -278,6 +304,7 @@ export class HelpdeskService {
     presentationProfile:
       | "helpdesk_detailed"
       | "live_assist_quick";
+    presentationSynthesis: "optional" | "disabled";
   }): Promise<SubmitHelpdeskMessageResult> {
     const { conversationId, content, started } = params;
     this.store.updateAnswerRun({
@@ -293,7 +320,8 @@ export class HelpdeskService {
         conversationId,
         userMessageId: started.message.id,
         question: content,
-        presentationProfile: params.presentationProfile
+        presentationProfile: params.presentationProfile,
+        presentationSynthesis: params.presentationSynthesis
       });
     } catch {
       result = {

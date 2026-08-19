@@ -51,6 +51,7 @@ const MULTIWORD_TECHNICAL_CONCEPTS = [
   "site permissions",
   "sharing link",
   "restricted content discovery",
+  "restricted access control",
   "data access governance",
   "sharepoint oversharing",
   "sharepoint advanced management",
@@ -59,7 +60,16 @@ const MULTIWORD_TECHNICAL_CONCEPTS = [
   "csv export",
   "object construction",
   "per-user iteration",
-  "pscustomobject"
+  "pscustomobject",
+  "auto attendant",
+  "call queue",
+  "resource account",
+  "call quality dashboard",
+  "call analytics",
+  "media bypass",
+  "emergency calling",
+  "teams rooms",
+  "conditional access"
 ] as const;
 
 /**
@@ -262,6 +272,10 @@ function detectDomains(
   const hasTeams =
     normalized.includes("teams") ||
     normalized.includes("calling plan") ||
+    normalized.includes("auto attendant") ||
+    normalized.includes("call queue") ||
+    normalized.includes("cqd") ||
+    normalized.includes("call quality dashboard") ||
     DIRECT_ROUTING_TERMS.some((term) => normalized.includes(term));
   const hasGraph = normalized.includes("graph");
   const hasEntra =
@@ -270,7 +284,9 @@ function detectDomains(
     normalized.includes("azure ad") ||
     normalized.includes("identity") ||
     normalized.includes("service principal") ||
-    normalized.includes("app registration");
+    normalized.includes("app registration") ||
+    normalized.includes("locked out") ||
+    normalized.includes("lockout");
   const hasM365 =
     normalized.includes("microsoft 365") ||
     normalized.includes("m365") ||
@@ -350,6 +366,15 @@ function detectTechnologies(normalized: string, cmdlets: string[]): string[] {
   if (normalized.includes("operator connect")) technologies.add("Operator Connect");
   if (normalized.includes("voice routing")) technologies.add("Voice Routing");
   if (normalized.includes("sbc")) technologies.add("SBC");
+  if (
+    normalized.includes("cqd") ||
+    normalized.includes("call quality dashboard")
+  ) {
+    technologies.add("CQD");
+  }
+  if (normalized.includes("call analytics")) {
+    technologies.add("Call Analytics");
+  }
   return uniqueSorted(technologies);
 }
 
@@ -367,7 +392,10 @@ function detectEntities(
   }
   if (normalized.includes("conditional access")) entities.add("conditional access");
   if (normalized.includes("unmanaged devices")) entities.add("unmanaged devices");
-  if (normalized.includes("teams data")) entities.add("teams data");
+  if (normalized.includes("cqd")) entities.add("cqd");
+  if (normalized.includes("one-way audio") || normalized.includes("one way audio")) {
+    entities.add("one-way audio");
+  }
 
   const policyMatches = normalized.match(/\b([a-z0-9-]*policy|dial ?plan)\b/gi) ?? [];
   for (const policy of policyMatches) {
@@ -402,6 +430,10 @@ function detectProducts(normalized: string): string[] {
   }
   if (normalized.includes("microsoft 365") || normalized.includes("m365")) {
     products.add("Microsoft 365");
+  }
+  if (normalized.includes("sharepoint")) products.add("SharePoint");
+  if (normalized.includes("teams rooms") || normalized.includes("teams room")) {
+    products.add("Teams Rooms");
   }
   return uniqueSorted(products);
 }

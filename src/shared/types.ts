@@ -9,6 +9,11 @@ export type AnswerTriggerMode = "questions_only" | "all_final";
  * "live_assist" is the existing configurable microphone/system/both profile.
  */
 export type LiveAssistSessionProfile = "live_assist" | "qa_assist";
+export type EvidenceReadinessStatus =
+  | "starting"
+  | "warming"
+  | "ready"
+  | "failed";
 
 export interface TranscriptMessage {
   text: string;
@@ -151,11 +156,20 @@ export interface LiveAssistProjectionSource {
   messageId: string;
   citationId: string;
   title: string;
+  documentId?: string;
+  publisher?: string;
+  sourceRole?: string;
+  section?: string;
+  url?: string;
 }
 
 export interface LiveAssistProjection {
   sessionId: string;
   conversationId: string;
+  /** Durable identity of this accepted user/STT turn. */
+  userMessageId: string;
+  /** Durable presentation identity for this turn's execution/card. */
+  answerRunId: string;
   question: string;
   state:
     | "accepted"
@@ -176,9 +190,10 @@ export interface LiveAssistProjection {
 
 export interface LiveAssistHydration {
   session: LiveAssistSessionView | null;
-  projection: LiveAssistProjection | null;
+  projections: LiveAssistProjection[];
   transcript: TranscriptMessage | null;
   status: ConnectionStatus;
+  evidenceStatus: EvidenceReadinessStatus;
 }
 
 export interface OverlayApi {
@@ -194,6 +209,9 @@ export interface OverlayApi {
   ) => () => void;
   onLiveAssistSession: (
     handler: (session: LiveAssistSessionView | null) => void
+  ) => () => void;
+  onEvidenceStatus: (
+    handler: (status: EvidenceReadinessStatus) => void
   ) => () => void;
   onDemoMode: (handler: (enabled: boolean) => void) => () => void;
   onTranscript: (handler: (payload: TranscriptMessage) => void) => () => void;

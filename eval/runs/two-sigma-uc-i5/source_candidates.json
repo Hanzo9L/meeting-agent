@@ -1,0 +1,296 @@
+{
+  "generatedAt": "2026-08-19T18:45:00.000Z",
+  "phase": "I5",
+  "note": "Discovery only. Do not download or ingest in this phase.",
+  "families": [
+    {
+      "id": "ms_dr_media_firewall_callflows",
+      "authority": "microsoft",
+      "whyFamily": "Closes TSUC13 missing firewall/IP and media-path pages. Does not replace the bounded query-shape change needed to surface already-local Call Analytics and media-bypass pages.",
+      "estimatedFamilySize": "3 Learn pages, roughly 15-40 parent sections",
+      "candidates": [
+        {
+          "title": "Microsoft 365 URLs and IP address ranges",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoft-365/enterprise/urls-and-ip-address-ranges",
+          "whyNeeded": "Canonical Teams/client firewall destinations and UDP 3478-3481. Referenced by Plan Direct Routing. Absent locally.",
+          "scenarios": ["TSUC13"],
+          "estimatedIngestionSize": "1 page, ~10-20 sections; Teams section is the needed slice",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Microsoft Teams Online Call Flows",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/microsoft-teams-online-call-flows",
+          "whyNeeded": "Signaling versus media, ICE, Direct Routing media path through SBC or media processor. Absent locally. No one-way-audio runbook exists.",
+          "scenarios": ["TSUC13"],
+          "estimatedIngestionSize": "1 page, ~8-15 sections",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Set up your Phone System",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/setting-up-your-phone-system",
+          "whyNeeded": "Landing page that distinguishes PSTN models and points at Direct Routing planning. Absent locally. Secondary for TSUC27.",
+          "scenarios": ["TSUC27", "TSUC13"],
+          "estimatedIngestionSize": "1 page, ~5-10 sections",
+          "microsoftOrVendor": "microsoft"
+        }
+      ]
+    },
+    {
+      "id": "ms_teams_phone_rollout_planning",
+      "authority": "microsoft",
+      "whyFamily": "Closes TSUC27 source gap. Local AA/CQ and SharePoint rollout pages currently dominate a global Teams Voice migration question.",
+      "estimatedFamilySize": "6 Learn pages, roughly 30-70 parent sections",
+      "candidates": [
+        {
+          "title": "PSTN connectivity options",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "whyNeeded": "Already local (6 sections) but ranking-weak for TSUC27. Do not re-ingest. Listed so implementers do not treat it as missing.",
+          "scenarios": ["TSUC27", "TSUC04"],
+          "estimatedIngestionSize": "0 new — already in corpus",
+          "microsoftOrVendor": "microsoft",
+          "alreadyLocal": true
+        },
+        {
+          "title": "Upgrade framework",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-framework",
+          "whyNeeded": "Phased upgrade, technical readiness, pilot, communications. Absent locally.",
+          "scenarios": ["TSUC27"],
+          "estimatedIngestionSize": "1 page, ~6-12 sections",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Evaluate your environment before upgrading to Teams",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-plan-journey-evaluate-environment",
+          "whyNeeded": "Organizational and network readiness discovery. Absent locally.",
+          "scenarios": ["TSUC27"],
+          "estimatedIngestionSize": "1 page, ~5-10 sections",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Prepare your service for upgrading to Teams",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-prepare-environment-prepare-service",
+          "whyNeeded": "Onboarding checklists including Phone System / PSTN connectivity. Absent locally.",
+          "scenarios": ["TSUC27"],
+          "estimatedIngestionSize": "1 page, ~5-10 sections",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Prepare your network for Teams",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/prepare-network",
+          "whyNeeded": "Network readiness for real-time media. Absent locally (prepare-network URL count 0).",
+          "scenarios": ["TSUC27", "TSUC13"],
+          "estimatedIngestionSize": "1 page, ~8-15 sections",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Network Planner for Microsoft Teams",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/network-planner",
+          "whyNeeded": "Site/persona bandwidth planning for cloud voice. Absent locally.",
+          "scenarios": ["TSUC27"],
+          "estimatedIngestionSize": "1 page, ~4-8 sections",
+          "microsoftOrVendor": "microsoft"
+        },
+        {
+          "title": "Calling in Teams overview / Plan your Teams voice solution",
+          "publisher": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/microsoftteams/cloud-voice-landing-page",
+          "whyNeeded": "Voice landing page referenced by Direct Routing planning. Absent locally.",
+          "scenarios": ["TSUC27"],
+          "estimatedIngestionSize": "1 page, ~5-10 sections",
+          "microsoftOrVendor": "microsoft"
+        }
+      ]
+    },
+    {
+      "id": "linux_upstream_minimum",
+      "authority": "upstream",
+      "whyFamily": "Linux is genuinely absent. Minimum interview CLI set for TSUC20 and TSUC22. Separate future source role linux_upstream_primary. Not a Linux encyclopedia.",
+      "estimatedFamilySize": "12 pages, roughly 12-40 parents if stored as one parent per man page, or 80-180 if heading-split. Prefer one-parent-per-page for huge systemd manuals.",
+      "candidates": [
+        {
+          "title": "systemctl",
+          "publisher": "systemd / freedesktop.org",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html",
+          "whyNeeded": "Service status and lifecycle. TSUC20.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "Large manual; ingest as 1 parent or status/list-units slice only",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "journalctl",
+          "publisher": "systemd / freedesktop.org",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+          "whyNeeded": "Service logs. TSUC20.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "1 large page; prefer 1 parent",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "ps(1)",
+          "publisher": "man7.org (Linux man-pages)",
+          "url": "https://man7.org/linux/man-pages/man1/ps.1.html",
+          "whyNeeded": "Process inspection. TSUC20.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "grep(1)",
+          "publisher": "man7.org (Linux man-pages)",
+          "url": "https://man7.org/linux/man-pages/man1/grep.1.html",
+          "whyNeeded": "Log/file filtering. TSUC20.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "tail(1)",
+          "publisher": "man7.org / GNU coreutils",
+          "url": "https://man7.org/linux/man-pages/man1/tail.1.html",
+          "whyNeeded": "Follow/recent logs. TSUC20.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "chmod(1)",
+          "publisher": "man7.org / GNU coreutils",
+          "url": "https://man7.org/linux/man-pages/man1/chmod.1.html",
+          "whyNeeded": "File permissions. Interview Linux basics.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "ss(8)",
+          "publisher": "man7.org (iproute2)",
+          "url": "https://man7.org/linux/man-pages/man8/ss.8.html",
+          "whyNeeded": "Listening sockets. TSUC22.",
+          "scenarios": ["TSUC22"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "ip(8)",
+          "publisher": "man7.org (iproute2)",
+          "url": "https://man7.org/linux/man-pages/man8/ip.8.html",
+          "whyNeeded": "Networking basics. TSUC20/TSUC22.",
+          "scenarios": ["TSUC20", "TSUC22"],
+          "estimatedIngestionSize": "1 large page; prefer 1 parent",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "ping(8)",
+          "publisher": "man7.org (iputils)",
+          "url": "https://man7.org/linux/man-pages/man8/ping.8.html",
+          "whyNeeded": "Connectivity check. TSUC20/TSUC22.",
+          "scenarios": ["TSUC20", "TSUC22"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "tcpdump",
+          "publisher": "The Tcpdump Group",
+          "url": "https://www.tcpdump.org/manpages/tcpdump.1.html",
+          "whyNeeded": "Bounded packet capture. TSUC22. Pin a released man page at ingest time; unversioned pages track development.",
+          "scenarios": ["TSUC22"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "pcap-filter(7)",
+          "publisher": "The Tcpdump Group",
+          "url": "https://www.tcpdump.org/manpages/pcap-filter.7.html",
+          "whyNeeded": "Host/port capture filters. TSUC22.",
+          "scenarios": ["TSUC22"],
+          "estimatedIngestionSize": "1 page",
+          "microsoftOrVendor": "upstream"
+        },
+        {
+          "title": "Using the Python Interpreter",
+          "publisher": "Python Software Foundation",
+          "url": "https://docs.python.org/3/tutorial/interpreter.html",
+          "whyNeeded": "Script execution basics (python, -c, -m). TSUC20 adjacent; do not expand into a Python encyclopedia.",
+          "scenarios": ["TSUC20"],
+          "estimatedIngestionSize": "1 short page",
+          "microsoftOrVendor": "upstream"
+        }
+      ]
+    },
+    {
+      "id": "audiocodes_sbc_ha_optional_later",
+      "authority": "vendor",
+      "ingestNow": false,
+      "whyFamily": "Microsoft delegates device HA, pairing, and SIP-trunk carrier configuration to the certified SBC vendor. Catalog only. Do not ingest unless the interview environment names AudioCodes/Mediant.",
+      "estimatedFamilySize": "2 vendor documents, ~50-80 printed pages if ingested whole — too large unless sliced to HA/failover chapters",
+      "candidates": [
+        {
+          "title": "Connecting AudioCodes SBC to Microsoft Teams Direct Routing Enterprise Model Configuration Note",
+          "publisher": "AudioCodes",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "whyNeeded": "Official certified-SBC pairing, SIP OPTIONS validation, and Microsoft sip1/sip2/sip3 failover as implemented on Mediant. Implementation detail Microsoft does not publish.",
+          "scenarios": ["TSUC04", "TSUC13"],
+          "estimatedIngestionSize": "PDF ~40-70 pages; ingest HA/OPTIONS/media chapters only if later authorized",
+          "microsoftOrVendor": "vendor"
+        },
+        {
+          "title": "Mediant SBC HA Parameters",
+          "publisher": "AudioCodes TechDocs",
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/HA%20Parameters.htm",
+          "whyNeeded": "Device-level HA remote address, preempt, network monitor. Not a Microsoft fact.",
+          "scenarios": ["TSUC04"],
+          "estimatedIngestionSize": "1 vendor reference page plus linked HA chapters",
+          "microsoftOrVendor": "vendor"
+        }
+      ]
+    }
+  ],
+  "alreadyLocalDoNotReingest": [
+    {
+      "title": "Trunk failover on outbound calls",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+      "note": "Best Microsoft customer-SBC failover page. Local. Not in TSUC04 top 40."
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+      "note": "Multiple PSTN usages / routes. Local. TSUC04 rank 18."
+    },
+    {
+      "title": "Plan Direct Routing — SIP signaling FQDNs, ports, failover mechanism",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+      "note": "Microsoft datacenter sip/sip2/sip3 failover. Local. TSUC04 rank 9."
+    },
+    {
+      "title": "Direct Routing SBA",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance",
+      "note": "Branch survivability when Microsoft 365 is unreachable. Local. Not in TSUC04 top 40."
+    },
+    {
+      "title": "Use Call Analytics to troubleshoot poor call quality",
+      "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+      "note": "Local. Not in TSUC13 top 43. Pack previously marked earlier-experience; still the local Call Analytics surface."
+    },
+    {
+      "title": "Get-CsAutoAttendant / Get-CsCallQueue / Get-CsOnlineApplicationInstance",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/",
+      "note": "All three present in the 14-parent teams-ps repo. TSUC26 is query-shape, not ingest."
+    }
+  ],
+  "doNotUse": [
+    "Microsoft Q&A / Answers threads",
+    "Random blogs and SEO tutorials",
+    "Interview-prep articles",
+    "Reddit",
+    "Copied command snippets without primary documentation"
+  ]
+}

@@ -7,6 +7,11 @@ import {
   type AnswerPlanState
 } from "./answerPlanIntegrity";
 import {
+  areConceptsRedundant,
+  type ConceptSignature
+} from "./evidenceConceptDistinctness";
+import type { InterviewQuestionShape } from "./interviewQuestionShape";
+import {
   canBindPerUserEvidence,
   canonicalSubjectPhraseAppears,
   evidenceEstablishesPowerShellSyntax,
@@ -1579,3 +1584,186 @@ export function buildAnswerPlan(bundle: EvidenceBundle): AnswerPlan {
   };
   return bindAnswerPlanIdentity(state);
 }
+
+const INTERVIEW_BOILERPLATE =
+  /^(?:this article|for more information|important|note|tip|warning|updates in |see also)\b/i;
+
+function interviewSpanUseful(text: string): boolean {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length < 6 || words.length > 40) return false;
+  if (INTERVIEW_BOILERPLATE.test(text.trim())) return false;
+  if (BOILERPLATE_LINE.test(text.trim())) return false;
+  return SUBSTANTIVE_WORD.test(text);
+}
+
+function conceptHits(text: string, concepts: string[]): number {
+  const normalized = normalize(text);
+  return concepts.filter((concept) => {
+    const tokens = normalize(concept)
+      .split(" ")
+      .filter((token) => token.length >= 3);
+    if (tokens.length === 0) return false;
+    const hits = tokens.filter((token) => normalized.includes(token)).length;
+    return hits >= Math.max(1, Math.ceil(tokens.length / 2));
+  }).length;
+}
+
+function signatureFromText(id: string, text: string): ConceptSignature {
+  const terms = [...new Set(normalize(text).split(" ").filter((token) => token.length >= 3))];
+  return {
+    documentId: id,
+    sectionId: id,
+    terms,
+    textTerms: terms
+  };
+}
+
+/**
+ * Interview Quick-only claim expansion. Keeps the original R3 facet claims
+ * (so G1/G2 Detailed and integrity stay intact) and adds a small set of
+ * concept-distinct extractive claims from already-selected evidence.
+ */
+export function expandInterviewQuickClaims(params: {
+  bundle: EvidenceBundle;
+  plan: AnswerPlan;
+  concepts: string[];
+  shape: InterviewQuestionShape;
+}): AnswerPlan {
+  if (params.plan.answerability === "insufficient_evidence") {
+    return params.plan;
+  }
+  const started = performance.now();
+  const evidenceById = new Map(
+    params.bundle.evidence.map((evidence, index) => [
+      evidence.evidenceId,
+      { evidence, sourceOrder: index }
+    ])
+  );
+  const supportedMandatory = new Set(
+    params.bundle.aspectCoverage.supportedMandatoryAspectIds
+  );
+  const mandatoryAspects = params.bundle.aspectCoverage.aspects.filter(
+    (aspect) =>
+      aspect.requirement === "mandatory" &&
+      supportedMandatory.has(aspect.aspectId)
+  );
+  const accepted: ConceptSignature[] = params.plan.plannedClaims.map((claim) =>
+    signatureFromText(claim.claimId, claim.proposition)
+  );
+  const seenNormalized = new Set(
+    params.plan.plannedClaims.map((claim) => normalize(claim.proposition))
+  );
+  const extraDrafts: DraftClaim[] = [];
+  const ranked: Array<{
+    draft: DraftClaim;
+    score: number;
+    hits: number;
+  }> = [];
+
+  for (const aspect of mandatoryAspects) {
+    const candidates = (
+      params.bundle.aspectCoverage.evidenceByAspect[aspect.aspectId] ?? []
+    ).flatMap((evidenceId) => {
+      const entry = evidenceById.get(evidenceId);
+      return entry
+        ? sentenceSpans(entry.evidence, aspect, entry.sourceOrder)
+        : [];
+    });
+    for (const candidate of candidates) {
+      if (candidate.span.sourceField !== "text") continue;
+      if (!interviewSpanUseful(candidate.span.text)) continue;
+      const normalized = normalize(candidate.span.text);
+      if (seenNormalized.has(normalized)) continue;
+      const hits = conceptHits(candidate.span.text, params.concepts);
+      if (params.concepts.length > 0 && hits === 0) continue;
+      const signature = signatureFromText(
+        candidate.span.spanId,
+        candidate.span.text
+      );
+      if (areConceptsRedundant(signature, accepted)) continue;
+      const facets: EvidenceSupportFacet[] = aspect.requiredFacets.includes(
+        "behavior"
+      )
+        ? ["behavior"]
+        : aspect.requiredFacets.slice(0, 1);
+      const draft = makeDraftClaim({
+        bundle: params.bundle,
+        aspect,
+        facets,
+        spans: [candidate.span],
+        procedureStep: candidate.procedureStep
+      });
+      let score =
+        hits * 20 +
+        Math.min(candidate.span.text.split(/\s+/).length, 24) +
+        conceptHits(candidate.span.text, [params.bundle.question]) * 15;
+      if (params.shape === "troubleshooting") {
+        if (
+          /\b(?:check|verify|confirm|review|inspect|logs?|telemetry|trace)\b/i.test(
+            candidate.span.text
+          )
+        ) {
+          score += 12;
+        }
+      }
+      if (params.shape === "powershell") {
+        if (READ_CMDLET_PATTERN.test(candidate.span.text)) score += 16;
+        if (/deprecated|no longer populated/i.test(candidate.span.text)) {
+          score -= 40;
+        }
+      }
+      ranked.push({ draft, score, hits });
+    }
+  }
+
+  ranked.sort(
+    (left, right) =>
+      right.score - left.score ||
+      right.hits - left.hits ||
+      left.draft.proposition.localeCompare(right.draft.proposition)
+  );
+
+  const maxExtras = Math.max(0, 5 - params.plan.plannedClaims.length);
+  for (const entry of ranked) {
+    if (extraDrafts.length >= Math.max(maxExtras, 4)) break;
+    const normalized = normalize(entry.draft.proposition);
+    if (seenNormalized.has(normalized)) continue;
+    const signature = signatureFromText(
+      entry.draft.proposition,
+      entry.draft.proposition
+    );
+    if (areConceptsRedundant(signature, accepted)) continue;
+    extraDrafts.push(entry.draft);
+    seenNormalized.add(normalized);
+    accepted.push(signature);
+  }
+
+  if (extraDrafts.length === 0) return params.plan;
+
+  const extraClaims = finalizeClaims({
+    bundle: params.bundle,
+    claims: extraDrafts,
+    template: STRUCTURE_TEMPLATES[params.bundle.intent.expectedAnswerType],
+    requiredCaveats: params.plan.requiredCaveats
+  });
+  const plannedClaims = [...params.plan.plannedClaims, ...extraClaims].map(
+    (claim, index) => ({
+      ...claim,
+      ordering: {
+        ...claim.ordering,
+        sequence: index + 1
+      }
+    })
+  );
+  const { planIdentity: _ignored, ...state } = params.plan;
+  return bindAnswerPlanIdentity({
+    ...state,
+    plannedClaims,
+    diagnostics: {
+      ...state.diagnostics,
+      latencyMs: state.diagnostics.latencyMs + (performance.now() - started),
+      duplicateClaimsCollapsed: state.diagnostics.duplicateClaimsCollapsed
+    }
+  });
+}
+

@@ -3,6 +3,10 @@ import type {
   LiveAssistProjection,
   LiveAssistSessionView
 } from "@shared/types";
+import {
+  listEvidenceCardSources,
+  parseEvidenceCardContent
+} from "@shared/evidenceCard";
 import { HelpdeskService } from "./helpdeskService";
 import type {
   ConversationStore,
@@ -93,11 +97,13 @@ export class LiveAssistService {
 
   async acceptQuestion(
     question: string,
-    source: CaptureSourceTag = "microphone"
+    source: CaptureSourceTag = "microphone",
+    expectedSessionId?: string
   ): Promise<void> {
     const text = question.trim();
     const session = this.store.getActiveLiveAssistSession();
     if (!text || !session) return;
+    if (expectedSessionId && session.id !== expectedSessionId) return;
 
     if (session.profile === "qa_assist" && source === "microphone") {
       // Defense-in-depth only: normal QA Assist system-only capture never
@@ -113,9 +119,18 @@ export class LiveAssistService {
       return;
     }
 
+    const begun = this.helpdesk.beginLiveQuestion({
+      conversationId: session.conversationId,
+      content: text,
+      captureSource: source,
+      presentationSynthesis:
+        session.profile === "qa_assist" ? "disabled" : "optional"
+    });
     const base = {
       sessionId: session.id,
       conversationId: session.conversationId,
+      userMessageId: begun.started.message.id,
+      answerRunId: begun.started.answerRun.id,
       question: text,
       answerText: null,
       answerability: null,
@@ -130,25 +145,14 @@ export class LiveAssistService {
       ...base,
       state: "executing"
     });
+    // Make the durable user turn visible immediately, without waiting for any
+    // earlier answer in this conversation's serial execution queue.
+    this.events.conversationUpdated(session.conversationId);
 
-    const submitted = await this.helpdesk.submitLiveQuestion({
-      conversationId: session.conversationId,
-      content: text,
-      captureSource: source
-    });
-    const liveUserMessages = submitted.view.messages.filter(
-      (message) =>
-        message.role === "user" &&
-        message.inputOrigin === "live_transcript" &&
-        message.content === text
+    const submitted = await begun.completion;
+    const run = submitted.view.answerRuns.find(
+      (entry) => entry.id === begun.started.answerRun.id
     );
-    const userMessage = liveUserMessages.at(-1);
-    const run = userMessage
-      ? submitted.view.answerRuns.find(
-          (entry) =>
-            entry.triggeringUserMessageId === userMessage.id
-        )
-      : undefined;
     const assistant = run?.assistantMessageId
       ? submitted.view.messages.find(
           (message) => message.id === run.assistantMessageId
@@ -157,23 +161,46 @@ export class LiveAssistService {
     if (
       submitted.outcome === "failed" ||
       !assistant ||
-      !userMessage
+      !run
     ) {
       this.events.projectionChanged({
         ...base,
         state: "failed"
       });
     } else {
+      const parsed = parseEvidenceCardContent(assistant.content);
+      const cardSources = parsed
+        ? listEvidenceCardSources(parsed.payload)
+        : [];
       this.events.projectionChanged({
         ...base,
         state: submitted.outcome,
         answerText: assistant.content,
         answerability: assistant.answerability,
-        sources: assistant.citations.map((citation) => ({
-          messageId: assistant.id,
-          citationId: citation.citationId,
-          title: citation.sourceTitle
-        }))
+        sources: assistant.citations.map((citation) => {
+          const card = cardSources.find(
+            (source) => source.parentId === citation.documentId
+          );
+          const publisher =
+            card?.publisher ??
+            (citation.sourceId === "audiocodes"
+              ? "AudioCodes"
+              : citation.sourceId === "linux-upstream"
+                ? "Linux"
+                : citation.sourceId === "microsoft-learn"
+                  ? "Microsoft"
+                  : undefined);
+          return {
+            messageId: assistant.id,
+            citationId: citation.citationId,
+            title: citation.sourceTitle,
+            documentId: citation.documentId ?? undefined,
+            publisher,
+            sourceRole: card?.sourceRole,
+            section: card?.section,
+            url: citation.canonicalUrl
+          };
+        })
       });
     }
     this.events.conversationUpdated(session.conversationId);

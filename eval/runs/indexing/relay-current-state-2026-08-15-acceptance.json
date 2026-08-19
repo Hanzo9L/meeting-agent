@@ -1,0 +1,3127 @@
+{
+  "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+  "intent": {
+    "technologies": [
+      "Microsoft Teams",
+      "PowerShell",
+      "Voice Routing"
+    ],
+    "domains": [
+      "teams_admin",
+      "teams_powershell"
+    ],
+    "entities": [
+      "calling policy",
+      "dial plan",
+      "enterprise voice",
+      "phone number",
+      "policy",
+      "voice routing",
+      "voice routing policy"
+    ],
+    "operationIntents": [
+      "get",
+      "grant"
+    ],
+    "answerType": "configuration"
+  },
+  "scope": {
+    "selectedDomains": [
+      "teams_powershell",
+      "teams_admin"
+    ],
+    "focusSubdomains": [
+      "calling",
+      "voice",
+      "voice_routing"
+    ],
+    "sourcePriorityChain": [
+      "ms-teams-powershell",
+      "ms-teams-admin",
+      "ms-m365-docs",
+      "ms-entra-docs",
+      "ms-graph-docs",
+      "ms-teams-dev-docs",
+      "ms-sharepoint-docs",
+      "ms-sharepoint-powershell"
+    ],
+    "exactMatchDirectives": [
+      {
+        "type": "entity",
+        "value": "calling policy",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "dial plan",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "voice routing policy",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "enterprise voice",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "phone number",
+        "required": false
+      }
+    ]
+  },
+  "hybridDiagnostics": {
+    "exactLatencyMs": 2503.6915,
+    "lexicalLatencyMs": 1575.5101999999997,
+    "semanticLatencyMs": 6452.1597,
+    "fusionLatencyMs": 135.82799999999952,
+    "totalLatencyMs": 6589.5434000000005,
+    "orchestrationMode": "overlap_semantic_with_exact_lexical"
+  },
+  "answerability": "partial",
+  "exactIdentifierValidation": {
+    "required": false,
+    "verified": true,
+    "requiredDirectives": [],
+    "missingRequiredDirectives": []
+  },
+  "authorityCoverage": {
+    "requestedDomains": [
+      "teams_admin",
+      "teams_powershell"
+    ],
+    "coveredDomains": [
+      "teams_powershell",
+      "teams_admin"
+    ],
+    "missingDomains": []
+  },
+  "perAspect": [
+    {
+      "aspectId": "mandatory:entity:csv-export:output-transformation",
+      "subject": "CSV export",
+      "answerObject": "fact",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "behavior"
+      ],
+      "methodConstraints": [],
+      "authorityRequirement": {
+        "requiredRoles": [],
+        "requiredDomains": [],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": false,
+      "isMandatoryUnsupported": true,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": false,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "exact|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0711b21ad5bba735a0ec54b43e7ad0b788dd54b914bee9253476e0c2459ef6de|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|08332aa331660bb7c007b3ca230c8da2b9422540677fdeafe097cbca6b502635|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|095eae3ba5b5f8fd2c370a7fbc2d6e0751b177167e972286addf2bc5368621b4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1afd75c916230cfc096c08a084bf770629835ec231e967698728aefa4721f930|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1e6bf33759383f55ca4efb1eadba2e7b8bb9c8bba770e2c50eb244072f49ab95|entity|calling policy|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2b9336bc3fd5c68f98bd67be8a4e15e93662d7575353cfde06be39963679fbe4|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2db3762f006247823404a2e9ef75a8df60aa1e139991cf1cd8b7fe29b8262150|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|3acee54ae2473b9bd29daa7ce019aac0f488e6639a7569a9cabaf3b9f36e0745|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|42245d00e6d3789204ff2c7c3caa204d960cf95a3d0c08c5e5656c6a6501c88b|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4a8de944534ffecdc20b27a011ec7cdfe74f32b0334fb5789304c6eddda43704|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|56e20a90c094b975d65db60cc7ae30e0bdaae6ef8c451e6ded40a0ab109873b3|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5a1a3f88225529f7930c02f977654f46ecbadded3b23e68f064c86a26c056bf4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b5b9989d30088bcfc2072000d73b47da49e16562ca3e4c0d93c917ca5c5f265c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-27.991326915401707",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e3765ffaca388af08907fb1f2c057868ab61fd68d6d7d68af21c6b9d6126bd7f|-16.75102493327911",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f|-17.277433873993655",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "evidence": [],
+      "plannedClaims": [],
+      "unsupportedReason": {
+        "reason": "missing_authority",
+        "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+      }
+    },
+    {
+      "aspectId": "mandatory:entity:enterprise-voice:general",
+      "subject": "enterprise voice",
+      "answerObject": "configuration_state",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "state"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": false,
+      "isMandatoryUnsupported": true,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": true,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "exact|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0711b21ad5bba735a0ec54b43e7ad0b788dd54b914bee9253476e0c2459ef6de|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|08332aa331660bb7c007b3ca230c8da2b9422540677fdeafe097cbca6b502635|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|095eae3ba5b5f8fd2c370a7fbc2d6e0751b177167e972286addf2bc5368621b4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1afd75c916230cfc096c08a084bf770629835ec231e967698728aefa4721f930|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1e6bf33759383f55ca4efb1eadba2e7b8bb9c8bba770e2c50eb244072f49ab95|entity|calling policy|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2b9336bc3fd5c68f98bd67be8a4e15e93662d7575353cfde06be39963679fbe4|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2db3762f006247823404a2e9ef75a8df60aa1e139991cf1cd8b7fe29b8262150|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|3acee54ae2473b9bd29daa7ce019aac0f488e6639a7569a9cabaf3b9f36e0745|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|42245d00e6d3789204ff2c7c3caa204d960cf95a3d0c08c5e5656c6a6501c88b|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4a8de944534ffecdc20b27a011ec7cdfe74f32b0334fb5789304c6eddda43704|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|56e20a90c094b975d65db60cc7ae30e0bdaae6ef8c451e6ded40a0ab109873b3|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5a1a3f88225529f7930c02f977654f46ecbadded3b23e68f064c86a26c056bf4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b5b9989d30088bcfc2072000d73b47da49e16562ca3e4c0d93c917ca5c5f265c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-27.991326915401707",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e3765ffaca388af08907fb1f2c057868ab61fd68d6d7d68af21c6b9d6126bd7f|-16.75102493327911",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f|-17.277433873993655",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "evidence": [],
+      "plannedClaims": [],
+      "unsupportedReason": {
+        "reason": "insufficient_evidence",
+        "detail": "Unsupported required aspect: enterprise voice; required facets: state."
+      }
+    },
+    {
+      "aspectId": "mandatory:entity:phone-number:general",
+      "subject": "phone number",
+      "answerObject": "configuration_state",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "state"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": true,
+      "isMandatoryUnsupported": false,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": false,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "exact|0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c|entity|phone number|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.65
+        },
+        {
+          "candidateId": "exact|5a1a3f88225529f7930c02f977654f46ecbadded3b23e68f064c86a26c056bf4|entity|dial plan|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.35
+        },
+        {
+          "candidateId": "exact|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|entity|phone number|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.25
+        },
+        {
+          "candidateId": "exact|4a8de944534ffecdc20b27a011ec7cdfe74f32b0334fb5789304c6eddda43704|entity|dial plan|chunk_text_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.15
+        },
+        {
+          "candidateId": "exact|2db3762f006247823404a2e9ef75a8df60aa1e139991cf1cd8b7fe29b8262150|entity|phone number|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31
+        },
+        {
+          "candidateId": "exact|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0711b21ad5bba735a0ec54b43e7ad0b788dd54b914bee9253476e0c2459ef6de|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|08332aa331660bb7c007b3ca230c8da2b9422540677fdeafe097cbca6b502635|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|095eae3ba5b5f8fd2c370a7fbc2d6e0751b177167e972286addf2bc5368621b4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1afd75c916230cfc096c08a084bf770629835ec231e967698728aefa4721f930|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1e6bf33759383f55ca4efb1eadba2e7b8bb9c8bba770e2c50eb244072f49ab95|entity|calling policy|chunk_text_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2b9336bc3fd5c68f98bd67be8a4e15e93662d7575353cfde06be39963679fbe4|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|3acee54ae2473b9bd29daa7ce019aac0f488e6639a7569a9cabaf3b9f36e0745|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|42245d00e6d3789204ff2c7c3caa204d960cf95a3d0c08c5e5656c6a6501c88b|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|56e20a90c094b975d65db60cc7ae30e0bdaae6ef8c451e6ded40a0ab109873b3|entity|phone number|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b5b9989d30088bcfc2072000d73b47da49e16562ca3e4c0d93c917ca5c5f265c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-27.991326915401707",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e3765ffaca388af08907fb1f2c057868ab61fd68d6d7d68af21c6b9d6126bd7f|-16.75102493327911",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f|-17.277433873993655",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceId": "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c",
+          "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+          "sourceId": "ms-teams-admin",
+          "authorityRoles": [
+            "teams_admin_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+            "Get new phone numbers"
+          ],
+          "fusionRank": 7,
+          "fusionScore": 46.262650602409636,
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:entity:phone-number:general:direct",
+          "supportTypes": [
+            "licensing_or_status"
+          ]
+        }
+      ],
+      "facetCoverage": {
+        "aspectId": "mandatory:entity:phone-number:general",
+        "requiredFacets": [
+          "state"
+        ],
+        "plannedFacets": [
+          "state"
+        ],
+        "missingFacets": []
+      },
+      "plannedClaims": [
+        {
+          "claimId": "claim:9e5bf07e566330afc06e1c86",
+          "claimType": "configuration",
+          "sectionId": "configuration",
+          "proposition": "1. Sign into the Microsoft Teams admin center with one of the following roles:Teams Telephony AdministratorTeams Communications AdministratorTeams AdministratorSee Use Teams administrator roles to manage Teams to read about getting admin roles and permissions. 2. In the left navigation, go to Voice > Phone numbers, and then select Add.ImportantFor you to see the Voice option in the left navigation in the Teams admin center, you must first buy at least one Enterprise E5 or E3 license, one Phone System add-on license, or one Audio Conferencing add-on license. 3. On the resulting page, enter a name for the order and add a description. 4. Select From Operator. 5. On the Location and quantity section, do the following steps:Under Country or region, select a country or region.Under Number type, select the desired number type for this order.If you are submitting an order for a phone number to be used by a user for calling plan, select User (subscriber).If you are submitting an order for a Toll- or Toll-free phone number to be used for Audio conferencing, select Dedicated conference bridge (Toll) or Dedicated conference bridge (Toll Free) respectively.If you are submitting an order for a Toll- or Toll-free phone number to be used for Voice applications (Call Queue or Auto Attendant) select Call Queue (Toll/Toll Free) or Auto Attendant (Toll/Toll Free) accordingly.For more information on number usage types, See Number usage types.Under Operator, select Microsoft as the operator.Under Quantity, enter the number of numbers that you want for your organization.Under Search for new numbers, select your criteria. Criteria vary depending on the country or region and the number type selected. If you need to create a new location, select Add a location.NoteOccasionally, phone numbers might not be available according to your criteria. In an unsuccessful search scenario, you might want to change your search criteria and try again. Alternatively, from the criteria failure message, select Sending this to the PSTN service desk to engage search assistance from our Telephone Number Services Support team.Select Next to select your numbers.NoteIn some countries or regions where phone",
+          "supportStrength": "direct",
+          "mandatory": true,
+          "requiresCaveat": true,
+          "caveatCodes": [
+            "partial_coverage"
+          ],
+          "coveredFacets": [
+            "state"
+          ],
+          "sourceSpans": [
+            {
+              "text": "1. Sign into the Microsoft Teams admin center with one of the following roles:Teams Telephony AdministratorTeams Communications AdministratorTeams AdministratorSee Use Teams administrator roles to manage Teams to read about getting admin roles and permissions. 2. In the left navigation, go to Voice > Phone numbers, and then select Add.ImportantFor you to see the Voice option in the left navigation in the Teams admin center, you must first buy at least one Enterprise E5 or E3 license, one Phone System add-on license, or one Audio Conferencing add-on license. 3. On the resulting page, enter a name for the order and add a description. 4. Select From Operator. 5. On the Location and quantity section, do the following steps:Under Country or region, select a country or region.Under Number type, select the desired number type for this order.If you are submitting an order for a phone number to be used by a user for calling plan, select User (subscriber).If you are submitting an order for a Toll- or Toll-free phone number to be used for Audio conferencing, select Dedicated conference bridge (Toll) or Dedicated conference bridge (Toll Free) respectively.If you are submitting an order for a Toll- or Toll-free phone number to be used for Voice applications (Call Queue or Auto Attendant) select Call Queue (Toll/Toll Free) or Auto Attendant (Toll/Toll Free) accordingly.For more information on number usage types, See Number usage types.Under Operator, select Microsoft as the operator.Under Quantity, enter the number of numbers that you want for your organization.Under Search for new numbers, select your criteria. Criteria vary depending on the country or region and the number type selected. If you need to create a new location, select Add a location.NoteOccasionally, phone numbers might not be available according to your criteria. In an unsuccessful search scenario, you might want to change your search criteria and try again. Alternatively, from the criteria failure message, select Sending this to the PSTN service desk to engage search assistance from our Telephone Number Services Support team.Select Next to select your numbers.NoteIn some countries or regions where phone",
+              "sourceField": "text",
+              "headingPath": [
+                "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+                "Get new phone numbers"
+              ],
+              "sourcePath": "microsoftteams/getting-phone-numbers-for-your-users"
+            }
+          ]
+        }
+      ],
+      "unsupportedReason": null
+    },
+    {
+      "aspectId": "mandatory:policy:calling-policy:general",
+      "subject": "calling policy",
+      "answerObject": "configuration_state",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "state"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": true,
+      "isMandatoryUnsupported": false,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": false,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "lexical|f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f|-17.277433873993655",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 82
+        },
+        {
+          "candidateId": "exact|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0711b21ad5bba735a0ec54b43e7ad0b788dd54b914bee9253476e0c2459ef6de|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|08332aa331660bb7c007b3ca230c8da2b9422540677fdeafe097cbca6b502635|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|095eae3ba5b5f8fd2c370a7fbc2d6e0751b177167e972286addf2bc5368621b4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1afd75c916230cfc096c08a084bf770629835ec231e967698728aefa4721f930|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1e6bf33759383f55ca4efb1eadba2e7b8bb9c8bba770e2c50eb244072f49ab95|entity|calling policy|chunk_text_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2b9336bc3fd5c68f98bd67be8a4e15e93662d7575353cfde06be39963679fbe4|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2db3762f006247823404a2e9ef75a8df60aa1e139991cf1cd8b7fe29b8262150|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|3acee54ae2473b9bd29daa7ce019aac0f488e6639a7569a9cabaf3b9f36e0745|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|42245d00e6d3789204ff2c7c3caa204d960cf95a3d0c08c5e5656c6a6501c88b|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4a8de944534ffecdc20b27a011ec7cdfe74f32b0334fb5789304c6eddda43704|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|56e20a90c094b975d65db60cc7ae30e0bdaae6ef8c451e6ded40a0ab109873b3|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5a1a3f88225529f7930c02f977654f46ecbadded3b23e68f064c86a26c056bf4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b5b9989d30088bcfc2072000d73b47da49e16562ca3e4c0d93c917ca5c5f265c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-27.991326915401707",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e3765ffaca388af08907fb1f2c057868ab61fd68d6d7d68af21c6b9d6126bd7f|-16.75102493327911",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+          "title": "Get-CsTeamsCallingPolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Get-CsTeamsCallingPolicy",
+            "DESCRIPTION"
+          ],
+          "fusionRank": 23,
+          "fusionScore": 33.40167741935484,
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:policy:calling-policy:general:direct",
+          "supportTypes": [
+            "licensing_or_status"
+          ]
+        }
+      ],
+      "facetCoverage": {
+        "aspectId": "mandatory:policy:calling-policy:general",
+        "requiredFacets": [
+          "state"
+        ],
+        "plannedFacets": [],
+        "missingFacets": [
+          "state"
+        ]
+      },
+      "plannedClaims": [],
+      "unsupportedReason": {
+        "reason": "source_span_unavailable",
+        "detail": "No exact source span could be planned for all required facets of calling policy."
+      }
+    },
+    {
+      "aspectId": "mandatory:policy:dial-plan:general",
+      "subject": "dial plan",
+      "answerObject": "configuration_state",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "state"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": true,
+      "isMandatoryUnsupported": false,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": false,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "exact|0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc|entity|dial plan|chunk_text_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 83.8
+        },
+        {
+          "candidateId": "exact|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|entity|dial plan|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.95
+        },
+        {
+          "candidateId": "exact|3acee54ae2473b9bd29daa7ce019aac0f488e6639a7569a9cabaf3b9f36e0745|entity|dial plan|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.5
+        },
+        {
+          "candidateId": "exact|42245d00e6d3789204ff2c7c3caa204d960cf95a3d0c08c5e5656c6a6501c88b|entity|dial plan|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.45
+        },
+        {
+          "candidateId": "exact|5a1a3f88225529f7930c02f977654f46ecbadded3b23e68f064c86a26c056bf4|entity|dial plan|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.35
+        },
+        {
+          "candidateId": "exact|4a8de944534ffecdc20b27a011ec7cdfe74f32b0334fb5789304c6eddda43704|entity|dial plan|chunk_text_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.15
+        },
+        {
+          "candidateId": "exact|0711b21ad5bba735a0ec54b43e7ad0b788dd54b914bee9253476e0c2459ef6de|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|08332aa331660bb7c007b3ca230c8da2b9422540677fdeafe097cbca6b502635|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|095eae3ba5b5f8fd2c370a7fbc2d6e0751b177167e972286addf2bc5368621b4|entity|dial plan|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1afd75c916230cfc096c08a084bf770629835ec231e967698728aefa4721f930|entity|dial plan|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1e6bf33759383f55ca4efb1eadba2e7b8bb9c8bba770e2c50eb244072f49ab95|entity|calling policy|chunk_text_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2b9336bc3fd5c68f98bd67be8a4e15e93662d7575353cfde06be39963679fbe4|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2db3762f006247823404a2e9ef75a8df60aa1e139991cf1cd8b7fe29b8262150|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|56e20a90c094b975d65db60cc7ae30e0bdaae6ef8c451e6ded40a0ab109873b3|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|entity|voice routing policy|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b5b9989d30088bcfc2072000d73b47da49e16562ca3e4c0d93c917ca5c5f265c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-27.991326915401707",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e3765ffaca388af08907fb1f2c057868ab61fd68d6d7d68af21c6b9d6126bd7f|-16.75102493327911",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f|-17.277433873993655",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+          "title": "Get-CsTenantDialPlan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Get-CsTenantDialPlan",
+            "SYNOPSIS"
+          ],
+          "fusionRank": 4,
+          "fusionScore": 48.30288652952886,
+          "methods": [
+            "exact",
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:policy:dial-plan:general:direct",
+          "supportTypes": [
+            "licensing_or_status"
+          ]
+        }
+      ],
+      "facetCoverage": {
+        "aspectId": "mandatory:policy:dial-plan:general",
+        "requiredFacets": [
+          "state"
+        ],
+        "plannedFacets": [
+          "state"
+        ],
+        "missingFacets": []
+      },
+      "plannedClaims": [
+        {
+          "claimId": "claim:0a75a0fcb0c43f68a0754248",
+          "claimType": "configuration",
+          "sectionId": "configuration",
+          "proposition": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+          "supportStrength": "direct",
+          "mandatory": true,
+          "requiresCaveat": true,
+          "caveatCodes": [
+            "partial_coverage"
+          ],
+          "coveredFacets": [
+            "state"
+          ],
+          "sourceSpans": [
+            {
+              "text": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+              "sourceField": "text",
+              "headingPath": [
+                "Get-CsTenantDialPlan",
+                "SYNOPSIS"
+              ],
+              "sourcePath": "teams/teams-ps/MicrosoftTeams/Get-CsTenantDialPlan.md"
+            }
+          ]
+        }
+      ],
+      "unsupportedReason": null
+    },
+    {
+      "aspectId": "mandatory:policy:voice-routing-policy:general",
+      "subject": "voice routing policy",
+      "answerObject": "configuration_state",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "state"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": true,
+      "isMandatoryUnsupported": false,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": false,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-27.991326915401707",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 82
+        },
+        {
+          "candidateId": "exact|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|entity|dial plan|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.95
+        },
+        {
+          "candidateId": "exact|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|entity|voice routing policy|metadata_weak",
+          "strength": "direct",
+          "matchedFacets": [
+            "state"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 31.6
+        },
+        {
+          "candidateId": "exact|0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0711b21ad5bba735a0ec54b43e7ad0b788dd54b914bee9253476e0c2459ef6de|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|08332aa331660bb7c007b3ca230c8da2b9422540677fdeafe097cbca6b502635|entity|voice routing policy|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|095eae3ba5b5f8fd2c370a7fbc2d6e0751b177167e972286addf2bc5368621b4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|entity|voice routing policy|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|entity|voice routing policy|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1afd75c916230cfc096c08a084bf770629835ec231e967698728aefa4721f930|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1e6bf33759383f55ca4efb1eadba2e7b8bb9c8bba770e2c50eb244072f49ab95|entity|calling policy|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2b9336bc3fd5c68f98bd67be8a4e15e93662d7575353cfde06be39963679fbe4|entity|voice routing policy|metadata_weak",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2db3762f006247823404a2e9ef75a8df60aa1e139991cf1cd8b7fe29b8262150|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|3acee54ae2473b9bd29daa7ce019aac0f488e6639a7569a9cabaf3b9f36e0745|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|42245d00e6d3789204ff2c7c3caa204d960cf95a3d0c08c5e5656c6a6501c88b|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4a8de944534ffecdc20b27a011ec7cdfe74f32b0334fb5789304c6eddda43704|entity|dial plan|chunk_text_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|56e20a90c094b975d65db60cc7ae30e0bdaae6ef8c451e6ded40a0ab109873b3|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5a1a3f88225529f7930c02f977654f46ecbadded3b23e68f064c86a26c056bf4|entity|dial plan|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b5b9989d30088bcfc2072000d73b47da49e16562ca3e4c0d93c917ca5c5f265c|entity|phone number|metadata_weak",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e3765ffaca388af08907fb1f2c057868ab61fd68d6d7d68af21c6b9d6126bd7f|-16.75102493327911",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f|-17.277433873993655",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "state"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "sourceId": "ms-teams-powershell",
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceRoutingPolicy",
+            "DESCRIPTION"
+          ],
+          "fusionRank": 22,
+          "fusionScore": 36.2005772005772,
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:policy:voice-routing-policy:general:direct",
+          "supportTypes": [
+            "licensing_or_status"
+          ]
+        }
+      ],
+      "facetCoverage": {
+        "aspectId": "mandatory:policy:voice-routing-policy:general",
+        "requiredFacets": [
+          "state"
+        ],
+        "plannedFacets": [
+          "state"
+        ],
+        "missingFacets": []
+      },
+      "plannedClaims": [
+        {
+          "claimId": "claim:68ff7d72db533918a81fca02",
+          "claimType": "configuration",
+          "sectionId": "configuration",
+          "proposition": "Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.",
+          "supportStrength": "direct",
+          "mandatory": true,
+          "requiresCaveat": true,
+          "caveatCodes": [
+            "partial_coverage"
+          ],
+          "coveredFacets": [
+            "state"
+          ],
+          "sourceSpans": [
+            {
+              "text": "Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.",
+              "sourceField": "text",
+              "headingPath": [
+                "Get-CsOnlineVoiceRoutingPolicy",
+                "DESCRIPTION"
+              ],
+              "sourcePath": "teams/teams-ps/MicrosoftTeams/Get-CsOnlineVoiceRoutingPolicy.md"
+            }
+          ]
+        }
+      ],
+      "unsupportedReason": null
+    }
+  ],
+  "rejectedTop": [
+    {
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 1,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Create and manage dial plans",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 2,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Get-CsPhoneNumberPolicyAssignment",
+      "sourceId": "ms-teams-powershell",
+      "fusionRank": 3,
+      "reasons": [
+        "low_topical_relevance",
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 5,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 6,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 8,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 9,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Create and manage dial plans",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 10,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Create and manage dial plans",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 11,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Create and manage dial plans",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 12,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 13,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 14,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 15,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 16,
+      "reasons": [
+        "low_topical_relevance",
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "title": "Translate phone numbers to an alternate format",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 17,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 18,
+      "reasons": [
+        "low_topical_relevance",
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "title": "Planning Teams dial plans for Teams Phone",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 19,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Translate phone numbers to an alternate format",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 20,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    },
+    {
+      "title": "Set up Microsoft Calling Plans",
+      "sourceId": "ms-teams-admin",
+      "fusionRank": 21,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "title": "Set-CsUser",
+      "sourceId": "ms-teams-powershell",
+      "fusionRank": 24,
+      "reasons": [
+        "insufficient_direct_support",
+        "lower_authority"
+      ]
+    }
+  ],
+  "planAnswerability": "partial",
+  "requiredCaveats": [
+    {
+      "code": "partial_coverage",
+      "detail": "Only supported portions should be answered."
+    }
+  ],
+  "unsupportedAspects": [
+    {
+      "aspectId": "mandatory:entity:csv-export:output-transformation",
+      "reason": "missing_authority",
+      "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+    },
+    {
+      "aspectId": "mandatory:entity:enterprise-voice:general",
+      "reason": "insufficient_evidence",
+      "detail": "Unsupported required aspect: enterprise voice; required facets: state."
+    },
+    {
+      "aspectId": "mandatory:policy:calling-policy:general",
+      "reason": "source_span_unavailable",
+      "detail": "No exact source span could be planned for all required facets of calling policy."
+    }
+  ],
+  "decomposition": {
+    "requestedConcepts": [
+      "csv export",
+      "enterprise voice",
+      "phone number",
+      "calling policy",
+      "dial plan",
+      "voice routing policy"
+    ],
+    "supportedConcepts": [
+      "phone number",
+      "calling policy",
+      "dial plan",
+      "voice routing policy"
+    ],
+    "omittedConcepts": [
+      "csv export",
+      "enterprise voice"
+    ]
+  },
+  "assembled": {
+    "ok": false,
+    "failure": {
+      "ok": false,
+      "failure": {
+        "code": "answer_plan_integrity_failed",
+        "message": "Deterministic assembly rejected an invalid source-bound answer plan.",
+        "snapshotIssues": [],
+        "groundingIssues": [],
+        "failedClaimIds": [
+          "claim:0a75a0fcb0c43f68a0754248",
+          "claim:9e5bf07e566330afc06e1c86",
+          "claim:68ff7d72db533918a81fca02"
+        ],
+        "planIntegrityIssues": [
+          {
+            "code": "required_facet_unplanned",
+            "message": "Required facet state has no source-bound claim for mandatory:policy:calling-policy:general.",
+            "aspectId": "mandatory:policy:calling-policy:general"
+          }
+        ],
+        "diagnostics": {
+          "generatorProviderId": "deterministic-extractive-assembler/r4",
+          "generationLatencyMs": 0,
+          "validationLatencyMs": 1.786099999999351,
+          "totalLatencyMs": 1.8783000000003085,
+          "claimTaskCount": 3,
+          "mandatoryClaimTaskCount": 3,
+          "successfulClaimCount": 0,
+          "failedClaimCount": 3,
+          "requestCount": 0,
+          "retryCount": 0,
+          "firstAttemptValid": false,
+          "finalAttemptValid": false,
+          "firstAttemptIssues": [],
+          "attempts": [],
+          "tokenUsage": {
+            "inputTokens": null,
+            "outputTokens": null
+          }
+        }
+      }
+    }
+  },
+  "citationMapping": null,
+  "presented": null,
+  "latency": {
+    "groundingMs": 6712.8367,
+    "evidenceResolutionMs": 91.78269999999975,
+    "planningMs": 4.7323999999998705,
+    "assemblyMs": null,
+    "pipelineTotalMs": 6719.6021
+  },
+  "answerGenerationRequestCount": 0
+}

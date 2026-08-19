@@ -5,14 +5,22 @@ import {
   buildAnswerPlan,
   buildExplanationContext,
   buildGroundedSynthesisPayload,
+  expandInterviewQuickClaims,
   mapAnswerCitations,
   presentGroundedAnswer,
   runQuestionToEvidenceBundle
 } from "../answerV2";
+import { deriveInterviewAnswerConcepts } from "../answerV2/interviewAnswerConcepts";
+import {
+  documentIdsForInterviewPacks
+} from "../answerV2/interviewAuthorityPack";
+import { routeInterviewPacks } from "../answerV2/interviewPackRouter";
+import { classifyInterviewQuestionShape } from "../answerV2/interviewQuestionShape";
+import { extractQueryIntent } from "../retrievalV2/queryIntentRules";
+import { resolveKnowledgeV2DatabasePath } from "../knowledgeV2";
 import type {
   AnswerabilityStatus,
-  GroundedSynthesisProvider,
-  GroundingDecisionSnapshot
+  GroundedSynthesisProvider
 } from "../answerV2";
 import type { AnswerPresentationProfile } from "../answerV2/answerPresentationTypes";
 import type { ContextReference } from "../answerV2/explanationContextTypes";
@@ -22,12 +30,19 @@ export interface AnswerExecutionRequest {
   userMessageId: string;
   question: string;
   presentationProfile?: AnswerPresentationProfile;
+  /**
+   * Disables only the post-grounding presentation synthesis call. Retrieval,
+   * R2-R4, validation, and citation mapping remain unchanged.
+   */
+  presentationSynthesis?: "optional" | "disabled";
+  /** Optional bounded validation scope; production routing leaves this unset. */
+  eligibleDocumentIds?: string[];
 }
 
 export interface AnswerExecutionCitation {
   citationId: string;
   factualRangeId: string;
-  claimId: string;
+  claimId?: string | null;
   answerRange: {
     startOffset: number;
     endOffset: number;
@@ -56,19 +71,36 @@ export interface GroundedAnswerExecutionSuccess {
   presentationProfile: AnswerPresentationProfile;
   helpdeskDetailedText: string;
   liveAssistQuickText: string;
-  snapshot: Pick<
-    GroundingDecisionSnapshot,
-    | "snapshotId"
-    | "snapshotHash"
-    | "schemaVersion"
-    | "resolverPolicyVersion"
-    | "corpusRevisionHash"
-    | "createdAt"
-  >;
+  snapshot: {
+    snapshotId: string;
+    snapshotHash: string;
+    schemaVersion: string;
+    resolverPolicyVersion: string;
+    corpusRevisionHash: string;
+    createdAt: string;
+  };
   /** WB-21 factual citations (ranges relative to factualAnswerText). */
   citations: AnswerExecutionCitation[];
   /** Presentation-layer context source attribution (not R4 claims). */
   contextReferences: ContextReference[];
+  retrievalSummary?: {
+    eligibleDocumentCount: number | null;
+    eligibleChunkCount: number;
+    scoredChunkCount: number;
+    returnedCandidateCount: number;
+    topEvidence: Array<{
+      documentId: string;
+      title: string;
+      canonicalUrl: string;
+      headingPath: string[];
+    }>;
+  };
+  interviewQuick?: {
+    questionShape: string;
+    selectedPacks: string[];
+    packReasons: string[];
+    derivedConcepts: string[];
+  };
   diagnostics: {
     retrievalMs: number;
     evidenceResolutionMs: number;
@@ -84,6 +116,7 @@ export interface GroundedAnswerExecutionSuccess {
     presentationSynthesisRequests: 0 | 1;
     presentationSynthesisStatus:
       | "not_configured"
+      | "bypassed_by_policy"
       | "bypassed_insufficient_evidence"
       | "succeeded"
       | "provider_failed"
@@ -97,12 +130,14 @@ export interface AnswerExecutionFailure {
   code:
     | "grounding_execution_failed"
     | "grounded_answer_validation_failed"
-    | "citation_validation_failed";
+    | "citation_validation_failed"
+    | "evidence_retrieval_failed";
   stage:
     | "retrieval_grounding"
     | "answer_planning"
     | "extractive_assembly"
-    | "citation_mapping";
+    | "citation_mapping"
+    | "evidence_retrieval";
   userSafeMessage: string;
 }
 
@@ -142,6 +177,31 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
   async execute(
     request: AnswerExecutionRequest
   ): Promise<AnswerExecutionResult> {
+    const profile: AnswerPresentationProfile =
+      request.presentationProfile ?? "helpdesk_detailed";
+    const interviewQuick = profile === "live_assist_quick";
+    const intentResult = extractQueryIntent(request.question);
+    const questionShape = classifyInterviewQuestionShape(intentResult.intent);
+    const packRoute = routeInterviewPacks(intentResult.intent, questionShape);
+    const derivedConcepts = deriveInterviewAnswerConcepts({
+      intent: intentResult.intent,
+      shape: questionShape,
+      packIds: packRoute.packIds
+    });
+    const databasePath =
+      this.options.databasePath ?? resolveKnowledgeV2DatabasePath();
+    let eligibleDocumentIds = request.eligibleDocumentIds;
+    if (
+      interviewQuick &&
+      eligibleDocumentIds === undefined &&
+      packRoute.packIds.length > 0
+    ) {
+      eligibleDocumentIds = documentIdsForInterviewPacks(
+        packRoute.packIds,
+        databasePath
+      );
+    }
+
     const pipelineStarted = performance.now();
     let groundingRun: Awaited<
       ReturnType<typeof runQuestionToEvidenceBundle>
@@ -150,7 +210,9 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
     try {
       groundingRun = await runQuestionToEvidenceBundle({
         question: request.question,
-        databasePath: this.options.databasePath
+        databasePath,
+        eligibleDocumentIds,
+        multiConceptSelection: interviewQuick
       });
     } catch {
       return {
@@ -167,8 +229,18 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
 
     const planningStarted = performance.now();
     let plan: ReturnType<typeof buildAnswerPlan>;
+    let originalPlan: ReturnType<typeof buildAnswerPlan>;
     try {
-      plan = buildAnswerPlan(groundingRun.bundle);
+      originalPlan = buildAnswerPlan(groundingRun.bundle);
+      plan = originalPlan;
+      if (interviewQuick) {
+        plan = expandInterviewQuickClaims({
+          bundle: groundingRun.bundle,
+          plan: originalPlan,
+          concepts: derivedConcepts,
+          shape: questionShape
+        });
+      }
     } catch {
       return {
         ok: false,
@@ -188,14 +260,39 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
         bundle: groundingRun.bundle,
         plan
       });
+      if (!assembled.ok && interviewQuick && plan !== originalPlan) {
+        plan = originalPlan;
+        assembled = assembleDeterministicAnswer({
+          bundle: groundingRun.bundle,
+          plan: originalPlan
+        });
+      }
     } catch {
-      return {
-        ok: false,
-        code: "grounded_answer_validation_failed",
-        stage: "extractive_assembly",
-        userSafeMessage:
-          "Relay rejected the answer because its grounding integrity could not be verified."
-      };
+      if (interviewQuick && plan !== originalPlan) {
+        try {
+          plan = originalPlan;
+          assembled = assembleDeterministicAnswer({
+            bundle: groundingRun.bundle,
+            plan: originalPlan
+          });
+        } catch {
+          return {
+            ok: false,
+            code: "grounded_answer_validation_failed",
+            stage: "extractive_assembly",
+            userSafeMessage:
+              "Relay rejected the answer because its grounding integrity could not be verified."
+          };
+        }
+      } else {
+        return {
+          ok: false,
+          code: "grounded_answer_validation_failed",
+          stage: "extractive_assembly",
+          userSafeMessage:
+            "Relay rejected the answer because its grounding integrity could not be verified."
+        };
+      }
     }
     if (!assembled.ok) {
       return {
@@ -208,20 +305,72 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
     }
 
     let citationMapping: ReturnType<typeof mapAnswerCitations>;
-    try {
-      citationMapping = mapAnswerCitations({
+    const mapCitations = (): ReturnType<typeof mapAnswerCitations> =>
+      mapAnswerCitations({
         bundle: groundingRun.bundle,
         plan,
         answer: assembled.answer
       });
+    try {
+      citationMapping = mapCitations();
+      if (
+        !citationMapping.validation.valid &&
+        interviewQuick &&
+        plan !== originalPlan &&
+        assembled.ok
+      ) {
+        plan = originalPlan;
+        assembled = assembleDeterministicAnswer({
+          bundle: groundingRun.bundle,
+          plan: originalPlan
+        });
+        if (!assembled.ok) {
+          return {
+            ok: false,
+            code: "grounded_answer_validation_failed",
+            stage: "extractive_assembly",
+            userSafeMessage:
+              "Relay rejected the answer because its grounding integrity could not be verified."
+          };
+        }
+        citationMapping = mapCitations();
+      }
     } catch {
-      return {
-        ok: false,
-        code: "citation_validation_failed",
-        stage: "citation_mapping",
-        userSafeMessage:
-          "Relay rejected the answer because its source citations could not be validated."
-      };
+      if (interviewQuick && plan !== originalPlan) {
+        plan = originalPlan;
+        assembled = assembleDeterministicAnswer({
+          bundle: groundingRun.bundle,
+          plan: originalPlan
+        });
+        if (!assembled.ok) {
+          return {
+            ok: false,
+            code: "grounded_answer_validation_failed",
+            stage: "extractive_assembly",
+            userSafeMessage:
+              "Relay rejected the answer because its grounding integrity could not be verified."
+          };
+        }
+        try {
+          citationMapping = mapCitations();
+        } catch {
+          return {
+            ok: false,
+            code: "citation_validation_failed",
+            stage: "citation_mapping",
+            userSafeMessage:
+              "Relay rejected the answer because its source citations could not be validated."
+          };
+        }
+      } else {
+        return {
+          ok: false,
+          code: "citation_validation_failed",
+          stage: "citation_mapping",
+          userSafeMessage:
+            "Relay rejected the answer because its source citations could not be validated."
+        };
+      }
     }
     if (!citationMapping.validation.valid) {
       return {
@@ -257,8 +406,6 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
       contextBlocks: explanation.blocks
     });
 
-    const profile: AnswerPresentationProfile =
-      request.presentationProfile ?? "helpdesk_detailed";
     const deterministicPresentedAnswer =
       profile === "live_assist_quick"
         ? presented.liveAssistQuick
@@ -273,41 +420,51 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
       "not_configured";
     let presentationSynthesisFallbackReason: string | null = null;
     let synthesisAccepted = false;
-    const synthesisPayload = buildGroundedSynthesisPayload({
-      question: request.question,
-      profile,
-      bundle: groundingRun.bundle,
-      plan,
-      answer: assembled.answer,
-      provenance,
-      citationMapping,
-      selectedClaimIds: provenance.renderedClaims.map(
-        (claim) => claim.claimId
-      ),
-      selectedCaveats: deterministicPresentedAnswer.plan.selectedCaveats,
-      selectedUnsupportedGaps:
-        deterministicPresentedAnswer.plan.unsupportedGaps
-    });
-    const synthesisStarted = performance.now();
-    const synthesisAttempt = await attemptGroundedSynthesis({
-      provider: this.options.synthesisProvider,
-      payload: synthesisPayload
-    });
-    synthesisMs = performance.now() - synthesisStarted;
-    presentationSynthesisRequests = synthesisAttempt.requestCount;
-    presentationSynthesisStatus = synthesisAttempt.status;
-    presentationSynthesisFallbackReason =
-      synthesisAttempt.fallbackReason;
-    if (synthesisAttempt.rendered) {
-      visibleAnswerText = synthesisAttempt.rendered.answerText;
-      visibleProofFactRanges =
-        synthesisAttempt.rendered.proofFactRanges;
-      synthesisAccepted = true;
-    } else if (
-      profile === "helpdesk_detailed" &&
-      synthesisPayload?.executableWorkflow
-    ) {
-      visibleAnswerText = `${visibleAnswerText.trim()}\n\nRunnable PowerShell\n\`\`\`powershell\n${synthesisPayload.executableWorkflow.script}\n\`\`\``;
+    const synthesisPayload =
+      request.presentationSynthesis === "disabled"
+        ? null
+        : buildGroundedSynthesisPayload({
+            question: request.question,
+            profile,
+            bundle: groundingRun.bundle,
+            plan,
+            answer: assembled.answer,
+            provenance,
+            citationMapping,
+            selectedClaimIds: provenance.renderedClaims.map(
+              (claim) => claim.claimId
+            ),
+            selectedCaveats:
+              deterministicPresentedAnswer.plan.selectedCaveats,
+            selectedUnsupportedGaps:
+              deterministicPresentedAnswer.plan.unsupportedGaps
+          });
+    if (request.presentationSynthesis === "disabled") {
+      presentationSynthesisStatus = "bypassed_by_policy";
+      presentationSynthesisFallbackReason =
+        "presentation_synthesis_disabled";
+    } else {
+      const synthesisStarted = performance.now();
+      const synthesisAttempt = await attemptGroundedSynthesis({
+        provider: this.options.synthesisProvider,
+        payload: synthesisPayload
+      });
+      synthesisMs = performance.now() - synthesisStarted;
+      presentationSynthesisRequests = synthesisAttempt.requestCount;
+      presentationSynthesisStatus = synthesisAttempt.status;
+      presentationSynthesisFallbackReason =
+        synthesisAttempt.fallbackReason;
+      if (synthesisAttempt.rendered) {
+        visibleAnswerText = synthesisAttempt.rendered.answerText;
+        visibleProofFactRanges =
+          synthesisAttempt.rendered.proofFactRanges;
+        synthesisAccepted = true;
+      } else if (
+        profile === "helpdesk_detailed" &&
+        synthesisPayload?.executableWorkflow
+      ) {
+        visibleAnswerText = `${visibleAnswerText.trim()}\n\nRunnable PowerShell\n\`\`\`powershell\n${synthesisPayload.executableWorkflow.script}\n\`\`\``;
+      }
     }
     const presentedRangeByClaimId = new Map(
       visibleProofFactRanges.map((range) => [
@@ -409,6 +566,31 @@ export class GroundedAnswerExecutionPort implements AnswerExecutionPort {
       citations,
       contextReferences:
         deterministicPresentedAnswer.contextReferences,
+      retrievalSummary: {
+        eligibleDocumentCount: eligibleDocumentIds?.length ?? null,
+        eligibleChunkCount:
+          groundingRun.retrievalPopulation.eligibleChunks,
+        scoredChunkCount:
+          groundingRun.retrievalPopulation.scoredChunks,
+        returnedCandidateCount:
+          groundingRun.retrievalPopulation.returnedCandidates,
+        topEvidence: groundingRun.bundle.evidence.slice(0, 5).map(
+          (item) => ({
+            documentId: item.documentId,
+            title: item.source.title,
+            canonicalUrl: item.source.canonicalUrl,
+            headingPath: [...item.location.headingPath]
+          })
+        )
+      },
+      interviewQuick: interviewQuick
+        ? {
+            questionShape,
+            selectedPacks: packRoute.packIds,
+            packReasons: packRoute.reasons,
+            derivedConcepts
+          }
+        : undefined,
       diagnostics: {
         retrievalMs: Math.max(0, groundingMs - evidenceResolutionMs),
         evidenceResolutionMs,

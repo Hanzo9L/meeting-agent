@@ -1,0 +1,287 @@
+{
+  "schemaVersion": "answer-experience-eval/v1",
+  "startedAt": "2026-08-10T01:54:55.504Z",
+  "results": [
+    {
+      "id": "procedural-powershell",
+      "question": "How do I enable a Teams user for voice using PowerShell?",
+      "ok": false,
+      "stage": "r4",
+      "answerability": "answered"
+    },
+    {
+      "id": "conceptual",
+      "question": "What is a Microsoft Teams Calling Plan?",
+      "ok": true,
+      "answerability": "answered",
+      "proofFacts": [
+        {
+          "claimId": "claim:fa77580615820742a407ffb4",
+          "proposition": "- Pricing for Calling Plans and Teams Phone.",
+          "evidenceIds": [
+            "evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0"
+          ],
+          "mandatory": true
+        }
+      ],
+      "unsupportedAspects": [],
+      "r4Baseline": "- Pricing for Calling Plans and Teams Phone.",
+      "explanationContext": [
+        {
+          "contextBlockId": "context:c9932822500ac99d691a24bd",
+          "contextType": "definition",
+          "evidenceId": "evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0",
+          "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "headingPath": [
+            "Microsoft Teams Calling Plans",
+            "Pricing information"
+          ],
+          "exactText": "Document: Microsoft Teams Calling Plans Heading Path: Microsoft Teams Calling Plans -> Pricing information - Pricing for Calling Plans and Teams Phone.",
+          "contentHash": "bf07536af5f0740e22f11d2cff163f39193cd8f1f2f0966f5435c31a21219e78",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "relatedClaimIds": [
+            "claim:fa77580615820742a407ffb4"
+          ],
+          "relatedAspectIds": [
+            "mandatory:technology:microsoft-teams:general"
+          ]
+        }
+      ],
+      "helpdeskDetailed": "Summary\n- Pricing for Calling Plans and Teams Phone.\n\nAuthoritative context\n[Microsoft documentation context — definition]\nMicrosoft Teams Calling Plans › Pricing information\nDocument: Microsoft Teams Calling Plans Heading Path: Microsoft Teams Calling Plans -> Pricing information - Pricing for Calling Plans and Teams Phone.\nSource: Microsoft Teams Calling Plans\nhttps://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365\n\nSources\nMicrosoft Teams Calling Plans — https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "liveAssistQuick": "- Pricing for Calling Plans and Teams Phone.\n\n[Microsoft documentation context — definition]\nMicrosoft Teams Calling Plans › Pricing information\nDocument: Microsoft Teams Calling Plans Heading Path: Microsoft Teams Calling Plans -> Pricing information - Pricing for Calling Plans and Teams Phone.\nSource: Microsoft Teams Calling Plans\nhttps://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365\n\nMicrosoft Teams Calling Plans — https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "sourceMapping": {
+        "proofFacts": [
+          {
+            "claimId": "claim:fa77580615820742a407ffb4",
+            "renderedText": "- Pricing for Calling Plans and Teams Phone.",
+            "evidenceIds": [
+              "evidence:cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0"
+            ]
+          }
+        ],
+        "contextBlocks": [
+          {
+            "contextBlockId": "context:c9932822500ac99d691a24bd",
+            "sourceTitle": "Microsoft Teams Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "headingPath": [
+              "Microsoft Teams Calling Plans",
+              "Pricing information"
+            ],
+            "sectionId": "sec-8",
+            "contextType": "definition",
+            "preview": false
+          }
+        ]
+      },
+      "performance": {
+        "contextBuildMs": 0.2436999999999898,
+        "presentationPlanningMs": 0.4098999999996522,
+        "presentationRenderMs": 0.2039999999997235,
+        "providerRequestCount": 0
+      }
+    },
+    {
+      "id": "cmdlet-reference",
+      "question": "What does Set-CsOnlineVoiceUser do?",
+      "ok": true,
+      "answerability": "answered",
+      "proofFacts": [
+        {
+          "claimId": "claim:a89a129a310f72ca2563bfeb",
+          "proposition": "Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null",
+          "evidenceIds": [
+            "evidence:13e1b81aa2af20ae0a1b5409835e8fd1704fe088505aab3f2debf5308a4fcd6b"
+          ],
+          "mandatory": true
+        }
+      ],
+      "unsupportedAspects": [],
+      "r4Baseline": "Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null",
+      "explanationContext": [
+        {
+          "contextBlockId": "context:5a39e5081450fde4fc247131",
+          "contextType": "cmdlet_reference",
+          "evidenceId": "evidence:13e1b81aa2af20ae0a1b5409835e8fd1704fe088505aab3f2debf5308a4fcd6b",
+          "documentId": "2599a6e60f7485baef336b1f1dafbd3eb2f3e1ad78081f6ed893de33dd9fb838",
+          "sourceTitle": "Set-CsOnlineVoiceUser",
+          "headingPath": [
+            "Set-CsOnlineVoiceUser",
+            "EXAMPLES",
+            "Example 2"
+          ],
+          "exactText": "Document: Set-CsOnlineVoiceUser Heading Path: Set-CsOnlineVoiceUser -> EXAMPLES -> Example 2 ``` Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null ```",
+          "contentHash": "7b6aac449857a68759dbb232b01fa37db3a0c11f446c56e2a397fa2a3ade03d1",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceUser.md",
+          "relatedClaimIds": [
+            "claim:a89a129a310f72ca2563bfeb"
+          ],
+          "relatedAspectIds": [
+            "mandatory:cmdlet:set-csonlinevoiceuser:general"
+          ]
+        }
+      ],
+      "helpdeskDetailed": "Summary\nSet-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null\n\nPowerShell / Commands\n[Microsoft documentation context — cmdlet_reference]\nSet-CsOnlineVoiceUser › EXAMPLES › Example 2\nDocument: Set-CsOnlineVoiceUser Heading Path: Set-CsOnlineVoiceUser -> EXAMPLES -> Example 2 ``` Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null ```\nSource: Set-CsOnlineVoiceUser\nhttps://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceUser.md\n\nSources\nSet-CsOnlineVoiceUser — https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceUser.md",
+      "liveAssistQuick": "Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null\n\n[Microsoft documentation context — cmdlet_reference]\nSet-CsOnlineVoiceUser › EXAMPLES › Example 2\nDocument: Set-CsOnlineVoiceUser Heading Path: Set-CsOnlineVoiceUser -> EXAMPLES -> Example 2 ``` Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null ```\nSource: Set-CsOnlineVoiceUser\nhttps://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceUser.md\n\nSet-CsOnlineVoiceUser — https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceUser.md",
+      "sourceMapping": {
+        "proofFacts": [
+          {
+            "claimId": "claim:a89a129a310f72ca2563bfeb",
+            "renderedText": "Set-CsOnlineVoiceUser -Identity user@domain.com -TelephoneNumber $null",
+            "evidenceIds": [
+              "evidence:13e1b81aa2af20ae0a1b5409835e8fd1704fe088505aab3f2debf5308a4fcd6b"
+            ]
+          }
+        ],
+        "contextBlocks": [
+          {
+            "contextBlockId": "context:5a39e5081450fde4fc247131",
+            "sourceTitle": "Set-CsOnlineVoiceUser",
+            "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceUser.md",
+            "sourceId": "ms-teams-powershell",
+            "authorityRole": "teams_powershell_cmdlet_primary",
+            "headingPath": [
+              "Set-CsOnlineVoiceUser",
+              "EXAMPLES",
+              "Example 2"
+            ],
+            "sectionId": "sec-7",
+            "contextType": "cmdlet_reference",
+            "preview": false
+          }
+        ]
+      },
+      "performance": {
+        "contextBuildMs": 0.05559999999968568,
+        "presentationPlanningMs": 0.06750000000010914,
+        "presentationRenderMs": 0.08359999999993306,
+        "providerRequestCount": 0
+      }
+    },
+    {
+      "id": "partial-candidate",
+      "question": "How do Microsoft Teams Calling Plans work and which nonexistent cmdlet enables them?",
+      "ok": true,
+      "answerability": "answered",
+      "proofFacts": [
+        {
+          "claimId": "claim:72d539e988d441bf3ee4109f",
+          "proposition": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.",
+          "evidenceIds": [
+            "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee"
+          ],
+          "mandatory": true
+        },
+        {
+          "claimId": "claim:87613f6b1de358090f3cc55e",
+          "proposition": "This solution is the simplest option that connects Teams Phone to the PSTN for external calling.",
+          "evidenceIds": [
+            "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee"
+          ],
+          "mandatory": true
+        }
+      ],
+      "unsupportedAspects": [],
+      "r4Baseline": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.\n\nThis solution is the simplest option that connects Teams Phone to the PSTN for external calling.\n\nCaveats:\n- Missing authoritative domain coverage: teams_powershell",
+      "explanationContext": [
+        {
+          "contextBlockId": "context:51d1d00a74d74670526d4cbe",
+          "contextType": "definition",
+          "evidenceId": "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee",
+          "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+          "sourceTitle": "Microsoft Teams Calling Plans",
+          "headingPath": [
+            "Microsoft Teams Calling Plans"
+          ],
+          "exactText": "Document: Microsoft Teams Calling Plans Heading Path: Microsoft Teams Calling Plans Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls. This article helps you choose the right Calling Plan, understand licensing requirements, and purchase Calling Plans for your organization. This solution is the simplest option that connects Teams Phone to the PSTN for external calling. To find out if Microsoft Teams Calling Plans are available in your area, see Country and region availability. If Teams Calling Plans aren't available in your area, Microsoft provides other PSTN connectivity options. For more information on all PSTN connectivity options, see PSTN connectivity options. After reading this article, see Set up Microsoft Calling Plans.",
+          "contentHash": "749ae8fbb7186d1569d045d39be1b2260fa8d04a1d96fa09bd0929f16f40b56e",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+          "relatedClaimIds": [
+            "claim:72d539e988d441bf3ee4109f",
+            "claim:87613f6b1de358090f3cc55e"
+          ],
+          "relatedAspectIds": [
+            "mandatory:entity:calling-plans:general"
+          ]
+        }
+      ],
+      "helpdeskDetailed": "Summary\nMicrosoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.\n\nThis solution is the simplest option that connects Teams Phone to the PSTN for external calling.\n\nAuthoritative context\n[Microsoft documentation context — definition]\nMicrosoft Teams Calling Plans\nDocument: Microsoft Teams Calling Plans Heading Path: Microsoft Teams Calling Plans Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls. This article helps you choose the right Calling Plan, understand licensing requirements, and purchase Calling Plans for your organization. This solution is the simplest option that connects Teams Phone to the PSTN for external calling. To find out if Microsoft Teams Calling Plans are available in your area, see Country and region availability. If Teams Calling Plans aren't available in your area, Microsoft provides other PSTN connectivity options. For more information on all PSTN connectivity options, see PSTN connectivity options. After reading this article, see Set up Microsoft Calling Plans.\nSource: Microsoft Teams Calling Plans\nhttps://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365\n\nCaveats / limitations\nMissing authoritative domain coverage: teams_powershell\n\nSources\nMicrosoft Teams Calling Plans — https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "liveAssistQuick": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.\n\nThis solution is the simplest option that connects Teams Phone to the PSTN for external calling.\n\n[Microsoft documentation context — definition]\nMicrosoft Teams Calling Plans\nDocument: Microsoft Teams Calling Plans Heading Path: Microsoft Teams Calling Plans Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls. This article helps you choose the right Calling Plan, understand licensing requirements, and purchase Calling Plans for your organization. This solution is the simplest option that connects Teams Phone to the PSTN for external calling. To find out if Microsoft Teams Calling Plans are available in your area, see Country and region availability. If Teams Calling Plans aren't available in your area, Microsoft provides other PSTN connectivity options. For more information on all PSTN connectivity options, see PSTN connectivity options. After reading this article, see Set up Microsoft Calling Plans.\nSource: Microsoft Teams Calling Plans\nhttps://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365\n\nMissing authoritative domain coverage: teams_powershell\n\nMicrosoft Teams Calling Plans — https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "sourceMapping": {
+        "proofFacts": [
+          {
+            "claimId": "claim:72d539e988d441bf3ee4109f",
+            "renderedText": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.",
+            "evidenceIds": [
+              "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee"
+            ]
+          },
+          {
+            "claimId": "claim:87613f6b1de358090f3cc55e",
+            "renderedText": "This solution is the simplest option that connects Teams Phone to the PSTN for external calling.",
+            "evidenceIds": [
+              "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee"
+            ]
+          }
+        ],
+        "contextBlocks": [
+          {
+            "contextBlockId": "context:51d1d00a74d74670526d4cbe",
+            "sourceTitle": "Microsoft Teams Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "headingPath": [
+              "Microsoft Teams Calling Plans"
+            ],
+            "sectionId": "sec-1",
+            "contextType": "definition",
+            "preview": false
+          }
+        ]
+      },
+      "performance": {
+        "contextBuildMs": 0.06230000000050495,
+        "presentationPlanningMs": 0.09720000000015716,
+        "presentationRenderMs": 0.04769999999916763,
+        "providerRequestCount": 0
+      }
+    },
+    {
+      "id": "insufficient-candidate",
+      "question": "What does Set-CsDefinitelyNotARealCmdletForRelayEval do?",
+      "ok": true,
+      "answerability": "insufficient_evidence",
+      "proofFacts": [],
+      "unsupportedAspects": [
+        {
+          "aspectId": "mandatory:cmdlet:set-csdefinitelynotarealcmdletforrelayeval:general",
+          "reason": "insufficient_evidence",
+          "detail": "Unsupported required aspect: Set-CsDefinitelyNotARealCmdletForRelayEval; required facets: identifier, behavior."
+        },
+        {
+          "aspectId": "unsupported:exact_identifier",
+          "reason": "exact_identifier_unverified",
+          "detail": "Unverified identifier(s): Set-CsDefinitelyNotARealCmdletForRelayEval"
+        }
+      ],
+      "r4Baseline": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: Set-CsDefinitelyNotARealCmdletForRelayEval; required facets: identifier, behavior.\n- Unverified identifier(s): Set-CsDefinitelyNotARealCmdletForRelayEval\n\nCaveats:\n- Missing authoritative domain coverage: teams_powershell\n- Required technical identifier could not be verified from accepted evidence.",
+      "explanationContext": [],
+      "helpdeskDetailed": "Unable to provide a factual answer from the approved evidence.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:cmdlet:set-csdefinitelynotarealcmdletforrelayeval:general): Unsupported required aspect: Set-CsDefinitelyNotARealCmdletForRelayEval; required facets: identifier, behavior.\n\nNot established from available authoritative evidence (unsupported:exact_identifier): Unverified identifier(s): Set-CsDefinitelyNotARealCmdletForRelayEval\n\nNot established from available authoritative evidence (insufficient_evidence): Unsupported required aspect: Set-CsDefinitelyNotARealCmdletForRelayEval; required facets: identifier, behavior.\n\nNot established from available authoritative evidence (exact_identifier_unverified): Unverified identifier(s): Set-CsDefinitelyNotARealCmdletForRelayEval\n\nCaveats / limitations\nMissing authoritative domain coverage: teams_powershell\n\nRequired technical identifier could not be verified from accepted evidence.",
+      "liveAssistQuick": "Unable to provide a factual answer from the approved evidence.\n\nMissing authoritative domain coverage: teams_powershell\n\nRequired technical identifier could not be verified from accepted evidence.\n\nNot established from available authoritative evidence (mandatory:cmdlet:set-csdefinitelynotarealcmdletforrelayeval:general): Unsupported required aspect: Set-CsDefinitelyNotARealCmdletForRelayEval; required facets: identifier, behavior.\n\nNot established from available authoritative evidence (unsupported:exact_identifier): Unverified identifier(s): Set-CsDefinitelyNotARealCmdletForRelayEval\n\nNot established from available authoritative evidence (insufficient_evidence): Unsupported required aspect: Set-CsDefinitelyNotARealCmdletForRelayEval; required facets: identifier, behavior.\n\nNot established from available authoritative evidence (exact_identifier_unverified): Unverified identifier(s): Set-CsDefinitelyNotARealCmdletForRelayEval",
+      "sourceMapping": {
+        "proofFacts": [],
+        "contextBlocks": []
+      },
+      "performance": {
+        "contextBuildMs": 0.009900000000016007,
+        "presentationPlanningMs": 0.14499999999952706,
+        "presentationRenderMs": 0.032299999999850115,
+        "providerRequestCount": 0
+      }
+    }
+  ]
+}

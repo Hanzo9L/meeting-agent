@@ -1,0 +1,4654 @@
+{
+  "schemaVersion": "i4.0",
+  "generatedAt": "2026-08-17T00:47:17.227Z",
+  "packInventory": [
+    {
+      "packId": "teams_voice_direct_routing",
+      "selectedReferenceCount": 15,
+      "localDocumentCount": 15,
+      "localChunkCount": 348,
+      "missingReferenceCount": 0
+    },
+    {
+      "packId": "call_quality_troubleshooting",
+      "selectedReferenceCount": 7,
+      "localDocumentCount": 7,
+      "localChunkCount": 192,
+      "missingReferenceCount": 0
+    },
+    {
+      "packId": "auto_attendants_call_queues",
+      "selectedReferenceCount": 8,
+      "localDocumentCount": 8,
+      "localChunkCount": 168,
+      "missingReferenceCount": 0
+    },
+    {
+      "packId": "teams_rooms",
+      "selectedReferenceCount": 15,
+      "localDocumentCount": 15,
+      "localChunkCount": 205,
+      "missingReferenceCount": 0
+    },
+    {
+      "packId": "teams_powershell_interview_subset",
+      "selectedReferenceCount": 16,
+      "localDocumentCount": 16,
+      "localChunkCount": 658,
+      "missingReferenceCount": 0
+    },
+    {
+      "packId": "sharepoint_onedrive_copilot_governance",
+      "selectedReferenceCount": 9,
+      "localDocumentCount": 9,
+      "localChunkCount": 209,
+      "missingReferenceCount": 0
+    },
+    {
+      "packId": "entra_identity_support",
+      "selectedReferenceCount": 6,
+      "localDocumentCount": 6,
+      "localChunkCount": 59,
+      "missingReferenceCount": 0
+    }
+  ],
+  "summary": {
+    "questionCount": 39,
+    "priorityQuestionCount": 14,
+    "grades": {
+      "PASS": 4,
+      "PARTIAL": 13,
+      "FAIL": 22
+    },
+    "priorityGrades": {
+      "PASS": 2,
+      "PARTIAL": 6,
+      "FAIL": 6
+    },
+    "packUnionCount": 5,
+    "broadFallbackCount": 0,
+    "totalQuickLatencyMs": {
+      "min": 767.9251999999979,
+      "p50": 1082.5351999999984,
+      "p95": 1522.9774999999972,
+      "max": 1558.6818999999996
+    },
+    "generationRequests": {
+      "factual": 0,
+      "presentation": 0
+    }
+  },
+  "results": [
+    {
+      "questionId": "Q-001",
+      "priority": true,
+      "question": "Explain Microsoft Teams Direct Routing at a high level.",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "direct routing",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "Direct Routing online voice-routing policy with Calling Plan"
+          ]
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+          "headingPath": [
+            "Plan Direct Routing"
+          ]
+        },
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "User dial plans with Direct Routing or extension dialing"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Direct Routing enables you to: - Use virtually any PSTN trunk with Teams Phone. - Configure interoperability between customer-owned telephony equipment, such as a third-party private branch exchange (PBX), analog devices, and Teams.\n\n- Direct Routing lets you connect a supported, customer-provided Session Border Controller (SBC) to Microsoft Teams Phone.\n\n- If you deploy Direct Routing for your PSTN connectivity or are supporting extension dialing requirements, more steps are required to configure call routing.\n\n- With Direct Routing, you can connect your SBC to almost any telephony trunk or interconnect with third-party PSTN equipment.",
+      "wordCount": 94,
+      "citations": [
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "sourceTitle": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1047.9241,
+        "evidenceResolution": 16.381900000000087,
+        "presentation": 2.54079999999999,
+        "totalQuick": 1089.6144,
+        "wallClock": 1090.5354
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "direct routing",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.6666666666666666,
+        "conceptsInQuick": [
+          "Teams Phone",
+          "Microsoft Phone System",
+          "certified SBC",
+          "PSTN connection"
+        ],
+        "conceptsMissing": [
+          "SIP signaling",
+          "media path"
+        ],
+        "reasons": [
+          "Required-concept coverage 4/6."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-002",
+      "priority": false,
+      "question": "What PSTN connectivity options are available with Teams Phone, and when would you choose Direct Routing?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "direct routing",
+        "pstn",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "Direct Routing online voice-routing policy with Calling Plan"
+          ]
+        },
+        {
+          "documentId": "aaf6ee82f9dc5fd2b531a54db1eaddc0db8d71d2b00c5926d5009b9a714ddc33",
+          "title": "PSTN connectivity options",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+          "headingPath": [
+            "PSTN connectivity options",
+            "PSTN connectivity types comparison"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "User dial plans with Direct Routing or extension dialing"
+          ]
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+          "headingPath": [
+            "Plan Direct Routing"
+          ]
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+          "headingPath": [
+            "Plan Direct Routing",
+            "Licensing and other requirements",
+            "Direct Routing with Calling Plans and Operator Connect"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "partial",
+      "deterministicQuickOutput": "Direct Routing enables you to: - Use virtually any PSTN trunk with Teams Phone. - Configure interoperability between customer-owned telephony equipment, such as a third-party private branch exchange (PBX), analog devices, and Teams.\n\n- Direct Routing lets you connect a supported, customer-provided Session Border Controller (SBC) to Microsoft Teams Phone.\n\n- With Direct Routing, you can connect your SBC to almost any telephony trunk or interconnect with third-party PSTN equipment.\n\n- With this configuration, calls to the phones connected to the third-party PBX are routed using Direct Routing and therefore stay within the enterprise network, not traversing the PSTN.\n\nOnly supported portions should be answered.",
+      "wordCount": 105,
+      "citations": [
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "sourceTitle": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 939.5002000000002,
+        "evidenceResolution": 16.704999999999927,
+        "presentation": 1.599399999999605,
+        "totalQuick": 979.0597,
+        "wallClock": 979.2335000000003
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "direct routing",
+          "pstn",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.8,
+        "conceptsInQuick": [
+          "Operator Connect",
+          "Teams Phone Mobile",
+          "Direct Routing",
+          "customer-controlled SBC"
+        ],
+        "conceptsMissing": [
+          "Calling Plan"
+        ],
+        "reasons": []
+      }
+    },
+    {
+      "questionId": "Q-003",
+      "priority": true,
+      "question": "A Teams user cannot call external numbers after a change. What would you check first?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "title": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling",
+          "headingPath": [
+            "Plan and configure dynamic emergency calling",
+            "Test emergency calling"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "Number lookup for inbound calls"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "User dial plans with Calling Plans and Operator Connect"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "Direct Routing online voice-routing policy with Calling Plan"
+          ]
+        },
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "title": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling",
+          "headingPath": [
+            "Plan and configure dynamic emergency calling",
+            "Configure emergency policies"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "This number is routed to a bot, which then echoes back the caller phone number (calling line ID), emergency address or location, and whether the call would be automatically routed to the PSAP or screened first.\n\n- If a user has a Calling Plan license, that user’s outgoing calls are automatically routed through the Microsoft Calling Plan PSTN infrastructure.\n\n- - Calling Plan, Operator Connect, and Teams Phone Mobile users in the United States or Canada can use the predefined test emergency number 933 to validate their emergency calling configuration.",
+      "wordCount": 90,
+      "citations": [
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "sourceTitle": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling"
+        },
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "sourceTitle": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling"
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "sourceTitle": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1035.7409999999995,
+        "evidenceResolution": 46.9988000000003,
+        "presentation": 1.037899999999354,
+        "totalQuick": 1113.0216999999998,
+        "wallClock": 1113.3766
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "troubleshooting",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.42857142857142855,
+        "conceptsInQuick": [
+          "Teams Phone readiness",
+          "PSTN usage",
+          "PSTN gateway"
+        ],
+        "conceptsMissing": [
+          "phone-number assignment",
+          "voice-routing policy",
+          "voice route",
+          "SBC health"
+        ],
+        "reasons": [
+          "Required-concept coverage 3/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-004",
+      "priority": true,
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "direct routing",
+        "one-way audio",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc",
+          "headingPath": [
+            "Connect your Session Border Controller (SBC) to Direct Routing"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "partial",
+      "deterministicQuickOutput": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.\n\n- To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.\n\n- The option to connect the SBC isn't available in the Teams admin center.\n\nOnly supported portions should be answered.",
+      "wordCount": 56,
+      "citations": [
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "sourceTitle": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc"
+        },
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "sourceTitle": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc"
+        },
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "sourceTitle": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 843.0994999999994,
+        "evidenceResolution": 64.97640000000047,
+        "presentation": 0.4116999999996551,
+        "totalQuick": 913.8227999999999,
+        "wallClock": 913.9118000000008
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "troubleshooting",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "direct routing",
+          "one-way audio",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.14285714285714285,
+        "conceptsInQuick": [
+          "SBC traces"
+        ],
+        "conceptsMissing": [
+          "signaling versus media",
+          "media path",
+          "firewall and ports",
+          "NAT",
+          "media bypass state",
+          "call telemetry"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-005",
+      "priority": true,
+      "question": "Walk through the Teams Direct Routing decision chain from a user to an SBC.",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "direct routing",
+        "sbc",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Call routing overview"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "Direct Routing online voice-routing policy with Calling Plan"
+          ]
+        },
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using the Microsoft Teams admin center",
+            "Step 2: Create three voice routes (Redmond 1, Redmond 2, and Other +1)"
+          ]
+        },
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc",
+          "headingPath": [
+            "Connect your Session Border Controller (SBC) to Direct Routing"
+          ]
+        },
+        {
+          "documentId": "c45b8ec80dd9ce911befc82669978ebb357c0b3c2ec766134e715149b8516cb3",
+          "title": "Direct Routing - SIP protocol",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-protocols-sip",
+          "headingPath": [
+            "Direct Routing - SIP protocol",
+            "Inbound call: SIP dialog description",
+            "Non-media bypass flow"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Teams Phone has a routing mechanism that allows a call to be sent to a specific Session Border Controller (SBC) based on: - The called number pattern - The called number pattern plus the specific user who makes the call\n\n- 1. In the left navigation of the Microsoft Teams admin center, go to Voice > Direct Routing, and then select the Voice routes tab.\n\n- To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.\n\n- The option to connect the SBC isn't available in the Teams admin center.",
+      "wordCount": 99,
+      "citations": [
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        },
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing"
+        },
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "sourceTitle": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc"
+        },
+        {
+          "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+          "sourceTitle": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 930.0971,
+        "evidenceResolution": 22.947799999999916,
+        "presentation": 0.618199999999888,
+        "totalQuick": 977.3581999999997,
+        "wallClock": 977.4369999999999
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "direct routing",
+          "sbc",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.6666666666666666,
+        "conceptsInQuick": [
+          "user voice state",
+          "online voice routing policy",
+          "voice route",
+          "SBC"
+        ],
+        "conceptsMissing": [
+          "PSTN usage",
+          "PSTN gateway"
+        ],
+        "reasons": [
+          "Required-concept coverage 4/6."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-006",
+      "priority": true,
+      "question": "An SBC certificate is about to expire. What must be checked before renewal and cutover?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "sbc",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "4e72e345a0344680bf2ad647969b8d5dfa855cfeb0e3bfc0a3714dc5cbec21c6",
+          "title": "SBC connectivity issues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "headingPath": [
+            "SBC connectivity issues",
+            "Overview of the SIP options process",
+            "TLS connection issues"
+          ]
+        },
+        {
+          "documentId": "8e758a3398417c1dba329125ab2db5b4a631e9150458b0bc9da82028dcf422a5",
+          "title": "Health dashboard for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-health-dashboard",
+          "headingPath": [
+            "Health dashboard for Direct Routing",
+            "Overall health",
+            "The SBCs tab"
+          ]
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+          "headingPath": [
+            "Plan Direct Routing",
+            "Public trusted certificate for the SBC"
+          ]
+        },
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "title": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass",
+          "headingPath": [
+            "Plan for media bypass with Direct Routing",
+            "Configure separate trunks for media bypass and non-media bypass"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "If the Health Dashboard for Direct Routing in the Microsoft Teams admin center indicates that the SBC certificate is expired or revoked, request or renew the certificate from a trusted Certificate Authority (CA).\n\n- For information about how to configure two trunks on the same SBC, see the documentation provided by your SBC vendor: - AudioCodes deployment documentation - Oracle deployment documentation - Ribbon Communications deployment documentation - TE-Systems (anynode) deployment documentation\n\n- Check that a valid SBC certificate and all required intermediate certificates are installed correctly, and that the TLS connection settings on the SBC are correct.",
+      "wordCount": 98,
+      "citations": [
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "sourceTitle": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "documentId": "4e72e345a0344680bf2ad647969b8d5dfa855cfeb0e3bfc0a3714dc5cbec21c6",
+          "sourceTitle": "SBC connectivity issues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+        },
+        {
+          "documentId": "4e72e345a0344680bf2ad647969b8d5dfa855cfeb0e3bfc0a3714dc5cbec21c6",
+          "sourceTitle": "SBC connectivity issues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 965.8264999999992,
+        "evidenceResolution": 30.850600000000668,
+        "presentation": 0.3557999999993626,
+        "totalQuick": 1021.277,
+        "wallClock": 1021.5109000000002
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "sbc",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.5714285714285714,
+        "conceptsInQuick": [
+          "SBC FQDN",
+          "trusted public CA",
+          "TLS 1.2",
+          "health dashboard"
+        ],
+        "conceptsMissing": [
+          "CN or SAN",
+          "Server Authentication EKU",
+          "SIP OPTIONS"
+        ],
+        "reasons": [
+          "Required-concept coverage 4/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-007",
+      "priority": false,
+      "question": "What is media bypass in Teams Direct Routing, and what changes when it is enabled?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "direct routing",
+        "media bypass",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "title": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass",
+          "headingPath": [
+            "Plan for media bypass with Direct Routing",
+            "Client endpoints supported with media bypass"
+          ]
+        },
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "title": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass",
+          "headingPath": [
+            "Plan for media bypass with Direct Routing",
+            "Configure separate trunks for media bypass and non-media bypass"
+          ]
+        },
+        {
+          "documentId": "c45b8ec80dd9ce911befc82669978ebb357c0b3c2ec766134e715149b8516cb3",
+          "title": "Direct Routing - SIP protocol",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-protocols-sip",
+          "headingPath": [
+            "Direct Routing - SIP protocol",
+            "Inbound call: SIP dialog description",
+            "Media bypass flow"
+          ]
+        },
+        {
+          "documentId": "b5c8dba976f7e85877f325f710bee28a6effceebff3f3581381e7d9c4c8ab574",
+          "title": "Plan Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+          "headingPath": [
+            "Plan Direct Routing",
+            "Media traffic: port ranges, media processors, CODECS",
+            "Leg between SBC and Cloud Media Processor or Microsoft Teams client"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Media bypass is supported with all standalone Teams Desktop clients, Android and iOS clients, and Teams Phone Devices.\n\n- For all other endpoints that don't support media bypass, we convert the call to non-bypass even if it started as a bypass call.\n\n- This includes Skype for Business 3PIP Phones and Teams Web Clients that support Direct Routing calling (WebRTC based clients running on Microsoft Edge, Google Chrome, Mozilla Firefox).\n\n- The same messages (100 Trying, 180, 183) are used in the media bypass scenario.",
+      "wordCount": 85,
+      "citations": [
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "sourceTitle": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "sourceTitle": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "sourceTitle": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "documentId": "c45b8ec80dd9ce911befc82669978ebb357c0b3c2ec766134e715149b8516cb3",
+          "sourceTitle": "Direct Routing - SIP protocol",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-protocols-sip"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 763.6166999999996,
+        "evidenceResolution": 24.144199999999728,
+        "presentation": 0.5385999999998603,
+        "totalQuick": 800.3438000000006,
+        "wallClock": 800.4061000000002
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "direct routing",
+          "media bypass",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.2,
+        "conceptsInQuick": [
+          "supported SBC"
+        ],
+        "conceptsMissing": [
+          "shorter media path",
+          "client to SBC media",
+          "SIP signaling remains through Microsoft",
+          "network topology"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-008",
+      "priority": false,
+      "question": "How do Teams dial plans and normalization rules affect a number a user dials?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "What are dial plans?"
+          ]
+        },
+        {
+          "documentId": "b8ee1f2318b192b4d85dcc85342ec1e5672a6a54fc1d00ebbe948844aabc1216",
+          "title": "Normalization rules",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-normalization-rules",
+          "headingPath": [
+            "Normalization rules"
+          ]
+        },
+        {
+          "documentId": "622546d4d70bd1ad4eb1047622f76e53ae10f504fbe92d81f642d5d0036824c6",
+          "title": "Create and manage dial plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+          "headingPath": [
+            "Create and manage dial plans",
+            "Using the Microsoft Teams admin center",
+            "Create a dial plan"
+          ]
+        },
+        {
+          "documentId": "ef89f318ccab7a0bd4024980da8b490003d1212697fac6f7053d77e5ffa47ce1",
+          "title": "Manage phone numbers for users",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+          "headingPath": [
+            "Manage phone numbers for users",
+            "Prerequisites"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Dial plans are what enables Teams to process and route phone calls dialed by users, regardless of the number-format used when the user entered the numbers to dial.\n\n- You must have one of the following roles to assign, modify, or remove a number for a user: - Teams Administrator - Teams Communications Administrator - Teams Telephony Administrator\n\n- With a dial plan, Teams can identify the number entered format and translate the dialed number into a standardized format, such as +1-222-333-4444, for further routing.\n\n- Normalization rules are the translation properties of a Teams dial plan and define how phone numbers expressed in various formats are to be translated.",
+      "wordCount": 110,
+      "citations": [
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "sourceTitle": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "sourceTitle": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+        },
+        {
+          "documentId": "b8ee1f2318b192b4d85dcc85342ec1e5672a6a54fc1d00ebbe948844aabc1216",
+          "sourceTitle": "Normalization rules",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-normalization-rules"
+        },
+        {
+          "documentId": "ef89f318ccab7a0bd4024980da8b490003d1212697fac6f7053d77e5ffa47ce1",
+          "sourceTitle": "Manage phone numbers for users",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 779.7230000000018,
+        "evidenceResolution": 19.41739999999845,
+        "presentation": 1.0789999999997235,
+        "totalQuick": 812.7218999999996,
+        "wallClock": 812.7880000000005
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "PASS",
+        "requiredConceptCoverage": 1,
+        "conceptsInQuick": [
+          "tenant and service dial plans",
+          "normalization rule",
+          "dialed number translation",
+          "effective dial plan"
+        ],
+        "conceptsMissing": [],
+        "reasons": []
+      }
+    },
+    {
+      "questionId": "Q-009",
+      "priority": false,
+      "question": "What are the key checks when assigning or changing a Teams user's phone number?",
+      "questionShape": "conceptual",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [
+        "phone number"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "supported PSTN number type",
+          "user identity",
+          "Teams Phone licensing or readiness",
+          "number assignment",
+          "verification"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-010",
+      "priority": true,
+      "question": "How does dynamic emergency calling use network and location information in Teams?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "teams_voice_direct_routing"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+      ],
+      "derivedConcepts": [
+        "emergency calling",
+        "Teams Phone",
+        "certified SBC",
+        "SIP signaling",
+        "media path",
+        "PSTN"
+      ],
+      "expectedAuthorityPack": "teams_voice_direct_routing",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "title": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling",
+          "headingPath": [
+            "Plan and configure dynamic emergency calling"
+          ]
+        },
+        {
+          "documentId": "1298b6dc247a51286356ec4837c08eef710badea2a859e2eefe2e62b7ab24b51",
+          "title": "Manage emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "headingPath": [
+            "Manage emergency calling",
+            "Dynamic emergency calling"
+          ]
+        },
+        {
+          "documentId": "1298b6dc247a51286356ec4837c08eef710badea2a859e2eefe2e62b7ab24b51",
+          "title": "Manage emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "headingPath": [
+            "Manage emergency calling",
+            "Emergency address",
+            "Emergency address geo codes"
+          ]
+        },
+        {
+          "documentId": "1298b6dc247a51286356ec4837c08eef710badea2a859e2eefe2e62b7ab24b51",
+          "title": "Manage emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "headingPath": [
+            "Manage emergency calling",
+            "Emergency addresses for remote locations"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 348,
+        "scoredChunks": 348,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Dynamic emergency calling for Microsoft Calling Plans, Operator Connect, Teams Phone Mobile, and Direct Routing supports routing emergency calls and notifying security personnel, based on the connected location of the Teams client.\n\n- The Teams client uses the network topology (network elements associated with emergency addresses) that the tenant admin defines to provide network connectivity information in a request to the Location Information Service (LIS).\n\n- The Teams client includes location data as part of an emergency call.\n\n- If you define an emergency address by using the address map search feature in the Teams admin center, the geo code is automatically associated with an emergency address.",
+      "wordCount": 107,
+      "citations": [
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "sourceTitle": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling"
+        },
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "sourceTitle": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling"
+        },
+        {
+          "documentId": "f70fc6500b65c8659bb18b02abf84f51a33b6c65561ea6fc08abf709d1b5e254",
+          "sourceTitle": "Plan and configure dynamic emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling"
+        },
+        {
+          "documentId": "1298b6dc247a51286356ec4837c08eef710badea2a859e2eefe2e62b7ab24b51",
+          "sourceTitle": "Manage emergency calling",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1149.4260999999988,
+        "evidenceResolution": 42.09649999999965,
+        "presentation": 0.6950999999990017,
+        "totalQuick": 1203.1378999999997,
+        "wallClock": 1205.3702999999987
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "teams_voice_direct_routing"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms."
+        ],
+        "derivedConcepts": [
+          "emergency calling",
+          "Teams Phone",
+          "certified SBC",
+          "SIP signaling",
+          "media path",
+          "PSTN"
+        ]
+      },
+      "quality": {
+        "grade": "PASS",
+        "requiredConceptCoverage": 1,
+        "conceptsInQuick": [
+          "emergency address and place",
+          "Location Information Service",
+          "network identifiers",
+          "dynamic location",
+          "emergency calling policy",
+          "emergency call routing policy"
+        ],
+        "conceptsMissing": [],
+        "reasons": []
+      }
+    },
+    {
+      "questionId": "Q-011",
+      "priority": true,
+      "question": "When would you use Call Analytics, Call Quality Dashboard, or real-time Teams meeting telemetry?",
+      "questionShape": "comparison",
+      "selectedPacks": [
+        "call_quality_troubleshooting"
+      ],
+      "packReasons": [
+        "Question names call-quality, CQD, or media-metric terms."
+      ],
+      "derivedConcepts": [
+        "call analytics",
+        "call quality dashboard",
+        "CQD",
+        "Call Analytics, Call Quality Dashboard,",
+        "real-time Teams meeting telemetry?",
+        "organization-wide trend",
+        "per-user call",
+        "Teams admin center"
+      ],
+      "expectedAuthorityPack": "call_quality_troubleshooting",
+      "packUnionDocumentCount": 7,
+      "topEvidence": [
+        {
+          "documentId": "eb890cdada6b833b13375a0c419a0f7fdb887795d0b6eb7ed7802bfd6e81841d",
+          "title": "Data and reports in Call Quality Dashboard (CQD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-data-and-reports",
+          "headingPath": [
+            "Data and reports in Call Quality Dashboard (CQD)"
+          ]
+        },
+        {
+          "documentId": "3bb4b19cdf7be2362ad1233d2a6945e2a9897376af86d9e13357f13cacba7180",
+          "title": "What is Call Quality Dashboard (CQD)?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+          "headingPath": [
+            "What is Call Quality Dashboard (CQD)?"
+          ]
+        },
+        {
+          "documentId": "2c9d98febda6d3eaa8a009b160d775501df02fe3681e092d21a7111011e2ce13",
+          "title": "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/monitor-troubleshoot-teams-meetings-calls",
+          "headingPath": [
+            "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+            "Further reading"
+          ]
+        },
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide",
+          "headingPath": [
+            "Use CQD to manage call and meeting quality in Microsoft Teams",
+            "Use CQD to manage call quality",
+            "Teams vs. Skype for Business Server"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 7,
+        "eligibleChunks": 192,
+        "scoredChunks": 192,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Don't miss our Manage call and meeting quality article, which offers in-depth guidance for the Teams admin or support engineer responsible for managing service quality in Teams.\n\n- Microsoft Call Quality Dashboard (CQD) uses a near-real-time (NRT) data feed.\n\n- CQD is designed to help Teams admins, Skype for Business admins, and network engineers monitor call and meeting quality at an org-wide level.\n\n- CQD captures both the individual call experience and the overall quality of calls made using Teams or Skype for Business.\n\n- We encourage you to upload building and endpoint information, which lets you use Location-Enhanced Reports to analyze call quality and reliability within a user's building.",
+      "wordCount": 110,
+      "citations": [
+        {
+          "documentId": "3bb4b19cdf7be2362ad1233d2a6945e2a9897376af86d9e13357f13cacba7180",
+          "sourceTitle": "What is Call Quality Dashboard (CQD)?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard"
+        },
+        {
+          "documentId": "eb890cdada6b833b13375a0c419a0f7fdb887795d0b6eb7ed7802bfd6e81841d",
+          "sourceTitle": "Data and reports in Call Quality Dashboard (CQD)",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-data-and-reports"
+        },
+        {
+          "documentId": "3bb4b19cdf7be2362ad1233d2a6945e2a9897376af86d9e13357f13cacba7180",
+          "sourceTitle": "What is Call Quality Dashboard (CQD)?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard"
+        },
+        {
+          "documentId": "3bb4b19cdf7be2362ad1233d2a6945e2a9897376af86d9e13357f13cacba7180",
+          "sourceTitle": "What is Call Quality Dashboard (CQD)?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard"
+        },
+        {
+          "documentId": "3bb4b19cdf7be2362ad1233d2a6945e2a9897376af86d9e13357f13cacba7180",
+          "sourceTitle": "What is Call Quality Dashboard (CQD)?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1079.9701999999997,
+        "evidenceResolution": 31.8166999999994,
+        "presentation": 0.7343000000000757,
+        "totalQuick": 1119.936099999999,
+        "wallClock": 1120.1368000000002
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "comparison",
+        "selectedPacks": [
+          "call_quality_troubleshooting"
+        ],
+        "packReasons": [
+          "Question names call-quality, CQD, or media-metric terms."
+        ],
+        "derivedConcepts": [
+          "call analytics",
+          "call quality dashboard",
+          "CQD",
+          "Call Analytics, Call Quality Dashboard,",
+          "real-time Teams meeting telemetry?",
+          "organization-wide trend",
+          "per-user call",
+          "Teams admin center"
+        ]
+      },
+      "quality": {
+        "grade": "PASS",
+        "requiredConceptCoverage": 0.8,
+        "conceptsInQuick": [
+          "individual call or meeting",
+          "in-progress meeting",
+          "Teams admin center",
+          "CQD"
+        ],
+        "conceptsMissing": [
+          "organization-wide trend"
+        ],
+        "reasons": []
+      }
+    },
+    {
+      "questionId": "Q-012",
+      "priority": false,
+      "question": "What do jitter, packet loss, and round-trip time tell you about a poor Teams call?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "call_quality_troubleshooting"
+      ],
+      "packReasons": [
+        "Question names call-quality, CQD, or media-metric terms."
+      ],
+      "derivedConcepts": [
+        "CQD",
+        "Call Analytics",
+        "organization-wide trend",
+        "per-user call",
+        "Teams admin center"
+      ],
+      "expectedAuthorityPack": "call_quality_troubleshooting",
+      "packUnionDocumentCount": 7,
+      "topEvidence": [
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide",
+          "headingPath": [
+            "Use CQD to manage call and meeting quality in Microsoft Teams",
+            "What is quality?",
+            "Service metrics",
+            "Poor stream rate",
+            "Audio poor quality metrics"
+          ]
+        },
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide",
+          "headingPath": [
+            "Use CQD to manage call and meeting quality in Microsoft Teams",
+            "Quality investigations",
+            "Quality",
+            "Quality investigations",
+            "Remediation"
+          ]
+        },
+        {
+          "documentId": "2c9d98febda6d3eaa8a009b160d775501df02fe3681e092d21a7111011e2ce13",
+          "title": "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/monitor-troubleshoot-teams-meetings-calls",
+          "headingPath": [
+            "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+            "Investigate the meeting quality of a specific participant",
+            "Session-level telemetry",
+            "Audio (Inbound)"
+          ]
+        },
+        {
+          "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+          "headingPath": [
+            "Implement Quality of Service (QoS) in Microsoft Teams"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 7,
+        "eligibleChunks": 192,
+        "scoredChunks": 192,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "With Teams admin center reports, you can look at a specific conference or user's call.\n\n- Focus your remediation efforts on buildings or subnets that have the largest volume of streams, because this will maximize impact and help to improve the user experience quickly.\n\n- Don't forget to let your helpdesk know that these networks are experiencing quality issues, so they can quickly triage and respond to incoming calls.\n\n- If you support a large group of users who are experiencing any of the problems described in this article, then you should implement QoS.",
+      "wordCount": 94,
+      "citations": [
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "sourceTitle": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "sourceTitle": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "sourceTitle": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+          "sourceTitle": "Implement Quality of Service (QoS) in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 861.6035000000011,
+        "evidenceResolution": 19.4466999999986,
+        "presentation": 0.7240000000001601,
+        "totalQuick": 897.9987999999994,
+        "wallClock": 898.1122999999989
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "call_quality_troubleshooting"
+        ],
+        "packReasons": [
+          "Question names call-quality, CQD, or media-metric terms."
+        ],
+        "derivedConcepts": [
+          "CQD",
+          "Call Analytics",
+          "organization-wide trend",
+          "per-user call",
+          "Teams admin center"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "jitter variation",
+          "packet loss",
+          "round-trip latency",
+          "stream direction",
+          "correlation with user symptoms"
+        ],
+        "reasons": [
+          "Required-concept coverage 0/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-013",
+      "priority": false,
+      "question": "How do you distinguish an individual Teams call problem from a site-wide or population-wide problem?",
+      "questionShape": "procedural",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [],
+      "expectedAuthorityPack": "call_quality_troubleshooting",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "per-user meeting and call details",
+          "CQD aggregation",
+          "site or building dimensions",
+          "time window",
+          "common network or device pattern"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-014",
+      "priority": false,
+      "question": "Why upload network, site, and building data for Teams call-quality reporting?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "call_quality_troubleshooting"
+      ],
+      "packReasons": [
+        "Question names call-quality, CQD, or media-metric terms."
+      ],
+      "derivedConcepts": [
+        "CQD",
+        "Call Analytics",
+        "organization-wide trend",
+        "per-user call",
+        "Teams admin center"
+      ],
+      "expectedAuthorityPack": "call_quality_troubleshooting",
+      "packUnionDocumentCount": 7,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 7,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "Relay rejected the answer because its grounding integrity could not be verified.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "Relay rejected the answer because its grounding integrity could not be verified."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "map telemetry to physical network",
+          "site and building dimensions",
+          "CQD analysis",
+          "subnet data quality"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-015",
+      "priority": false,
+      "question": "What role does QoS play in Teams media troubleshooting?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "call_quality_troubleshooting"
+      ],
+      "packReasons": [
+        "Question names call-quality, CQD, or media-metric terms."
+      ],
+      "derivedConcepts": [
+        "CQD",
+        "Call Analytics",
+        "organization-wide trend",
+        "per-user call",
+        "Teams admin center"
+      ],
+      "expectedAuthorityPack": "call_quality_troubleshooting",
+      "packUnionDocumentCount": 7,
+      "topEvidence": [
+        {
+          "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+          "headingPath": [
+            "Implement Quality of Service (QoS) in Microsoft Teams",
+            "Step 4. Implement QoS settings"
+          ]
+        },
+        {
+          "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+          "headingPath": [
+            "Implement Quality of Service (QoS) in Microsoft Teams",
+            "Step 1. Make sure your network is ready"
+          ]
+        },
+        {
+          "documentId": "5fd56d41af2181b4178a3480e0645891f9c104f415f35da13349b6aee791211e",
+          "title": "Improve call quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/monitor-call-quality-qos",
+          "headingPath": [
+            "Improve call quality in Microsoft Teams",
+            "Prioritize important network traffic using QoS"
+          ]
+        },
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide",
+          "headingPath": [
+            "Use CQD to manage call and meeting quality in Microsoft Teams",
+            "What is quality?",
+            "Service metrics",
+            "Poor stream rate",
+            "Why do we prefer to use streams instead of calls?"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 7,
+        "eligibleChunks": 192,
+        "scoredChunks": 192,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Implement QoS settings for clients and network devices, and determine how you want to handle media traffic for meetings.\n\n- As your users start using Teams for calls and meetings, they may experience a caller's voice breaking up or cutting in and out of a call or meeting.\n\n- To identify problems, and then make adjustments using QoS and selective bandwidth additions, use the following tools: reporting, per-user call analytics, and Call Quality Dashboard (CQD).\n\n- Look for high-volume audio users who are speaking into built-in microphones - these may correlate to poorer call quality (and you might want to provide audio devices for these people).",
+      "wordCount": 106,
+      "citations": [
+        {
+          "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+          "sourceTitle": "Implement Quality of Service (QoS) in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"
+        },
+        {
+          "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+          "sourceTitle": "Implement Quality of Service (QoS) in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"
+        },
+        {
+          "documentId": "5fd56d41af2181b4178a3480e0645891f9c104f415f35da13349b6aee791211e",
+          "sourceTitle": "Improve call quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/monitor-call-quality-qos"
+        },
+        {
+          "documentId": "c1b32a03ce210d2e8757d8dd796e98b018a12d83d921b0844f1ac741a32af0f8",
+          "sourceTitle": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/quality-of-experience-review-guide"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 837.5156000000006,
+        "evidenceResolution": 19.13550000000032,
+        "presentation": 1.1098999999994703,
+        "totalQuick": 874.713099999999,
+        "wallClock": 874.8410000000003
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "call_quality_troubleshooting"
+        ],
+        "packReasons": [
+          "Question names call-quality, CQD, or media-metric terms."
+        ],
+        "derivedConcepts": [
+          "CQD",
+          "Call Analytics",
+          "organization-wide trend",
+          "per-user call",
+          "Teams admin center"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.6,
+        "conceptsInQuick": [
+          "traffic prioritization",
+          "media modalities",
+          "network consistency"
+        ],
+        "conceptsMissing": [
+          "DSCP",
+          "monitoring"
+        ],
+        "reasons": [
+          "Required-concept coverage 3/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-016",
+      "priority": true,
+      "question": "How would you design and build an Auto Attendant that routes to a Call Queue?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "auto_attendants_call_queues"
+      ],
+      "packReasons": [
+        "Question names Auto Attendant or Call Queue terms."
+      ],
+      "derivedConcepts": [
+        "auto attendant",
+        "call queue",
+        "resource account",
+        "business hours",
+        "after-hours"
+      ],
+      "expectedAuthorityPack": "auto_attendants_call_queues",
+      "packUnionDocumentCount": 8,
+      "topEvidence": [
+        {
+          "documentId": "4205b95e847d14a8c69992170a38648a6a1c1075a81fe3d7883ce6f826a1d477",
+          "title": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows",
+          "headingPath": [
+            "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Auto Attendants"
+          ]
+        },
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "title": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+          "headingPath": [
+            "Setup - Auto Attendant",
+            "Planning and licensing review",
+            "Licensing"
+          ]
+        },
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "title": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail",
+          "headingPath": [
+            "Manage Shared Voicemail for Auto Attendants and Call Queues",
+            "Configure Shared Voicemail"
+          ]
+        },
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "title": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+          "headingPath": [
+            "Setup - Auto Attendant",
+            "Steps to create an auto attendant",
+            "Advanced setup",
+            "Step 3: Business-hours call flow",
+            "Call routing options"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 8,
+        "eligibleChunks": 168,
+        "scoredChunks": 168,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "To allow callers to dial by name and by number, you need to create an auto attendant that has an option for dial by name and another auto attendant for dial by extension.\n\n- To prevent the oversharing of information, each specific Call Queue or Auto Attendant should have its own group for Shared Voicemail.\n\n- - Resource account - Choose the resource account associated with the Teams Phone Agent, Auto Attendant or Call Queue when choosing this destination.\n\n- As an administrator, you can configure Shared Voicemail for both Auto Attendants and Call Queues.",
+      "wordCount": 95,
+      "citations": [
+        {
+          "documentId": "4205b95e847d14a8c69992170a38648a6a1c1075a81fe3d7883ce6f826a1d477",
+          "sourceTitle": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows"
+        },
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "sourceTitle": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail"
+        },
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "sourceTitle": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail"
+        },
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "sourceTitle": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1469.4544999999998,
+        "evidenceResolution": 18.316100000000006,
+        "presentation": 0.5083000000013271,
+        "totalQuick": 1509.146200000001,
+        "wallClock": 1509.3022
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "auto_attendants_call_queues"
+        ],
+        "packReasons": [
+          "Question names Auto Attendant or Call Queue terms."
+        ],
+        "derivedConcepts": [
+          "auto attendant",
+          "call queue",
+          "resource account",
+          "business hours",
+          "after-hours"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.2857142857142857,
+        "conceptsInQuick": [
+          "resource account",
+          "Call Queue"
+        ],
+        "conceptsMissing": [
+          "call-flow design",
+          "business hours",
+          "after-hours",
+          "holidays",
+          "test path"
+        ],
+        "reasons": [
+          "Required-concept coverage 2/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-017",
+      "priority": false,
+      "question": "What is a Teams voice-application resource account, and when does it need a license and phone number?",
+      "questionShape": "conceptual",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [
+        "phone number",
+        "resource account"
+      ],
+      "expectedAuthorityPack": "auto_attendants_call_queues",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "Auto Attendant or Call Queue identity",
+          "sign-in disabled",
+          "Teams Phone Resource Account license",
+          "direct answering",
+          "phone number when PSTN reachable"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-018",
+      "priority": false,
+      "question": "How would you configure Call Queue overflow, timeout, and shared voicemail behavior?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "auto_attendants_call_queues"
+      ],
+      "packReasons": [
+        "Question names Auto Attendant or Call Queue terms."
+      ],
+      "derivedConcepts": [
+        "call queue",
+        "resource account",
+        "business hours",
+        "after-hours",
+        "Auto Attendant"
+      ],
+      "expectedAuthorityPack": "auto_attendants_call_queues",
+      "packUnionDocumentCount": 8,
+      "topEvidence": [
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "title": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail",
+          "headingPath": [
+            "Manage Shared Voicemail for Auto Attendants and Call Queues",
+            "Configure Shared Voicemail",
+            "Call Queues"
+          ]
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "title": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+          "headingPath": [
+            "Setup - Call Queue",
+            "Steps to create a call queue",
+            "Advanced setup",
+            "Step 6: Exception handling"
+          ]
+        },
+        {
+          "documentId": "194e9aa4e91790055324a6fbffba7d552211fee905ee6128008c1818293adf1b",
+          "title": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview",
+          "headingPath": [
+            "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Call Queue"
+          ]
+        },
+        {
+          "documentId": "4205b95e847d14a8c69992170a38648a6a1c1075a81fe3d7883ce6f826a1d477",
+          "title": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows",
+          "headingPath": [
+            "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Call routing best practices"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 8,
+        "eligibleChunks": 168,
+        "scoredChunks": 168,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Administrators or Authorized users of a Call Queue can set up custom Shared Voicemail greetings for the following features: - Call overflow - Call timeout - No agents\n\n- Even if your call queue is staffed 24/7, we recommend using an auto attendant to direct calls to the call queue.\n\n- External callers can reach a call queue by dialing the phone number assigned to the resource account or via the web if click-to-call is configured.\n\n- Call queues don't provide separate call routing for off hours and holidays.",
+      "wordCount": 89,
+      "citations": [
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "sourceTitle": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail"
+        },
+        {
+          "documentId": "194e9aa4e91790055324a6fbffba7d552211fee905ee6128008c1818293adf1b",
+          "sourceTitle": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview"
+        },
+        {
+          "documentId": "194e9aa4e91790055324a6fbffba7d552211fee905ee6128008c1818293adf1b",
+          "sourceTitle": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview"
+        },
+        {
+          "documentId": "194e9aa4e91790055324a6fbffba7d552211fee905ee6128008c1818293adf1b",
+          "sourceTitle": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1015.4132000000009,
+        "evidenceResolution": 53.46259999999893,
+        "presentation": 0.7438999999994849,
+        "totalQuick": 1096.8832999999995,
+        "wallClock": 1097.178899999999
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "auto_attendants_call_queues"
+        ],
+        "packReasons": [
+          "Question names Auto Attendant or Call Queue terms."
+        ],
+        "derivedConcepts": [
+          "call queue",
+          "resource account",
+          "business hours",
+          "after-hours",
+          "Auto Attendant"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.6,
+        "conceptsInQuick": [
+          "overflow threshold",
+          "timeout threshold",
+          "shared voicemail"
+        ],
+        "conceptsMissing": [
+          "redirect target",
+          "greeting or transcription where supported"
+        ],
+        "reasons": [
+          "Required-concept coverage 3/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-019",
+      "priority": false,
+      "question": "How should business hours, after-hours, and holidays be modeled in a Teams Auto Attendant?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "auto_attendants_call_queues"
+      ],
+      "packReasons": [
+        "Question names Auto Attendant or Call Queue terms."
+      ],
+      "derivedConcepts": [
+        "auto attendant",
+        "resource account",
+        "business hours",
+        "after-hours",
+        "Call Queue"
+      ],
+      "expectedAuthorityPack": "auto_attendants_call_queues",
+      "packUnionDocumentCount": 8,
+      "topEvidence": [
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "title": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+          "headingPath": [
+            "Setup - Auto Attendant",
+            "Steps to create an auto attendant",
+            "Advanced setup",
+            "Step 4: After-hours call flow",
+            "Previous steps:"
+          ]
+        },
+        {
+          "documentId": "4205b95e847d14a8c69992170a38648a6a1c1075a81fe3d7883ce6f826a1d477",
+          "title": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows",
+          "headingPath": [
+            "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Auto Attendants"
+          ]
+        },
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "title": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail",
+          "headingPath": [
+            "Manage Shared Voicemail for Auto Attendants and Call Queues",
+            "Configure Shared Voicemail",
+            "Auto Attendants"
+          ]
+        },
+        {
+          "documentId": "194e9aa4e91790055324a6fbffba7d552211fee905ee6128008c1818293adf1b",
+          "title": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview",
+          "headingPath": [
+            "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Licensing requirements"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 8,
+        "eligibleChunks": 168,
+        "scoredChunks": 168,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Heading Path: Setup - Auto Attendant -> Steps to create an auto attendant -> Advanced setup -> Step 4: After-hours call flow -> Previous steps: - Step 1 - General info - Step 2 - Call handling hours - Step 3 - Business-hours call flow\n\n- Auto attendants offer separate call routing options for calls received outside of business hours and on holidays.\n\n- For Auto Attendant calls that are sent to Shared Voicemail, you can enable or suppress a system greeting.\n\n- For Auto Attendants, you can set up redirection rules to forward calls to a Shared Voicemail.",
+      "wordCount": 99,
+      "citations": [
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "sourceTitle": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant"
+        },
+        {
+          "documentId": "4205b95e847d14a8c69992170a38648a6a1c1075a81fe3d7883ce6f826a1d477",
+          "sourceTitle": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows"
+        },
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "sourceTitle": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail"
+        },
+        {
+          "documentId": "4a89ece8e53a176362d1303a682dfaf0d3fc564d876d49721a3832de9d00303d",
+          "sourceTitle": "Manage Shared Voicemail for Auto Attendants and Call Queues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-shared-voicemail"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 717.1652999999988,
+        "evidenceResolution": 28.804400000000896,
+        "presentation": 2.7265000000006694,
+        "totalQuick": 767.9251999999979,
+        "wallClock": 768.0646000000015
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "auto_attendants_call_queues"
+        ],
+        "packReasons": [
+          "Question names Auto Attendant or Call Queue terms."
+        ],
+        "derivedConcepts": [
+          "auto attendant",
+          "resource account",
+          "business hours",
+          "after-hours",
+          "Call Queue"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.4,
+        "conceptsInQuick": [
+          "business-hours flow",
+          "after-hours flow"
+        ],
+        "conceptsMissing": [
+          "time zone",
+          "holiday schedule",
+          "explicit routing destination"
+        ],
+        "reasons": [
+          "Required-concept coverage 2/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-020",
+      "priority": false,
+      "question": "What must be true for a user to work as a Call Queue agent?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "auto_attendants_call_queues"
+      ],
+      "packReasons": [
+        "Question names Auto Attendant or Call Queue terms."
+      ],
+      "derivedConcepts": [
+        "call queue",
+        "resource account",
+        "business hours",
+        "after-hours",
+        "Auto Attendant"
+      ],
+      "expectedAuthorityPack": "auto_attendants_call_queues",
+      "packUnionDocumentCount": 8,
+      "topEvidence": [
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "title": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+          "headingPath": [
+            "Setup - Call Queue",
+            "Steps to create a call queue",
+            "Advanced setup",
+            "Step 7: Authorized users",
+            "Previous steps:"
+          ]
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "title": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+          "headingPath": [
+            "Setup - Call Queue",
+            "Extra functionality available through PowerShell cmdlets",
+            "Compliance recording for call queues"
+          ]
+        },
+        {
+          "documentId": "243e16cb3392c545c395b16932d867e339d56c306a66410426d13efab791ced7",
+          "title": "Reference - Voice applications prerequisites and licensing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+          "headingPath": [
+            "Reference - Voice applications prerequisites and licensing",
+            "Prerequisites",
+            "Call queue representatives"
+          ]
+        },
+        {
+          "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+          "title": "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+          "headingPath": [
+            "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Create a resource account"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 8,
+        "eligibleChunks": 168,
+        "scoredChunks": 168,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Record all agent-answered inbound call queue calls for compliance, without assigning a compliance recording policy to each agent.\n\n- Representatives (agents) who receive calls from a call queue must be Enterprise Voice enabled online or on-premises users.\n\n- If your representatives are using the Microsoft Teams app for call queue calls, they need to be in TeamsOnly mode.\n\n- Before creating a resource account, you must assign permissions for creating and managing a resource account.",
+      "wordCount": 75,
+      "citations": [
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "sourceTitle": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue"
+        },
+        {
+          "documentId": "243e16cb3392c545c395b16932d867e339d56c306a66410426d13efab791ced7",
+          "sourceTitle": "Reference - Voice applications prerequisites and licensing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing"
+        },
+        {
+          "documentId": "243e16cb3392c545c395b16932d867e339d56c306a66410426d13efab791ced7",
+          "sourceTitle": "Reference - Voice applications prerequisites and licensing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing"
+        },
+        {
+          "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+          "sourceTitle": "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1046.3387999999977,
+        "evidenceResolution": 13.79030000000057,
+        "presentation": 0.5333999999966181,
+        "totalQuick": 1070.6503000000012,
+        "wallClock": 1070.7704000000012
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "auto_attendants_call_queues"
+        ],
+        "packReasons": [
+          "Question names Auto Attendant or Call Queue terms."
+        ],
+        "derivedConcepts": [
+          "call queue",
+          "resource account",
+          "business hours",
+          "after-hours",
+          "Auto Attendant"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "supported agent membership",
+          "Teams-enabled user",
+          "routing mode implications",
+          "presence or opt-in when configured",
+          "client readiness"
+        ],
+        "reasons": [
+          "Required-concept coverage 0/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-021",
+      "priority": true,
+      "question": "How do you create and configure the resource account and calendar processing for a Teams Room?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "teams_rooms"
+      ],
+      "packReasons": [
+        "Question names Teams Rooms / MTR terms."
+      ],
+      "derivedConcepts": [
+        "resource account",
+        "Teams Rooms",
+        "calendar processing",
+        "sign-in",
+        "Teams Rooms Pro",
+        "audio device"
+      ],
+      "expectedAuthorityPack": "teams_rooms",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account",
+          "headingPath": [
+            "In Microsoft 365 admin center"
+          ]
+        },
+        {
+          "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+          "title": "Resource accounts",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/resource-accounts",
+          "headingPath": [
+            "Resource accounts",
+            "Configure resource accounts",
+            "View licenses"
+          ]
+        },
+        {
+          "documentId": "95b69bab4d199fc249b0356e828cdbe0b641c8c2f3bc8ea1b1f6f25a1b01d072",
+          "title": "Deployment overview",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-deploy",
+          "headingPath": [
+            "Deployment overview",
+            "Physically deploying and configuring your Teams Rooms devices",
+            "Microsoft Teams Rooms application and peripheral device configuration"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 205,
+        "scoredChunks": 205,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "At initial power on of your Teams Rooms device, you need to configure the Microsoft Teams Rooms application to use the matching Microsoft Teams Rooms resource account and password to sign in to Microsoft Teams.\n\n- 2. Select Licenses tab. You can view the Teams Rooms licenses that have been assigned to the chosen resource account.Screenshot that shows the page displaying details of licenses assigned to a resource account.\n\n- To view the licenses assigned to a resource account, perform the following steps:",
+      "wordCount": 83,
+      "citations": [
+        {
+          "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+          "sourceTitle": "Resource accounts",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/resource-accounts"
+        },
+        {
+          "documentId": "95b69bab4d199fc249b0356e828cdbe0b641c8c2f3bc8ea1b1f6f25a1b01d072",
+          "sourceTitle": "Deployment overview",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-deploy"
+        },
+        {
+          "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+          "sourceTitle": "Resource accounts",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/resource-accounts"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 996.7491999999984,
+        "evidenceResolution": 31.909299999999348,
+        "presentation": 0.878099999998085,
+        "totalQuick": 1045.089100000001,
+        "wallClock": 1045.4665999999997
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "teams_rooms"
+        ],
+        "packReasons": [
+          "Question names Teams Rooms / MTR terms."
+        ],
+        "derivedConcepts": [
+          "resource account",
+          "Teams Rooms",
+          "calendar processing",
+          "sign-in",
+          "Teams Rooms Pro",
+          "audio device"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.16666666666666666,
+        "conceptsInQuick": [
+          "Teams Rooms resource account"
+        ],
+        "conceptsMissing": [
+          "Exchange room mailbox",
+          "UPN and SMTP alignment",
+          "AutoAccept",
+          "calendar processing",
+          "license"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/6."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-022",
+      "priority": true,
+      "question": "A Teams Room resource account is locked out and the room cannot sign in. How would you troubleshoot it?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "entra_identity_support",
+        "teams_rooms"
+      ],
+      "packReasons": [
+        "Question names Entra identity, sign-in, or lockout terms.",
+        "Question names Teams Rooms / MTR terms."
+      ],
+      "derivedConcepts": [
+        "resource account",
+        "Teams Rooms",
+        "sign-in logs",
+        "failure code",
+        "Conditional Access",
+        "MFA",
+        "calendar processing",
+        "sign-in"
+      ],
+      "expectedAuthorityPack": "teams_rooms",
+      "packUnionDocumentCount": 21,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 21,
+        "eligibleChunks": 264,
+        "scoredChunks": 264,
+        "returnedCandidates": 24
+      },
+      "answerability": "insufficient_evidence",
+      "deterministicQuickOutput": "Unable to provide a factual answer from the approved evidence.",
+      "wordCount": 10,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1238.9124999999985,
+        "evidenceResolution": 35.2397000000019,
+        "presentation": 0.17380000000048312,
+        "totalQuick": 1278.142100000001,
+        "wallClock": 1278.2924999999996
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "troubleshooting",
+        "selectedPacks": [
+          "entra_identity_support",
+          "teams_rooms"
+        ],
+        "packReasons": [
+          "Question names Entra identity, sign-in, or lockout terms.",
+          "Question names Teams Rooms / MTR terms."
+        ],
+        "derivedConcepts": [
+          "resource account",
+          "Teams Rooms",
+          "sign-in logs",
+          "failure code",
+          "Conditional Access",
+          "MFA",
+          "calendar processing",
+          "sign-in"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "resource-account status",
+          "sign-in logs",
+          "failure code",
+          "Conditional Access",
+          "Intune compliance",
+          "credentials",
+          "license"
+        ],
+        "reasons": [
+          "Grounding reported insufficient evidence.",
+          "Required-concept coverage 0/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-023",
+      "priority": true,
+      "question": "A Teams Room joins meetings but has no audio. What would you check?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "teams_rooms"
+      ],
+      "packReasons": [
+        "Question names Teams Rooms / MTR terms."
+      ],
+      "derivedConcepts": [
+        "Teams Rooms",
+        "resource account",
+        "calendar processing",
+        "sign-in",
+        "Teams Rooms Pro",
+        "audio device"
+      ],
+      "expectedAuthorityPack": "teams_rooms",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account",
+          "headingPath": [
+            "Modify an existing Exchange room mailbox",
+            "Configure Exchange mailbox properties"
+          ]
+        },
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account",
+          "headingPath": [
+            "How to create and configure resource accounts for Teams Rooms and panels",
+            "Get the right license"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 205,
+        "scoredChunks": 205,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "For a comparison between the Teams Rooms Basic and Teams Rooms Pro licenses, see Teams Meeting Rooms Licenses.\n\n- Before you do that, you need to purchase licenses, each resource account you want to associate with a Teams Rooms device needs a Teams Rooms license.\n\n- Follow these steps to purchase a Teams Rooms Basic or Teams Rooms Pro license that you can assign to a resource account in a later step.\n\n- In the next step, you'll create a resource account for each your Teams Rooms device.\n\n- Using Exchange PowerShell, you can set many properties, review the Set-CalendarProcessing cmdlet for all available configurations.",
+      "wordCount": 105,
+      "citations": [
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "sourceTitle": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "sourceTitle": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "sourceTitle": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "sourceTitle": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "documentId": "9432f371b944c0f90bd2539fa6bd790083c7e7c226c47bfd29d95863898866ec",
+          "sourceTitle": "How to create and configure resource accounts for Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/create-resource-account"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1065.8850999999995,
+        "evidenceResolution": 31.94629999999961,
+        "presentation": 0.8817999999992026,
+        "totalQuick": 1122.2546000000002,
+        "wallClock": 1122.303100000001
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "troubleshooting",
+        "selectedPacks": [
+          "teams_rooms"
+        ],
+        "packReasons": [
+          "Question names Teams Rooms / MTR terms."
+        ],
+        "derivedConcepts": [
+          "Teams Rooms",
+          "resource account",
+          "calendar processing",
+          "sign-in",
+          "Teams Rooms Pro",
+          "audio device"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.3333333333333333,
+        "conceptsInQuick": [
+          "device and peripheral health",
+          "meeting telemetry"
+        ],
+        "conceptsMissing": [
+          "selected audio device",
+          "cabling and firmware",
+          "network media path",
+          "Pro Management events"
+        ],
+        "reasons": [
+          "Required-concept coverage 2/6."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-024",
+      "priority": true,
+      "question": "How would you manage and monitor a fleet of Teams Rooms?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "teams_rooms"
+      ],
+      "packReasons": [
+        "Question names Teams Rooms / MTR terms."
+      ],
+      "derivedConcepts": [
+        "teams rooms",
+        "resource account",
+        "calendar processing",
+        "sign-in",
+        "Teams Rooms Pro",
+        "audio device"
+      ],
+      "expectedAuthorityPack": "teams_rooms",
+      "packUnionDocumentCount": 15,
+      "topEvidence": [
+        {
+          "documentId": "b97acc47a32f29bf5b2172ea89dd330f975e92f60ae324fd8c5d526fee4b7d68",
+          "title": "Managing Microsoft Teams Rooms",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-manage",
+          "headingPath": [
+            "Managing Microsoft Teams Rooms"
+          ]
+        },
+        {
+          "documentId": "0c9272d384c7f08a9c058f19c12a14a2de4ed20fc04452ac3e79718f9a8febff",
+          "title": "Transitioning Teams Android Device Management from Teams Admin Center to the Teams Rooms Pro Management Portal",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/aboutunifieddevicemanagement-pmp1",
+          "headingPath": [
+            "Transitioning Teams Android Device Management from Teams Admin Center to the Teams Rooms Pro Management Portal",
+            "Why This Change?"
+          ]
+        },
+        {
+          "documentId": "b97acc47a32f29bf5b2172ea89dd330f975e92f60ae324fd8c5d526fee4b7d68",
+          "title": "Managing Microsoft Teams Rooms",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-manage",
+          "headingPath": [
+            "Managing Microsoft Teams Rooms",
+            "Management options in Teams Admin Center",
+            "Teams Rooms system dashboard"
+          ]
+        },
+        {
+          "documentId": "9c050622de21c1e1bb633fd4a1eb7f503ed185017fc7d00ca0c548b960d92236",
+          "title": "Microsoft Teams Rooms Pro Management",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-pro-management",
+          "headingPath": [
+            "Microsoft Teams Rooms Pro Management"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 15,
+        "eligibleChunks": 205,
+        "scoredChunks": 205,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "By consolidating Teams device management into the Teams Rooms Pro Management Portal, admins gain: - One unified management experience across all Teams device types. - Enhanced monitoring and operational insights. - Advanced automation and AI-assisted management capabilities.\n\n- The Microsoft Teams Rooms Pro Management service is a cloud-based management solution that proactively monitors and updates Microsoft Teams Rooms devices and their peripherals.\n\n- The Teams Rooms Pro management solution is for organizations looking to optimize meeting room experience for end users and rapidly scale their footprint enabled by real-time monitoring and management for Microsoft Teams Rooms devices.",
+      "wordCount": 97,
+      "citations": [
+        {
+          "documentId": "0c9272d384c7f08a9c058f19c12a14a2de4ed20fc04452ac3e79718f9a8febff",
+          "sourceTitle": "Transitioning Teams Android Device Management from Teams Admin Center to the Teams Rooms Pro Management Portal",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/aboutunifieddevicemanagement-pmp1"
+        },
+        {
+          "documentId": "9c050622de21c1e1bb633fd4a1eb7f503ed185017fc7d00ca0c548b960d92236",
+          "sourceTitle": "Microsoft Teams Rooms Pro Management",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-pro-management"
+        },
+        {
+          "documentId": "9c050622de21c1e1bb633fd4a1eb7f503ed185017fc7d00ca0c548b960d92236",
+          "sourceTitle": "Microsoft Teams Rooms Pro Management",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-pro-management"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1051.6964000000007,
+        "evidenceResolution": 12.153999999998632,
+        "presentation": 0.705100000002858,
+        "totalQuick": 1082.5351999999984,
+        "wallClock": 1082.6251999999986
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "teams_rooms"
+        ],
+        "packReasons": [
+          "Question names Teams Rooms / MTR terms."
+        ],
+        "derivedConcepts": [
+          "teams rooms",
+          "resource account",
+          "calendar processing",
+          "sign-in",
+          "Teams Rooms Pro",
+          "audio device"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.14285714285714285,
+        "conceptsInQuick": [
+          "Teams Rooms Pro Management Portal"
+        ],
+        "conceptsMissing": [
+          "inventory",
+          "health",
+          "incidents or events",
+          "roles",
+          "rings or update management",
+          "Windows and Android"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-025",
+      "priority": false,
+      "question": "How do firmware, application updates, Intune, and Conditional Access differ between Teams Rooms on Windows and Android?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "entra_identity_support",
+        "teams_rooms"
+      ],
+      "packReasons": [
+        "Question names Entra identity, sign-in, or lockout terms.",
+        "Question names Teams Rooms / MTR terms."
+      ],
+      "derivedConcepts": [
+        "conditional access",
+        "teams rooms",
+        "Microsoft Entra",
+        "sign-in logs",
+        "failure code",
+        "MFA",
+        "resource account",
+        "calendar processing"
+      ],
+      "expectedAuthorityPack": "teams_rooms",
+      "packUnionDocumentCount": 21,
+      "topEvidence": [
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication",
+          "headingPath": [
+            "Authentication in Microsoft Teams Rooms on Windows",
+            "Conditional Access Considerations"
+          ]
+        },
+        {
+          "documentId": "216ee1d36cd73e265d866f7f12177941b1f6263e1f6091c9066aa58324dcb3ee",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/security",
+          "headingPath": [
+            "Teams Android devices",
+            "Software security",
+            "Device updates"
+          ]
+        },
+        {
+          "documentId": "98422c2966de5a09f3356ff653c6047b9852ffa2276b5256097fd870008cc410",
+          "title": "Conditional Access and Intune compliance for Microsoft Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/conditional-access-and-compliance-for-devices",
+          "headingPath": [
+            "Conditional Access and Intune compliance for Microsoft Teams Rooms and panels"
+          ]
+        },
+        {
+          "documentId": "70cc3901108d56884c907a2181de180f90270be54073e437a8a5b9b7049d14a2",
+          "title": "Troubleshooting sign-in problems with Conditional Access",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/troubleshoot-conditional-access",
+          "headingPath": [
+            "Troubleshoot sign-in problems with Conditional Access",
+            "Microsoft Entra sign-in events",
+            "Common Conditional Access error codes"
+          ]
+        },
+        {
+          "documentId": "70cc3901108d56884c907a2181de180f90270be54073e437a8a5b9b7049d14a2",
+          "title": "Troubleshooting sign-in problems with Conditional Access",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/troubleshoot-conditional-access",
+          "headingPath": [
+            "Troubleshoot sign-in problems with Conditional Access",
+            "Select \"all\" consequences"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 21,
+        "eligibleChunks": 264,
+        "scoredChunks": 264,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "To learn more about Conditional Access and Intune compliance policies, see Conditional Access and Intune compliance for Microsoft Teams Rooms and Supported Conditional Access and Intune device compliance policies for Microsoft Teams Rooms\n\n- Since Windows has no knowledge of resource account that is used by Teams room application, to apply device-level conditional access policies, you must enroll Teams Rooms on Windows devices with Microsoft Intune.\n\n- When the device is enrolled in Intune, the Teams Rooms application uses Windows enrolled account using Web access management (WAM) to send device compliance status for conditional access evaluation.\n\n- Teams Rooms resource account access to Microsoft 365 service can be limited using Conditional Access policies.",
+      "wordCount": 113,
+      "citations": [
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        },
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        },
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        },
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1069.5075999999972,
+        "evidenceResolution": 50.13130000000092,
+        "presentation": 1.1877999999996973,
+        "totalQuick": 1141.5445999999974,
+        "wallClock": 1141.7302000000018
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "entra_identity_support",
+          "teams_rooms"
+        ],
+        "packReasons": [
+          "Question names Entra identity, sign-in, or lockout terms.",
+          "Question names Teams Rooms / MTR terms."
+        ],
+        "derivedConcepts": [
+          "conditional access",
+          "teams rooms",
+          "Microsoft Entra",
+          "sign-in logs",
+          "failure code",
+          "MFA",
+          "resource account",
+          "calendar processing"
+        ]
+      },
+      "quality": {
+        "grade": "PASS",
+        "requiredConceptCoverage": 0.8,
+        "conceptsInQuick": [
+          "Windows and Android differences",
+          "Intune enrollment or compliance",
+          "Conditional Access",
+          "supported firmware"
+        ],
+        "conceptsMissing": [
+          "Pro Management update orchestration"
+        ],
+        "reasons": []
+      }
+    },
+    {
+      "questionId": "Q-026",
+      "priority": true,
+      "question": "Write or describe a PowerShell process to report each Teams voice user's number and effective voice policies.",
+      "questionShape": "powershell",
+      "selectedPacks": [
+        "teams_powershell_interview_subset"
+      ],
+      "packReasons": [
+        "Question names PowerShell or cmdlet automation."
+      ],
+      "derivedConcepts": [
+        "PowerShell",
+        "Get-CsOnlineUser",
+        "EnterpriseVoiceEnabled",
+        "TelephoneNumbers",
+        "effective policy",
+        "per-user output"
+      ],
+      "expectedAuthorityPack": "teams_powershell_interview_subset",
+      "packUnionDocumentCount": 16,
+      "topEvidence": [
+        {
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "title": "Get-CsOnlineUser",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsOnlineUser.md",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "NOTES"
+          ]
+        },
+        {
+          "documentId": "e813f8f9613dacecf4920ade3916adccf6bf33be542ab801833bc976f2c19b44",
+          "title": "Set-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsPhoneNumberAssignment.md",
+          "headingPath": [
+            "Set-CsPhoneNumberAssignment",
+            "EXAMPLES",
+            "Example 10"
+          ]
+        },
+        {
+          "documentId": "f6a362e8969efd1c3a61af61626e856acf690635f0b2538bb977a0eb430d3e7f",
+          "title": "Get-CsTeamsCallingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsTeamsCallingPolicy.md",
+          "headingPath": [
+            "Get-CsTeamsCallingPolicy",
+            "EXAMPLES",
+            "Example 1"
+          ]
+        },
+        {
+          "documentId": "ebfb3f6e3b11be58d697c1c7768bbd51bbda71d1832fe84d2efcabfcfecbbbe0",
+          "title": "Get-CsEffectiveTenantDialPlan",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsEffectiveTenantDialPlan.md",
+          "headingPath": [
+            "Get-CsEffectiveTenantDialPlan",
+            "PARAMETERS",
+            "-CallerNumber"
+          ]
+        },
+        {
+          "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsOnlineVoiceRoutingPolicy.md",
+          "headingPath": [
+            "Get-CsOnlineVoiceRoutingPolicy",
+            "DESCRIPTION"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 16,
+        "eligibleChunks": 658,
+        "scoredChunks": 658,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Write-Host (Get-CsPhoneNumberAssignment -LocationId $NewLocationId).Count numbers found in new location $NewLocationId\n\n- Among other things, you will also need to enable those users for Phone System and will need to assign them an appropriate online voice policy.\n\n- - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments.\n\n- )PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.",
+      "wordCount": 90,
+      "citations": [
+        {
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "documentId": "e813f8f9613dacecf4920ade3916adccf6bf33be542ab801833bc976f2c19b44",
+          "sourceTitle": "Set-CsPhoneNumberAssignment",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/set-csphonenumberassignment"
+        },
+        {
+          "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+          "sourceTitle": "Get-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1168.1342000000004,
+        "evidenceResolution": 44.620600000002014,
+        "presentation": 1.0214999999989232,
+        "totalQuick": 1261.5845999999983,
+        "wallClock": 1261.7158000000018
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "powershell",
+        "selectedPacks": [
+          "teams_powershell_interview_subset"
+        ],
+        "packReasons": [
+          "Question names PowerShell or cmdlet automation."
+        ],
+        "derivedConcepts": [
+          "PowerShell",
+          "Get-CsOnlineUser",
+          "EnterpriseVoiceEnabled",
+          "TelephoneNumbers",
+          "effective policy",
+          "per-user output"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.14285714285714285,
+        "conceptsInQuick": [
+          "Get-CsOnlineUser"
+        ],
+        "conceptsMissing": [
+          "EnterpriseVoiceEnabled",
+          "TelephoneNumbers",
+          "OnlineVoiceRoutingPolicy",
+          "effective dial plan",
+          "effective calling policy",
+          "per-user output"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-027",
+      "priority": false,
+      "question": "Which Teams PowerShell checks show the voice-routing policy, PSTN usages, voice routes, and gateways involved in Direct Routing?",
+      "questionShape": "powershell",
+      "selectedPacks": [
+        "teams_voice_direct_routing",
+        "teams_powershell_interview_subset"
+      ],
+      "packReasons": [
+        "Question names Direct Routing, SBC, PSTN, or emergency-calling terms.",
+        "Question names PowerShell or cmdlet automation."
+      ],
+      "derivedConcepts": [
+        "direct routing",
+        "policy",
+        "pstn",
+        "voice routing",
+        "voice routing policy",
+        "PowerShell",
+        "Teams Phone",
+        "certified SBC"
+      ],
+      "expectedAuthorityPack": "teams_powershell_interview_subset",
+      "packUnionDocumentCount": 31,
+      "topEvidence": [
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 3: Create a voice routing policy named \"US Only\" and add the \"US and Canada\" PSTN usage to the policy"
+          ]
+        },
+        {
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "title": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 3: Create a voice routing policy named \"US Only\" and add the \"US and Canada\" PSTN usage to the policy"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "Direct Routing online voice-routing policy with Calling Plan"
+          ]
+        },
+        {
+          "documentId": "91a4ac80b6c9256a2be088346dba772084ccc32f993611527639fe94d3229b9c",
+          "title": "Planning Teams dial plans for Teams Phone",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+          "headingPath": [
+            "Planning Teams dial plans for Teams Phone",
+            "Dial plans and routing considerations",
+            "User dial plans with Direct Routing or extension dialing"
+          ]
+        },
+        {
+          "documentId": "3a0f81d7bdd927d626dd7e8c82317fc83609a1eba5755dd5469711375f7850b4",
+          "title": "Plan for media bypass with Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass",
+          "headingPath": [
+            "Plan for media bypass with Direct Routing",
+            "Configure separate trunks for media bypass and non-media bypass"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 31,
+        "eligibleChunks": 1006,
+        "scoredChunks": 1006,
+        "returnedCandidates": 24
+      },
+      "answerability": "partial",
+      "deterministicQuickOutput": "Only supported portions should be answered.",
+      "wordCount": 6,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1495.924600000002,
+        "evidenceResolution": 47.52769999999873,
+        "presentation": 5.4310999999979686,
+        "totalQuick": 1558.6818999999996,
+        "wallClock": 1558.9046000000017
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "powershell",
+        "selectedPacks": [
+          "teams_voice_direct_routing",
+          "teams_powershell_interview_subset"
+        ],
+        "packReasons": [
+          "Question names Direct Routing, SBC, PSTN, or emergency-calling terms.",
+          "Question names PowerShell or cmdlet automation."
+        ],
+        "derivedConcepts": [
+          "direct routing",
+          "policy",
+          "pstn",
+          "voice routing",
+          "voice routing policy",
+          "PowerShell",
+          "Teams Phone",
+          "certified SBC"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "Get-CsOnlineVoiceRoutingPolicy",
+          "Get-CsOnlinePstnUsage",
+          "Get-CsOnlineVoiceRoute",
+          "Get-CsOnlinePSTNGateway"
+        ],
+        "reasons": [
+          "Required-concept coverage 0/4."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-028",
+      "priority": false,
+      "question": "How can PowerShell distinguish a Teams policy definition from the policy effectively assigned to a user?",
+      "questionShape": "powershell",
+      "selectedPacks": [
+        "teams_powershell_interview_subset"
+      ],
+      "packReasons": [
+        "Question names PowerShell or cmdlet automation."
+      ],
+      "derivedConcepts": [
+        "policy",
+        "PowerShell",
+        "Get-CsOnlineUser",
+        "EnterpriseVoiceEnabled",
+        "TelephoneNumbers",
+        "effective policy",
+        "per-user output"
+      ],
+      "expectedAuthorityPack": "teams_powershell_interview_subset",
+      "packUnionDocumentCount": 16,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 16,
+        "eligibleChunks": 658,
+        "scoredChunks": 658,
+        "returnedCandidates": 24
+      },
+      "answerability": "insufficient_evidence",
+      "deterministicQuickOutput": "Unable to provide a factual answer from the approved evidence.",
+      "wordCount": 10,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1342.2469999999994,
+        "evidenceResolution": 26.496299999998882,
+        "presentation": 0.1661999999996624,
+        "totalQuick": 1372.0841,
+        "wallClock": 1372.3377999999975
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "powershell",
+        "selectedPacks": [
+          "teams_powershell_interview_subset"
+        ],
+        "packReasons": [
+          "Question names PowerShell or cmdlet automation."
+        ],
+        "derivedConcepts": [
+          "policy",
+          "PowerShell",
+          "Get-CsOnlineUser",
+          "EnterpriseVoiceEnabled",
+          "TelephoneNumbers",
+          "effective policy",
+          "per-user output"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "definition getter",
+          "Get-CsOnlineUser",
+          "EffectivePolicyAssignments",
+          "policy type",
+          "assignment display name or effective value"
+        ],
+        "reasons": [
+          "Grounding reported insufficient evidence.",
+          "Required-concept coverage 0/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-029",
+      "priority": false,
+      "question": "Which Teams PowerShell cmdlets can inspect resource accounts, Auto Attendants, and Call Queues?",
+      "questionShape": "powershell",
+      "selectedPacks": [
+        "auto_attendants_call_queues",
+        "teams_powershell_interview_subset"
+      ],
+      "packReasons": [
+        "Question names Auto Attendant or Call Queue terms.",
+        "Question names PowerShell or cmdlet automation."
+      ],
+      "derivedConcepts": [
+        "auto attendant",
+        "call queue",
+        "resource account",
+        "PowerShell",
+        "business hours",
+        "after-hours",
+        "Get-CsOnlineUser",
+        "EnterpriseVoiceEnabled"
+      ],
+      "expectedAuthorityPack": "teams_powershell_interview_subset",
+      "packUnionDocumentCount": 24,
+      "topEvidence": [
+        {
+          "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+          "title": "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+          "headingPath": [
+            "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+            "Create a resource account",
+            "PowerShell"
+          ]
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "title": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+          "headingPath": [
+            "Setup - Call Queue",
+            "Steps to create a call queue",
+            "Advanced setup",
+            "Step 1: General info",
+            "Add an existing resource account"
+          ]
+        },
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "title": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+          "headingPath": [
+            "Setup - Auto Attendant",
+            "Extra functionality available through PowerShell cmdlets"
+          ]
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "title": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+          "headingPath": [
+            "Setup - Call Queue",
+            "Steps to create a call queue",
+            "Advanced setup",
+            "Step 6: Exception handling",
+            "Nested auto attendants and call queues"
+          ]
+        },
+        {
+          "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+          "title": "Setup - Auto Attendant",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+          "headingPath": [
+            "Setup - Auto Attendant",
+            "Auto attendant diagnostic tool"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 24,
+        "eligibleChunks": 826,
+        "scoredChunks": 826,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "For details on how to create resource accounts and ready them for use with auto attendants or call queues, see Manage Teams resource accounts.\n\n- Nested auto attendants and call queues, or auto attendants and call queues that don't directly answer phone calls, no longer require a resource account and associated licensing.\n\n- Nested auto attendants and call queues that receive calls from an auto attendant or call queue that already answered the call don't require a resource account.\n\n- You can create a resource account with the PowerShell cmdlet, New-CsOnlineApplicationInstance.",
+      "wordCount": 91,
+      "citations": [
+        {
+          "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+          "sourceTitle": "Manage - Resource accounts for Teams Phone Agent, Auto Attendant, and Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts"
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "sourceTitle": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue"
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "sourceTitle": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue"
+        },
+        {
+          "documentId": "d09c9f59c03dc847e53d979d8bb3f90eebe62ccb64f62106f91b1e114ea5b86f",
+          "sourceTitle": "Setup - Call Queue",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1420.3968999999997,
+        "evidenceResolution": 59.417099999998754,
+        "presentation": 1.3022999999993772,
+        "totalQuick": 1522.9774999999972,
+        "wallClock": 1523.1417000000001
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "powershell",
+        "selectedPacks": [
+          "auto_attendants_call_queues",
+          "teams_powershell_interview_subset"
+        ],
+        "packReasons": [
+          "Question names Auto Attendant or Call Queue terms.",
+          "Question names PowerShell or cmdlet automation."
+        ],
+        "derivedConcepts": [
+          "auto attendant",
+          "call queue",
+          "resource account",
+          "PowerShell",
+          "business hours",
+          "after-hours",
+          "Get-CsOnlineUser",
+          "EnterpriseVoiceEnabled"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "Get-CsOnlineApplicationInstance",
+          "Get-CsAutoAttendant",
+          "Get-CsCallQueue",
+          "read-only inspection"
+        ],
+        "reasons": [
+          "Required-concept coverage 0/4."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-030",
+      "priority": true,
+      "question": "How would you secure SharePoint and OneDrive before broad Microsoft 365 Copilot rollout?",
+      "questionShape": "procedural",
+      "selectedPacks": [
+        "sharepoint_onedrive_copilot_governance"
+      ],
+      "packReasons": [
+        "Question names SharePoint, OneDrive, or Copilot governance terms."
+      ],
+      "derivedConcepts": [
+        "Microsoft 365",
+        "SharePoint",
+        "oversharing",
+        "Data Access Governance",
+        "SharePoint Advanced Management",
+        "Restricted Content Discovery",
+        "permissions"
+      ],
+      "expectedAuthorityPack": "sharepoint_onedrive_copilot_governance",
+      "packUnionDocumentCount": 9,
+      "topEvidence": [
+        {
+          "documentId": "5e169f190da4d8eaddd227f601a45b41af51f0a0d8e0c18d22ddda135e25d8c8",
+          "title": "Get ready for Microsoft 365 Copilot and agents with SharePoint Advanced Management",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "headingPath": [
+            "Get ready for Microsoft 365 Copilot and agents with SharePoint Advanced Management",
+            "Step 3: Prevent accidental oversharing"
+          ]
+        },
+        {
+          "documentId": "e395243dddea4a4917c942e443c96b1d6bdb66b0d1fb8d068432be3d66f288ac",
+          "title": "Use Microsoft Purview to manage data security & compliance for Microsoft 365 Copilot & Microsoft 365 Copilot Chat",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
+          "headingPath": [
+            "Use Microsoft Purview to manage data security & compliance for Microsoft 365 Copilot & Microsoft 365 Copilot Chat",
+            "Other documentation to help you secure and manage generative AI apps"
+          ]
+        },
+        {
+          "documentId": "e395243dddea4a4917c942e443c96b1d6bdb66b0d1fb8d068432be3d66f288ac",
+          "title": "Use Microsoft Purview to manage data security & compliance for Microsoft 365 Copilot & Microsoft 365 Copilot Chat",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
+          "headingPath": [
+            "Use Microsoft Purview to manage data security & compliance for Microsoft 365 Copilot & Microsoft 365 Copilot Chat",
+            "Getting started recommended steps",
+            "Use the Microsoft 365 Copilot view to discover, protect, and apply compliance controls"
+          ]
+        },
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "title": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "When to use Restricted Content Discovery"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 9,
+        "eligibleChunks": 209,
+        "scoredChunks": 209,
+        "returnedCandidates": 24
+      },
+      "answerability": "partial",
+      "deterministicQuickOutput": "To help prevent accidental oversharing in Copilot and agentic experiences, adjust sharing settings for SharePoint and OneDrive.\n\nOnly supported portions should be answered.",
+      "wordCount": 23,
+      "citations": [
+        {
+          "documentId": "5e169f190da4d8eaddd227f601a45b41af51f0a0d8e0c18d22ddda135e25d8c8",
+          "sourceTitle": "Get ready for Microsoft 365 Copilot and agents with SharePoint Advanced Management",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1285.7799999999988,
+        "evidenceResolution": 24.88260000000082,
+        "presentation": 0.14680000000225846,
+        "totalQuick": 1327.9291000000012,
+        "wallClock": 1328.0649000000012
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "procedural",
+        "selectedPacks": [
+          "sharepoint_onedrive_copilot_governance"
+        ],
+        "packReasons": [
+          "Question names SharePoint, OneDrive, or Copilot governance terms."
+        ],
+        "derivedConcepts": [
+          "Microsoft 365",
+          "SharePoint",
+          "oversharing",
+          "Data Access Governance",
+          "SharePoint Advanced Management",
+          "Restricted Content Discovery",
+          "permissions"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.14285714285714285,
+        "conceptsInQuick": [
+          "identify oversharing"
+        ],
+        "conceptsMissing": [
+          "right-size existing permissions",
+          "Data Access Governance",
+          "SharePoint Advanced Management",
+          "Restricted Content Discovery where appropriate",
+          "sensitivity or Purview controls",
+          "validate before rollout"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-031",
+      "priority": false,
+      "question": "What is the difference between Restricted Content Discovery and the retiring Restricted SharePoint Search feature?",
+      "questionShape": "comparison",
+      "selectedPacks": [
+        "sharepoint_onedrive_copilot_governance"
+      ],
+      "packReasons": [
+        "Question names SharePoint, OneDrive, or Copilot governance terms."
+      ],
+      "derivedConcepts": [
+        "restricted content discovery",
+        "SharePoint",
+        "oversharing",
+        "Data Access Governance",
+        "SharePoint Advanced Management",
+        "permissions"
+      ],
+      "expectedAuthorityPack": "sharepoint_onedrive_copilot_governance",
+      "packUnionDocumentCount": 9,
+      "topEvidence": [
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "title": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "Frequently asked questions",
+            "What search experiences are affected?"
+          ]
+        },
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "title": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "Frequently asked questions",
+            "Does Restricted Content Discovery affect Microsoft Purview features?"
+          ]
+        },
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "title": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "How Restricted Content Discovery works"
+          ]
+        },
+        {
+          "documentId": "75df496b4ba655d45baedf0ed9931367ed8dd997c3d53d48b03ef01d0f7ca77f",
+          "title": "What is SharePoint Advanced Management?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/advanced-management",
+          "headingPath": [
+            "What is SharePoint Advanced Management?",
+            "Prevent oversharing"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 9,
+        "eligibleChunks": 209,
+        "scoredChunks": 209,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "Even when Restricted Content Discovery is enabled: - Site permissions stay the same. - Users can continue to access content they already have permission to access. - The feature doesn't remove content from the Microsoft 365 search index.\n\n- Restricted Content Discovery doesn't remove content from the search index.\n\n- - Use restricted content discovery (RCD): Prevent high-risk SharePoint sites and files from surfacing in Microsoft 365 Copilot and Agentic experiences.\n\n- com, Bing) and Microsoft 365 Copilot discovery scenarios, including experiences that rely on tenant-wide content discovery.\n\n- - Use data access governance (DAG) reports for SharePoint and OneDrive sites: Identify sites that might contain overshared or sensitive content.",
+      "wordCount": 110,
+      "citations": [
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "sourceTitle": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery"
+        },
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "sourceTitle": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery"
+        },
+        {
+          "documentId": "0fe8e617a2ca3c3aeaf073a138623ae1cdc9ec0819bda14fd78e811e0f974823",
+          "sourceTitle": "Restrict discovery of SharePoint sites and content",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery"
+        },
+        {
+          "documentId": "75df496b4ba655d45baedf0ed9931367ed8dd997c3d53d48b03ef01d0f7ca77f",
+          "sourceTitle": "What is SharePoint Advanced Management?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/advanced-management"
+        },
+        {
+          "documentId": "75df496b4ba655d45baedf0ed9931367ed8dd997c3d53d48b03ef01d0f7ca77f",
+          "sourceTitle": "What is SharePoint Advanced Management?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/advanced-management"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 907.0599000000038,
+        "evidenceResolution": 55.497199999997974,
+        "presentation": 0.8830999999991036,
+        "totalQuick": 978.5016000000032,
+        "wallClock": 978.7504000000008
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "comparison",
+        "selectedPacks": [
+          "sharepoint_onedrive_copilot_governance"
+        ],
+        "packReasons": [
+          "Question names SharePoint, OneDrive, or Copilot governance terms."
+        ],
+        "derivedConcepts": [
+          "restricted content discovery",
+          "SharePoint",
+          "oversharing",
+          "Data Access Governance",
+          "SharePoint Advanced Management",
+          "permissions"
+        ]
+      },
+      "quality": {
+        "grade": "FAIL",
+        "requiredConceptCoverage": 0.2,
+        "conceptsInQuick": [
+          "Restricted SharePoint Search retirement"
+        ],
+        "conceptsMissing": [
+          "site-level discovery restriction",
+          "existing permissions unchanged",
+          "temporary governance control",
+          "new enablement blocked July 31 2026"
+        ],
+        "reasons": [
+          "Required-concept coverage 1/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-032",
+      "priority": false,
+      "question": "How do Data Access Governance reports help find overshared SharePoint and OneDrive content?",
+      "questionShape": "conceptual",
+      "selectedPacks": [
+        "sharepoint_onedrive_copilot_governance"
+      ],
+      "packReasons": [
+        "Question names SharePoint, OneDrive, or Copilot governance terms."
+      ],
+      "derivedConcepts": [
+        "data access governance",
+        "SharePoint",
+        "oversharing",
+        "SharePoint Advanced Management",
+        "Restricted Content Discovery",
+        "permissions"
+      ],
+      "expectedAuthorityPack": "sharepoint_onedrive_copilot_governance",
+      "packUnionDocumentCount": 9,
+      "topEvidence": [
+        {
+          "documentId": "f23f9610264d60028bf8876d0281993efba02d75f061d3ba95134d37468e0f52",
+          "title": "Data access governance reports for SharePoint and OneDrive sites",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+          "headingPath": [
+            "Data access governance reports for SharePoint and OneDrive sites",
+            "How to access the Data access governance reports in the SharePoint admin center"
+          ]
+        },
+        {
+          "documentId": "75df496b4ba655d45baedf0ed9931367ed8dd997c3d53d48b03ef01d0f7ca77f",
+          "title": "What is SharePoint Advanced Management?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/advanced-management",
+          "headingPath": [
+            "What is SharePoint Advanced Management?",
+            "Prevent oversharing"
+          ]
+        },
+        {
+          "documentId": "684c522e7c1e890dbbe8590ef3ac2471e4ad4c7206511000bb7c7614c62627f2",
+          "title": "Monitor sharing activities in SharePoint with sharing links activity reports",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-sharing-links-report",
+          "headingPath": [
+            "Monitor sharing activities in SharePoint with sharing links activity reports",
+            "When to use sharing links reports?"
+          ]
+        },
+        {
+          "documentId": "d334cb30c722b90d5977360cdb266b00f9b7ff74cb97e0c31fa612cdcc97d3b9",
+          "title": "Get your organization's site permissions baseline with the snapshot report",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-site-permissions-report",
+          "headingPath": [
+            "Get your organization's site permissions baseline with the snapshot report",
+            "Run the site permissions for your organization report"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 9,
+        "eligibleChunks": 209,
+        "scoredChunks": 209,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "- Use data access governance (DAG) reports for SharePoint and OneDrive sites: Identify sites that might contain overshared or sensitive content.\n\n- We recommend running the sharing links reports in combination with other Data access governance reports, to get a complete and ongoing picture of your organization's data access landscape.\n\n- IT administrators with Microsoft 365 E5 licensing can access Data access governance reporting, but can't view or use the other SharePoint Advanced Management features.\n\n- 1. From the Data access governance landing page, select View reports under Site permissions across your organization.",
+      "wordCount": 93,
+      "citations": [
+        {
+          "documentId": "684c522e7c1e890dbbe8590ef3ac2471e4ad4c7206511000bb7c7614c62627f2",
+          "sourceTitle": "Monitor sharing activities in SharePoint with sharing links activity reports",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-sharing-links-report"
+        },
+        {
+          "documentId": "f23f9610264d60028bf8876d0281993efba02d75f061d3ba95134d37468e0f52",
+          "sourceTitle": "Data access governance reports for SharePoint and OneDrive sites",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports"
+        },
+        {
+          "documentId": "75df496b4ba655d45baedf0ed9931367ed8dd997c3d53d48b03ef01d0f7ca77f",
+          "sourceTitle": "What is SharePoint Advanced Management?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/advanced-management"
+        },
+        {
+          "documentId": "d334cb30c722b90d5977360cdb266b00f9b7ff74cb97e0c31fa612cdcc97d3b9",
+          "sourceTitle": "Get your organization's site permissions baseline with the snapshot report",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-site-permissions-report"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 853.4596999999994,
+        "evidenceResolution": 37.75560000000041,
+        "presentation": 0.7874999999985448,
+        "totalQuick": 919.1995999999999,
+        "wallClock": 919.3353999999999
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "conceptual",
+        "selectedPacks": [
+          "sharepoint_onedrive_copilot_governance"
+        ],
+        "packReasons": [
+          "Question names SharePoint, OneDrive, or Copilot governance terms."
+        ],
+        "derivedConcepts": [
+          "data access governance",
+          "SharePoint",
+          "oversharing",
+          "SharePoint Advanced Management",
+          "Restricted Content Discovery",
+          "permissions"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.4,
+        "conceptsInQuick": [
+          "site permissions reports",
+          "access review"
+        ],
+        "conceptsMissing": [
+          "sharing-link activity",
+          "Everyone except external users",
+          "sensitivity-label report"
+        ],
+        "reasons": [
+          "Required-concept coverage 2/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-033",
+      "priority": false,
+      "question": "A Teams or Teams Rooms sign-in fails. How would you use Entra sign-in logs, Conditional Access results, and MFA details to diagnose it?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "entra_identity_support",
+        "teams_rooms"
+      ],
+      "packReasons": [
+        "Question names Entra identity, sign-in, or lockout terms.",
+        "Question names Teams Rooms / MTR terms."
+      ],
+      "derivedConcepts": [
+        "conditional access",
+        "teams rooms",
+        "Microsoft Entra",
+        "sign-in logs",
+        "failure code",
+        "MFA",
+        "resource account",
+        "calendar processing"
+      ],
+      "expectedAuthorityPack": "entra_identity_support",
+      "packUnionDocumentCount": 21,
+      "topEvidence": [
+        {
+          "documentId": "aee058ce85498f582c251d52bbd1e9c857b7cd8fee0b71020d15a2d2e2c938ec",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "headingPath": [
+            "Fix Teams Rooms resource account sign-in issues",
+            "Resolution",
+            "Manual checks",
+            "Check Conditional Access policies"
+          ]
+        },
+        {
+          "documentId": "70cc3901108d56884c907a2181de180f90270be54073e437a8a5b9b7049d14a2",
+          "title": "Troubleshooting sign-in problems with Conditional Access",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/troubleshoot-conditional-access",
+          "headingPath": [
+            "Troubleshoot sign-in problems with Conditional Access",
+            "Microsoft Entra sign-in events"
+          ]
+        },
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "title": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics",
+          "headingPath": [
+            "From a support request",
+            "Common scenarios",
+            "Multifactor authentication"
+          ]
+        },
+        {
+          "documentId": "98422c2966de5a09f3356ff653c6047b9852ffa2276b5256097fd870008cc410",
+          "title": "Conditional Access and Intune compliance for Microsoft Teams Rooms and panels",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/conditional-access-and-compliance-for-devices",
+          "headingPath": [
+            "Conditional Access and Intune compliance for Microsoft Teams Rooms and panels",
+            "Teams Rooms Conditional Access best practices"
+          ]
+        },
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "title": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics",
+          "headingPath": [
+            "From Diagnose and Solve Problems"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 21,
+        "eligibleChunks": 264,
+        "scoredChunks": 264,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "To learn more about Conditional Access and Intune compliance policies, see Conditional Access and Intune compliance for Microsoft Teams Rooms and Supported Conditional Access and Intune device compliance policies for Microsoft Teams Rooms\n\n- Teams Rooms resource account access to Microsoft 365 service can be limited using Conditional Access policies.\n\n- Since Windows has no knowledge of resource account that is used by Teams room application, to apply device-level conditional access policies, you must enroll Teams Rooms on Windows devices with Microsoft Intune.\n\n- - Successful sign-in: In some cases, you want to know if sign-in events aren't interrupted by Conditional Access or MFA, but they should be.",
+      "wordCount": 108,
+      "citations": [
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "sourceTitle": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics"
+        },
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        },
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        },
+        {
+          "documentId": "d433dfe5534ef8fe7a2127a4c19739f6b08798bdb2736fcf32d5946885c5bad1",
+          "sourceTitle": "Authentication in Microsoft Teams Rooms on Windows",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-authentication"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 1371.0495999999985,
+        "evidenceResolution": 82.94610000000102,
+        "presentation": 0.9767999999967287,
+        "totalQuick": 1495.5046999999977,
+        "wallClock": 1495.6765999999952
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "troubleshooting",
+        "selectedPacks": [
+          "entra_identity_support",
+          "teams_rooms"
+        ],
+        "packReasons": [
+          "Question names Entra identity, sign-in, or lockout terms.",
+          "Question names Teams Rooms / MTR terms."
+        ],
+        "derivedConcepts": [
+          "conditional access",
+          "teams rooms",
+          "Microsoft Entra",
+          "sign-in logs",
+          "failure code",
+          "MFA",
+          "resource account",
+          "calendar processing"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.5714285714285714,
+        "conceptsInQuick": [
+          "application and user",
+          "Conditional Access tab",
+          "sign-in diagnostic",
+          "MFA interruption"
+        ],
+        "conceptsMissing": [
+          "filter sign-in logs",
+          "failure code",
+          "request ID and timestamp"
+        ],
+        "reasons": [
+          "Required-concept coverage 4/7."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-034",
+      "priority": false,
+      "question": "How would you distinguish bad credentials, smart lockout, and a Conditional Access block for a service or room account?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [
+        "entra_identity_support"
+      ],
+      "packReasons": [
+        "Question names Entra identity, sign-in, or lockout terms."
+      ],
+      "derivedConcepts": [
+        "conditional access",
+        "Microsoft Entra",
+        "sign-in logs",
+        "failure code",
+        "MFA"
+      ],
+      "expectedAuthorityPack": "entra_identity_support",
+      "packUnionDocumentCount": 6,
+      "topEvidence": [
+        {
+          "documentId": "70cc3901108d56884c907a2181de180f90270be54073e437a8a5b9b7049d14a2",
+          "title": "Troubleshooting sign-in problems with Conditional Access",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/troubleshoot-conditional-access",
+          "headingPath": [
+            "Troubleshoot sign-in problems with Conditional Access",
+            "Service dependencies"
+          ]
+        },
+        {
+          "documentId": "70cc3901108d56884c907a2181de180f90270be54073e437a8a5b9b7049d14a2",
+          "title": "Troubleshooting sign-in problems with Conditional Access",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/troubleshoot-conditional-access",
+          "headingPath": [
+            "Troubleshoot sign-in problems with Conditional Access",
+            "Select \"all\" consequences"
+          ]
+        },
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "title": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics",
+          "headingPath": [
+            "From a support request",
+            "Common scenarios",
+            "Conditional Access"
+          ]
+        },
+        {
+          "documentId": "23d58eb37d0ff2d95bc0f6e22a9c2f90a688c39e8a84591c00a34c16d2ecd737",
+          "title": "Microsoft Entra multifactor authentication overview",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/authentication/concept-mfa-howitworks",
+          "headingPath": [
+            "How it works: Microsoft Entra multifactor authentication",
+            "How to enable and use Microsoft Entra multifactor authentication"
+          ]
+        }
+      ],
+      "retrievalSearch": {
+        "documents": 6,
+        "eligibleChunks": 59,
+        "scoredChunks": 59,
+        "returnedCandidates": 24
+      },
+      "answerability": "answered",
+      "deterministicQuickOutput": "- B2B blocked sign-in due to Conditional Access: You have a Conditional Access policy in place to block external identities from signing in.\n\n- Because Conditional Access policies can be used to grant or block access to resources, they often show up in the sign-in diagnostic.\n\n- - Multifactor authentication (MFA) from Conditional Access: Your Conditional Access policies triggered the MFA process for the user.\n\n- In some scenarios, users are blocked because cloud apps depend on resources that a Conditional Access policy blocks.\n\n- For more granular controls, you can use Conditional Access policies to define events or applications that require MFA.",
+      "wordCount": 103,
+      "citations": [
+        {
+          "documentId": "70cc3901108d56884c907a2181de180f90270be54073e437a8a5b9b7049d14a2",
+          "sourceTitle": "Troubleshooting sign-in problems with Conditional Access",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/troubleshoot-conditional-access"
+        },
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "sourceTitle": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics"
+        },
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "sourceTitle": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics"
+        },
+        {
+          "documentId": "51996b5739abd70719ae40cf6c4d0411a29232b333539a4b0d2395359459f2dd",
+          "sourceTitle": "What is the Sign-in diagnostic in Microsoft Entra ID?",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/howto-use-sign-in-diagnostics"
+        },
+        {
+          "documentId": "23d58eb37d0ff2d95bc0f6e22a9c2f90a688c39e8a84591c00a34c16d2ecd737",
+          "sourceTitle": "Microsoft Entra multifactor authentication overview",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/authentication/concept-mfa-howitworks"
+        }
+      ],
+      "packCitationsBounded": true,
+      "latencyMs": {
+        "retrieval": 902.2116000000024,
+        "evidenceResolution": 46.40610000000015,
+        "presentation": 0.878499999998894,
+        "totalQuick": 971.433299999997,
+        "wallClock": 971.5764000000054
+      },
+      "generationRequests": {
+        "factual": 0,
+        "presentation": 0,
+        "presentationStatus": "bypassed_by_policy"
+      },
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": {
+        "questionShape": "troubleshooting",
+        "selectedPacks": [
+          "entra_identity_support"
+        ],
+        "packReasons": [
+          "Question names Entra identity, sign-in, or lockout terms."
+        ],
+        "derivedConcepts": [
+          "conditional access",
+          "Microsoft Entra",
+          "sign-in logs",
+          "failure code",
+          "MFA"
+        ]
+      },
+      "quality": {
+        "grade": "PARTIAL",
+        "requiredConceptCoverage": 0.4,
+        "conceptsInQuick": [
+          "53003 Conditional Access",
+          "sign-in diagnostic"
+        ],
+        "conceptsMissing": [
+          "sign-in error code",
+          "50053 smart lockout",
+          "account and policy context"
+        ],
+        "reasons": [
+          "Required-concept coverage 2/5."
+        ]
+      }
+    },
+    {
+      "questionId": "Q-035",
+      "priority": false,
+      "question": "On Linux, how would you check why a service failed and review its recent logs?",
+      "questionShape": "troubleshooting",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [],
+      "expectedAuthorityPack": "linux_operator",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "systemctl status",
+          "journalctl unit filter",
+          "current boot",
+          "time or priority filter"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-036",
+      "priority": false,
+      "question": "How would you filter a large Linux log, extract fields, and count the most common values?",
+      "questionShape": "procedural",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [],
+      "expectedAuthorityPack": "linux_operator",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "grep pattern filtering",
+          "awk field extraction",
+          "sed transformation where needed",
+          "sort",
+          "uniq -c",
+          "descending count"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-037",
+      "priority": false,
+      "question": "How would you identify listening sockets and capture basic network evidence on Linux?",
+      "questionShape": "procedural",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [],
+      "expectedAuthorityPack": "linux_operator",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "ss listening sockets",
+          "protocol and process context",
+          "tcpdump interface",
+          "host or port filter",
+          "bounded capture"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-038",
+      "priority": false,
+      "question": "When would you use a systemd timer instead of cron for a recurring Linux task?",
+      "questionShape": "comparison",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [],
+      "expectedAuthorityPack": "linux_operator",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "timer and service units",
+          "dependency and logging integration",
+          "calendar schedules",
+          "cron simplicity and portability"
+        ]
+      }
+    },
+    {
+      "questionId": "Q-039",
+      "priority": false,
+      "question": "What should an engineer clarify before explaining a trader-voice turret, hoot or shout, ringdown, or compliance-recording workflow?",
+      "questionShape": "conceptual",
+      "selectedPacks": [],
+      "packReasons": [],
+      "derivedConcepts": [],
+      "expectedAuthorityPack": "trader_voice_unresolved",
+      "packUnionDocumentCount": 0,
+      "topEvidence": [],
+      "retrievalSearch": {
+        "documents": 0,
+        "eligibleChunks": 0,
+        "scoredChunks": 0,
+        "returnedCandidates": 0
+      },
+      "answerability": "execution_failed",
+      "deterministicQuickOutput": "No Interview Authority Pack was selected for this question.",
+      "wordCount": 0,
+      "citations": [],
+      "packCitationsBounded": true,
+      "latencyMs": null,
+      "generationRequests": null,
+      "broadCorpusFallback": {
+        "used": false
+      },
+      "interviewQuick": null,
+      "quality": {
+        "grade": "FAIL",
+        "reasons": [
+          "No Interview Authority Pack was selected for this question."
+        ],
+        "requiredConceptCoverage": 0,
+        "conceptsInQuick": [],
+        "conceptsMissing": [
+          "platform vendor and model",
+          "turret or endpoint role",
+          "hoot or shout group behavior",
+          "ringdown destination",
+          "recording platform and jurisdiction",
+          "market-hours change-control window"
+        ]
+      }
+    }
+  ]
+}

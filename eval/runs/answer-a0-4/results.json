@@ -1,0 +1,3382 @@
+{
+  "phase": "A0.4",
+  "model": "gpt-4o-mini",
+  "temperature": 0,
+  "frozen_hashes": {
+    "service/search.py": "8702daf1ee2b2843",
+    "service/scope_select.py": "2a8caaabd00f4b08",
+    "eval/ground_truth/priority14_retrieval.json": "59f6572dc5f3d3d5",
+    "service/answer.py": "1d3bab096a33403a",
+    "eval/run_r0_1.py": "c514a53628ba899b"
+  },
+  "frozen_ok": true,
+  "negative_controls": [
+    "N01",
+    "N02",
+    "N05",
+    "N08",
+    "N11"
+  ],
+  "negative_selection_locked_before_verifier": true,
+  "verifier_prompt": "You are a claim-entailment verifier for a live technical assistant.\n\nJudge whether the supplied authoritative evidence actually supports the generated claim as stated, given the original user question.\n\nUse only the supplied evidence.\nDo not answer the technical question.\nDo not repair the claim.\nDo not introduce outside Microsoft knowledge.\nDo not treat shared product names or neighboring terminology as support.\nThe exact wording does not need to appear in the evidence. Paraphrase and reasonable synthesis of operations, properties, and relationships that the evidence actually establishes are allowed.\nThe evidence must establish the factual or operational relationship the claim asserts. Related topic overlap is not enough. A source that addresses a different symptom, procedure, or product capability does not support the claimed relationship.\n\nVerdicts:\nENTAILED \u2014 the supplied evidence materially supports the claim as stated.\nPARTIAL \u2014 part of the claim is supported, but the claim adds a material unsupported step, relationship, procedure, condition, or conclusion.\nNOT_ENTAILED \u2014 the evidence does not establish the claim.\n\nReturn JSON only.\n",
+  "self_gating_invoked": false,
+  "a03_policy_used": false,
+  "answer_calls": 10,
+  "verifier_calls": 22,
+  "metrics": {
+    "priority": {
+      "n_answers": 5,
+      "total_claims": 30,
+      "ENTAILED": 27,
+      "PARTIAL": 3,
+      "NOT_ENTAILED": 0,
+      "answer_level": {
+        "DEGRADED": 2,
+        "VERIFIED": 3
+      }
+    },
+    "negative": {
+      "n_answers": 5,
+      "total_claims": 27,
+      "ENTAILED": 14,
+      "PARTIAL": 2,
+      "NOT_ENTAILED": 11,
+      "answer_level": {
+        "REJECTED": 3,
+        "DEGRADED": 2
+      }
+    },
+    "primitive_supported_semantic_not_entailed": [
+      {
+        "question_id": "N01",
+        "claim_id": "C0",
+        "claim_text": "To enroll iOS devices in Microsoft Intune using Apple Business Manager, you need to link your Intune account with Apple Business Manager and configure the necessary settings for device enrollment.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence does not mention linking Intune with Apple Business Manager or configuring settings for iOS device enrollment."
+      },
+      {
+        "question_id": "N01",
+        "claim_id": "C1",
+        "claim_text": "Link your Intune account with Apple Business Manager to enable device enrollment.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence does not provide information about linking Intune with Apple Business Manager."
+      },
+      {
+        "question_id": "N01",
+        "claim_id": "C2",
+        "claim_text": "Configure the necessary settings in Intune for managing iOS devices.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence does not address configuring settings in Intune specifically for iOS devices."
+      },
+      {
+        "question_id": "N01",
+        "claim_id": "C3",
+        "claim_text": "Ensure that devices are assigned to the correct management profiles in Apple Business Manager.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence does not mention assigning devices to management profiles in Apple Business Manager."
+      },
+      {
+        "question_id": "N02",
+        "claim_id": "C0",
+        "claim_text": "To configure Azure AD B2C custom policies for a multi-step signup journey, you need to create and assign custom policies that define the user journey and the required claims for each step.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence provided relates to voice applications policies in Microsoft Teams, not Azure AD B2C custom policies."
+      },
+      {
+        "question_id": "N02",
+        "claim_id": "C1",
+        "claim_text": "Custom policies allow you to define complex user journeys, including multi-step signups.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence discusses custom policies for voice applications, which does not support the claim about user journeys in Azure AD B2C."
+      },
+      {
+        "question_id": "N02",
+        "claim_id": "C2",
+        "claim_text": "You can create a custom policy using the Azure AD B2C portal or through configuration files.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence pertains to assigning voice applications policies in Teams, not creating custom policies in Azure AD B2C."
+      },
+      {
+        "question_id": "N02",
+        "claim_id": "C3",
+        "claim_text": "Each step in the signup journey can require specific claims to be collected from the user.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence does not address claims or user signup processes in Azure AD B2C."
+      },
+      {
+        "question_id": "N02",
+        "claim_id": "C4",
+        "claim_text": "Testing and iterating on your custom policies is essential to ensure a smooth user experience.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence discusses editing voice applications policies, which does not relate to testing custom policies in Azure AD B2C."
+      },
+      {
+        "question_id": "N02",
+        "claim_id": "C5",
+        "claim_text": "Documentation and examples are available to guide you through the process of setting up these policies.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence provides information on managing voice applications policies, not on documentation for Azure AD B2C custom policies."
+      },
+      {
+        "question_id": "N05",
+        "claim_id": "C0",
+        "claim_text": "To configure a Power BI on-premises data gateway in standard mode, you need to install the Microsoft Call Quality connector and set it up to connect to the CQD data source using DirectQuery mode.",
+        "primitive_status": "SUPPORTED",
+        "semantic": "NOT_ENTAILED",
+        "reason": "The evidence does not support the claim that installing the Microsoft Call Quality connector is sufficient for configuring the gateway in standard mode."
+      }
+    ]
+  },
+  "latency": {
+    "router_ms": {
+      "n": 10,
+      "min": 9.17,
+      "p50": 16.77,
+      "p95": 54.67,
+      "max": 54.67
+    },
+    "retrieval_ms": {
+      "n": 10,
+      "min": 49.75,
+      "p50": 148.03,
+      "p95": 229.95,
+      "max": 229.95
+    },
+    "answer_ttft_ms": {
+      "n": 10,
+      "min": 1321.31,
+      "p50": 1405.59,
+      "p95": 1791.12,
+      "max": 1791.12
+    },
+    "answer_complete_ms": {
+      "n": 10,
+      "min": 3305.06,
+      "p50": 3489.56,
+      "p95": 7098.02,
+      "max": 7098.02
+    },
+    "batched_verifier_ttft_ms": {
+      "n": 10,
+      "min": 1464.14,
+      "p50": 1654.09,
+      "p95": 3859.54,
+      "max": 3859.54
+    },
+    "batched_verifier_complete_ms": {
+      "n": 10,
+      "min": 4535.32,
+      "p50": 6254.38,
+      "p95": 14484.32,
+      "max": 14484.32
+    },
+    "total_ms": {
+      "n": 10,
+      "min": 8018.34,
+      "p50": 9887.49,
+      "p95": 18971.66,
+      "max": 18971.66
+    }
+  },
+  "tokens": {
+    "answer_input": 46335,
+    "answer_output": 2251,
+    "batched_verifier_input": 137155,
+    "batched_verifier_output": 4237,
+    "per_claim_input": 51484,
+    "per_claim_output": 772,
+    "total_input": 234974,
+    "total_output": 7260
+  },
+  "cost": {
+    "answer_usd": 0.008301,
+    "batched_verifier_usd": 0.023116,
+    "per_claim_usd": 0.008186,
+    "total_usd": 0.039603,
+    "projected_per_answer_batched_only_usd": 0.003142,
+    "projected_rejected_answer_usd": 0.003142,
+    "note": "Batched-only projection treats generation+one verifier call as the unit cost for both verified and rejected answers; this phase does not block before generation.",
+    "rejected_n": 3,
+    "non_rejected_n": 7
+  },
+  "rows": [
+    {
+      "question_id": "Q03",
+      "kind": "PRIORITY",
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "0bc10807b06fa7c78bb3",
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 14507
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "89e83e29563a2f26cd6d",
+          "title": "Plan Direct Routing",
+          "section": "Licensing and other requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 3902
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "4363f23b5098313bf1b8",
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "body_chars": 1647
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "778741c91a147734fddc",
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 2252
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "a4d9a23d42b421cc6b87",
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Audio Conferencing capabilities not supported in Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 720
+        }
+      ],
+      "answer": {
+        "direct_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.",
+        "talking_points": [
+          {
+            "text": "Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Ensure that users have the required licenses, including Teams Phone and Audio Conferencing if applicable.",
+            "evidence_ids": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+            "evidence_ids": [
+              "E2"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.\n- Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.\n- Ensure that users have the required licenses, including Teams Phone and Audio Conferencing if applicable.\n- Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.\n- Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.\n- Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+        "word_count": 116,
+        "ttft_ms": 1330.5405999999493,
+        "complete_ms": 3385.08190002176,
+        "input_tokens": 5116,
+        "output_tokens": 229,
+        "cost_usd": 0.000905
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 24085,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1896,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Ensure that users have the required licenses, including Teams Phone and Audio Conferencing if applicable.",
+          "cited_evidence_ids": [
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 4044,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 14756,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 14756,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+          "cited_evidence_ids": [
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 4044,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "PARTIAL",
+          "supporting_evidence_ids": [
+            "E2",
+            "E4"
+          ],
+          "unsupported_portion": "The claim mentions ensuring the SBC is properly configured to handle SIP messages, which is not directly supported by the evidence.",
+          "reason": "The evidence supports the need for proper licensing but does not confirm SBC configuration details.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence explicitly states that updating the SBC configuration to handle multiple SIP 18x messages is necessary.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that users must have the required licenses, including Teams Phone and Audio Conferencing.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence discusses the importance of defining a global voice routing policy to enable outbound calls from meetings.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence states that dial-in phone numbers must be set up and associated with the Audio Conferencing bridge.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that the 'Allow Private Calling' setting must be enabled at the tenant level for Microsoft Teams.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "DEGRADED",
+        "reason": "Direct answer is PARTIAL with otherwise entailed talking points.",
+        "entailed_n": 5,
+        "partial_n": 1,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.",
+          "verdict": "PARTIAL",
+          "caveat": "The claim mentions ensuring the SBC is properly configured to handle SIP messages, which is not directly supported by the evidence."
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Ensure that users have the required licenses, including Teams Phone and Audio Conferencing if applicable.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E2",
+          "E4"
+        ],
+        "unsupported_portion": "The claim mentions ensuring the SBC is properly configured to handle SIP messages, which is not directly supported by the evidence.",
+        "reason": "The evidence supports the need for proper licensing but does not confirm SBC configuration details.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "PARTIAL",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E4"
+          ],
+          "unsupported_portion": "The claim does not specify the need for proper SBC configuration details.",
+          "reason": "While the evidence supports the need for SBC configuration and licensing, it does not detail the specific configuration steps necessary for troubleshooting one-way audio.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence states that updating the SBC configuration is necessary to handle multiple SIP 18x messages, which directly supports the claim about verifying SBC configuration for this purpose.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that users must have specific licenses, including Teams Phone and potentially Audio Conferencing, for Direct Routing to function properly.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that the global voice routing policy must be defined to enable outbound calls from meetings, which directly supports the claim.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that dial-in phone numbers must be set up and associated with the Audio Conferencing bridge before users can be enabled for Audio Conferencing.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence explicitly states that 'Allow Private Calling' must be enabled at the tenant level for Microsoft Teams, which supports the claim.",
+          "parse_error": null
+        }
+      ],
+      "batched_vs_per_claim": {
+        "n": 6,
+        "agree_n": 6,
+        "agree_rate": 1.0,
+        "rows": [
+          {
+            "claim_id": "C0",
+            "batched": "PARTIAL",
+            "per_claim": "PARTIAL",
+            "agree": true
+          },
+          {
+            "claim_id": "C1",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C2",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C3",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C4",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C5",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          }
+        ]
+      },
+      "latency": {
+        "router_ms": 54.67,
+        "retrieval_ms": 49.75,
+        "answer_ttft_ms": 1330.54,
+        "answer_complete_ms": 3385.08,
+        "batched_verifier_ttft_ms": 2212.07,
+        "batched_verifier_complete_ms": 7308.85,
+        "batched_verifier_wall_ms": 7328.24,
+        "per_claim_wall_ms": 13791.07,
+        "total_ms": 10817.74
+      },
+      "batched_tokens": {
+        "input_tokens": 13332,
+        "output_tokens": 429,
+        "cost_usd": 0.002257
+      },
+      "per_claim_tokens": {
+        "input_tokens": 14758,
+        "output_tokens": 399,
+        "cost_usd": 0.002453,
+        "ttft_ms": {
+          "n": 6,
+          "min": 1293.56,
+          "p50": 1522.55,
+          "p95": 1741.61,
+          "max": 1741.61
+        },
+        "complete_ms": {
+          "n": 6,
+          "min": 1974.81,
+          "p50": 2124.25,
+          "p95": 2847.44,
+          "max": 2847.44
+        }
+      }
+    },
+    {
+      "question_id": "Q04",
+      "kind": "PRIORITY",
+      "question": "Explain the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "1c4fab62f3fa26a90c7a",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 4: Assign the voice route to the PSTN usage:",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 274
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "c7e14bb3935688e5dab7",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 1: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 6435
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "601fbf6e4fdfbb3f78d2",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Call routing overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 1061
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "eda7f728fe91320deb3a",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 2: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 5511
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "6005615c721051aefc24",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 3: Create a voice route and associate it with the PSTN usage",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 554
+        }
+      ],
+      "answer": {
+        "direct_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.",
+        "talking_points": [
+          {
+            "text": "A voice routing policy serves as a container for PSTN usages and can be assigned to users.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "PSTN usages are created to define the types of calls that can be routed, such as local or international calls.",
+            "evidence_ids": [
+              "E4"
+            ]
+          },
+          {
+            "text": "Voice routes are established with specific number patterns and associated with online PSTN gateways, directing calls based on the dialed number.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "SBCs can be designated as active or backup for call routing, ensuring reliability in call handling.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The entire configuration can be managed through the Microsoft Teams admin center or PowerShell commands.",
+            "evidence_ids": [
+              "E2"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.\n- A voice routing policy serves as a container for PSTN usages and can be assigned to users.\n- PSTN usages are created to define the types of calls that can be routed, such as local or international calls.\n- Voice routes are established with specific number patterns and associated with online PSTN gateways, directing calls based on the dialed number.\n- SBCs can be designated as active or backup for call routing, ensuring reliability in call handling.\n- The entire configuration can be managed through the Microsoft Teams admin center or PowerShell commands.",
+        "word_count": 123,
+        "ttft_ms": 1334.5427000022028,
+        "complete_ms": 3390.547199989669,
+        "input_tokens": 4078,
+        "output_tokens": 237,
+        "cost_usd": 0.000754
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 14747,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "A voice routing policy serves as a container for PSTN usages and can be assigned to users.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1223,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "PSTN usages are created to define the types of calls that can be routed, such as local or international calls.",
+          "cited_evidence_ids": [
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 5682,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Voice routes are established with specific number patterns and associated with online PSTN gateways, directing calls based on the dialed number.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1223,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "SBCs can be designated as active or backup for call routing, ensuring reliability in call handling.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1223,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "The entire configuration can be managed through the Microsoft Teams admin center or PowerShell commands.",
+          "cited_evidence_ids": [
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 6606,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2",
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence describes the creation of a voice routing policy that includes PSTN usages linked to voice routes directing calls to SBCs.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that a voice routing policy is a container for PSTN usages and can be assigned to users.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence indicates that PSTN usages are created to define the types of calls that can be routed.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence establishes that voice routes are defined by specific number patterns and associated with online PSTN gateways.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence states that SBCs can be designated as active or backup for call routing.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that the configuration can be managed through the Microsoft Teams admin center or PowerShell commands.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "VERIFIED",
+        "reason": "Direct answer and all talking points are ENTAILED.",
+        "entailed_n": 6,
+        "partial_n": 0,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "A voice routing policy serves as a container for PSTN usages and can be assigned to users.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "PSTN usages are created to define the types of calls that can be routed, such as local or international calls.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Voice routes are established with specific number patterns and associated with online PSTN gateways, directing calls based on the dialed number.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "SBCs can be designated as active or backup for call routing, ensuring reliability in call handling.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "The entire configuration can be managed through the Microsoft Teams admin center or PowerShell commands.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "ENTAILED",
+        "supporting_evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "unsupported_portion": "",
+        "reason": "The evidence describes the creation of a voice routing policy that includes PSTN usages linked to voice routes directing calls to SBCs.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 16.77,
+        "retrieval_ms": 183.2,
+        "answer_ttft_ms": 1334.54,
+        "answer_complete_ms": 3390.55,
+        "batched_verifier_ttft_ms": 1523.24,
+        "batched_verifier_complete_ms": 11050.95,
+        "batched_verifier_wall_ms": 11053.84,
+        "per_claim_wall_ms": null,
+        "total_ms": 14644.36
+      },
+      "batched_tokens": {
+        "input_tokens": 8364,
+        "output_tokens": 413,
+        "cost_usd": 0.001502
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "Q07",
+      "kind": "PRIORITY",
+      "question": "Walk me through building an Auto Attendant that ultimately routes callers into a Call Queue.",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "body_chars": 30134
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6637e471035249c89e6f",
+          "title": "Design - Call flows for voice applications",
+          "section": "Auto Attendants",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2709
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "4b897e8ac1d91482d68b",
+          "title": "Design - Call flows for voice applications",
+          "section": "Call routing best practices",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2281
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "1729c8e220e75c5df7ea",
+          "title": "Planning - Overview of voice applications",
+          "section": "Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview",
+          "body_chars": 1790
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "16047a90ee09734d4a33",
+          "title": "Design - Call flows for voice applications",
+          "section": "Call flow diagrams",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 1105
+        }
+      ],
+      "answer": {
+        "direct_answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+        "talking_points": [
+          {
+            "text": "Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Select call routing options to redirect calls to the Call Queue, ensuring to set the appropriate menu options for caller navigation.",
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          {
+            "text": "Consider configuring an operator to assist callers who do not make a selection or encounter issues.",
+            "evidence_ids": [
+              "E1",
+              "E4"
+            ]
+          },
+          {
+            "text": "Ensure to define separate call handling for business hours, after hours, and holidays to manage caller expectations effectively.",
+            "evidence_ids": [
+              "E1",
+              "E4"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.\n- Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.\n- In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.\n- Select call routing options to redirect calls to the Call Queue, ensuring to set the appropriate menu options for caller navigation.\n- Consider configuring an operator to assist callers who do not make a selection or encounter issues.\n- Ensure to define separate call handling for business hours, after hours, and holidays to manage caller expectations effectively.",
+        "word_count": 135,
+        "ttft_ms": 1321.3103000016417,
+        "complete_ms": 7098.015099996701,
+        "input_tokens": 8587,
+        "output_tokens": 260,
+        "cost_usd": 0.001444
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 38797,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 30287,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 30287,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Select call routing options to redirect calls to the Call Queue, ensuring to set the appropriate menu options for caller navigation.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 33150,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Consider configuring an operator to assist callers who do not make a selection or encounter issues.",
+          "cited_evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 32225,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Ensure to define separate call handling for business hours, after hours, and holidays to manage caller expectations effectively.",
+          "cited_evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 32225,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence provides detailed steps for setting up an Auto Attendant and configuring call routing options to redirect calls to a Call Queue.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence explicitly states the steps to access the Teams admin center and add a new Auto Attendant.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that specifying general information such as name, time zone, and language is part of the setup process for an Auto Attendant.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "PARTIAL",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "unsupported_portion": "The claim does not specify that the menu options must be set for caller navigation.",
+          "reason": "The evidence supports selecting call routing options to redirect calls to a Call Queue, but does not detail the necessity of setting menu options for caller navigation.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence recommends configuring an operator to assist callers who do not make a selection or encounter issues.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence emphasizes the importance of defining separate call handling for business hours, after hours, and holidays.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "VERIFIED",
+        "reason": "Direct answer ENTAILED; at most one non-core PARTIAL; zero NOT_ENTAILED.",
+        "entailed_n": 5,
+        "partial_n": 1,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Select call routing options to redirect calls to the Call Queue, ensuring to set the appropriate menu options for caller navigation.",
+          "verdict": "PARTIAL",
+          "caveat": "The claim does not specify that the menu options must be set for caller navigation."
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Consider configuring an operator to assist callers who do not make a selection or encounter issues.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Ensure to define separate call handling for business hours, after hours, and holidays to manage caller expectations effectively.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "ENTAILED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E4"
+        ],
+        "unsupported_portion": "",
+        "reason": "The evidence provides detailed steps for setting up an Auto Attendant and configuring call routing options to redirect calls to a Call Queue.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 10.79,
+        "retrieval_ms": 175.95,
+        "answer_ttft_ms": 1321.31,
+        "answer_complete_ms": 7098.02,
+        "batched_verifier_ttft_ms": 2458.65,
+        "batched_verifier_complete_ms": 7244.92,
+        "batched_verifier_wall_ms": 7275.55,
+        "per_claim_wall_ms": null,
+        "total_ms": 14560.31
+      },
+      "batched_tokens": {
+        "input_tokens": 43066,
+        "output_tokens": 462,
+        "cost_usd": 0.006737
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "Q13",
+      "kind": "PRIORITY",
+      "question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "335fc4ddebb342cce3fd",
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 1070
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "565ff8406876e5a7bb6f",
+          "title": "Plan for SharePoint and OneDrive in Microsoft 365 - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive",
+          "body_chars": 1714
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "7e48473186db110c9f43",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 5: Implement backup and restore procedures",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 1385
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "0e52a731bf2a2c600758",
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Pilot rollout of SharePoint and OneDrive",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 2308
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "d064eaebfb66ddca2cab",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 8152
+        }
+      ],
+      "answer": {
+        "direct_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.",
+        "talking_points": [
+          {
+            "text": "Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.",
+            "evidence_ids": [
+              "E5"
+            ]
+          },
+          {
+            "text": "Implement backup and restore solutions to ensure data protection and recovery.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Create a compliant SharePoint and OneDrive environment to meet organizational requirements.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Conduct a pilot rollout to test business processes and gather feedback before a full deployment.",
+            "evidence_ids": [
+              "E4"
+            ]
+          },
+          {
+            "text": "Utilize data access governance reports to identify and mitigate oversharing risks.",
+            "evidence_ids": [
+              "E5"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.\n- Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.\n- Implement backup and restore solutions to ensure data protection and recovery.\n- Create a compliant SharePoint and OneDrive environment to meet organizational requirements.\n- Conduct a pilot rollout to test business processes and gather feedback before a full deployment.\n- Utilize data access governance reports to identify and mitigate oversharing risks.",
+        "word_count": 90,
+        "ttft_ms": 1508.5611999966204,
+        "complete_ms": 3489.5643000199925,
+        "input_tokens": 3467,
+        "output_tokens": 204,
+        "cost_usd": 0.000642
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 15665,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.",
+          "cited_evidence_ids": [
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 8388,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Implement backup and restore solutions to ensure data protection and recovery.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1630,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Create a compliant SharePoint and OneDrive environment to meet organizational requirements.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1236,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Conduct a pilot rollout to test business processes and gather feedback before a full deployment.",
+          "cited_evidence_ids": [
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 2506,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Utilize data access governance reports to identify and mitigate oversharing risks.",
+          "cited_evidence_ids": [
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 8388,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "PARTIAL",
+          "supporting_evidence_ids": [
+            "E1",
+            "E3",
+            "E5"
+          ],
+          "unsupported_portion": "backup and restore procedures",
+          "reason": "The evidence supports reviewing sharing settings and compliance measures, but does not explicitly mention backup and restore procedures.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E5"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence directly supports the need to adjust sharing settings to prevent oversharing and restrict access to sensitive content.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence clearly states the importance of implementing backup and restore solutions for data protection.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms the need to create a compliant SharePoint and OneDrive environment.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence supports conducting a pilot rollout to test business processes and gather feedback.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E5"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence supports utilizing data access governance reports to identify and mitigate oversharing risks.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "DEGRADED",
+        "reason": "Direct answer is PARTIAL with otherwise entailed talking points.",
+        "entailed_n": 5,
+        "partial_n": 1,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.",
+          "verdict": "PARTIAL",
+          "caveat": "backup and restore procedures"
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Implement backup and restore solutions to ensure data protection and recovery.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Create a compliant SharePoint and OneDrive environment to meet organizational requirements.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Conduct a pilot rollout to test business processes and gather feedback before a full deployment.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Utilize data access governance reports to identify and mitigate oversharing risks.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E1",
+          "E3",
+          "E5"
+        ],
+        "unsupported_portion": "backup and restore procedures",
+        "reason": "The evidence supports reviewing sharing settings and compliance measures, but does not explicitly mention backup and restore procedures.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 22.16,
+        "retrieval_ms": 171.19,
+        "answer_ttft_ms": 1508.56,
+        "answer_complete_ms": 3489.56,
+        "batched_verifier_ttft_ms": 1934.72,
+        "batched_verifier_complete_ms": 6196.77,
+        "batched_verifier_wall_ms": 6204.58,
+        "per_claim_wall_ms": null,
+        "total_ms": 9887.49
+      },
+      "batched_tokens": {
+        "input_tokens": 8157,
+        "output_tokens": 404,
+        "cost_usd": 0.001466
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "Q14",
+      "kind": "PRIORITY",
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "scope": "SCOPED",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "e70392396d1d9841449f",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "body_chars": 4916
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "0d0e05a0a4f37672b97e",
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "body_chars": 26984
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "26703a61d0bb2ad58cb4",
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute",
+          "body_chars": 3783
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3a75500fa7b96c7e5d3b",
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "body_chars": 2548
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "7c2ba2b7686a783f747b",
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant",
+          "body_chars": 5849
+        }
+      ],
+      "answer": {
+        "direct_answer": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.",
+        "talking_points": [
+          {
+            "text": "Get-CsOnlineUser retrieves information about users, including their voice capabilities and assigned policies.",
+            "evidence_ids": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Get-CsOnlineVoiceRoutingPolicy provides details on the voice routing policies assigned to users, which are essential for making PSTN calls.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria.",
+            "evidence_ids": [
+              "E2",
+              "E1",
+              "E3"
+            ]
+          },
+          {
+            "text": "Combining these cmdlets can give a comprehensive view of user configurations and voice routing setups.",
+            "evidence_ids": [
+              "E1",
+              "E2",
+              "E3"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.\n- Get-CsOnlineUser retrieves information about users, including their voice capabilities and assigned policies.\n- Get-CsOnlineVoiceRoutingPolicy provides details on the voice routing policies assigned to users, which are essential for making PSTN calls.\n- Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.\n- You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria.\n- Combining these cmdlets can give a comprehensive view of user configurations and voice routing setups.",
+        "word_count": 107,
+        "ttft_ms": 1791.1179999937303,
+        "complete_ms": 4206.197100022109,
+        "input_tokens": 10570,
+        "output_tokens": 259,
+        "cost_usd": 0.001741
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 44871,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Get-CsOnlineUser retrieves information about users, including their voice capabilities and assigned policies.",
+          "cited_evidence_ids": [
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 27122,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Get-CsOnlineVoiceRoutingPolicy provides details on the voice routing policies assigned to users, which are essential for making PSTN calls.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 5096,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 3939,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria.",
+          "cited_evidence_ids": [
+            "E2",
+            "E1",
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 36161,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Combining these cmdlets can give a comprehensive view of user configurations and voice routing setups.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 36161,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that the specified PowerShell cmdlets can be used to audit Teams Voice users and their configurations.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence states that Get-CsOnlineUser retrieves information about users, including their voice capabilities and assigned policies.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence indicates that Get-CsOnlineVoiceRoutingPolicy provides details on voice routing policies necessary for making PSTN calls.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that Get-CsOnlineVoiceRoute allows viewing of voice routes that dictate call routing to the PSTN.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2",
+            "E1",
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence supports that filtering results using parameters like -Filter is applicable to the cmdlets mentioned.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence indicates that combining these cmdlets provides a comprehensive view of user configurations and voice routing setups.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "VERIFIED",
+        "reason": "Direct answer and all talking points are ENTAILED.",
+        "entailed_n": 6,
+        "partial_n": 0,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Get-CsOnlineUser retrieves information about users, including their voice capabilities and assigned policies.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Get-CsOnlineVoiceRoutingPolicy provides details on the voice routing policies assigned to users, which are essential for making PSTN calls.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Combining these cmdlets can give a comprehensive view of user configurations and voice routing setups.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "ENTAILED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "unsupported_portion": "",
+        "reason": "The evidence confirms that the specified PowerShell cmdlets can be used to audit Teams Voice users and their configurations.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence provides specific PowerShell cmdlets that can be used to audit Teams Voice users and their configurations.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence clearly states that Get-CsOnlineUser retrieves information about users, including their voice capabilities and assigned policies.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that Get-CsOnlineVoiceRoutingPolicy provides information about voice routing policies necessary for users to make PSTN calls.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence clearly states that Get-CsOnlineVoiceRoute retrieves information about voice routes configured in the tenant, which includes how calls are routed to the PSTN.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence clearly states that the -Filter parameter can be used to limit the returned data based on specific criteria, supporting the claim about filtering results.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence describes cmdlets that provide comprehensive information about user configurations and voice routing setups in Teams.",
+          "parse_error": null
+        }
+      ],
+      "batched_vs_per_claim": {
+        "n": 6,
+        "agree_n": 6,
+        "agree_rate": 1.0,
+        "rows": [
+          {
+            "claim_id": "C0",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C1",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C2",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C3",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C4",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          },
+          {
+            "claim_id": "C5",
+            "batched": "ENTAILED",
+            "per_claim": "ENTAILED",
+            "agree": true
+          }
+        ]
+      },
+      "latency": {
+        "router_ms": 18.99,
+        "retrieval_ms": 229.95,
+        "answer_ttft_ms": 1791.12,
+        "answer_complete_ms": 4206.2,
+        "batched_verifier_ttft_ms": 3859.54,
+        "batched_verifier_complete_ms": 14484.32,
+        "batched_verifier_wall_ms": 14516.51,
+        "per_claim_wall_ms": 14443.6,
+        "total_ms": 18971.66
+      },
+      "batched_tokens": {
+        "input_tokens": 35290,
+        "output_tokens": 437,
+        "cost_usd": 0.005556
+      },
+      "per_claim_tokens": {
+        "input_tokens": 36726,
+        "output_tokens": 373,
+        "cost_usd": 0.005733,
+        "ttft_ms": {
+          "n": 6,
+          "min": 1413.03,
+          "p50": 1604.71,
+          "p95": 1840.26,
+          "max": 1840.26
+        },
+        "complete_ms": {
+          "n": 6,
+          "min": 1942.08,
+          "p50": 2216.63,
+          "p95": 3149.44,
+          "max": 3149.44
+        }
+      }
+    },
+    {
+      "question_id": "N01",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How do you enroll iOS devices in Microsoft Intune using Apple Business Manager?",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "121ff6c05a7d06149afe",
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Configuring Intune for your Teams Devices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "body_chars": 1341
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "faeacb0259f74003ab2b",
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Conditional Access Considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "body_chars": 1129
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "68720a7a0c347d8dcc26",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Network Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 6309
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "fb8a529909e9b049f463",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Network security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 4317
+        }
+      ],
+      "answer": {
+        "direct_answer": "To enroll iOS devices in Microsoft Intune using Apple Business Manager, you need to link your Intune account with Apple Business Manager and configure the necessary settings for device enrollment.",
+        "talking_points": [
+          {
+            "text": "Link your Intune account with Apple Business Manager to enable device enrollment.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Configure the necessary settings in Intune for managing iOS devices.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Ensure that devices are assigned to the correct management profiles in Apple Business Manager.",
+            "evidence_ids": [
+              "E1"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To enroll iOS devices in Microsoft Intune using Apple Business Manager, you need to link your Intune account with Apple Business Manager and configure the necessary settings for device enrollment.\n- Link your Intune account with Apple Business Manager to enable device enrollment.\n- Configure the necessary settings in Intune for managing iOS devices.\n- Ensure that devices are assigned to the correct management profiles in Apple Business Manager.",
+        "word_count": 69,
+        "ttft_ms": 1702.503099979367,
+        "complete_ms": 3305.0639999855775,
+        "input_tokens": 3969,
+        "output_tokens": 146,
+        "cost_usd": 0.000683
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To enroll iOS devices in Microsoft Intune using Apple Business Manager, you need to link your Intune account with Apple Business Manager and configure the necessary settings for device enrollment.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 17536,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Link your Intune account with Apple Business Manager to enable device enrollment.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1513,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Configure the necessary settings in Intune for managing iOS devices.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1513,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Ensure that devices are assigned to the correct management profiles in Apple Business Manager.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1513,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "The claim about linking Intune with Apple Business Manager is not supported.",
+          "reason": "The evidence does not mention linking Intune with Apple Business Manager or configuring settings for iOS device enrollment.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "The claim about linking Intune with Apple Business Manager is not supported.",
+          "reason": "The evidence does not provide information about linking Intune with Apple Business Manager.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "The claim about configuring settings in Intune for iOS devices is not supported.",
+          "reason": "The evidence does not address configuring settings in Intune specifically for iOS devices.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "The claim about assigning devices to management profiles in Apple Business Manager is not supported.",
+          "reason": "The evidence does not mention assigning devices to management profiles in Apple Business Manager.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "REJECTED",
+        "reason": "Direct answer is NOT_ENTAILED, so the answer cannot be VERIFIED.",
+        "entailed_n": 0,
+        "partial_n": 0,
+        "not_entailed_n": 4,
+        "projection_useful": false
+      },
+      "verified_projection": [],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "NOT_ENTAILED",
+        "supporting_evidence_ids": [],
+        "unsupported_portion": "The claim about linking Intune with Apple Business Manager is not supported.",
+        "reason": "The evidence does not mention linking Intune with Apple Business Manager or configuring settings for iOS device enrollment.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 18.15,
+        "retrieval_ms": 152.69,
+        "answer_ttft_ms": 1702.5,
+        "answer_complete_ms": 3305.06,
+        "batched_verifier_ttft_ms": 1654.09,
+        "batched_verifier_complete_ms": 4535.32,
+        "batched_verifier_wall_ms": 4542.44,
+        "per_claim_wall_ms": null,
+        "total_ms": 8018.34
+      },
+      "batched_tokens": {
+        "input_tokens": 5083,
+        "output_tokens": 316,
+        "cost_usd": 0.000952
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "N02",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you configure Azure AD B2C custom policies for a multi-step signup journey?",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "7016f57d73fcad8cbbec",
+          "title": "Manage - Voice applications policies",
+          "section": "Create a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 534
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "a7fbceae42110e28fc96",
+          "title": "Manage - Voice applications policies",
+          "section": "Assign a custom voice applications policy to users",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 824
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "51bb3f26abd28c85d7e6",
+          "title": "Manage call routing policies for Direct Routing",
+          "section": "Assign a custom call routing policy to users",
+          "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies",
+          "body_chars": 474
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "f0d4b2d937f10b760b4c",
+          "title": "Manage - Voice applications policies",
+          "section": "Edit a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 445
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "291764107e8cba017f88",
+          "title": "Manage - Voice applications policies",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 2337
+        }
+      ],
+      "answer": {
+        "direct_answer": "To configure Azure AD B2C custom policies for a multi-step signup journey, you need to create and assign custom policies that define the user journey and the required claims for each step.",
+        "talking_points": [
+          {
+            "text": "Custom policies allow you to define complex user journeys, including multi-step signups.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "You can create a custom policy using the Azure AD B2C portal or through configuration files.",
+            "evidence_ids": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Each step in the signup journey can require specific claims to be collected from the user.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Testing and iterating on your custom policies is essential to ensure a smooth user experience.",
+            "evidence_ids": [
+              "E4"
+            ]
+          },
+          {
+            "text": "Documentation and examples are available to guide you through the process of setting up these policies.",
+            "evidence_ids": [
+              "E5"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To configure Azure AD B2C custom policies for a multi-step signup journey, you need to create and assign custom policies that define the user journey and the required claims for each step.\n- Custom policies allow you to define complex user journeys, including multi-step signups.\n- You can create a custom policy using the Azure AD B2C portal or through configuration files.\n- Each step in the signup journey can require specific claims to be collected from the user.\n- Testing and iterating on your custom policies is essential to ensure a smooth user experience.\n- Documentation and examples are available to guide you through the process of setting up these policies.",
+        "word_count": 112,
+        "ttft_ms": 1477.6487000053748,
+        "complete_ms": 3619.4371999881696,
+        "input_tokens": 1473,
+        "output_tokens": 222,
+        "cost_usd": 0.000354
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To configure Azure AD B2C custom policies for a multi-step signup journey, you need to create and assign custom policies that define the user journey and the required claims for each step.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 5544,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Custom policies allow you to define complex user journeys, including multi-step signups.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 723,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "You can create a custom policy using the Azure AD B2C portal or through configuration files.",
+          "cited_evidence_ids": [
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1022,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Each step in the signup journey can require specific claims to be collected from the user.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 666,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Testing and iterating on your custom policies is essential to ensure a smooth user experience.",
+          "cited_evidence_ids": [
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 632,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Documentation and examples are available to guide you through the process of setting up these policies.",
+          "cited_evidence_ids": [
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 2493,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "the claim about configuring Azure AD B2C custom policies for a multi-step signup journey",
+          "reason": "The evidence provided relates to voice applications policies in Microsoft Teams, not Azure AD B2C custom policies.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "the claim about defining complex user journeys, including multi-step signups",
+          "reason": "The evidence discusses custom policies for voice applications, which does not support the claim about user journeys in Azure AD B2C.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "the claim about creating a custom policy using the Azure AD B2C portal or configuration files",
+          "reason": "The evidence pertains to assigning voice applications policies in Teams, not creating custom policies in Azure AD B2C.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "the claim about specific claims being required for each step in the signup journey",
+          "reason": "The evidence does not address claims or user signup processes in Azure AD B2C.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "the claim about testing and iterating on custom policies for user experience",
+          "reason": "The evidence discusses editing voice applications policies, which does not relate to testing custom policies in Azure AD B2C.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "the claim about documentation and examples for setting up policies",
+          "reason": "The evidence provides information on managing voice applications policies, not on documentation for Azure AD B2C custom policies.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "REJECTED",
+        "reason": "Direct answer is NOT_ENTAILED, so the answer cannot be VERIFIED.",
+        "entailed_n": 0,
+        "partial_n": 0,
+        "not_entailed_n": 6,
+        "projection_useful": false
+      },
+      "verified_projection": [],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "NOT_ENTAILED",
+        "supporting_evidence_ids": [],
+        "unsupported_portion": "the claim about configuring Azure AD B2C custom policies for a multi-step signup journey",
+        "reason": "The evidence provided relates to voice applications policies in Microsoft Teams, not Azure AD B2C custom policies.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 9.17,
+        "retrieval_ms": 148.03,
+        "answer_ttft_ms": 1477.65,
+        "answer_complete_ms": 3619.44,
+        "batched_verifier_ttft_ms": 1464.14,
+        "batched_verifier_complete_ms": 5657.96,
+        "batched_verifier_wall_ms": 5662.44,
+        "per_claim_wall_ms": null,
+        "total_ms": 9439.07
+      },
+      "batched_tokens": {
+        "input_tokens": 2920,
+        "output_tokens": 500,
+        "cost_usd": 0.000738
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "N05",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you configure a Power BI on-premises data gateway in standard mode?",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "bd689ebe19847916e1e1",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Installation",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 1283
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "8783fb7f02b227ed8796",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Limitations",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 3115
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "d207ad8736c39056cea8",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Setup",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 1176
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "60c304f21dce72ab3121",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 832
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3cfe5ef91ce7bdcb6790",
+          "title": "Voice applications historical reports for GCCH and DoD",
+          "section": "V1.64 Installation",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-cqd-historical-reports-v164",
+          "body_chars": 1401
+        }
+      ],
+      "answer": {
+        "direct_answer": "To configure a Power BI on-premises data gateway in standard mode, you need to install the Microsoft Call Quality connector and set it up to connect to the CQD data source using DirectQuery mode.",
+        "talking_points": [
+          {
+            "text": "Ensure Power BI Desktop is installed and your account has access to the CQD data pipeline.",
+            "evidence_ids": [
+              "E5"
+            ]
+          },
+          {
+            "text": "Download the CQD Power BI Query Templates and the Microsoft Call Quality connector file.",
+            "evidence_ids": [
+              "E4"
+            ]
+          },
+          {
+            "text": "In Power BI Desktop, use the Get Data option to connect to the Microsoft Call Quality service and select DirectQuery.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Adjust security settings if necessary, especially for custom connectors.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Select the appropriate CQD data pipeline region based on your tenant's location during setup.",
+            "evidence_ids": [
+              "E5"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To configure a Power BI on-premises data gateway in standard mode, you need to install the Microsoft Call Quality connector and set it up to connect to the CQD data source using DirectQuery mode.\n- Ensure Power BI Desktop is installed and your account has access to the CQD data pipeline.\n- Download the CQD Power BI Query Templates and the Microsoft Call Quality connector file.\n- In Power BI Desktop, use the Get Data option to connect to the Microsoft Call Quality service and select DirectQuery.\n- Adjust security settings if necessary, especially for custom connectors.\n- Select the appropriate CQD data pipeline region based on your tenant's location during setup.",
+        "word_count": 112,
+        "ttft_ms": 1405.5853000027128,
+        "complete_ms": 3446.1441000166815,
+        "input_tokens": 2139,
+        "output_tokens": 224,
+        "cost_usd": 0.000455
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To configure a Power BI on-premises data gateway in standard mode, you need to install the Microsoft Call Quality connector and set it up to connect to the CQD data source using DirectQuery mode.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 8616,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Ensure Power BI Desktop is installed and your account has access to the CQD data pipeline.",
+          "cited_evidence_ids": [
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1578,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Download the CQD Power BI Query Templates and the Microsoft Call Quality connector file.",
+          "cited_evidence_ids": [
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 987,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "In Power BI Desktop, use the Get Data option to connect to the Microsoft Call Quality service and select DirectQuery.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1328,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Adjust security settings if necessary, especially for custom connectors.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1442,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Select the appropriate CQD data pipeline region based on your tenant's location during setup.",
+          "cited_evidence_ids": [
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1578,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "NOT_ENTAILED",
+          "supporting_evidence_ids": [],
+          "unsupported_portion": "The claim states the need to install the Microsoft Call Quality connector, but does not mention the requirement of an on-premises data gateway in standard mode.",
+          "reason": "The evidence does not support the claim that installing the Microsoft Call Quality connector is sufficient for configuring the gateway in standard mode.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E5"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that Power BI Desktop must be installed and that the account needs access to the CQD data pipeline.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence states that the Microsoft Call Quality connector and CQD Power BI Query Templates need to be downloaded for use.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence describes the process of connecting to the Microsoft Call Quality service and selecting DirectQuery in Power BI Desktop.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence mentions the need to adjust security settings when installing custom connectors.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E5"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence states that during setup, the appropriate CQD data pipeline region must be selected based on the tenant's location.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "REJECTED",
+        "reason": "Direct answer is NOT_ENTAILED, so the answer cannot be VERIFIED.",
+        "entailed_n": 5,
+        "partial_n": 0,
+        "not_entailed_n": 1,
+        "projection_useful": false
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Ensure Power BI Desktop is installed and your account has access to the CQD data pipeline.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Download the CQD Power BI Query Templates and the Microsoft Call Quality connector file.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "In Power BI Desktop, use the Get Data option to connect to the Microsoft Call Quality service and select DirectQuery.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Adjust security settings if necessary, especially for custom connectors.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Select the appropriate CQD data pipeline region based on your tenant's location during setup.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "NOT_ENTAILED",
+        "supporting_evidence_ids": [],
+        "unsupported_portion": "The claim states the need to install the Microsoft Call Quality connector, but does not mention the requirement of an on-premises data gateway in standard mode.",
+        "reason": "The evidence does not support the claim that installing the Microsoft Call Quality connector is sufficient for configuring the gateway in standard mode.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 12.72,
+        "retrieval_ms": 97.36,
+        "answer_ttft_ms": 1405.59,
+        "answer_complete_ms": 3446.14,
+        "batched_verifier_ttft_ms": 1561.32,
+        "batched_verifier_complete_ms": 6254.38,
+        "batched_verifier_wall_ms": 6259.94,
+        "per_claim_wall_ms": null,
+        "total_ms": 9816.17
+      },
+      "batched_tokens": {
+        "input_tokens": 4004,
+        "output_tokens": 444,
+        "cost_usd": 0.000867
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "N08",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you authenticate a Copilot Studio agent to Dataverse using a service principal?",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "ea30cc23ba546177541a",
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Planning and licensing review",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 943
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "8f4f264c9df16e22f710",
+          "title": "Setup - Teams Phone Agent - Agents and Queues",
+          "section": "Planning and licensing review",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-agents-queues",
+          "body_chars": 943
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "cf91b40fbf56350b2000",
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Teams Admin Center setup and configuration",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 1671
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3dc1cff5e07f17c0e754",
+          "title": "Planning - Agents and Queues for Teams Phone Agent",
+          "section": "Agents and Queues",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-agents-queues",
+          "body_chars": 633
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3185a3af7eda47baab3f",
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 1302
+        }
+      ],
+      "answer": {
+        "direct_answer": "To authenticate a Copilot Studio agent to Dataverse using a service principal, you need to create an AI Agent Resource account in the Teams admin center and ensure it is properly licensed.",
+        "talking_points": [
+          {
+            "text": "Create an AI Agent Resource account in the Teams admin center by selecting Voice and then Resource accounts.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "License the AI Resource account by navigating to the Microsoft Admin Center and adding the Teams Phone Resource Account license.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Link the AI Agent Resource account to your Copilot Studio voice agent in the Teams admin center to enable functionality.",
+            "evidence_ids": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Ensure your tenant has the necessary licenses and access to use Copilot Studio with Teams Phone Agent.",
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To authenticate a Copilot Studio agent to Dataverse using a service principal, you need to create an AI Agent Resource account in the Teams admin center and ensure it is properly licensed.\n- Create an AI Agent Resource account in the Teams admin center by selecting Voice and then Resource accounts.\n- License the AI Resource account by navigating to the Microsoft Admin Center and adding the Teams Phone Resource Account license.\n- Link the AI Agent Resource account to your Copilot Studio voice agent in the Teams admin center to enable functionality.\n- Ensure your tenant has the necessary licenses and access to use Copilot Studio with Teams Phone Agent.",
+        "word_count": 111,
+        "ttft_ms": 1392.1063000161666,
+        "complete_ms": 3557.7354000124615,
+        "input_tokens": 1684,
+        "output_tokens": 205,
+        "cost_usd": 0.000376
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To authenticate a Copilot Studio agent to Dataverse using a service principal, you need to create an AI Agent Resource account in the Teams admin center and ensure it is properly licensed.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 6354,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Create an AI Agent Resource account in the Teams admin center by selecting Voice and then Resource accounts.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1848,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "License the AI Resource account by navigating to the Microsoft Admin Center and adding the Teams Phone Resource Account license.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1848,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Link the AI Agent Resource account to your Copilot Studio voice agent in the Teams admin center to enable functionality.",
+          "cited_evidence_ids": [
+            "E3"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 1848,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Ensure your tenant has the necessary licenses and access to use Copilot Studio with Teams Phone Agent.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 2241,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "PARTIAL",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "unsupported_portion": "The claim does not mention the need for tenant access to the integration preview.",
+          "reason": "The evidence supports the need to create an AI Agent Resource account and ensure licensing, but does not fully address the authentication process to Dataverse.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence clearly outlines the steps to create an AI Agent Resource account in the Teams admin center.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence provides specific instructions for licensing the AI Resource account in the Microsoft Admin Center.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E3"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence details the process of linking the AI Agent Resource account to the Copilot Studio voice agent.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms the requirement for necessary licenses and access to use Copilot Studio with Teams Phone Agent.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "DEGRADED",
+        "reason": "Direct answer is PARTIAL with otherwise entailed talking points.",
+        "entailed_n": 4,
+        "partial_n": 1,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To authenticate a Copilot Studio agent to Dataverse using a service principal, you need to create an AI Agent Resource account in the Teams admin center and ensure it is properly licensed.",
+          "verdict": "PARTIAL",
+          "caveat": "The claim does not mention the need for tenant access to the integration preview."
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Create an AI Agent Resource account in the Teams admin center by selecting Voice and then Resource accounts.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "License the AI Resource account by navigating to the Microsoft Admin Center and adding the Teams Phone Resource Account license.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Link the AI Agent Resource account to your Copilot Studio voice agent in the Teams admin center to enable functionality.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Ensure your tenant has the necessary licenses and access to use Copilot Studio with Teams Phone Agent.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "unsupported_portion": "The claim does not mention the need for tenant access to the integration preview.",
+        "reason": "The evidence supports the need to create an AI Agent Resource account and ensure licensing, but does not fully address the authentication process to Dataverse.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 15.4,
+        "retrieval_ms": 111.51,
+        "answer_ttft_ms": 1392.11,
+        "answer_complete_ms": 3557.74,
+        "batched_verifier_ttft_ms": 1554.04,
+        "batched_verifier_complete_ms": 4612.47,
+        "batched_verifier_wall_ms": 4619.1,
+        "per_claim_wall_ms": null,
+        "total_ms": 8303.74
+      },
+      "batched_tokens": {
+        "input_tokens": 3650,
+        "output_tokens": 370,
+        "cost_usd": 0.00077
+      },
+      "per_claim_tokens": null
+    },
+    {
+      "question_id": "N11",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "Walk through migrating Cisco Webex Calling PSTN onto a Webex-native local gateway.",
+      "scope": "GLOBAL",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "3f7c2509081df33d28a7",
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Define the virtual network topology",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 2697
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "dca62c01dd7f6474d196",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 2222
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "48e6e5f273c06fd20ac3",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Supported customer scenarios",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 2653
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "eab521bf26d5dbb479aa",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Proxy SBC with connected downstream SBCs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 3923
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "bf73e7d81b92663f2168",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 10919
+        }
+      ],
+      "answer": {
+        "direct_answer": "To migrate Cisco Webex Calling PSTN onto a Webex-native local gateway, configure a proxy SBC and downstream SBCs using the Set-CsOnlinePSTNGateway cmdlet to establish a virtual network topology.",
+        "talking_points": [
+          {
+            "text": "Create a new SBC configuration for each relevant SBC using the New-CsOnlinePSTNGateway cmdlet.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Define the virtual network topology by specifying network sites for the PSTN gateway objects with the Set-CsOnlinePSTNGateway cmdlet.",
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Enable Local Media Optimization by setting the -MediaBypass parameter to $true and configuring the -BypassMode parameter appropriately.",
+            "evidence_ids": [
+              "E1",
+              "E5"
+            ]
+          },
+          {
+            "text": "Ensure that downstream SBCs are reachable through the proxy SBC, allowing media to flow locally when possible.",
+            "evidence_ids": [
+              "E4"
+            ]
+          },
+          {
+            "text": "Consider the network topology and user locations to choose between 'Always Bypass' and 'Only For Local Users' modes for media flow.",
+            "evidence_ids": [
+              "E5"
+            ]
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "To migrate Cisco Webex Calling PSTN onto a Webex-native local gateway, configure a proxy SBC and downstream SBCs using the Set-CsOnlinePSTNGateway cmdlet to establish a virtual network topology.\n- Create a new SBC configuration for each relevant SBC using the New-CsOnlinePSTNGateway cmdlet.\n- Define the virtual network topology by specifying network sites for the PSTN gateway objects with the Set-CsOnlinePSTNGateway cmdlet.\n- Enable Local Media Optimization by setting the -MediaBypass parameter to $true and configuring the -BypassMode parameter appropriately.\n- Ensure that downstream SBCs are reachable through the proxy SBC, allowing media to flow locally when possible.\n- Consider the network topology and user locations to choose between 'Always Bypass' and 'Only For Local Users' modes for media flow.",
+        "word_count": 119,
+        "ttft_ms": 1770.4483999987133,
+        "complete_ms": 4825.674399995478,
+        "input_tokens": 5252,
+        "output_tokens": 265,
+        "cost_usd": 0.000947
+      },
+      "claim_units": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To migrate Cisco Webex Calling PSTN onto a Webex-native local gateway, configure a proxy SBC and downstream SBCs using the Set-CsOnlinePSTNGateway cmdlet to establish a virtual network topology.",
+          "cited_evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "citation_mode": "all_packet_E1_E5_no_union_of_bullets",
+          "cited_evidence_chars": 23323,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Create a new SBC configuration for each relevant SBC using the New-CsOnlinePSTNGateway cmdlet.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 2900,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Define the virtual network topology by specifying network sites for the PSTN gateway objects with the Set-CsOnlinePSTNGateway cmdlet.",
+          "cited_evidence_ids": [
+            "E1"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 2900,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Enable Local Media Optimization by setting the -MediaBypass parameter to $true and configuring the -BypassMode parameter appropriately.",
+          "cited_evidence_ids": [
+            "E1",
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 13999,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Ensure that downstream SBCs are reachable through the proxy SBC, allowing media to flow locally when possible.",
+          "cited_evidence_ids": [
+            "E4"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 4111,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Consider the network topology and user locations to choose between 'Always Bypass' and 'Only For Local Users' modes for media flow.",
+          "cited_evidence_ids": [
+            "E5"
+          ],
+          "citation_mode": "cited_talking_point_ids_only",
+          "cited_evidence_chars": 11097,
+          "primitive_status": "SUPPORTED",
+          "primitive_issues": []
+        }
+      ],
+      "batched_verdicts": [
+        {
+          "claim_id": "C0",
+          "verdict": "PARTIAL",
+          "supporting_evidence_ids": [
+            "E1",
+            "E2",
+            "E4"
+          ],
+          "unsupported_portion": "The claim implies a specific configuration process that is not fully detailed in the evidence.",
+          "reason": "The evidence supports the use of the Set-CsOnlinePSTNGateway cmdlet for defining the virtual network topology, but does not explicitly confirm the entire claim as stated.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C1",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence clearly states that a new SBC configuration is created using the New-CsOnlinePSTNGateway cmdlet.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C2",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence confirms that the virtual network topology is defined using the Set-CsOnlinePSTNGateway cmdlet.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C3",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E1",
+            "E5"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence supports the requirement to set the -MediaBypass parameter to $true and configure the -BypassMode parameter.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C4",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E4"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence explains that downstream SBCs must be reachable through the proxy SBC for local media flow.",
+          "parse_error": null
+        },
+        {
+          "claim_id": "C5",
+          "verdict": "ENTAILED",
+          "supporting_evidence_ids": [
+            "E5"
+          ],
+          "unsupported_portion": "",
+          "reason": "The evidence discusses the considerations for choosing between 'Always Bypass' and 'Only For Local Users' modes based on network topology.",
+          "parse_error": null
+        }
+      ],
+      "answer_level": {
+        "status": "DEGRADED",
+        "reason": "Direct answer is PARTIAL with otherwise entailed talking points.",
+        "entailed_n": 5,
+        "partial_n": 1,
+        "not_entailed_n": 0,
+        "projection_useful": true
+      },
+      "verified_projection": [
+        {
+          "claim_id": "C0",
+          "role": "direct_answer",
+          "claim_text": "To migrate Cisco Webex Calling PSTN onto a Webex-native local gateway, configure a proxy SBC and downstream SBCs using the Set-CsOnlinePSTNGateway cmdlet to establish a virtual network topology.",
+          "verdict": "PARTIAL",
+          "caveat": "The claim implies a specific configuration process that is not fully detailed in the evidence."
+        },
+        {
+          "claim_id": "C1",
+          "role": "talking_point",
+          "claim_text": "Create a new SBC configuration for each relevant SBC using the New-CsOnlinePSTNGateway cmdlet.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C2",
+          "role": "talking_point",
+          "claim_text": "Define the virtual network topology by specifying network sites for the PSTN gateway objects with the Set-CsOnlinePSTNGateway cmdlet.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C3",
+          "role": "talking_point",
+          "claim_text": "Enable Local Media Optimization by setting the -MediaBypass parameter to $true and configuring the -BypassMode parameter appropriately.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C4",
+          "role": "talking_point",
+          "claim_text": "Ensure that downstream SBCs are reachable through the proxy SBC, allowing media to flow locally when possible.",
+          "verdict": "ENTAILED"
+        },
+        {
+          "claim_id": "C5",
+          "role": "talking_point",
+          "claim_text": "Consider the network topology and user locations to choose between 'Always Bypass' and 'Only For Local Users' modes for media flow.",
+          "verdict": "ENTAILED"
+        }
+      ],
+      "direct_answer_verdict": {
+        "claim_id": "C0",
+        "verdict": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E4"
+        ],
+        "unsupported_portion": "The claim implies a specific configuration process that is not fully detailed in the evidence.",
+        "reason": "The evidence supports the use of the Set-CsOnlinePSTNGateway cmdlet for defining the virtual network topology, but does not explicitly confirm the entire claim as stated.",
+        "parse_error": null
+      },
+      "per_claim_verdicts": null,
+      "batched_vs_per_claim": null,
+      "latency": {
+        "router_ms": 18.71,
+        "retrieval_ms": 142.32,
+        "answer_ttft_ms": 1770.45,
+        "answer_complete_ms": 4825.67,
+        "batched_verifier_ttft_ms": 2217.7,
+        "batched_verifier_complete_ms": 6584.08,
+        "batched_verifier_wall_ms": 6593.56,
+        "per_claim_wall_ms": null,
+        "total_ms": 11580.25
+      },
+      "batched_tokens": {
+        "input_tokens": 13289,
+        "output_tokens": 462,
+        "cost_usd": 0.002271
+      },
+      "per_claim_tokens": null
+    }
+  ],
+  "selected_architecture": "C. CLAIM VERIFICATION REJECTED",
+  "verdict": "C. CLAIM VERIFICATION REJECTED"
+}

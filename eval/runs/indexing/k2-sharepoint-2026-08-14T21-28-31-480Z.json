@@ -1,0 +1,234 @@
+{
+  "runId": "k2-sharepoint-2026-08-14T21-28-31-480Z",
+  "mode": "execute",
+  "approvedArticleCount": 16,
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "startedAt": "2026-08-14T21:28:31.480Z",
+  "completedAt": "2026-08-14T21:29:45.641Z",
+  "durationMs": 74153.04759999999,
+  "corpusClassification": "LIMITED_REAL",
+  "plan": {
+    "documentsToParse": 16,
+    "documentsReusable": 0,
+    "estimatedChunkCount": 230,
+    "estimatedDocumentsByType": {
+      "cmdlet": 0,
+      "conceptual": 16,
+      "other": 0
+    },
+    "embeddingsReusable": 0,
+    "embeddingsToGenerate": 0,
+    "estimatedEmbeddingInputChars": 0,
+    "estimatedEmbeddingInputTokens": 0,
+    "plannedEmbeddingRequestCount": 0,
+    "approvedCanonicalUrls": [
+      "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+      "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "https://learn.microsoft.com/en-us/sharepoint/advanced-management",
+      "https://learn.microsoft.com/en-us/sharepoint/change-external-sharing-site",
+      "https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview",
+      "https://learn.microsoft.com/en-us/sharepoint/change-default-sharing-link",
+      "https://learn.microsoft.com/en-us/sharepoint/turn-external-sharing-on-or-off",
+      "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+      "https://learn.microsoft.com/en-us/sharepoint/site-access-review",
+      "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-site-permissions-report",
+      "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-sharing-links-report",
+      "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-sensitivity-label-report",
+      "https://learn.microsoft.com/en-us/sharepoint/sharepoint-admin-role",
+      "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-everyone-except-external-user-report",
+      "https://learn.microsoft.com/en-us/sharepoint/powershell-for-data-access-governance",
+      "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-site-permissions-users-report"
+    ],
+    "bySubdomain": {
+      "copilot_content_discovery": 2,
+      "sensitivity_governance": 5,
+      "sharing_links": 5,
+      "site_permissions": 4
+    }
+  },
+  "fetch": {
+    "attempted": 16,
+    "fetched": 16,
+    "failed": 0
+  },
+  "execution": {
+    "attempted": 16,
+    "succeeded": 16,
+    "failed": 0,
+    "cancelled": false,
+    "indexingLifecycleTotals": {
+      "parsed": 16,
+      "parseReused": 0,
+      "parseFailed": 0,
+      "chunked": 16,
+      "chunksReused": 0,
+      "chunksFailed": 0,
+      "embeddingGenerated": 16,
+      "embeddingReused": 0,
+      "embeddingPartial": 0,
+      "embeddingSkipped": 0,
+      "embeddingFailed": 0,
+      "embeddingCancelled": 0
+    }
+  },
+  "failures": [],
+  "failureManifestPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\k2-sharepoint-2026-08-14T21-28-31-480Z.failures.json",
+  "corpusStats": {
+    "documents": {
+      "totalCanonical": 16,
+      "bySubdomain": {
+        "sensitivity_governance": 5,
+        "sharing_links": 5,
+        "site_permissions": 4,
+        "copilot_content_discovery": 2
+      }
+    },
+    "chunks": {
+      "totalActive": 230,
+      "chunkKindDistribution": {
+        "conceptual": 170,
+        "configuration": 1,
+        "procedure": 5,
+        "table": 9,
+        "reference": 10,
+        "code": 35
+      }
+    },
+    "fts": {
+      "indexedActiveRows": 230,
+      "consistent": true
+    },
+    "embeddings": {
+      "totalActiveChunks": 230,
+      "currentCompatibleEmbeddings": 230,
+      "semanticReadyPercentage": 100,
+      "providerId": "openai",
+      "model": "text-embedding-3-small"
+    }
+  },
+  "smoke": {
+    "primaryCopilotSecurity": {
+      "question": "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+      "route": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "trackIds": [
+              "ga"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "trackIds": [
+              "ga"
+            ]
+          }
+        ]
+      },
+      "exactCandidateCount": 0,
+      "lexicalCandidateCount": 228,
+      "semanticCandidateCount": 230,
+      "hybridCandidateCount": 24,
+      "topExactSourceId": null,
+      "topLexicalSourceId": "ms-sharepoint-docs",
+      "topSemanticSourceId": "ms-sharepoint-docs",
+      "topHybridSourceId": "ms-sharepoint-docs",
+      "semanticLatencyMs": 599.0757000000012,
+      "hybridLatencyMs": 924.6930999999895,
+      "warnings": [
+        "candidate_population_above_preferred_target",
+        "scope_broadened_due_to_unresolved_ambiguity"
+      ]
+    },
+    "restrictedContentDiscovery": {
+      "question": "What is Restricted Content Discovery?",
+      "route": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "trackIds": [
+              "ga"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "trackIds": [
+              "ga"
+            ]
+          }
+        ]
+      },
+      "exactCandidateCount": 0,
+      "lexicalCandidateCount": 88,
+      "semanticCandidateCount": 230,
+      "hybridCandidateCount": 24,
+      "topExactSourceId": null,
+      "topLexicalSourceId": "ms-sharepoint-docs",
+      "topSemanticSourceId": "ms-sharepoint-docs",
+      "topHybridSourceId": "ms-sharepoint-docs",
+      "semanticLatencyMs": 433.13529999999446,
+      "hybridLatencyMs": 300.1972999999998,
+      "warnings": []
+    },
+    "entraNegativeControl": {
+      "question": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+      "route": {
+        "selectedDomains": [
+          "entra",
+          "teams_admin"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-entra-docs",
+            "trackIds": [
+              "ga"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "trackIds": [
+              "ga"
+            ]
+          }
+        ]
+      },
+      "exactCandidateCount": 0,
+      "lexicalCandidateCount": 2400,
+      "semanticCandidateCount": 1300,
+      "hybridCandidateCount": 24,
+      "topExactSourceId": null,
+      "topLexicalSourceId": "ms-entra-docs",
+      "topSemanticSourceId": "ms-entra-docs",
+      "topHybridSourceId": "ms-entra-docs",
+      "semanticLatencyMs": 1322.0250000000087,
+      "hybridLatencyMs": 1896.2382999999973,
+      "warnings": [
+        "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+      ]
+    }
+  },
+  "embeddingUsage": {
+    "providerId": "openai",
+    "model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "embeddingSchemaVersion": "v1",
+    "requests": 16,
+    "generated": 230,
+    "reused": 0,
+    "inputTokens": 30603,
+    "credentialAvailable": true
+  },
+  "warnings": [],
+  "cancelled": false,
+  "artifactPaths": {
+    "jsonPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\k2-sharepoint-2026-08-14T21-28-31-480Z.json",
+    "jsonlPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\k2-sharepoint-2026-08-14T21-28-31-480Z.jsonl",
+    "markdownPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\k2-sharepoint-2026-08-14T21-28-31-480Z.md"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "experiment": "PHASE R0 — learn-rag Retrieval Kill Test",
+  "date": "2026-08-17",
+  "engine_root": "C:\\Users\\joegc\\projects\\learn-rag\\learn-rag",
+  "relay_production_source_modified": false,
+  "recommendation": "B. CONDITIONAL",
+  "recommendation_reason": "Warm latency easily beats 200 ms and several Priority-14 questions return coherent Microsoft section parents, but the engine does not meet the 12/14 top-3 gate. The bounded blocker is parent ranking: leftover H2 stubs (See also, Feedback, Example) outrank the authored overview, and Get-CsOnlineUser never enters the hybrid candidate pool.",
+  "acceptance_gate": {
+    "top3_target": "12/14",
+    "top1_target": "10/14",
+    "warm_p95_target_ms": 200,
+    "mode_A": {"top1_correct": 6, "top3_correct": 11, "warm_p95_ms": 21.54},
+    "mode_B": {"top1_correct": 5, "top3_correct": 9, "warm_p95_ms": 38.46},
+    "mode_C": {"top1_correct": 6, "top3_correct": 11, "warm_p95_ms": 26.64},
+    "strong": false
+  },
+  "machine": {
+    "os": "Microsoft Windows 11 Home 10.0.26200",
+    "cpu": "Snapdragon X 10-core X1P64100 @ 3.40 GHz (Python 3.14 win_amd64 on ARM)",
+    "ram_gb": 15.6,
+    "rss_mb": null,
+    "python": "3.14.0"
+  },
+  "corpus": {
+    "parents": 1553,
+    "children": 2575,
+    "hnsw_vectors": 2575,
+    "db_bytes": 12910592,
+    "hnsw_bytes": 4668896,
+    "by_repo": {"teams": 1182, "sharepoint": 347, "teams-ps": 14, "m365": 10},
+    "entra_ingested": false,
+    "acquisition": "Learn HTML seed for Teams/SharePoint (GitHub OfficeDocs-SkypeForBusiness and OfficeDocs-SharePoint returned 404). Git sparse clone for office-docs-powershell. Local seed for microsoft-365/copilot get-ready page."
+  },
+  "latency": {
+    "cold_engine_init_ms": 1140.83,
+    "cold_first_query_ms": 28.26,
+    "warm_all": {"n": 168, "min": 6.98, "p50": 12.48, "p95": 28.1, "max": 50.11},
+    "warm_by_mode": {
+      "A": {"min": 7.96, "p50": 12.58, "p95": 21.54, "max": 43.0},
+      "B": {"min": 7.8, "p50": 12.78, "p95": 38.46, "max": 50.11},
+      "C": {"min": 6.98, "p50": 12.32, "p95": 26.64, "max": 34.87}
+    },
+    "stages_warm_p50_ms": {
+      "embed": 7.92,
+      "hnsw": 0.36,
+      "lexical": 3.26,
+      "fusion": 0.04,
+      "parent_fetch": 0.34,
+      "rerank": 0.0
+    }
+  },
+  "yaml_effect": {
+    "improved": false,
+    "summary": "Mode B helped Q07 (AA+CQ setup) and Q13 (Get ready for Copilot / SAM). It hurt Q02, Q04, Q05, Q09, Q11, and Q12 by promoting ms.topic matches that were the wrong article or leftover H2. Mode C hard filters were mostly no-ops: rooms subservice in corpus is itpro-rooms not teams-rooms; PowerShell service filter emptied the hybrid pool and fell back."
+  },
+  "special_questions": {
+    "one_way_audio": {
+      "corpus_has_dedicated_section": false,
+      "result": "INSUFFICIENT. No parent title/section/URL contains 'one-way'. Top hits were GCC High Audio Conferencing, licensing, or SIP ladder. Media-bypass pages were not treated as a runbook."
+    },
+    "routing_chain": {
+      "canonical_parent_present": true,
+      "canonical": "Configure call routing for Direct Routing :: Call routing overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+      "ranked_in_top3": false,
+      "result": "Serious ranking miss. The overview parent exists (1061 chars, policy → PSTN usage → route → gateway). Mode A/C returned analog-devices Step 4 at #1 and Example 1/2 of the same article at #2/#3."
+    },
+    "powershell": {
+      "get_csonlineuser_present": true,
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+      "ranked_in_top3": false,
+      "result": "Serious retrieval miss. Get-CsOnlineUser is in the index (ms.service=msteams-ps) but never entered the hybrid top-24. Hits were AA/CQ voice-application policy pages. Mode C filter msteams-ps returned empty and fell back."
+    },
+    "sharepoint_copilot": {
+      "mode_A": "MISS — generic SharePoint/OneDrive rollout",
+      "mode_B": "TOP1_CORRECT COMPLETE — Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+      "mode_C": "same as A (no hard filter; Copilot spans services)"
+    }
+  },
+  "completeness_totals": {
+    "A": {"COMPLETE": 3, "PARTIAL": 8, "INSUFFICIENT": 3},
+    "B": {"COMPLETE": 4, "PARTIAL": 6, "INSUFFICIENT": 4},
+    "C": {"COMPLETE": 3, "PARTIAL": 8, "INSUFFICIENT": 3}
+  },
+  "grades": {
+    "A": {
+      "Q01": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q02": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q03": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q04": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q05": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q06": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q07": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q08": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q09": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q10": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q11": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q12": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q13": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q14": {"rank": "MISS", "completeness": "INSUFFICIENT"}
+    },
+    "B": {
+      "Q01": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q02": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q03": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q04": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q05": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q06": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q07": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q08": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q09": {"rank": "TOP3_CORRECT", "completeness": "COMPLETE"},
+      "Q10": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q11": {"rank": "MISS", "completeness": "PARTIAL"},
+      "Q12": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q13": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q14": {"rank": "MISS", "completeness": "INSUFFICIENT"}
+    },
+    "C": {
+      "Q01": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q02": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q03": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q04": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q05": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q06": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q07": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q08": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q09": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q10": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL"},
+      "Q11": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE"},
+      "Q12": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL"},
+      "Q13": {"rank": "MISS", "completeness": "INSUFFICIENT"},
+      "Q14": {"rank": "MISS", "completeness": "INSUFFICIENT"}
+    }
+  },
+  "raw_results": "eval/runs/retrieval-r0/raw_results.json"
+}

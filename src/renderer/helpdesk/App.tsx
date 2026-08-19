@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
   type FormEvent,
+  type JSX,
   type KeyboardEvent
 } from "react";
 import type {
@@ -25,10 +26,24 @@ import {
   stopLoopbackCapture
 } from "@renderer/audio-capture/captureLoopbackAudio";
 import {
+  HELP_DESK_ACTIVE_CONVERSATION_KEY,
   buildHelpdeskTimeline,
   copyAnswerText,
-  resolveComposerInputOrigin
+  resolveComposerInputOrigin,
+  resolveInitialConversationId,
+  resolveSubmitConversationId
 } from "./viewModel";
+import {
+  evidenceSourceItemId,
+  formatEvidenceCardHeading,
+  formatEvidenceSourceRoleLabel,
+  listEvidenceCardSources,
+  parseEvidenceCardContent,
+  toggleExpandedEvidenceSource,
+  tokenizeEvidenceMarkup,
+  type EvidenceCardSource,
+  type EvidenceMarkupToken
+} from "@shared/evidenceCard";
 import { SettingsPage } from "./SettingsPage";
 
 function resultErrorMessage(
@@ -166,6 +181,218 @@ function Sidebar(props: {
 function AssistantMessage(props: {
   message: HelpdeskMessage;
 }) {
+  const evidence = parseEvidenceCardContent(props.message.content);
+  if (evidence) {
+    return (
+      <EvidenceAssistantMessage
+        message={props.message}
+        evidence={evidence}
+      />
+    );
+  }
+  return <GroundedAssistantMessage message={props.message} />;
+}
+
+function EvidenceMarkup(props: { text: string; className: string }) {
+  const tokens = tokenizeEvidenceMarkup(props.text);
+  return (
+    <div className={props.className}>
+      {tokens.map((token, index) => (
+        <EvidenceMarkupTokenView
+          key={`${token.kind}:${index}`}
+          token={token}
+        />
+      ))}
+    </div>
+  );
+}
+
+function EvidenceMarkupTokenView(props: { token: EvidenceMarkupToken }) {
+  const token = props.token;
+  if (token.kind === "heading") {
+    return (
+      <div className={`evidence-md-heading h${token.level}`}>
+        {token.text}
+      </div>
+    );
+  }
+  if (token.kind === "code") {
+    return (
+      <pre className="evidence-md-code" data-language={token.language}>
+        {token.text}
+      </pre>
+    );
+  }
+  if (token.kind === "bullet") {
+    return (
+      <div className="evidence-md-bullet">
+        <span aria-hidden="true">•</span>
+        <span>{token.text}</span>
+      </div>
+    );
+  }
+  if (token.kind === "ordered") {
+    return (
+      <div className="evidence-md-ordered">
+        <span>{token.ordinal}.</span>
+        <span>{token.text}</span>
+      </div>
+    );
+  }
+  return <div className="evidence-md-text">{token.text}</div>;
+}
+
+function EvidenceSourceItem(props: {
+  source: EvidenceCardSource;
+  index: number;
+  expanded: boolean;
+  citationId: string | null;
+  onToggle(): void;
+  onOpenCitation(citationId: string): void;
+}) {
+  const sourceId = evidenceSourceItemId(props.source, props.index);
+  const canExpand = props.source.body.length > props.source.preview.length;
+  return (
+    <article
+      className="evidence-item"
+      data-evidence-source-id={sourceId}
+      data-evidence-parent-id={props.source.parentId}
+      data-expanded={props.expanded ? "true" : "false"}
+    >
+      <div className="evidence-item-index">{props.index + 1}.</div>
+      <div className="evidence-item-body">
+        <div className="evidence-title">{props.source.title}</div>
+        <div
+          className="evidence-publisher"
+          data-publisher={props.source.publisher}
+          data-source-role={props.source.sourceRole}
+        >
+          {formatEvidenceSourceRoleLabel(props.source)}
+        </div>
+        {props.source.section ? (
+          <div className="evidence-section">{props.source.section}</div>
+        ) : null}
+        <EvidenceMarkup
+          className="evidence-preview"
+          text={
+            props.expanded ? props.source.body : props.source.preview
+          }
+        />
+        {canExpand ? (
+          <button
+            type="button"
+            className="evidence-expand"
+            aria-expanded={props.expanded}
+            onClick={props.onToggle}
+          >
+            {props.expanded ? "Collapse" : "Expand"}
+          </button>
+        ) : null}
+        <div className="evidence-source-line">
+          {props.citationId ? (
+            <button
+              type="button"
+              className="source-link"
+              onClick={() => void props.onOpenCitation(props.citationId!)}
+            >
+              {props.source.url}
+            </button>
+          ) : (
+            <span className="source-url">{props.source.url}</span>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function EvidenceAssistantMessage(props: {
+  message: HelpdeskMessage;
+  evidence: NonNullable<ReturnType<typeof parseEvidenceCardContent>>;
+}) {
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(
+    () => new Set()
+  );
+  const [notice, setNotice] = useState<string | null>(null);
+  const { payload, visibleText } = props.evidence;
+  const sources = listEvidenceCardSources(payload);
+
+  const copy = async (): Promise<void> => {
+    try {
+      if (!navigator.clipboard) {
+        throw new Error("clipboard unavailable");
+      }
+      await copyAnswerText(visibleText, navigator.clipboard);
+      setNotice("Evidence copied.");
+    } catch {
+      setNotice("The evidence card could not be copied.");
+    }
+  };
+
+  const openCitation = async (citationId: string): Promise<void> => {
+    const result = await window.helpdeskApi.openCitation({
+      messageId: props.message.id,
+      citationId
+    });
+    if (!result.ok) {
+      setNotice(result.error.message);
+    }
+  };
+
+  const citationByDocumentId = new Map(
+    props.message.citations.map((citation) => [
+      citation.documentId,
+      citation.citationId
+    ])
+  );
+
+  return (
+    <>
+      <div className="message-label">
+        Relay
+        <span className="answerability-label evidence">
+          {formatEvidenceCardHeading(payload)}
+        </span>
+      </div>
+      {sources.length > 0 ? (
+        <div className="evidence-card" data-evidence-card="true">
+          {sources.map((source, index) => {
+            const sourceId = evidenceSourceItemId(source, index);
+            return (
+              <EvidenceSourceItem
+                key={sourceId}
+                source={source}
+                index={index}
+                expanded={expandedIds.has(sourceId)}
+                citationId={citationByDocumentId.get(source.parentId) ?? null}
+                onToggle={() =>
+                  setExpandedIds((current) =>
+                    toggleExpandedEvidenceSource(current, sourceId)
+                  )
+                }
+                onOpenCitation={(citationId) => void openCitation(citationId)}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="message-content" data-evidence-card="true">
+          No evidence found for this question.
+        </div>
+      )}
+      <div className="assistant-actions">
+        <button type="button" onClick={() => void copy()}>
+          Copy evidence
+        </button>
+        {notice ? <span role="status">{notice}</span> : null}
+      </div>
+    </>
+  );
+}
+
+function GroundedAssistantMessage(props: {
+  message: HelpdeskMessage;
+}) {
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -193,12 +420,16 @@ function AssistantMessage(props: {
     }
   };
 
+  const interviewQuick =
+    props.message.presentationProfile === "live_assist_quick";
   const label =
     props.message.answerability === "partial"
       ? "Partial answer"
       : props.message.answerability === "insufficient_evidence"
         ? "Insufficient evidence"
-        : "Grounded answer";
+        : interviewQuick
+          ? "Interview Quick"
+          : "Grounded answer";
 
   return (
     <>
@@ -211,6 +442,14 @@ function AssistantMessage(props: {
         </span>
       </div>
       <div className="message-content">{props.message.content}</div>
+      {interviewQuick && props.message.citations.length > 0 ? (
+        <div className="quick-source-line">
+          {props.message.citations
+            .slice(0, 2)
+            .map((citation) => citation.sourceTitle)
+            .join(" · ")}
+        </div>
+      ) : null}
       <div className="assistant-actions">
         <button type="button" onClick={() => void copy()}>
           Copy answer
@@ -300,39 +539,53 @@ function ConversationTimeline(props: {
     endRef.current?.scrollIntoView({ block: "end" });
   }, [props.view?.conversation.id, rows.length]);
 
+  let body: JSX.Element;
   if (props.loading) {
-    return <div className="center-state">Loading conversation…</div>;
-  }
-  if (!props.view) {
-    return (
+    body = <div className="center-state">Loading conversation…</div>;
+  } else if (!props.view) {
+    body = (
       <div className="center-state empty-state">
         <h2>How can I help?</h2>
         <p>Create a conversation to start building persistent Relay history.</p>
       </div>
     );
-  }
-  if (rows.length === 0) {
-    return (
+  } else if (rows.length === 0) {
+    body = (
       <div className="center-state empty-state">
         <h2>New conversation</h2>
         <p>Ask or paste a helpdesk question below.</p>
       </div>
     );
-  }
-
-  return (
-    <div className="timeline" aria-live="polite">
+  } else {
+    body = (
       <div className="timeline-content">
         {rows.map((row) =>
           row.kind === "message" ? (
             <article
               key={row.id}
-              className={`message-row ${row.message.role}`}
+              className={`message-row ${row.message.role}${
+                row.message.role === "assistant" &&
+                parseEvidenceCardContent(row.message.content)
+                  ? " evidence-card-row"
+                  : row.message.role === "assistant" &&
+                      row.message.presentationProfile === "live_assist_quick"
+                    ? " interview-quick"
+                    : ""
+              }`}
               data-message-origin={row.message.inputOrigin ?? undefined}
+              data-user-message-id={
+                row.message.role === "user" ? row.message.id : undefined
+              }
+              data-answer-run-id={row.run?.id}
+              data-triggering-user-message-id={
+                row.run?.triggeringUserMessageId
+              }
             >
               {row.message.role === "user" ? (
                 <div className="message-label">
-                  You
+                  {row.message.inputOrigin === "live_transcript"
+                    ? "Interviewer"
+                    : "You"}
                   {row.message.inputOrigin === "pasted" ? (
                     <span className="origin-label">Pasted</span>
                   ) : row.message.inputOrigin ===
@@ -361,13 +614,14 @@ function ConversationTimeline(props: {
             </div>
           )
         )}
-        {props.executing ? (
-          <div className="answer-status executing" role="status">
-            Relay is retrieving evidence and validating a grounded answer…
-          </div>
-        ) : null}
         <div ref={endRef} />
       </div>
+    );
+  }
+
+  return (
+    <div className="timeline" aria-live="polite">
+      {body}
     </div>
   );
 }
@@ -401,12 +655,13 @@ function Composer(props: {
 
   return (
     <div className="composer-shell">
+      <div className="composer-heading">Ask a question</div>
       <div className="composer">
         <textarea
-          aria-label="Ask or paste anything"
+          aria-label="Ask a question"
           placeholder={
             props.hasConversation
-              ? "Ask or paste anything…"
+              ? "Ask a question…"
               : "Create a conversation to begin"
           }
           rows={3}
@@ -476,6 +731,9 @@ export function HelpdeskApp() {
 
   useEffect(() => {
     activeIdRef.current = activeId;
+    if (activeId) {
+      sessionStorage.setItem(HELP_DESK_ACTIVE_CONVERSATION_KEY, activeId);
+    }
   }, [activeId]);
 
   const loadConversation = useCallback(async (conversationId: string) => {
@@ -512,10 +770,16 @@ export function HelpdeskApp() {
           return;
         }
         setConversations(result.data);
-        const first = result.data[0];
-        if (first) {
-          setActiveId(first.id);
-          await loadConversation(first.id);
+        const storedId = sessionStorage.getItem(
+          HELP_DESK_ACTIVE_CONVERSATION_KEY
+        );
+        const initialId = resolveInitialConversationId(
+          result.data,
+          storedId
+        );
+        if (initialId) {
+          setActiveId(initialId);
+          await loadConversation(initialId);
         } else {
           setLoading(false);
         }
@@ -852,11 +1116,12 @@ export function HelpdeskApp() {
     content: string,
     pasted: boolean
   ): Promise<boolean> => {
-    if (!activeId) return false;
+    const conversationId = resolveSubmitConversationId(activeId);
+    if (!conversationId) return false;
     setBusy(true);
     try {
       const result = await window.helpdeskApi.submitMessage({
-        conversationId: activeId,
+        conversationId,
         content,
         inputOrigin: resolveComposerInputOrigin(pasted)
       });
@@ -864,10 +1129,11 @@ export function HelpdeskApp() {
         setError(resultErrorMessage("Message could not be saved.", result));
         return false;
       }
+      setActiveId(conversationId);
       setView(result.data.view);
       setConversations((current) => [
         result.data.view.conversation,
-        ...current.filter((item) => item.id !== activeId)
+        ...current.filter((item) => item.id !== conversationId)
       ]);
       setError(null);
       return true;
@@ -898,7 +1164,10 @@ export function HelpdeskApp() {
           onClose={() => setScreen("conversation")}
         />
       ) : (
-      <main className="conversation-pane">
+      <main
+        className="conversation-pane"
+        data-conversation-id={activeId ?? ""}
+      >
         <header className="conversation-header">
           <div>
             <div className="eyebrow">Relay: Real-Time Operations</div>
@@ -996,35 +1265,37 @@ export function HelpdeskApp() {
             )}
           </div>
         </header>
-        {settings &&
-        settings.providers.deepgram.state !== "configured" ? (
-          <div className="readiness-banner">
-            Live Assist needs a configured Deepgram STT
-            credential. Chat and history remain available.
-          </div>
-        ) : null}
-        {settings &&
-        settings.providers.openAiEmbeddings.state !==
-          "configured" ? (
-          <div className="readiness-banner">
-            OpenAI Embeddings is not configured.
-            Retrieval-backed answers will fail closed; history
-            and settings remain available.
-          </div>
-        ) : null}
-        {liveSession?.state === "active" && liveTranscript ? (
-          <div className="live-transcript-banner">
-            Live transcript: {liveTranscript}
-          </div>
-        ) : null}
-        {error ? (
-          <div className="error-banner" role="alert">
-            <span>{error}</span>
-            <button type="button" onClick={() => setError(null)}>
-              Dismiss
-            </button>
-          </div>
-        ) : null}
+        <div className="conversation-banners">
+          {settings &&
+          settings.providers.deepgram.state !== "configured" ? (
+            <div className="readiness-banner">
+              Live Assist needs a configured Deepgram STT
+              credential. Chat and history remain available.
+            </div>
+          ) : null}
+          {settings &&
+          settings.providers.openAiEmbeddings.state !==
+            "configured" ? (
+            <div className="readiness-banner">
+              OpenAI Embeddings is not configured.
+              Retrieval-backed answers will fail closed; history
+              and settings remain available.
+            </div>
+          ) : null}
+          {liveSession?.state === "active" && liveTranscript ? (
+            <div className="live-transcript-banner">
+              Live transcript: {liveTranscript}
+            </div>
+          ) : null}
+          {error ? (
+            <div className="error-banner" role="alert">
+              <span>{error}</span>
+              <button type="button" onClick={() => setError(null)}>
+                Dismiss
+              </button>
+            </div>
+          ) : null}
+        </div>
         <ConversationTimeline
           view={view}
           loading={loading}

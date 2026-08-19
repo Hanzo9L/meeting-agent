@@ -1,0 +1,71 @@
+{
+  "experiment": "PHASE R0.2 — Frozen Ground-Truth Retrieval Evaluation",
+  "date": "2026-08-17",
+  "verdict": "R0.1 RETRIEVAL RECALL NOT CONFIRMED",
+  "relay_production_source_modified": false,
+  "retrieval_code_changed": false,
+  "retrieval_frozen_sha256_16": {
+    "service/search.py": "8702daf1ee2b2843",
+    "build/transform.py": "9ebb37b3313c23c0",
+    "eval/run_r0_1.py": "c514a53628ba899b"
+  },
+  "ground_truth": "learn-rag/eval/ground_truth/priority14_retrieval.json",
+  "command": "python eval/run_r0_2.py",
+  "machine": {
+    "answerable_n": 13,
+    "source_gap_n": 1,
+    "top1_correct": 7,
+    "top3_correct": 11,
+    "top1_ratio": "7/13",
+    "top3_ratio": "11/13"
+  },
+  "r0_1_claimed": {
+    "top1_ratio": "6/13",
+    "top3_ratio": "12/13",
+    "source_gap": "Q03"
+  },
+  "discrepancies": [
+    {
+      "question_id": "Q10",
+      "human_r0_1": "TOP3_CORRECT",
+      "machine_r0_2": "TOP1_CORRECT",
+      "reason": "Frozen GT encodes Windows Rooms known-issues as ARTICLE-level acceptable. Rank 1 is that article. R0.1 prose used TOP3 because the pages are known-issues rather than a far-end media runbook."
+    },
+    {
+      "question_id": "Q13",
+      "human_r0_1": "TOP3_CORRECT",
+      "machine_r0_2": "MISS",
+      "reason": "Rank 3 is Get ready for Copilot SAM Step 5 backup. Frozen GT is SECTION-level on Overview and Steps 1-3 only, matching R0.1's own statement that Step 5 is the wrong subsection."
+    },
+    {
+      "question_id": "Q14_scoped",
+      "in_answerable_13": false,
+      "human_r0_1": "TOP1_CORRECT",
+      "machine_r0_2": "TOP3_CORRECT",
+      "reason": "Get-CsOnlineUser is rank 2. Rank 1 Get-CsOnlineVoiceRoutingPolicy is not in frozen GT (only Get-CsOnlineUser)."
+    }
+  ],
+  "grades": {
+    "Q01": {"human": "TOP3_CORRECT", "machine": "TOP3_CORRECT"},
+    "Q02": {"human": "TOP3_CORRECT", "machine": "TOP3_CORRECT"},
+    "Q03": {"human": "SOURCE_GAP", "machine": "SOURCE_GAP"},
+    "Q04": {"human": "TOP3_CORRECT", "machine": "TOP3_CORRECT"},
+    "Q05": {"human": "TOP3_CORRECT", "machine": "TOP3_CORRECT"},
+    "Q06": {"human": "TOP1_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q07": {"human": "TOP1_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q08": {"human": "TOP1_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q09": {"human": "TOP1_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q10": {"human": "TOP3_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q11": {"human": "TOP1_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q12": {"human": "TOP1_CORRECT", "machine": "TOP1_CORRECT"},
+    "Q13": {"human": "TOP3_CORRECT", "machine": "MISS"},
+    "Q14": {"human": "MISS", "machine": "MISS"},
+    "Q14_scoped": {"human": "TOP1_CORRECT", "machine": "TOP3_CORRECT"}
+  },
+  "tests": {
+    "test_r02_eval": "12 OK",
+    "test_r01": "still OK"
+  },
+  "raw_results": "eval/runs/retrieval-r0-2/raw_results.json",
+  "scored": "eval/runs/retrieval-r0-2/scored.json"
+}

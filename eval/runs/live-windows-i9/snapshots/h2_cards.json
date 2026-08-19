@@ -1,0 +1,106 @@
+{
+  "ok": true,
+  "waitedMs": 71,
+  "snapshot": {
+    "helpdesk": {
+      "engineState": "QA Assist ┬╖ Far Side / System Audio ┬╖ Microphone Excluded ┬╖ New conversation ┬╖ capturing",
+      "liveHeader": [
+        "Real-Time OperationsRelay+ New ChatNew conversation8/19/2026RenameDeleteNew conversation8/19/2026RenameDeleteSettingsRelay: Real-Time OperationsNew conversationQA Assist ┬╖ Far Side / System Audio ┬╖ Microphone Excluded ┬╖ New conversation ┬╖ capturingsystem ┬╖ microphone excluded ┬╖ capturingHide OverlaySpeech settingsStop QA AssistLive transcript: A user can use Teams but cannot call external numbers. How do you troubleshoot?InterviewerLive transcriptWhat does Gixonline user return?RelayEvidence1.Get-CsOnlineVoiceRoutingPolicyMicrosoftGet-CsOnlineVoiceRoutingPolicyGet-CsOnlineVoiceRoutingPolicySYNOPSISReturns information about the online voice routing policies configured for use in your tenant.Expandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy2.Get-CsOnlineUserMicrosoftGet-CsOnlineUserGet-CsOnlineUserSYNOPSISReturns information about users who have accounts homed on Microsoft Teams or Skype for Business Online.Expandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser3.Enable users for Direct RoutingMicrosoftEnsure that the user is homed onlineThis step applies to Skype for Business Server Enterprise Voice enabled users being migrated to Teams Direct Routing.\n\nDirect Routing requires the user to be homed online. You can check by looking at the  `RegistrarPool`  parameter, which needs to have a value in the infra.lync.com domain. Microsoft recommends, but doesn't require, that you change the LineURI from on-premises to online when migrating users to Teams Direct Routing.\n\nConnect a Microsoft Teams PowerShell session.Expandhttps://learn.microsoft.com/microsoftteams/direct-routing-enable-users4.Get-CsOnlinePstnUsageMicrosoftGet-CsOnlinePstnUsageGet-CsOnlinePstnUsageSYNOPSISReturns information about online public switched telephone network (PSTN) usage records used in your tenant.Expandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage5.ps(1)Linux ┬╖ upstream referenceps(1)ps(1) - Linux manual page\n\nman7.org (../../../index.html) > Linux > man-pages (../index.html)\n\nLinux/UNIX system programming training (http://man7.org/training/)Expandhttps://man7.org/linux/man-pages/man1/ps.1.htmlCopy evidenceInterviewerLive transcriptA user can use Teams but cannot call external numbers. How do you troubleshoot?RelayMicrosoft Evidence1.Issues with outbound callsMicrosoftSome users are unable to make callsIf the connection between the Teams client and the SBC is working correctly, but some users cannot make calls, the issue might be caused by incorrect settings or incorrect provisioning of those users.Cause 1Users are missing the dial pad on the Calls tab in Teams.Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls2.Use Call Analytics to troubleshoot poor call qualityMicrosoftWhat does each Teams Support role do?The Teams communications support specialist (Tier 1 support) handles basic call-quality problems. They don't investigate issues with meetings. Instead, they collect related information and then escalate to a Teams communications support engineer.\n\nThe Teams communications support engineer (Tier 2 support) sees information in detailed call logs that are hidden from the Teams communications support specialist. The table below lists the information available to each Teams communication support role.\n\nThe following table tells you what per-user information is available for each communications support role. Phone numbers are obfuscated for all roles and this behavior can't be changed or disabled.Expandhttps://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality3.Set up Teams Phone in your organizationMicrosoftStep 3: Get and assign phone numbers for your users and servicesBefore you can set up users in your organization to make and receive phone calls, you must get phone numbers for them.\n\nIn addition to getting phone numbers for your users, you can acquire toll or toll-free phone numbers for services such as auto attendants and call queues. A service number can handle hundreds of calls simultaneously, whereas a user's phone number can only handle a few calls simultaneously.\n\nHow you acquire and manage phone numbers differs depending on your PSTN connectivity option.Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system4.Set up Teams Phone in your organizationMicrosoftStep 2: Choose a PSTN connectivity optionMicrosoft options for making external calls to the PSTN include:\n\nMicrosoft Calling Plan (calling-plans-for-office-365). An all-in-the-cloud solution with Microsoft as your PSTN carrier. If you choose Microsoft Calling Plan as your connectivity option, you have a choice of Calling Plan options, including Domestic, International, and Pay-as-you-go plans.\n\nOperator Connect (operator-connect-plan). If your existing carrier participates in the Microsoft Operator Connect program, they can manage PSTN calling for you.Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system5.Issues with call transfersMicrosoftAuto attendant does not transfer calls to an external PSTN numberThis issue might occur for the following reasons:\n\nNo licenses, or incorrect licenses, are assigned to the auto attendant. If you can transfer a call to an internal user or a bot, but if you can't transfer a call to an external PSTN number, this might indicate a licensing issue.\n\nThe SIP Invite message is sent to an incorrect device. For example, the message is sent to a PSTN provider. By design, SIP Refer messages don't contain complete information about the target. For example, a PSTN number is normalized to the international format.Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfersCopy evidenceAsk a questionEnter to send ┬╖ Shift+Enter for a new lineSend",
+        "Real-Time OperationsRelay+ New ChatNew conversation8/19/2026RenameDeleteNew conversation8/19/2026RenameDeleteSettingsRelay: Real-Time OperationsNew conversationQA Assist ┬╖ Far Side / System Audio ┬╖ Microphone Excluded ┬╖ New conversation ┬╖ capturingsystem ┬╖ microphone excluded ┬╖ capturingHide OverlaySpeech settingsStop QA AssistLive transcript: A user can use Teams but cannot call external numbers. How do you troubleshoot?InterviewerLive transcriptWhat does Gixonline user return?RelayEvidence1.Get-CsOnlineVoiceRoutingPolicyMicrosoftGet-CsOnlineVoiceRoutingPolicyGet-CsOnlineVoiceRoutingPolicySYNOPSISReturns information about the online voice routing policies configured for use in your tenant.Expandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy2.Get-CsOnlineUserMicrosoftGet-CsOnlineUserGet-CsOnlineUserSYNOPSISReturns information about users who have accounts homed on Microsoft Teams or Skype for Business Online.Expandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser3.Enable users for Direct RoutingMicrosoftEnsure that the user is homed onlineThis step applies to Skype for Business Server Enterprise Voice enabled users being migrated to Teams Direct Routing.\n\nDirect Routing requires the user to be homed online. You can check by looking at the  `RegistrarPool`  parameter, which needs to have a value in the infra.lync.com domain. Microsoft recommends, but doesn't require, that you change the LineURI from on-premises to online when migrating users to Teams Direct Routing.\n\nConnect a Microsoft Teams PowerShell session.Expandhttps://learn.microsoft.com/microsoftteams/direct-routing-enable-users4.Get-CsOnlinePstnUsageMicrosoftGet-CsOnlinePstnUsageGet-CsOnlinePstnUsageSYNOPSISReturns information about online public switched telephone network (PSTN) usage records used in your tenant.Expandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage5.ps(1)Linux ┬╖ upstream referenceps(1)ps(1) - Linux manual page\n\nman7.org (../../../index.html) > Linux > man-pages (../index.html)\n\nLinux/UNIX system programming training (http://man7.org/training/)Expandhttps://man7.org/linux/man-pages/man1/ps.1.htmlCopy evidenceInterviewerLive transcriptA user can use Teams but cannot call external numbers. How do you troubleshoot?RelayMicrosoft Evidence1.Issues with outbound callsMicrosoftSome users are unable to make callsIf the connection between the Teams client and the SBC is working correctly, but some users cannot make calls, the issue might be caused by incorrect settings or incorrect provisioning of those users.Cause 1Users are missing the dial pad on the Calls tab in Teams.Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls2.Use Call Analytics to troubleshoot poor call qualityMicrosoftWhat does each Teams Support role do?The Teams communications support specialist (Tier 1 support) handles basic call-quality problems. They don't investigate issues with meetings. Instead, they collect related information and then escalate to a Teams communications support engineer.\n\nThe Teams communications support engineer (Tier 2 support) sees information in detailed call logs that are hidden from the Teams communications support specialist. The table below lists the information available to each Teams communication support role.\n\nThe following table tells you what per-user information is available for each communications support role. Phone numbers are obfuscated for all roles and this behavior can't be changed or disabled.Expandhttps://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality3.Set up Teams Phone in your organizationMicrosoftStep 3: Get and assign phone numbers for your users and servicesBefore you can set up users in your organization to make and receive phone calls, you must get phone numbers for them.\n\nIn addition to getting phone numbers for your users, you can acquire toll or toll-free phone numbers for services such as auto attendants and call queues. A service number can handle hundreds of calls simultaneously, whereas a user's phone number can only handle a few calls simultaneously.\n\nHow you acquire and manage phone numbers differs depending on your PSTN connectivity option.Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system4.Set up Teams Phone in your organizationMicrosoftStep 2: Choose a PSTN connectivity optionMicrosoft options for making external calls to the PSTN include:\n\nMicrosoft Calling Plan (calling-plans-for-office-365). An all-in-the-cloud solution with Microsoft as your PSTN carrier. If you choose Microsoft Calling Plan as your connectivity option, you have a choice of Calling Plan options, including Domestic, International, and Pay-as-you-go plans.\n\nOperator Connect (operator-connect-plan). If your existing carrier participates in the Microsoft Operator Connect program, they can manage PSTN calling for you.Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system5.Issues with call transfersMicrosoftAuto attendant does not transfer calls to an external PSTN numberThis issue might occur for the following reasons:\n\nNo licenses, or incorrect licenses, are assigned to the auto attendant. If you can transfer a call to an internal user or a bot, but if you can't transfer a call to an external PSTN number, this might indicate a licensing issue.\n\nThe SIP Invite message is sent to an incorrect device. For example, the message is sent to a PSTN provider. By design, SIP Refer messages don't contain complete information about the target. For example, a PSTN number is normalized to the international format.Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfersCopy evidenceAsk a questionEnter to send ┬╖ Shift+Enter for a new lineSend",
+        "QA Assist ┬╖ Far Side / System Audio ┬╖ Microphone Excluded ┬╖ New conversation ┬╖ capturingsystem ┬╖ microphone excluded ┬╖ capturingHide OverlaySpeech settingsStop QA Assist",
+        "QA Assist ┬╖ Far Side / System Audio ┬╖ Microphone Excluded ┬╖ New conversation ┬╖ capturing",
+        "Stop QA Assist"
+      ],
+      "qaButton": [
+        "Stop QA Assist"
+      ],
+      "liveTurns": 2,
+      "liveUserTexts": [
+        "InterviewerLive transcriptWhat does Gixonline user return?",
+        "InterviewerLive transcriptA user can use Teams but cannot call external numbers. How do you troubleshoot?"
+      ],
+      "assistantCount": 2,
+      "assistantCards": [],
+      "publishers": [
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Linux",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft"
+      ],
+      "session": {
+        "ok": true,
+        "data": {
+          "id": "live_53792da1-a146-4f5f-90c1-9bcb0fb46e17",
+          "conversationId": "conv_e154c912-0f2b-40d0-96f3-a87b5cb8a88d",
+          "profile": "qa_assist",
+          "state": "active",
+          "captureStatus": "capturing",
+          "startedAt": "2026-08-19T20:32:05.010Z",
+          "stoppedAt": null,
+          "stopReason": null
+        }
+      },
+      "bodyLen": 5936
+    },
+    "overlay": {
+      "present": true,
+      "readiness": "ListeningEvidence readyDemo ┬╖ visible in shareHideLive transcriptA user can use Teams but cannot call external numbers. How do you troubleshoot?InterviewerWhat does Gixonline user return?Evidence1.Get-CsOnlineVoiceRoutingPolicyMicrosoftGet-CsOnlineVoiceRoutingPolicy# Get-CsOnlineVoiceRoutingPolicyExpandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy2.Get-CsOnlineUserMicrosoftGet-CsOnlineUser# Get-CsOnlineUserExpandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser3.Enable users for Direct RoutingMicrosoftEnsure that the user is homed onlineThis step applies to Skype for Business Server Enterprise Voice enabled users being migrated to Teams Direct Routing.Expandhttps://learn.microsoft.com/microsoftteams/direct-routing-enable-users4.Get-CsOnlinePstnUsageMicrosoftGet-CsOnlinePstnUsage# Get-CsOnlinePstnUsageExpandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage5.ps(1)Linux ┬╖ upstream referenceps(1)ps(1) - Linux manual pageExpandhttps://man7.org/linux/man-pages/man1/ps.1.htmlInterviewerA user can use Teams but cannot call external numbers. How do you troubleshoot?Microsoft Evidence1.Issues with outbound callsMicrosoftSome users are unable to make callsIf the connection between the Teams client and the SBC is working correctly, but some users cannot make calls, the issue might be caused by incorrect settings or incorrect provisioning of those users.Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls2.Use Call Analytics to troubleshoot poor call qualityMicrosoftWhat does each Teams Support role do?The Teams communications support specialist (Tier 1 support) handles basic call-quality problems. They don't investigate issues with meetings.Expandhttps://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality3.Set up Teams Phone in your organizationMicrosoftStep 3: Get and assign phone numbers for your users and servicesBefore you can set up users in your organization to make and receive phone calls, you must get phone numbers for them.Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system4.Set up Teams Phone in your organizationMicrosoftStep 2: Choose a PSTN connectivity optionMicrosoft options for making external calls to the PSTN include:Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system5.Issues with call transfersMicrosoftAuto attendant does not transfer calls to an external PSTN numberThis issue might occur for the following reasons:Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers",
+      "liveTranscript": "Live transcriptA user can use Teams but cannot call external numbers. How do you troubleshoot?",
+      "cardHeadings": [
+        "Get-CsOnlineVoiceRoutingPolicy",
+        "Get-CsOnlineUser",
+        "Enable users for Direct Routing",
+        "Get-CsOnlinePstnUsage",
+        "ps(1)",
+        "Issues with outbound calls",
+        "Use Call Analytics to troubleshoot poor call quality",
+        "Set up Teams Phone in your organization",
+        "Set up Teams Phone in your organization",
+        "Issues with call transfers"
+      ],
+      "publishers": [
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Linux",
+        "Linux",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft",
+        "Microsoft"
+      ],
+      "sourceRoles": [
+        "microsoft_authority",
+        "microsoft_authority",
+        "microsoft_authority",
+        "microsoft_authority",
+        "upstream_reference",
+        "microsoft_authority",
+        "microsoft_authority",
+        "microsoft_authority",
+        "microsoft_authority",
+        "microsoft_authority"
+      ],
+      "failureText": [],
+      "bodyText": "\n    ListeningEvidence readyDemo ┬╖ visible in shareHideLive transcriptA user can use Teams but cannot call external numbers. How do you troubleshoot?InterviewerWhat does Gixonline user return?Evidence1.Get-CsOnlineVoiceRoutingPolicyMicrosoftGet-CsOnlineVoiceRoutingPolicy# Get-CsOnlineVoiceRoutingPolicyExpandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy2.Get-CsOnlineUserMicrosoftGet-CsOnlineUser# Get-CsOnlineUserExpandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser3.Enable users for Direct RoutingMicrosoftEnsure that the user is homed onlineThis step applies to Skype for Business Server Enterprise Voice enabled users being migrated to Teams Direct Routing.Expandhttps://learn.microsoft.com/microsoftteams/direct-routing-enable-users4.Get-CsOnlinePstnUsageMicrosoftGet-CsOnlinePstnUsage# Get-CsOnlinePstnUsageExpandhttps://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage5.ps(1)Linux ┬╖ upstream referenceps(1)ps(1) - Linux manual pageExpandhttps://man7.org/linux/man-pages/man1/ps.1.htmlInterviewerA user can use Teams but cannot call external numbers. How do you troubleshoot?Microsoft Evidence1.Issues with outbound callsMicrosoftSome users are unable to make callsIf the connection between the Teams client and the SBC is working correctly, but some users cannot make calls, the issue might be caused by incorrect settings or incorrect provisioning of those users.Expandhttps://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls2.Use Call Analytics to troubleshoot poor call qualityMicrosoftWhat does each Teams Support role do?The Teams communications support specialist (Tier 1 support) handles basic call-quality problems. They don't investigate issues with meetings.Expandhttps://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality3.Set up Teams Phone in your organizationMicrosoftStep 3: Get and assign phone numbers for your users and servicesBefore you can set up users in your organization to make and receive phone calls, you must get phone numbers for them.Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system4.Set up Teams Phone in your organizationMicrosoftStep 2: Choose a PSTN connectivity optionMicrosoft options for making external calls to the PSTN include:Expandhttps://learn.microsoft.com/microsoftteams/setting-up-your-phone-system5.Issues with call transf"
+    },
+    "at": "2026-08-19T20:32:59.500Z"
+  }
+}

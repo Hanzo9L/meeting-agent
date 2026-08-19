@@ -1,0 +1,913 @@
+{
+  "generatedAt": "2026-08-16T21:00:53.065Z",
+  "synthesisProviderId": "openai_grounded_presentation",
+  "synthesisRuntimeConfig": {
+    "provider": "openai",
+    "model": "gpt-4o-mini",
+    "timeoutMs": 12000
+  },
+  "results": [
+    {
+      "profile": "helpdesk_detailed",
+      "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+      "outcome": "partial",
+      "deterministicFactualText": "Steps:\n- Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy\n- The returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.\n- Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User\n- Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments. This new attribute provides information about a user's effective policy assignments. Each assignment includes the following details:PolicyType - which specifies the type of policy assigned (for example, TeamsMeetingPolicy, TeamsCallingPolicy, and so on.)PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.\n- Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - TelephoneNumbers: A new list of complex object that includes telephone number and its corresponding assignment category. The assignment category can include values such as 'Primary', 'Private', and 'Alternate'.\n\nLimitations:\n- The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats:\n- Only supported portions should be answered.",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+        "profile": "helpdesk_detailed",
+        "answerability": "partial",
+        "answerType": "configuration",
+        "requestedMethods": [
+          "PowerShell"
+        ],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "answerObject": "fact",
+            "operation": null,
+            "supported": false,
+            "requestedMethods": []
+          },
+          {
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "subject": "enterprise voice",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:entity:phone-number:general",
+            "subject": "phone number",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "subject": "calling policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "subject": "dial plan",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "subject": "voice routing policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:febed54395a1a9d6a08e887c",
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "aspectSubject": "enterprise voice",
+            "text": "Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:febed54395a1a9d6a08e887c",
+                "evidenceId": "evidence:ab6598ffaeefee1c1e80555dd1fbb338503cfbaf9fe18b40f7aa5114c165fdb8",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineVoiceUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:735f2aa52bddd2c3ed4a0c99",
+            "aspectId": "mandatory:entity:phone-number:general",
+            "aspectSubject": "phone number",
+            "text": "Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - TelephoneNumbers: A new list of complex object that includes telephone number and its corresponding assignment category. The assignment category can include values such as 'Primary', 'Private', and 'Alternate'.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:735f2aa52bddd2c3ed4a0c99",
+                "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:6b002a8d68d560057a41d9fd",
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "aspectSubject": "voice routing policy",
+            "text": "Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:6b002a8d68d560057a41d9fd",
+                "evidenceId": "evidence:4ce6f966020d1b260bec99eabd453710c9dd8cf203cc09087f880724f1537435",
+                "sourceId": "ms-teams-admin",
+                "sourceTitle": "Configure call routing for Direct Routing",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+                "authorityRole": "teams_admin_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:4091897c89d2cbb2116930ce",
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "aspectSubject": "dial plan",
+            "text": "The returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:4091897c89d2cbb2116930ce",
+                "evidenceId": "evidence:e716e98af08fd1f1c7067b34d0407f1ba25248fce46924785a69c914b7bcd1f3",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsEffectiveTenantDialPlan",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:5dc56427bcbfd521944b9820",
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "aspectSubject": "calling policy",
+            "text": "Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments. This new attribute provides information about a user's effective policy assignments. Each assignment includes the following details:PolicyType - which specifies the type of policy assigned (for example, TeamsMeetingPolicy, TeamsCallingPolicy, and so on.)PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:5dc56427bcbfd521944b9820",
+                "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          },
+          {
+            "aspectId": "missing_authority",
+            "subject": "missing_authority",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          }
+        ],
+        "caveats": [
+          {
+            "code": "partial_coverage",
+            "text": "Only supported portions should be answered."
+          }
+        ]
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "helpdesk_detailed",
+        "blocks": [
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User",
+            "supportingClaimIds": [
+              "claim:febed54395a1a9d6a08e887c"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser cmdlet includes - Properties parameter to specify properties in output, including TelephoneNumbers with telephone number and assignment category.",
+            "supportingClaimIds": [
+              "claim:735f2aa52bddd2c3ed4a0c99"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy retrieves voice routing policy.",
+            "supportingClaimIds": [
+              "claim:6b002a8d68d560057a41d9fd"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsEffectiveTenantDialPlan retrieves effective tenant dial plan for a user, including EffectiveTenantDialPlanName and normalization rules.",
+            "supportingClaimIds": [
+              "claim:4091897c89d2cbb2116930ce"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser cmdlet includes EffectivePolicyAssignments attribute providing details about a user's effective policy assignments.",
+            "supportingClaimIds": [
+              "claim:5dc56427bcbfd521944b9820"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [
+          "mandatory:entity:csv-export:output-transformation",
+          "missing_authority"
+        ],
+        "caveatCodes": [
+          "partial_coverage"
+        ]
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "Summary\nGet-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy\n\nThe returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.\n\nGet-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User\n\nAdds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments. This new attribute provides information about a user's effective policy assignments. Each assignment includes the following details:PolicyType - which specifies the type of policy assigned (for example, TeamsMeetingPolicy, TeamsCallingPolicy, and so on.)PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.\n\nAdds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - TelephoneNumbers: A new list of complex object that includes telephone number and its corresponding assignment category. The assignment category can include values such as 'Primary', 'Private', and 'Alternate'.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:entity:csv-export:output-transformation): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nNot established from available authoritative evidence (missing_authority): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats / limitations\nOnly supported portions should be answered.\n\nSources\nConfigure call routing for Direct Routing — https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing\n\nGet-CsEffectiveTenantDialPlan — https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan\n\nGet-CsOnlineVoiceUser — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceuser\n\nGet-CsOnlineUser — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+      "diagnostics": {
+        "retrievalMs": 2950.1684,
+        "evidenceResolutionMs": 50.64240000000018,
+        "planningMs": 5.666999999999916,
+        "assemblyMs": 2.7631999999998698,
+        "citationMappingMs": 5.466499999999996,
+        "contextBuildMs": 2.590299999999843,
+        "presentationPlanningMs": 0.48139999999966676,
+        "presentationRenderMs": 0.3544999999999163,
+        "synthesisMs": 4102.6572,
+        "pipelineTotalMs": 7121.1394,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "validation_failed",
+        "presentationSynthesisFallbackReason": "unattributed_technical_token:telephonenumbers,unattributed_content_word:including,unattributed_content_word:providing,unattributed_content_word:detail"
+      },
+      "persistenceAndServiceMs": 15.975099999999657,
+      "totalVisibleMs": 7137.2855,
+      "citations": [
+        {
+          "citationId": "citation:95f3aae3497d3d0a7f87f45f",
+          "factualRangeId": "factual-range:5cdb9ba4ccf3b043bf17e7f3",
+          "claimId": "claim:6b002a8d68d560057a41d9fd",
+          "answerRange": {
+            "startOffset": 8,
+            "endOffset": 78
+          },
+          "evidenceId": "evidence:4ce6f966020d1b260bec99eabd453710c9dd8cf203cc09087f880724f1537435",
+          "spanId": "span:ba6dbff5d296e3cdd921f577",
+          "supportingSpanIds": [],
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user1@contoso.com"
+          ],
+          "sectionId": "sec-15",
+          "sourceStatus": "ga",
+          "preview": false
+        },
+        {
+          "citationId": "citation:362d25a1d1a4a161b067533c",
+          "factualRangeId": "factual-range:155cfdcd365e884fc5240db5",
+          "claimId": "claim:4091897c89d2cbb2116930ce",
+          "answerRange": {
+            "startOffset": 80,
+            "endOffset": 347
+          },
+          "evidenceId": "evidence:e716e98af08fd1f1c7067b34d0407f1ba25248fce46924785a69c914b7bcd1f3",
+          "spanId": "span:3c0226f9aeba5441b9115693",
+          "supportingSpanIds": [
+            "span:04c29bb3f98daf351ae9534b"
+          ],
+          "documentId": "ebfb3f6e3b11be58d697c1c7768bbd51bbda71d1832fe84d2efcabfcfecbbbe0",
+          "sourceTitle": "Get-CsEffectiveTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsEffectiveTenantDialPlan",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-4",
+          "sourceStatus": "ga",
+          "preview": false
+        },
+        {
+          "citationId": "citation:ea216aae185058d1e19667bf",
+          "factualRangeId": "factual-range:8ff9616e1c922ff364e6f369",
+          "claimId": "claim:febed54395a1a9d6a08e887c",
+          "answerRange": {
+            "startOffset": 349,
+            "endOffset": 664
+          },
+          "evidenceId": "evidence:ab6598ffaeefee1c1e80555dd1fbb338503cfbaf9fe18b40f7aa5114c165fdb8",
+          "spanId": "span:50442a31f118aa6ffc95de22",
+          "supportingSpanIds": [],
+          "documentId": "d959c6257aa20fd39219a09417ee917d9d2361c7f9ca28e199570a693f0e4aa5",
+          "sourceTitle": "Get-CsOnlineVoiceUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceUser",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-4",
+          "sourceStatus": "ga",
+          "preview": false
+        },
+        {
+          "citationId": "citation:f330cd32085eef8061115870",
+          "factualRangeId": "factual-range:74b6abc71c73f91a08317fc9",
+          "claimId": "claim:5dc56427bcbfd521944b9820",
+          "answerRange": {
+            "startOffset": 666,
+            "endOffset": 1677
+          },
+          "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+          "spanId": "span:eedca5defffdd7f3b340c514",
+          "supportingSpanIds": [
+            "span:4d8b873a370ca8eae28aa1a1"
+          ],
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "NOTES"
+          ],
+          "sectionId": "sec-25",
+          "sourceStatus": "ga",
+          "preview": false
+        },
+        {
+          "citationId": "citation:7a0a328d0095979f08e455d6",
+          "factualRangeId": "factual-range:e8ed521e8594b895025e3afd",
+          "claimId": "claim:735f2aa52bddd2c3ed4a0c99",
+          "answerRange": {
+            "startOffset": 1679,
+            "endOffset": 2232
+          },
+          "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+          "spanId": "span:eedca5defffdd7f3b340c514",
+          "supportingSpanIds": [
+            "span:d3294375492385d841e753a6"
+          ],
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "NOTES"
+          ],
+          "sectionId": "sec-25",
+          "sourceStatus": "ga",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "Summary\nGet-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy\n\nThe returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.\n\nGet-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User\n\nAdds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments. This new attribute provides information about a user's effective policy assignments. Each assignment includes the following details:PolicyType - which specifies the type of policy assigned (for example, TeamsMeetingPolicy, TeamsCallingPolicy, and so on.)PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.\n\nAdds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - TelephoneNumbers: A new list of complex object that includes telephone number and its corresponding assignment category. The assignment category can include values such as 'Primary', 'Private', and 'Alternate'.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:entity:csv-export:output-transformation): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nNot established from available authoritative evidence (missing_authority): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats / limitations\nOnly supported portions should be answered.\n\nSources\nConfigure call routing for Direct Routing — https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing\n\nGet-CsEffectiveTenantDialPlan — https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan\n\nGet-CsOnlineVoiceUser — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceuser\n\nGet-CsOnlineUser — https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_f951007b-7a12-4153-b1f0-f3883ba712e5",
+          "citationId": "citation:95f3aae3497d3d0a7f87f45f",
+          "factualRangeId": "factual-range:5cdb9ba4ccf3b043bf17e7f3",
+          "claimId": "claim:6b002a8d68d560057a41d9fd",
+          "answerRangeStart": 8,
+          "answerRangeEnd": 78,
+          "evidenceId": "evidence:4ce6f966020d1b260bec99eabd453710c9dd8cf203cc09087f880724f1537435",
+          "spanId": "span:ba6dbff5d296e3cdd921f577",
+          "supportingSpanIds": [],
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user1@contoso.com"
+          ],
+          "sectionId": "sec-15",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:2a8450618a9588274173cd93"
+        },
+        {
+          "messageId": "msg_f951007b-7a12-4153-b1f0-f3883ba712e5",
+          "citationId": "citation:362d25a1d1a4a161b067533c",
+          "factualRangeId": "factual-range:155cfdcd365e884fc5240db5",
+          "claimId": "claim:4091897c89d2cbb2116930ce",
+          "answerRangeStart": 80,
+          "answerRangeEnd": 347,
+          "evidenceId": "evidence:e716e98af08fd1f1c7067b34d0407f1ba25248fce46924785a69c914b7bcd1f3",
+          "spanId": "span:3c0226f9aeba5441b9115693",
+          "supportingSpanIds": [
+            "span:04c29bb3f98daf351ae9534b"
+          ],
+          "documentId": "ebfb3f6e3b11be58d697c1c7768bbd51bbda71d1832fe84d2efcabfcfecbbbe0",
+          "sourceTitle": "Get-CsEffectiveTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsEffectiveTenantDialPlan",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-4",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:2a8450618a9588274173cd93"
+        },
+        {
+          "messageId": "msg_f951007b-7a12-4153-b1f0-f3883ba712e5",
+          "citationId": "citation:ea216aae185058d1e19667bf",
+          "factualRangeId": "factual-range:8ff9616e1c922ff364e6f369",
+          "claimId": "claim:febed54395a1a9d6a08e887c",
+          "answerRangeStart": 349,
+          "answerRangeEnd": 664,
+          "evidenceId": "evidence:ab6598ffaeefee1c1e80555dd1fbb338503cfbaf9fe18b40f7aa5114c165fdb8",
+          "spanId": "span:50442a31f118aa6ffc95de22",
+          "supportingSpanIds": [],
+          "documentId": "d959c6257aa20fd39219a09417ee917d9d2361c7f9ca28e199570a693f0e4aa5",
+          "sourceTitle": "Get-CsOnlineVoiceUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineVoiceUser",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-4",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:2a8450618a9588274173cd93"
+        },
+        {
+          "messageId": "msg_f951007b-7a12-4153-b1f0-f3883ba712e5",
+          "citationId": "citation:f330cd32085eef8061115870",
+          "factualRangeId": "factual-range:74b6abc71c73f91a08317fc9",
+          "claimId": "claim:5dc56427bcbfd521944b9820",
+          "answerRangeStart": 666,
+          "answerRangeEnd": 1677,
+          "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+          "spanId": "span:eedca5defffdd7f3b340c514",
+          "supportingSpanIds": [
+            "span:4d8b873a370ca8eae28aa1a1"
+          ],
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "NOTES"
+          ],
+          "sectionId": "sec-25",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:2a8450618a9588274173cd93"
+        },
+        {
+          "messageId": "msg_f951007b-7a12-4153-b1f0-f3883ba712e5",
+          "citationId": "citation:7a0a328d0095979f08e455d6",
+          "factualRangeId": "factual-range:e8ed521e8594b895025e3afd",
+          "claimId": "claim:735f2aa52bddd2c3ed4a0c99",
+          "answerRangeStart": 1679,
+          "answerRangeEnd": 2232,
+          "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+          "spanId": "span:eedca5defffdd7f3b340c514",
+          "supportingSpanIds": [
+            "span:d3294375492385d841e753a6"
+          ],
+          "documentId": "6de35887ec8351bdbda01495571ff7af78c7b67b6f170ffb5f4c770d5641f530",
+          "sourceTitle": "Get-CsOnlineUser",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsOnlineUser",
+            "NOTES"
+          ],
+          "sectionId": "sec-25",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:2a8450618a9588274173cd93"
+        }
+      ]
+    },
+    {
+      "profile": "live_assist_quick",
+      "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+      "outcome": "partial",
+      "deterministicFactualText": "Steps:\n- Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy\n- The returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.\n- Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User\n- Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments. This new attribute provides information about a user's effective policy assignments. Each assignment includes the following details:PolicyType - which specifies the type of policy assigned (for example, TeamsMeetingPolicy, TeamsCallingPolicy, and so on.)PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.\n- Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - TelephoneNumbers: A new list of complex object that includes telephone number and its corresponding assignment category. The assignment category can include values such as 'Primary', 'Private', and 'Alternate'.\n\nLimitations:\n- The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats:\n- Only supported portions should be answered.",
+      "synthesisPayload": {
+        "schemaVersion": "grounded-answer-synthesis/v1",
+        "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+        "profile": "live_assist_quick",
+        "answerability": "partial",
+        "answerType": "configuration",
+        "requestedMethods": [
+          "PowerShell"
+        ],
+        "requestedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "answerObject": "fact",
+            "operation": null,
+            "supported": false,
+            "requestedMethods": []
+          },
+          {
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "subject": "enterprise voice",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:entity:phone-number:general",
+            "subject": "phone number",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "subject": "calling policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "subject": "dial plan",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          },
+          {
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "subject": "voice routing policy",
+            "answerObject": "configuration_state",
+            "operation": null,
+            "supported": true,
+            "requestedMethods": [
+              "PowerShell"
+            ]
+          }
+        ],
+        "claims": [
+          {
+            "claimId": "claim:975e37bcb2c8e62c1ac71301",
+            "aspectId": "mandatory:entity:enterprise-voice:general",
+            "aspectSubject": "enterprise voice",
+            "text": "Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:975e37bcb2c8e62c1ac71301",
+                "evidenceId": "evidence:ab6598ffaeefee1c1e80555dd1fbb338503cfbaf9fe18b40f7aa5114c165fdb8",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineVoiceUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:2e4d5fbbfa04fb8a3b11c6ed",
+            "aspectId": "mandatory:entity:phone-number:general",
+            "aspectSubject": "phone number",
+            "text": "Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - TelephoneNumbers: A new list of complex object that includes telephone number and its corresponding assignment category. The assignment category can include values such as 'Primary', 'Private', and 'Alternate'.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:2e4d5fbbfa04fb8a3b11c6ed",
+                "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:85b753582089f06949f06c00",
+            "aspectId": "mandatory:policy:voice-routing-policy:general",
+            "aspectSubject": "voice routing policy",
+            "text": "Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:85b753582089f06949f06c00",
+                "evidenceId": "evidence:4ce6f966020d1b260bec99eabd453710c9dd8cf203cc09087f880724f1537435",
+                "sourceId": "ms-teams-admin",
+                "sourceTitle": "Configure call routing for Direct Routing",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+                "authorityRole": "teams_admin_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:f36730377186846fbdaedeee",
+            "aspectId": "mandatory:policy:dial-plan:general",
+            "aspectSubject": "dial plan",
+            "text": "The returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:f36730377186846fbdaedeee",
+                "evidenceId": "evidence:e716e98af08fd1f1c7067b34d0407f1ba25248fce46924785a69c914b7bcd1f3",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsEffectiveTenantDialPlan",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          },
+          {
+            "claimId": "claim:6d912f74533184e8427f62de",
+            "aspectId": "mandatory:policy:calling-policy:general",
+            "aspectSubject": "calling policy",
+            "text": "Adds new parameter to the Get-CsOnlineUser cmdlet in all clouds: - Properties: Allows you to specify the properties you want to include in the output. Provide the properties as a comma-separated list. Note that the following properties will always be present in the output: Identity, UserPrincipalName, Alias, AccountEnabled, DisplayName. — - EffectivePolicyAssignments: The EffectivePolicyAssignments attribute has been added to the Get-CsOnlineUser cmdlet in commercial environments. This new attribute provides information about a user's effective policy assignments. Each assignment includes the following details:PolicyType - which specifies the type of policy assigned (for example, TeamsMeetingPolicy, TeamsCallingPolicy, and so on.)PolicyAssignment - which includes the display name of the assigned policy (displayName), the assignment type (assignmentType) indicating whether it is direct or group-based, the unique identifier of the policy (policyId), and the group identifier (groupId) if applicable.",
+            "mandatory": true,
+            "requestedMethods": [
+              "PowerShell"
+            ],
+            "sources": [
+              {
+                "claimId": "claim:6d912f74533184e8427f62de",
+                "evidenceId": "evidence:c768acb93afb776881cdccc10192c18eaee0e9403236f919464a551c483f1337",
+                "sourceId": "ms-teams-powershell",
+                "sourceTitle": "Get-CsOnlineUser",
+                "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+                "authorityRole": "teams_powershell_cmdlet_primary"
+              }
+            ]
+          }
+        ],
+        "unsupportedAspects": [
+          {
+            "aspectId": "mandatory:entity:csv-export:output-transformation",
+            "subject": "CSV export",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          },
+          {
+            "aspectId": "missing_authority",
+            "subject": "missing_authority",
+            "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+          }
+        ],
+        "caveats": [
+          {
+            "code": "partial_coverage",
+            "text": "Only supported portions should be answered."
+          }
+        ]
+      },
+      "synthesisProviderOutput": {
+        "schemaVersion": "grounded-answer-synthesis-output/v1",
+        "profile": "live_assist_quick",
+        "blocks": [
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $True) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User or Get-CsOnlineUser -Filter {(EnterpriseVoiceEnabled -eq $False) -and (FeatureTypes -contains 'PhoneSystem') -and (AccountEnabled -eq $True)} -AccountType User",
+            "supportingClaimIds": [
+              "claim:975e37bcb2c8e62c1ac71301"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser cmdlet includes - Properties parameter to specify output properties. TelephoneNumbers includes telephone number and assignment category.",
+            "supportingClaimIds": [
+              "claim:2e4d5fbbfa04fb8a3b11c6ed"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy",
+            "supportingClaimIds": [
+              "claim:85b753582089f06949f06c00"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "The Identity parameter retrieves the effective tenant dial plan for the user.",
+            "supportingClaimIds": [
+              "claim:f36730377186846fbdaedeee"
+            ]
+          },
+          {
+            "blockType": "fact",
+            "text": "Get-CsOnlineUser cmdlet includes EffectivePolicyAssignments attribute providing information about a user's effective policy assignments.",
+            "supportingClaimIds": [
+              "claim:6d912f74533184e8427f62de"
+            ]
+          }
+        ],
+        "unsupportedAspectIds": [
+          "mandatory:entity:csv-export:output-transformation",
+          "missing_authority"
+        ],
+        "caveatCodes": [
+          "partial_coverage"
+        ]
+      },
+      "synthesisProviderError": null,
+      "displayedAnswer": "Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy\n\nThe returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.\n\n[Microsoft documentation context — supporting_context]\nConfigure call routing for Direct Routing › Example 1: Configuration steps › Using PowerShell › Step 4: Assign the voice routing policy to user1@contoso.com\nDocument: Configure call routing for Direct Routing Heading Path: Configure call routing for Direct Routing -> Example 1: Configuration steps -> Using PowerShell -> Step 4: Assign the voice routing policy to user1@contoso.com ```PowerShell Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy ```\nSource: Configure call routing for Direct Routing\nhttps://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing\n\nOnly supported portions should be answered.\n\nNot established from available authoritative evidence (mandatory:entity:csv-export:output-transformation): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nNot established from available authoritative evidence (missing_authority): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nConfigure call routing for Direct Routing — https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+      "diagnostics": {
+        "retrievalMs": 2669.1684000000014,
+        "evidenceResolutionMs": 48.073999999998705,
+        "planningMs": 7.700600000000122,
+        "assemblyMs": 1.8708000000005995,
+        "citationMappingMs": 3.20679999999993,
+        "contextBuildMs": 1.9423999999999069,
+        "presentationPlanningMs": 0.08330000000023574,
+        "presentationRenderMs": 0.11969999999928405,
+        "synthesisMs": 3580.3173000000006,
+        "pipelineTotalMs": 6311.87,
+        "factualGroundingGenerationRequests": 0,
+        "presentationSynthesisRequests": 1,
+        "presentationSynthesisStatus": "validation_failed",
+        "presentationSynthesisFallbackReason": "unattributed_technical_token:telephonenumbers,unattributed_content_word:providing"
+      },
+      "persistenceAndServiceMs": 16.038899999999558,
+      "totalVisibleMs": 6327.923699999999,
+      "citations": [
+        {
+          "citationId": "citation:25a72ca9038d865b10377f71",
+          "factualRangeId": "factual-range:53e0a3db5e5c6b404e901053",
+          "claimId": "claim:85b753582089f06949f06c00",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 70
+          },
+          "evidenceId": "evidence:4ce6f966020d1b260bec99eabd453710c9dd8cf203cc09087f880724f1537435",
+          "spanId": "span:ba6dbff5d296e3cdd921f577",
+          "supportingSpanIds": [],
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user1@contoso.com"
+          ],
+          "sectionId": "sec-15",
+          "sourceStatus": "ga",
+          "preview": false
+        },
+        {
+          "citationId": "citation:fec13aa2fd842efc83808cb0",
+          "factualRangeId": "factual-range:78d0eec5f2c5dade93ac9d90",
+          "claimId": "claim:f36730377186846fbdaedeee",
+          "answerRange": {
+            "startOffset": 72,
+            "endOffset": 339
+          },
+          "evidenceId": "evidence:e716e98af08fd1f1c7067b34d0407f1ba25248fce46924785a69c914b7bcd1f3",
+          "spanId": "span:3c0226f9aeba5441b9115693",
+          "supportingSpanIds": [
+            "span:04c29bb3f98daf351ae9534b"
+          ],
+          "documentId": "ebfb3f6e3b11be58d697c1c7768bbd51bbda71d1832fe84d2efcabfcfecbbbe0",
+          "sourceTitle": "Get-CsEffectiveTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsEffectiveTenantDialPlan",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-4",
+          "sourceStatus": "ga",
+          "preview": false
+        }
+      ],
+      "persisted": true,
+      "reloadedAnswer": "Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy\n\nThe returned effective Tenant Dial Plan contains the EffectiveTenantDialPlanName and the Normalization rules that are effective for the user while using — The Identity parameter is the unique identifier of the user for whom to retrieve the effective tenant dial plan.\n\n[Microsoft documentation context — supporting_context]\nConfigure call routing for Direct Routing › Example 1: Configuration steps › Using PowerShell › Step 4: Assign the voice routing policy to user1@contoso.com\nDocument: Configure call routing for Direct Routing Heading Path: Configure call routing for Direct Routing -> Example 1: Configuration steps -> Using PowerShell -> Step 4: Assign the voice routing policy to user1@contoso.com ```PowerShell Get-CsOnlineUser \"user1@contoso.com\" | select OnlineVoiceRoutingPolicy ```\nSource: Configure call routing for Direct Routing\nhttps://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing\n\nOnly supported portions should be answered.\n\nNot established from available authoritative evidence (mandatory:entity:csv-export:output-transformation): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nNot established from available authoritative evidence (missing_authority): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nConfigure call routing for Direct Routing — https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+      "reloadByteEquivalent": true,
+      "reloadedCitations": [
+        {
+          "messageId": "msg_dccec5c5-cddd-4b33-bef8-54e005aa0c80",
+          "citationId": "citation:25a72ca9038d865b10377f71",
+          "factualRangeId": "factual-range:53e0a3db5e5c6b404e901053",
+          "claimId": "claim:85b753582089f06949f06c00",
+          "answerRangeStart": 0,
+          "answerRangeEnd": 70,
+          "evidenceId": "evidence:4ce6f966020d1b260bec99eabd453710c9dd8cf203cc09087f880724f1537435",
+          "spanId": "span:ba6dbff5d296e3cdd921f577",
+          "supportingSpanIds": [],
+          "documentId": "34479d7ba3abd30a5944bac98f48a401a88270ca75e6cd7aab36982de4b96aec",
+          "sourceTitle": "Configure call routing for Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+          "sourceId": "ms-teams-admin",
+          "authorityRole": "teams_admin_primary",
+          "headingPath": [
+            "Configure call routing for Direct Routing",
+            "Example 1: Configuration steps",
+            "Using PowerShell",
+            "Step 4: Assign the voice routing policy to user1@contoso.com"
+          ],
+          "sectionId": "sec-15",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:96997a8b10dfd36dab6e2e69"
+        },
+        {
+          "messageId": "msg_dccec5c5-cddd-4b33-bef8-54e005aa0c80",
+          "citationId": "citation:fec13aa2fd842efc83808cb0",
+          "factualRangeId": "factual-range:78d0eec5f2c5dade93ac9d90",
+          "claimId": "claim:f36730377186846fbdaedeee",
+          "answerRangeStart": 72,
+          "answerRangeEnd": 339,
+          "evidenceId": "evidence:e716e98af08fd1f1c7067b34d0407f1ba25248fce46924785a69c914b7bcd1f3",
+          "spanId": "span:3c0226f9aeba5441b9115693",
+          "supportingSpanIds": [
+            "span:04c29bb3f98daf351ae9534b"
+          ],
+          "documentId": "ebfb3f6e3b11be58d697c1c7768bbd51bbda71d1832fe84d2efcabfcfecbbbe0",
+          "sourceTitle": "Get-CsEffectiveTenantDialPlan",
+          "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan",
+          "sourceId": "ms-teams-powershell",
+          "authorityRole": "teams_powershell_cmdlet_primary",
+          "headingPath": [
+            "Get-CsEffectiveTenantDialPlan",
+            "DESCRIPTION"
+          ],
+          "sectionId": "sec-4",
+          "sourceStatus": "ga",
+          "preview": false,
+          "groundingSnapshotId": "grounding:96997a8b10dfd36dab6e2e69"
+        }
+      ]
+    }
+  ]
+}

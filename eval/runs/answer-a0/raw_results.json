@@ -1,0 +1,2815 @@
+{
+  "experiment": "PHASE A0 \u2014 Grounded Answer-Layer Kill Test",
+  "retrieval_frozen": {
+    "service/search.py": "8702daf1ee2b2843",
+    "service/scope_select.py": "2a8caaabd00f4b08",
+    "eval/ground_truth/priority14_retrieval.json": "59f6572dc5f3d3d5"
+  },
+  "reranker_used": false,
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "timeout_s": 60.0,
+  "streaming": true,
+  "calls": 14,
+  "system_prompt": "You are the answer layer for a live technical assistant.\n\nUse ONLY the supplied authoritative evidence.\n\nDo not use outside knowledge to add Microsoft technical facts.\n\nAnswer the user's actual question, not merely summarize the documents.\n\nIf multiple evidence sections are relevant, combine them.\n\nIf retrieved evidence conflicts, prefer the more directly applicable/current authoritative evidence and mention uncertainty.\n\nIf the evidence does not support an important part of the requested answer, say what is not established rather than inventing it.\n\nOutput JSON with this shape:\n{\n  \"direct_answer\": \"one direct answer sentence with no evidence IDs\",\n  \"talking_points\": [\n    {\"text\": \"concise useful talking point\", \"evidence_ids\": [\"E1\"]}\n  ],\n  \"caveat\": null\n}\n\nRules for the JSON:\n- direct_answer: one sentence that answers the question.\n- talking_points: 3 to 6 bullets. Each bullet must list the evidence IDs that support it.\n- caveat: optional short caveat only when needed, otherwise null.\n- Prefer enough detail that a technical professional can speak naturally from the card.\n- Approximately 80-180 words of user-visible prose (direct sentence plus bullets plus caveat).\n- Do not dump document prose.\n- Do not give citation homework.\n- Do not mention evidence IDs in direct_answer, talking_points text, or caveat.\n- Do not claim you performed actions you did not perform.\n- Commands or cmdlets only when materially useful and present in the evidence.\n- Every technical bullet must have at least one supporting evidence ID from the supplied set.\n",
+  "pricing": {
+    "input_per_million_usd": 0.15,
+    "output_per_million_usd": 0.6
+  },
+  "totals": {
+    "input_tokens": 75062,
+    "output_tokens": 3171,
+    "total_tokens": 78233,
+    "cost_usd": 0.013162
+  },
+  "latency": {
+    "router_ms": {
+      "n": 14,
+      "min": 4.21,
+      "p50": 14.43,
+      "p95": 30.89,
+      "max": 52.63
+    },
+    "retrieval_ms": {
+      "n": 14,
+      "min": 52.55,
+      "p50": 184.68,
+      "p95": 240.65,
+      "max": 374.75
+    },
+    "ttft_ms": {
+      "n": 14,
+      "min": 1466.29,
+      "p50": 1824.22,
+      "p95": 2110.66,
+      "max": 2194.01
+    },
+    "t_direct_ms": {
+      "n": 14,
+      "min": 1836.63,
+      "p50": 2264.51,
+      "p95": 2635.28,
+      "max": 2872.24
+    },
+    "answer_complete_ms": {
+      "n": 14,
+      "min": 3295.76,
+      "p50": 4085.59,
+      "p95": 5006.6,
+      "max": 5040.77
+    },
+    "total_ms": {
+      "n": 14,
+      "min": 3489.38,
+      "p50": 4314.28,
+      "p95": 5188.17,
+      "max": 5446.14
+    }
+  },
+  "questions": [
+    {
+      "question_id": "Q01",
+      "question": "Explain Direct Routing and the role of the SBC.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "a4dceeb33512cbf1cb81",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 1: Connect the SBC to Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 400
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6f7e1efceeebaacf0464",
+          "title": "Plan Direct Routing",
+          "section": "Support boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 769
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "622ff626b6ac2b426c2e",
+          "title": "Configure Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "body_chars": 1920
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "689ab6d8f80fa614fdb5",
+          "title": "Monitor Direct Routing",
+          "section": "Monitoring availability of Session Border Controllers using Session Initiation Protocol (SIP) options messages",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "body_chars": 2132
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "62992204b4a00ba4f462",
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Configure the user and the SBC sites",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 1171
+        }
+      ],
+      "answer": "Direct Routing connects on-premises telephony infrastructure to Microsoft Teams Phone, with the Session Border Controller (SBC) facilitating this connection and managing call routing.\n- Direct Routing allows integration of on-premises telephony with Microsoft Teams, enabling users to connect to the Public Switched Telephone Network (PSTN).\n- The SBC is crucial for managing call signaling and media, ensuring calls are routed correctly and efficiently.\n- SBCs must be certified for Direct Routing, and support issues should be escalated through the SBC vendor.\n- Direct Routing uses SIP options to monitor the health of SBCs, influencing call routing decisions based on their availability.\nThe specifics of SBC configuration and management may vary based on the vendor and deployment scenario.",
+      "direct_answer": "Direct Routing connects on-premises telephony infrastructure to Microsoft Teams Phone, with the Session Border Controller (SBC) facilitating this connection and managing call routing.",
+      "talking_points": [
+        {
+          "text": "Direct Routing allows integration of on-premises telephony with Microsoft Teams, enabling users to connect to the Public Switched Telephone Network (PSTN).",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "The SBC is crucial for managing call signaling and media, ensuring calls are routed correctly and efficiently.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ]
+        },
+        {
+          "text": "SBCs must be certified for Direct Routing, and support issues should be escalated through the SBC vendor.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Direct Routing uses SIP options to monitor the health of SBCs, influencing call routing decisions based on their availability.",
+          "evidence_ids": [
+            "E4"
+          ]
+        }
+      ],
+      "caveat": "The specifics of SBC configuration and management may vary based on the vendor and deployment scenario.",
+      "word_count": 117,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "Direct Routing connects on-premises telephony infrastructure to Microsoft Teams Phone, with the Session Border Controller (SBC) facilitating this connection and managing call routing.",
+          "evidence_ids": [
+            "E3",
+            "E1",
+            "E4",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Direct Routing allows integration of on-premises telephony with Microsoft Teams, enabling users to connect to the Public Switched Telephone Network (PSTN).",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-configure"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "The SBC is crucial for managing call signaling and media, ensuring calls are routed correctly and efficiently.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "SBCs must be certified for Direct Routing, and support issues should be escalated through the SBC vendor.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Direct Routing uses SIP options to monitor the health of SBCs, influencing call routing decisions based on their availability.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "caveat",
+          "text": "The specifics of SBC configuration and management may vary based on the vendor and deployment scenario.",
+          "evidence_ids": [
+            "E3",
+            "E1",
+            "E4",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 52.63,
+        "retrieval_ms": 52.55,
+        "ttft_ms": 2025.17,
+        "t_direct_ms": 2345.84,
+        "answer_complete_ms": 4931.9,
+        "total_ms": 5037.08
+      },
+      "usage": {
+        "input_tokens": 1850,
+        "output_tokens": 229,
+        "total_tokens": 2079,
+        "cost_usd": 0.000415
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PARTIAL",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q02",
+      "question": "A Teams user can make internal calls but cannot call external PSTN numbers. How would you troubleshoot it?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "1e8bef6bb7c29eeca308",
+          "title": "Issues with call transfers",
+          "section": "Auto attendant does not transfer calls to an external PSTN number",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers",
+          "body_chars": 912
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "38faf0220256811d79e6",
+          "title": "PSTN connectivity options",
+          "section": "What's next?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "body_chars": 1021
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "ea15502e0fc4d73301b4",
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "body_chars": 1776
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "4d7aed33c97937e1dae0",
+          "title": "PSTN connectivity options",
+          "section": "What is the Public Switched Telephone Network (PSTN)?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "body_chars": 1093
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "f40e1f61f52d3950664b",
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Dial plans and routing considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview",
+          "body_chars": 5639
+        }
+      ],
+      "answer": "To troubleshoot a Teams user who can make internal calls but not external PSTN calls, check the user's licensing, ensure correct PSTN connectivity configuration, and verify the Online Voice Routing policy settings.\n- Verify that the user has the correct Teams Phone license assigned, such as E3 with Phone System or E5.\n- Ensure that the PSTN connectivity solution is properly configured and that the user is assigned a phone number in the correct format.\n- Check the Online Voice Routing policy to confirm that it includes a pattern matching the dialed number and that the user's usage profile is correctly set.\n- Make sure that the SIP Invite message is being sent to the correct SIP proxy that can handle external calls.",
+      "direct_answer": "To troubleshoot a Teams user who can make internal calls but not external PSTN calls, check the user's licensing, ensure correct PSTN connectivity configuration, and verify the Online Voice Routing policy settings.",
+      "talking_points": [
+        {
+          "text": "Verify that the user has the correct Teams Phone license assigned, such as E3 with Phone System or E5.",
+          "evidence_ids": [
+            "E2",
+            "E3"
+          ]
+        },
+        {
+          "text": "Ensure that the PSTN connectivity solution is properly configured and that the user is assigned a phone number in the correct format.",
+          "evidence_ids": [
+            "E2",
+            "E4"
+          ]
+        },
+        {
+          "text": "Check the Online Voice Routing policy to confirm that it includes a pattern matching the dialed number and that the user's usage profile is correctly set.",
+          "evidence_ids": [
+            "E3",
+            "E5"
+          ]
+        },
+        {
+          "text": "Make sure that the SIP Invite message is being sent to the correct SIP proxy that can handle external calls.",
+          "evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 123,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To troubleshoot a Teams user who can make internal calls but not external PSTN calls, check the user's licensing, ensure correct PSTN connectivity configuration, and verify the Online Voice Routing policy settings.",
+          "evidence_ids": [
+            "E2",
+            "E3",
+            "E4",
+            "E5",
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+            "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+            "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview",
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Verify that the user has the correct Teams Phone license assigned, such as E3 with Phone System or E5.",
+          "evidence_ids": [
+            "E2",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure that the PSTN connectivity solution is properly configured and that the user is assigned a phone number in the correct format.",
+          "evidence_ids": [
+            "E2",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+            "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Check the Online Voice Routing policy to confirm that it includes a pattern matching the dialed number and that the user's usage profile is correctly set.",
+          "evidence_ids": [
+            "E3",
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+            "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Make sure that the SIP Invite message is being sent to the correct SIP proxy that can handle external calls.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 30.62,
+        "retrieval_ms": 374.75,
+        "ttft_ms": 1824.22,
+        "t_direct_ms": 2324.73,
+        "answer_complete_ms": 5040.77,
+        "total_ms": 5446.14
+      },
+      "usage": {
+        "input_tokens": 2596,
+        "output_tokens": 230,
+        "total_tokens": 2826,
+        "cost_usd": 0.000527
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PARTIAL",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      },
+      "review_note": "Automated auditor first flagged 'E3 with Phone System or E5' as an evidence-ID leak. That is a Microsoft 365 SKU, not E3 the evidence slot. Auditor regex corrected; no API rerun."
+    },
+    {
+      "question_id": "Q03",
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "0bc10807b06fa7c78bb3",
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 14507
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "89e83e29563a2f26cd6d",
+          "title": "Plan Direct Routing",
+          "section": "Licensing and other requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 3902
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "4363f23b5098313bf1b8",
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "body_chars": 1647
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "778741c91a147734fddc",
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 2252
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "a4d9a23d42b421cc6b87",
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Audio Conferencing capabilities not supported in Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 720
+        }
+      ],
+      "answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.\n- Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.\n- Ensure users have the required licenses, including Teams Phone and Audio Conferencing if applicable.\n- Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.\n- Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.\n- Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+      "direct_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.",
+      "talking_points": [
+        {
+          "text": "Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Ensure users have the required licenses, including Teams Phone and Audio Conferencing if applicable.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+          "evidence_ids": [
+            "E2"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 115,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the Session Border Controller (SBC) is properly configured to handle SIP messages and that the necessary licenses are assigned to users.",
+          "evidence_ids": [
+            "E3",
+            "E2",
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+            "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Verify that the SBC configuration allows for multiple SIP 18x messages to be processed correctly.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure users have the required licenses, including Teams Phone and Audio Conferencing if applicable.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Check that the global voice routing policy is correctly defined to allow outbound calls from meetings.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Confirm that dial-in phone numbers are set up and associated with the Audio Conferencing bridge.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Make sure that the 'Allow Private Calling' setting is enabled at the tenant level for Microsoft Teams.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 13.13,
+        "retrieval_ms": 240.65,
+        "ttft_ms": 1882.32,
+        "t_direct_ms": 2264.51,
+        "answer_complete_ms": 3944.37,
+        "total_ms": 4198.15
+      },
+      "usage": {
+        "input_tokens": 5116,
+        "output_tokens": 228,
+        "total_tokens": 5344,
+        "cost_usd": 0.000904
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "FAIL",
+        "grounding": "FAIL",
+        "coverage": "FAIL",
+        "usefulness": "FAIL",
+        "brevity": "PASS"
+      },
+      "review_note": "SOURCE_GAP trap. Model invented a one-way-audio procedure from unrelated ringback, licensing, and Audio Conferencing parents. Did not say the retrieved material lacks that runbook."
+    },
+    {
+      "question_id": "Q04",
+      "question": "Explain the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "1c4fab62f3fa26a90c7a",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 4: Assign the voice route to the PSTN usage:",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 274
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "c7e14bb3935688e5dab7",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 1: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 6435
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "601fbf6e4fdfbb3f78d2",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Call routing overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 1061
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "eda7f728fe91320deb3a",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 2: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 5511
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "6005615c721051aefc24",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 3: Create a voice route and associate it with the PSTN usage",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 554
+        }
+      ],
+      "answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.\n- Voice routing policies serve as containers for PSTN usages and can be assigned to users.\n- PSTN usages are created to define the types of calls that can be routed, such as local or international calls.\n- Voice routes are established with specific number patterns and associated with PSTN usages to determine call routing.\n- Each voice route can specify multiple SBCs for call handling, including active and backup options.\n- The configuration can be performed using the Microsoft Teams admin center or PowerShell commands.",
+      "direct_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.",
+      "talking_points": [
+        {
+          "text": "Voice routing policies serve as containers for PSTN usages and can be assigned to users.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "PSTN usages are created to define the types of calls that can be routed, such as local or international calls.",
+          "evidence_ids": [
+            "E4"
+          ]
+        },
+        {
+          "text": "Voice routes are established with specific number patterns and associated with PSTN usages to determine call routing.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Each voice route can specify multiple SBCs for call handling, including active and backup options.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "The configuration can be performed using the Microsoft Teams admin center or PowerShell commands.",
+          "evidence_ids": [
+            "E2"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 115,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, which are linked to specific voice routes that direct calls to designated SBCs or gateways.",
+          "evidence_ids": [
+            "E3",
+            "E4",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Voice routing policies serve as containers for PSTN usages and can be assigned to users.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "PSTN usages are created to define the types of calls that can be routed, such as local or international calls.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Voice routes are established with specific number patterns and associated with PSTN usages to determine call routing.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Each voice route can specify multiple SBCs for call handling, including active and backup options.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "The configuration can be performed using the Microsoft Teams admin center or PowerShell commands.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 13.13,
+        "retrieval_ms": 231.69,
+        "ttft_ms": 1918.66,
+        "t_direct_ms": 2353.31,
+        "answer_complete_ms": 4863.41,
+        "total_ms": 5108.23
+      },
+      "usage": {
+        "input_tokens": 4078,
+        "output_tokens": 226,
+        "total_tokens": 4304,
+        "cost_usd": 0.000747
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      },
+      "review_note": "Used Call routing overview (E3) and stated policy \u2192 PSTN usage \u2192 voice route \u2192 SBC/gateway."
+    },
+    {
+      "question_id": "Q05",
+      "question": "How would you renew or replace an SBC certificate used for Teams Direct Routing?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "98181f2dce06954eef33",
+          "title": "SBC connectivity issues",
+          "section": "Overview of the SIP options process",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "body_chars": 9946
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6e404a6b3d4456abb6ce",
+          "title": "Plan Direct Routing",
+          "section": "Public trusted certificate for the SBC",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 2821
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "72f1f6f0bf9d327d63b8",
+          "title": "What&#39;s New Direct Routing",
+          "section": "Validation test that switches Microsoft Teams Direct Routing SIP endpoints to certificates issued by a new CA (June 30, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "body_chars": 1265
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "ce69ec4714d399bdf6a8",
+          "title": "What&#39;s New Direct Routing",
+          "section": "Update on upcoming certificate changes (December 12, 2025)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "body_chars": 3663
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "a89a210eb7244b0ee936",
+          "title": "What&#39;s New Direct Routing",
+          "section": "Testing endpoint for upcoming certificate changes (February 16, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "body_chars": 865
+        }
+      ],
+      "answer": "To renew or replace an SBC certificate for Teams Direct Routing, request a new certificate from a trusted Certificate Authority, install it on the SBC, and ensure to remove old TLS connections before re-establishing them with the new certificate.\n- The SBC certificate must be obtained from a trusted Certificate Authority and should not be self-signed.\n- Ensure the new certificate includes the SBC FQDN as the common name or subject alternative name.\n- After installing the new certificate, remove old TLS connections to prevent expiration warnings in the Teams admin center.\n- Verify that the certificate chain is valid and includes all necessary intermediate certificates.\n- Check that the SBC is configured to trust the root CAs listed in the Microsoft Trusted Root Program.",
+      "direct_answer": "To renew or replace an SBC certificate for Teams Direct Routing, request a new certificate from a trusted Certificate Authority, install it on the SBC, and ensure to remove old TLS connections before re-establishing them with the new certificate.",
+      "talking_points": [
+        {
+          "text": "The SBC certificate must be obtained from a trusted Certificate Authority and should not be self-signed.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        },
+        {
+          "text": "Ensure the new certificate includes the SBC FQDN as the common name or subject alternative name.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "After installing the new certificate, remove old TLS connections to prevent expiration warnings in the Teams admin center.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Verify that the certificate chain is valid and includes all necessary intermediate certificates.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Check that the SBC is configured to trust the root CAs listed in the Microsoft Trusted Root Program.",
+          "evidence_ids": [
+            "E4"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 125,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To renew or replace an SBC certificate for Teams Direct Routing, request a new certificate from a trusted Certificate Authority, install it on the SBC, and ensure to remove old TLS connections before re-establishing them with the new certificate.",
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "The SBC certificate must be obtained from a trusted Certificate Authority and should not be self-signed.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure the new certificate includes the SBC FQDN as the common name or subject alternative name.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "After installing the new certificate, remove old TLS connections to prevent expiration warnings in the Teams admin center.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Verify that the certificate chain is valid and includes all necessary intermediate certificates.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Check that the SBC is configured to trust the root CAs listed in the Microsoft Trusted Root Program.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 11.97,
+        "retrieval_ms": 174.33,
+        "ttft_ms": 1722.48,
+        "t_direct_ms": 2133.76,
+        "answer_complete_ms": 3876.75,
+        "total_ms": 4063.06
+      },
+      "usage": {
+        "input_tokens": 4441,
+        "output_tokens": 241,
+        "total_tokens": 4682,
+        "cost_usd": 0.000811
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q06",
+      "question": "Explain emergency calling with Teams Direct Routing, including location information.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "895718d2f8c333201a33",
+          "title": "Configure dynamic emergency calling",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "body_chars": 880
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "d652b18cd2b4c8ca0fb6",
+          "title": "Considerations for Direct Routing",
+          "section": "Emergency call routing for Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "body_chars": 3007
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "fc213dcf6c655a6f7c03",
+          "title": "Considerations for Direct Routing",
+          "section": "Dynamic emergency calling for Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "body_chars": 1507
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "27d4f2a732a321f9a818",
+          "title": "Plan and manage emergency calling",
+          "section": "Dynamic emergency calling",
+          "url": "https://learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "body_chars": 365
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "e93ae5adabcb6cf88512",
+          "title": "Manage emergency locations",
+          "section": "Assign an emergency location",
+          "url": "https://learn.microsoft.com/microsoftteams/add-change-remove-emergency-location-organization",
+          "body_chars": 2301
+        }
+      ],
+      "answer": "Emergency calling with Teams Direct Routing allows calls to be routed based on the user's current location, providing location information to emergency services.\n- Dynamic emergency calling supports routing based on the Teams client's connected location.\n- In the U.S., emergency calls can be routed to the appropriate Public Safety Answering Point (PSAP) using dynamically acquired location data.\n- If a Teams client does not dynamically acquire a location, the registered emergency address is used for call routing.\n- Emergency Routing Service Providers can automatically route calls based on the caller's location in the U.S.\n- Emergency Location Identification Number applications can be used to match caller locations to emergency records for routing.\nDynamic emergency calling capabilities may vary by country or region.",
+      "direct_answer": "Emergency calling with Teams Direct Routing allows calls to be routed based on the user's current location, providing location information to emergency services.",
+      "talking_points": [
+        {
+          "text": "Dynamic emergency calling supports routing based on the Teams client's connected location.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ]
+        },
+        {
+          "text": "In the U.S., emergency calls can be routed to the appropriate Public Safety Answering Point (PSAP) using dynamically acquired location data.",
+          "evidence_ids": [
+            "E2",
+            "E3"
+          ]
+        },
+        {
+          "text": "If a Teams client does not dynamically acquire a location, the registered emergency address is used for call routing.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Emergency Routing Service Providers can automatically route calls based on the caller's location in the U.S.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Emergency Location Identification Number applications can be used to match caller locations to emergency records for routing.",
+          "evidence_ids": [
+            "E2"
+          ]
+        }
+      ],
+      "caveat": "Dynamic emergency calling capabilities may vary by country or region.",
+      "word_count": 123,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "Emergency calling with Teams Direct Routing allows calls to be routed based on the user's current location, providing location information to emergency services.",
+          "evidence_ids": [
+            "E1",
+            "E4",
+            "E2",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+            "https://learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Dynamic emergency calling supports routing based on the Teams client's connected location.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+            "https://learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "In the U.S., emergency calls can be routed to the appropriate Public Safety Answering Point (PSAP) using dynamically acquired location data.",
+          "evidence_ids": [
+            "E2",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "If a Teams client does not dynamically acquire a location, the registered emergency address is used for call routing.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Emergency Routing Service Providers can automatically route calls based on the caller's location in the U.S.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Emergency Location Identification Number applications can be used to match caller locations to emergency records for routing.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "caveat",
+          "text": "Dynamic emergency calling capabilities may vary by country or region.",
+          "evidence_ids": [
+            "E1",
+            "E4",
+            "E2",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+            "https://learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+            "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 11.59,
+        "retrieval_ms": 128.44,
+        "ttft_ms": 1718.74,
+        "t_direct_ms": 2093.56,
+        "answer_complete_ms": 4027.73,
+        "total_ms": 4167.75
+      },
+      "usage": {
+        "input_tokens": 1999,
+        "output_tokens": 241,
+        "total_tokens": 2240,
+        "cost_usd": 0.000444
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q07",
+      "question": "Walk me through building an Auto Attendant that ultimately routes callers into a Call Queue.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "body_chars": 30134
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6637e471035249c89e6f",
+          "title": "Design - Call flows for voice applications",
+          "section": "Auto Attendants",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2709
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "4b897e8ac1d91482d68b",
+          "title": "Design - Call flows for voice applications",
+          "section": "Call routing best practices",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2281
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "1729c8e220e75c5df7ea",
+          "title": "Planning - Overview of voice applications",
+          "section": "Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview",
+          "body_chars": 1790
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "16047a90ee09734d4a33",
+          "title": "Design - Call flows for voice applications",
+          "section": "Call flow diagrams",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 1105
+        }
+      ],
+      "answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.\n- Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.\n- In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.\n- Select call routing options to redirect calls to the Call Queue, ensuring to configure the appropriate menu options for caller navigation.\n- Consider setting up an operator to assist callers who do not make a selection, enhancing the user experience.\n- Ensure to define separate call handling for business hours, after hours, and holidays to manage calls effectively.",
+      "direct_answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+      "talking_points": [
+        {
+          "text": "Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Select call routing options to redirect calls to the Call Queue, ensuring to configure the appropriate menu options for caller navigation.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        },
+        {
+          "text": "Consider setting up an operator to assist callers who do not make a selection, enhancing the user experience.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ]
+        },
+        {
+          "text": "Ensure to define separate call handling for business hours, after hours, and holidays to manage calls effectively.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 136,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Start by accessing the Teams admin center and adding a new Auto Attendant under the Voice section.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "In the setup process, specify general information such as name, time zone, and language for the Auto Attendant.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Select call routing options to redirect calls to the Call Queue, ensuring to configure the appropriate menu options for caller navigation.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Consider setting up an operator to assist callers who do not make a selection, enhancing the user experience.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure to define separate call handling for business hours, after hours, and holidays to manage calls effectively.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 27.76,
+        "retrieval_ms": 185.49,
+        "ttft_ms": 1718.04,
+        "t_direct_ms": 2213.93,
+        "answer_complete_ms": 4915.68,
+        "total_ms": 5128.93
+      },
+      "usage": {
+        "input_tokens": 8587,
+        "output_tokens": 262,
+        "total_tokens": 8849,
+        "cost_usd": 0.001445
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q08",
+      "question": "How would you configure a resource account for a Microsoft Teams Room?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "f1c7221e658fe9d44663",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "body_chars": 8587
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "a9d4409456a7bb06b805",
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Creating resource accounts for your Microsoft Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "body_chars": 1569
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "6ad4a52593f75d31e98c",
+          "title": "Microsoft Teams Rooms Resource Accounts",
+          "section": "Configure resource accounts",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/resource-accounts",
+          "body_chars": 2672
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3436d1068c015efee0f5",
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Create a resource account",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 752
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "395465d9ec6427fef88e",
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Assign a license",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 887
+        }
+      ],
+      "answer": "To configure a resource account for a Microsoft Teams Room, create the account in the Microsoft 365 admin center, assign a Teams Rooms license, and ensure the account's UPN matches its SMTP address.\n- Each Microsoft Teams Room requires its own resource account for calendar integration and meeting bookings.\n- Resource accounts should be created as cloud-only accounts using Microsoft Entra ID and Exchange Online.\n- Assign the appropriate Teams Rooms license (Pro or Basic) to the resource account after creation.\n- Ensure the resource account's UPN matches the SMTP address to avoid sign-in issues.\n- Modify default booking options as needed to suit your organization's requirements.\nYou must be in an Exchange hybrid configuration for the Teams Rooms device to access the Exchange calendar.",
+      "direct_answer": "To configure a resource account for a Microsoft Teams Room, create the account in the Microsoft 365 admin center, assign a Teams Rooms license, and ensure the account's UPN matches its SMTP address.",
+      "talking_points": [
+        {
+          "text": "Each Microsoft Teams Room requires its own resource account for calendar integration and meeting bookings.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        },
+        {
+          "text": "Resource accounts should be created as cloud-only accounts using Microsoft Entra ID and Exchange Online.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Assign the appropriate Teams Rooms license (Pro or Basic) to the resource account after creation.",
+          "evidence_ids": [
+            "E1",
+            "E5"
+          ]
+        },
+        {
+          "text": "Ensure the resource account's UPN matches the SMTP address to avoid sign-in issues.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        },
+        {
+          "text": "Modify default booking options as needed to suit your organization's requirements.",
+          "evidence_ids": [
+            "E1",
+            "E3"
+          ]
+        }
+      ],
+      "caveat": "You must be in an Exchange hybrid configuration for the Teams Rooms device to access the Exchange calendar.",
+      "word_count": 125,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To configure a resource account for a Microsoft Teams Room, create the account in the Microsoft 365 admin center, assign a Teams Rooms license, and ensure the account's UPN matches its SMTP address.",
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E5",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+            "https://learn.microsoft.com/microsoftteams/rooms/resource-accounts"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Each Microsoft Teams Room requires its own resource account for calendar integration and meeting bookings.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Resource accounts should be created as cloud-only accounts using Microsoft Entra ID and Exchange Online.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Assign the appropriate Teams Rooms license (Pro or Basic) to the resource account after creation.",
+          "evidence_ids": [
+            "E1",
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure the resource account's UPN matches the SMTP address to avoid sign-in issues.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Modify default booking options as needed to suit your organization's requirements.",
+          "evidence_ids": [
+            "E1",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+            "https://learn.microsoft.com/microsoftteams/rooms/resource-accounts"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "caveat",
+          "text": "You must be in an Exchange hybrid configuration for the Teams Rooms device to access the Exchange calendar.",
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E5",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+            "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+            "https://learn.microsoft.com/microsoftteams/rooms/resource-accounts"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 4.21,
+        "retrieval_ms": 173.0,
+        "ttft_ms": 1702.13,
+        "t_direct_ms": 2120.64,
+        "answer_complete_ms": 4291.49,
+        "total_ms": 4468.7
+      },
+      "usage": {
+        "input_tokens": 3452,
+        "output_tokens": 254,
+        "total_tokens": 3706,
+        "cost_usd": 0.00067
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q09",
+      "question": "A Teams Room resource account is locked out or cannot sign in. How would you troubleshoot it?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "fc87164584f255ea269f",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "body_chars": 571
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "2f972d9bdc30f66cd786",
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Key differences from the Teams Desktop application",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "body_chars": 1557
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "1ed7c9ce0b85e1499c50",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "body_chars": 12538
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "8b9395dc7c5d20a194c5",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Turn off password expiration",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "body_chars": 1428
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3c3703462e45b72e271b",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Symptoms",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "body_chars": 1897
+        }
+      ],
+      "answer": "To troubleshoot a locked-out Teams Room resource account, check for multi-factor authentication, password expiration, Conditional Access policies, and network connectivity issues.\n- Run the Microsoft Teams Rooms sign-in connectivity test to identify specific issues.\n- Ensure multi-factor authentication is not enabled for the resource account, as it should not support user interactive MFA.\n- Check if the resource account's password has expired and reset it if necessary.\n- Verify that the resource account has a valid Teams license assigned.\n- Confirm that the room mailbox exists and is properly configured in Exchange.\nIf issues persist, further investigation into network connectivity and account permissions may be required.",
+      "direct_answer": "To troubleshoot a locked-out Teams Room resource account, check for multi-factor authentication, password expiration, Conditional Access policies, and network connectivity issues.",
+      "talking_points": [
+        {
+          "text": "Run the Microsoft Teams Rooms sign-in connectivity test to identify specific issues.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Ensure multi-factor authentication is not enabled for the resource account, as it should not support user interactive MFA.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Check if the resource account's password has expired and reset it if necessary.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Verify that the resource account has a valid Teams license assigned.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Confirm that the room mailbox exists and is properly configured in Exchange.",
+          "evidence_ids": [
+            "E3"
+          ]
+        }
+      ],
+      "caveat": "If issues persist, further investigation into network connectivity and account permissions may be required.",
+      "word_count": 106,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To troubleshoot a locked-out Teams Room resource account, check for multi-factor authentication, password expiration, Conditional Access policies, and network connectivity issues.",
+          "evidence_ids": [
+            "E3",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Run the Microsoft Teams Rooms sign-in connectivity test to identify specific issues.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure multi-factor authentication is not enabled for the resource account, as it should not support user interactive MFA.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Check if the resource account's password has expired and reset it if necessary.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Verify that the resource account has a valid Teams license assigned.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Confirm that the room mailbox exists and is properly configured in Exchange.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "caveat",
+          "text": "If issues persist, further investigation into network connectivity and account permissions may be required.",
+          "evidence_ids": [
+            "E3",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 22.62,
+        "retrieval_ms": 158.96,
+        "ttft_ms": 2194.01,
+        "t_direct_ms": 2872.24,
+        "answer_complete_ms": 5006.6,
+        "total_ms": 5188.17
+      },
+      "usage": {
+        "input_tokens": 4272,
+        "output_tokens": 217,
+        "total_tokens": 4489,
+        "cost_usd": 0.000771
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q10",
+      "question": "A Teams Room joins the meeting, but the far end cannot hear the room. What would you check?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "6b510d5018704fc4ed7c",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Software issues",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "body_chars": 8139
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6606647cd9d83f10042a",
+          "title": "Known issues with Teams on Android devices",
+          "section": "Issues affecting Teams meeting room devices",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-android",
+          "body_chars": 1485
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "37684d953253faf2ee70",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Hardware issues",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "body_chars": 2361
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "ef03467101d0edc64a3b",
+          "title": "The Teams Rooms device&#39;s displays show a black or blank screen",
+          "section": "All displays and the touchscreen console show a black or blank screen and don't respond",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen",
+          "body_chars": 4220
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "7a102e26400db7301660",
+          "title": "Managing settings for Teams devices",
+          "section": "Settings available",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "body_chars": 19177
+        }
+      ],
+      "answer": "Check the audio settings on the Teams Rooms device to ensure the correct microphone and speaker are selected and that audio enhancements are disabled.\n- Verify that the Teams Rooms app is running properly and not frozen.\n- Ensure the correct audio devices are configured in the Teams Rooms settings.\n- Check for any audio quality issues that may arise from USB audio devices and disable audio enhancements if necessary.\n- Confirm that the Teams Rooms device is connected to the internet and that there are no connectivity issues.",
+      "direct_answer": "Check the audio settings on the Teams Rooms device to ensure the correct microphone and speaker are selected and that audio enhancements are disabled.",
+      "talking_points": [
+        {
+          "text": "Verify that the Teams Rooms app is running properly and not frozen.",
+          "evidence_ids": [
+            "E4"
+          ]
+        },
+        {
+          "text": "Ensure the correct audio devices are configured in the Teams Rooms settings.",
+          "evidence_ids": [
+            "E5"
+          ]
+        },
+        {
+          "text": "Check for any audio quality issues that may arise from USB audio devices and disable audio enhancements if necessary.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Confirm that the Teams Rooms device is connected to the internet and that there are no connectivity issues.",
+          "evidence_ids": [
+            "E4"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 89,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "Check the audio settings on the Teams Rooms device to ensure the correct microphone and speaker are selected and that audio enhancements are disabled.",
+          "evidence_ids": [
+            "E4",
+            "E5",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen",
+            "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Verify that the Teams Rooms app is running properly and not frozen.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Ensure the correct audio devices are configured in the Teams Rooms settings.",
+          "evidence_ids": [
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Check for any audio quality issues that may arise from USB audio devices and disable audio enhancements if necessary.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Confirm that the Teams Rooms device is connected to the internet and that there are no connectivity issues.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 30.89,
+        "retrieval_ms": 201.1,
+        "ttft_ms": 2110.66,
+        "t_direct_ms": 2498.8,
+        "answer_complete_ms": 4580.92,
+        "total_ms": 4812.91
+      },
+      "usage": {
+        "input_tokens": 7421,
+        "output_tokens": 174,
+        "total_tokens": 7595,
+        "cost_usd": 0.001218
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PARTIAL",
+        "grounding": "PASS",
+        "coverage": "PARTIAL",
+        "usefulness": "PARTIAL",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q11",
+      "question": "How would you manage and monitor a fleet of Microsoft Teams Rooms at scale?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "527efbccd8b6970ca143",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "body_chars": 1101
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "7a102e26400db7301660",
+          "title": "Managing settings for Teams devices",
+          "section": "Settings available",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "body_chars": 19177
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "2bb214a4c217ead68b10",
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Physically deploying and configuring your Teams Rooms devices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "body_chars": 2487
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "cbfeff612e85940645bc",
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Management options in Teams Admin Center",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "body_chars": 6107
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "9cebf6dab5c109ae7e52",
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "body_chars": 1088
+        }
+      ],
+      "answer": "To manage and monitor a fleet of Microsoft Teams Rooms at scale, utilize the Microsoft Teams Rooms Pro Management service for real-time monitoring, automated updates, and centralized management.\n- The Teams Rooms Pro Management service provides a cloud-based solution for proactive monitoring and updates of devices.\n- Settings can be applied directly on devices or synchronized from the Teams Rooms Pro management portal, allowing for centralized control.\n- Automated updates and problem detection are facilitated through intelligent operations and machine learning.\n- The Teams admin center offers a dashboard to view the health and status of all devices, enabling effective management.\n- Device settings can be managed using a centrally stored XML configuration file for streamlined deployment.\nThe transition to the Pro Management Portal is ongoing, and some features may vary based on the management approach chosen.",
+      "direct_answer": "To manage and monitor a fleet of Microsoft Teams Rooms at scale, utilize the Microsoft Teams Rooms Pro Management service for real-time monitoring, automated updates, and centralized management.",
+      "talking_points": [
+        {
+          "text": "The Teams Rooms Pro Management service provides a cloud-based solution for proactive monitoring and updates of devices.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Settings can be applied directly on devices or synchronized from the Teams Rooms Pro management portal, allowing for centralized control.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Automated updates and problem detection are facilitated through intelligent operations and machine learning.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "The Teams admin center offers a dashboard to view the health and status of all devices, enabling effective management.",
+          "evidence_ids": [
+            "E4"
+          ]
+        },
+        {
+          "text": "Device settings can be managed using a centrally stored XML configuration file for streamlined deployment.",
+          "evidence_ids": [
+            "E3"
+          ]
+        }
+      ],
+      "caveat": "The transition to the Pro Management Portal is ongoing, and some features may vary based on the management approach chosen.",
+      "word_count": 137,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "To manage and monitor a fleet of Microsoft Teams Rooms at scale, utilize the Microsoft Teams Rooms Pro Management service for real-time monitoring, automated updates, and centralized management.",
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E4",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+            "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "The Teams Rooms Pro Management service provides a cloud-based solution for proactive monitoring and updates of devices.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Settings can be applied directly on devices or synchronized from the Teams Rooms Pro management portal, allowing for centralized control.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Automated updates and problem detection are facilitated through intelligent operations and machine learning.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "The Teams admin center offers a dashboard to view the health and status of all devices, enabling effective management.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Device settings can be managed using a centrally stored XML configuration file for streamlined deployment.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "caveat",
+          "text": "The transition to the Pro Management Portal is ongoing, and some features may vary based on the management approach chosen.",
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E4",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+            "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+            "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 14.43,
+        "retrieval_ms": 179.11,
+        "ttft_ms": 1659.13,
+        "t_direct_ms": 2108.34,
+        "answer_complete_ms": 3994.66,
+        "total_ms": 4188.2
+      },
+      "usage": {
+        "input_tokens": 6170,
+        "output_tokens": 246,
+        "total_tokens": 6416,
+        "cost_usd": 0.001073
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q12",
+      "question": "What is the difference between Call Quality Dashboard and per-user/per-call troubleshooting, and when would you use each?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "no high-confidence corpus cue",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "f7a93390e0700dac12ae",
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Monitor and troubleshoot call quality",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "body_chars": 1525
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "d29d94b6a164a125b161",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "What does each Teams Support role do?",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "body_chars": 2889
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "8499e39094e6905d4cef",
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Measurements",
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard",
+          "body_chars": 49964
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "275d1ea6787be7dc9fb6",
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "body_chars": 1414
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3e2dc6ae14dd86100683",
+          "title": "Set up call analytics for Microsoft Teams",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/set-up-call-analytics",
+          "body_chars": 1097
+        }
+      ],
+      "answer": "The Call Quality Dashboard provides a network-wide view of call quality across the organization, while per-user/per-call troubleshooting focuses on detailed information for individual users' calls.\n- Call Quality Dashboard is used for identifying and fixing network-wide call quality issues.\n- Per-user call analytics allows for troubleshooting specific user call quality and connection problems.\n- Both tools can be used independently or together for comprehensive troubleshooting.\n- Call Quality Dashboard offers aggregated data, while per-user analytics provides detailed logs for individual calls.",
+      "direct_answer": "The Call Quality Dashboard provides a network-wide view of call quality across the organization, while per-user/per-call troubleshooting focuses on detailed information for individual users' calls.",
+      "talking_points": [
+        {
+          "text": "Call Quality Dashboard is used for identifying and fixing network-wide call quality issues.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ]
+        },
+        {
+          "text": "Per-user call analytics allows for troubleshooting specific user call quality and connection problems.",
+          "evidence_ids": [
+            "E2",
+            "E5"
+          ]
+        },
+        {
+          "text": "Both tools can be used independently or together for comprehensive troubleshooting.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Call Quality Dashboard offers aggregated data, while per-user analytics provides detailed logs for individual calls.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 81,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "The Call Quality Dashboard provides a network-wide view of call quality across the organization, while per-user/per-call troubleshooting focuses on detailed information for individual users' calls.",
+          "evidence_ids": [
+            "E1",
+            "E4",
+            "E2",
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+            "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+            "https://learn.microsoft.com/microsoftteams/set-up-call-analytics"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Call Quality Dashboard is used for identifying and fixing network-wide call quality issues.",
+          "evidence_ids": [
+            "E1",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+            "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Per-user call analytics allows for troubleshooting specific user call quality and connection problems.",
+          "evidence_ids": [
+            "E2",
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+            "https://learn.microsoft.com/microsoftteams/set-up-call-analytics"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Both tools can be used independently or together for comprehensive troubleshooting.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Call Quality Dashboard offers aggregated data, while per-user analytics provides detailed logs for individual calls.",
+          "evidence_ids": [
+            "E1",
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+            "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 20.68,
+        "retrieval_ms": 237.94,
+        "ttft_ms": 2009.73,
+        "t_direct_ms": 2635.28,
+        "answer_complete_ms": 3774.76,
+        "total_ms": 4033.38
+      },
+      "usage": {
+        "input_tokens": 11043,
+        "output_tokens": 188,
+        "total_tokens": 11231,
+        "cost_usd": 0.001769
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      }
+    },
+    {
+      "question_id": "Q13",
+      "question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "confidence": "NONE",
+      "reason": "Copilot spans SharePoint and microsoft-365; leave global",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "335fc4ddebb342cce3fd",
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 1070
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "565ff8406876e5a7bb6f",
+          "title": "Plan for SharePoint and OneDrive in Microsoft 365 - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive",
+          "body_chars": 1714
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "7e48473186db110c9f43",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 5: Implement backup and restore procedures",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 1385
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "0e52a731bf2a2c600758",
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Pilot rollout of SharePoint and OneDrive",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 2308
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "d064eaebfb66ddca2cab",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 8152
+        }
+      ],
+      "answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.\n- Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.\n- Implement backup and restore solutions to ensure data protection and recovery.\n- Create a compliant SharePoint and OneDrive environment to meet organizational requirements.\n- Conduct a pilot rollout to test processes and gather feedback before a full deployment.\n- Utilize data access governance reports to identify and mitigate oversharing risks.",
+      "direct_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.",
+      "talking_points": [
+        {
+          "text": "Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.",
+          "evidence_ids": [
+            "E5"
+          ]
+        },
+        {
+          "text": "Implement backup and restore solutions to ensure data protection and recovery.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "Create a compliant SharePoint and OneDrive environment to meet organizational requirements.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Conduct a pilot rollout to test processes and gather feedback before a full deployment.",
+          "evidence_ids": [
+            "E4"
+          ]
+        },
+        {
+          "text": "Utilize data access governance reports to identify and mitigate oversharing risks.",
+          "evidence_ids": [
+            "E5"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 89,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, backup and restore procedures, and compliance measures in SharePoint and OneDrive.",
+          "evidence_ids": [
+            "E5",
+            "E3",
+            "E1",
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+            "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+            "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+            "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Adjust sharing settings to prevent accidental oversharing and restrict access to sensitive content.",
+          "evidence_ids": [
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Implement backup and restore solutions to ensure data protection and recovery.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Create a compliant SharePoint and OneDrive environment to meet organizational requirements.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Conduct a pilot rollout to test processes and gather feedback before a full deployment.",
+          "evidence_ids": [
+            "E4"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Utilize data access governance reports to identify and mitigate oversharing risks.",
+          "evidence_ids": [
+            "E5"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 8.94,
+        "retrieval_ms": 184.68,
+        "ttft_ms": 1466.29,
+        "t_direct_ms": 1836.63,
+        "answer_complete_ms": 3295.76,
+        "total_ms": 3489.38
+      },
+      "usage": {
+        "input_tokens": 3467,
+        "output_tokens": 203,
+        "total_tokens": 3670,
+        "cost_usd": 0.000642
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PARTIAL",
+        "grounding": "PASS",
+        "coverage": "PARTIAL",
+        "usefulness": "PARTIAL",
+        "brevity": "PASS"
+      },
+      "review_note": "Used SAM Step 3 oversharing (E5) but also treated wrong Step 5 backup (E3) as Copilot prep."
+    },
+    {
+      "question_id": "Q14",
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "scope": "SCOPED",
+      "service": "msteams-ps",
+      "repo": "teams-ps",
+      "confidence": "HIGH",
+      "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "e70392396d1d9841449f",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "body_chars": 4916
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "0d0e05a0a4f37672b97e",
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "body_chars": 26984
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "26703a61d0bb2ad58cb4",
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute",
+          "body_chars": 3783
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3a75500fa7b96c7e5d3b",
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "body_chars": 2548
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "7c2ba2b7686a783f747b",
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant",
+          "body_chars": 5849
+        }
+      ],
+      "answer": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.\n- Get-CsOnlineUser retrieves information about users, including their voice configuration and whether they are enabled for Enterprise Voice.\n- Get-CsOnlineVoiceRoutingPolicy provides details on the online voice routing policies assigned to users, which are essential for making PSTN calls.\n- Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.\n- You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria such as assigned plans or PSTN usages.",
+      "direct_answer": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.",
+      "talking_points": [
+        {
+          "text": "Get-CsOnlineUser retrieves information about users, including their voice configuration and whether they are enabled for Enterprise Voice.",
+          "evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "text": "Get-CsOnlineVoiceRoutingPolicy provides details on the online voice routing policies assigned to users, which are essential for making PSTN calls.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "text": "Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.",
+          "evidence_ids": [
+            "E3"
+          ]
+        },
+        {
+          "text": "You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria such as assigned plans or PSTN usages.",
+          "evidence_ids": [
+            "E2",
+            "E1",
+            "E3"
+          ]
+        }
+      ],
+      "caveat": null,
+      "word_count": 104,
+      "claims": [
+        {
+          "role": "direct_answer",
+          "text": "You can use PowerShell cmdlets like Get-CsOnlineUser, Get-CsOnlineVoiceRoutingPolicy, and Get-CsOnlineVoiceRoute to audit Teams Voice users and their configurations.",
+          "evidence_ids": [
+            "E2",
+            "E1",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Get-CsOnlineUser retrieves information about users, including their voice configuration and whether they are enabled for Enterprise Voice.",
+          "evidence_ids": [
+            "E2"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Get-CsOnlineVoiceRoutingPolicy provides details on the online voice routing policies assigned to users, which are essential for making PSTN calls.",
+          "evidence_ids": [
+            "E1"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "Get-CsOnlineVoiceRoute allows you to view the voice routes configured in your tenant, which dictate how calls are routed to the PSTN.",
+          "evidence_ids": [
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        },
+        {
+          "role": "talking_point",
+          "text": "You can filter results using parameters like -Filter to narrow down specific users or policies based on criteria such as assigned plans or PSTN usages.",
+          "evidence_ids": [
+            "E2",
+            "E1",
+            "E3"
+          ],
+          "urls": [
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+            "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+          ],
+          "status": "SUPPORTED",
+          "issues": []
+        }
+      ],
+      "unsupported": [],
+      "parse_error": null,
+      "latency": {
+        "router_ms": 21.15,
+        "retrieval_ms": 207.54,
+        "ttft_ms": 2056.99,
+        "t_direct_ms": 2437.51,
+        "answer_complete_ms": 4085.59,
+        "total_ms": 4314.28
+      },
+      "usage": {
+        "input_tokens": 10570,
+        "output_tokens": 232,
+        "total_tokens": 10802,
+        "cost_usd": 0.001725
+      },
+      "model": "gpt-4o-mini",
+      "provider": "openai",
+      "quality": {
+        "directness": "PASS",
+        "grounding": "PASS",
+        "coverage": "PASS",
+        "usefulness": "PASS",
+        "brevity": "PASS"
+      },
+      "review_note": "R0.4 HIGH msteams-ps. Combined Get-CsOnlineUser with routing-policy and voice-route cmdlets rather than only rank 1."
+    }
+  ],
+  "date": "2026-08-17",
+  "selection": null,
+  "recommendation": "B. CONDITIONAL",
+  "files_changed": [
+    "learn-rag/service/answer.py",
+    "learn-rag/eval/run_a0.py",
+    "learn-rag/tests/test_a0_answer.py",
+    "meeting-agent/eval/runs/answer-a0/ANSWER_A0_REPORT.md",
+    "meeting-agent/eval/runs/answer-a0/results.json",
+    "meeting-agent/eval/runs/answer-a0/raw_results.json"
+  ],
+  "tests": "python -m unittest tests.test_a0_answer -v -> 11 OK"
+}

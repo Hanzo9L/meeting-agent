@@ -9,6 +9,7 @@ export type HelpdeskTimelineRow =
       kind: "message";
       id: string;
       message: HelpdeskMessage;
+      run: HelpdeskAnswerRun | null;
     }
   | {
       kind: "answer_status";
@@ -18,10 +19,29 @@ export type HelpdeskTimelineRow =
       tone: "neutral" | "error";
     };
 
+export const HELP_DESK_ACTIVE_CONVERSATION_KEY =
+  "relay.helpdesk.activeConversationId";
+
 export function resolveComposerInputOrigin(
   hasPastedContent: boolean
 ): "typed" | "pasted" {
   return hasPastedContent ? "pasted" : "typed";
+}
+
+export function resolveSubmitConversationId(
+  activeConversationId: string | null
+): string | null {
+  return activeConversationId ? activeConversationId : null;
+}
+
+export function resolveInitialConversationId(
+  conversations: Array<{ id: string }>,
+  storedId: string | null
+): string | null {
+  if (storedId && conversations.some((item) => item.id === storedId)) {
+    return storedId;
+  }
+  return conversations[0]?.id ?? null;
 }
 
 export interface ClipboardWriter {
@@ -63,18 +83,43 @@ export function buildHelpdeskTimeline(
     runsByUserMessage.set(run.triggeringUserMessageId, existing);
   }
 
-  const rows: HelpdeskTimelineRow[] = [];
-  for (const message of [...view.messages].sort(
+  const messages = [...view.messages].sort(
     (left, right) => left.turnIndex - right.turnIndex
+  );
+  const messagesById = new Map(
+    messages.map((message) => [message.id, message] as const)
+  );
+  const claimedAssistantIds = new Set<string>();
+  const rows: HelpdeskTimelineRow[] = [];
+  for (const message of messages.filter(
+    (entry) => entry.role === "user"
   )) {
     rows.push({
       kind: "message",
       id: message.id,
-      message
+      message,
+      run: null
     });
-    if (message.role !== "user") continue;
-    const runs = runsByUserMessage.get(message.id) ?? [];
+    const runs = [
+      ...(runsByUserMessage.get(message.id) ?? [])
+    ].sort((left, right) =>
+      left.createdAt.localeCompare(right.createdAt) ||
+      left.id.localeCompare(right.id)
+    );
     for (const run of runs) {
+      const assistant = run.assistantMessageId
+        ? messagesById.get(run.assistantMessageId)
+        : undefined;
+      if (assistant?.role === "assistant") {
+        claimedAssistantIds.add(assistant.id);
+        rows.push({
+          kind: "message",
+          id: `answer:${run.id}`,
+          message: assistant,
+          run
+        });
+        continue;
+      }
       const presentation = statusPresentation(run);
       if (!presentation) continue;
       rows.push({
@@ -82,6 +127,21 @@ export function buildHelpdeskTimeline(
         id: `status:${run.id}`,
         run,
         ...presentation
+      });
+    }
+  }
+  // Preserve any legacy/orphan assistant messages without assigning them to a
+  // different user's run.
+  for (const message of messages) {
+    if (
+      message.role === "assistant" &&
+      !claimedAssistantIds.has(message.id)
+    ) {
+      rows.push({
+        kind: "message",
+        id: message.id,
+        message,
+        run: null
       });
     }
   }

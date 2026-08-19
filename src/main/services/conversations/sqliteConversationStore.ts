@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import Database from "better-sqlite3";
+import { isAuthoritativeEvidenceUrl } from "@shared/evidenceCard";
 import {
   getConversationSchemaVersion,
   runConversationMigrations
@@ -531,14 +532,9 @@ export class SqliteConversationStore implements ConversationStore {
             `Citation ${citation.citationId} has an invalid answer range`
           );
         }
-        const canonical = new URL(citation.canonicalUrl);
-        if (
-          canonical.protocol !== "https:" ||
-          canonical.hostname.toLowerCase() !==
-            "learn.microsoft.com"
-        ) {
+        if (!isAuthoritativeEvidenceUrl(citation.canonicalUrl)) {
           throw new Error(
-            `Citation ${citation.citationId} does not have an actionable Microsoft Learn URL`
+            `Citation ${citation.citationId} does not have an actionable evidence URL`
           );
         }
         insertCitation.run(
@@ -611,13 +607,9 @@ export class SqliteConversationStore implements ConversationStore {
             `Context reference ${reference.contextBlockId} has an invalid source range`
           );
         }
-        const canonical = new URL(reference.canonicalUrl);
-        if (
-          canonical.protocol !== "https:" ||
-          canonical.hostname.toLowerCase() !== "learn.microsoft.com"
-        ) {
+        if (!isAuthoritativeEvidenceUrl(reference.canonicalUrl)) {
           throw new Error(
-            `Context reference ${reference.contextBlockId} does not have an actionable Microsoft Learn URL`
+            `Context reference ${reference.contextBlockId} does not have an actionable evidence URL`
           );
         }
         insertContextReference.run(

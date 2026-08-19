@@ -1,0 +1,705 @@
+{
+  "artifactVersion": "wb21.0",
+  "runId": "citations-wb21-2026-08-09T12-45-51-841Z",
+  "createdAt": "2026-08-09T12:45:51.841Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\evidence-wb18.jsonl",
+  "summary": {
+    "total": 8,
+    "successful": 8,
+    "answerabilityMatch": 8,
+    "citationValidationPass": 8,
+    "answerTextUnchanged": 8,
+    "factualRanges": 8,
+    "zeroCitationRanges": 0,
+    "oneCitationRanges": 8,
+    "multipleCitationRanges": 0,
+    "providerRequestCount": 0,
+    "mappingLatencyP50Ms": 1.478,
+    "mappingLatencyP95Ms": 3.538
+  },
+  "cases": [
+    {
+      "questionId": "E-001",
+      "question": "How does Teams Direct Routing voice routing work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:f9ce56ee64c2ac805b07eb9f",
+        "snapshotHash": "f9ce56ee64c2ac805b07eb9f2aa7a1e466f86436ad20f9b2acbd87cd0372ac6d",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "41f5f36256cec1030ea9bb27666c0b2f2fc5650548ffb92cf017700057a46d11"
+      },
+      "renderedR4Answer": "Direct Routing lets you connect your on-premises telephony infrastructure to Microsoft Teams Phone.\n\nThis article lists the high-level steps required to connect a supported on-premises Session Border Controller (SBC) to Direct Routing, and to configure Teams users to use Direct Routing to connect to the Public Switched Telephone Network (PSTN).",
+      "answerTextUnchanged": true,
+      "factualRanges": [
+        {
+          "factualRangeId": "factual-range:a970107240412fa75fe04eaa",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 99
+          },
+          "claimId": "claim:d194a3c9463121734217336e",
+          "citationIds": [
+            "citation:f436b2854007d19a6ed9eda1"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "Direct Routing lets you connect your on-premises telephony infrastructure to Microsoft Teams Phone.",
+          "citations": [
+            {
+              "citationId": "citation:f436b2854007d19a6ed9eda1",
+              "claimId": "claim:d194a3c9463121734217336e",
+              "evidenceId": "evidence:01076eed05e1c97f8cdde2994de267cb41c54a931fb576e94d98c34556aec4d4",
+              "spanId": "span:0669871477e28b1e5a1dc3d5",
+              "supportingSpanIds": [],
+              "documentId": "7a864a752aa5f022faab406b442d753c456cf49e3ea3119682a07e95d16d5ef5",
+              "sourceId": "ms-teams-admin",
+              "title": "Configure Direct Routing",
+              "headingPath": [
+                "Configure Direct Routing"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+              "canonicalUrlSource": "persisted_revision",
+              "authorityRole": "teams_admin_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:05.110Z",
+                "contentHash": "e473adf8335c4c2b4932809343f8a1b52d3c85a69aace3f5cb925533473326d6",
+                "sourcePath": "microsoftteams/direct-routing-configure"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        },
+        {
+          "factualRangeId": "factual-range:404ffe3245e1691c0b4601d8",
+          "answerRange": {
+            "startOffset": 101,
+            "endOffset": 346
+          },
+          "claimId": "claim:5f2b5a5e07525bc87b509f63",
+          "citationIds": [
+            "citation:3dfec4de80d2babff2db0c0e"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "This article lists the high-level steps required to connect a supported on-premises Session Border Controller (SBC) to Direct Routing, and to configure Teams users to use Direct Routing to connect to the Public Switched Telephone Network (PSTN).",
+          "citations": [
+            {
+              "citationId": "citation:3dfec4de80d2babff2db0c0e",
+              "claimId": "claim:5f2b5a5e07525bc87b509f63",
+              "evidenceId": "evidence:01076eed05e1c97f8cdde2994de267cb41c54a931fb576e94d98c34556aec4d4",
+              "spanId": "span:6cc4a4959b71261b02d4544c",
+              "supportingSpanIds": [],
+              "documentId": "7a864a752aa5f022faab406b442d753c456cf49e3ea3119682a07e95d16d5ef5",
+              "sourceId": "ms-teams-admin",
+              "title": "Configure Direct Routing",
+              "headingPath": [
+                "Configure Direct Routing"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+              "canonicalUrlSource": "persisted_revision",
+              "authorityRole": "teams_admin_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:05.110Z",
+                "contentHash": "e473adf8335c4c2b4932809343f8a1b52d3c85a69aace3f5cb925533473326d6",
+                "sourcePath": "microsoftteams/direct-routing-configure"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        }
+      ],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 2,
+        "multiple": 0,
+        "complete": 2
+      },
+      "mappingLatencyMs": 3.538000000000011,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-002",
+      "question": "How do Microsoft Teams Calling Plans work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:fec998ce153ea8859a5549a6",
+        "snapshotHash": "fec998ce153ea8859a5549a680c2a905d476744d713a0ede1e50bcafa9170135",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "9cb72684c8c2d411cffcada6f725af05021cf57a53b6f10bd6cbd6a68dbf4796"
+      },
+      "renderedR4Answer": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.\n\nThis solution is the simplest option that connects Teams Phone to the PSTN for external calling.",
+      "answerTextUnchanged": true,
+      "factualRanges": [
+        {
+          "factualRangeId": "factual-range:2804d07ab2389cf6646a1d27",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 129
+          },
+          "claimId": "claim:61d5713190ad0d0e05205785",
+          "citationIds": [
+            "citation:194707a4cee7032758a0d72e"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.",
+          "citations": [
+            {
+              "citationId": "citation:194707a4cee7032758a0d72e",
+              "claimId": "claim:61d5713190ad0d0e05205785",
+              "evidenceId": "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee",
+              "spanId": "span:8083bea2f234ebc7df01d2e2",
+              "supportingSpanIds": [],
+              "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+              "sourceId": "ms-teams-admin",
+              "title": "Microsoft Teams Calling Plans",
+              "headingPath": [
+                "Microsoft Teams Calling Plans"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "canonicalUrlSource": "persisted_revision",
+              "authorityRole": "teams_admin_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:03.165Z",
+                "contentHash": "8f9fdaf0990380c9a2127e2a25fedf4c10626bd2a68026de97b36d6318b86c83",
+                "sourcePath": "microsoftteams/calling-plans-for-office-365"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        },
+        {
+          "factualRangeId": "factual-range:c9bbfabd76d9e1f232d31b68",
+          "answerRange": {
+            "startOffset": 131,
+            "endOffset": 227
+          },
+          "claimId": "claim:01f4f58ff0deb14a71cbaf5a",
+          "citationIds": [
+            "citation:f5b97baa448797e7f1837f23"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "This solution is the simplest option that connects Teams Phone to the PSTN for external calling.",
+          "citations": [
+            {
+              "citationId": "citation:f5b97baa448797e7f1837f23",
+              "claimId": "claim:01f4f58ff0deb14a71cbaf5a",
+              "evidenceId": "evidence:04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee",
+              "spanId": "span:b6f1142f9b688668b9f17ce8",
+              "supportingSpanIds": [],
+              "documentId": "d1ebc091e2610f8e39810b4522bf4b48610d3cfbf29160a30cc2a1f9a75821c5",
+              "sourceId": "ms-teams-admin",
+              "title": "Microsoft Teams Calling Plans",
+              "headingPath": [
+                "Microsoft Teams Calling Plans"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "canonicalUrlSource": "persisted_revision",
+              "authorityRole": "teams_admin_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:03.165Z",
+                "contentHash": "8f9fdaf0990380c9a2127e2a25fedf4c10626bd2a68026de97b36d6318b86c83",
+                "sourcePath": "microsoftteams/calling-plans-for-office-365"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        }
+      ],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 2,
+        "multiple": 0,
+        "complete": 2
+      },
+      "mappingLatencyMs": 1.5841999999997824,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-003",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:8b7bd00d1740f540f30087c4",
+        "snapshotHash": "8b7bd00d1740f540f30087c442b90aeb442f2487c3c7d9f50993e986fc50e784",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "9446b44db4dfb6e39b4560a9c12982a8efadfa0aaae7992561b3512cbd474edd"
+      },
+      "renderedR4Answer": "Set-CsOnlineVoiceRoutingPolicy | Where-Object {$_.OnlinePstnUsages -contains \"Local\"} | Set-CsOnlineVoiceRoutingPolicy -OnlinePstnUsages @{Remove=\"Local\"}",
+      "answerTextUnchanged": true,
+      "factualRanges": [
+        {
+          "factualRangeId": "factual-range:5ca3f3141f42e79ebf9ef5cc",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 154
+          },
+          "claimId": "claim:abda7a4e2eb12462a3596981",
+          "citationIds": [
+            "citation:5032af729b7814770d0c6ab1"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "Set-CsOnlineVoiceRoutingPolicy | Where-Object {$_.OnlinePstnUsages -contains \"Local\"} | Set-CsOnlineVoiceRoutingPolicy -OnlinePstnUsages @{Remove=\"Local\"}",
+          "citations": [
+            {
+              "citationId": "citation:5032af729b7814770d0c6ab1",
+              "claimId": "claim:abda7a4e2eb12462a3596981",
+              "evidenceId": "evidence:643e411850aaa9215a6a8608dcb7d1a0cae2d429493d720634384c44f4d729a5",
+              "spanId": "span:65f8a32fcecd8df3346af8bd",
+              "supportingSpanIds": [],
+              "documentId": "90f75c67ecbe533384a35d2db45b4bc00a282fa9b50dac13012b8e2b33cad4d5",
+              "sourceId": "ms-teams-powershell",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "headingPath": [
+                "Set-CsOnlineVoiceRoutingPolicy",
+                "EXAMPLES",
+                "Example 3"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/set-csonlinevoiceroutingpolicy",
+              "canonicalUrlSource": "powershell_document_identity",
+              "authorityRole": "teams_powershell_cmdlet_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "github",
+                "repository": "MicrosoftDocs/office-docs-powershell",
+                "branch": "main",
+                "commitSha": "5ce493d6c8d83bdb2974781cd10bd1751cfc55df",
+                "blobSha": "92fe7f7cfe23c872431408e833ebd50afc6f79b5",
+                "path": "teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        }
+      ],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 1,
+        "multiple": 0,
+        "complete": 1
+      },
+      "mappingLatencyMs": 1.3400999999994383,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-004",
+      "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:d3fb691d2fc05771ff1d8252",
+        "snapshotHash": "d3fb691d2fc05771ff1d82521bf089cb54449b4718e9d0a89d28f5eb912b812d",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "2f80d11030d5de1bc8d464cf40467afb26abf4b40b56a0f630aa118d9aa07851"
+      },
+      "renderedR4Answer": "Those user accounts are then piped to the Grant-CsOnlineVoiceRoutingPolicy cmdlet, which assigns each user the online voice routing policy RedmondOnlineVoiceRoutingPolicy.\n\nCaveats:\n- Missing authoritative domain coverage: teams_admin",
+      "answerTextUnchanged": true,
+      "factualRanges": [
+        {
+          "factualRangeId": "factual-range:dc41afd3f1c04a553805bc4e",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 171
+          },
+          "claimId": "claim:d1d521240b9f7233499a0446",
+          "citationIds": [
+            "citation:b884375f8ed89f666c18d2f1"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "Those user accounts are then piped to the Grant-CsOnlineVoiceRoutingPolicy cmdlet, which assigns each user the online voice routing policy RedmondOnlineVoiceRoutingPolicy.",
+          "citations": [
+            {
+              "citationId": "citation:b884375f8ed89f666c18d2f1",
+              "claimId": "claim:d1d521240b9f7233499a0446",
+              "evidenceId": "evidence:5da0672a6c150c36019debdf202cf25220c8a339565b3316feeaf61cbc6a95a3",
+              "spanId": "span:450c58a512a09408d44d62f3",
+              "supportingSpanIds": [],
+              "documentId": "c269c3fe5c7a589e2be5db0f3b849dbd524de29d5538643f512dd97e5cfcd5ff",
+              "sourceId": "ms-teams-powershell",
+              "title": "Grant-CsOnlineVoiceRoutingPolicy",
+              "headingPath": [
+                "Grant-CsOnlineVoiceRoutingPolicy",
+                "EXAMPLES",
+                "Example 3"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoftteams/grant-csonlinevoiceroutingpolicy",
+              "canonicalUrlSource": "powershell_document_identity",
+              "authorityRole": "teams_powershell_cmdlet_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "github",
+                "repository": "MicrosoftDocs/office-docs-powershell",
+                "branch": "main",
+                "commitSha": "5ce493d6c8d83bdb2974781cd10bd1751cfc55df",
+                "blobSha": "c44ff7ef7808bdd1351ba9e49f433854f66ae052",
+                "path": "teams/teams-ps/MicrosoftTeams/Grant-CsOnlineVoiceRoutingPolicy.md"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        }
+      ],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 1,
+        "multiple": 0,
+        "complete": 1
+      },
+      "mappingLatencyMs": 1.8013999999993757,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-005",
+      "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+      "expectedAnswerability": "insufficient_evidence",
+      "actualAnswerability": "insufficient_evidence",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:43ce532be0afedd365fe09ec",
+        "snapshotHash": "43ce532be0afedd365fe09ec3d8bcc043a407aa7993fa1f4a2c3aee61f68d017",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "renderedR4Answer": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: Set-CsDefinitelyNotARealCmdlet; required facets: identifier, behavior.\n- Unverified identifier(s): Set-CsDefinitelyNotARealCmdlet\n\nCaveats:\n- Missing authoritative domain coverage: teams_powershell\n- Required technical identifier could not be verified from accepted evidence.",
+      "answerTextUnchanged": true,
+      "factualRanges": [],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 0,
+        "multiple": 0,
+        "complete": 0
+      },
+      "mappingLatencyMs": 1.4776999999994587,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-006",
+      "question": "How do Teams meeting policies work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:aae3bdbd58e56e1d02a46c17",
+        "snapshotHash": "aae3bdbd58e56e1d02a46c1748fc24e8cd7f4455c024c90de267e3a39a57c20d",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "099c3dabc250fefb62d82b713cf4d9022643a9b94a829eb8331e7e9ea0a94b6e"
+      },
+      "renderedR4Answer": "A meeting policy is used to control the features that are available to meeting participants for meetings scheduled by users in your organization.",
+      "answerTextUnchanged": true,
+      "factualRanges": [
+        {
+          "factualRangeId": "factual-range:28078d5c2669b87f42510c4d",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 145
+          },
+          "claimId": "claim:b429082151e18aab773bc786",
+          "citationIds": [
+            "citation:ff099724725a7f722192f4ab"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "A meeting policy is used to control the features that are available to meeting participants for meetings scheduled by users in your organization.",
+          "citations": [
+            {
+              "citationId": "citation:ff099724725a7f722192f4ab",
+              "claimId": "claim:b429082151e18aab773bc786",
+              "evidenceId": "evidence:02d870462c4b574f8809d17c854857264a3dfc014f3c840e40dc2ed77213f3a7",
+              "spanId": "span:a306d7037aef815dfab86e32",
+              "supportingSpanIds": [],
+              "documentId": "d709345c5bba1997bdd97aabbe046dd90f172aa551471d18a1b5c215e502f9f1",
+              "sourceId": "ms-teams-admin",
+              "title": "Manage Teams with policies",
+              "headingPath": [
+                "Manage Teams with policies",
+                "Types of policies"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-with-policies",
+              "canonicalUrlSource": "persisted_revision",
+              "authorityRole": "teams_admin_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-with-policies",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:08.314Z",
+                "contentHash": "e9d1394a66932e9955f0400cf96690b7f8f4c026db026559d7abddc2ccf8c516",
+                "sourcePath": "microsoftteams/manage-teams-with-policies"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        }
+      ],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 1,
+        "multiple": 0,
+        "complete": 1
+      },
+      "mappingLatencyMs": 1.2933999999986554,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-007",
+      "question": "How does external access work in Teams?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:0e1084ef4787de3c49302b11",
+        "snapshotHash": "0e1084ef4787de3c49302b1161e47e1279f4698373cc7bb7f18fc0336f0e2dc5",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "0b3bc3215c728ed34f7d96c8a137933b1a15baa7b2d57af9d5ae6c899dc04d8c"
+      },
+      "renderedR4Answer": "With the external access feature in Teams, you can allow users in your organization to chat and meet with people outside the organization who are using Microsoft as an identity provider.",
+      "answerTextUnchanged": true,
+      "factualRanges": [
+        {
+          "factualRangeId": "factual-range:69469b860c418efe2b37cdb7",
+          "answerRange": {
+            "startOffset": 0,
+            "endOffset": 186
+          },
+          "claimId": "claim:f6d6a13187d41e3ab101ea44",
+          "citationIds": [
+            "citation:ad698cc863bacd971fdee857"
+          ],
+          "invalidCitationIds": [],
+          "coverage": "one",
+          "complete": true,
+          "renderedText": "With the external access feature in Teams, you can allow users in your organization to chat and meet with people outside the organization who are using Microsoft as an identity provider.",
+          "citations": [
+            {
+              "citationId": "citation:ad698cc863bacd971fdee857",
+              "claimId": "claim:f6d6a13187d41e3ab101ea44",
+              "evidenceId": "evidence:64003d7cbb9099bbc2f92798645500fffc0f901f1106eef46573842f53ef3843",
+              "spanId": "span:908479ef04a64bf337893086",
+              "supportingSpanIds": [],
+              "documentId": "b072de5f430d7afb5d5d2b5b649db6f75c0adb1d9b832e9d874ac76afdf1282c",
+              "sourceId": "ms-teams-admin",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "headingPath": [
+                "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities"
+              ],
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "canonicalUrlSource": "persisted_revision",
+              "authorityRole": "teams_admin_primary",
+              "sourceStatus": "ga",
+              "sourceRevision": {
+                "transport": "learn_mcp",
+                "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+                "locale": "en-us",
+                "retrievedAt": "2026-08-07T19:32:07.579Z",
+                "contentHash": "b9e7748b637ed49faefcfc79ae06bf1f144edf61d628581ae0aced566c396043",
+                "sourcePath": "microsoftteams/manage-external-access"
+              },
+              "previewState": {
+                "previewEvidenceUsed": false,
+                "requiredLabel": false
+              },
+              "freshnessState": {
+                "mustVerifyBeforeFinalAnswer": false,
+                "reasons": []
+              },
+              "validation": {
+                "state": "valid",
+                "failureReasons": []
+              }
+            }
+          ]
+        }
+      ],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 1,
+        "multiple": 0,
+        "complete": 1
+      },
+      "mappingLatencyMs": 1.9341999999996915,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "E-008",
+      "question": "How does Conditional Access affect Teams on unmanaged devices?",
+      "expectedAnswerability": "insufficient_evidence",
+      "actualAnswerability": "insufficient_evidence",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:59ad3b6182c785fce498664b",
+        "snapshotHash": "59ad3b6182c785fce498664ba748c9215e7ab9774dd68dc47e40a289f0fc6193",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "renderedR4Answer": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: conditional access / unmanaged devices; required facets: relationship.\n\nCaveats:\n- Missing authoritative domain coverage: teams_admin, entra",
+      "answerTextUnchanged": true,
+      "factualRanges": [],
+      "citationValidation": {
+        "valid": true,
+        "failureReasons": []
+      },
+      "factualRangeCoverage": {
+        "zero": 0,
+        "one": 0,
+        "multiple": 0,
+        "complete": 0
+      },
+      "mappingLatencyMs": 1.0748999999996158,
+      "providerRequestCount": 0
+    }
+  ]
+}

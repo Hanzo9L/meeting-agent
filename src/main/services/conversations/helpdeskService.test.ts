@@ -233,6 +233,142 @@ test("typed and pasted turns reach the same grounded execution port", async () =
   }
 });
 
+test("typed Q1 Q2 Q3 stay on one conversation and reload with unique turns", async () => {
+  const fixture = await makeStore();
+  class EchoPort implements AnswerExecutionPort {
+    readonly requests: AnswerExecutionRequest[] = [];
+    async execute(
+      request: AnswerExecutionRequest
+    ): Promise<AnswerExecutionResult> {
+      this.requests.push(request);
+      const answerText = `Evidence for: ${request.question}`;
+      const base = success();
+      if (!base.ok) return base;
+      return {
+        ...structuredClone(base),
+        answerText,
+        factualAnswerText: answerText,
+        helpdeskDetailedText: answerText,
+        liveAssistQuickText: answerText,
+        citations: base.citations.map((citation) => ({
+          ...citation,
+          citationId: `citation:${request.userMessageId}`,
+          answerRange: {
+            startOffset: 0,
+            endOffset: answerText.length
+          }
+        }))
+      };
+    }
+  }
+  const port = new EchoPort();
+  const service = new HelpdeskService(fixture.store, port);
+  const questions = [
+    "Explain the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+    "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+    "What does Get-CsOnlineUser return?"
+  ];
+  try {
+    const created = service.createConversation("Typed continuity");
+    const conversationId = created.conversation.id;
+    const submitted = [];
+    for (const content of questions) {
+      submitted.push(
+        await service.submitMessage({
+          conversationId,
+          content,
+          inputOrigin: "typed"
+        })
+      );
+    }
+    assert.equal(
+      new Set(submitted.map((item) => item.view.conversation.id)).size,
+      1
+    );
+    assert.equal(submitted[2]?.view.conversation.id, conversationId);
+    const finalView = submitted[2]!.view;
+    const userMessages = finalView.messages.filter(
+      (message) => message.role === "user"
+    );
+    const assistantMessages = finalView.messages.filter(
+      (message) => message.role === "assistant"
+    );
+    assert.deepEqual(
+      userMessages.map((message) => message.content),
+      questions
+    );
+    assert.equal(userMessages.length, 3);
+    assert.equal(assistantMessages.length, 3);
+    assert.equal(finalView.answerRuns.length, 3);
+    assert.equal(new Set(userMessages.map((message) => message.id)).size, 3);
+    assert.equal(
+      new Set(assistantMessages.map((message) => message.id)).size,
+      3
+    );
+    assert.equal(new Set(finalView.answerRuns.map((run) => run.id)).size, 3);
+    assert.deepEqual(
+      assistantMessages.map((message) => message.content),
+      questions.map((question) => `Evidence for: ${question}`)
+    );
+    assert.equal(service.listConversations().length, 1);
+
+    fixture.store.close();
+    const reopenedStore = createSqliteConversationStore({
+      databasePath: fixture.databasePath
+    });
+    const reopened = new HelpdeskService(reopenedStore, port);
+    const reloaded = reopened.loadConversation(conversationId);
+    assert.equal(reloaded.conversation.id, conversationId);
+    assert.deepEqual(
+      reloaded.messages
+        .filter((message) => message.role === "user")
+        .map((message) => message.content),
+      questions
+    );
+    assert.equal(reloaded.answerRuns.length, 3);
+    assert.deepEqual(
+      reloaded.answerRuns.map((run) => run.id),
+      finalView.answerRuns.map((run) => run.id)
+    );
+
+    const newer = reopened.createConversation("New Chat");
+    assert.notEqual(newer.conversation.id, conversationId);
+    await reopened.submitMessage({
+      conversationId: newer.conversation.id,
+      content: "What does Get-CsTenant return?",
+      inputOrigin: "typed"
+    });
+    const original = reopened.loadConversation(conversationId);
+    const switched = reopened.loadConversation(newer.conversation.id);
+    assert.deepEqual(
+      original.messages
+        .filter((message) => message.role === "user")
+        .map((message) => message.content),
+      questions
+    );
+    assert.equal(
+      original.messages.some((message) =>
+        message.content.includes("Get-CsTenant")
+      ),
+      false
+    );
+    assert.deepEqual(
+      switched.messages
+        .filter((message) => message.role === "user")
+        .map((message) => message.content),
+      ["What does Get-CsTenant return?"]
+    );
+    reopenedStore.close();
+  } finally {
+    try {
+      fixture.store.close();
+    } catch {
+      // already closed for reload
+    }
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
 test("live questions persist the actual capture source; typed/pasted never carry one", async () => {
   const fixture = await makeStore();
   const service = new HelpdeskService(
@@ -314,6 +450,206 @@ test("typed and live turns persist immediately and execute in accepted order", a
     assert.deepEqual(
       completed.answerRuns.map((run) => run.state),
       ["completed", "completed"]
+    );
+  } finally {
+    fixture.store.close();
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("three rapid live questions own durable runs, answers, and citations across restart", async () => {
+  const fixture = await makeStore();
+  let releaseFirst!: () => void;
+  const firstGate = new Promise<void>((resolvePromise) => {
+    releaseFirst = resolvePromise;
+  });
+  let executionCount = 0;
+  const port: AnswerExecutionPort = {
+    execute: async (request) => {
+      executionCount += 1;
+      if (executionCount === 1) await firstGate;
+      const base = success();
+      assert.equal(base.ok, true);
+      if (!base.ok) return base;
+      const answerText = `Answer for ${request.question}`;
+      return {
+        ...base,
+        answerText,
+        factualAnswerText: answerText,
+        helpdeskDetailedText: answerText,
+        liveAssistQuickText: answerText,
+        citations: base.citations.map((citation) => ({
+          ...citation,
+          citationId: `citation:${request.userMessageId}`,
+          factualRangeId: `range:${request.userMessageId}`,
+          claimId: `claim:${request.userMessageId}`,
+          answerRange: {
+            startOffset: 0,
+            endOffset: answerText.length
+          },
+          evidenceId: `evidence:${request.userMessageId}`,
+          spanId: `span:${request.userMessageId}`
+        }))
+      };
+    }
+  };
+  const service = new HelpdeskService(fixture.store, port);
+  const questions = [
+    "How do you renew a certificate?",
+    "How do you troubleshoot one-way audio?",
+    "How would you secure SharePoint before Copilot?"
+  ];
+  let conversationId = "";
+  try {
+    const created = service.createConversation("I2 rapid turns");
+    conversationId = created.conversation.id;
+    const begun = questions.map((content) =>
+      service.beginLiveQuestion({
+        conversationId,
+        content,
+        captureSource: "system",
+        presentationSynthesis: "disabled"
+      })
+    );
+    const pending = service.loadConversation(conversationId);
+    assert.deepEqual(
+      pending.messages.map((message) => message.content),
+      questions
+    );
+    assert.equal(new Set(begun.map((turn) => turn.started.message.id)).size, 3);
+    assert.equal(new Set(begun.map((turn) => turn.started.answerRun.id)).size, 3);
+    assert.deepEqual(
+      pending.answerRuns.map((run) => run.state),
+      ["received", "received", "received"]
+    );
+
+    releaseFirst();
+    await Promise.all(begun.map((turn) => turn.completion));
+    const completed = service.loadConversation(conversationId);
+    for (const turn of begun) {
+      const run = completed.answerRuns.find(
+        (entry) => entry.id === turn.started.answerRun.id
+      );
+      const answer = completed.messages.find(
+        (message) => message.id === run?.assistantMessageId
+      );
+      assert.equal(
+        answer?.content,
+        `Answer for ${turn.started.message.content}`
+      );
+      assert.equal(answer?.citations.length, 1);
+      assert.equal(
+        answer?.citations[0]?.citationId,
+        `citation:${turn.started.message.id}`
+      );
+    }
+    fixture.store.close();
+
+    const reopenedStore = createSqliteConversationStore({
+      databasePath: fixture.databasePath
+    });
+    try {
+      const reopened = new HelpdeskService(
+        reopenedStore,
+        port
+      ).loadConversation(conversationId);
+      assert.deepEqual(
+        reopened.answerRuns.map((run) => ({
+          userMessageId: run.triggeringUserMessageId,
+          assistantMessageId: run.assistantMessageId,
+          state: run.state
+        })),
+        completed.answerRuns.map((run) => ({
+          userMessageId: run.triggeringUserMessageId,
+          assistantMessageId: run.assistantMessageId,
+          state: run.state
+        }))
+      );
+      assert.deepEqual(
+        reopened.messages.map((message) => ({
+          id: message.id,
+          content: message.content,
+          citations: message.citations.map(
+            (citation) => citation.citationId
+          )
+        })),
+        completed.messages.map((message) => ({
+          id: message.id,
+          content: message.content,
+          citations: message.citations.map(
+            (citation) => citation.citationId
+          )
+        }))
+      );
+    } finally {
+      reopenedStore.close();
+    }
+  } finally {
+    try {
+      fixture.store.close();
+    } catch {
+      // Closed for the restart assertion.
+    }
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("a failed rapid question cannot corrupt either adjacent turn", async () => {
+  const fixture = await makeStore();
+  let call = 0;
+  const port: AnswerExecutionPort = {
+    execute: async () => {
+      call += 1;
+      if (call === 2) {
+        return {
+          ok: false,
+          code: "grounding_execution_failed",
+          stage: "retrieval_grounding",
+          userSafeMessage: "No grounded answer."
+        };
+      }
+      return structuredClone(success());
+    }
+  };
+  const service = new HelpdeskService(fixture.store, port);
+  try {
+    const conversation = service.createConversation("Adjacent failure");
+    const turns = ["Q1", "Q2", "Q3"].map((content) =>
+      service.beginLiveQuestion({
+        conversationId: conversation.conversation.id,
+        content,
+        captureSource: "system",
+        presentationSynthesis: "disabled"
+      })
+    );
+    await Promise.all(turns.map((turn) => turn.completion));
+    const view = service.loadConversation(conversation.conversation.id);
+    const runFor = (question: string) => {
+      const user = view.messages.find(
+        (message) =>
+          message.role === "user" && message.content === question
+      );
+      return view.answerRuns.find(
+        (run) => run.triggeringUserMessageId === user?.id
+      );
+    };
+    assert.equal(runFor("Q1")?.state, "completed");
+    assert.ok(runFor("Q1")?.assistantMessageId);
+    assert.equal(runFor("Q2")?.state, "failed");
+    assert.equal(runFor("Q2")?.assistantMessageId, null);
+    assert.equal(runFor("Q3")?.state, "completed");
+    assert.ok(runFor("Q3")?.assistantMessageId);
+    assert.deepEqual(
+      view.messages
+        .filter((message) => message.role === "user")
+        .map((message) => message.content),
+      ["Q1", "Q2", "Q3"]
+    );
+    assert.equal(
+      view.messages.filter(
+        (message) => message.role === "assistant"
+      ).length,
+      2
     );
   } finally {
     fixture.store.close();
@@ -565,8 +901,9 @@ test("Helpdesk service consumes only the execution port contract", () => {
   );
   assert.match(
     mainSource,
-    /new GroundedAnswerExecutionPort\(\{\s*synthesisProvider:\s*createConfiguredGroundedSynthesisProvider\(\)/
+    /new EvidenceAnswerExecutionPort\(\s*createEvidenceSearchClient\(evidenceChild\)\s*\)/
   );
+  assert.doesNotMatch(mainSource, /new GroundedAnswerExecutionPort\(/);
   assert.doesNotMatch(
     mainSource,
     /OpenAiGroundedAnswerGenerator|OpenAiLlmProvider/

@@ -32,7 +32,8 @@ export const IPC_CHANNELS = {
   liveAssistGetHydration: "live-assist:get-hydration",
   liveAssistCaptureError: "live-assist:capture-error",
   liveAssistProjection: "live-assist:projection",
-  liveAssistOpenCitation: "live-assist:open-citation"
+  liveAssistOpenCitation: "live-assist:open-citation",
+  liveAssistEvidenceStatus: "live-assist:evidence-status"
 } as const;
 
 export const DEFAULT_TOPIC_PROMPT =

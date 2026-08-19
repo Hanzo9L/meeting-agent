@@ -1,0 +1,90 @@
+{
+  "experiment": "PHASE R0.3 — Candidate Recall Depth Audit",
+  "date": "2026-08-17",
+  "recommendation": "B. ROUTING/CANDIDATE GENERATION STILL REQUIRED",
+  "retrieval_code_changed": false,
+  "ground_truth_changed": false,
+  "reranker_implemented": false,
+  "relay_production_source_modified": false,
+  "retrieval_frozen_sha256_16": {
+    "service/search.py": "8702daf1ee2b2843",
+    "build/transform.py": "9ebb37b3313c23c0",
+    "eval/run_r0_1.py": "c514a53628ba899b"
+  },
+  "ground_truth_sha256": "59f6572dc5f3d3d574bb4054199b5c32542d18eedd07dc07d16b228a8562ee40",
+  "command": "python eval/run_r0_3.py",
+  "recall": {
+    "@1": "7/13",
+    "@3": "11/13",
+    "@5": "12/13",
+    "@10": "12/13",
+    "@20": "12/13",
+    "@30": "12/13",
+    "@50": "12/13"
+  },
+  "perfect_reranker_coverage": {
+    "5": "12/13",
+    "10": "12/13",
+    "20": "12/13",
+    "30": "12/13",
+    "50": "12/13"
+  },
+  "first_acceptable_rank": {
+    "Q01": 3,
+    "Q02": 3,
+    "Q03": "SOURCE_GAP",
+    "Q04": 3,
+    "Q05": 2,
+    "Q06": 1,
+    "Q07": 1,
+    "Q08": 1,
+    "Q09": 1,
+    "Q10": 1,
+    "Q11": 1,
+    "Q12": 1,
+    "Q13": 5,
+    "Q14": "NOT_IN_TOP_50"
+  },
+  "q13": {
+    "first_acceptable": {
+      "section": "Step 3: Prevent accidental oversharing",
+      "vector_rank": 2,
+      "lexical_rank": 28,
+      "fused_rank": 5
+    },
+    "overview": {"vector_rank": 9, "lexical_rank": null, "fused_rank": 14},
+    "step1": {"vector_rank": 10, "lexical_rank": 27, "fused_rank": 10},
+    "step2": {"vector_rank": 15, "lexical_rank": null, "fused_rank": 18},
+    "step3": {"vector_rank": 2, "lexical_rank": 28, "fused_rank": 5},
+    "step5_not_acceptable": {"vector_rank": 1, "lexical_rank": 11, "fused_rank": 3},
+    "min_candidate_set_to_see_correct": 5
+  },
+  "q14": {
+    "indexed": true,
+    "unscoped_production_candidates_30": {
+      "vector_rank": null,
+      "lexical_rank": null,
+      "fused_rank": null,
+      "cause": "target absent from vector candidates; target absent from lexical candidates"
+    },
+    "unscoped_deep_candidates_100": {
+      "vector_rank": 25,
+      "lexical_rank": 85,
+      "fused_rank": 24
+    },
+    "scoped_msteams_ps_candidates_30": {
+      "vector_rank": 1,
+      "lexical_rank": 4,
+      "fused_rank": 2
+    }
+  },
+  "latency_warm_ms": {
+    "3": {"p50": 9.0, "p95": 12.93, "max": 21.34},
+    "5": {"p50": 8.81, "p95": 11.48, "max": 12.23},
+    "10": {"p50": 10.58, "p95": 23.8, "max": 64.01},
+    "20": {"p50": 13.34, "p95": 24.07, "max": 81.9},
+    "30": {"p50": 10.97, "p95": 26.09, "max": 26.54},
+    "50": {"p50": 11.15, "p95": 13.82, "max": 22.74}
+  },
+  "raw_results": "eval/runs/retrieval-r0-3/raw_results.json"
+}

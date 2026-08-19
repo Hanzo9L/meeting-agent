@@ -97,7 +97,7 @@ test("creates, lists, loads, and reopens conversations", async () => {
   let conversationId = "";
   const first = createSqliteConversationStore({ databasePath: temp.databasePath });
   try {
-    assert.equal(first.getSchemaVersion(), 5);
+    assert.equal(first.getSchemaVersion(), 7);
     const conversation = first.createConversation({ title: "Teams Voice" });
     conversationId = conversation.id;
     assert.equal(first.listConversations().length, 1);
@@ -178,7 +178,7 @@ test("version 2 migration preserves existing version 1 messages", async () => {
     databasePath: temp.databasePath
   });
   try {
-    assert.equal(migrated.getSchemaVersion(), 5);
+    assert.equal(migrated.getSchemaVersion(), 7);
     assert.equal(
       migrated.loadOrderedMessages("conv-v1")[0]?.content,
       "Existing question"
@@ -498,7 +498,7 @@ test("arbitrary GitHub context URL fails closed before assistant persistence", a
             }
           ]
         }),
-      /does not have an actionable Microsoft Learn URL/
+      /does not have an actionable evidence URL/
     );
     assert.equal(store.loadOrderedMessages(fixture.conversationId).length, 1);
     assert.equal(store.getAnswerRun(fixture.run.id)?.state, "validating");
@@ -535,7 +535,7 @@ test("rejects an unvalidated citation URL before assistant persistence", async (
             }
           ]
         }),
-      /actionable Microsoft Learn URL/
+      /actionable evidence URL/
     );
     assert.equal(
       store.loadOrderedMessages(fixture.conversationId).length,
@@ -958,6 +958,20 @@ test("active Live Assist session is recovered as interrupted after restart", asy
     reopened.close();
     await rm(temp.root, { recursive: true, force: true });
   }
+});
+
+test("each user message can own only one answer run", async () => {
+  await withStore((store) => {
+    const fixture = createQuestionRun(store);
+    assert.throws(
+      () =>
+        store.createAnswerRun({
+          conversationId: fixture.conversationId,
+          triggeringUserMessageId: fixture.userMessageId
+        }),
+      /UNIQUE constraint failed: answer_runs\.triggering_user_message_id/
+    );
+  });
 });
 
 test("conversation database path is separate from Knowledge V2", () => {

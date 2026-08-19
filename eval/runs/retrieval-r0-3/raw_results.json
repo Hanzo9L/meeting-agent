@@ -1,0 +1,1828 @@
+{
+  "experiment": "PHASE R0.3 \u2014 Candidate Recall Depth Audit",
+  "retrieval_frozen": {
+    "service/search.py": "8702daf1ee2b2843",
+    "build/transform.py": "9ebb37b3313c23c0",
+    "eval/run_r0_1.py": "c514a53628ba899b",
+    "eval/ground_truth/priority14_retrieval.json": "59f6572dc5f3d3d5"
+  },
+  "ground_truth_sha256": "59f6572dc5f3d3d574bb4054199b5c32542d18eedd07dc07d16b228a8562ee40",
+  "ground_truth_unchanged": true,
+  "recall": {
+    "@1": {
+      "n": 7,
+      "d": 13,
+      "ratio": "7/13"
+    },
+    "@3": {
+      "n": 11,
+      "d": 13,
+      "ratio": "11/13"
+    },
+    "@5": {
+      "n": 12,
+      "d": 13,
+      "ratio": "12/13"
+    },
+    "@10": {
+      "n": 12,
+      "d": 13,
+      "ratio": "12/13"
+    },
+    "@20": {
+      "n": 12,
+      "d": 13,
+      "ratio": "12/13"
+    },
+    "@30": {
+      "n": 12,
+      "d": 13,
+      "ratio": "12/13"
+    },
+    "@50": {
+      "n": 12,
+      "d": 13,
+      "ratio": "12/13"
+    }
+  },
+  "perfect_reranker_coverage": {
+    "5": {
+      "fixable": 12,
+      "n": 13,
+      "ratio": "12/13"
+    },
+    "10": {
+      "fixable": 12,
+      "n": 13,
+      "ratio": "12/13"
+    },
+    "20": {
+      "fixable": 12,
+      "n": 13,
+      "ratio": "12/13"
+    },
+    "30": {
+      "fixable": 12,
+      "n": 13,
+      "ratio": "12/13"
+    },
+    "50": {
+      "fixable": 12,
+      "n": 13,
+      "ratio": "12/13"
+    }
+  },
+  "latency_warm_ms": {
+    "3": {
+      "top_k": 3,
+      "candidates": 30,
+      "n": 56,
+      "min": 6.1,
+      "p50": 9.0,
+      "p95": 12.93,
+      "max": 21.34
+    },
+    "5": {
+      "top_k": 5,
+      "candidates": 30,
+      "n": 56,
+      "min": 6.24,
+      "p50": 8.81,
+      "p95": 11.48,
+      "max": 12.23
+    },
+    "10": {
+      "top_k": 10,
+      "candidates": 30,
+      "n": 56,
+      "min": 6.14,
+      "p50": 10.58,
+      "p95": 23.8,
+      "max": 64.01
+    },
+    "20": {
+      "top_k": 20,
+      "candidates": 30,
+      "n": 56,
+      "min": 8.2,
+      "p50": 13.34,
+      "p95": 24.07,
+      "max": 81.9
+    },
+    "30": {
+      "top_k": 30,
+      "candidates": 30,
+      "n": 56,
+      "min": 8.47,
+      "p50": 10.97,
+      "p95": 26.09,
+      "max": 26.54
+    },
+    "50": {
+      "top_k": 50,
+      "candidates": 50,
+      "n": 56,
+      "min": 7.79,
+      "p50": 11.15,
+      "p95": 13.82,
+      "max": 22.74
+    }
+  },
+  "questions": [
+    {
+      "question_id": "Q01",
+      "question": "Explain Direct Routing and the role of the SBC.",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 43,
+      "fts_query": "\"direct routing\" OR \"SBC\"",
+      "indexed_acceptable_n": 2,
+      "first": {
+        "first_rank": 3,
+        "parent_id": "622ff626b6ac2b426c2e",
+        "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+        "title": "Configure Direct Routing",
+        "section": "Overview",
+        "match_level": "SECTION",
+        "vector_rank": 4,
+        "lexical_rank": 11,
+        "fused_rank": 3,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 3,
+      "label": 3,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "778741c91a147734fddc",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "match_level": "SECTION",
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "fused_rank": 10,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "622ff626b6ac2b426c2e",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "title": "Configure Direct Routing",
+          "section": "Overview",
+          "match_level": "SECTION",
+          "vector_rank": 4,
+          "lexical_rank": 11,
+          "fused_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": false,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q02",
+      "question": "A Teams user can make internal calls but cannot call external PSTN numbers. How would you troubleshoot it?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 46,
+      "fts_query": "\"Teams\" OR \"user\" OR \"make\" OR \"internal\" OR \"calls\" OR \"but\" OR \"cannot\" OR \"call\" OR \"external\" OR \"PSTN\" OR \"numbers\"",
+      "indexed_acceptable_n": 1,
+      "first": {
+        "first_rank": 3,
+        "parent_id": "ea15502e0fc4d73301b4",
+        "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+        "title": "Issues with outbound calls",
+        "section": "Some users are unable to make calls",
+        "match_level": "SECTION",
+        "vector_rank": 5,
+        "lexical_rank": 10,
+        "fused_rank": 3,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 3,
+      "label": 3,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "ea15502e0fc4d73301b4",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "match_level": "SECTION",
+          "vector_rank": 5,
+          "lexical_rank": 10,
+          "fused_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": false,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q03",
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "status": "SOURCE_GAP",
+      "first_rank": null,
+      "label": "SOURCE_GAP"
+    },
+    {
+      "question_id": "Q04",
+      "question": "Explain the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 34,
+      "fts_query": "\"direct routing\" OR \"voice routing policy\" OR \"pstn usage\" OR \"voice route\" OR \"SBC\" OR \"gateway\"",
+      "indexed_acceptable_n": 1,
+      "first": {
+        "first_rank": 3,
+        "parent_id": "601fbf6e4fdfbb3f78d2",
+        "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+        "title": "Configure call routing for Direct Routing",
+        "section": "Call routing overview",
+        "match_level": "SECTION",
+        "vector_rank": 1,
+        "lexical_rank": 13,
+        "fused_rank": 3,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 3,
+      "label": 3,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "601fbf6e4fdfbb3f78d2",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Call routing overview",
+          "match_level": "SECTION",
+          "vector_rank": 1,
+          "lexical_rank": 13,
+          "fused_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": false,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q05",
+      "question": "How would you renew or replace an SBC certificate used for Teams Direct Routing?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 42,
+      "fts_query": "\"direct routing\" OR \"renew\" OR \"replace\" OR \"SBC\" OR \"certificate\" OR \"Teams\"",
+      "indexed_acceptable_n": 1,
+      "first": {
+        "first_rank": 2,
+        "parent_id": "6e404a6b3d4456abb6ce",
+        "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+        "title": "Plan Direct Routing",
+        "section": "Public trusted certificate for the SBC",
+        "match_level": "SECTION",
+        "vector_rank": 1,
+        "lexical_rank": 4,
+        "fused_rank": 2,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 2,
+      "label": 2,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "6e404a6b3d4456abb6ce",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "title": "Plan Direct Routing",
+          "section": "Public trusted certificate for the SBC",
+          "match_level": "SECTION",
+          "vector_rank": 1,
+          "lexical_rank": 4,
+          "fused_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": false,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q06",
+      "question": "Explain emergency calling with Teams Direct Routing, including location information.",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 38,
+      "fts_query": "\"direct routing\" OR \"emergency\" OR \"calling\" OR \"Teams\" OR \"location\" OR \"information\"",
+      "indexed_acceptable_n": 15,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "895718d2f8c333201a33",
+        "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+        "title": "Configure dynamic emergency calling",
+        "section": "Overview",
+        "match_level": "ARTICLE",
+        "vector_rank": 5,
+        "lexical_rank": 1,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "895718d2f8c333201a33",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": 5,
+          "lexical_rank": 1,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "222f2460114c21e3875a",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Plan for emergency calling",
+          "match_level": "ARTICLE",
+          "vector_rank": 18,
+          "lexical_rank": 11,
+          "fused_rank": 12,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "e590f24693aa093fccd2",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Emergency calling prerequisites for Direct Routing",
+          "match_level": "ARTICLE",
+          "vector_rank": 15,
+          "lexical_rank": 7,
+          "fused_rank": 9,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "c6f6201185e08bd74d80",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Configure emergency calling",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": 9,
+          "fused_rank": 26,
+          "matched_by": [
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "2a9969df99f652d5f670",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Supported clients",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "3d077a8c1c23904a1adc",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Assign emergency addresses",
+          "match_level": "ARTICLE",
+          "vector_rank": 23,
+          "lexical_rank": 19,
+          "fused_rank": 15,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "b5fdfbdbfaec3439767a",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Configure network settings",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": 16,
+          "fused_rank": 29,
+          "matched_by": [
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "85cd59d19c05d6e01864",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Configure Location Information Service",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": 23,
+          "fused_rank": 35,
+          "matched_by": [
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "01711d4b5769f19283ab",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Configure emergency policies",
+          "match_level": "ARTICLE",
+          "vector_rank": 10,
+          "lexical_rank": 14,
+          "fused_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "0e92d1c853d96238bc39",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Enable users and sites",
+          "match_level": "ARTICLE",
+          "vector_rank": 13,
+          "lexical_rank": null,
+          "fused_rank": 21,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "d9d9e5c8eb063db6a6ec",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Test emergency calling",
+          "match_level": "ARTICLE",
+          "vector_rank": 20,
+          "lexical_rank": 13,
+          "fused_rank": 14,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "43dc089eb73532dab467",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "title": "Configure dynamic emergency calling",
+          "section": "Government support",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "3b7e2e96907e9b930b36",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "title": "Considerations for Direct Routing",
+          "section": "Emergency call enablement for Direct Routing",
+          "match_level": "SECTION",
+          "vector_rank": 1,
+          "lexical_rank": 30,
+          "fused_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "fc213dcf6c655a6f7c03",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "title": "Considerations for Direct Routing",
+          "section": "Dynamic emergency calling for Direct Routing",
+          "match_level": "SECTION",
+          "vector_rank": 4,
+          "lexical_rank": 5,
+          "fused_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "d652b18cd2b4c8ca0fb6",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "title": "Considerations for Direct Routing",
+          "section": "Emergency call routing for Direct Routing",
+          "match_level": "SECTION",
+          "vector_rank": 2,
+          "lexical_rank": 6,
+          "fused_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q07",
+      "question": "Walk me through building an Auto Attendant that ultimately routes callers into a Call Queue.",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 31,
+      "fts_query": "\"auto attendant\" OR \"call queue\" OR \"building\" OR \"ultimately\" OR \"routes\" OR \"callers\"",
+      "indexed_acceptable_n": 13,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "8ffe902b4a666d2f8ae4",
+        "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+        "title": "Setup - Auto Attendant",
+        "section": "Steps to create an auto attendant",
+        "match_level": "ARTICLE",
+        "vector_rank": 3,
+        "lexical_rank": 7,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "c0d50d84011ea978597c",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "title": "Setup - Auto Attendant",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "e70209a200f4d1424823",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "title": "Setup - Auto Attendant",
+          "section": "Planning and licensing review",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "match_level": "ARTICLE",
+          "vector_rank": 3,
+          "lexical_rank": 7,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "b1972a8e6666f4ab78cb",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "title": "Setup - Auto Attendant",
+          "section": "Extra functionality available through PowerShell cmdlets",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": 23,
+          "fused_rank": 24,
+          "matched_by": [
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "67a6fbfa44770765878f",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "title": "Setup - Auto Attendant",
+          "section": "PowerShell",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "c8c28595d11e45d94654",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "title": "Setup - Auto Attendant",
+          "section": "Auto attendant diagnostic tool",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "5408b2f99db725432e2c",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "36e32d25d01d4440eb61",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "Planning and licensing review",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "e277ce2d0f43a702b876",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "Steps to create a call queue",
+          "match_level": "ARTICLE",
+          "vector_rank": 5,
+          "lexical_rank": 16,
+          "fused_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "a0fcd71d2e73a5132667",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "Summary of recommended call queue settings",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "9cff099a8475790f0372",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "Extra functionality available through PowerShell cmdlets",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "790702a6b8d2e2d086b4",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "PowerShell",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "cddb9b001d4e63cdfc89",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "title": "Setup - Call Queue",
+          "section": "Call queue diagnostic tool",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q08",
+      "question": "How would you configure a resource account for a Microsoft Teams Room?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 43,
+      "fts_query": "\"resource account\" OR \"teams room\" OR \"Microsoft\"",
+      "indexed_acceptable_n": 7,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "f1c7221e658fe9d44663",
+        "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+        "title": "How to create and configure resource accounts for Teams Rooms and panels",
+        "section": "Create resource account & assign the license",
+        "match_level": "ARTICLE",
+        "vector_rank": 1,
+        "lexical_rank": 3,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "a65c2368fdd803b41080",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": 2,
+          "lexical_rank": null,
+          "fused_rank": 7,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "874b04dfd4abe7f7fd97",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Before you begin",
+          "match_level": "ARTICLE",
+          "vector_rank": 7,
+          "lexical_rank": null,
+          "fused_rank": 10,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "d1dc2969b15abd07d1d4",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Get the right license",
+          "match_level": "ARTICLE",
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "fused_rank": 8,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "f1c7221e658fe9d44663",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "match_level": "ARTICLE",
+          "vector_rank": 1,
+          "lexical_rank": 3,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "dd213ff0188c0c7eb8f6",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Configure Exchange mailbox properties",
+          "match_level": "ARTICLE",
+          "vector_rank": 8,
+          "lexical_rank": null,
+          "fused_rank": 11,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "8b9395dc7c5d20a194c5",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Turn off password expiration",
+          "match_level": "ARTICLE",
+          "vector_rank": 12,
+          "lexical_rank": null,
+          "fused_rank": 15,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "a91309e78dbd858e8be8",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Next steps",
+          "match_level": "ARTICLE",
+          "vector_rank": 4,
+          "lexical_rank": null,
+          "fused_rank": 9,
+          "matched_by": [
+            "vector"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q09",
+      "question": "A Teams Room resource account is locked out or cannot sign in. How would you troubleshoot it?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 39,
+      "fts_query": "\"teams room\" OR \"resource account\" OR \"locked\" OR \"out\" OR \"cannot\" OR \"sign\"",
+      "indexed_acceptable_n": 3,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "fc87164584f255ea269f",
+        "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+        "title": "Fix Teams Rooms resource account sign-in issues",
+        "section": "Overview",
+        "match_level": "ARTICLE",
+        "vector_rank": 2,
+        "lexical_rank": 5,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "fc87164584f255ea269f",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": 2,
+          "lexical_rank": 5,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "3c3703462e45b72e271b",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Symptoms",
+          "match_level": "ARTICLE",
+          "vector_rank": 4,
+          "lexical_rank": 10,
+          "fused_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "1ed7c9ce0b85e1499c50",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Resolution",
+          "match_level": "ARTICLE",
+          "vector_rank": 1,
+          "lexical_rank": 12,
+          "fused_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q10",
+      "question": "A Teams Room joins the meeting, but the far end cannot hear the room. What would you check?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 40,
+      "fts_query": "\"teams room\" OR \"joins\" OR \"meeting\" OR \"but\" OR \"far\" OR \"end\" OR \"cannot\" OR \"hear\" OR \"room\" OR \"check\"",
+      "indexed_acceptable_n": 5,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "6b510d5018704fc4ed7c",
+        "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+        "title": "Known issues with Teams Rooms on Windows",
+        "section": "Software issues",
+        "match_level": "ARTICLE",
+        "vector_rank": 2,
+        "lexical_rank": 3,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "6b510d5018704fc4ed7c",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Software issues",
+          "match_level": "ARTICLE",
+          "vector_rank": 2,
+          "lexical_rank": 3,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "37684d953253faf2ee70",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Hardware issues",
+          "match_level": "ARTICLE",
+          "vector_rank": 1,
+          "lexical_rank": 8,
+          "fused_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "8b5e42f9981d4682749e",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Limitations",
+          "match_level": "ARTICLE",
+          "vector_rank": 6,
+          "lexical_rank": null,
+          "fused_rank": 9,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "24bf2f807bd01192d216",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Support for non-Microsoft Teams devices",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "6606647cd9d83f10042a",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-android",
+          "title": "Known issues with Teams on Android devices",
+          "section": "Issues affecting Teams meeting room devices",
+          "match_level": "SECTION",
+          "vector_rank": 4,
+          "lexical_rank": 2,
+          "fused_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q11",
+      "question": "How would you manage and monitor a fleet of Microsoft Teams Rooms at scale?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 43,
+      "fts_query": "\"teams rooms\" OR \"manage\" OR \"monitor\" OR \"fleet\" OR \"Microsoft\" OR \"at\" OR \"scale\"",
+      "indexed_acceptable_n": 5,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "527efbccd8b6970ca143",
+        "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+        "title": "Microsoft Teams Rooms Pro management",
+        "section": "Overview",
+        "match_level": "ARTICLE",
+        "vector_rank": 3,
+        "lexical_rank": 2,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "527efbccd8b6970ca143",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": 3,
+          "lexical_rank": 2,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "c84a7b8a4928cfa494a2",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Management capabilities",
+          "match_level": "ARTICLE",
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "fused_rank": 7,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "ee23334779e3a04cc16b",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Service prerequisites",
+          "match_level": "ARTICLE",
+          "vector_rank": 10,
+          "lexical_rank": null,
+          "fused_rank": 12,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "218d6bd72faa26d34c3f",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Supported regions",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "1768b08e6714d06c5b08",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Data collection",
+          "match_level": "ARTICLE",
+          "vector_rank": 2,
+          "lexical_rank": null,
+          "fused_rank": 8,
+          "matched_by": [
+            "vector"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q12",
+      "question": "What is the difference between Call Quality Dashboard and per-user/per-call troubleshooting, and when would you use each?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 40,
+      "fts_query": "\"call quality dashboard\" OR \"difference\" OR \"per\" OR \"user\" OR \"call\" OR \"troubleshooting\"",
+      "indexed_acceptable_n": 11,
+      "first": {
+        "first_rank": 1,
+        "parent_id": "f7a93390e0700dac12ae",
+        "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+        "title": "Monitor and improve call quality for Microsoft Teams",
+        "section": "Monitor and troubleshoot call quality",
+        "match_level": "ARTICLE",
+        "vector_rank": 4,
+        "lexical_rank": 8,
+        "fused_rank": 1,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 1,
+      "label": 1,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "654082fb0e0a4930fbbd",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": 15,
+          "lexical_rank": null,
+          "fused_rank": 20,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "f7a93390e0700dac12ae",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Monitor and troubleshoot call quality",
+          "match_level": "ARTICLE",
+          "vector_rank": 4,
+          "lexical_rank": 8,
+          "fused_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "fecf39632dda3c399658",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Participant visibility in call quality tools",
+          "match_level": "ARTICLE",
+          "vector_rank": 22,
+          "lexical_rank": 11,
+          "fused_rank": 9,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "756587e46c75dc89db2f",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Prioritize important network traffic using QoS",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        },
+        {
+          "parent_id": "10077b429a10859c9d5d",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Overview",
+          "match_level": "ARTICLE",
+          "vector_rank": 6,
+          "lexical_rank": null,
+          "fused_rank": 16,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "88cea0d516ed2e33287f",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Call Analytics permissions",
+          "match_level": "ARTICLE",
+          "vector_rank": 8,
+          "lexical_rank": null,
+          "fused_rank": 17,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "932e0b4a26481a61d5cb",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Introduction to Call Analytics",
+          "match_level": "ARTICLE",
+          "vector_rank": 10,
+          "lexical_rank": null,
+          "fused_rank": 18,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "cad65cdf46e16e636130",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Where to find per-user Call Analytics",
+          "match_level": "ARTICLE",
+          "vector_rank": 9,
+          "lexical_rank": 24,
+          "fused_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "d29d94b6a164a125b161",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "What does each Teams Support role do?",
+          "match_level": "ARTICLE",
+          "vector_rank": 2,
+          "lexical_rank": 20,
+          "fused_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "b31d4cc8c4e4d5e35b83",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Troubleshoot user call quality problems",
+          "match_level": "ARTICLE",
+          "vector_rank": 5,
+          "lexical_rank": null,
+          "fused_rank": 15,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "d1d73e1bf4d0bb9168a2",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Limitations",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        }
+      ],
+      "recall": {
+        "@1": true,
+        "@3": true,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      }
+    },
+    {
+      "question_id": "Q13",
+      "question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 46,
+      "fts_query": "\"secure\" OR \"review\" OR \"SharePoint\" OR \"OneDrive\" OR \"rolling\" OR \"out\" OR \"Microsoft\" OR \"365\" OR \"Copilot\"",
+      "indexed_acceptable_n": 4,
+      "first": {
+        "first_rank": 5,
+        "parent_id": "d064eaebfb66ddca2cab",
+        "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "section": "Step 3: Prevent accidental oversharing",
+        "match_level": "SECTION",
+        "vector_rank": 2,
+        "lexical_rank": 28,
+        "fused_rank": 5,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "first_rank": 5,
+      "label": 5,
+      "cause_if_not_top10": null,
+      "indexed_ranks": [
+        {
+          "parent_id": "39036d760afb41071fe3",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Overview",
+          "match_level": "SECTION",
+          "vector_rank": 9,
+          "lexical_rank": null,
+          "fused_rank": 14,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "b8956d42881c4a942af1",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 1: Use Content Management Assessment",
+          "match_level": "SECTION",
+          "vector_rank": 10,
+          "lexical_rank": 27,
+          "fused_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "parent_id": "510d4c6f4d9b9e528375",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 2: Employ site lifecycle management and archiving",
+          "match_level": "SECTION",
+          "vector_rank": 15,
+          "lexical_rank": null,
+          "fused_rank": 18,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "parent_id": "d064eaebfb66ddca2cab",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "match_level": "SECTION",
+          "vector_rank": 2,
+          "lexical_rank": 28,
+          "fused_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "recall": {
+        "@1": false,
+        "@3": false,
+        "@5": true,
+        "@10": true,
+        "@20": true,
+        "@30": true,
+        "@50": true
+      },
+      "q13_sections": {
+        "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+        "sections": [
+          {
+            "section": "Overview",
+            "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+            "acceptable": true,
+            "parent_id": "39036d760afb41071fe3",
+            "vector_rank": 9,
+            "lexical_rank": null,
+            "fused_rank": 14,
+            "matched_by": [
+              "vector"
+            ]
+          },
+          {
+            "section": "Step 1: Use Content Management Assessment",
+            "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+            "acceptable": true,
+            "parent_id": "b8956d42881c4a942af1",
+            "vector_rank": 10,
+            "lexical_rank": 27,
+            "fused_rank": 10,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          },
+          {
+            "section": "Step 2: Employ site lifecycle management and archiving",
+            "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+            "acceptable": true,
+            "parent_id": "510d4c6f4d9b9e528375",
+            "vector_rank": 15,
+            "lexical_rank": null,
+            "fused_rank": 18,
+            "matched_by": [
+              "vector"
+            ]
+          },
+          {
+            "section": "Step 3: Prevent accidental oversharing",
+            "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+            "acceptable": true,
+            "parent_id": "d064eaebfb66ddca2cab",
+            "vector_rank": 2,
+            "lexical_rank": 28,
+            "fused_rank": 5,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          },
+          {
+            "section": "Step 4: Use the SharePoint Admin Agent",
+            "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+            "acceptable": false,
+            "parent_id": "54ada41192f5c2735aab",
+            "vector_rank": 16,
+            "lexical_rank": null,
+            "fused_rank": 19,
+            "matched_by": [
+              "vector"
+            ]
+          },
+          {
+            "section": "Step 5: Implement backup and restore procedures",
+            "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+            "acceptable": false,
+            "parent_id": "7e48473186db110c9f43",
+            "vector_rank": 1,
+            "lexical_rank": 11,
+            "fused_rank": 3,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          }
+        ],
+        "min_candidate_set_to_see_correct": 5
+      }
+    },
+    {
+      "question_id": "Q14",
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "status": "ANSWERABLE",
+      "production_candidates": 30,
+      "fused_n": 43,
+      "fts_query": "\"Teams Voice\" OR \"PowerShell\" OR \"audit\" OR \"users\" OR \"voice\" OR \"configuration\"",
+      "indexed_acceptable_n": 1,
+      "first": null,
+      "first_rank": null,
+      "label": "NOT_IN_TOP_50",
+      "cause_if_not_top10": "target absent from vector candidates; target absent from lexical candidates",
+      "indexed_ranks": [
+        {
+          "parent_id": "0d0e05a0a4f37672b97e",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "match_level": "ARTICLE",
+          "vector_rank": null,
+          "lexical_rank": null,
+          "fused_rank": null,
+          "matched_by": []
+        }
+      ],
+      "recall": {
+        "@1": false,
+        "@3": false,
+        "@5": false,
+        "@10": false,
+        "@20": false,
+        "@30": false,
+        "@50": false
+      },
+      "q14": {
+        "unscoped_production": {
+          "candidates": 30,
+          "first": null,
+          "get_csonlineuser": {
+            "parent_id": "0d0e05a0a4f37672b97e",
+            "vector_rank": null,
+            "lexical_rank": null,
+            "fused_rank": null,
+            "matched_by": []
+          }
+        },
+        "unscoped_deep": {
+          "candidates": 100,
+          "fused_n": 132,
+          "vector_n": 60,
+          "lexical_n": 100,
+          "first": {
+            "first_rank": 24,
+            "parent_id": "0d0e05a0a4f37672b97e",
+            "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+            "title": "Get-CsOnlineUser",
+            "section": "Get-CsOnlineUser",
+            "match_level": "ARTICLE",
+            "vector_rank": 25,
+            "lexical_rank": 85,
+            "fused_rank": 24,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          },
+          "get_csonlineuser": {
+            "parent_id": "0d0e05a0a4f37672b97e",
+            "vector_rank": 25,
+            "lexical_rank": 85,
+            "fused_rank": 24,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          }
+        },
+        "scoped_msteams_ps": {
+          "candidates": 30,
+          "first": {
+            "first_rank": 2,
+            "parent_id": "0d0e05a0a4f37672b97e",
+            "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+            "title": "Get-CsOnlineUser",
+            "section": "Get-CsOnlineUser",
+            "match_level": "ARTICLE",
+            "vector_rank": 1,
+            "lexical_rank": 4,
+            "fused_rank": 2,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          },
+          "get_csonlineuser": {
+            "parent_id": "0d0e05a0a4f37672b97e",
+            "vector_rank": 1,
+            "lexical_rank": 4,
+            "fused_rank": 2,
+            "matched_by": [
+              "vector",
+              "lexical"
+            ]
+          },
+          "top3_parent_ids": [
+            "e70392396d1d9841449f",
+            "0d0e05a0a4f37672b97e",
+            "26703a61d0bb2ad58cb4"
+          ]
+        }
+      }
+    }
+  ],
+  "q13": {
+    "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+    "sections": [
+      {
+        "section": "Overview",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "acceptable": true,
+        "parent_id": "39036d760afb41071fe3",
+        "vector_rank": 9,
+        "lexical_rank": null,
+        "fused_rank": 14,
+        "matched_by": [
+          "vector"
+        ]
+      },
+      {
+        "section": "Step 1: Use Content Management Assessment",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "acceptable": true,
+        "parent_id": "b8956d42881c4a942af1",
+        "vector_rank": 10,
+        "lexical_rank": 27,
+        "fused_rank": 10,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      {
+        "section": "Step 2: Employ site lifecycle management and archiving",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "acceptable": true,
+        "parent_id": "510d4c6f4d9b9e528375",
+        "vector_rank": 15,
+        "lexical_rank": null,
+        "fused_rank": 18,
+        "matched_by": [
+          "vector"
+        ]
+      },
+      {
+        "section": "Step 3: Prevent accidental oversharing",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "acceptable": true,
+        "parent_id": "d064eaebfb66ddca2cab",
+        "vector_rank": 2,
+        "lexical_rank": 28,
+        "fused_rank": 5,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      {
+        "section": "Step 4: Use the SharePoint Admin Agent",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "acceptable": false,
+        "parent_id": "54ada41192f5c2735aab",
+        "vector_rank": 16,
+        "lexical_rank": null,
+        "fused_rank": 19,
+        "matched_by": [
+          "vector"
+        ]
+      },
+      {
+        "section": "Step 5: Implement backup and restore procedures",
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "acceptable": false,
+        "parent_id": "7e48473186db110c9f43",
+        "vector_rank": 1,
+        "lexical_rank": 11,
+        "fused_rank": 3,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      }
+    ],
+    "min_candidate_set_to_see_correct": 5
+  },
+  "q14": {
+    "unscoped_production": {
+      "candidates": 30,
+      "first": null,
+      "get_csonlineuser": {
+        "parent_id": "0d0e05a0a4f37672b97e",
+        "vector_rank": null,
+        "lexical_rank": null,
+        "fused_rank": null,
+        "matched_by": []
+      }
+    },
+    "unscoped_deep": {
+      "candidates": 100,
+      "fused_n": 132,
+      "vector_n": 60,
+      "lexical_n": 100,
+      "first": {
+        "first_rank": 24,
+        "parent_id": "0d0e05a0a4f37672b97e",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+        "title": "Get-CsOnlineUser",
+        "section": "Get-CsOnlineUser",
+        "match_level": "ARTICLE",
+        "vector_rank": 25,
+        "lexical_rank": 85,
+        "fused_rank": 24,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "get_csonlineuser": {
+        "parent_id": "0d0e05a0a4f37672b97e",
+        "vector_rank": 25,
+        "lexical_rank": 85,
+        "fused_rank": 24,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      }
+    },
+    "scoped_msteams_ps": {
+      "candidates": 30,
+      "first": {
+        "first_rank": 2,
+        "parent_id": "0d0e05a0a4f37672b97e",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+        "title": "Get-CsOnlineUser",
+        "section": "Get-CsOnlineUser",
+        "match_level": "ARTICLE",
+        "vector_rank": 1,
+        "lexical_rank": 4,
+        "fused_rank": 2,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "get_csonlineuser": {
+        "parent_id": "0d0e05a0a4f37672b97e",
+        "vector_rank": 1,
+        "lexical_rank": 4,
+        "fused_rank": 2,
+        "matched_by": [
+          "vector",
+          "lexical"
+        ]
+      },
+      "top3_parent_ids": [
+        "e70392396d1d9841449f",
+        "0d0e05a0a4f37672b97e",
+        "26703a61d0bb2ad58cb4"
+      ]
+    }
+  }
+}

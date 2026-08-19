@@ -45,6 +45,12 @@ export interface BuildEvidenceBundleOptions {
   databasePath?: string;
   /** Optional resolver-local metadata override (tests / inspect). */
   metadataByChunkId?: Map<string, CandidateEvidenceMetadata>;
+  /**
+   * Interview Quick: reuse U1 concept-distinct selection for named-entity
+   * aspects so one question can keep multiple grounded facts. Helpdesk
+   * Detailed leaves this unset and keeps the original narrow stop.
+   */
+  multiConceptSelection?: boolean;
 }
 
 function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
@@ -517,7 +523,11 @@ export function buildEvidenceBundle(
     }
 
     const eligible = eligibleDirectForAspect(aspect);
-    const broadSelection = isBroadSelectionAspect(aspect);
+    const broadSelection =
+      isBroadSelectionAspect(aspect) ||
+      (options.multiConceptSelection === true &&
+        aspect.answerObject !== "cmdlet_identifier" &&
+        aspect.answerObject !== "cmdlet_semantics");
     if (!broadSelection) {
       // Narrow/bounded aspects preserve the original minimal-selection
       // behavior: stop as soon as the aspect's required facets are covered.

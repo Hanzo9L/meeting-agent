@@ -1,0 +1,132 @@
+{
+  "experiment": "PHASE R0.1 — Mechanical Retrieval Corrections",
+  "date": "2026-08-17",
+  "engine_root": "C:\\Users\\joegc\\projects\\learn-rag\\learn-rag",
+  "relay_production_source_modified": false,
+  "yaml_rerank_used": false,
+  "new_sources_ingested": false,
+  "recommendation": "B. CONDITIONAL",
+  "recommendation_reason": "Fixes A/B/C worked: chrome parents are gone, Q04 canonical overview is fused rank 3, Q14 scoped PowerShell retrieval returns Get-CsOnlineUser at fused rank 2, warm p95 is 20.2 ms. STRONG top-1 gate missed (6/13 answerable unscoped; need 10/13). Remaining bounded defect is intra-article H2 ranking among technical sections, plus unscoped Q14 which still requires an explicit service scope this slice was not allowed to classify.",
+  "r0_baseline_loaded": {
+    "top1_correct": 6,
+    "top3_correct": 11,
+    "COMPLETE": 3,
+    "PARTIAL": 8,
+    "INSUFFICIENT": 3,
+    "warm_p50_ms": 12.5,
+    "warm_p95_ms": 28.1,
+    "parents": 1553,
+    "children": 2575,
+    "source": "eval/runs/retrieval-r0/results.json Mode A"
+  },
+  "acceptance_gate": {
+    "strong": false,
+    "answerable_excluding_q03": {
+      "unscoped_q14": {"top1_correct": 6, "top3_correct": 12, "n": 13},
+      "scoped_q14": {"top1_correct": 7, "top3_correct": 13, "n": 13}
+    },
+    "all_14_unscoped": {"top1_correct": 6, "top3_correct": 12},
+    "q04_overview_top3": true,
+    "q14_scoped_top3": true,
+    "chrome_no_longer_wins": true,
+    "warm_p95_ms": 20.22,
+    "question_specific_boosts": false
+  },
+  "corpus": {
+    "before": {
+      "parents": 1553,
+      "children": 2575,
+      "feedback": 227,
+      "see_also": 8,
+      "related_topics": 27,
+      "references": 3,
+      "next_steps_indexed": 3
+    },
+    "after": {
+      "parents": 1233,
+      "children": 2255,
+      "feedback": 0,
+      "see_also": 0,
+      "related_topics": 0,
+      "references": 0,
+      "next_steps_excluded": 1,
+      "next_steps_retained": 2,
+      "verified_from_db": true
+    }
+  },
+  "latency": {
+    "cold_engine_init_ms": 1148.0,
+    "cold_first_query_ms": 24.3,
+    "warm": {"n": 60, "min": 6.78, "p50": 10.75, "p95": 20.22, "max": 35.2},
+    "stages_warm_p50_ms": {
+      "embed": 7.68,
+      "hnsw": 0.32,
+      "lexical": 1.9,
+      "fusion": 0.03,
+      "fetch": 0.26
+    }
+  },
+  "files_changed": [
+    "learn-rag/build/transform.py",
+    "learn-rag/service/search.py",
+    "learn-rag/tests/test_r01.py",
+    "learn-rag/eval/run_r0_1.py"
+  ],
+  "tests": {
+    "test_r01": "21 OK",
+    "smoke": "0 failures",
+    "test_blockers": "OK"
+  },
+  "canonical": {
+    "q04_overview": {
+      "parent_id": "601fbf6e4fdfbb3f78d2",
+      "title": "Configure call routing for Direct Routing",
+      "section": "Call routing overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+      "vector_rank": 1,
+      "lexical_rank": 13,
+      "fused_rank": 3
+    },
+    "q14_get_csonlineuser": {
+      "parent_id": "0d0e05a0a4f37672b97e",
+      "title": "Get-CsOnlineUser",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+      "unscoped": {"vector_rank": null, "lexical_rank": null, "fused_rank": null},
+      "scoped_msteams_ps": {"vector_rank": 1, "lexical_rank": 4, "fused_rank": 2}
+    },
+    "q13_sam_overview": {
+      "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+      "section": "Overview",
+      "vector_rank": 9,
+      "lexical_rank": null,
+      "fused_rank": 14,
+      "returned_sam_section": "Step 5: Implement backup and restore procedures",
+      "returned_sam_fused_rank": 3,
+      "vs_r0_mode_a": "improved"
+    }
+  },
+  "completeness_totals_unscoped": {
+    "COMPLETE": 3,
+    "PARTIAL": 8,
+    "INSUFFICIENT": 2,
+    "SOURCE_GAP": 1
+  },
+  "grades": {
+    "Q01": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL", "fts_query": "\"direct routing\" OR \"SBC\""},
+    "Q02": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL", "fts_query": "\"Teams\" OR \"user\" OR \"make\" OR \"internal\" OR \"calls\" OR \"but\" OR \"cannot\" OR \"call\" OR \"external\" OR \"PSTN\" OR \"numbers\""},
+    "Q03": {"rank": "MISS", "completeness": "SOURCE_GAP", "fts_query": "\"direct routing\" OR \"one\" OR \"way\" OR \"audio\" OR \"Teams\" OR \"call\""},
+    "Q04": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL", "fts_query": "\"direct routing\" OR \"voice routing policy\" OR \"pstn usage\" OR \"voice route\" OR \"SBC\" OR \"gateway\""},
+    "Q05": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL", "fts_query": "\"direct routing\" OR \"renew\" OR \"replace\" OR \"SBC\" OR \"certificate\" OR \"Teams\""},
+    "Q06": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL", "fts_query": "\"direct routing\" OR \"emergency\" OR \"calling\" OR \"Teams\" OR \"location\" OR \"information\""},
+    "Q07": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL", "fts_query": "\"auto attendant\" OR \"call queue\" OR \"building\" OR \"ultimately\" OR \"routes\" OR \"callers\""},
+    "Q08": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE", "fts_query": "\"resource account\" OR \"teams room\" OR \"Microsoft\""},
+    "Q09": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE", "fts_query": "\"teams room\" OR \"resource account\" OR \"locked\" OR \"out\" OR \"cannot\" OR \"sign\""},
+    "Q10": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL", "fts_query": "\"teams room\" OR \"joins\" OR \"meeting\" OR \"but\" OR \"far\" OR \"end\" OR \"cannot\" OR \"hear\" OR \"room\" OR \"check\""},
+    "Q11": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE", "fts_query": "\"teams rooms\" OR \"manage\" OR \"monitor\" OR \"fleet\" OR \"Microsoft\" OR \"at\" OR \"scale\""},
+    "Q12": {"rank": "TOP1_CORRECT", "completeness": "PARTIAL", "fts_query": "\"call quality dashboard\" OR \"difference\" OR \"per\" OR \"user\" OR \"call\" OR \"troubleshooting\""},
+    "Q13": {"rank": "TOP3_CORRECT", "completeness": "PARTIAL", "fts_query": "\"secure\" OR \"review\" OR \"SharePoint\" OR \"OneDrive\" OR \"rolling\" OR \"out\" OR \"Microsoft\" OR \"365\" OR \"Copilot\""},
+    "Q14_unscoped": {"rank": "MISS", "completeness": "INSUFFICIENT", "fts_query": "\"Teams Voice\" OR \"PowerShell\" OR \"audit\" OR \"users\" OR \"voice\" OR \"configuration\""},
+    "Q14_scoped_msteams_ps": {"rank": "TOP1_CORRECT", "completeness": "COMPLETE", "fts_query": "\"Teams Voice\" OR \"PowerShell\" OR \"audit\" OR \"users\" OR \"voice\" OR \"configuration\""}
+  },
+  "raw_results": "eval/runs/retrieval-r0-1/raw_results.json"
+}

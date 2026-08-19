@@ -1,0 +1,129 @@
+{
+  "generatedAt": "2026-08-19T18:45:00.000Z",
+  "phase": "I5",
+  "engine": {
+    "engine": "learn-rag-r0.4",
+    "corpusFingerprint": "7e6b69cb0ab95823",
+    "indexFingerprint": "87a6960b9ebc6701",
+    "searchHash": "8702daf1ee2b2843",
+    "scopeHash": "2a8caaabd00f4b08",
+    "parentCount": 1233
+  },
+  "authoritativeTotals": {
+    "well_served": 21,
+    "partial": ["TSUC04", "TSUC13", "TSUC20", "TSUC25", "TSUC26", "TSUC27"],
+    "corpus_gap": ["TSUC22"],
+    "story_required": ["TSUC29", "TSUC30"]
+  },
+  "rows": [
+    {
+      "scenario": "TSUC04",
+      "grade": "partial",
+      "rootCause": "Microsoft customer-SBC failover and voice-routing pages exist locally but do not enter top 5. Top hits are Plan Direct Routing overview/LMO/multi-tenant SBC. Corpus has zero geo-redundancy or carrier-diversity phrases. Microsoft documents Teams-side trunk failover and sip1/sip2/sip3 datacenter failover, not vendor box HA.",
+      "existingUsefulRank": {
+        "top5": "Plan Direct Routing (infrastructure/overview) only",
+        "top10": "Plan Direct Routing SIP signaling/failover mechanism section at rank 9 (Microsoft datacenter FQDN failover, not customer SBC geo-pair)",
+        "top25": "Configure call routing for Direct Routing at rank 18; multi-tenant failover section at rank 22",
+        "beyond25orMissing": "Trunk failover on outbound calls local but not in top 40; Direct Routing SBA local but not in top 40"
+      },
+      "missingSource": "No Microsoft page titled geographic redundancy. Vendor HA/pairing/carrier-SIP config absent. Best Microsoft SBC-failover page is already local.",
+      "vendorNeeded": "Yes, later and only for certified-SBC device HA/pairing and carrier SIP-trunk redundancy. Do not ingest in the next change.",
+      "proposedFix": "RANKING_FORENSIC",
+      "risk": "Ingesting more Microsoft DR overview pages without a phrase adjustment will keep LMO/GCC/multi-tenant dominating. Vendor ingest without a named AudioCodes environment mixes vendor procedure into Microsoft evidence."
+    },
+    {
+      "scenario": "TSUC13",
+      "grade": "partial",
+      "oneWayAudioClassification": "B",
+      "rootCause": "No dedicated one-way-audio runbook exists (zero local phrase hits). Useful failure-domain pages are local but rank poorly; GCC High Audio Conferencing and licensing occupy top 5. Microsoft 365 URLs/IP ranges and Teams online call-flows are absent.",
+      "existingUsefulRank": {
+        "top5": "Inbound Direct Routing issues (no ringback) at rank 3 — ICE/firewall-adjacent but not one-way audio",
+        "top10": "none of Call Analytics, URLs/IP, or media-protocol pages",
+        "top25": "Plan for media bypass at rank 14",
+        "beyond25orMissing": "Direct Routing media protocols at rank 28; Call Analytics local but not in top 43; urls-and-ip-address-ranges and online-call-flows absent"
+      },
+      "missingSource": "Yes: Microsoft 365 URLs and IP address ranges; Teams online call flows. No single Microsoft one-way-audio runbook.",
+      "vendorNeeded": "Only for SBC-specific NAT/RTP translation. Not required to assemble a safe Microsoft evidence bundle.",
+      "proposedFix": "INGEST_SMALL_SOURCE_SET",
+      "risk": "Ingesting URLs/IP and call-flows without the bounded phrase adjustment may still lose to GCC High / licensing on the literal query one-way audio."
+    },
+    {
+      "scenario": "TSUC20",
+      "grade": "partial",
+      "rootCause": "Linux authority is absent from the corpus (systemctl/journalctl/python/ss counts are 0). The one theme hit is SharePoint Copilot file-processing status plus Direct Routing SBC logs.",
+      "existingUsefulRank": {
+        "top5": "No Linux sources. Ranks 1-3 and 5 are SharePoint Copilot file processing; rank 4 is Monitor Direct Routing SBC logs",
+        "top10": "n/a",
+        "top25": "n/a",
+        "beyond25orMissing": "systemctl and journalctl never appear in R0.4 results"
+      },
+      "missingSource": "Yes. Entire linux_upstream_primary family.",
+      "vendorNeeded": "No. Upstream Linux/Python docs, not Microsoft and not SBC vendor.",
+      "proposedFix": "INGEST_SMALL_SOURCE_SET",
+      "risk": "Over-ingest (awk/sed/cron encyclopedia) or mixing Linux into Microsoft scope. Keep a separate future source role."
+    },
+    {
+      "scenario": "TSUC22",
+      "grade": "corpus_gap",
+      "rootCause": "I4 well_served grade was a lexical false positive on Teams CQD pages (packet/capture and host/port tokens). Linux sockets/capture docs are absent.",
+      "existingUsefulRank": {
+        "top5": "Teams admin call-quality and CQD pages only",
+        "top10": "n/a",
+        "top25": "n/a",
+        "beyond25orMissing": "tcpdump, ss, man7.org, freedesktop.org counts are 0"
+      },
+      "missingSource": "Yes. Same Linux family as TSUC20 plus ss and tcpdump/pcap-filter.",
+      "vendorNeeded": "No.",
+      "proposedFix": "INGEST_SMALL_SOURCE_SET",
+      "risk": "Re-grading was evidence correction only. Do not change the scenario question. Do not treat CQD as Linux authority."
+    },
+    {
+      "scenario": "TSUC25",
+      "grade": "partial",
+      "methodologyClassification": "D",
+      "rootCause": "HIGH msteams-ps routing is correct for the cmdlet names in the question, but the interviewer is testing automation methodology, not cmdlet lookup. Cmdlet pages supply read-only discovery only.",
+      "existingUsefulRank": {
+        "top5": "Get-CsOnlineVoiceRoute, Get-CsOnlineVoiceRoutingPolicy, Get-CsOnlineUser, Get-CsPhoneNumberAssignment, Get-CsOnlinePSTNGateway",
+        "top10": "same PowerShell island",
+        "top25": "n/a — scoped search returns the small teams-ps set",
+        "beyond25orMissing": "idempotency, logging, retry, test mode, controlled remediation are not in cmdlet help"
+      },
+      "missingSource": "No Microsoft technical source should be invented for this. Interview framework already exists in two_sigma_final_round_prep_relay_ready.md. Personal example is TSUC30.",
+      "vendorNeeded": "No.",
+      "proposedFix": "INTERVIEW_CONTEXT_ONLY",
+      "risk": "Ingesting generic methodology prose into the Microsoft corpus would pollute technical authority. Do not treat cmdlet pages as a complete script-design answer."
+    },
+    {
+      "scenario": "TSUC26",
+      "grade": "partial",
+      "rootCause": "All three cmdlets exist in the frozen 14-parent teams-ps corpus. Natural-language query keeps Get-CsAutoAttendant at rank 1, Get-CsCallQueue at rank 6, and never retrieves Get-CsOnlineApplicationInstance because that page says application instance, not resource account. Router HIGH msteams-ps is correct. Named-cmdlet query returns all three in top 4.",
+      "existingUsefulRank": {
+        "top5": "Get-CsAutoAttendant only among the three expected cmdlets",
+        "top10": "Get-CsCallQueue at rank 6; ApplicationInstance absent (only 7 parents returned)",
+        "top25": "ApplicationInstance still absent",
+        "top50": "not in pool",
+        "top100": "not in pool — scoped search returned 7 unique parents"
+      },
+      "missingSource": "No.",
+      "vendorNeeded": "No.",
+      "proposedFix": "QUERY_SHAPE_ADJUSTMENT",
+      "risk": "This is the cleanest proof that one bounded R0.4 phrase/cmdlet-shape change is required. Do not add a reranker. Do not ingest duplicate cmdlet pages."
+    },
+    {
+      "scenario": "TSUC27",
+      "grade": "partial",
+      "rolloutClassification": "D",
+      "rootCause": "Broad Voice rollout query is dominated by AA/CQ policy pages. Local corpus lacks upgrade-framework, prepare-network, network-planner, setting-up-your-phone-system, and pilot-essentials. pstn-connectivity exists (6 sections) but does not appear in top 25.",
+      "existingUsefulRank": {
+        "top5": "AA/CQ voice-applications-policy / authorized users / business decisions; GCC High Audio Conferencing; manage-voice-routing-policies",
+        "top10": "more AA/CQ and emergency policy",
+        "top25": "SharePoint OneDrive pilot/rollout at ranks 22 and 24 — wrong product; Teams Phone Agent preview at rank 17",
+        "beyond25orMissing": "upgrade-framework, prepare-network, network-planner, cloud-voice-landing-page, setting-up-your-phone-system, shared-calling, pilot-essentials all absent"
+      },
+      "missingSource": "Yes. Small Microsoft Teams Phone / upgrade / network-readiness / pilot set. pstn-connectivity is present but ranking-weak.",
+      "vendorNeeded": "No.",
+      "proposedFix": "INGEST_SMALL_SOURCE_SET",
+      "risk": "Do not implement a broad-question router in this phase. AA/CQ lexical gravity will remain until planning pages exist and/or the bounded phrase adjustment prefers PSTN connectivity / Phone System landing pages."
+    }
+  ]
+}

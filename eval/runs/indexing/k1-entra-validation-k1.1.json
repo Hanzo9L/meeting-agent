@@ -1,0 +1,356 @@
+{
+  "results": [
+    {
+      "id": "ca-mfa",
+      "question": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+      "queryIntent": {
+        "domains": [
+          "entra"
+        ],
+        "products": [
+          "Microsoft Entra"
+        ],
+        "entities": [
+          "conditional access",
+          "policy"
+        ],
+        "unresolvedAmbiguity": [],
+        "expectedAnswerType": "configuration"
+      },
+      "routed": {
+        "selectedDomains": [
+          "entra",
+          "teams_admin"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-entra-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "entra_identity_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "supporting",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        ],
+        "routingWarnings": []
+      },
+      "r2": {
+        "answerability": "answered",
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-entra-docs",
+            "sourceDomain": "entra",
+            "title": "Filter for applications in Conditional Access policy",
+            "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications",
+            "headingPath": [
+              "Conditional Access: Filter for applications",
+              "Configure custom attributes",
+              "Step 3: Test the policy"
+            ],
+            "supportTypes": [
+              "configuration_behavior"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": false,
+        "code": "grounded_answer_validation_failed",
+        "stage": "extractive_assembly",
+        "userSafeMessage": "Relay rejected the answer because its grounding integrity could not be verified."
+      }
+    },
+    {
+      "id": "app-registration",
+      "question": "How do I register an application in Entra and grant it API permissions?",
+      "queryIntent": {
+        "domains": [
+          "entra"
+        ],
+        "products": [
+          "Microsoft Entra"
+        ],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [
+          "entra"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-entra-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "entra_identity_primary"
+            ]
+          }
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-entra-docs",
+            "sourceDomain": "entra",
+            "title": "Tutorial - Web app accesses Microsoft Graph as the user",
+            "canonicalUrl": "https://learn.microsoft.com/entra/identity-platform/multi-service-web-app-access-microsoft-graph-as-user",
+            "headingPath": [
+              "Tutorial: Access Microsoft Graph from a secured app as the user",
+              "Grant front-end access to call Microsoft Graph"
+            ],
+            "supportTypes": [
+              "procedure"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": false,
+        "code": "grounded_answer_validation_failed",
+        "stage": "extractive_assembly",
+        "userSafeMessage": "Relay rejected the answer because its grounding integrity could not be verified."
+      }
+    },
+    {
+      "id": "entra-role",
+      "question": "What Entra role would let someone manage Exchange without being a Global Administrator?",
+      "queryIntent": {
+        "domains": [
+          "entra"
+        ],
+        "products": [
+          "Microsoft Entra"
+        ],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "conceptual"
+      },
+      "routed": {
+        "selectedDomains": [
+          "entra"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-entra-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "entra_identity_primary"
+            ]
+          }
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-entra-docs",
+            "sourceDomain": "entra",
+            "title": "Microsoft Entra Built-in Roles",
+            "canonicalUrl": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference",
+            "headingPath": [
+              "Microsoft Entra built-in roles",
+              "Exchange Administrator"
+            ],
+            "supportTypes": [
+              "concept_definition"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nINCLUDE exchange-administrator]\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nMicrosoft Entra built-in roles ΓÇ║ Exchange Administrator\nDocument: Microsoft Entra Built-in Roles Heading Path: Microsoft Entra built-in roles -> Exchange Administrator [!INCLUDE exchange-administrator]\nSource: Microsoft Entra Built-in Roles\nhttps://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference\n\nSources\nMicrosoft Entra Built-in Roles ΓÇö https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference",
+        "factualAnswerText": "INCLUDE exchange-administrator]",
+        "citations": [
+          {
+            "sourceId": "ms-entra-docs",
+            "authorityRole": "entra_identity_primary",
+            "sourceTitle": "Microsoft Entra Built-in Roles",
+            "canonicalUrl": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference",
+            "headingPath": [
+              "Microsoft Entra built-in roles",
+              "Exchange Administrator"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 1022.474400000001,
+        "answerGenerationRequestCount": 0
+      }
+    },
+    {
+      "id": "compliant-device",
+      "question": "How do I require a compliant device for access to a specific app?",
+      "queryIntent": {
+        "domains": [],
+        "products": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "domain_unresolved",
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [],
+        "eligibleSources": [],
+        "routingWarnings": [
+          "scope_broadened_due_to_unresolved_ambiguity",
+          "domain_unresolved_no_authoritative_scope"
+        ]
+      },
+      "r2": {
+        "answerability": "insufficient_evidence",
+        "selectedEvidence": []
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "insufficient_evidence",
+        "answerText": "Unable to provide a factual answer from the approved evidence.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:unresolved:require-compliant-device-access:general): Unsupported required aspect: require compliant device access; required facets: procedure.\n\nNot established from available authoritative evidence (insufficient_evidence): Unsupported required aspect: require compliant device access; required facets: procedure.",
+        "factualAnswerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: require compliant device access; required facets: procedure.",
+        "citations": [],
+        "latencyMs": 442.29199999999946,
+        "answerGenerationRequestCount": 0
+      }
+    },
+    {
+      "id": "sharepoint-negative",
+      "question": "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+      "queryIntent": {
+        "domains": [],
+        "products": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "domain_unresolved",
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "conceptual"
+      },
+      "routed": {
+        "selectedDomains": [],
+        "eligibleSources": [],
+        "routingWarnings": [
+          "scope_broadened_due_to_unresolved_ambiguity",
+          "domain_unresolved_no_authoritative_scope"
+        ]
+      },
+      "r2": {
+        "answerability": "insufficient_evidence",
+        "selectedEvidence": []
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "insufficient_evidence",
+        "answerText": "Unable to provide a factual answer from the approved evidence.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:unresolved:secure-sharepoint-data-accessible:general): Unsupported required aspect: secure sharepoint data accessible; required facets: behavior.\n\nNot established from available authoritative evidence (insufficient_evidence): Unsupported required aspect: secure sharepoint data accessible; required facets: behavior.",
+        "factualAnswerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: secure sharepoint data accessible; required facets: behavior.",
+        "citations": [],
+        "latencyMs": 166.29380000000128,
+        "answerGenerationRequestCount": 0
+      }
+    },
+    {
+      "id": "calling-plans-regression",
+      "question": "How do I assign a Calling Plan phone number to a user?",
+      "queryIntent": {
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [
+          "teams_admin"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-teams-admin",
+            "sourceDomain": "teams_admin",
+            "title": "Set up Microsoft Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+            "headingPath": [
+              "Set up Microsoft Calling Plans",
+              "Step 6: Assign an emergency address and a phone number to a user"
+            ],
+            "supportTypes": [
+              "procedure"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nYou must assign a phone number and an emergency address to each of your users.\n\nIf you add more people to your business right before doing this step, it may take several hours for them to appear on the Voice users page.\n\nWhat to do\n[Microsoft documentation context ΓÇö procedure]\nSet up Microsoft Calling Plans ΓÇ║ Step 6: Assign an emergency address and a phone number to a user\nDocument: Set up Microsoft Calling Plans Heading Path: Set up Microsoft Calling Plans -> Step 6: Assign an emergency address and a phone number to a user You must assign a phone number and an emergency address to each of your users. The emergency address must be created before you can associate it with a phone number. For more information, see Manage emergency locations and Manage phone numbers for users. Tip If you add more people to your business right before doing this step, it may take several hours for them to appear on the Voice users page.\nSource: Set up Microsoft Calling Plans\nhttps://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans\n\nSources\nSet up Microsoft Calling Plans ΓÇö https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+        "factualAnswerText": "Steps:\n- You must assign a phone number and an emergency address to each of your users.\n- If you add more people to your business right before doing this step, it may take several hours for them to appear on the Voice users page.",
+        "citations": [
+          {
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "sourceTitle": "Set up Microsoft Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+            "headingPath": [
+              "Set up Microsoft Calling Plans",
+              "Step 6: Assign an emergency address and a phone number to a user"
+            ],
+            "preview": false
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "sourceTitle": "Set up Microsoft Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+            "headingPath": [
+              "Set up Microsoft Calling Plans",
+              "Step 6: Assign an emergency address and a phone number to a user"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 925.304900000001,
+        "answerGenerationRequestCount": 0
+      }
+    }
+  ]
+}

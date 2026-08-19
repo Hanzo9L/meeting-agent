@@ -1,0 +1,1176 @@
+{
+  "question": "Write or describe a PowerShell process that identifies all Teams users with Enterprise Voice enabled, determines their assigned phone number, voice-routing policy, dial plan, and calling policy, and exports the results to CSV.",
+  "queryIntent": {
+    "domains": [
+      "teams_admin",
+      "teams_powershell"
+    ],
+    "products": [
+      "Microsoft Teams"
+    ],
+    "technologies": [
+      "Microsoft Teams",
+      "PowerShell",
+      "Voice Routing"
+    ],
+    "entities": [
+      "calling policy",
+      "dial plan",
+      "enterprise voice",
+      "phone number",
+      "policy",
+      "voice routing",
+      "voice routing policy"
+    ],
+    "policyNames": [
+      "calling policy",
+      "dial plan",
+      "policy",
+      "voice routing policy"
+    ],
+    "operationIntents": [
+      "grant"
+    ],
+    "expectedAnswerType": "configuration",
+    "unresolvedAmbiguity": [],
+    "requiresFreshnessCheck": false,
+    "allowsBetaSources": false
+  },
+  "routing": {
+    "selectedDomains": [
+      "teams_powershell",
+      "teams_admin"
+    ],
+    "focusSubdomains": [
+      "calling",
+      "voice",
+      "voice_routing"
+    ],
+    "sourcePriorityChain": [
+      "ms-teams-powershell",
+      "ms-teams-admin",
+      "ms-m365-docs",
+      "ms-entra-docs",
+      "ms-graph-docs",
+      "ms-teams-dev-docs",
+      "ms-sharepoint-docs",
+      "ms-sharepoint-powershell"
+    ],
+    "eligibleSources": [
+      {
+        "sourceId": "ms-teams-powershell",
+        "priority": "primary",
+        "authorityRoles": [
+          "teams_powershell_cmdlet_primary"
+        ],
+        "rationale": [
+          "domain_match:teams_powershell,teams_admin",
+          "priority:primary",
+          "authority:teams_powershell_cmdlet_primary"
+        ]
+      },
+      {
+        "sourceId": "ms-teams-admin",
+        "priority": "primary",
+        "authorityRoles": [
+          "teams_admin_primary"
+        ],
+        "rationale": [
+          "domain_match:teams_admin",
+          "priority:primary",
+          "authority:teams_admin_primary"
+        ]
+      }
+    ],
+    "excludedSources": [
+      {
+        "sourceId": "ms-m365-docs",
+        "reason": "m365_source_requires_m365_domain"
+      },
+      {
+        "sourceId": "ms-entra-docs",
+        "reason": "entra_source_requires_identity_signal"
+      },
+      {
+        "sourceId": "ms-graph-docs",
+        "reason": "graph_source_requires_graph_domain"
+      },
+      {
+        "sourceId": "ms-teams-dev-docs",
+        "reason": "not_applicable_to_selected_domains"
+      },
+      {
+        "sourceId": "ms-sharepoint-docs",
+        "reason": "not_applicable_to_selected_domains"
+      },
+      {
+        "sourceId": "ms-sharepoint-powershell",
+        "reason": "not_applicable_to_selected_domains"
+      }
+    ],
+    "exactMatchDirectives": [
+      {
+        "type": "entity",
+        "value": "calling policy",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "dial plan",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "voice routing policy",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "enterprise voice",
+        "required": false
+      },
+      {
+        "type": "entity",
+        "value": "phone number",
+        "required": false
+      }
+    ],
+    "routingWarnings": [],
+    "routingRationale": [
+      "answer_type:configuration",
+      "primary_domain:teams_powershell",
+      "voice_routing_signals_detected"
+    ],
+    "scopeMode": "cross_domain",
+    "estimatedCandidatePopulation": 3600
+  },
+  "aspects": [
+    {
+      "aspectId": "mandatory:entity:csv-export:output-transformation",
+      "requirement": "mandatory",
+      "breadth": "narrow",
+      "answerObject": "fact",
+      "subject": "CSV export",
+      "subjects": [
+        {
+          "kind": "entity",
+          "terms": [
+            "csv",
+            "export"
+          ],
+          "value": "CSV export"
+        }
+      ],
+      "operation": null,
+      "requiredFacets": [
+        "behavior"
+      ],
+      "methodConstraints": [],
+      "authorityRequirement": {
+        "requiredRoles": [],
+        "requiredDomains": [],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "derivation": {
+        "ruleIds": [
+          "workflow_output_transformation_outside_authoritative_scope"
+        ],
+        "questionSpans": [
+          "CSV export"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "aspectId": "mandatory:entity:enterprise-voice:general",
+      "requirement": "mandatory",
+      "breadth": "narrow",
+      "answerObject": "configuration_behavior",
+      "subject": "enterprise voice",
+      "subjects": [
+        {
+          "kind": "entity",
+          "terms": [
+            "enterprise",
+            "voice"
+          ],
+          "value": "enterprise voice"
+        }
+      ],
+      "operation": null,
+      "requiredFacets": [
+        "configuration"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "derivation": {
+        "ruleIds": [
+          "subject_seed",
+          "general_subject",
+          "method_constraint_attached",
+          "answer_object:configuration_behavior",
+          "breadth:narrow"
+        ],
+        "questionSpans": [
+          "enterprise voice"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "aspectId": "mandatory:entity:phone-number:grant",
+      "requirement": "mandatory",
+      "breadth": "bounded",
+      "answerObject": "configuration_behavior",
+      "subject": "phone number",
+      "subjects": [
+        {
+          "kind": "entity",
+          "terms": [
+            "phone",
+            "number"
+          ],
+          "value": "phone number"
+        }
+      ],
+      "operation": "grant",
+      "requiredFacets": [
+        "configuration",
+        "operation"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "derivation": {
+        "ruleIds": [
+          "subject_seed",
+          "clause_bound_operation",
+          "method_constraint_attached",
+          "answer_object:configuration_behavior",
+          "breadth:bounded"
+        ],
+        "questionSpans": [
+          "phone number",
+          "grant"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "aspectId": "mandatory:policy:calling-policy:general",
+      "requirement": "mandatory",
+      "breadth": "narrow",
+      "answerObject": "configuration_behavior",
+      "subject": "calling policy",
+      "subjects": [
+        {
+          "kind": "policy",
+          "terms": [
+            "calling",
+            "policy"
+          ],
+          "value": "calling policy"
+        }
+      ],
+      "operation": null,
+      "requiredFacets": [
+        "configuration"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "derivation": {
+        "ruleIds": [
+          "subject_seed",
+          "general_subject",
+          "method_constraint_attached",
+          "answer_object:configuration_behavior",
+          "breadth:narrow"
+        ],
+        "questionSpans": [
+          "calling policy"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "aspectId": "mandatory:policy:dial-plan:general",
+      "requirement": "mandatory",
+      "breadth": "narrow",
+      "answerObject": "configuration_behavior",
+      "subject": "dial plan",
+      "subjects": [
+        {
+          "kind": "policy",
+          "terms": [
+            "dial",
+            "plan"
+          ],
+          "value": "dial plan"
+        }
+      ],
+      "operation": null,
+      "requiredFacets": [
+        "configuration"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "derivation": {
+        "ruleIds": [
+          "subject_seed",
+          "general_subject",
+          "method_constraint_attached",
+          "answer_object:configuration_behavior",
+          "breadth:narrow"
+        ],
+        "questionSpans": [
+          "dial plan"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "aspectId": "mandatory:policy:voice-routing-policy:general",
+      "requirement": "mandatory",
+      "breadth": "narrow",
+      "answerObject": "configuration_behavior",
+      "subject": "voice routing policy",
+      "subjects": [
+        {
+          "kind": "policy",
+          "terms": [
+            "voice",
+            "routing",
+            "policy"
+          ],
+          "value": "voice routing policy"
+        }
+      ],
+      "operation": null,
+      "requiredFacets": [
+        "configuration"
+      ],
+      "methodConstraints": [
+        {
+          "kind": "powershell",
+          "label": "PowerShell",
+          "required": true,
+          "domains": [
+            "teams_powershell"
+          ],
+          "authorityRoles": [
+            "teams_powershell_cmdlet_primary"
+          ]
+        }
+      ],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "teams_admin_primary",
+          "teams_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "teams_admin",
+          "teams_powershell"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "derivation": {
+        "ruleIds": [
+          "subject_seed",
+          "general_subject",
+          "method_constraint_attached",
+          "answer_object:configuration_behavior",
+          "breadth:narrow"
+        ],
+        "questionSpans": [
+          "voice routing policy"
+        ],
+        "unresolved": false
+      }
+    }
+  ],
+  "top25Candidates": [
+    {
+      "fusionRank": 1,
+      "sourceId": "ms-teams-admin",
+      "title": "Planning Teams dial plans for Teams Phone",
+      "headingPath": [
+        "Planning Teams dial plans for Teams Phone",
+        "Dial plans and routing considerations",
+        "Direct Routing online voice-routing policy with Calling Plan"
+      ],
+      "methods": [
+        "exact",
+        "lexical",
+        "semantic"
+      ],
+      "outcome": "selected",
+      "selectionReason": "selected:aspect:mandatory:entity:enterprise-voice:general,mandatory:entity:phone-number:grant,mandatory:policy:calling-policy:general,mandatory:policy:dial-plan:general,mandatory:policy:voice-routing-policy:general:direct"
+    },
+    {
+      "fusionRank": 2,
+      "sourceId": "ms-teams-admin",
+      "title": "Create and manage dial plans",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 3,
+      "sourceId": "ms-teams-admin",
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 4,
+      "sourceId": "ms-teams-admin",
+      "title": "Configure call routing for Direct Routing",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 5,
+      "sourceId": "ms-teams-admin",
+      "title": "Configure call routing for Direct Routing",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 6,
+      "sourceId": "ms-teams-admin",
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 7,
+      "sourceId": "ms-teams-admin",
+      "title": "Configure call routing for Direct Routing",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 8,
+      "sourceId": "ms-teams-admin",
+      "title": "Create and manage dial plans",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 9,
+      "sourceId": "ms-teams-admin",
+      "title": "Configure call routing for Direct Routing",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 10,
+      "sourceId": "ms-teams-admin",
+      "title": "Create and manage dial plans",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 11,
+      "sourceId": "ms-teams-admin",
+      "title": "Planning Teams dial plans for Teams Phone",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 12,
+      "sourceId": "ms-teams-admin",
+      "title": "Create and manage dial plans",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 13,
+      "sourceId": "ms-teams-admin",
+      "title": "Translate phone numbers to an alternate format",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 14,
+      "sourceId": "ms-teams-admin",
+      "title": "Planning Teams dial plans for Teams Phone",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 15,
+      "sourceId": "ms-teams-admin",
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 16,
+      "sourceId": "ms-teams-admin",
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 17,
+      "sourceId": "ms-teams-admin",
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 18,
+      "sourceId": "ms-teams-admin",
+      "title": "Planning Teams dial plans for Teams Phone",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 19,
+      "sourceId": "ms-teams-admin",
+      "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "redundant"
+    },
+    {
+      "fusionRank": 20,
+      "sourceId": "ms-teams-admin",
+      "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 21,
+      "sourceId": "ms-teams-admin",
+      "title": "Translate phone numbers to an alternate format",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 22,
+      "sourceId": "ms-teams-admin",
+      "title": "Translate phone numbers to an alternate format",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 23,
+      "sourceId": "ms-teams-admin",
+      "title": "Set up Microsoft Calling Plans",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    },
+    {
+      "fusionRank": 24,
+      "sourceId": "ms-teams-admin",
+      "title": "Translate phone numbers to an alternate format",
+      "headingPath": [],
+      "methods": [],
+      "outcome": "rejected",
+      "selectionReason": "insufficient_direct_support,lower_authority"
+    }
+  ],
+  "r2": {
+    "answerability": "partial",
+    "selectedEvidenceCount": 1,
+    "selectedEvidence": [
+      {
+        "sourceId": "ms-teams-admin",
+        "sourceDomain": "teams_admin",
+        "authorityRoles": [
+          "teams_admin_primary"
+        ],
+        "title": "Planning Teams dial plans for Teams Phone",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+        "headingPath": [
+          "Planning Teams dial plans for Teams Phone",
+          "Dial plans and routing considerations",
+          "Direct Routing online voice-routing policy with Calling Plan"
+        ],
+        "supportTypes": [
+          "configuration_behavior"
+        ],
+        "selectionReason": "selected:aspect:mandatory:entity:enterprise-voice:general,mandatory:entity:phone-number:grant,mandatory:policy:calling-policy:general,mandatory:policy:dial-plan:general,mandatory:policy:voice-routing-policy:general:direct",
+        "textPreview": "Document: Planning Teams dial plans for Teams Phone\nHeading Path: Planning Teams dial plans for Teams Phone -> Dial plans and routing considerations -> Direct Routing online voice-routing policy with Calling Plan\n\nIf a user has a Calling Plan license, that userΓÇÖs outgoing calls are automatically rou"
+      }
+    ],
+    "rejectedCandidateCount": 23,
+    "rejectedCandidates": [
+      {
+        "title": "Create and manage dial plans",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 2,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 3,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Configure call routing for Direct Routing",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 4,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Configure call routing for Direct Routing",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 5,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 6,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Configure call routing for Direct Routing",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 7,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Create and manage dial plans",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 8,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Configure call routing for Direct Routing",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 9,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Create and manage dial plans",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 10,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Planning Teams dial plans for Teams Phone",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 11,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Create and manage dial plans",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 12,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Translate phone numbers to an alternate format",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 13,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Planning Teams dial plans for Teams Phone",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 14,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 15,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 16,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 17,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Planning Teams dial plans for Teams Phone",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 18,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 19,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 20,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Translate phone numbers to an alternate format",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 21,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Translate phone numbers to an alternate format",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 22,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Set up Microsoft Calling Plans",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 23,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      },
+      {
+        "title": "Translate phone numbers to an alternate format",
+        "sourceId": "ms-teams-admin",
+        "fusionRank": 24,
+        "reasons": [
+          "insufficient_direct_support",
+          "lower_authority"
+        ]
+      }
+    ],
+    "supportedMandatoryAspectIds": [
+      "mandatory:entity:enterprise-voice:general",
+      "mandatory:entity:phone-number:grant",
+      "mandatory:policy:calling-policy:general",
+      "mandatory:policy:dial-plan:general",
+      "mandatory:policy:voice-routing-policy:general"
+    ],
+    "unsupportedMandatoryAspectIds": [
+      "mandatory:entity:csv-export:output-transformation"
+    ],
+    "authorityLimitedAspectIds": [],
+    "methodSatisfactionByAspect": [
+      {
+        "aspectId": "mandatory:entity:csv-export:output-transformation",
+        "methodConstraints": []
+      },
+      {
+        "aspectId": "mandatory:entity:enterprise-voice:general",
+        "methodConstraints": [
+          {
+            "kind": "powershell",
+            "required": true,
+            "satisfiedBy": []
+          }
+        ]
+      },
+      {
+        "aspectId": "mandatory:entity:phone-number:grant",
+        "methodConstraints": [
+          {
+            "kind": "powershell",
+            "required": true,
+            "satisfiedBy": []
+          }
+        ]
+      },
+      {
+        "aspectId": "mandatory:policy:calling-policy:general",
+        "methodConstraints": [
+          {
+            "kind": "powershell",
+            "required": true,
+            "satisfiedBy": []
+          }
+        ]
+      },
+      {
+        "aspectId": "mandatory:policy:dial-plan:general",
+        "methodConstraints": [
+          {
+            "kind": "powershell",
+            "required": true,
+            "satisfiedBy": []
+          }
+        ]
+      },
+      {
+        "aspectId": "mandatory:policy:voice-routing-policy:general",
+        "methodConstraints": [
+          {
+            "kind": "powershell",
+            "required": true,
+            "satisfiedBy": []
+          }
+        ]
+      }
+    ],
+    "populations": {
+      "candidates": 24,
+      "selectedEvidence": 1,
+      "rejectedCandidates": 23
+    },
+    "authorityCoverage": {
+      "requestedDomains": [
+        "teams_admin",
+        "teams_powershell"
+      ],
+      "coveredDomains": [
+        "teams_admin"
+      ],
+      "missingDomains": [
+        "teams_powershell"
+      ]
+    }
+  },
+  "r3": {
+    "answerability": "partial",
+    "decomposition": {
+      "requestedConcepts": [
+        "csv export",
+        "enterprise voice",
+        "phone number",
+        "calling policy",
+        "dial plan",
+        "voice routing policy"
+      ],
+      "supportedConcepts": [
+        "enterprise voice",
+        "phone number",
+        "calling policy",
+        "dial plan",
+        "voice routing policy"
+      ],
+      "omittedConcepts": [
+        "csv export"
+      ]
+    },
+    "plannedClaims": [
+      {
+        "claimId": "claim:d1326297cffa2f53b9dda6b3",
+        "requiredAspectId": "mandatory:entity:phone-number:grant",
+        "claimType": "configuration",
+        "sectionId": "configuration",
+        "proposition": "If you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.",
+        "mandatory": true,
+        "supportStrength": "direct",
+        "evidenceIds": [
+          "evidence:032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39"
+        ]
+      },
+      {
+        "claimId": "claim:9ff938fd364db8f8e9bdf465",
+        "requiredAspectId": "mandatory:policy:calling-policy:general",
+        "claimType": "configuration",
+        "sectionId": "configuration",
+        "proposition": "If you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.",
+        "mandatory": true,
+        "supportStrength": "direct",
+        "evidenceIds": [
+          "evidence:032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39"
+        ]
+      },
+      {
+        "claimId": "claim:e4a3a10de6adc816d145cb99",
+        "requiredAspectId": "mandatory:policy:dial-plan:general",
+        "claimType": "configuration",
+        "sectionId": "configuration",
+        "proposition": "If you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.",
+        "mandatory": true,
+        "supportStrength": "direct",
+        "evidenceIds": [
+          "evidence:032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39"
+        ]
+      },
+      {
+        "claimId": "claim:afe7feb015a52dd816d2ec5d",
+        "requiredAspectId": "mandatory:policy:voice-routing-policy:general",
+        "claimType": "configuration",
+        "sectionId": "configuration",
+        "proposition": "If you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.",
+        "mandatory": true,
+        "supportStrength": "direct",
+        "evidenceIds": [
+          "evidence:032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39"
+        ]
+      },
+      {
+        "claimId": "claim:bd700128e7f56cb99a787a31",
+        "requiredAspectId": "mandatory:entity:enterprise-voice:general",
+        "claimType": "configuration",
+        "sectionId": "configuration",
+        "proposition": "For more information, see Direct Routing voice routing policy considerations.",
+        "mandatory": true,
+        "supportStrength": "direct",
+        "evidenceIds": [
+          "evidence:032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39"
+        ]
+      }
+    ],
+    "plannedClaimsTotal": 5,
+    "mandatoryClaimsTotal": 5,
+    "unsupportedAspects": [
+      {
+        "aspectId": "mandatory:entity:csv-export:output-transformation",
+        "reason": "missing_authority",
+        "detail": "The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus."
+      }
+    ],
+    "requiredCaveats": [
+      {
+        "code": "partial_coverage",
+        "detail": "Only supported portions should be answered."
+      },
+      {
+        "code": "missing_adjacent_authority",
+        "detail": "Missing authoritative domain coverage: teams_powershell"
+      }
+    ],
+    "recommendedStructure": {
+      "format": "steps",
+      "orderedSections": [
+        "configuration",
+        "caveats"
+      ]
+    }
+  },
+  "r4Detailed": {
+    "ok": true,
+    "answerability": "partial",
+    "answerText": "Summary\nIf you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.\n\nIf you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.\n\nIf you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.\n\nIf you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.\n\nFor more information, see Direct Routing voice routing policy considerations.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:entity:csv-export:output-transformation): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nNot established from available authoritative evidence (missing_authority): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nCaveats / limitations\nOnly supported portions should be answered.\n\nMissing authoritative domain coverage: teams_powershell\n\nSources\nPlanning Teams dial plans for Teams Phone ΓÇö https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+    "citations": [
+      {
+        "sourceId": "ms-teams-admin",
+        "authorityRole": "teams_admin_primary",
+        "sourceTitle": "Planning Teams dial plans for Teams Phone",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+      },
+      {
+        "sourceId": "ms-teams-admin",
+        "authorityRole": "teams_admin_primary",
+        "sourceTitle": "Planning Teams dial plans for Teams Phone",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+      },
+      {
+        "sourceId": "ms-teams-admin",
+        "authorityRole": "teams_admin_primary",
+        "sourceTitle": "Planning Teams dial plans for Teams Phone",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+      },
+      {
+        "sourceId": "ms-teams-admin",
+        "authorityRole": "teams_admin_primary",
+        "sourceTitle": "Planning Teams dial plans for Teams Phone",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+      },
+      {
+        "sourceId": "ms-teams-admin",
+        "authorityRole": "teams_admin_primary",
+        "sourceTitle": "Planning Teams dial plans for Teams Phone",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview"
+      }
+    ],
+    "latencyMs": 4677.094200000001
+  },
+  "r4Quick": {
+    "ok": true,
+    "answerability": "partial",
+    "answerText": "If you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.\n\nIf you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy.\n\n[Microsoft documentation context ΓÇö conceptual_explanation]\nPlanning Teams dial plans for Teams Phone ΓÇ║ Dial plans and routing considerations ΓÇ║ Direct Routing online voice-routing policy with Calling Plan\nDocument: Planning Teams dial plans for Teams Phone Heading Path: Planning Teams dial plans for Teams Phone -> Dial plans and routing considerations -> Direct Routing online voice-routing policy with Calling Plan If a user has a Calling Plan license, that userΓÇÖs outgoing calls are automatically routed through the Microsoft Calling Plan PSTN infrastructure. If you configure and assign a Direct Routing online voice-routing policy to the user, Teams checks the userΓÇÖs outgoing calls against the Direct Routing online voice-routing policy to determine whether their dialed number matches a number-pattern that you've defined in the online voice-routing policy. If thereΓÇÖs a match, the call is routed through the Direct Routing route. If thereΓÇÖs no match, the call is routed through the Calling Plan PSTN infrastructure. For more information, see Direct Routing voice routing policy considerations.\nSource: Planning Teams dial plans for Teams Phone\nhttps://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview\n\nOnly supported portions should be answered.\n\nMissing authoritative domain coverage: teams_powershell\n\nNot established from available authoritative evidence (mandatory:entity:csv-export:output-transformation): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nNot established from available authoritative evidence (missing_authority): The Teams-side data retrieval for this workflow is authoritatively covered where supported; CSV export is a generic PowerShell step not currently covered by Relay's authoritative corpus.\n\nPlanning Teams dial plans for Teams Phone ΓÇö https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+    "latencyMs": 4898.421899999999
+  }
+}

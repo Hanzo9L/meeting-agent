@@ -1,0 +1,95 @@
+
+> meeting-agent@1.0.0 inspect:knowledge-store
+> tsx src/main/services/knowledgeV2/store/inspectKnowledgeStore.ts
+
+{
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "schemaVersion": 2,
+  "fileSizeBytes": 451166208,
+  "documentCount": 1430,
+  "documentsBySource": [
+    {
+      "sourceId": "ms-entra-docs",
+      "count": 658
+    },
+    {
+      "sourceId": "ms-sharepoint-docs",
+      "count": 16
+    },
+    {
+      "sourceId": "ms-sharepoint-powershell",
+      "count": 33
+    },
+    {
+      "sourceId": "ms-teams-admin",
+      "count": 101
+    },
+    {
+      "sourceId": "ms-teams-powershell",
+      "count": 622
+    }
+  ],
+  "documentsByTransport": [
+    {
+      "transport": "github",
+      "count": 1313
+    },
+    {
+      "transport": "learn_mcp",
+      "count": 117
+    }
+  ],
+  "parseStatusCounts": [
+    {
+      "parseStatus": "failed",
+      "count": 2
+    },
+    {
+      "parseStatus": "success",
+      "count": 1338
+    },
+    {
+      "parseStatus": "warning",
+      "count": 90
+    }
+  ],
+  "embeddingCount": 29914,
+  "embeddingsByModel": [
+    {
+      "providerId": "openai",
+      "model": "text-embedding-3-small",
+      "embeddingSchemaVersion": "v1",
+      "dimensions": 1536,
+      "count": 29914
+    }
+  ],
+  "syncCheckpoints": [
+    {
+      "sourceId": "ms-entra-docs",
+      "trackId": "ga",
+      "transport": "github",
+      "status": "error",
+      "lastSyncedAt": "2026-08-14T19:55:32.885Z",
+      "lastRevisionFingerprint": "none",
+      "lastError": "documents_failed:3"
+    },
+    {
+      "sourceId": "ms-sharepoint-powershell",
+      "trackId": "ga",
+      "transport": "github",
+      "status": "ok",
+      "lastSyncedAt": "2026-08-14T21:36:59.910Z",
+      "lastRevisionFingerprint": "998703fb7586ad898f1515606eee3a2ee080ef2f",
+      "lastError": null
+    },
+    {
+      "sourceId": "ms-teams-powershell",
+      "trackId": "ga",
+      "transport": "github",
+      "status": "error",
+      "lastSyncedAt": "2026-08-07T16:44:07.503Z",
+      "lastRevisionFingerprint": "none",
+      "lastError": "documents_failed:1"
+    }
+  ]
+}

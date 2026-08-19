@@ -492,5 +492,175 @@ export const CONVERSATION_MIGRATIONS: readonly ConversationMigration[] = [
       CREATE INDEX idx_message_context_references_message
         ON message_context_references(message_id, context_block_id);
     `
+  },
+  {
+    version: 6,
+    name: "unique_answer_run_turn_ownership",
+    sql: `
+      CREATE UNIQUE INDEX idx_answer_runs_triggering_user_message
+        ON answer_runs(triggering_user_message_id);
+
+      CREATE UNIQUE INDEX idx_answer_runs_assistant_message
+        ON answer_runs(assistant_message_id)
+        WHERE assistant_message_id IS NOT NULL;
+    `
+  },
+  {
+    version: 7,
+    name: "authoritative_evidence_citation_urls",
+    foreignKeysOff: true,
+    sql: `
+      PRAGMA legacy_alter_table = ON;
+
+      ALTER TABLE message_citations RENAME TO message_citations_v6;
+
+      CREATE TABLE message_citations (
+        message_id TEXT NOT NULL,
+        citation_id TEXT NOT NULL,
+        factual_range_id TEXT NOT NULL,
+        claim_id TEXT,
+        answer_range_start INTEGER NOT NULL CHECK (answer_range_start >= 0),
+        answer_range_end INTEGER NOT NULL CHECK (answer_range_end > answer_range_start),
+        evidence_id TEXT,
+        span_id TEXT,
+        supporting_span_ids_json TEXT NOT NULL DEFAULT '[]',
+        document_id TEXT,
+        source_title TEXT NOT NULL CHECK (length(trim(source_title)) > 0),
+        canonical_url TEXT NOT NULL CHECK (canonical_url LIKE 'https://%'),
+        source_id TEXT NOT NULL,
+        authority_role TEXT NOT NULL,
+        heading_path_json TEXT NOT NULL,
+        section_id TEXT NOT NULL,
+        source_status TEXT NOT NULL,
+        preview INTEGER NOT NULL CHECK (preview IN (0, 1)),
+        grounding_snapshot_id TEXT NOT NULL,
+        PRIMARY KEY (message_id, citation_id),
+        FOREIGN KEY (message_id) REFERENCES messages(message_id) ON DELETE CASCADE,
+        FOREIGN KEY (grounding_snapshot_id)
+          REFERENCES grounding_snapshot_refs(snapshot_id) ON DELETE RESTRICT
+      );
+
+      INSERT INTO message_citations (
+        message_id,
+        citation_id,
+        factual_range_id,
+        claim_id,
+        answer_range_start,
+        answer_range_end,
+        evidence_id,
+        span_id,
+        supporting_span_ids_json,
+        document_id,
+        source_title,
+        canonical_url,
+        source_id,
+        authority_role,
+        heading_path_json,
+        section_id,
+        source_status,
+        preview,
+        grounding_snapshot_id
+      )
+      SELECT
+        message_id,
+        citation_id,
+        factual_range_id,
+        claim_id,
+        answer_range_start,
+        answer_range_end,
+        evidence_id,
+        span_id,
+        supporting_span_ids_json,
+        document_id,
+        source_title,
+        canonical_url,
+        source_id,
+        authority_role,
+        heading_path_json,
+        section_id,
+        source_status,
+        preview,
+        grounding_snapshot_id
+      FROM message_citations_v6;
+
+      DROP TABLE message_citations_v6;
+
+      CREATE INDEX idx_message_citations_message_range
+        ON message_citations(message_id, answer_range_start, answer_range_end);
+
+      ALTER TABLE message_context_references RENAME TO message_context_references_v6;
+
+      CREATE TABLE message_context_references (
+        message_id TEXT NOT NULL,
+        context_block_id TEXT NOT NULL,
+        evidence_id TEXT NOT NULL,
+        document_id TEXT NOT NULL,
+        chunk_id TEXT NOT NULL,
+        source_title TEXT NOT NULL CHECK (length(trim(source_title)) > 0),
+        canonical_url TEXT NOT NULL CHECK (canonical_url LIKE 'https://%'),
+        source_id TEXT NOT NULL,
+        authority_role TEXT NOT NULL,
+        heading_path_json TEXT NOT NULL,
+        section_id TEXT NOT NULL,
+        source_start_offset INTEGER NOT NULL CHECK (source_start_offset >= 0),
+        source_end_offset INTEGER NOT NULL CHECK (
+          source_end_offset > source_start_offset
+        ),
+        source_content_hash TEXT NOT NULL,
+        context_type TEXT NOT NULL,
+        preview INTEGER NOT NULL CHECK (preview IN (0, 1)),
+        grounding_snapshot_id TEXT NOT NULL,
+        PRIMARY KEY (message_id, context_block_id),
+        FOREIGN KEY (message_id) REFERENCES messages(message_id) ON DELETE CASCADE,
+        FOREIGN KEY (grounding_snapshot_id)
+          REFERENCES grounding_snapshot_refs(snapshot_id) ON DELETE RESTRICT
+      );
+
+      INSERT INTO message_context_references (
+        message_id,
+        context_block_id,
+        evidence_id,
+        document_id,
+        chunk_id,
+        source_title,
+        canonical_url,
+        source_id,
+        authority_role,
+        heading_path_json,
+        section_id,
+        source_start_offset,
+        source_end_offset,
+        source_content_hash,
+        context_type,
+        preview,
+        grounding_snapshot_id
+      )
+      SELECT
+        message_id,
+        context_block_id,
+        evidence_id,
+        document_id,
+        chunk_id,
+        source_title,
+        canonical_url,
+        source_id,
+        authority_role,
+        heading_path_json,
+        section_id,
+        source_start_offset,
+        source_end_offset,
+        source_content_hash,
+        context_type,
+        preview,
+        grounding_snapshot_id
+      FROM message_context_references_v6;
+
+      DROP TABLE message_context_references_v6;
+
+      CREATE INDEX idx_message_context_references_message
+        ON message_context_references(message_id, context_block_id);
+
+      PRAGMA legacy_alter_table = OFF;
+    `
   }
 ];

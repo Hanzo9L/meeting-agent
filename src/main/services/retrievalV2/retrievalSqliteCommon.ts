@@ -61,6 +61,18 @@ export function createSqliteConnection(databasePath: string): Database.Database 
 }
 
 export function buildScopeDocumentFilter(scope: RetrievalScope, documentAlias = "d"): ScopeFilterResult {
+  if (scope.eligibleDocumentIds !== undefined) {
+    if (scope.eligibleDocumentIds.length === 0) {
+      return { sql: "1 = 0", params: [] };
+    }
+    const uniqueDocumentIds = [...new Set(scope.eligibleDocumentIds)];
+    const documentPlaceholders = uniqueDocumentIds.map(() => "?").join(", ");
+    return {
+      sql: `${documentAlias}.document_id IN (${documentPlaceholders})`,
+      params: uniqueDocumentIds
+    };
+  }
+
   const pairs: Array<{ sourceId: string; trackId: string }> = [];
   for (const source of scope.eligibleSources) {
     for (const trackId of source.eligibleTrackIds) {

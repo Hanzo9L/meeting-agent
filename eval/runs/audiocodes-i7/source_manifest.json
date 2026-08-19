@@ -1,0 +1,209 @@
+{
+  "phase": "I7",
+  "pack": "audiocodes-mediant-direct-routing",
+  "authority_model": {
+    "tier1": "Microsoft \u2014 Direct Routing architecture, interoperability, routing, certificates, connectivity",
+    "tier2": "AudioCodes \u2014 Mediant-specific GUI/CLI, object names, HA implementation",
+    "not_merged": true
+  },
+  "metadata_fields": {
+    "publisher": "AudioCodes",
+    "vendor": "audiocodes",
+    "authority": "certified_sbc_vendor",
+    "product_family": "mediant",
+    "domain": "direct-routing",
+    "source_role": "vendor_implementation_reference",
+    "stored_in": "frontmatter + ms.service=audiocodes-sbc + ms.collection=certified_sbc_vendor + title prefix AudioCodes"
+  },
+  "families": {
+    "A": {
+      "name": "Teams Direct Routing configuration on Mediant",
+      "microsoft": [
+        "Direct Routing architecture / connect the SBC",
+        "voice routing policy, PSTN usage, voice route, PSTN gateway"
+      ]
+    },
+    "B": {
+      "name": "TLS / certificates (covered inside Enterprise config note)",
+      "microsoft": [
+        "Plan Direct Routing: public trusted certificate for the SBC"
+      ]
+    },
+    "C": {
+      "name": "HA / redundancy / failover",
+      "microsoft": [
+        "multi-SBC / trunk failover / voice-route priority",
+        "not the same as a vendor 1+1 HA pair"
+      ]
+    },
+    "D": {
+      "name": "Media / signaling / LMO",
+      "microsoft": [
+        "media bypass",
+        "call flows",
+        "Local Media Optimization"
+      ]
+    },
+    "E": {
+      "name": "Troubleshooting / Proxy Set status (SIP OPTIONS keep-alive)",
+      "microsoft": [
+        "Monitor Direct Routing",
+        "SBC connectivity / SIP OPTIONS"
+      ]
+    }
+  },
+  "documents": [
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+      "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+      "finalUrl": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+      "path": "audiocodes\\docs\\media\\13253\\connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf.md",
+      "chars": 67623,
+      "family": "A",
+      "kind": "pdf",
+      "topics": [
+        "teams-direct-routing",
+        "sip",
+        "tls",
+        "certificate",
+        "signaling",
+        "media",
+        "routing",
+        "proxy-set",
+        "ip-group"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+        "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+        "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc"
+      ],
+      "status": 200
+    },
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+      "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+      "finalUrl": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+      "path": "audiocodes\\docs\\media\\15757\\mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf.md",
+      "chars": 113499,
+      "family": "D",
+      "kind": "pdf",
+      "topics": [
+        "teams-direct-routing",
+        "media",
+        "media-bypass",
+        "sip",
+        "signaling"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+        "https://learn.microsoft.com/microsoftteams/microsoft-teams-online-call-flows"
+      ],
+      "status": 200
+    },
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC: Overview of High Availability Mode",
+      "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/HA%20Overview.htm",
+      "finalUrl": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/HA%20Overview.htm",
+      "path": "audiocodes\\docs\\techdocs\\session-border-controller-sbc\\mediant-software-sbc\\user-manual\\version-740\\content\\um\\HA%20Overview.htm.md",
+      "chars": 1134,
+      "family": "C",
+      "kind": "html",
+      "topics": [
+        "ha",
+        "redundancy",
+        "failover"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+        "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants"
+      ],
+      "status": 200
+    },
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC: Device Switchover upon Failure",
+      "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/Device%20Switchover%20upon%20Failure.htm",
+      "finalUrl": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/Device%20Switchover%20upon%20Failure.htm",
+      "path": "audiocodes\\docs\\techdocs\\session-border-controller-sbc\\mediant-software-sbc\\user-manual\\version-740\\content\\um\\Device%20Switchover%20upon%20Failure.htm.md",
+      "chars": 3693,
+      "family": "C",
+      "kind": "html",
+      "topics": [
+        "ha",
+        "redundancy",
+        "failover"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover",
+        "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+      ],
+      "status": 200
+    },
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC: Quick-and-Easy Initial HA Configuration",
+      "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/Fast-and-Easy%20Initial%20Configuration.htm",
+      "finalUrl": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/Fast-and-Easy%20Initial%20Configuration.htm",
+      "path": "audiocodes\\docs\\techdocs\\session-border-controller-sbc\\mediant-software-sbc\\user-manual\\version-740\\content\\um\\Fast-and-Easy%20Initial%20Configuration.htm.md",
+      "chars": 3154,
+      "family": "C",
+      "kind": "html",
+      "topics": [
+        "ha",
+        "redundancy"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+      ],
+      "status": 200
+    },
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC: Initialize HA on the Devices",
+      "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/Content/UM/Step%203_%20Initialize%20HA%20on%20the%20Devices.htm",
+      "finalUrl": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/Content/UM/Step%203_%20Initialize%20HA%20on%20the%20Devices.htm",
+      "path": "audiocodes\\docs\\techdocs\\session-border-controller-sbc\\mediant-software-sbc\\user-manual\\version-740\\Content\\UM\\Step%203_%20Initialize%20HA%20on%20the%20Devices.htm.md",
+      "chars": 1358,
+      "family": "C",
+      "kind": "html",
+      "topics": [
+        "ha",
+        "redundancy",
+        "failover"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+      ],
+      "status": 200
+    },
+    {
+      "ok": true,
+      "title": "AudioCodes Mediant SBC: Viewing Proxy Set Status",
+      "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/Content/UM/Viewing%20Proxy%20Set%20Status.htm",
+      "finalUrl": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/Content/UM/Viewing%20Proxy%20Set%20Status.htm",
+      "path": "audiocodes\\docs\\techdocs\\session-border-controller-sbc\\mediant-software-sbc\\user-manual\\version-740\\Content\\UM\\Viewing%20Proxy%20Set%20Status.htm.md",
+      "chars": 3023,
+      "family": "E",
+      "kind": "html",
+      "topics": [
+        "sip",
+        "signaling",
+        "failover"
+      ],
+      "microsoft_crossref": [
+        "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+        "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc"
+      ],
+      "status": 200
+    }
+  ],
+  "rejected": [
+    "Hosting-model config note (multi-tenant, wrong interview scenario)",
+    "CUCM interop note (out of scope)",
+    "Full 900-page Mediant user manuals",
+    "blogs / reseller / YouTube"
+  ]
+}

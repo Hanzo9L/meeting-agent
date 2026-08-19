@@ -1,0 +1,221 @@
+{
+  "teams_ps_parents": [
+    {
+      "title": "Get-CsAutoAttendant",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant"
+    },
+    {
+      "title": "Get-CsCallQueue",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cscallqueue"
+    },
+    {
+      "title": "Get-CsEffectiveTenantDialPlan",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan"
+    },
+    {
+      "title": "Get-CsOnlineApplicationInstance",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineapplicationinstance"
+    },
+    {
+      "title": "Get-CsOnlinePSTNGateway",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstngateway"
+    },
+    {
+      "title": "Get-CsOnlinePstnUsage",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage"
+    },
+    {
+      "title": "Get-CsOnlineUser",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+    },
+    {
+      "title": "Get-CsOnlineVoiceRoute",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+    },
+    {
+      "title": "Get-CsOnlineVoiceRoutingPolicy",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+    },
+    {
+      "title": "Get-CsPhoneNumberAssignment",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment"
+    },
+    {
+      "title": "Get-CsTeamsCallingPolicy",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+    },
+    {
+      "title": "Get-CsTenantDialPlan",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
+    },
+    {
+      "title": "Microsoft Teams cmdlet help reference",
+      "url": "https://learn.microsoft.com/microsoftteams/index"
+    },
+    {
+      "title": "Set-CsPhoneNumberAssignment",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/set-csphonenumberassignment"
+    }
+  ],
+  "TSUC04": {
+    "scope": {
+      "confidence": "NONE",
+      "service": null,
+      "reason": "no high-confidence corpus cue"
+    },
+    "returned": 40,
+    "needle_ranks": {
+      "direct-routing-trunk-failover-on-outbound-call": null,
+      "direct-routing-voice-routing": 18,
+      "direct-routing-survivable-branch": null,
+      "direct-routing-plan": 1,
+      "set-csonlinepstngateway": null
+    }
+  },
+  "TSUC13": {
+    "scope": {
+      "confidence": "NONE",
+      "service": null,
+      "reason": "no high-confidence corpus cue"
+    },
+    "returned": 43,
+    "needle_ranks": {
+      "use-call-analytics-to-troubleshoot-poor-call-quality": null,
+      "set-up-call-analytics": null,
+      "direct-routing-plan-media-bypass": 14,
+      "direct-routing-protocols-media": 28,
+      "direct-routing-configure-media-bypass": null,
+      "monitor-call-quality-qos": null
+    }
+  },
+  "TSUC26": {
+    "scope": {
+      "confidence": "HIGH",
+      "service": "msteams-ps",
+      "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+    },
+    "returned": 7,
+    "needle_ranks": {
+      "get-csautoattendant": 1,
+      "get-cscallqueue": 6,
+      "get-csonlineapplicationinstance": null
+    },
+    "all_titles": [
+      {
+        "rank": 1,
+        "title": "Get-CsAutoAttendant",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant"
+      },
+      {
+        "rank": 2,
+        "title": "Get-CsOnlineUser",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+      },
+      {
+        "rank": 3,
+        "title": "Set-CsPhoneNumberAssignment",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/set-csphonenumberassignment"
+      },
+      {
+        "rank": 4,
+        "title": "Microsoft Teams cmdlet help reference",
+        "url": "https://learn.microsoft.com/microsoftteams/index"
+      },
+      {
+        "rank": 5,
+        "title": "Get-CsTeamsCallingPolicy",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+      },
+      {
+        "rank": 6,
+        "title": "Get-CsCallQueue",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cscallqueue"
+      },
+      {
+        "rank": 7,
+        "title": "Get-CsPhoneNumberAssignment",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment"
+      }
+    ]
+  },
+  "TSUC26_cmdlet_named": {
+    "scope": {
+      "confidence": "HIGH",
+      "service": "msteams-ps",
+      "reason": "cmdlet-shaped token Get-CsOnlineApplicationInstance; service=msteams-ps repo=teams-ps"
+    },
+    "returned": 13,
+    "needle_ranks": {
+      "get-csautoattendant": 4,
+      "get-cscallqueue": 2,
+      "get-csonlineapplicationinstance": 1
+    },
+    "all_titles": [
+      {
+        "rank": 1,
+        "title": "Get-CsOnlineApplicationInstance",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineapplicationinstance"
+      },
+      {
+        "rank": 2,
+        "title": "Get-CsCallQueue",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cscallqueue"
+      },
+      {
+        "rank": 3,
+        "title": "Get-CsOnlineUser",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+      },
+      {
+        "rank": 4,
+        "title": "Get-CsAutoAttendant",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant"
+      },
+      {
+        "rank": 5,
+        "title": "Get-CsPhoneNumberAssignment",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment"
+      },
+      {
+        "rank": 6,
+        "title": "Set-CsPhoneNumberAssignment",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/set-csphonenumberassignment"
+      },
+      {
+        "rank": 7,
+        "title": "Get-CsOnlineVoiceRoute",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+      },
+      {
+        "rank": 8,
+        "title": "Get-CsOnlinePSTNGateway",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstngateway"
+      },
+      {
+        "rank": 9,
+        "title": "Get-CsOnlinePstnUsage",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage"
+      },
+      {
+        "rank": 10,
+        "title": "Get-CsTeamsCallingPolicy",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+      },
+      {
+        "rank": 11,
+        "title": "Get-CsTenantDialPlan",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cstenantdialplan"
+      },
+      {
+        "rank": 12,
+        "title": "Get-CsOnlineVoiceRoutingPolicy",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+      },
+      {
+        "rank": 13,
+        "title": "Get-CsEffectiveTenantDialPlan",
+        "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cseffectivetenantdialplan"
+      }
+    ]
+  }
+}

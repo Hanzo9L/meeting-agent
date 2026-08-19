@@ -1,5 +1,7 @@
 import { performance } from "node:perf_hooks";
 import type { QueryAnswerType } from "../retrievalV2/queryIntent";
+import { areConceptsRedundant, type ConceptSignature } from "./evidenceConceptDistinctness";
+import { classifyInterviewQuestionShape } from "./interviewQuestionShape";
 import type {
   AnswerPlan,
   ExtractiveAssemblyProvenance,
@@ -21,6 +23,127 @@ import {
   type PresentationUnsupportedGap,
   type PresentedAnswer
 } from "./answerPresentationTypes";
+
+function interviewFactUseful(text: string): boolean {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length < 6 || words.length > 45) return false;
+  if (
+    /^(?:this article|for more information|important|note|tip|warning|updates in )\b/i.test(
+      text.trim()
+    )
+  ) {
+    return false;
+  }
+  return /[a-z]{3,}/i.test(text);
+}
+
+function signatureFromFact(fact: PresentationProofFactRef): ConceptSignature {
+  const terms = [
+    ...new Set(
+      fact.renderedText
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .split(" ")
+        .filter((token) => token.length >= 3)
+    )
+  ];
+  return {
+    documentId: fact.claimId,
+    sectionId: fact.claimId,
+    terms,
+    textTerms: terms
+  };
+}
+
+function questionTermOverlap(text: string, question: string): number {
+  const stop = new Set([
+    "the",
+    "and",
+    "for",
+    "with",
+    "from",
+    "that",
+    "this",
+    "would",
+    "you",
+    "how",
+    "what",
+    "when",
+    "your"
+  ]);
+  const questionTerms = new Set(
+    question
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .split(" ")
+      .filter((token) => token.length >= 4 && !stop.has(token))
+  );
+  if (questionTerms.size === 0) return 0;
+  const textTerms = text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .split(" ")
+    .filter((token) => token.length >= 4);
+  return textTerms.filter((token) => questionTerms.has(token)).length;
+}
+
+function selectInterviewQuickFacts(
+  proofFacts: PresentationProofFactRef[],
+  intent: AnswerPlan["intent"]
+): PresentationProofFactRef[] {
+  const shape = classifyInterviewQuestionShape(intent);
+  const useful = proofFacts.filter((fact) =>
+    interviewFactUseful(fact.renderedText)
+  );
+  const pool = [...(useful.length > 0 ? useful : proofFacts)];
+  pool.sort((left, right) => {
+    const overlapDelta =
+      questionTermOverlap(right.renderedText, intent.originalQuestion) -
+      questionTermOverlap(left.renderedText, intent.originalQuestion);
+    if (overlapDelta !== 0) return overlapDelta;
+    if (shape === "troubleshooting") {
+      const diagnostic =
+        /\b(?:check|verify|confirm|review|inspect|logs?|telemetry|trace|firewall|certificate)\b/i;
+      const diagnosticDelta =
+        Number(diagnostic.test(right.renderedText)) -
+        Number(diagnostic.test(left.renderedText));
+      if (diagnosticDelta !== 0) return diagnosticDelta;
+    }
+    if (shape === "powershell") {
+      return (
+        Number(/\bGet-Cs/i.test(right.renderedText)) -
+        Number(/\bGet-Cs/i.test(left.renderedText))
+      );
+    }
+    return 0;
+  });
+  const selected: PresentationProofFactRef[] = [];
+  const accepted: ConceptSignature[] = [];
+  let words = 0;
+  for (const fact of pool) {
+    if (selected.length >= 5) break;
+    const factWords = fact.renderedText.trim().split(/\s+/).filter(Boolean)
+      .length;
+    if (selected.length > 0 && words + factWords > 110) break;
+    const signature = signatureFromFact(fact);
+    if (areConceptsRedundant(signature, accepted)) continue;
+    selected.push(fact);
+    accepted.push(signature);
+    words += factWords;
+  }
+  return selected.length > 0 ? selected : pool.slice(0, 1);
+}
+
+function selectInterviewQuickCaveats(
+  caveats: PresentationCaveatRef[]
+): PresentationCaveatRef[] {
+  const skipped = new Set([
+    "freshness_verification_required",
+    "missing_adjacent_authority"
+  ]);
+  const material = caveats.filter((caveat) => !skipped.has(caveat.code));
+  return material.slice(0, 1);
+}
 
 function isProcedural(answerType: QueryAnswerType): boolean {
   return (
@@ -203,24 +326,16 @@ function buildSections(params: {
   if (params.profile === "live_assist_quick") {
     push("summary", "Summary", {
       proofFactClaimIds: params.proofFacts.map((fact) => fact.claimId),
-      contextBlockIds: params.contextBlocks.map(
-        (block) => block.contextBlockId
-      ),
+      contextBlockIds: [],
       caveatCodes: [],
       unsupportedAspectIds: []
     });
     push("caveats", "Caveats", {
       proofFactClaimIds: [],
       contextBlockIds: [],
-      caveatCodes: params.caveats.map((caveat) => caveat.code),
-      unsupportedAspectIds: params.gaps.map((gap) => gap.aspectId)
-    });
-    push("sources", "Sources", {
-      proofFactClaimIds: [],
-      contextBlockIds: params.contextBlocks.map(
-        (block) => block.contextBlockId
+      caveatCodes: selectInterviewQuickCaveats(params.caveats).map(
+        (caveat) => caveat.code
       ),
-      caveatCodes: [],
       unsupportedAspectIds: []
     });
     return sections;
@@ -312,7 +427,10 @@ export function buildAnswerPresentationPlan(params: {
   contextBlocks: ExplanationContextBlock[];
 }): AnswerPresentationPlan {
   const proofFacts = collectProofFacts(params.provenance, params.plan);
-  const caveats = collectCaveats(params.answer, params.provenance);
+  let caveats = collectCaveats(params.answer, params.provenance);
+  if (params.profile === "live_assist_quick") {
+    caveats = selectInterviewQuickCaveats(caveats);
+  }
   const gaps = collectUnsupportedGaps(params.plan, params.provenance);
   const unsupportedAspectIds = new Set(gaps.map((gap) => gap.aspectId));
 
@@ -329,11 +447,12 @@ export function buildAnswerPresentationPlan(params: {
   let selectedContext = ranked;
   if (params.profile === "live_assist_quick") {
     const mandatory = proofFacts.filter((fact) => fact.mandatory);
-    selectedProofFacts =
-      mandatory.length > 0
-        ? mandatory.slice(0, 2)
-        : proofFacts.slice(0, 2);
-    selectedContext = ranked.slice(0, 1);
+    const candidates = mandatory.length > 0 ? mandatory : proofFacts;
+    selectedProofFacts = selectInterviewQuickFacts(
+      candidates,
+      params.plan.intent
+    );
+    selectedContext = [];
   } else {
     // Cap context dump while remaining deterministic.
     selectedContext = ranked.slice(0, 8);
@@ -432,15 +551,21 @@ export function renderPresentedAnswer(params: {
   }
 
   for (const section of params.presentationPlan.sections) {
-    const body: Array<{ text: string; proofFactClaimId?: string }> = [];
-    for (const claimId of section.proofFactClaimIds) {
+    const body: Array<{
+      text: string;
+      proofFactClaimId?: string;
+      proofTextOffset?: number;
+    }> = [];
+    const quick = params.presentationPlan.profile === "live_assist_quick";
+    for (const [index, claimId] of section.proofFactClaimIds.entries()) {
       const fact = proofById.get(claimId);
-      if (fact?.renderedText) {
-        body.push({
-          text: fact.renderedText,
-          proofFactClaimId: claimId
-        });
-      }
+      if (!fact?.renderedText) continue;
+      const bullet = quick && section.sectionId === "summary" && index > 0;
+      body.push({
+        text: bullet ? `- ${fact.renderedText}` : fact.renderedText,
+        proofFactClaimId: claimId,
+        proofTextOffset: bullet ? 2 : 0
+      });
     }
     for (const contextBlockId of section.contextBlockIds) {
       if (section.sectionId === "sources") continue;
@@ -492,9 +617,10 @@ export function renderPresentedAnswer(params: {
       const startOffset = prefix.length + bodyText.length;
       bodyText += item.text;
       if (item.proofFactClaimId) {
+        const proofStart = startOffset + (item.proofTextOffset ?? 0);
         proofFactRanges.push({
           claimId: item.proofFactClaimId,
-          startOffset,
+          startOffset: proofStart,
           endOffset: startOffset + item.text.length
         });
       }

@@ -1,0 +1,2318 @@
+{
+  "generatedAt": "2026-08-19T19:30:31Z",
+  "phase": "I7",
+  "writeStatus": {
+    "relay": "EVAL ARTIFACTS ONLY",
+    "learn_rag": "TARGETED VENDOR SOURCE/CORPUS ARTIFACTS ONLY"
+  },
+  "frozen": {
+    "searchHash": "252e9b3ced85b9b0",
+    "scopeHash": "2a8caaabd00f4b08",
+    "i6bQueryShape": "252e9b3ced85b9b0"
+  },
+  "audiocodesCounts": {
+    "GOOD": 4,
+    "PARTIAL": 8,
+    "MISS": 0
+  },
+  "bank30": {
+    "GOOD": 23,
+    "PARTIAL": 5,
+    "MISS": 0,
+    "PERSONAL": 2,
+    "gradeChanges": [],
+    "top5ChangedIds": [
+      "TSUC01",
+      "TSUC03",
+      "TSUC04",
+      "TSUC05",
+      "TSUC07",
+      "TSUC08",
+      "TSUC10",
+      "TSUC11",
+      "TSUC13",
+      "TSUC14",
+      "TSUC17",
+      "TSUC18",
+      "TSUC28"
+    ],
+    "audiocodesPollutionIds": [
+      "TSUC01",
+      "TSUC03",
+      "TSUC05",
+      "TSUC13"
+    ]
+  },
+  "latency": {
+    "bank30": {
+      "n": 30,
+      "p50": 12.325,
+      "p95": 16.764,
+      "max": 18.073,
+      "mean": 12.811
+    },
+    "i6b_clean_warm": {
+      "n": 30,
+      "p50": 13.617,
+      "p95": 28.359,
+      "max": 38.777,
+      "mean": 16.68,
+      "note": "Dedicated warmed top_k=5 pass after 3 discard queries. Comparable to I6A."
+    }
+  },
+  "audiocodes_scenarios": [
+    {
+      "id": "AC01",
+      "intent": "configuration",
+      "question": "How would you configure an SBC for Microsoft Teams Direct Routing?",
+      "expected_microsoft_themes": [
+        "certified SBC requirements",
+        "FQDN",
+        "TLS",
+        "certificate",
+        "connect SBC",
+        "voice routing"
+      ],
+      "expected_audiocodes_themes": [
+        "TLS context",
+        "SIP interface",
+        "proxy set",
+        "IP group",
+        "routing"
+      ],
+      "must_not_do": [
+        "treat AudioCodes object names as universal SBC configuration"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 38.332,
+      "route_ms": 66.406,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "3.3.1 Adding New SBC to Direct Routing",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025174,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "2.3 Infrastructure Prerequisites",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.024098,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 3,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.023671,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "1.1 About Microsoft Teams Direct Routing",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.023115,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "1.4 Infrastructure Prerequisites",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.022702,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "GOOD",
+      "why": "Microsoft Connect-SBC plus AudioCodes pairing/prerequisites. Titles/URLs are AudioCodes-branded."
+    },
+    {
+      "id": "AC02",
+      "intent": "configuration",
+      "question": "Walk me through the high-level steps to bring an AudioCodes Mediant SBC online for Teams Direct Routing.",
+      "expected_microsoft_themes": [
+        "Direct Routing architecture",
+        "SBC pairing",
+        "PSTN gateway"
+      ],
+      "expected_audiocodes_themes": [
+        "network interfaces",
+        "TLS/certificates",
+        "SIP interfaces",
+        "proxy sets",
+        "IP groups",
+        "test call"
+      ],
+      "must_not_do": [
+        "present Mediant GUI steps as Microsoft-standard procedure"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 39.338,
+      "route_ms": 4.537,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "3.3.4 Enabling Online User",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025873,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "3.3.1 Adding New SBC to Direct Routing",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.02493,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "3.3.5 Assigning Online User to the Voice Routing Policy",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.024565,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "3.3.2 Adding Voice Route and PSTN Usage",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.020436,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.7.7 Configuring Gateway Tel-to-IP Routing Rule",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": false,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "PARTIAL",
+      "why": "Strong Mediant bring-up/pairing/routing steps. Microsoft Learn layer absent from top 5 (MS objects appear only as copied into the AudioCodes note)."
+    },
+    {
+      "id": "AC03",
+      "intent": "architecture",
+      "question": "What are the certificate requirements for a Teams Direct Routing SBC?",
+      "expected_microsoft_themes": [
+        "public trusted certificate",
+        "CN/SAN",
+        "FQDN",
+        "trusted CA list"
+      ],
+      "expected_audiocodes_themes": [
+        "TLS context",
+        "CSR",
+        "root/intermediate import"
+      ],
+      "must_not_do": [
+        "treat DigiCert example as the only Microsoft-allowed CA"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 11.071,
+      "route_ms": 2.748,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Plan Direct Routing",
+          "section": "Public trusted certificate for the SBC",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.027869,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Plan Direct Routing",
+          "section": "Infrastructure requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.026984,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.5.5.4 Deploying the SBC and Root / Intermediate Certificates on the SBC",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025022,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.3.4 Deploying the SBC and Root / Intermediate Certificates on the SBC",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.024892,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "2.3 Infrastructure Prerequisites",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.023994,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "GOOD",
+      "why": "Microsoft public-trusted-certificate requirements plus AudioCodes TLS/root/intermediate install procedures."
+    },
+    {
+      "id": "AC04",
+      "intent": "configuration",
+      "question": "How would you install and bind certificates on an AudioCodes Mediant SBC for Teams?",
+      "expected_microsoft_themes": [
+        "Microsoft certificate requirements for the SBC"
+      ],
+      "expected_audiocodes_themes": [
+        "TLS Contexts page",
+        "Change Certificate",
+        "Trusted Root Certificates",
+        "bind to SIP/TLS interface"
+      ],
+      "must_not_do": [
+        "imply every vendor uses TLS Context objects"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 12.287,
+      "route_ms": 3.349,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.3.4 Deploying the SBC and Root / Intermediate Certificates on the SBC",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.027604,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.4 Method for Generating and Installing the Wildcard Certificate",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.027505,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.5.5.4 Deploying the SBC and Root / Intermediate Certificates on the SBC",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.026915,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.5.6 Method for Generating and Installing the Wildcard Certificate",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.026811,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.5 Deploying Trusted Root Certificate for MTLS connection",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025832,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": false,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "PARTIAL",
+      "why": "Exact Mediant TLS Context / CSR / root-store steps. Microsoft requirement page not in top 5."
+    },
+    {
+      "id": "AC05",
+      "intent": "architecture",
+      "question": "How do SIP signaling and RTP media flow through a Direct Routing SBC?",
+      "expected_microsoft_themes": [
+        "call flows",
+        "media path",
+        "media bypass"
+      ],
+      "expected_audiocodes_themes": [
+        "SIP signaling interfaces",
+        "media realms",
+        "SRTP",
+        "Local Media Optimization"
+      ],
+      "must_not_do": [
+        "treat Media Realm as a Microsoft object"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 10.781,
+      "route_ms": 2.896,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Call flow and firewall planning",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.026321,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Teams Phone Direct Routing: Definitions and RFC standards",
+          "section": "Operational modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-protocols",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.02577,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.2 Typical Call Scenarios",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025588,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.5.9 Configuring SIP Signaling Interfaces",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.022368,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Central SBC with centralized trunks",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.022155,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "GOOD",
+      "why": "Microsoft media-bypass/call-flow plus AudioCodes SIP interface and call-scenario pages."
+    },
+    {
+      "id": "AC06",
+      "intent": "configuration",
+      "question": "How would you configure high availability or redundancy on an AudioCodes SBC?",
+      "expected_microsoft_themes": [
+        "multi-SBC",
+        "routing/failover concepts"
+      ],
+      "expected_audiocodes_themes": [
+        "1+1 HA",
+        "maintenance interface",
+        "preempt",
+        "ini/MAC identity",
+        "synchronization"
+      ],
+      "must_not_do": [
+        "equate Mediant 1+1 HA pair with Microsoft geo-redundant trunk failover"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 8.746,
+      "route_ms": 3.019,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC: Overview of High Availability Mode",
+          "section": "Overview",
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/HA%20Overview.htm",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.027869,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "1.3 About AudioCodes SBC Product Series",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025084,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4 Configuring AudioCodes' SBC",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.023132,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC: Initialize HA on the Devices",
+          "section": "Step 3: Initialize HA on the Devices",
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/Content/UM/Step%203_%20Initialize%20HA%20on%20the%20Devices.htm",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.023106,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "1.2 About AudioCodes SBC Product Series",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.022154,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": false,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "PARTIAL",
+      "why": "HA overview and initialize-HA surfaced. Product-series filler also in top 5. Microsoft multi-SBC/routing layer absent."
+    },
+    {
+      "id": "AC07",
+      "intent": "troubleshooting",
+      "question": "What happens when one SBC in an HA pair fails?",
+      "expected_microsoft_themes": [
+        "call continuity",
+        "failover"
+      ],
+      "expected_audiocodes_themes": [
+        "switchover to redundant device",
+        "keep-alive",
+        "preempt mode",
+        "stand-alone mode"
+      ],
+      "must_not_do": [
+        "describe AudioCodes preempt as a Microsoft Direct Routing feature"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 12.188,
+      "route_ms": 2.18,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC: Initialize HA on the Devices",
+          "section": "Step 3: Initialize HA on the Devices",
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/Content/UM/Step%203_%20Initialize%20HA%20on%20the%20Devices.htm",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.02724,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC: Device Switchover upon Failure",
+          "section": "Device Switchover upon Failure",
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/Device%20Switchover%20upon%20Failure.htm",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.027163,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC: Overview of High Availability Mode",
+          "section": "Overview",
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/HA%20Overview.htm",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.027163,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "Trunk failover on outbound calls",
+          "section": "Failover on network errors",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.025758,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "Trunk failover on outbound calls",
+          "section": "Failover of specific SIP codes received from the Session Border Controller (SBC)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.025373,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "GOOD",
+      "why": "AudioCodes switchover/HA overview plus Microsoft trunk-failover. Layers stay distinct."
+    },
+    {
+      "id": "AC08",
+      "intent": "troubleshooting",
+      "question": "How would you troubleshoot a Teams Direct Routing SBC that is not connecting to Microsoft?",
+      "expected_microsoft_themes": [
+        "SIP OPTIONS",
+        "TLS/certificate issues",
+        "Monitor Direct Routing"
+      ],
+      "expected_audiocodes_themes": [
+        "Proxy Set status",
+        "OPTIONS keep-alive",
+        "ONLINE/OFFLINE"
+      ],
+      "must_not_do": [
+        "treat Proxy Set Status as a Microsoft admin-center page"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 11.044,
+      "route_ms": 3.813,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 1: Connect the SBC to Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024989,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "SBC connectivity issues",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.02349,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "SBC connectivity issues",
+          "section": "Overview of the SIP options process",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.021473,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "Plan Direct Routing",
+          "section": "Support boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "Configure Direct Routing",
+          "section": "Support Boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, m365solution-voice, m365solution-scenario, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": false,
+      "vendor_specificity_clear": null,
+      "grade": "PARTIAL",
+      "why": "Microsoft SIP OPTIONS / TLS connectivity. AudioCodes Proxy Set Status did not enter top 5."
+    },
+    {
+      "id": "AC09",
+      "intent": "configuration",
+      "question": "What Microsoft-side objects are required after the SBC is connected?",
+      "expected_microsoft_themes": [
+        "PSTN gateway",
+        "voice routing policy",
+        "PSTN usage",
+        "voice route",
+        "user enablement"
+      ],
+      "expected_audiocodes_themes": [
+        "optional pairing verification on the SBC"
+      ],
+      "must_not_do": [
+        "replace Microsoft routing objects with AudioCodes IP Groups"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 9.702,
+      "route_ms": 2.719,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.10 Configuring IP Profiles",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.024271,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "What&#39;s New Direct Routing",
+          "section": "Testing endpoint for upcoming certificate changes (February 16, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.023993,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "Use PowerShell",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.022531,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "Plan Direct Routing",
+          "section": "Supported Session Border Controllers (SBCs)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "SBC settings",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "PARTIAL",
+      "why": "Microsoft Connect-SBC / PowerShell / supported SBCs present, but rank 1 is AudioCodes IP Profiles (wrong object layer)."
+    },
+    {
+      "id": "AC10",
+      "intent": "architecture",
+      "question": "What parts of Direct Routing configuration are Microsoft-defined versus vendor-specific?",
+      "expected_microsoft_themes": [
+        "architecture",
+        "interoperability",
+        "certificate requirements",
+        "voice routing",
+        "connectivity"
+      ],
+      "expected_audiocodes_themes": [
+        "TLS context",
+        "SIP interface",
+        "proxy set",
+        "IP group",
+        "GUI/CLI"
+      ],
+      "must_not_do": [
+        "collapse both layers into one generic SBC procedure"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 9.543,
+      "route_ms": 3.664,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Session Border Controllers certified for Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-border-controllers",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.025643,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Configure Direct Routing",
+          "section": "Support Boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, m365solution-voice, m365solution-scenario, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.025143,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "Plan Direct Routing",
+          "section": "Support boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024485,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Configure SBC(s) for Local Media Optimization according to the SBC vendor specification",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024448,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "Monitor Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.02241,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": false,
+      "vendor_specificity_clear": null,
+      "grade": "PARTIAL",
+      "why": "Microsoft certified-SBC list and 'configure according to the SBC vendor specification' support the split. Vendor implementation not in top 5."
+    },
+    {
+      "id": "AC11",
+      "intent": "architecture",
+      "question": "If your experience is mainly AudioCodes, how transferable is that knowledge to another certified SBC vendor?",
+      "expected_microsoft_themes": [
+        "certified SBC list",
+        "SIP",
+        "TLS",
+        "certificates",
+        "voice routing",
+        "media"
+      ],
+      "expected_audiocodes_themes": [
+        "vendor object names",
+        "Web interface procedures",
+        "HA implementation"
+      ],
+      "must_not_do": [
+        "claim AudioCodes GUI steps apply unchanged to other certified SBCs"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 10.764,
+      "route_ms": 4.613,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "1.2 Validated AudioCodes Version",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.026841,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "1.3 Validated AudioCodes Version",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.025,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.3.3 Generating a CSR and Obtaining the Certificate from a Supported CA",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.022028,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.4 Method for Generating and Installing the Wildcard Certificate",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.01963,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "1.3 About AudioCodes SBC Product Series",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": false,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "PARTIAL",
+      "why": "Vendor-specific version/GUI/cert pages only. Microsoft transferable SIP/TLS/routing authority missing."
+    },
+    {
+      "id": "AC12",
+      "intent": "architecture",
+      "question": "How would you approach geographic SBC redundancy across two sites or regions?",
+      "expected_microsoft_themes": [
+        "multiple SBCs",
+        "voice routes",
+        "trunk failover",
+        "route priority"
+      ],
+      "expected_audiocodes_themes": [
+        "HA pair is site-local 1+1",
+        "not a substitute for geo routing"
+      ],
+      "must_not_do": [
+        "treat a Mediant HA pair as geographic redundancy by itself"
+      ],
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 8.173,
+      "route_ms": 3.112,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Supported customer scenarios",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.027684,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.025206,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "B.1 Failover Mechanism",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.023808,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 4,
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Configure the user and the SBC sites",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.023558,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "B.1 Failover Mechanism",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.02288,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "grade": "PARTIAL",
+      "why": "Microsoft LMO site/mode pages plus AudioCodes failover appendix. Does not clearly separate HA-pair vs geo routing."
+    }
+  ],
+  "tsuc_crosscheck": {
+    "TSUC04": {
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 12.088,
+      "route_ms": 6.73,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Plan Direct Routing",
+          "section": "Infrastructure requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.02499,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024448,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "Plan Direct Routing",
+          "section": "SIP signaling: FQDNs, ports, failover mechanism",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024444,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024259,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "SIP Signaling: FQDNs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.023596,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "title": "Plan Direct Routing",
+          "section": "Infrastructure requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.02499,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024448,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "Plan Direct Routing",
+          "section": "SIP signaling: FQDNs, ports, failover mechanism",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024444,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024259,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 5,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "SIP Signaling: FQDNs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.023596,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 6,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.023485,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 7,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "SBC settings",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.022531,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 8,
+          "title": "Plan Direct Routing",
+          "section": "Support boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 9,
+          "title": "Configure Direct Routing",
+          "section": "Support Boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, m365solution-voice, m365solution-scenario, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015625,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 10,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "Use the Microsoft Teams admin center",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015385,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": false,
+      "vendor_specificity_clear": null,
+      "i6b_top5": [
+        {
+          "rank": 1,
+          "title": "Plan Direct Routing",
+          "section": "Infrastructure requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "score": 0.025851,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "score": 0.024629,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Plan Direct Routing",
+          "section": "SIP signaling: FQDNs, ports, failover mechanism",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "score": 0.024624,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "score": 0.024362,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+          "score": 0.024269,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        }
+      ],
+      "question": "How would you design Direct Routing for a global organization? Where would you place the SBCs, and what happens if an SBC or carrier fails?"
+    },
+    "TSUC13": {
+      "scope": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "latency_ms": 9.945,
+      "route_ms": 2.879,
+      "top5": [
+        {
+          "rank": 1,
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024625,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Configure separate trunks for media bypass and non-media bypass",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.020779,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "m365initiative-meetings, M365-collaboration, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "3 Verifying the Pairing Between the SBC and Direct",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.024625,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 2,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Configure separate trunks for media bypass and non-media bypass",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.020779,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 3,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "m365initiative-meetings, M365-collaboration, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "3 Verifying the Pairing Between the SBC and Direct",
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 5,
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 6,
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015625,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 7,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "6 Making a Test Call",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.015385,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 8,
+          "title": "Plan Direct Routing",
+          "section": "Licensing and other requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.015152,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        },
+        {
+          "rank": 9,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "80 Kingsbridge Rd",
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf",
+          "repo": "audiocodes",
+          "ms_service": "audiocodes-sbc",
+          "ms_collection": "certified_sbc_vendor",
+          "authority_tier": "Tier 2 \u2014 certified SBC vendor",
+          "publisher_guess": "AudioCodes",
+          "score": 0.014925,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": true,
+          "url_is_audiocodes": true,
+          "looks_like_microsoft_learn": false
+        },
+        {
+          "rank": 10,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "repo": "teams",
+          "ms_service": "msteams",
+          "ms_collection": "M365-voice, m365initiative-voice, highpri, Tier1",
+          "authority_tier": "Tier 1 \u2014 Microsoft",
+          "publisher_guess": "Microsoft",
+          "score": 0.014706,
+          "matched_by": [
+            "vector"
+          ],
+          "title_has_audiocodes": false,
+          "url_is_audiocodes": false,
+          "looks_like_microsoft_learn": true
+        }
+      ],
+      "microsoft_authority_present": true,
+      "vendor_authority_present": true,
+      "vendor_specificity_clear": true,
+      "i6b_top5": [
+        {
+          "rank": 1,
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "score": 0.025397,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "rank": 2,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Configure separate trunks for media bypass and non-media bypass",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "score": 0.022374,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ]
+        },
+        {
+          "rank": 3,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "rank": 4,
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ]
+        },
+        {
+          "rank": 5,
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ]
+        }
+      ],
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?"
+    }
+  },
+  "decision": "B"
+}

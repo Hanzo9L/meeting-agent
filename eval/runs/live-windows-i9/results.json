@@ -1,0 +1,362 @@
+{
+  "phase": "I9",
+  "title": "REAL WINDOWS SYSTEM-AUDIO VALIDATION",
+  "startedAt": "2026-08-19T20:26:23.942Z",
+  "completedAt": "2026-08-19T20:37:30.000Z",
+  "verdict": "A",
+  "codeChanged": false,
+  "committed": false,
+  "pushed": false,
+  "retrievalCorpusQueryShapingUnchanged": true,
+  "machine": {
+    "os": "win32 10.0.26200",
+    "shell": "powershell",
+    "relayCwd": "C:\\Users\\joegc\\projects\\meeting-agent",
+    "relayBranch": "cursor/msteams-docs-knowledge-base",
+    "relayHead": "e1e4dab31146115df2d722f311b1fd5023a28f37",
+    "learnRagCwd": "C:\\Users\\joegc\\projects\\learn-rag\\learn-rag",
+    "learnRagBranch": "master",
+    "learnRagHead": "b967fb899eda18f1a5a56bcef2b7f80d717fa1a3",
+    "frozenHashes": {
+      "search.py": "252e9b3ced85b9b0",
+      "scope_select.py": "2a8caaabd00f4b08",
+      "corpus.db": "5697ee158796c34c",
+      "hnsw.bin": "6cb36a85bc36acf3"
+    },
+    "playbackDevicesObserved": [
+      "Speaker (Jabra Engage 65 SE) — OS default at session start; WASAPI loopback captured silence",
+      "Surface Speakers (Qualcomm Aqstic) — used for the proven loop",
+      "Speakers (2- USB Audio Device)",
+      "Bose Speakers (Microsoft Surface Thunderbolt 4 Dock Audio)"
+    ],
+    "recordingDevicesObserved": [
+      "Microphone Array (Qualcomm Aqstic) — OS default recording",
+      "Microphone (Jabra Engage 65 SE)"
+    ],
+    "audioSourceUsed": "Windows SAPI WAV files played through System.Media.SoundPlayer into the Windows default render device (Surface Speakers). Real system audio; not typed input, not injected transcript, not direct service invocation.",
+    "teamsZoomMeetUsed": false
+  },
+  "startup": {
+    "electronLaunched": true,
+    "cdp": "127.0.0.1:9222",
+    "learnRagChildren": "one relay_bridge.py parent plus its python subprocess",
+    "relayBridgeReady": true,
+    "evidenceStatus": "Evidence ready",
+    "qaAssist": {
+      "profile": "qa_assist",
+      "header": "QA Assist · Far Side / System Audio · Microphone Excluded · capturing",
+      "captureSummary": "system · microphone excluded · capturing",
+      "stt": "STT connected. Waiting for speech...",
+      "sessionId": "live_53792da1-a146-4f5f-90c1-9bcb0fb46e17",
+      "conversationId": "conv_e154c912-0f2b-40d0-96f3-a87b5cb8a88d"
+    },
+    "executionPort": "EvidenceAnswerExecutionPort",
+    "oldAnswerGeneratorActive": false,
+    "microphoneIncluded": false,
+    "firstLiveRetrievalMs": 339,
+    "firstLiveRetrievalColdDespitePrewarm": false
+  },
+  "jabraLoopbackNote": {
+    "observed": "Playing H1 to the OS-default Jabra Engage 65 SE left Deepgram at 'Waiting for speech...' with zero accepted turns.",
+    "fixWithoutCodeChange": "Set default playback to Surface Speakers and restarted QA Assist so loopback rebound to that device.",
+    "classification": "environment/device loopback limitation, not a product-path failure once a loopback-capable render device is selected"
+  },
+  "questions": {
+    "H1": {
+      "spoken": "What does Get-CsOnlineUser return?",
+      "audioSource": "SAPI WAV → Surface Speakers (system output)",
+      "captureSource": "system",
+      "deepgramAccepted": "What does Gixonline user return?",
+      "interimFinal": "No usable interim text observed before promotion. Final accepted after playback ended.",
+      "utteranceEnd": true,
+      "arbitration": {
+        "outcome": "accepted",
+        "retainedSource": "system",
+        "reason": "single_source_mode",
+        "retainedNormalizedText": "what does gixonline user return"
+      },
+      "sttClass": "MATERIAL_ERROR",
+      "sttNotes": "Get-CsOnlineUser became Gixonline user. Retrieval still returned Get-CsOnlineUser.",
+      "userMessageId": "msg_210bffad-57dd-4e89-abd7-b9125c6c13fe",
+      "answerRunId": "run_225bcaab-bdc9-44ad-81fc-1c4a4a416002",
+      "assistantMessageId": "msg_39c03d56-4260-4797-9499-1711faa8d072",
+      "runState": "completed",
+      "retrievalStart": "2026-08-19T20:32:17.694Z",
+      "retrievalCompletion": "2026-08-19T20:32:18.030Z",
+      "retrievalMs": 339,
+      "cardPersisted": true,
+      "overlayCardVisible": true,
+      "publisherLabels": ["Microsoft", "Linux"],
+      "expectedEvidence": "PowerShell evidence card",
+      "observedEvidence": "Get-CsOnlineUser present (2nd); primary was Get-CsOnlineVoiceRoutingPolicy; Linux ps(1) also ranked.",
+      "acceptToVisibleCardMs": 350,
+      "playStartToVisibleCardMs": 4080,
+      "duplicateTurns": false,
+      "earlyPromotion": false,
+      "class": {
+        "stt": "PARTIAL",
+        "utteranceCompletion": "PASS",
+        "turnIsolation": "PASS",
+        "retrieval": "PASS",
+        "overlay": "PASS",
+        "overall": "PARTIAL"
+      }
+    },
+    "H2": {
+      "spoken": "A user can use Teams but cannot call external numbers. How do you troubleshoot?",
+      "audioSource": "SAPI WAV → Surface Speakers (system output)",
+      "captureSource": "system",
+      "deepgramAccepted": "A user can use Teams but cannot call external numbers. How do you troubleshoot?",
+      "interimFinal": "Final accepted after playback ended.",
+      "utteranceEnd": true,
+      "arbitration": {
+        "outcome": "accepted",
+        "retainedSource": "system",
+        "reason": "single_source_mode"
+      },
+      "sttClass": "EXACT",
+      "userMessageId": "msg_f6e34256-785d-4f2e-bd60-3ccdd0b18886",
+      "answerRunId": "run_e79a8728-170c-4d10-856e-d78cd25c481c",
+      "assistantMessageId": "msg_dc3ba123-5799-4eb5-bcb8-fabbd1b72a1d",
+      "runState": "completed",
+      "retrievalStart": "2026-08-19T20:32:58.389Z",
+      "retrievalCompletion": "2026-08-19T20:32:58.519Z",
+      "retrievalMs": 131,
+      "cardPersisted": true,
+      "overlayCardVisible": true,
+      "publisherLabels": ["Microsoft"],
+      "expectedEvidence": "Teams Voice / Direct Routing evidence",
+      "observedEvidence": "Microsoft Evidence: Issues with outbound calls; Call Analytics; Set up Teams Phone; call transfers.",
+      "acceptToVisibleCardMs": 132,
+      "duplicateTurns": false,
+      "earlyPromotion": false,
+      "class": {
+        "stt": "PASS",
+        "utteranceCompletion": "PASS",
+        "turnIsolation": "PASS",
+        "retrieval": "PASS",
+        "overlay": "PASS",
+        "overall": "PASS"
+      }
+    },
+    "H3": {
+      "spoken": "How would you configure an AudioCodes Mediant SBC for Teams Direct Routing?",
+      "audioSource": "SAPI WAV → Surface Speakers (system output)",
+      "captureSource": "system",
+      "deepgramAccepted": "How would you configure an audio codes media and SBC for Teams direct routing?",
+      "interimFinal": "Final accepted after playback ended.",
+      "utteranceEnd": true,
+      "arbitration": {
+        "outcome": "accepted",
+        "retainedSource": "system",
+        "reason": "single_source_mode"
+      },
+      "sttClass": "MINOR_ERROR",
+      "sttNotes": "AudioCodes→audio codes; Mediant→media and; SBC retained. Retrieval returned clearly labeled AudioCodes Mediant cards.",
+      "userMessageId": "msg_5bde1c5f-8f96-40b0-b558-61d3ff1b93f3",
+      "answerRunId": "run_72e671ce-5e6c-4221-91d4-7e9942afe00e",
+      "assistantMessageId": "msg_ae4fc7df-d9b1-44e0-bb40-929ec038e2a3",
+      "runState": "completed",
+      "retrievalStart": "2026-08-19T20:33:10.713Z",
+      "retrievalCompletion": "2026-08-19T20:33:10.831Z",
+      "retrievalMs": 118,
+      "cardPersisted": true,
+      "overlayCardVisible": true,
+      "publisherLabels": ["AudioCodes"],
+      "cardHeading": "AudioCodes Evidence",
+      "expectedEvidence": "AudioCodes evidence clearly labeled",
+      "observedEvidence": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization; Enterprise Model. Label: AudioCodes · vendor implementation.",
+      "acceptToVisibleCardMs": 119,
+      "duplicateTurns": false,
+      "earlyPromotion": false,
+      "class": {
+        "stt": "PARTIAL",
+        "utteranceCompletion": "PASS",
+        "turnIsolation": "PASS",
+        "retrieval": "PASS",
+        "overlay": "PASS",
+        "overall": "PASS"
+      }
+    },
+    "H4": {
+      "spoken": "A user is complaining of poor audio. How would you determine where the problem is?",
+      "audioSource": "SAPI WAV → Surface Speakers (system output)",
+      "captureSource": "system",
+      "deepgramAccepted": "A user is complaining of poor audio. How would you determine where the problem is?",
+      "interimFinal": "Final accepted after playback ended.",
+      "utteranceEnd": true,
+      "arbitration": {
+        "outcome": "accepted",
+        "retainedSource": "system",
+        "reason": "single_source_mode"
+      },
+      "sttClass": "EXACT",
+      "userMessageId": "msg_51ffac17-46e3-445f-bd8d-447f987350af",
+      "answerRunId": "run_43e2e788-088b-4a21-8609-f565b246cd8b",
+      "assistantMessageId": "msg_c6606d58-cd2d-4f7d-a12a-2f0d6584d139",
+      "runState": "completed",
+      "retrievalStart": "2026-08-19T20:33:24.076Z",
+      "retrievalCompletion": "2026-08-19T20:33:24.207Z",
+      "retrievalMs": 132,
+      "cardPersisted": true,
+      "overlayCardVisible": true,
+      "publisherLabels": ["Microsoft"],
+      "expectedEvidence": "Call Analytics / CQD evidence",
+      "observedEvidence": "Use Call Analytics to troubleshoot poor call quality; CQD dimensions/measurements; Use CQD to manage call and meeting quality.",
+      "acceptToVisibleCardMs": 132,
+      "duplicateTurns": false,
+      "earlyPromotion": false,
+      "class": {
+        "stt": "PASS",
+        "utteranceCompletion": "PASS",
+        "turnIsolation": "PASS",
+        "retrieval": "PASS",
+        "overlay": "PASS",
+        "overall": "PASS"
+      }
+    },
+    "H5": {
+      "spoken": "A Linux service is failing intermittently. How would you investigate it?",
+      "audioSource": "SAPI WAV → Surface Speakers (system output)",
+      "captureSource": "system",
+      "deepgramAccepted": "A Linux service is failing intermittently. How would you investigate it?",
+      "interimFinal": "Final accepted after playback ended.",
+      "utteranceEnd": true,
+      "arbitration": {
+        "outcome": "accepted",
+        "retainedSource": "system",
+        "reason": "single_source_mode"
+      },
+      "sttClass": "EXACT",
+      "userMessageId": "msg_5cabfe71-e46a-4998-8abb-9000bf0c3e9b",
+      "answerRunId": "run_ff406332-48ec-486d-8c57-610f4dd0b5e9",
+      "assistantMessageId": "msg_0bf90b89-813c-4980-86a4-9e721961f25f",
+      "runState": "completed",
+      "retrievalStart": "2026-08-19T20:33:36.754Z",
+      "retrievalCompletion": "2026-08-19T20:33:36.824Z",
+      "retrievalMs": 71,
+      "cardPersisted": true,
+      "overlayCardVisible": true,
+      "publisherLabels": ["Linux", "Microsoft"],
+      "expectedEvidence": "Linux/upstream evidence",
+      "observedEvidence": "systemctl (Linux · upstream reference) primary; also CQD/Teams admin mixed lower ranks.",
+      "acceptToVisibleCardMs": 71,
+      "duplicateTurns": false,
+      "earlyPromotion": false,
+      "class": {
+        "stt": "PASS",
+        "utteranceCompletion": "PASS",
+        "turnIsolation": "PASS",
+        "retrieval": "PASS",
+        "overlay": "PASS",
+        "overall": "PASS"
+      }
+    }
+  },
+  "rapidQ123": {
+    "ok": true,
+    "acceptedCount": 3,
+    "chronological": true,
+    "overwriteOrMerge": false,
+    "items": [
+      {
+        "id": "Q1",
+        "spoken": "Explain Direct Routing and the role of the SBC.",
+        "accepted": "Explain direct routing and the role of the SBC.",
+        "sttClass": "MINOR_ERROR",
+        "userMessageId": "msg_28b73c6e-c0d1-43a3-8f71-b4e0b26fafdc",
+        "answerRunId": "run_d106fd19-2799-4109-a6c8-8c162e4cbcae",
+        "assistantMessageId": "msg_79d8fa31-7cdf-4ce5-8f44-f870ee9f90a4",
+        "retrievalMs": 82,
+        "runState": "completed"
+      },
+      {
+        "id": "Q2",
+        "spoken": "What happens if the SBC fails?",
+        "accepted": "What happens if the SBC fails?",
+        "sttClass": "EXACT",
+        "userMessageId": "msg_cba0ee5e-a047-4840-9f5d-808c6ed5fd46",
+        "answerRunId": "run_a991edde-6577-4a11-9b45-d4690890851c",
+        "assistantMessageId": "msg_1ee1d7fc-0d7f-4008-98b9-836d0c9b2646",
+        "retrievalMs": 86,
+        "runState": "completed"
+      },
+      {
+        "id": "Q3",
+        "spoken": "What would geographic redundancy look like?",
+        "accepted": "What would geographic redundancy look like?",
+        "sttClass": "EXACT",
+        "userMessageId": "msg_7f5dd85d-2ae8-4dfe-b4ea-466d8a0fe573",
+        "answerRunId": "run_febc420f-7605-4a70-b89c-ee390eb308e3",
+        "assistantMessageId": "msg_03b0f2d6-cc9e-462c-9578-2d243b23b802",
+        "retrievalMs": 187,
+        "runState": "completed"
+      }
+    ]
+  },
+  "microphoneExclusion": {
+    "ok": true,
+    "method": "While QA Assist captured Surface Speakers loopback, a spoken probe WAV was played only on Jabra Engage 65 SE (non-loopback device). Default recording device remained the Qualcomm microphone array, which could have heard room audio. Local headset speech was not sent through the captured system mix.",
+    "beforeTurns": 8,
+    "afterTurns": 8,
+    "beforeAssistants": 8,
+    "afterAssistants": 8,
+    "durableTurnCreated": false,
+    "evidenceCardCreated": false,
+    "humanSpokeIntoMic": false,
+    "notes": "Automated acoustic probe, not a human speaking into the mic. Combined with QA Assist system-only capture this still showed microphone-path audio did not create a QA Assist turn."
+  },
+  "failurePath": {
+    "simpleChildKill": {
+      "behavior": "LearnRagChild.request() calls start() and respawned the child. Spoken question was accepted and retrieved successfully after ~2085ms cold start. Overlay flipped Evidence unavailable then Evidence ready. Not a hang and not a fallback generator.",
+      "runId": "run_1ac3eaf7-bdd9-45a3-a797-2123cda17545",
+      "state": "completed"
+    },
+    "childKillWithRespawnSuppressed": {
+      "ok": true,
+      "spoken": "What does Direct Routing require?",
+      "accepted": "What does direct routing require?",
+      "userMessageId": "msg_c20540cb-5aca-40a9-9d8c-56228fa3735a",
+      "answerRunId": "run_cad1a674-32b3-475c-ab9f-5191b1f071c3",
+      "assistantMessageId": null,
+      "runState": "failed",
+      "failureCode": "evidence_retrieval_failed",
+      "failMs": 307,
+      "overlayShowedRetrievalFailure": true,
+      "overlayReadiness": "Evidence unavailable",
+      "fallbackGenerator": false,
+      "hangingSpinner": false,
+      "durableTurnExisted": true
+    }
+  },
+  "reload": {
+    "relayRestarted": true,
+    "helpdeskRestoredLiveTurns": 10,
+    "helpdeskRestoredAssistants": 9,
+    "acceptedQuestionTextRestored": true,
+    "evidenceCardsRestoredInHelpdesk": true,
+    "publishersRestored": ["Microsoft", "Linux", "AudioCodes"],
+    "answerRunOwnershipIntact": true,
+    "failedRunStillFailed": {
+      "answerRunId": "run_cad1a674-32b3-475c-ab9f-5191b1f071c3",
+      "state": "failed",
+      "failureCode": "evidence_retrieval_failed"
+    },
+    "overlayAfterRestart": {
+      "session": "stopped / interrupted",
+      "historicalCardsInOverlayFeed": false,
+      "note": "Overlay feed is live-session scoped. Helpdesk sqlite history restored the cards. Overlay did not replay historical projections until a new live session."
+    }
+  },
+  "latencyMs": {
+    "h1AcceptToCard": 350,
+    "h2AcceptToCard": 132,
+    "h3AcceptToCard": 119,
+    "h4AcceptToCard": 132,
+    "h5AcceptToCard": 71,
+    "firstLiveRetrieval": 339,
+    "subsequentLiveRetrievals": [131, 118, 132, 71, 82, 86, 187]
+  },
+  "blockers": [],
+  "productCodeChangedDuringI9": false
+}

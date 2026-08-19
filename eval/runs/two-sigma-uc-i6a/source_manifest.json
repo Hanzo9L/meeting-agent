@@ -1,0 +1,250 @@
+{
+  "generatedAt": "2026-08-19T19:30:00.000Z",
+  "phase": "I6A",
+  "ingestNow": true,
+  "vendorDocs": "not_ingested",
+  "families": [
+    {
+      "id": "ms_dr_media_firewall_callflows",
+      "authority": "microsoft",
+      "sourceRole": "teams_admin_primary / m365_enterprise",
+      "rationale": "I5 family A. Component evidence for Direct Routing media path, ICE, firewall/IP, and Phone System landing. No synthesized one-way-audio runbook.",
+      "sources": [
+        {
+          "title": "Microsoft 365 URLs and IP address ranges",
+          "url": "https://learn.microsoft.com/microsoft-365/enterprise/urls-and-ip-address-ranges",
+          "repo": "m365",
+          "service": "microsoft-365-enterprise",
+          "sourceRole": "m365_enterprise",
+          "reason": "Canonical Teams UDP 3478-3481 and IP ranges. Absent before I6A.",
+          "scenarios": ["TSUC13"],
+          "parents": 6,
+          "status": "ingested"
+        },
+        {
+          "title": "Microsoft Teams call flows",
+          "url": "https://learn.microsoft.com/microsoftteams/microsoft-teams-online-call-flows",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Signaling vs media, ICE, Direct Routing media path. Absent before I6A.",
+          "scenarios": ["TSUC13"],
+          "parents": 5,
+          "status": "ingested"
+        },
+        {
+          "title": "Set up Teams Phone in your organization",
+          "url": "https://learn.microsoft.com/microsoftteams/setting-up-your-phone-system",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "PSTN model landing page. Absent before I6A. Secondary for TSUC27.",
+          "scenarios": ["TSUC13", "TSUC27", "TSUC02"],
+          "parents": 11,
+          "status": "ingested"
+        }
+      ]
+    },
+    {
+      "id": "ms_teams_phone_rollout_planning",
+      "authority": "microsoft",
+      "sourceRole": "teams_admin_primary",
+      "rationale": "I5 family C. Overview/planning material so broad rollout questions are not forced onto AA/CQ pages.",
+      "skippedAlreadyLocal": [
+        {
+          "title": "PSTN connectivity options",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "reason": "Already local. Not re-ingested."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Upgrade framework",
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-framework",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Phased upgrade, readiness, pilot.",
+          "scenarios": ["TSUC27"],
+          "parents": 5,
+          "status": "ingested"
+        },
+        {
+          "title": "Evaluate your environment before upgrading to Teams",
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-plan-journey-evaluate-environment",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Organizational and network readiness discovery.",
+          "scenarios": ["TSUC27"],
+          "parents": 3,
+          "status": "ingested"
+        },
+        {
+          "title": "Prepare your service for upgrading to Teams",
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-prepare-environment-prepare-service",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Onboarding checklists including Phone System / PSTN.",
+          "scenarios": ["TSUC27"],
+          "parents": 2,
+          "status": "ingested"
+        },
+        {
+          "title": "Prepare your organization's network for Teams",
+          "url": "https://learn.microsoft.com/microsoftteams/prepare-network",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Network readiness for real-time media.",
+          "scenarios": ["TSUC27", "TSUC13"],
+          "parents": 3,
+          "status": "ingested"
+        },
+        {
+          "title": "Use the Network planner for Microsoft Teams",
+          "url": "https://learn.microsoft.com/microsoftteams/network-planner",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Site/persona bandwidth planning for cloud voice.",
+          "scenarios": ["TSUC27"],
+          "parents": 5,
+          "status": "ingested"
+        },
+        {
+          "title": "Calling in Teams / Plan your Teams voice solution",
+          "url": "https://learn.microsoft.com/microsoftteams/cloud-voice-landing-page",
+          "repo": "teams",
+          "service": "msteams",
+          "sourceRole": "teams_admin_primary",
+          "reason": "Voice landing page referenced by Direct Routing planning.",
+          "scenarios": ["TSUC27"],
+          "parents": 4,
+          "status": "ingested"
+        }
+      ]
+    },
+    {
+      "id": "linux_upstream_minimum",
+      "authority": "upstream",
+      "sourceRole": "linux_upstream_primary",
+      "repo": "linux",
+      "service": "linux-upstream",
+      "rationale": "I5 minimum Linux pack. 12 documents, 12 parents (whole-file). Closes TSUC20/TSUC22 corpus gap.",
+      "sources": [
+        {
+          "title": "systemctl",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html",
+          "publisher": "systemd / freedesktop.org",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "journalctl",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+          "publisher": "systemd / freedesktop.org",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "ps(1)",
+          "url": "https://man7.org/linux/man-pages/man1/ps.1.html",
+          "publisher": "man7.org",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "grep(1)",
+          "url": "https://man7.org/linux/man-pages/man1/grep.1.html",
+          "publisher": "man7.org",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "tail(1)",
+          "url": "https://man7.org/linux/man-pages/man1/tail.1.html",
+          "publisher": "man7.org",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "chmod(1)",
+          "url": "https://man7.org/linux/man-pages/man1/chmod.1.html",
+          "publisher": "man7.org",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "ss(8)",
+          "url": "https://man7.org/linux/man-pages/man8/ss.8.html",
+          "publisher": "man7.org / iproute2",
+          "scenarios": ["TSUC22"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "ip(8)",
+          "url": "https://man7.org/linux/man-pages/man8/ip.8.html",
+          "publisher": "man7.org / iproute2",
+          "scenarios": ["TSUC20", "TSUC22"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "ping(8)",
+          "url": "https://man7.org/linux/man-pages/man8/ping.8.html",
+          "publisher": "man7.org / iputils",
+          "scenarios": ["TSUC20", "TSUC22"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "tcpdump",
+          "url": "https://www.tcpdump.org/manpages/tcpdump.1.html",
+          "publisher": "The Tcpdump Group",
+          "scenarios": ["TSUC22"],
+          "parents": 1,
+          "status": "ingested",
+          "note": "Unversioned man page resolved and was usable; not substituted."
+        },
+        {
+          "title": "pcap-filter(7)",
+          "url": "https://www.tcpdump.org/manpages/pcap-filter.7.html",
+          "publisher": "The Tcpdump Group",
+          "scenarios": ["TSUC22"],
+          "parents": 1,
+          "status": "ingested"
+        },
+        {
+          "title": "Using the Python Interpreter",
+          "url": "https://docs.python.org/3/tutorial/interpreter.html",
+          "publisher": "Python Software Foundation",
+          "scenarios": ["TSUC20"],
+          "parents": 1,
+          "status": "ingested",
+          "note": "Same approved URL. Sphinx HTML has no <main>; used role=main extraction. Not a source substitution."
+        }
+      ]
+    }
+  ],
+  "notIngested": [
+    {
+      "id": "audiocodes_sbc_ha_optional_later",
+      "status": "VENDOR_DOC_CANDIDATE",
+      "reason": "Two Sigma SBC vendor not established. I5 catalog only."
+    },
+    {
+      "id": "tsuc25_methodology",
+      "status": "interview_context_only",
+      "reason": "Do not add automation-methodology prose to the technical corpus."
+    }
+  ]
+}

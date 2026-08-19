@@ -1,0 +1,460 @@
+{
+  "repo_counts": [
+    {
+      "repo": "teams",
+      "n": 930
+    },
+    {
+      "repo": "sharepoint",
+      "n": 283
+    },
+    {
+      "repo": "teams-ps",
+      "n": 14
+    },
+    {
+      "repo": "m365",
+      "n": 6
+    }
+  ],
+  "failover_sections": [
+    {
+      "title": "Configure a Session Border Controller for multiple tenants",
+      "section": "Considerations for setting up multi-tenant failover",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+      "body": "To set up failover for a multi-tenant environment, follow these steps:\n\nFor each tenant, add the FQDNs for two different SBCs. For example:\n\ncustomer1.sbc1.contoso.com \n customer1.sbc2.contoso.com \n\nIn the Online Voice Routes, specify both SBCs. If one SBC fails, the routing policy routes calls to the second SBC."
+    },
+    {
+      "title": "Plan Direct Routing",
+      "section": "SIP signaling: FQDNs, ports, failover mechanism",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+      "body": "Direct Routing is offered in the following environments:\n\nMicrosoft 365 or Office 365\n\nOffice 365 GCC\n\nOffice 365 GCC High\n\nOffice 365 DoD\n\nFor more information about government environments, such as GCC, GCC High, and DoD, see Office 365 and US Government environments (/en-us/office365/servicedescriptions/office-365-platform-service-description/office-365-us-government/office-365-us-government).\n\nThe following sections describe information about FQDNs, ports, and failover mechanisms.\n\n### SIP signaling: FQDNs\n\nThe following sections describe the FQDN connection points for various Microsoft cloud environments.\n\n#### Microsoft 365, Office 365, and Office 365 GCC environments\n\nIn these environments, the connection points for Direct Routing are the following three FQDNs:\n\nsip.pstnhub.microsoft.com \u2013 Global FQDN \u2013 must be tried first. When the SBC sends a request to resolve this name, the Microsoft Azure DNS servers return an IP address pointing to the primary Azure datacenter assigned to the SBC. The assignment is based on performance metrics of the datacenters and geographical proximity to the SBC. The IP address returned corresponds to the primary FQDN.\n\nsip2.pstnhub.microsoft.com \u2013 Secondary FQDN \u2013 geographically maps to the second priority region.\n\nsip3.pstnhub.microsoft.com \u2013 Tertiary FQDN \u2013 geographically maps to the third priority region.\n\nPlacing these three FQDNs in order is required to:\n\nProvide optimal experience (less loaded and closest to the SBC datacenter assigned by querying the first FQDN).\n\nProvide failover when connection from an SBC is established to a datacenter that is experiencing a temporary issue. For more information, see Failover mechanism (#sip-signaling-failover-mechanism).\n\nThe FQDNs sip.pstnhub.microsoft.com, sip2.pstnhub.microsoft.com, and s"
+    },
+    {
+      "title": "Plan for media bypass with Direct Routing",
+      "section": "SIP Signaling: FQDNs",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+      "body": "For SIP signaling, the FQDN and firewall requirements are the same as for non-bypassed cases.\n\nDirect Routing is offered in the following Microsoft 365 or Office 365 environments:\n\nMicrosoft 365 or Office 365\n\nOffice 365 GCC\n\nOffice 365 GCC High\n\nOffice 365 DoD\n\nLearn more about Office 365 and US Government environments (/en-us/office365/servicedescriptions/office-365-platform-service-description/office-365-us-government/office-365-us-government) such as GCC, GCC High, and DoD.\n\n### Microsoft 365, Office 365, and Office 365 GCC environments\n\nThe connection points for Direct Routing are the following three FQDNs:\n\nsip.pstnhub.microsoft.com \u2013 Global FQDN \u2013 must be tried first. When the SBC sends a request to resolve this name, the Microsoft Azure DNS servers return an IP address pointing to the primary Azure datacenter assigned to the SBC. The assignment is based on performance metrics of the datacenters and geographical proximity to the SBC. The IP address returned corresponds to the primary FQDN.\n\nsip2.pstnhub.microsoft.com \u2013 Secondary FQDN \u2013 geographically maps to the second priority region.\n\nsip3.pstnhub.microsoft.com \u2013 Tertiary FQDN \u2013 geographically maps to the third priority region.\n\nYou must place these three FQDNs in order to:\n\nProvide optimal experience (less loaded and closest to the SBC datacenter assigned by querying the first FQDN).\n\nProvide failover when a connection from an SBC is established to a datacenter that is experiencing a temporary issue. For more information, see Failover mechanism below.\n\nThe FQDNs sip.pstnhub.microsoft.com, sip2.pstnhub.microsoft.com, and sip3.pstnhub.microsoft.com resolve to IP addresses from the following subnets:\n\n52.112.0.0/14\n\n52.120.0.0/14\n\nYou need to open ports for all these IP ranges in your firewall to allow incoming a"
+    },
+    {
+      "title": "SIP 408 and Microsoft response codes",
+      "section": "500001 408 Gateway (SBC) failover timer expired",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-408",
+      "body": "Microsoft response code: 500001\n\nSIP response code: 408\n\nSuggested actions:\n\nInvestigate why the SBC didn't send a response to the invitation within the configured time-out value, as defined by FailoverTimeSeconds (/en-us/powershell/module/skype/set-csonlinepstngateway?view=skype-ps&preserve-view=true). The default value is 10 seconds.\n\nThis error usually occurs in regions that have long PSTN setup times. Consider changing the failover timer to 20 seconds in these regions or on all Direct Routing trunks."
+    },
+    {
+      "title": "Teams Phone System Direct Routing: SIP protocol",
+      "section": "SBC connection to Direct Routing and failover mechanism",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-protocols-sip",
+      "body": "See the section Failover mechanism for SIP signaling in Plan for Direct Routing (direct-routing-plan#sip-signaling-failover-mechanism)."
+    },
+    {
+      "title": "Trunk failover on outbound calls",
+      "section": "Failover of specific SIP codes received from the Session Border Controller (SBC)",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+      "body": "When a call from a Teams client to the Public Switched Telephone Network (PSTN) is made with the following traffic flow: Teams Client -> Direct Routing -> SBC -> Telephony network, any non-2xx final response code from the SBC can be configured to be retried on another SBC in the voice routing policy. Note that failover will only happen in the absence of non-100 provisional responses from the SBC, to prevent double ringing telephony network.\n\nThe list of SIP Codes can be found in Session Initiation Protocol (SIP) RFC (https://tools.ietf.org/html/rfc3261).\n\nAssume a situation where an SBC replied on an incoming invite with the code \"408 Request Timeout: The server couldn't produce a response within a suitable amount of time, for example, if it couldn't determine the location of the user in time. The client MAY repeat the request without modifications at any later time.\"\n\nThis particular SBC might be having difficulties connecting to the callee--perhaps because of a network misconfiguration or other error. However, there's one more SBC in the route that might be able to reach the callee.\n\nIn the following diagram, when a user makes a call to a phone number, there are two SBCs in the route that can potentially deliver this call. Initially, SBC1.contoso.com is selected for the call, but SBC1.contoso.com isn't able to reach a PTSN network due to a network issue. By default, the call will be completed at this moment.\n\nThere's one more SBC in the route that can potentially deliver the call. If you configure the parameter  `Set-CSOnlinePSTNGateway -Identity sbc1.contoso.com -FailoverResponseCodes \"408\"` , the second SBC will be tried (SBC2.contoso.com in the following diagram):\n\nSetting the parameter -FailoverResponseCodes and specifying the codes helps you fine tune your routin"
+    },
+    {
+      "title": "Trunk failover on outbound calls",
+      "section": "Failover on network errors",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+      "body": "If a trunk can't be connected for any reason, the connection to the same trunk will be tried from a different Microsoft Datacenter. The datacenter might be located in a different geographical region, outside of your current one. A trunk might not be connected if a connection is refused, if there's a TLS timeout, or if there are any other network-level issues.\n\nFor example, a connection might fail if an administrator limits access to the SBC only from well-known IP addresses, but forgets to put the IP addresses of all Microsoft Direct Routing datacenters on the Access Control List (ACL) of the SBC."
+    },
+    {
+      "title": "Trunk failover on outbound calls",
+      "section": "Overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+      "body": "Note\n\n \n# Trunk failover on outbound calls\n\nApplies to: Microsoft Teams\n\nThis topic describes how to avoid trunk failovers on outbound calls--from Teams to the Session Border Controller (SBC)."
+    }
+  ],
+  "priority_voice_route": [
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 1: Voice routing with one PSTN usage",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 1: Configuration steps",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 2: Voice routing with multiple PSTN usages",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 2: Configuration steps",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    }
+  ],
+  "pstn_usage": [
+    {
+      "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+      "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+      "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+    },
+    {
+      "title": "Considerations for Direct Routing",
+      "section": "Emergency call routing for Direct Routing",
+      "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing"
+    },
+    {
+      "title": "Direct Routing - Connecting analog devices",
+      "section": "Example: How to configure the use of analog devices with Direct Routing",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+    },
+    {
+      "title": "Direct Routing - Connecting analog devices",
+      "section": "Step 2: Create the PSTN usage",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+    },
+    {
+      "title": "Direct Routing - Connecting analog devices",
+      "section": "Step 3: Create a voice route and associate it with the PSTN usage",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+    },
+    {
+      "title": "Direct Routing - Connecting analog devices",
+      "section": "Step 4: Assign the voice route to the PSTN usage:",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+    },
+    {
+      "title": "Direct Routing - Connecting analog devices",
+      "section": "Step 7: Create a voice route for an analog device",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+    },
+    {
+      "title": "Manage call notifications for Direct Routing",
+      "section": "Overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-call-notifications"
+    },
+    {
+      "title": "SIP call flow for Direct Routing in Microsoft Teams",
+      "section": "Access SIP call flow",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-sip-ladder"
+    },
+    {
+      "title": "Plan for media bypass with Direct Routing",
+      "section": "Configure separate trunks for media bypass and non-media bypass",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass"
+    },
+    {
+      "title": "Translate phone numbers for Direct Routing",
+      "section": "Route-based number translations - for outbound calls",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-translate-numbers"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Call routing overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 1: Voice routing with one PSTN usage",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 1: Configuration steps",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 2: Voice routing with multiple PSTN usages",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    }
+  ],
+  "geo_terms": [],
+  "one_way_exact": [],
+  "urls_ip_ranges": [],
+  "call_analytics": [
+    {
+      "title": "Set up call analytics for Microsoft Teams",
+      "url": "https://learn.microsoft.com/microsoftteams/set-up-call-analytics"
+    },
+    {
+      "title": "Use Call Analytics to troubleshoot poor call quality",
+      "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+    }
+  ],
+  "rollout_titles": [
+    {
+      "title": "Planning - Agents and Queues for Teams Phone Agent",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-agents-queues"
+    },
+    {
+      "title": "Planning - Spam detection for Teams Phone Agent",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-spam-detection"
+    },
+    {
+      "title": "Planning - Appointment tools for Teams Phone Agent",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-tools-appointments"
+    },
+    {
+      "title": "Planning - Questions and Answers tools for Teams Phone Agent",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-tools-questions-answers"
+    },
+    {
+      "title": "Setup - Teams Phone Agent - Agents and Queues",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-agents-queues"
+    },
+    {
+      "title": "Setup - Create a Teams Phone Agent via PowerShell",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-cmdlets"
+    },
+    {
+      "title": "Setup - Automatic Recording for Teams Phone Agent",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-template-recording-automatic"
+    },
+    {
+      "title": "Setup - Teams Phone Agent Spam Detection",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-template-spam-detection"
+    },
+    {
+      "title": "Setup - Teams Phone Agent Appointment tools",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-tools-appointments"
+    },
+    {
+      "title": "Setup - Teams Phone Agent Questions and Answers tools",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-tools-questions-answers"
+    },
+    {
+      "title": "Setup - Teams Phone Agent",
+      "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent"
+    },
+    {
+      "title": "Teams Phone System Direct Routing: SIP protocol",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-protocols-sip"
+    },
+    {
+      "title": "Teams Phone Direct Routing: Definitions and RFC standards",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-protocols"
+    },
+    {
+      "title": "Microsoft Teams Phone Resource Account licenses",
+      "url": "https://learn.microsoft.com/microsoftteams/teams-add-on-licensing/virtual-user"
+    },
+    {
+      "title": "Diagnose issues that affect Direct Routing",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/diagnose-direct-routing-issues"
+    },
+    {
+      "title": "Issues with call transfers",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers"
+    },
+    {
+      "title": "Issues that affect inbound Direct Routing calls",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls"
+    },
+    {
+      "title": "Issues with Local Media Optimization",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-lmo"
+    },
+    {
+      "title": "Issues with outbound calls",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls"
+    },
+    {
+      "title": "SIP 400 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-400"
+    },
+    {
+      "title": "SIP 402 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-402"
+    },
+    {
+      "title": "SIP 403 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-403"
+    },
+    {
+      "title": "SIP 404 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-404"
+    },
+    {
+      "title": "SIP 408 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-408"
+    },
+    {
+      "title": "SIP 410 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-410"
+    },
+    {
+      "title": "SIP 412 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-412"
+    },
+    {
+      "title": "SIP 415 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-415"
+    },
+    {
+      "title": "SIP 420 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-420"
+    },
+    {
+      "title": "SIP 422 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-422"
+    },
+    {
+      "title": "SIP 480 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-480"
+    },
+    {
+      "title": "SIP 484 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-484"
+    },
+    {
+      "title": "SIP 486 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-486"
+    },
+    {
+      "title": "SIP 488 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-488"
+    },
+    {
+      "title": "SIP 500 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-500"
+    },
+    {
+      "title": "SIP 503 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-503"
+    },
+    {
+      "title": "SIP 504 and Microsoft response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes-504"
+    },
+    {
+      "title": "Microsoft and SIP response codes",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/microsoft-sip-response-codes"
+    },
+    {
+      "title": "SBC connectivity issues",
+      "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+    }
+  ],
+  "application_instance_body": [
+    {
+      "title": "Get-CsOnlineApplicationInstance",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineapplicationinstance",
+      "body": "# Get-CsOnlineApplicationInstance\n\n## SYNOPSIS\nGet application instance for the tenant from Microsoft Entra ID.\n\n## SYNTAX\n\n```\nGet-CsOnlineApplicationInstance [[-Identity] <string>] [[-Identities] <string>] [[-ResultSize] <int>] [[-Skip] <int>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]\n```\n\n## DESCRIPTION\nThis cmdlet is used to get details of an application instance.\n\n## EXAMPLES\n\n### Example 1\n```powershell\nGet-CsOnlineApplicationInstance -Identity appinstance01@contoso.com\n```\n\nThis example returns the application instance with identity \"appinstance01@contoso.com\".\n### Example 2\n```powershell\nGet-CsOnlineApplicationInstance -Identities appinstance01@contoso.com,appinstance02@contoso.com\n```\n\nThis example returns the application instance with identities \"appinstance01@contoso.com\" and \"appinstance02@contoso.com\". Query with multiple comma separated Identity.\n\n### Example 3\n```powershell\nGet-CsOnlineApplicationInstance -ResultSize 10\n```\n\nThis example returns the first 10 application instances.\n\n### Example 4\n```powershell\nGet-CsOnlineApplicationInstance\n```\n\nThis example returns the details of all application instances.\n\n## PARAMETERS\n\n### -Confirm\n\nPrompts you for confi"
+    }
+  ],
+  "callqueue_body": [
+    {
+      "title": "Get-CsCallQueue",
+      "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cscallqueue",
+      "body": "# Get-CsCallQueue\n\n## SYNOPSIS\nThe Get-CsCallQueue cmdlet returns the identified Call Queues.\n\n## SYNTAX\n\n```\nGet-CsCallQueue [-Identity <Guid>] [-Tenant <Guid>] [-First <Int32>] [-Skip <Int32>] [-ExcludeContent <Switch>] [-Sort <String>] [-Descending <Switch>] [-NameFilter <String>] [<CommonParameters>]\n```\n\n## DESCRIPTION\nThe Get-CsCallQueue cmdlet lets you retrieve information about the Call Qu"
+    }
+  ],
+  "python_terms": {
+    "python": 0,
+    "systemctl": 0,
+    "journalctl": 0,
+    "ss_listen": 0
+  },
+  "sba": [
+    {
+      "title": "Direct Routing SBA",
+      "section": "Overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "Prerequisites",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "Supported Teams clients",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "How it works",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "Configuration",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "Session Border Controller configuration",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "Known issues and considerations",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    },
+    {
+      "title": "Direct Routing SBA",
+      "section": "Report an issue",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance"
+    }
+  ],
+  "manage_voice_routing": [
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Call routing overview",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Voice routing policy considerations",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 1: Voice routing with one PSTN usage",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 1: Configuration steps",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 2: Voice routing with multiple PSTN usages",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Example 2: Configuration steps",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Configure call routing for Direct Routing",
+      "section": "Run a Self-diagnostics tool",
+      "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+    },
+    {
+      "title": "Manage call routing policies for Direct Routing",
+      "section": "Overview",
+      "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies"
+    },
+    {
+      "title": "Manage call routing policies for Direct Routing",
+      "section": "Create a custom call routing policy",
+      "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies"
+    },
+    {
+      "title": "Manage call routing policies for Direct Routing",
+      "section": "Edit a call routing policy",
+      "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies"
+    },
+    {
+      "title": "Manage call routing policies for Direct Routing",
+      "section": "Assign a custom call routing policy to users",
+      "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies"
+    }
+  ]
+}

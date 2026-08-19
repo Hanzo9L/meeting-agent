@@ -1,0 +1,852 @@
+{
+  "question": "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+  "intent": {
+    "technologies": [],
+    "domains": [
+      "sharepoint"
+    ],
+    "entities": [],
+    "answerType": "conceptual"
+  },
+  "scope": {
+    "selectedDomains": [
+      "sharepoint"
+    ],
+    "focusSubdomains": [],
+    "sourcePriorityChain": [
+      "ms-sharepoint-docs",
+      "ms-sharepoint-powershell",
+      "ms-m365-docs",
+      "ms-entra-docs",
+      "ms-teams-admin",
+      "ms-graph-docs",
+      "ms-teams-powershell",
+      "ms-teams-dev-docs"
+    ],
+    "exactMatchDirectives": []
+  },
+  "hybridDiagnostics": {
+    "exactLatencyMs": 0.007699999999999818,
+    "lexicalLatencyMs": 1894.7805999999998,
+    "semanticLatencyMs": 2851.0647,
+    "fusionLatencyMs": 28.36090000000013,
+    "totalLatencyMs": 2881.2644,
+    "orchestrationMode": "overlap_semantic_with_exact_lexical"
+  },
+  "answerability": "answered",
+  "exactIdentifierValidation": {
+    "required": false,
+    "verified": true,
+    "requiredDirectives": [],
+    "missingRequiredDirectives": []
+  },
+  "authorityCoverage": {
+    "requestedDomains": [
+      "sharepoint"
+    ],
+    "coveredDomains": [
+      "sharepoint"
+    ],
+    "missingDomains": []
+  },
+  "perAspect": [
+    {
+      "aspectId": "mandatory:unresolved:secure-sharepoint-data-accessible:general",
+      "subject": "secure sharepoint data accessible",
+      "answerObject": "fact",
+      "operation": null,
+      "requirement": "mandatory",
+      "requiredFacets": [
+        "behavior"
+      ],
+      "methodConstraints": [],
+      "authorityRequirement": {
+        "requiredRoles": [
+          "sharepoint_admin_primary",
+          "sharepoint_powershell_cmdlet_primary"
+        ],
+        "requiredDomains": [
+          "sharepoint"
+        ],
+        "requireCanonicalIdentity": false,
+        "identityType": null
+      },
+      "canonicalIdentifier": null,
+      "isMandatorySupported": true,
+      "isMandatoryUnsupported": false,
+      "isAuthorityLimited": false,
+      "isSupportingOnly": false,
+      "isContextualOnly": false,
+      "support": [
+        {
+          "candidateId": "lexical|dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e|-21.577722267784498",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.95
+        },
+        {
+          "candidateId": "lexical|7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9|-19.51841015533617",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.9
+        },
+        {
+          "candidateId": "lexical|b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b|-20.846906332137788",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.85
+        },
+        {
+          "candidateId": "lexical|df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df|-16.970202559115744",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.8
+        },
+        {
+          "candidateId": "lexical|c42e5989cbf9e57f1053dd5bf986fc1c5841a250e9ebd5d8cc34a67ddcabf742|-20.34054236451912",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.75
+        },
+        {
+          "candidateId": "lexical|820f25a7acfa94b183fc5811c9582cd3099eb89384e03fec29082fdfa3ee4df0|-18.69632326210495",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.7
+        },
+        {
+          "candidateId": "lexical|e1cc7d38f5d6bf60400ebf07917db6532e899834110be51ea9eba2e284e8725d|-12.08335117159445",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.65
+        },
+        {
+          "candidateId": "lexical|19bf925ed88d5f93e94630a13b0392d2c2c0262b62d0b0a953a688345c1af094|-19.279806157950162",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.6
+        },
+        {
+          "candidateId": "lexical|f7bbad93dd3459b40d9fca464a25c3ebb3e9e299d9be725512128b8292e04c8c|-15.551308890310198",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.55
+        },
+        {
+          "candidateId": "lexical|9d13085d91f77871448b2ad49f6c0a3bcbc2222574aa1ecb5645a285fae838ea|-12.619705088578137",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.5
+        },
+        {
+          "candidateId": "lexical|b8a76b15dd53d961e45af7bf9bca96e6f38d20db61f468b8d0efbb1629e2190e|-18.997156451835245",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.45
+        },
+        {
+          "candidateId": "lexical|f695bcc57dc38fc471f70575025c050e67008238e2ab0a9d596d94c613f4498d|-17.59734770327568",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.4
+        },
+        {
+          "candidateId": "lexical|edfe96d3cd158dcc3a38b20241d2731627bccfba15e3224c2fbad9ba968c6803|-17.54455744323747",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.35
+        },
+        {
+          "candidateId": "lexical|a1c9eb209b0c1b403dc15784a38032203c486668c35b0e0c894273bfd167fefe|-17.24112699878969",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.3
+        },
+        {
+          "candidateId": "lexical|a8d0015cd53c033f16b10c740b2d680bf20e20693e83d2f106ebe5bb379d9e2a|-14.7025683199568",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.25
+        },
+        {
+          "candidateId": "lexical|c4078fdae64d1bb3bb824578a556b3b11c6f8363efbde0434bf16e559f86fc94|-14.561191773736226",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.2
+        },
+        {
+          "candidateId": "lexical|8732f5cebb3d1c661fce5ddeec1eccc5c2ff9c29b6d33f9cdd7b1acd006e360f|-15.563088628545513",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.15
+        },
+        {
+          "candidateId": "lexical|1e7a62ea428c7e1cfd14fe0f7615186db280d5577037bc7841d7d9134767daf8|-15.485107907056618",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.1
+        },
+        {
+          "candidateId": "lexical|1c0c940ac6f99a8b0021f7acdecbe920a5b53855f8cdadf9be374b92266ef59b|-14.741811808472006",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12.05
+        },
+        {
+          "candidateId": "lexical|a0099238c5133ec2e9a1690bcbfabfcb523d681bfb33599483b567c59558fd87|-14.815792602698945",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12
+        },
+        {
+          "candidateId": "lexical|acfc204bfeea3a0a1aa770fd5d6514159f1c9713e1d8b15448945d14f5ad1d64|-15.38716563520732",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12
+        },
+        {
+          "candidateId": "lexical|b5f4185e70bb48b5ebd4a1a0a3b976065f341cf43505617450ff486ec81c9cc0|-15.173921859416115",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12
+        },
+        {
+          "candidateId": "lexical|b65b60229fe4c3a8659b3a270e8c5451d42d5bd873cbe8354f5f60efdd3e487e|-11.95828454969419",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12
+        },
+        {
+          "candidateId": "lexical|da533d952fbd97b4269481338bedcf5d71aedb05e8a34ed0233643143a1b402d|-8.240833527791608",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 12
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceId": "evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e",
+          "title": "Manage access to agents in SharePoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRoles": [
+            "sharepoint_admin_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage who can access the agents",
+            "Control user access through licensing"
+          ],
+          "fusionRank": 1,
+          "fusionScore": 33.8,
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:unresolved:secure-sharepoint-data-accessible:general:direct:primary_direct_selected",
+          "supportTypes": [
+            "concept_definition"
+          ]
+        },
+        {
+          "evidenceId": "evidence:7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9",
+          "title": "Manage access to agents in SharePoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRoles": [
+            "sharepoint_admin_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint",
+            "Manage what information a user can access through the agents",
+            "Use SharePoint Advanced Management"
+          ],
+          "fusionRank": 2,
+          "fusionScore": 33.2,
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:unresolved:secure-sharepoint-data-accessible:general:direct:distinct_concept_selected",
+          "supportTypes": [
+            "concept_definition"
+          ]
+        },
+        {
+          "evidenceId": "evidence:b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b",
+          "title": "Manage access to agents in SharePoint",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRoles": [
+            "sharepoint_admin_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Manage access to agents in SharePoint"
+          ],
+          "fusionRank": 3,
+          "fusionScore": 26.848484848484848,
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:unresolved:secure-sharepoint-data-accessible:general:direct:distinct_concept_selected",
+          "supportTypes": [
+            "concept_definition"
+          ]
+        },
+        {
+          "evidenceId": "evidence:df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df",
+          "title": "Restrict discovery of SharePoint sites and content",
+          "sourceId": "ms-sharepoint-docs",
+          "authorityRoles": [
+            "sharepoint_admin_primary"
+          ],
+          "routePriority": "primary",
+          "headingPath": [
+            "Restrict discovery of SharePoint sites and content",
+            "Frequently asked questions",
+            "How does Restricted Content Discovery fit into a Copilot readiness strategy?"
+          ],
+          "fusionRank": 4,
+          "fusionScore": 25.857142857142858,
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "selectionReason": "selected:aspect:mandatory:unresolved:secure-sharepoint-data-accessible:general:direct:distinct_concept_selected",
+          "supportTypes": [
+            "concept_definition"
+          ]
+        }
+      ],
+      "facetCoverage": {
+        "aspectId": "mandatory:unresolved:secure-sharepoint-data-accessible:general",
+        "requiredFacets": [
+          "behavior"
+        ],
+        "plannedFacets": [
+          "behavior"
+        ],
+        "missingFacets": []
+      },
+      "plannedClaims": [
+        {
+          "claimId": "claim:fae0a3338283266bd58948f3",
+          "claimType": "behavior",
+          "sectionId": "key_components",
+          "proposition": "Currently, users with a Microsoft 365 Copilot license can use the agents.",
+          "supportStrength": "direct",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "coveredFacets": [
+            "behavior"
+          ],
+          "sourceSpans": [
+            {
+              "text": "Currently, users with a Microsoft 365 Copilot license can use the agents.",
+              "sourceField": "text",
+              "headingPath": [
+                "Manage access to agents in SharePoint",
+                "Manage who can access the agents",
+                "Control user access through licensing"
+              ],
+              "sourcePath": "sharepoint/manage-access-agents-in-sharepoint"
+            }
+          ]
+        }
+      ],
+      "unsupportedReason": null
+    }
+  ],
+  "rejectedTop": [
+    {
+      "title": "Manage Data access governance reports by using SharePoint Online PowerShell",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 5,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Manage access to agents in SharePoint",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 6,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Restrict discovery of SharePoint sites and content",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 7,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Data access governance reports for SharePoint and OneDrive sites",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 8,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Restrict discovery of SharePoint sites and content",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 9,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Restrict discovery of SharePoint sites and content",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 10,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Data access governance reports for SharePoint and OneDrive sites",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 11,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Manage Data access governance reports by using SharePoint Online PowerShell",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 12,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Data access governance reports for SharePoint and OneDrive sites",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 13,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Data access governance reports for SharePoint and OneDrive sites",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 14,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "What is SharePoint Advanced Management?",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 15,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "What is SharePoint Advanced Management?",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 16,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Manage Data access governance reports by using SharePoint Online PowerShell",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 17,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Get your organization's site permissions baseline with the snapshot report",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 18,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Manage Data access governance reports by using SharePoint Online PowerShell",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 19,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Discover sites accessible by a given user with the snapshot report",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 20,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 21,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Get your organization's site permissions baseline with the snapshot report",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 22,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "Get the sensitivity label snapshot report for SharePoint and OneDrive sites",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 23,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    },
+    {
+      "title": "What is SharePoint Advanced Management?",
+      "sourceId": "ms-sharepoint-docs",
+      "fusionRank": 24,
+      "reasons": [
+        "bounded_selection_limit"
+      ]
+    }
+  ],
+  "planAnswerability": "answered",
+  "requiredCaveats": [],
+  "unsupportedAspects": [],
+  "decomposition": {
+    "requestedConcepts": [
+      "secure sharepoint data accessible"
+    ],
+    "supportedConcepts": [
+      "secure sharepoint data accessible"
+    ],
+    "omittedConcepts": []
+  },
+  "assembled": {
+    "ok": true,
+    "answerability": "answered",
+    "answerText": "Currently, users with a Microsoft 365 Copilot license can use the agents.",
+    "diagnostics": {
+      "generatorProviderId": "deterministic-extractive-assembler/r4",
+      "generationLatencyMs": 0,
+      "validationLatencyMs": 2.036899999999605,
+      "totalLatencyMs": 2.765100000000075,
+      "claimTaskCount": 1,
+      "mandatoryClaimTaskCount": 1,
+      "successfulClaimCount": 1,
+      "failedClaimCount": 0,
+      "requestCount": 0,
+      "retryCount": 0,
+      "firstAttemptValid": true,
+      "finalAttemptValid": true,
+      "firstAttemptIssues": [],
+      "attempts": [],
+      "tokenUsage": {
+        "inputTokens": null,
+        "outputTokens": null
+      }
+    }
+  },
+  "citationMapping": {
+    "valid": true,
+    "citations": [
+      {
+        "citationId": "citation:ff4343a294382c8c76d49e2f",
+        "sourceTitle": "Manage access to agents in SharePoint",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+        "sourceId": "ms-sharepoint-docs",
+        "authorityRole": "sharepoint_admin_primary",
+        "validationState": "valid"
+      }
+    ]
+  },
+  "presented": {
+    "helpdeskDetailed": "Summary\nCurrently, users with a Microsoft 365 Copilot license can use the agents.\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage who can access the agents ΓÇ║ Control user access through licensing\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage who can access the agents -> Control user access through licensing Currently, users with a Microsoft 365 Copilot license can use the agents. You can use the Microsoft 365 Copilot setup guide in the Microsoft 365 admin center to assign the required licenses to users. For more information, see Assign licenses to users in the Microsoft 365 admin center and Microsoft 365 Copilot requirements. Admins can choose to edit the service plans under the Copilot license to specifically allow or block users from using Copilot experiences on SharePoint. Under the license details page for Microsoft 365 Copilot on the Microsoft 365 admin center, admins can turn 'Microsoft 365 Copilot for SharePoint' on or off on a per-user basis. For example, a user could be allowed to use Microsoft 365 Copilot on Teams but not use any agents on SharePoint alone. However, this change also disables Copilot in OneDrive and on the SharePoint page authoring Copilot for that user.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage what information a user can access through the agents ΓÇ║ Use SharePoint Advanced Management\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage what information a user can access through the agents -> Use SharePoint Advanced Management Currently, to restrict access to a site by Microsoft 365 Copilot, the SharePoint admin can set up a restricted access control policy. As a result, all access to the site is restricted to only the group of users specified in the policy. Accordingly, the content from the site is visible in Microsoft 365 Copilot only for this restricted group of users. You can restrict access to individual sites or OneDrive. To learn more about features to prevent oversharing, control access, and enhance your content governance, see Get ready for Microsoft 365 Copilot with SharePoint Advanced Management.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint Agents in SharePoint, powered by AI, help users quickly find information and insights on SharePoint sites, pages, and document libraries. Agents in SharePoint access your organization's data the same way Copilot in other Microsoft 365 apps does, responding to users based on their access permissions to the data. As a SharePoint admin, you can manage users' access to an agent in multiple ways by managing: - Who can access the agents - What information the user can access through the agent - Where agents are available\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nSources\nManage access to agents in SharePoint ΓÇö https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nRestrict discovery of SharePoint sites and content ΓÇö https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+    "liveAssistQuick": "Currently, users with a Microsoft 365 Copilot license can use the agents.\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage who can access the agents ΓÇ║ Control user access through licensing\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage who can access the agents -> Control user access through licensing Currently, users with a Microsoft 365 Copilot license can use the agents. You can use the Microsoft 365 Copilot setup guide in the Microsoft 365 admin center to assign the required licenses to users. For more information, see Assign licenses to users in the Microsoft 365 admin center and Microsoft 365 Copilot requirements. Admins can choose to edit the service plans under the Copilot license to specifically allow or block users from using Copilot experiences on SharePoint. Under the license details page for Microsoft 365 Copilot on the Microsoft 365 admin center, admins can turn 'Microsoft 365 Copilot for SharePoint' on or off on a per-user basis. For example, a user could be allowed to use Microsoft 365 Copilot on Teams but not use any agents on SharePoint alone. However, this change also disables Copilot in OneDrive and on the SharePoint page authoring Copilot for that user.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nManage access to agents in SharePoint ΓÇö https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+    "planningLatencyMs": 2.318300000000363,
+    "renderingLatencyMs": 0.564600000000155
+  },
+  "latency": {
+    "groundingMs": 2930.1598000000004,
+    "evidenceResolutionMs": 25.796200000000226,
+    "planningMs": 9.384099999999762,
+    "assemblyMs": 2.765100000000075,
+    "pipelineTotalMs": 2949.618
+  },
+  "answerGenerationRequestCount": 0
+}

@@ -1,0 +1,141 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "wb17l0-2026-08-08T16-35-55-941Z",
+  "createdAt": "2026-08-08T16:35:55.941Z",
+  "productionEmbeddingIdentity": {
+    "provider": "openai",
+    "model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "schema": "v1"
+  },
+  "hostedLifecycle": {
+    "providerCreatedPerQuery": false,
+    "constructorMs": 0.037,
+    "coldEmbedQueryMs": 405.987,
+    "coldRequestMs": 404.234,
+    "coldResponseProcessingMs": 1.753,
+    "warmEmbedQueryMs": {
+      "p50": 181.017,
+      "p95": 215.612
+    },
+    "warmRequestMs": {
+      "p50": 180.806,
+      "p95": 215.347
+    },
+    "warmResponseProcessingMs": {
+      "p50": 0.205,
+      "p95": 0.856
+    },
+    "overlapWithExactLexicalAlreadyEnabled": true,
+    "overlapComparisonMs": {
+      "overlap": {
+        "p50": 1704.849,
+        "p95": 1935.669
+      },
+      "sequential": {
+        "p50": 1706.55,
+        "p95": 1876.591
+      }
+    }
+  },
+  "hostedOptimizations": {
+    "baselinePerQueryProviderMs": {
+      "p50": 1430.91,
+      "p95": 1734.551
+    },
+    "optimizedSharedProviderMs": {
+      "p50": 1196.166,
+      "p95": 1786.838
+    },
+    "optimizedQueryEmbeddingMs": {
+      "p50": 522.24,
+      "p95": 895.955
+    }
+  },
+  "cacheFeasibility": {
+    "keyShape": "<model>|<schema>|<trimmed_whitespace_normalized_question_text>",
+    "uncachedHitRate": 0,
+    "replayHitRate": 1,
+    "estimatedMemoryBytesPerEntry": 6208,
+    "notes": [
+      "Likely low hit-rate for unique live questions.",
+      "High utility for repeated evaluation runs and accidental resend events.",
+      "Cache semantics must remain identity-bound to model/schema/input."
+    ]
+  },
+  "localFeasibility": {
+    "status": "unavailable",
+    "failureReason": "\nSomething went wrong installing the \"sharp\" module\n\nCannot find module '../build/Release/sharp-win32-arm64v8.node'\nRequire stack:\n- C:\\Users\\joegc\\projects\\meeting-agent\\node_modules\\sharp\\lib\\sharp.js\n- C:\\Users\\joegc\\projects\\meeting-agent\\node_modules\\sharp\\lib\\constructor.js\n- C:\\Users\\joegc\\projects\\meeting-agent\\node_modules\\sharp\\lib\\index.js\n\nPossible solutions:\n- Install with verbose logging and look for errors: \"npm install --ignore-scripts=false --foreground-scripts --verbose sharp\"\n- Install for the current win32-arm64v8 runtime: \"npm install --platform=win32 --arch=arm64v8 sharp\"\n- Consult the installation documentation: https://sharp.pixelplumbing.com/install",
+    "modelId": "Xenova/all-MiniLM-L6-v2",
+    "modelLicense": "apache-2.0",
+    "runtime": "transformers.js (ONNX WASM)",
+    "windowsArm64Compatibility": "attempted, but runtime initialization failed in this environment",
+    "dimensions": 384,
+    "cacheDirBytes": 0,
+    "modelLoadMs": 0,
+    "residentMemoryBytes": 426139648,
+    "localQueryLatencyMs": {
+      "p50": 0,
+      "p95": 0
+    },
+    "localQueryCpuMs": 0,
+    "localDbPath": "",
+    "corpusChunkCount": 0,
+    "corpusEmbeddingDurationMs": 0,
+    "corpusEmbeddingThroughputPerSec": 0
+  },
+  "openAiRuns": {
+    "seed": {
+      "runId": "wb17l0-openai-seed-2026-08-08T16-35-34-926Z",
+      "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\spikes\\wb17l0-openai-seed-2026-08-08T16-35-34-926Z.json",
+      "top1": "8/8",
+      "top3": "8/8",
+      "top5": "8/8",
+      "top10": "8/8",
+      "mrr": 1,
+      "recallAt10": 0.75,
+      "leakageQuestions": 2,
+      "p50TotalMs": 1474.4858999999997,
+      "p95TotalMs": 4194.246099999997,
+      "p50QueryEmbeddingMs": 517.7283999999927,
+      "p95QueryEmbeddingMs": 2932.3704999999973
+    },
+    "holdoutV3": {
+      "runId": "wb17l0-openai-holdoutv3-2026-08-08T16-35-51-779Z",
+      "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\spikes\\wb17l0-openai-holdoutv3-2026-08-08T16-35-51-779Z.json",
+      "top1": "12/12",
+      "top3": "12/12",
+      "top5": "12/12",
+      "top10": "12/12",
+      "mrr": 1,
+      "recallAt10": 0.9583333333333334,
+      "leakageQuestions": 6,
+      "p50TotalMs": 1468.8960999999981,
+      "p95TotalMs": 1908.9391000000032,
+      "p50QueryEmbeddingMs": 518.8508000000002,
+      "p95QueryEmbeddingMs": 738.155099999989
+    },
+    "callingPlans": {
+      "runId": "wb17l0-openai-callingplans-2026-08-08T16-35-55-938Z",
+      "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\spikes\\wb17l0-openai-callingplans-2026-08-08T16-35-55-938Z.json",
+      "top1": "5/5",
+      "top3": "5/5",
+      "top5": "5/5",
+      "top10": "5/5",
+      "mrr": 1,
+      "recallAt10": 1,
+      "leakageQuestions": 0,
+      "p50TotalMs": 725.8280999999988,
+      "p95TotalMs": 1162.4936000000016,
+      "p50QueryEmbeddingMs": 468.6704999999929,
+      "p95QueryEmbeddingMs": 651.3410999999905
+    }
+  },
+  "localRuns": null,
+  "rankingDifferences": [],
+  "decision": "D",
+  "decisionRationale": "Local embedding runtime/model could not be validated end-to-end in this Windows ARM64 environment; defer local-provider adoption.",
+  "productionEmbeddingsUnchanged": true,
+  "corpusUnchanged": true,
+  "retrievalPrecisionFrozen": true
+}

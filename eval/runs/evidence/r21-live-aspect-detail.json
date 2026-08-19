@@ -1,0 +1,5521 @@
+[
+  {
+    "questionId": "E-001",
+    "question": "How does Teams Direct Routing voice routing work?",
+    "expectedAnswerability": "answered",
+    "answerability": "partial",
+    "aspects": [
+      {
+        "aspectId": "mandatory:entity:direct-routing:general",
+        "subject": "direct routing",
+        "subjects": [
+          {
+            "kind": "entity",
+            "value": "direct routing",
+            "terms": [
+              "direct",
+              "routing"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "mechanism",
+        "relationship": null,
+        "breadth": "broad",
+        "requiredFacets": [
+          "purpose",
+          "mechanism"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:mechanism",
+            "breadth:broad"
+          ],
+          "questionSpans": [
+            "direct routing"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      },
+      {
+        "aspectId": "mandatory:entity:voice-routing:general",
+        "subject": "voice routing",
+        "subjects": [
+          {
+            "kind": "entity",
+            "value": "voice routing",
+            "terms": [
+              "voice",
+              "routing"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "mechanism",
+        "relationship": null,
+        "breadth": "broad",
+        "requiredFacets": [
+          "purpose",
+          "mechanism"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:mechanism",
+            "breadth:broad"
+          ],
+          "questionSpans": [
+            "voice routing"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      }
+    ],
+    "selectedEvidence": [
+      {
+        "evidenceId": "evidence:01076eed05e1c97f8cdde2994de267cb41c54a931fb576e94d98c34556aec4d4",
+        "title": "Configure Direct Routing",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+        "sourceId": "ms-teams-admin"
+      }
+    ],
+    "supportByAspect": {
+      "mandatory:entity:direct-routing:general": [
+        {
+          "candidateId": "lexical|01076eed05e1c97f8cdde2994de267cb41c54a931fb576e94d98c34556aec4d4|-17.72656014913961",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.4
+        },
+        {
+          "candidateId": "lexical|40936fefd1a843b53978688a44da63b53f0b12e0bd86159b4883dcd1362fd0d5|-25.62250348026575",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.3
+        },
+        {
+          "candidateId": "lexical|ff7a138cbd1782a862564d493b3330cd5fe1345f145aceadc33e525f0a33b4b5|-19.675746322056867",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.1
+        },
+        {
+          "candidateId": "lexical|d772030f2ab0e36f8ba99cc6ba30163aa7812000f2fb696eaed53033a4909c98|-16.306899081346636",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68
+        },
+        {
+          "candidateId": "lexical|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|-29.791758797201393",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|0b2d5789855b832c667f67f058c87eb7f982e2e8a61be0cb3caa7ea03d57bbcd|-20.24380779706935",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|-27.573212277995964",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|-24.815218120066188",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1f7c2947253e2c081bbe5562c5ed7b3b2ef9ffc8a4560747e998c8a5c62e98fd|-31.08112384798862",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|25abebfd501b6ad88eb8482423d4e1f090a6098cddb404eca0ba6bf4c3711829|-19.18090918396355",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|2a561e22d20127eb7b5596aa488624c0675eedad840078dceced0eba61b9ce11|-24.076829119358194",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4ff02a22f7fa04b76462612c58b951dc052fd812ac68856295fff09b9e727486|-20.355466430242874",
+          "strength": "contextual",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6b046175b6e2fade9e9344d0ce0818cf0853b14de735a587c1f6a6a816df6449|-25.629650417104855",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6cd2e99fcdb71becce143f722e2af8209cabf50378f4db463d8c308a3245551e|-25.78930595891184",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|878d9b379b242c24dffef57c81eb9b41a0a070e757e3dcf04aedaca3a5b78728|-25.898469811897797",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|96cb3badd1dac1e6b48aa4f9bed86a7613d891f29b0299e425d5559b254cbeb9|-20.73020051082985",
+          "strength": "contextual",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|9977c68ab8dec9ff6fedd31a8c873484212c8b3296dd55d31fa636ec736c715c|-24.96113116063347",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ad88b87536125d2d453e3ad69f5f8de7efa8f6b5861135eded8e8e7531ca0b6f|-25.627162966989474",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bdaddfdf9c72ff9439f20f1d7237e57de2aedc44331b795fae376d41ea2d3b1f|-27.735504317652754",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|cf248f67d6d629d399a4654411c871b796158d40a3850d7c1e2f568604725b69|-25.627162966989474",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|df948ebf41aa71e14a5a791a61ec9cf7d04b5c150e5762632c2a7c1d0a583fb2|-25.93976372622887",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eb8a02105ee5039d7ccc9c9d2152cba03ef2d1da54eeffde67c4d9b30cb3d18c|-31.08112384798862",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ed9f03566595ac8d4de3623ef2cc894aec09dfb88cade7ddb4f939c9267e1753|-26.87894233450379",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f90f1645e847b97c124dc4fa6309dc47df351031baf42552275889d2d95f8b3e|-14.854993408208417",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "mandatory:entity:voice-routing:general": [
+        {
+          "candidateId": "lexical|01076eed05e1c97f8cdde2994de267cb41c54a931fb576e94d98c34556aec4d4|-17.72656014913961",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|-29.791758797201393",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|0b2d5789855b832c667f67f058c87eb7f982e2e8a61be0cb3caa7ea03d57bbcd|-20.24380779706935",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|-27.573212277995964",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|18e5e38583429ca28ad183c6803c176fbd8d93dca2baa827b986df22d4dbaa9a|-24.815218120066188",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1f7c2947253e2c081bbe5562c5ed7b3b2ef9ffc8a4560747e998c8a5c62e98fd|-31.08112384798862",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|25abebfd501b6ad88eb8482423d4e1f090a6098cddb404eca0ba6bf4c3711829|-19.18090918396355",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|2a561e22d20127eb7b5596aa488624c0675eedad840078dceced0eba61b9ce11|-24.076829119358194",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|40936fefd1a843b53978688a44da63b53f0b12e0bd86159b4883dcd1362fd0d5|-25.62250348026575",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4ff02a22f7fa04b76462612c58b951dc052fd812ac68856295fff09b9e727486|-20.355466430242874",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6b046175b6e2fade9e9344d0ce0818cf0853b14de735a587c1f6a6a816df6449|-25.629650417104855",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6cd2e99fcdb71becce143f722e2af8209cabf50378f4db463d8c308a3245551e|-25.78930595891184",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|878d9b379b242c24dffef57c81eb9b41a0a070e757e3dcf04aedaca3a5b78728|-25.898469811897797",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|96cb3badd1dac1e6b48aa4f9bed86a7613d891f29b0299e425d5559b254cbeb9|-20.73020051082985",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|9977c68ab8dec9ff6fedd31a8c873484212c8b3296dd55d31fa636ec736c715c|-24.96113116063347",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ad88b87536125d2d453e3ad69f5f8de7efa8f6b5861135eded8e8e7531ca0b6f|-25.627162966989474",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bdaddfdf9c72ff9439f20f1d7237e57de2aedc44331b795fae376d41ea2d3b1f|-27.735504317652754",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|cf248f67d6d629d399a4654411c871b796158d40a3850d7c1e2f568604725b69|-25.627162966989474",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d772030f2ab0e36f8ba99cc6ba30163aa7812000f2fb696eaed53033a4909c98|-16.306899081346636",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|df948ebf41aa71e14a5a791a61ec9cf7d04b5c150e5762632c2a7c1d0a583fb2|-25.93976372622887",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eb8a02105ee5039d7ccc9c9d2152cba03ef2d1da54eeffde67c4d9b30cb3d18c|-31.08112384798862",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ed9f03566595ac8d4de3623ef2cc894aec09dfb88cade7ddb4f939c9267e1753|-26.87894233450379",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f90f1645e847b97c124dc4fa6309dc47df351031baf42552275889d2d95f8b3e|-14.854993408208417",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ff7a138cbd1782a862564d493b3330cd5fe1345f145aceadc33e525f0a33b4b5|-19.675746322056867",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:entity:direct-routing:general"
+    ],
+    "unsupportedMandatoryAspectIds": [
+      "mandatory:entity:voice-routing:general"
+    ],
+    "supportingOnlyAspectIds": [
+      "mandatory:entity:voice-routing:general"
+    ],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    }
+  },
+  {
+    "questionId": "E-002",
+    "question": "How do Microsoft Teams Calling Plans work?",
+    "expectedAnswerability": "answered",
+    "answerability": "answered",
+    "aspects": [
+      {
+        "aspectId": "mandatory:entity:calling-plans:general",
+        "subject": "calling plans",
+        "subjects": [
+          {
+            "kind": "entity",
+            "value": "calling plans",
+            "terms": [
+              "calling",
+              "plans"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "mechanism",
+        "relationship": null,
+        "breadth": "broad",
+        "requiredFacets": [
+          "purpose",
+          "mechanism"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:mechanism",
+            "breadth:broad"
+          ],
+          "questionSpans": [
+            "calling plans"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      }
+    ],
+    "selectedEvidence": [
+      {
+        "evidenceId": "evidence:c00982f9305c9968348144bf50fe2b712df20f943620af55d1e28210870be228",
+        "title": "Microsoft Teams Calling Plans",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+        "sourceId": "ms-teams-admin"
+      }
+    ],
+    "supportByAspect": {
+      "mandatory:entity:calling-plans:general": [
+        {
+          "candidateId": "lexical|c00982f9305c9968348144bf50fe2b712df20f943620af55d1e28210870be228|-24.297012436562536",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.95
+        },
+        {
+          "candidateId": "lexical|cdffe5c45b7865dc28f0128ae3c7118c206d67901a689e8e9e8af3be63051cf0|-23.269822164001177",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.9
+        },
+        {
+          "candidateId": "lexical|0b9f675c3beed6dba7f084d3d34025e07821566edce0f1e9e429365706f97379|-21.602709300434483",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.85
+        },
+        {
+          "candidateId": "lexical|04995dd51102a7cea5e1b7b4879d7c11abb2eb667ead049bb09ea6c7d506e5ee|-21.438756158189925",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.8
+        },
+        {
+          "candidateId": "lexical|09577a9591aec2c6c8348f8d49f781324f4346f7b978125d4bd682af41492041|-21.28905788260439",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.65
+        },
+        {
+          "candidateId": "lexical|919ed2eb639683a985822af23a6212be34f2fec70956572f4ce6df3652dbbb7e|-19.071225089150666",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.55
+        },
+        {
+          "candidateId": "lexical|f36facdda644c8ca2f01519515c78ffeed339ad38e190fe1dd655842973f00a6|-20.755506349428526",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.5
+        },
+        {
+          "candidateId": "lexical|7ab8dc01a5395daafbfd2fe5ded036c7ed17675d645bcd5be31ad8da0d31f976|-18.849401772639855",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.1
+        },
+        {
+          "candidateId": "lexical|5517f236ea4d445c2ed6422f29e3850cb7cf0824c7784221b329b0c2f7bad556|-18.26316519210783",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68
+        },
+        {
+          "candidateId": "lexical|cac0642af2fe4dcf9912e385be2b10bde32acc3920993ad7b316a6e662db6087|-13.743947510738177",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68
+        },
+        {
+          "candidateId": "lexical|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|-17.04039437542297",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|25abebfd501b6ad88eb8482423d4e1f090a6098cddb404eca0ba6bf4c3711829|-17.679635048227986",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|31057ae22374e07784189117717ef91d4a186b6c1bf21079502933eb860d0bc1|-8.181914407184507",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4054c025b2222dc5c0ed2ccebd0204ad0248e5f050674a3d4eb1b22016827034|-16.942393127335567",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|457d0f8d722ef4d9520467bc9c48843bf50063dd1d4f5578337132b1633b4f39|-19.647868936800258",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4ae191678d6cc8dbc32898835fa77bd18836ae6cc2cbdec8e3d9cdcf31ea48ed|-16.89316982925338",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|562d1e0d70ef73c550402ee872b7548243529a9b9e28d3e10660e00aa6333f9d|-20.349438266193687",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|5a5ad3bcfc6739b0e74a0132fda1925b2a66e9fc3b573264e79c750f855bfa1b|-15.338255828764066",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|662c1bc6f2038e2544b733a1cfc954ec2c4a8d3e1cb21f6b62bad2ebb1891f81|-19.973517569780668",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|7a701967779d9417faea5cde3822f6aae4f7e9bb15e47729fc249b2de64356fa|-20.63238023191388",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|86d23609091d383eefa8346e2d3d6114062a96a47270f2b6caff93994631836b|-19.93762067556124",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|98fe854d6bc79550a5978bc4df4282d120329ff39a49fbeddc466a316e62ab14|-22.085186411983877",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d26a7345c87f3f8a3099ada00957d2480606b39b517c81047009ee66699763a3|-15.871299064824454",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eabbc3bab9e12c3f8bcda440057c19025f573bed983dc02b10d02b8425bac3b7|-10.094933211381306",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "narrow_subsection_for_broad_aspect",
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:entity:calling-plans:general"
+    ],
+    "unsupportedMandatoryAspectIds": [],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    }
+  },
+  {
+    "questionId": "E-003",
+    "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+    "expectedAnswerability": "answered",
+    "answerability": "answered",
+    "aspects": [
+      {
+        "aspectId": "mandatory:cmdlet:set-csonlinevoiceroutingpolicy:general",
+        "subject": "Set-CsOnlineVoiceRoutingPolicy",
+        "subjects": [
+          {
+            "kind": "cmdlet",
+            "value": "Set-CsOnlineVoiceRoutingPolicy",
+            "terms": [
+              "set-csonlinevoiceroutingpolicy"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "cmdlet_semantics",
+        "relationship": null,
+        "breadth": "bounded",
+        "requiredFacets": [
+          "identifier",
+          "behavior"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "requiredDomains": [
+            "teams_powershell"
+          ],
+          "requireCanonicalIdentity": true,
+          "identityType": "cmdlet"
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:cmdlet_semantics",
+            "breadth:bounded"
+          ],
+          "questionSpans": [
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      },
+      {
+        "aspectId": "optional:technology:powershell:general",
+        "subject": "PowerShell",
+        "subjects": [
+          {
+            "kind": "technology",
+            "value": "PowerShell",
+            "terms": [
+              "powershell"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "fact",
+        "relationship": null,
+        "breadth": "bounded",
+        "requiredFacets": [
+          "behavior"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "requiredDomains": [
+            "teams_powershell"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:fact",
+            "breadth:bounded"
+          ],
+          "questionSpans": [
+            "PowerShell"
+          ],
+          "unresolved": false
+        },
+        "requirement": "optional"
+      }
+    ],
+    "selectedEvidence": [
+      {
+        "evidenceId": "evidence:643e411850aaa9215a6a8608dcb7d1a0cae2d429493d720634384c44f4d729a5",
+        "title": "Set-CsOnlineVoiceRoutingPolicy",
+        "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+        "sourceId": "ms-teams-powershell"
+      }
+    ],
+    "supportByAspect": {
+      "mandatory:cmdlet:set-csonlinevoiceroutingpolicy:general": [
+        {
+          "candidateId": "exact|643e411850aaa9215a6a8608dcb7d1a0cae2d429493d720634384c44f4d729a5|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 143.95
+        },
+        {
+          "candidateId": "exact|0eb9f64b98414b75a9a5ab0a6ab44c13e2086a47b60dc016f5e678e5ff5d382b|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 143.9
+        },
+        {
+          "candidateId": "exact|5ceec677239e4e9c23d1e753a0c5c8c03ec957c526bd24dbb699e8a7215e14b1|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 143.85
+        },
+        {
+          "candidateId": "exact|f47532d97f13a27226a7f8a27f9cefd623e7a9643542497317faeb2ab316c523|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 143.8
+        },
+        {
+          "candidateId": "exact|1f7c2947253e2c081bbe5562c5ed7b3b2ef9ffc8a4560747e998c8a5c62e98fd|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2a8b3398de2f147a3166316e375c84109be61fa6380ebf485aafce1ae05f4c9a|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|50dc6aad3a3a9f5f953448044a7f674622409149595d08746631e554392c7d09|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|81a69594760bafec0cbeff01bee34613115f929578a0d1f0de18da28fe8785f9|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|a37815ea86b92cb64f1a7260bc20eba33cd03ca5253284bf650dc6915faee648|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b0875869446ffcceddd37fac7f1ff48d544fea91ab2ca130a232a2d291ff61f2|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|c04d6f6d8d7a293428c8b922e6c382cdda7b8842ddba215a7f785afcb02affd0|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|e3cdcbebbbaca1bbcabe62d98be18b01052c1af421b1a8ba645c2368f0b9c1f3|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|eb8a02105ee5039d7ccc9c9d2152cba03ef2d1da54eeffde67c4d9b30cb3d18c|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4c580844e1ee4ca56e2974cc3ba8fc1d7f2e043e732662fdca5eb763417dba80|-7.398677978265335",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|5341e0968396ba350ea64c52901dba336f1d7fb55f16b072357fa0075a3fbdd3|-10.814554963663028",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6852eda6d9b0202911ba35570d97ecb6be183ec1c7aa2a1d0668a3441eed658d|-7.398677978265335",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d9c6becf6023553856daa39e7e0467c5a032567f3adb6f39a51bbdbffd0c14e5|-3.5645478859813866",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|03cfeb24ec8eb967a2db8d6b19fcb7d4eaff75837c4d99f38c798cfcf925cd3e|0.77081704|11",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1190229da57b4dc306469827a1fd358889b713a0fad773f57ab5a7caf29628dd|0.79074719|6",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|6c90bd3d98c6cb8c959dce373b4fd0896a2602916790149b889ec92cdfeb6112|0.76216316|18",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|6e849bf4a6779187d7b48f356f0432afdbf39c28da65f1ce7c57452ec442fff1|0.76492265|17",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|aecf970dabba66daa591ed65afc00f99f6201128f3814c62e0bacb4468ba54cd|0.75647750|21",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|c87f92e845b1b65291cfface88d28b2f8b19753368bbf3629a0de9f2299b125f|0.76980981|13",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|d66a9f4967d83832103779d39cea28d0ba10ceebd3db72f70eae0cf508529383|0.74955353|23",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "optional:technology:powershell:general": [
+        {
+          "candidateId": "semantic|aecf970dabba66daa591ed65afc00f99f6201128f3814c62e0bacb4468ba54cd|0.75647750|21",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "identifier"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 157
+        },
+        {
+          "candidateId": "exact|c04d6f6d8d7a293428c8b922e6c382cdda7b8842ddba215a7f785afcb02affd0|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 69.75
+        },
+        {
+          "candidateId": "lexical|5341e0968396ba350ea64c52901dba336f1d7fb55f16b072357fa0075a3fbdd3|-10.814554963663028",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.3
+        },
+        {
+          "candidateId": "exact|0eb9f64b98414b75a9a5ab0a6ab44c13e2086a47b60dc016f5e678e5ff5d382b|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|1f7c2947253e2c081bbe5562c5ed7b3b2ef9ffc8a4560747e998c8a5c62e98fd|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|2a8b3398de2f147a3166316e375c84109be61fa6380ebf485aafce1ae05f4c9a|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|50dc6aad3a3a9f5f953448044a7f674622409149595d08746631e554392c7d09|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|5ceec677239e4e9c23d1e753a0c5c8c03ec957c526bd24dbb699e8a7215e14b1|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|643e411850aaa9215a6a8608dcb7d1a0cae2d429493d720634384c44f4d729a5|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|81a69594760bafec0cbeff01bee34613115f929578a0d1f0de18da28fe8785f9|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|a37815ea86b92cb64f1a7260bc20eba33cd03ca5253284bf650dc6915faee648|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|b0875869446ffcceddd37fac7f1ff48d544fea91ab2ca130a232a2d291ff61f2|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|e3cdcbebbbaca1bbcabe62d98be18b01052c1af421b1a8ba645c2368f0b9c1f3|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|eb8a02105ee5039d7ccc9c9d2152cba03ef2d1da54eeffde67c4d9b30cb3d18c|cmdlet|Set-CsOnlineVoiceRoutingPolicy|entity",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "exact|f47532d97f13a27226a7f8a27f9cefd623e7a9643542497317faeb2ab316c523|cmdlet|Set-CsOnlineVoiceRoutingPolicy|title",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4c580844e1ee4ca56e2974cc3ba8fc1d7f2e043e732662fdca5eb763417dba80|-7.398677978265335",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6852eda6d9b0202911ba35570d97ecb6be183ec1c7aa2a1d0668a3441eed658d|-7.398677978265335",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d9c6becf6023553856daa39e7e0467c5a032567f3adb6f39a51bbdbffd0c14e5|-3.5645478859813866",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|03cfeb24ec8eb967a2db8d6b19fcb7d4eaff75837c4d99f38c798cfcf925cd3e|0.77081704|11",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1190229da57b4dc306469827a1fd358889b713a0fad773f57ab5a7caf29628dd|0.79074719|6",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|6c90bd3d98c6cb8c959dce373b4fd0896a2602916790149b889ec92cdfeb6112|0.76216316|18",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|6e849bf4a6779187d7b48f356f0432afdbf39c28da65f1ce7c57452ec442fff1|0.76492265|17",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|c87f92e845b1b65291cfface88d28b2f8b19753368bbf3629a0de9f2299b125f|0.76980981|13",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|d66a9f4967d83832103779d39cea28d0ba10ceebd3db72f70eae0cf508529383|0.74955353|23",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:cmdlet:set-csonlinevoiceroutingpolicy:general"
+    ],
+    "unsupportedMandatoryAspectIds": [],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": true,
+      "verified": true,
+      "requiredDirectives": [
+        {
+          "type": "cmdlet",
+          "value": "Set-CsOnlineVoiceRoutingPolicy"
+        }
+      ],
+      "missingRequiredDirectives": []
+    }
+  },
+  {
+    "questionId": "E-004",
+    "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+    "expectedAnswerability": "answered",
+    "answerability": "answered",
+    "aspects": [
+      {
+        "aspectId": "mandatory:cmdlet-identifier:voice-routing-policy:grant",
+        "subject": "voice routing policy",
+        "subjects": [
+          {
+            "kind": "policy",
+            "value": "voice routing policy",
+            "terms": [
+              "voice",
+              "routing",
+              "policy"
+            ]
+          }
+        ],
+        "operation": "grant",
+        "answerObject": "cmdlet_identifier",
+        "relationship": null,
+        "breadth": "narrow",
+        "requiredFacets": [
+          "identifier",
+          "operation"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "requiredDomains": [
+            "teams_powershell"
+          ],
+          "requireCanonicalIdentity": true,
+          "identityType": "cmdlet"
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "implicit_cmdlet_answer_object",
+            "clause_bound_operation",
+            "powershell_primary_authority"
+          ],
+          "questionSpans": [
+            "voice routing policy",
+            "grant"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      }
+    ],
+    "selectedEvidence": [
+      {
+        "evidenceId": "evidence:5da0672a6c150c36019debdf202cf25220c8a339565b3316feeaf61cbc6a95a3",
+        "title": "Grant-CsOnlineVoiceRoutingPolicy",
+        "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Grant-CsOnlineVoiceRoutingPolicy.md",
+        "sourceId": "ms-teams-powershell"
+      }
+    ],
+    "supportByAspect": {
+      "mandatory:cmdlet-identifier:voice-routing-policy:grant": [
+        {
+          "candidateId": "lexical|5da0672a6c150c36019debdf202cf25220c8a339565b3316feeaf61cbc6a95a3|-31.71685556815177",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.95
+        },
+        {
+          "candidateId": "lexical|6e849bf4a6779187d7b48f356f0432afdbf39c28da65f1ce7c57452ec442fff1|-30.779080013629617",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.9
+        },
+        {
+          "candidateId": "lexical|327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3|-30.70268913779775",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.85
+        },
+        {
+          "candidateId": "lexical|d83c66b405f99b5d3f48313a6af4e2845d4868ac80376845e461b3a3e97691da|-30.70268913779775",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.8
+        },
+        {
+          "candidateId": "lexical|f7f708237b30b79dee5764e7145fc5d20a57b2a3541afb60043dd8454dd5be1a|-29.303665432335908",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.75
+        },
+        {
+          "candidateId": "lexical|330dee9f61ab990c3fdebb678ea68e37fd72fc0765cd6966c67f22e0001508b5|-31.73282097357945",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.4
+        },
+        {
+          "candidateId": "lexical|a7e7af7f039e225298da252232559c45d73726cff118280f6a12f06a4ba80994|-30.70268913779775",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.2
+        },
+        {
+          "candidateId": "lexical|03cfeb24ec8eb967a2db8d6b19fcb7d4eaff75837c4d99f38c798cfcf925cd3e|-30.70268913779775",
+          "strength": "direct",
+          "matchedFacets": [
+            "identifier",
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 158.15
+        },
+        {
+          "candidateId": "lexical|032ec77481645b9ad17a8a292a20470da5e3953b7716764518183f8774fe7f39|-32.112799575251245",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1411fec1f35f135799841c7945196c0ceb3076ae6f16e5321fe7dae780b9a3be|-26.695069847792254",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1f7c2947253e2c081bbe5562c5ed7b3b2ef9ffc8a4560747e998c8a5c62e98fd|-30.765572223490327",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "operation"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|3bac6de6f0b84078610b62f1520e213cc6af41dceed5b532eaae43655925d4f0|-30.021616679981125",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|5ab89c406a9f5914eb1cee7759925082f03054fba33ea622a17247542bcc1bb6|-30.950917843681136",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6a9838d0ea748aeb579cf6963d46c91c063ed512ed1e68c80e7f48b91172caa0|-20.800226186132942",
+          "strength": "supporting",
+          "matchedFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "missingFacets": [
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6cd2e99fcdb71becce143f722e2af8209cabf50378f4db463d8c308a3245551e|-29.989441852648987",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|878d9b379b242c24dffef57c81eb9b41a0a070e757e3dcf04aedaca3a5b78728|-31.46000118119374",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|9088ace518c826e04b0991a8ba6fb7d2b9a2b71fb814b4b741e27e91c9e56289|-17.552990528690078",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ad88b87536125d2d453e3ad69f5f8de7efa8f6b5861135eded8e8e7531ca0b6f|-36.36979833001103",
+          "strength": "contextual",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|c04d6f6d8d7a293428c8b922e6c382cdda7b8842ddba215a7f785afcb02affd0|-23.898406634394142",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|c87f92e845b1b65291cfface88d28b2f8b19753368bbf3629a0de9f2299b125f|-21.45272610350723",
+          "strength": "supporting",
+          "matchedFacets": [
+            "identifier"
+          ],
+          "missingFacets": [
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|cf248f67d6d629d399a4654411c871b796158d40a3850d7c1e2f568604725b69|-36.36979833001103",
+          "strength": "contextual",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e25b69f68e6eebdd7a36a6883afe37da6647ece422e9ec57344914633bcaf114|-23.58871848639573",
+          "strength": "supporting",
+          "matchedFacets": [
+            "identifier"
+          ],
+          "missingFacets": [
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eb8a02105ee5039d7ccc9c9d2152cba03ef2d1da54eeffde67c4d9b30cb3d18c|-30.765572223490327",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "operation"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f33f4d2193702ef33c8262152c3228b7091ef3182b2868816b55e557a121e480|-30.152800713913884",
+          "strength": "supporting",
+          "matchedFacets": [
+            "operation",
+            "behavior"
+          ],
+          "missingFacets": [
+            "identifier"
+          ],
+          "authoritySatisfied": false,
+          "reasonCodes": [
+            "authority_not_satisfied"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:cmdlet-identifier:voice-routing-policy:grant"
+    ],
+    "unsupportedMandatoryAspectIds": [],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    }
+  },
+  {
+    "questionId": "E-005",
+    "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+    "expectedAnswerability": "insufficient_evidence",
+    "answerability": "insufficient_evidence",
+    "aspects": [
+      {
+        "aspectId": "mandatory:cmdlet:set-csdefinitelynotarealcmdlet:general",
+        "subject": "Set-CsDefinitelyNotARealCmdlet",
+        "subjects": [
+          {
+            "kind": "cmdlet",
+            "value": "Set-CsDefinitelyNotARealCmdlet",
+            "terms": [
+              "set-csdefinitelynotarealcmdlet"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "cmdlet_semantics",
+        "relationship": null,
+        "breadth": "bounded",
+        "requiredFacets": [
+          "identifier",
+          "behavior"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "requiredDomains": [
+            "teams_powershell"
+          ],
+          "requireCanonicalIdentity": true,
+          "identityType": "cmdlet"
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:cmdlet_semantics",
+            "breadth:bounded"
+          ],
+          "questionSpans": [
+            "Set-CsDefinitelyNotARealCmdlet"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      },
+      {
+        "aspectId": "optional:technology:powershell:general",
+        "subject": "PowerShell",
+        "subjects": [
+          {
+            "kind": "technology",
+            "value": "PowerShell",
+            "terms": [
+              "powershell"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "fact",
+        "relationship": null,
+        "breadth": "bounded",
+        "requiredFacets": [
+          "behavior"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_powershell_cmdlet_primary"
+          ],
+          "requiredDomains": [
+            "teams_powershell"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:fact",
+            "breadth:bounded"
+          ],
+          "questionSpans": [
+            "PowerShell"
+          ],
+          "unresolved": false
+        },
+        "requirement": "optional"
+      }
+    ],
+    "selectedEvidence": [],
+    "supportByAspect": {
+      "mandatory:cmdlet:set-csdefinitelynotarealcmdlet:general": [
+        {
+          "candidateId": "lexical|5341e0968396ba350ea64c52901dba336f1d7fb55f16b072357fa0075a3fbdd3|-10.814554963663028",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1065ba31ae94420f26b6c82f3ffe87a0d31a72554460f768e6d3e9b3a707409f|0.39384885|8",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1740717192fac62744b96f76a103b69d44c344b54a0e5df4485604149addad7b|0.38208912|18",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1766b49a5cf4c48b418ea5df42b4fc9c241ac9e7f6d698795523c9c8becd237a|0.40111995|4",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1be39be9276624e38de210470fe6e0a5a70db46c72fed65bf416d1aa67eab946|0.38748533|13",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|243f8ad24952f7fe67dc5d6faafb1ed8fc36c651b85f8cf68ba39df8ff27d079|0.38957598|10",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|2bf50577314932c665d9ea618dff01c3c20609f7af7e6b656b56aa2f3f2a5379|0.38258785|16",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|4e3c9d3805df5dbfdb9a8b871eca4ca635c2d5d25e49ae0cfc7e645e9fff3a9e|0.38930809|11",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|52fce9e810c684741c682476ad5c15d0a2462e32ba5720f33dee0629257399d5|0.38244505|17",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|585e4470103b57855695cebcc907b838d43eae30c30e9120466e44ad768cef10|0.39473486|7",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|596c9c04599916ce8b19ca2a86727bdad95334a4307286e879bdb9ad272b5947|0.40449267|3",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|5b0ed9e74a64f97cdfc643de6ddcef072c06a049c035576e4a5e4a3832eb3df0|0.37857763|23",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|650289d514d5e09213c529e3c1d3aeb5a8a8c0cbaae9bde65a647b1bb91da713|0.41597901|2",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|703c2596377536c853f7f0cd7b7cf54e6d535db7b448ea34de98ede6ec4ff234|0.38828783|12",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|717f024ff6b5e390836202aea7f7baa6f0459b5e17c35484932e8f811d13cd43|0.37885852|21",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|739a27761cc8661ea885000692793a3e83b205da90bc133b96709af97c201050|0.43076907|1",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|893b604329e74ab4dbb205f3cba28140b50d5b3ce3cbe153ad3d8687fe655001|0.38971781|9",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|8ee4d58f059657651ea0db9a8920092ef9e5ca9e351b8187e9a63e5ec319d053|0.38032247|20",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|8f0c091413f938aa56d0d0675b6a8d60890226495e72ece318183739736b54f4|0.39927887|5",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|a334f7b622f6f6379966e6b7be2b01623bd2cbf88dd7015e9d0221e4d70e7465|0.38705749|14",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|c7fe8d65954acef02c355bddefad16cb05ec8b16b75099765d117d0c7670ff6b|0.37866256|22",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|ea44e9d54c17f1d92577d7ece2592d92e354328ed00697b7c6022909a8b68ac2|0.39688740|6",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|fa44ba8dd61c1c645f3c44f963200d8a6ac94e242d5de0d3715aace81745b60f|0.38081993|19",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|fb90539700fb674f4e7c39c539c75ccbb6de718aff4b790448e942c0774e1cd2|0.38312865|15",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "identifier",
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "optional:technology:powershell:general": [
+        {
+          "candidateId": "semantic|4e3c9d3805df5dbfdb9a8b871eca4ca635c2d5d25e49ae0cfc7e645e9fff3a9e|0.38930809|11",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "identifier"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 157.4
+        },
+        {
+          "candidateId": "semantic|703c2596377536c853f7f0cd7b7cf54e6d535db7b448ea34de98ede6ec4ff234|0.38828783|12",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "identifier"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 157.35
+        },
+        {
+          "candidateId": "semantic|c7fe8d65954acef02c355bddefad16cb05ec8b16b75099765d117d0c7670ff6b|0.37866256|22",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "identifier"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 157
+        },
+        {
+          "candidateId": "lexical|5341e0968396ba350ea64c52901dba336f1d7fb55f16b072357fa0075a3fbdd3|-10.814554963663028",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.95
+        },
+        {
+          "candidateId": "semantic|1065ba31ae94420f26b6c82f3ffe87a0d31a72554460f768e6d3e9b3a707409f|0.39384885|8",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1740717192fac62744b96f76a103b69d44c344b54a0e5df4485604149addad7b|0.38208912|18",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1766b49a5cf4c48b418ea5df42b4fc9c241ac9e7f6d698795523c9c8becd237a|0.40111995|4",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|1be39be9276624e38de210470fe6e0a5a70db46c72fed65bf416d1aa67eab946|0.38748533|13",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|243f8ad24952f7fe67dc5d6faafb1ed8fc36c651b85f8cf68ba39df8ff27d079|0.38957598|10",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|2bf50577314932c665d9ea618dff01c3c20609f7af7e6b656b56aa2f3f2a5379|0.38258785|16",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|52fce9e810c684741c682476ad5c15d0a2462e32ba5720f33dee0629257399d5|0.38244505|17",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|585e4470103b57855695cebcc907b838d43eae30c30e9120466e44ad768cef10|0.39473486|7",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|596c9c04599916ce8b19ca2a86727bdad95334a4307286e879bdb9ad272b5947|0.40449267|3",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|5b0ed9e74a64f97cdfc643de6ddcef072c06a049c035576e4a5e4a3832eb3df0|0.37857763|23",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|650289d514d5e09213c529e3c1d3aeb5a8a8c0cbaae9bde65a647b1bb91da713|0.41597901|2",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|717f024ff6b5e390836202aea7f7baa6f0459b5e17c35484932e8f811d13cd43|0.37885852|21",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|739a27761cc8661ea885000692793a3e83b205da90bc133b96709af97c201050|0.43076907|1",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|893b604329e74ab4dbb205f3cba28140b50d5b3ce3cbe153ad3d8687fe655001|0.38971781|9",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|8ee4d58f059657651ea0db9a8920092ef9e5ca9e351b8187e9a63e5ec319d053|0.38032247|20",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|8f0c091413f938aa56d0d0675b6a8d60890226495e72ece318183739736b54f4|0.39927887|5",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|a334f7b622f6f6379966e6b7be2b01623bd2cbf88dd7015e9d0221e4d70e7465|0.38705749|14",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|ea44e9d54c17f1d92577d7ece2592d92e354328ed00697b7c6022909a8b68ac2|0.39688740|6",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|fa44ba8dd61c1c645f3c44f963200d8a6ac94e242d5de0d3715aace81745b60f|0.38081993|19",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "semantic|fb90539700fb674f4e7c39c539c75ccbb6de718aff4b790448e942c0774e1cd2|0.38312865|15",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [],
+    "unsupportedMandatoryAspectIds": [
+      "mandatory:cmdlet:set-csdefinitelynotarealcmdlet:general"
+    ],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": true,
+      "verified": false,
+      "requiredDirectives": [
+        {
+          "type": "cmdlet",
+          "value": "Set-CsDefinitelyNotARealCmdlet"
+        }
+      ],
+      "missingRequiredDirectives": [
+        {
+          "type": "cmdlet",
+          "value": "Set-CsDefinitelyNotARealCmdlet"
+        }
+      ]
+    }
+  },
+  {
+    "questionId": "E-006",
+    "question": "How do Teams meeting policies work?",
+    "expectedAnswerability": "answered",
+    "answerability": "answered",
+    "aspects": [
+      {
+        "aspectId": "mandatory:policy:meeting-policy:general",
+        "subject": "meeting policy",
+        "subjects": [
+          {
+            "kind": "policy",
+            "value": "meeting policy",
+            "terms": [
+              "meeting",
+              "policy"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "mechanism",
+        "relationship": null,
+        "breadth": "broad",
+        "requiredFacets": [
+          "purpose",
+          "mechanism"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:mechanism",
+            "breadth:broad"
+          ],
+          "questionSpans": [
+            "meeting policy"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      }
+    ],
+    "selectedEvidence": [
+      {
+        "evidenceId": "evidence:9ac7cfec02ef030b29b356edb8588a741f349411449e071fdca17a148d79e0f5",
+        "title": "Manage meeting and events policies in Microsoft Teams",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview",
+        "sourceId": "ms-teams-admin"
+      }
+    ],
+    "supportByAspect": {
+      "mandatory:policy:meeting-policy:general": [
+        {
+          "candidateId": "lexical|9ac7cfec02ef030b29b356edb8588a741f349411449e071fdca17a148d79e0f5|-13.100602067686884",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68
+        },
+        {
+          "candidateId": "lexical|02d870462c4b574f8809d17c854857264a3dfc014f3c840e40dc2ed77213f3a7|-16.681310706802346",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|0d7421bb60826f50a7b02ce5448e1cc4a082748b5dc2e3fa5a31242c55ea6b09|-23.45178948124936",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|11f30f0df3eafde0c622ed7ed834b908fecb087dd2e0badebf2a42ff0de57e83|-15.693229637691168",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|13ab194031fb9968d01d94a02d5c5a8dc704d4121b88128115064cc3493b5c6a|-21.03965691077575",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|255416f2ed8ca4feecb513b5f514413feb108aa9500ea60ab4b94d6b9ff21fd9|-23.45178948124936",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|41f49346c465498a06ffad6504c4be0b7b9c65a82bc7371661735a91a530c90f|-22.418206368865484",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|53e9dcc5772546bb65085e72063e84e4650e8fcef68897497686858e24a51d35|-23.48326739481982",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|5a141fa76a6ef02178c1d11c2679326a241fbe9a8fcaefdbfe969f74c8ff77c1|-18.713783875906014",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6c6f22cad63110b0b12edc7b3067a515a7a226d962cae600ed27f0be370fe078|-7.5564791889182334",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6f44b796c0ef5b4035115bf22cc945ae76fa6eeabc879fb99edd7842412a0258|-18.764879688721255",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|718964fc86f0ea16dba44c68a086f1154f1e5192363bd54fbf60119ad77196f1|-22.979022811604153",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|820089d9cccc3e836ef8d1bf4457faef9bbb57318bcb861da581eccd0f191226|-22.418206368865484",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|8b6beb3a0d44a262a73eef0fb9a868f0346ff38bb156cb5cbb89d9668b99bd21|-23.704118115345956",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|8f10d527222bd7ef0e8421bbeaa235de8a41fbf87b2425709f5aeb78de968488|-22.66222466903231",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|aefe9ca187caf5d6542ba138d395d8d78b79b2abaae18a99808d7bb84f5ed32e|-23.704118115345956",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|b74b5fce4bc831fae84e8d382356cba9025f348131edb44093b7bc3d8f02ba20|-21.03965691077575",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bdb0a07ac29fbfc516d92de06b41f0f19a3334bab58ca5dd59442cd36722bcfe|-23.48326739481982",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bf95d2b26f9258d91e2136047e03f807034210627af6b00e58b2be82d5c7ee61|-22.66222466903231",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d6b5a44ad9941f4b2dafefacf9584c4be34426237428726807a83186bee91bb1|-22.418206368865484",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|dd7b580bcaed734a59f2cbfef417e33d3c3440396edf4d696fb679b6c0049e16|-22.979022811604153",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eb2a2faf4103ee35361fbcab885d5263af4a108f08033f8b921b962ced873f3a|-18.654545431420747",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|fc158ff057dce11ea632d70b618817406abf929e9c1828a8ff5df14c9679d87d|-19.123503932465663",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|fcacd9a46fc4a16df1fcd093989707a9c06f5b63dff0f9b3d7316238586e75c5|-22.418206368865484",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:policy:meeting-policy:general"
+    ],
+    "unsupportedMandatoryAspectIds": [],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    }
+  },
+  {
+    "questionId": "E-007",
+    "question": "How does external access work in Teams?",
+    "expectedAnswerability": "answered",
+    "answerability": "answered",
+    "aspects": [
+      {
+        "aspectId": "mandatory:entity:external-access:general",
+        "subject": "external access",
+        "subjects": [
+          {
+            "kind": "entity",
+            "value": "external access",
+            "terms": [
+              "external",
+              "access"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "mechanism",
+        "relationship": null,
+        "breadth": "broad",
+        "requiredFacets": [
+          "purpose",
+          "mechanism"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:mechanism",
+            "breadth:broad"
+          ],
+          "questionSpans": [
+            "external access"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      }
+    ],
+    "selectedEvidence": [
+      {
+        "evidenceId": "evidence:15d0eb504053b58f0537c213052daecd478f71bb5014cae405f045c91be18067",
+        "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+        "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+        "sourceId": "ms-teams-admin"
+      }
+    ],
+    "supportByAspect": {
+      "mandatory:entity:external-access:general": [
+        {
+          "candidateId": "lexical|15d0eb504053b58f0537c213052daecd478f71bb5014cae405f045c91be18067|-21.08429618011032",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.9
+        },
+        {
+          "candidateId": "lexical|d54253059fd13bfee266f5cfe2a3215df4e418bf88a3eb941ba2872d811fc185|-20.476186512237394",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.85
+        },
+        {
+          "candidateId": "lexical|64003d7cbb9099bbc2f92798645500fffc0f901f1106eef46573842f53ef3843|-12.302150720363654",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.8
+        },
+        {
+          "candidateId": "lexical|c6c3c27f2d03527406d06d5c6c00f5efaa5185b226b02660d3d761e967a0c533|-11.061391329819203",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.65
+        },
+        {
+          "candidateId": "lexical|3909c3dec39763f20251b6d1bae7ff99d5bf04b6a27fce5690063e90bd8b7359|-13.576229790014331",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.55
+        },
+        {
+          "candidateId": "lexical|bc60e01c0c024ba4bd297c1fdd2ae2f8626a50e7de5919027f1dc48c527dc6f2|-9.258992166586347",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.5
+        },
+        {
+          "candidateId": "lexical|98f7bc4668339fe53d63fbe4f26381f09dc0c9d9cacbc25ad6bbe7d28a9bf6df|-14.463861808453967",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.4
+        },
+        {
+          "candidateId": "lexical|b23d24987194996fc5ecf1dab83b163cd6f8752418a550a24efede13bb061d99|-9.250258928566733",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.35
+        },
+        {
+          "candidateId": "lexical|17f458d40d788dcb4bb0a4b1d77e24a2e102874dfa89be977c9adee749e382df|-11.690411238652596",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.05
+        },
+        {
+          "candidateId": "lexical|b713d2c340e238a03476c0afb6cfa9fe6d8148baf0901e123a97d33421ab0ac9|-11.690411238652596",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68
+        },
+        {
+          "candidateId": "lexical|0149466804be9905da2c4e9f01d80c754fa7e0396969077cc08d4296213e98cb|-10.8706905919995",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|121ddded198b32c4759733f67d64a11bd3ef93966bdc3449df24bcf0592859ae|-16.853701885786833",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1992c631d2fd2a0a2f9a8101f68ac32a1c3dd09c8e0831b8c298080d4e2e8e7e|-14.496601281431532",
+          "strength": "contextual",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|26466a8c08f137ad94c32b425075cd36a27d4e57d44e5547e01d3a2dca45aaa6|-9.698680451040943",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4124ab9cf264972b4a7dbd1685ff4bf4c9085c30456a538fba6be997a2b37b0a|-7.182389574792282",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|5571c11c4e030706aa952691bea86345b8335759077834f404d78ce0c6fbc88e|-14.86554970167822",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|70b159fdd2abb2670473c483923036d362b50ee61d62b64c895fce19b1a1e62e|-9.698680451040943",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|97f78989b8cfd4e4667d64dc8d6b578567fbf73d98dd219cf7460c4bc6dd0b3a|-7.549958598908925",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|a8e2d041a02af0f62db8f7f4bb09415e78939b945ebd5a37f3918867229a4dd0|-6.955999423207562",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|a96ab34f3cf70d900aa6bdc97ed4aeb752fe568844c685853698af1135902479|-10.8706905919995",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|b32595b5c8022bb5b7bd4abab2ef06f244363270c1dd845f30b360d95ced172d|-9.50163121909296",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ea080695e29281051ee4a0c1a98fd22b570235015c4a2e3519eed6157867f299|-19.212219973325592",
+          "strength": "contextual",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f1a0954bb71dd9b848762feba379d875bd83ccc2eba40e8fa70e2373a0786572|-7.611604995985588",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|fbdb8aa6ed8f609ee4bd71b2ed1d4c71016fd1ba759552e525ac22ec60ec1bdc|-9.50163121909296",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "purpose",
+            "mechanism"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "narrow_subsection_for_broad_aspect",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:entity:external-access:general"
+    ],
+    "unsupportedMandatoryAspectIds": [],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    }
+  },
+  {
+    "questionId": "E-008",
+    "question": "How does Conditional Access affect Teams on unmanaged devices?",
+    "expectedAnswerability": "partial",
+    "answerability": "insufficient_evidence",
+    "aspects": [
+      {
+        "aspectId": "mandatory:relationship:affects:conditional-access:unmanaged-devices",
+        "subject": "conditional access / unmanaged devices",
+        "subjects": [
+          {
+            "kind": "entity",
+            "value": "conditional access",
+            "terms": [
+              "conditional",
+              "access"
+            ]
+          },
+          {
+            "kind": "entity",
+            "value": "unmanaged devices",
+            "terms": [
+              "unmanaged",
+              "devices"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "relationship",
+        "relationship": {
+          "predicate": "affects",
+          "participants": [
+            {
+              "role": "source",
+              "subject": {
+                "kind": "entity",
+                "value": "conditional access",
+                "terms": [
+                  "conditional",
+                  "access"
+                ]
+              }
+            },
+            {
+              "role": "target",
+              "subject": {
+                "kind": "entity",
+                "value": "unmanaged devices",
+                "terms": [
+                  "unmanaged",
+                  "devices"
+                ]
+              }
+            }
+          ]
+        },
+        "breadth": "bounded",
+        "requiredFacets": [
+          "relationship"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary",
+            "entra_identity_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin",
+            "entra"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "directed_relationship_predicate",
+            "compound_participants"
+          ],
+          "questionSpans": [
+            "conditional access",
+            "unmanaged devices"
+          ],
+          "unresolved": false
+        },
+        "requirement": "mandatory"
+      },
+      {
+        "aspectId": "optional:product:microsoft-entra:general",
+        "subject": "Microsoft Entra",
+        "subjects": [
+          {
+            "kind": "product",
+            "value": "Microsoft Entra",
+            "terms": [
+              "entra"
+            ]
+          }
+        ],
+        "operation": null,
+        "answerObject": "fact",
+        "relationship": null,
+        "breadth": "narrow",
+        "requiredFacets": [
+          "behavior"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "teams_admin_primary",
+            "entra_identity_primary"
+          ],
+          "requiredDomains": [
+            "teams_admin",
+            "entra"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "derivation": {
+          "ruleIds": [
+            "optional_supporting_subject"
+          ],
+          "questionSpans": [
+            "Microsoft Entra"
+          ],
+          "unresolved": false
+        },
+        "requirement": "optional"
+      }
+    ],
+    "selectedEvidence": [],
+    "supportByAspect": {
+      "mandatory:relationship:affects:conditional-access:unmanaged-devices": [
+        {
+          "candidateId": "lexical|042cdb5ea26258a7a883d84a585c6e535701e125de3e1ff747ae2cab2956ecdb|-12.142633746296905",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|117f77e76e51eb841fd00ec0b3b075798733ebc88489bf0addedaf5479f7e735|-8.449354335426872",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|126d556852cc70fcb1865d9b8a2a276fbf786490078b5ae05a1800a3efbf3f9e|-11.855438088275623",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1e06ab7276f8736ec75bb1fff159241e61b9d73454f18cfd3de6a31fe2a1280f|-15.603734336776197",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|2ef1971f21708e8f59fc75762af08e637abbeb802fbb18f7cd5b6714219e7fe5|-8.1066050818302",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|40772df569199e1491292db504132265db907ab6cbae12eb4f6e795b84418c30|-10.951089641119507",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4124ab9cf264972b4a7dbd1685ff4bf4c9085c30456a538fba6be997a2b37b0a|-24.5403949485652",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|47bd0d9788f0a66124e046226f4f43e1a779fa5c46c85b016444787c04805a04|-9.554943299245004",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|55d64aae9f2e250a0493699a4ed1d2ae8f237dc0bb8e4c94912d69129212d4fc|-12.02715020107997",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6783a195922c680d2fdb267b967b9a5aacd463f5867537a1e947b8cf76b692e4|-11.125058414750539",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|8fcf5c9b4546d730f0973f9baf658284aa841f8042ae540a16899c80f3849024|-11.091898437668458",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|aa350d19574ddb8784013b420db34c56a037b919e959a616a0479c8d50be49c0|-8.82386594371059",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|add2c5243134e7cdd4b301f2b72f97767f7f469a7fd9b5c9747b508cb087ca2a|-9.319285905646279",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|b045de6fde3f50f8c1fcc0663c3a80f0aacf4fa3a5bc4eb38b395bb96f076801|-18.36638742989733",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bc60e01c0c024ba4bd297c1fdd2ae2f8626a50e7de5919027f1dc48c527dc6f2|-12.503950544765386",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bf5a7e105dfd263cf35faa0ab3e0cadf57f567f0c6fbf766302bc1703e9858af|-10.420982612586215",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|c127859da7d15f831fb8c2e843c8afc78e48b6bab85e887367a8fdf44bfd2715|-10.589154521331638",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d8e94680ae0d1e1f1389149db975389d75eb35785b17edcf1385daab28b0d62e|-7.966723246019974",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|df4907ef7941c3957df55c1e0aa0ffef104e75211934c67aced138dbae34cf78|-9.554943299245004",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e632d7f3978624026e601168f5e89357d42d44d5ae402548ceeacd3f7b9a8ef4|-29.431209960903978",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ec5a78c09f8137a38c4d946942a5073d2b2f75aa8709f6e5e48d94d87133ea70|-8.039348270488661",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eda8ed4c85418ee7a94e5e98834f486bf61f0c47d94aeaf7bfc3e2c1c5d7e990|-7.5322862948765605",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f7d93b0b1576e57f2ad9c63a864d92a8306b6dcae612d7055f900b26f8f40d10|-16.994222520747684",
+          "strength": "supporting",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|fff1b0253307a381b8a331cda1f94fa0af5d439bce5792af116d3705d83e185f|-11.441250114240196",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "relationship"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "optional:product:microsoft-entra:general": [
+        {
+          "candidateId": "lexical|bc60e01c0c024ba4bd297c1fdd2ae2f8626a50e7de5919027f1dc48c527dc6f2|-12.503950544765386",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 64.4
+        },
+        {
+          "candidateId": "lexical|c127859da7d15f831fb8c2e843c8afc78e48b6bab85e887367a8fdf44bfd2715|-10.589154521331638",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 24.65
+        },
+        {
+          "candidateId": "lexical|042cdb5ea26258a7a883d84a585c6e535701e125de3e1ff747ae2cab2956ecdb|-12.142633746296905",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|117f77e76e51eb841fd00ec0b3b075798733ebc88489bf0addedaf5479f7e735|-8.449354335426872",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|126d556852cc70fcb1865d9b8a2a276fbf786490078b5ae05a1800a3efbf3f9e|-11.855438088275623",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|1e06ab7276f8736ec75bb1fff159241e61b9d73454f18cfd3de6a31fe2a1280f|-15.603734336776197",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|2ef1971f21708e8f59fc75762af08e637abbeb802fbb18f7cd5b6714219e7fe5|-8.1066050818302",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|40772df569199e1491292db504132265db907ab6cbae12eb4f6e795b84418c30|-10.951089641119507",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|4124ab9cf264972b4a7dbd1685ff4bf4c9085c30456a538fba6be997a2b37b0a|-24.5403949485652",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|47bd0d9788f0a66124e046226f4f43e1a779fa5c46c85b016444787c04805a04|-9.554943299245004",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|55d64aae9f2e250a0493699a4ed1d2ae8f237dc0bb8e4c94912d69129212d4fc|-12.02715020107997",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|6783a195922c680d2fdb267b967b9a5aacd463f5867537a1e947b8cf76b692e4|-11.125058414750539",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|8fcf5c9b4546d730f0973f9baf658284aa841f8042ae540a16899c80f3849024|-11.091898437668458",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|aa350d19574ddb8784013b420db34c56a037b919e959a616a0479c8d50be49c0|-8.82386594371059",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|add2c5243134e7cdd4b301f2b72f97767f7f469a7fd9b5c9747b508cb087ca2a|-9.319285905646279",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|b045de6fde3f50f8c1fcc0663c3a80f0aacf4fa3a5bc4eb38b395bb96f076801|-18.36638742989733",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|bf5a7e105dfd263cf35faa0ab3e0cadf57f567f0c6fbf766302bc1703e9858af|-10.420982612586215",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|d8e94680ae0d1e1f1389149db975389d75eb35785b17edcf1385daab28b0d62e|-7.966723246019974",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|df4907ef7941c3957df55c1e0aa0ffef104e75211934c67aced138dbae34cf78|-9.554943299245004",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|e632d7f3978624026e601168f5e89357d42d44d5ae402548ceeacd3f7b9a8ef4|-29.431209960903978",
+          "strength": "contextual",
+          "matchedFacets": [
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "contextual_structure",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|ec5a78c09f8137a38c4d946942a5073d2b2f75aa8709f6e5e48d94d87133ea70|-8.039348270488661",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|eda8ed4c85418ee7a94e5e98834f486bf61f0c47d94aeaf7bfc3e2c1c5d7e990|-7.5322862948765605",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|f7d93b0b1576e57f2ad9c63a864d92a8306b6dcae612d7055f900b26f8f40d10|-16.994222520747684",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "candidateId": "lexical|fff1b0253307a381b8a331cda1f94fa0af5d439bce5792af116d3705d83e185f|-11.441250114240196",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "behavior"
+          ],
+          "authoritySatisfied": true,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [],
+    "unsupportedMandatoryAspectIds": [
+      "mandatory:relationship:affects:conditional-access:unmanaged-devices"
+    ],
+    "supportingOnlyAspectIds": [
+      "mandatory:relationship:affects:conditional-access:unmanaged-devices"
+    ],
+    "contextualOnlyAspectIds": [],
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    }
+  }
+]

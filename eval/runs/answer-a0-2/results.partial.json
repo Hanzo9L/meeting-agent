@@ -1,0 +1,3691 @@
+{
+  "n": 26,
+  "rows": [
+    {
+      "question_id": "Q01",
+      "kind": "ANSWERABLE",
+      "question": "Explain Direct Routing and the role of the SBC.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "a4dceeb33512cbf1cb81",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 1: Connect the SBC to Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 400
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6f7e1efceeebaacf0464",
+          "title": "Plan Direct Routing",
+          "section": "Support boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 769
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "622ff626b6ac2b426c2e",
+          "title": "Configure Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "body_chars": 1920
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "689ab6d8f80fa614fdb5",
+          "title": "Monitor Direct Routing",
+          "section": "Monitoring availability of Session Border Controllers using Session Initiation Protocol (SIP) options messages",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "body_chars": 2132
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "62992204b4a00ba4f462",
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Configure the user and the SBC sites",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 1171
+        }
+      ],
+      "approach_a": {
+        "support": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "missing": [
+          "detailed explanation of Direct Routing and specific role of the SBC"
+        ],
+        "reason": "The evidence provides some context about Direct Routing and SBCs but lacks a comprehensive explanation of their roles.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1168.39,
+          "t_direct_ms": null,
+          "complete_ms": 1925.87,
+          "input_tokens": 1701,
+          "output_tokens": 69,
+          "total_tokens": 1770,
+          "cost_usd": 0.000297,
+          "parse_error": null,
+          "raw_json": {
+            "support": "PARTIAL",
+            "supporting_evidence_ids": [
+              "E2",
+              "E3"
+            ],
+            "missing": [
+              "detailed explanation of Direct Routing and specific role of the SBC"
+            ],
+            "reason": "The evidence provides some context about Direct Routing and SBCs but lacks a comprehensive explanation of their roles."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "Direct Routing connects on-premises telephony infrastructure to Microsoft Teams Phone, with the SBC acting as a bridge to the Public Switched Telephone Network (PSTN).",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 110,
+        "schema_ok": true,
+        "raw_direct_answer": "Direct Routing connects on-premises telephony infrastructure to Microsoft Teams Phone, with the SBC acting as a bridge to the Public Switched Telephone Network (PSTN).",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1121.19,
+          "t_direct_ms": 1469.45,
+          "complete_ms": 2567.11,
+          "input_tokens": 1821,
+          "output_tokens": 196,
+          "total_tokens": 2017,
+          "cost_usd": 0.000391,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "Direct Routing connects on-premises telephony infrastructure to Microsoft Teams Phone, with the SBC acting as a bridge to the Public Switched Telephone Network (PSTN).",
+            "talking_points": [
+              "Direct Routing allows integration of on-premises telephony with Microsoft Teams Phone (E3).",
+              "The SBC is essential for connecting Teams users to the PSTN (E3).",
+              "SBCs must be certified for use with Direct Routing to ensure support from Microsoft (E2).",
+              "SBCs monitor their health using SIP options to inform routing decisions (E4).",
+              "Configuration of the SBC is necessary before enabling Direct Routing for users (E3).",
+              "Local Media Optimization can be configured to enhance call quality, but requires careful network setup (E5)."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 50.43,
+        "retrieval_ms": 139.26,
+        "a_support_ttft_ms": 1168.39,
+        "a_support_complete_ms": 1925.87,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 6201.16,
+        "b_ttft_ms": 1121.19,
+        "b_direct_ms": 1469.45,
+        "b_complete_ms": 2567.11
+      }
+    },
+    {
+      "question_id": "Q02",
+      "kind": "ANSWERABLE",
+      "question": "A Teams user can make internal calls but cannot call external PSTN numbers. How would you troubleshoot it?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "1e8bef6bb7c29eeca308",
+          "title": "Issues with call transfers",
+          "section": "Auto attendant does not transfer calls to an external PSTN number",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers",
+          "body_chars": 912
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "38faf0220256811d79e6",
+          "title": "PSTN connectivity options",
+          "section": "What's next?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "body_chars": 1021
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "ea15502e0fc4d73301b4",
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "body_chars": 1776
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "4d7aed33c97937e1dae0",
+          "title": "PSTN connectivity options",
+          "section": "What is the Public Switched Telephone Network (PSTN)?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "body_chars": 1093
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "f40e1f61f52d3950664b",
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Dial plans and routing considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview",
+          "body_chars": 5639
+        }
+      ],
+      "approach_a": {
+        "support": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "missing": [
+          "specific troubleshooting steps for internal users unable to call external PSTN numbers"
+        ],
+        "reason": "The evidence discusses PSTN connectivity and potential issues but lacks specific troubleshooting steps for the scenario described.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1315.14,
+          "t_direct_ms": null,
+          "complete_ms": 1939.71,
+          "input_tokens": 2447,
+          "output_tokens": 69,
+          "total_tokens": 2516,
+          "cost_usd": 0.000408,
+          "parse_error": null,
+          "raw_json": {
+            "support": "PARTIAL",
+            "supporting_evidence_ids": [
+              "E2",
+              "E3"
+            ],
+            "missing": [
+              "specific troubleshooting steps for internal users unable to call external PSTN numbers"
+            ],
+            "reason": "The evidence discusses PSTN connectivity and potential issues but lacks specific troubleshooting steps for the scenario described."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "PARTIAL",
+        "missing": [
+          "Specific steps to troubleshoot the issue of not being able to call external PSTN numbers.",
+          "Details on how to check if the user has the correct licenses assigned."
+        ],
+        "direct_answer": "Ensure that the user has the correct Teams Phone licenses and check the Online Voice Routing policy for any mismatches with the dialed number.",
+        "talking_points": null,
+        "caveat": "The troubleshooting steps provided are not exhaustive and may require further investigation based on specific configurations.",
+        "visible_answer": null,
+        "word_count": 107,
+        "schema_ok": true,
+        "raw_direct_answer": "Ensure that the user has the correct Teams Phone licenses and check the Online Voice Routing policy for any mismatches with the dialed number.",
+        "raw_talking_points_n": 5,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1319.84,
+          "t_direct_ms": 1915.28,
+          "complete_ms": 3214.47,
+          "input_tokens": 2567,
+          "output_tokens": 214,
+          "total_tokens": 2781,
+          "cost_usd": 0.000513,
+          "parse_error": null,
+          "raw_json": {
+            "support": "PARTIAL",
+            "missing": [
+              "Specific steps to troubleshoot the issue of not being able to call external PSTN numbers.",
+              "Details on how to check if the user has the correct licenses assigned."
+            ],
+            "direct_answer": "Ensure that the user has the correct Teams Phone licenses and check the Online Voice Routing policy for any mismatches with the dialed number.",
+            "talking_points": [
+              "Users must have the appropriate Teams Phone licenses to enable PSTN calling. [E2]",
+              "Check if the user's Online Voice Routing policy matches the dialed number. [E3]",
+              "Ensure that the gateway specified for the SBC is enabled. [E3]",
+              "Verify that the user's OVRP does not contain invalid characters. [E3]",
+              "Make sure the SIP Invite message is sent to the correct SIP proxy. [E1]"
+            ],
+            "caveat": "The troubleshooting steps provided are not exhaustive and may require further investigation based on specific configurations."
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 19.13,
+        "retrieval_ms": 263.85,
+        "a_support_ttft_ms": 1315.14,
+        "a_support_complete_ms": 1939.71,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 6308.29,
+        "b_ttft_ms": 1319.84,
+        "b_direct_ms": 1915.28,
+        "b_complete_ms": 3214.47
+      }
+    },
+    {
+      "question_id": "Q03",
+      "kind": "SOURCE_GAP",
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "0bc10807b06fa7c78bb3",
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 14507
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "89e83e29563a2f26cd6d",
+          "title": "Plan Direct Routing",
+          "section": "Licensing and other requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 3902
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "4363f23b5098313bf1b8",
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "body_chars": 1647
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "778741c91a147734fddc",
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 2252
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "a4d9a23d42b421cc6b87",
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Audio Conferencing capabilities not supported in Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 720
+        }
+      ],
+      "approach_a": {
+        "support": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "missing": [
+          "specific troubleshooting steps for one-way audio issues"
+        ],
+        "reason": "The evidence discusses licensing and general issues related to Direct Routing but does not provide specific troubleshooting steps for one-way audio.",
+        "grade": "PARTIAL_REVIEW",
+        "latency": {
+          "ttft_ms": 2327.15,
+          "t_direct_ms": null,
+          "complete_ms": 2957.55,
+          "input_tokens": 4967,
+          "output_tokens": 68,
+          "total_tokens": 5035,
+          "cost_usd": 0.000786,
+          "parse_error": null,
+          "raw_json": {
+            "support": "PARTIAL",
+            "supporting_evidence_ids": [
+              "E2",
+              "E3"
+            ],
+            "missing": [
+              "specific troubleshooting steps for one-way audio issues"
+            ],
+            "reason": "The evidence discusses licensing and general issues related to Direct Routing but does not provide specific troubleshooting steps for one-way audio."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "PARTIAL",
+        "missing": [
+          "Specific troubleshooting steps for one-way audio on Teams Direct Routing calls."
+        ],
+        "direct_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the global voice routing policy allows outbound calls to the PSTN and that the necessary licenses are assigned to users.",
+        "talking_points": [
+          {
+            "text": "Verify that the global voice routing policy is defined and allows outbound calls to the PSTN (E1).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Ensure that users have the required Audio Conferencing and Teams Phone licenses assigned (E2).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Check if the Session Border Controller (SBC) configuration is correct, as misconfigurations can lead to audio issues (E3).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Confirm that the audio conferencing routing policy is set up correctly to enable PSTN call routing (E1).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Ensure that the SBC is handling SIP messages properly to avoid issues with audio (E3).",
+            "evidence_ids": []
+          }
+        ],
+        "caveat": "Specific troubleshooting steps for one-way audio are not detailed in the provided evidence.",
+        "visible_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the global voice routing policy allows outbound calls to the PSTN and that the necessary licenses are assigned to users.\n- Verify that the global voice routing policy is defined and allows outbound calls to the PSTN (E1).\n- Ensure that users have the required Audio Conferencing and Teams Phone licenses assigned (E2).\n- Check if the Session Border Controller (SBC) configuration is correct, as misconfigurations can lead to audio issues (E3).\n- Confirm that the audio conferencing routing policy is set up correctly to enable PSTN call routing (E1).\n- Ensure that the SBC is handling SIP messages properly to avoid issues with audio (E3).\nSpecific troubleshooting steps for one-way audio are not detailed in the provided evidence.",
+        "word_count": 131,
+        "schema_ok": true,
+        "raw_direct_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the global voice routing policy allows outbound calls to the PSTN and that the necessary licenses are assigned to users.",
+        "raw_talking_points_n": 5,
+        "grade": "PARTIAL_REVIEW",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": [
+          {
+            "role": "direct_answer",
+            "text": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the global voice routing policy allows outbound calls to the PSTN and that the necessary licenses are assigned to users.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Verify that the global voice routing policy is defined and allows outbound calls to the PSTN (E1).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Ensure that users have the required Audio Conferencing and Teams Phone licenses assigned (E2).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Check if the Session Border Controller (SBC) configuration is correct, as misconfigurations can lead to audio issues (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Confirm that the audio conferencing routing policy is set up correctly to enable PSTN call routing (E1).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Ensure that the SBC is handling SIP messages properly to avoid issues with audio (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "caveat",
+            "text": "Specific troubleshooting steps for one-way audio are not detailed in the provided evidence.",
+            "evidence_ids": [],
+            "status": "SUPPORTED",
+            "issues": []
+          }
+        ],
+        "latency": {
+          "ttft_ms": 1832.64,
+          "t_direct_ms": 2533.7,
+          "complete_ms": 3502.87,
+          "input_tokens": 5087,
+          "output_tokens": 225,
+          "total_tokens": 5312,
+          "cost_usd": 0.000898,
+          "parse_error": null,
+          "raw_json": {
+            "support": "PARTIAL",
+            "missing": [
+              "Specific troubleshooting steps for one-way audio on Teams Direct Routing calls."
+            ],
+            "direct_answer": "To troubleshoot one-way audio on a Teams Direct Routing call, ensure that the global voice routing policy allows outbound calls to the PSTN and that the necessary licenses are assigned to users.",
+            "talking_points": [
+              "Verify that the global voice routing policy is defined and allows outbound calls to the PSTN (E1).",
+              "Ensure that users have the required Audio Conferencing and Teams Phone licenses assigned (E2).",
+              "Check if the Session Border Controller (SBC) configuration is correct, as misconfigurations can lead to audio issues (E3).",
+              "Confirm that the audio conferencing routing policy is set up correctly to enable PSTN call routing (E1).",
+              "Ensure that the SBC is handling SIP messages properly to avoid issues with audio (E3)."
+            ],
+            "caveat": "Specific troubleshooting steps for one-way audio are not detailed in the provided evidence."
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 11.07,
+        "retrieval_ms": 462.54,
+        "a_support_ttft_ms": 2327.15,
+        "a_support_complete_ms": 2957.55,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 7516.74,
+        "b_ttft_ms": 1832.64,
+        "b_direct_ms": 2533.7,
+        "b_complete_ms": 3502.87
+      }
+    },
+    {
+      "question_id": "Q04",
+      "kind": "ANSWERABLE",
+      "question": "Explain the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "1c4fab62f3fa26a90c7a",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 4: Assign the voice route to the PSTN usage:",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 274
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "c7e14bb3935688e5dab7",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 1: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 6435
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "601fbf6e4fdfbb3f78d2",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Call routing overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 1061
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "eda7f728fe91320deb3a",
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 2: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "body_chars": 5511
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "6005615c721051aefc24",
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 3: Create a voice route and associate it with the PSTN usage",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "body_chars": 554
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "missing": [],
+        "reason": "The evidence provides a clear explanation of the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1500.61,
+          "t_direct_ms": null,
+          "complete_ms": 2035.93,
+          "input_tokens": 3929,
+          "output_tokens": 62,
+          "total_tokens": 3991,
+          "cost_usd": 0.000627,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E2",
+              "E3"
+            ],
+            "missing": [],
+            "reason": "The evidence provides a clear explanation of the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, defining voice routes that match number patterns, and associating these routes with Session Border Controllers (SBCs) for call handling.",
+        "talking_points": [
+          {
+            "text": "A voice routing policy is a container for PSTN usages and can be assigned to users (E3).",
+            "evidence_ids": []
+          },
+          {
+            "text": "PSTN usages are linked to voice routes and define how calls are routed based on number patterns (E3).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Voice routes specify the number patterns and the SBCs to use for calls that match those patterns (E3).",
+            "evidence_ids": []
+          },
+          {
+            "text": "SBCs can be designated as active or backup for call routing (E3).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Voice routes are created with specific attributes, including number patterns and associated SBCs (E2, E5).",
+            "evidence_ids": []
+          },
+          {
+            "text": "The entire configuration process can be performed using the Microsoft Teams admin center or PowerShell (E2, E4).",
+            "evidence_ids": []
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, defining voice routes that match number patterns, and associating these routes with Session Border Controllers (SBCs) for call handling.\n- A voice routing policy is a container for PSTN usages and can be assigned to users (E3).\n- PSTN usages are linked to voice routes and define how calls are routed based on number patterns (E3).\n- Voice routes specify the number patterns and the SBCs to use for calls that match those patterns (E3).\n- SBCs can be designated as active or backup for call routing (E3).\n- Voice routes are created with specific attributes, including number patterns and associated SBCs (E2, E5).\n- The entire configuration process can be performed using the Microsoft Teams admin center or PowerShell (E2, E4).",
+        "word_count": 136,
+        "schema_ok": true,
+        "raw_direct_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, defining voice routes that match number patterns, and associating these routes with Session Border Controllers (SBCs) for call handling.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": [
+          {
+            "role": "direct_answer",
+            "text": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, defining voice routes that match number patterns, and associating these routes with Session Border Controllers (SBCs) for call handling.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "A voice routing policy is a container for PSTN usages and can be assigned to users (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "PSTN usages are linked to voice routes and define how calls are routed based on number patterns (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Voice routes specify the number patterns and the SBCs to use for calls that match those patterns (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "SBCs can be designated as active or backup for call routing (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Voice routes are created with specific attributes, including number patterns and associated SBCs (E2, E5).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "The entire configuration process can be performed using the Microsoft Teams admin center or PowerShell (E2, E4).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          }
+        ],
+        "latency": {
+          "ttft_ms": 1819.92,
+          "t_direct_ms": 2166.43,
+          "complete_ms": 3358.66,
+          "input_tokens": 4049,
+          "output_tokens": 225,
+          "total_tokens": 4274,
+          "cost_usd": 0.000742,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "The Direct Routing chain involves creating a voice routing policy that includes PSTN usages, defining voice routes that match number patterns, and associating these routes with Session Border Controllers (SBCs) for call handling.",
+            "talking_points": [
+              "A voice routing policy is a container for PSTN usages and can be assigned to users (E3).",
+              "PSTN usages are linked to voice routes and define how calls are routed based on number patterns (E3).",
+              "Voice routes specify the number patterns and the SBCs to use for calls that match those patterns (E3).",
+              "SBCs can be designated as active or backup for call routing (E3).",
+              "Voice routes are created with specific attributes, including number patterns and associated SBCs (E2, E5).",
+              "The entire configuration process can be performed using the Microsoft Teams admin center or PowerShell (E2, E4)."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 5.69,
+        "retrieval_ms": 254.48,
+        "a_support_ttft_ms": 1500.61,
+        "a_support_complete_ms": 2035.93,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 6381.69,
+        "b_ttft_ms": 1819.92,
+        "b_direct_ms": 2166.43,
+        "b_complete_ms": 3358.66
+      }
+    },
+    {
+      "question_id": "Q05",
+      "kind": "ANSWERABLE",
+      "question": "How would you renew or replace an SBC certificate used for Teams Direct Routing?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "98181f2dce06954eef33",
+          "title": "SBC connectivity issues",
+          "section": "Overview of the SIP options process",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "body_chars": 9946
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6e404a6b3d4456abb6ce",
+          "title": "Plan Direct Routing",
+          "section": "Public trusted certificate for the SBC",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 2821
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "72f1f6f0bf9d327d63b8",
+          "title": "What&#39;s New Direct Routing",
+          "section": "Validation test that switches Microsoft Teams Direct Routing SIP endpoints to certificates issued by a new CA (June 30, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "body_chars": 1265
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "ce69ec4714d399bdf6a8",
+          "title": "What&#39;s New Direct Routing",
+          "section": "Update on upcoming certificate changes (December 12, 2025)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "body_chars": 3663
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "a89a210eb7244b0ee936",
+          "title": "What&#39;s New Direct Routing",
+          "section": "Testing endpoint for upcoming certificate changes (February 16, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "body_chars": 865
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E2"
+        ],
+        "missing": [],
+        "reason": "The evidence provides specific instructions on requesting and renewing SBC certificates, which directly supports the user's question.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1690.23,
+          "t_direct_ms": null,
+          "complete_ms": 2077.53,
+          "input_tokens": 4292,
+          "output_tokens": 50,
+          "total_tokens": 4342,
+          "cost_usd": 0.000674,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E2"
+            ],
+            "missing": [],
+            "reason": "The evidence provides specific instructions on requesting and renewing SBC certificates, which directly supports the user's question."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "To renew or replace an SBC certificate used for Teams Direct Routing, request or renew the certificate from a trusted Certificate Authority (CA) and install it on the SBC, ensuring to remove old TLS connections and re-establish them with the new certificate.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 157,
+        "schema_ok": true,
+        "raw_direct_answer": "To renew or replace an SBC certificate used for Teams Direct Routing, request or renew the certificate from a trusted Certificate Authority (CA) and install it on the SBC, ensuring to remove old TLS connections and re-establish them with the new certificate.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1679.24,
+          "t_direct_ms": 2195.38,
+          "complete_ms": 3641.92,
+          "input_tokens": 4412,
+          "output_tokens": 249,
+          "total_tokens": 4661,
+          "cost_usd": 0.000811,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "To renew or replace an SBC certificate used for Teams Direct Routing, request or renew the certificate from a trusted Certificate Authority (CA) and install it on the SBC, ensuring to remove old TLS connections and re-establish them with the new certificate.",
+            "talking_points": [
+              "The SBC certificate must be obtained from a trusted Certificate Authority (CA) and should not be self-signed. [E1]",
+              "When renewing the SBC certificate, remove old TLS connections to avoid expiration warnings in the Microsoft Teams admin center. [E1]",
+              "Ensure the new certificate has the SBC FQDN as the common name (CN) or subject alternative name (SAN). [E2]",
+              "The certificate must be signed by a CA that is part of the Microsoft Trusted Root Certificate Program. [E2]",
+              "If Mutual TLS (MTLS) is enabled, install all required root CAs in the SBC Trusted Root Store. [E2]",
+              "Check that the Extended Key Usage (EKU) extension of your certificate includes Server Authentication. [E4]"
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 12.39,
+        "retrieval_ms": 179.01,
+        "a_support_ttft_ms": 1690.23,
+        "a_support_complete_ms": 2077.53,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 6354.52,
+        "b_ttft_ms": 1679.24,
+        "b_direct_ms": 2195.38,
+        "b_complete_ms": 3641.92
+      }
+    },
+    {
+      "question_id": "Q06",
+      "kind": "ANSWERABLE",
+      "question": "Explain emergency calling with Teams Direct Routing, including location information.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "895718d2f8c333201a33",
+          "title": "Configure dynamic emergency calling",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "body_chars": 880
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "d652b18cd2b4c8ca0fb6",
+          "title": "Considerations for Direct Routing",
+          "section": "Emergency call routing for Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "body_chars": 3007
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "fc213dcf6c655a6f7c03",
+          "title": "Considerations for Direct Routing",
+          "section": "Dynamic emergency calling for Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "body_chars": 1507
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "27d4f2a732a321f9a818",
+          "title": "Plan and manage emergency calling",
+          "section": "Dynamic emergency calling",
+          "url": "https://learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "body_chars": 365
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "e93ae5adabcb6cf88512",
+          "title": "Manage emergency locations",
+          "section": "Assign an emergency location",
+          "url": "https://learn.microsoft.com/microsoftteams/add-change-remove-emergency-location-organization",
+          "body_chars": 2301
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "missing": [],
+        "reason": "The evidence provides comprehensive details on emergency calling with Teams Direct Routing, including location information.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1520.55,
+          "t_direct_ms": null,
+          "complete_ms": 1985.16,
+          "input_tokens": 1850,
+          "output_tokens": 52,
+          "total_tokens": 1902,
+          "cost_usd": 0.000309,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E2",
+              "E3"
+            ],
+            "missing": [],
+            "reason": "The evidence provides comprehensive details on emergency calling with Teams Direct Routing, including location information."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "Emergency calling with Teams Direct Routing allows for dynamic routing of emergency calls based on the current location of the Teams client, providing location information to the appropriate Public Safety Answering Point (PSAP).",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 140,
+        "schema_ok": true,
+        "raw_direct_answer": "Emergency calling with Teams Direct Routing allows for dynamic routing of emergency calls based on the current location of the Teams client, providing location information to the appropriate Public Safety Answering Point (PSAP).",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1539.7,
+          "t_direct_ms": 1970.36,
+          "complete_ms": 3315.81,
+          "input_tokens": 1970,
+          "output_tokens": 219,
+          "total_tokens": 2189,
+          "cost_usd": 0.000427,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "Emergency calling with Teams Direct Routing allows for dynamic routing of emergency calls based on the current location of the Teams client, providing location information to the appropriate Public Safety Answering Point (PSAP).",
+            "talking_points": [
+              "Dynamic emergency calling supports routing emergency calls based on the Teams client's connected location (E1).",
+              "The Teams client sends location data as part of the emergency call to help route it to the correct PSAP (E1).",
+              "In the U.S., emergency calls can be routed automatically based on the caller's dynamically acquired location (E3).",
+              "If a Teams client does not dynamically acquire a location, the registered emergency address is used for routing (E3).",
+              "Emergency Routing Service Providers can facilitate automatic routing of emergency calls based on location (E2).",
+              "For Direct Routing, emergency calls must have the appropriate configuration to route correctly (E2)."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 6.24,
+        "retrieval_ms": 198.55,
+        "a_support_ttft_ms": 1520.55,
+        "a_support_complete_ms": 1985.16,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 6275.54,
+        "b_ttft_ms": 1539.7,
+        "b_direct_ms": 1970.36,
+        "b_complete_ms": 3315.81
+      }
+    },
+    {
+      "question_id": "Q07",
+      "kind": "ANSWERABLE",
+      "question": "Walk me through building an Auto Attendant that ultimately routes callers into a Call Queue.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "body_chars": 30134
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6637e471035249c89e6f",
+          "title": "Design - Call flows for voice applications",
+          "section": "Auto Attendants",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2709
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "4b897e8ac1d91482d68b",
+          "title": "Design - Call flows for voice applications",
+          "section": "Call routing best practices",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2281
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "1729c8e220e75c5df7ea",
+          "title": "Planning - Overview of voice applications",
+          "section": "Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview",
+          "body_chars": 1790
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "16047a90ee09734d4a33",
+          "title": "Design - Call flows for voice applications",
+          "section": "Call flow diagrams",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 1105
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2"
+        ],
+        "missing": [],
+        "reason": "The evidence provides detailed steps and options for setting up an Auto Attendant that routes callers to a Call Queue.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1198.94,
+          "t_direct_ms": null,
+          "complete_ms": 1730.77,
+          "input_tokens": 8438,
+          "output_tokens": 57,
+          "total_tokens": 8495,
+          "cost_usd": 0.0013,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E1",
+              "E2"
+            ],
+            "missing": [],
+            "reason": "The evidence provides detailed steps and options for setting up an Auto Attendant that routes callers to a Call Queue."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 137,
+        "schema_ok": true,
+        "raw_direct_answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1053.04,
+          "t_direct_ms": 1494.77,
+          "complete_ms": 2562.09,
+          "input_tokens": 8558,
+          "output_tokens": 215,
+          "total_tokens": 8773,
+          "cost_usd": 0.001413,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "To build an Auto Attendant that routes callers into a Call Queue, set up the Auto Attendant in the Teams admin center, configure call routing options to redirect calls to the Call Queue, and define menu options for caller navigation.",
+            "talking_points": [
+              "Expand Voice in the Teams admin center and select Auto attendants to add a new Auto Attendant. [E1]",
+              "Choose between Quick setup for simpler needs or Advanced setup for more complex routing requirements. [E1]",
+              "In the call routing options, select 'Voice app' and choose the Call Queue as the destination. [E2]",
+              "Configure menu options to allow callers to navigate to the Call Queue using dial keys. [E1]",
+              "Set up greetings and call handling hours to enhance caller experience. [E1]",
+              "Ensure to define an operator for better call management and redirection. [E2]"
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 4.3,
+        "retrieval_ms": 14.74,
+        "a_support_ttft_ms": 1198.94,
+        "a_support_complete_ms": 1730.77,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5835.39,
+        "b_ttft_ms": 1053.04,
+        "b_direct_ms": 1494.77,
+        "b_complete_ms": 2562.09
+      }
+    },
+    {
+      "question_id": "Q08",
+      "kind": "ANSWERABLE",
+      "question": "How would you configure a resource account for a Microsoft Teams Room?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "f1c7221e658fe9d44663",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "body_chars": 8587
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "a9d4409456a7bb06b805",
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Creating resource accounts for your Microsoft Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "body_chars": 1569
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "6ad4a52593f75d31e98c",
+          "title": "Microsoft Teams Rooms Resource Accounts",
+          "section": "Configure resource accounts",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/resource-accounts",
+          "body_chars": 2672
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3436d1068c015efee0f5",
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Create a resource account",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 752
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "395465d9ec6427fef88e",
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Assign a license",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 887
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "missing": [],
+        "reason": "The evidence provides detailed steps and considerations for configuring resource accounts specifically for Microsoft Teams Rooms.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 2531.65,
+          "t_direct_ms": null,
+          "complete_ms": 3066.09,
+          "input_tokens": 3303,
+          "output_tokens": 56,
+          "total_tokens": 3359,
+          "cost_usd": 0.000529,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "missing": [],
+            "reason": "The evidence provides detailed steps and considerations for configuring resource accounts specifically for Microsoft Teams Rooms."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "To configure a resource account for a Microsoft Teams Room, create the account in the Microsoft 365 admin center, assign a Teams Rooms license, and ensure the account's UPN matches its SMTP address.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 125,
+        "schema_ok": true,
+        "raw_direct_answer": "To configure a resource account for a Microsoft Teams Room, create the account in the Microsoft 365 admin center, assign a Teams Rooms license, and ensure the account's UPN matches its SMTP address.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1075.04,
+          "t_direct_ms": 1511.96,
+          "complete_ms": 2635.46,
+          "input_tokens": 3423,
+          "output_tokens": 209,
+          "total_tokens": 3632,
+          "cost_usd": 0.000639,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "To configure a resource account for a Microsoft Teams Room, create the account in the Microsoft 365 admin center, assign a Teams Rooms license, and ensure the account's UPN matches its SMTP address.",
+            "talking_points": [
+              "Each Microsoft Teams Room requires its own resource account for calendar booking and sign-in (E2).",
+              "Resource accounts should be created as cloud-only using Microsoft Entra ID and Exchange Online (E1).",
+              "Assign a Teams Rooms license (Pro or Basic) to the resource account after creation (E1).",
+              "The UPN of the resource account must match the SMTP address (E1).",
+              "Default settings for resource accounts include allowing repeat meetings and auto-accepting meeting requests (E1).",
+              "You can modify booking options and other settings in the Microsoft 365 admin center (E1)."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 9.79,
+        "retrieval_ms": 63.04,
+        "a_support_ttft_ms": 2531.65,
+        "a_support_complete_ms": 3066.09,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 7224.51,
+        "b_ttft_ms": 1075.04,
+        "b_direct_ms": 1511.96,
+        "b_complete_ms": 2635.46
+      }
+    },
+    {
+      "question_id": "Q09",
+      "kind": "ANSWERABLE",
+      "question": "A Teams Room resource account is locked out or cannot sign in. How would you troubleshoot it?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "fc87164584f255ea269f",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "body_chars": 571
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "2f972d9bdc30f66cd786",
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Key differences from the Teams Desktop application",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "body_chars": 1557
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "1ed7c9ce0b85e1499c50",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "body_chars": 12538
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "8b9395dc7c5d20a194c5",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Turn off password expiration",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "body_chars": 1428
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3c3703462e45b72e271b",
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Symptoms",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "body_chars": 1897
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E3",
+          "E5"
+        ],
+        "missing": [],
+        "reason": "The evidence provides detailed troubleshooting steps for sign-in issues related to Teams Rooms resource accounts.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1034.1,
+          "t_direct_ms": null,
+          "complete_ms": 1515.32,
+          "input_tokens": 4123,
+          "output_tokens": 56,
+          "total_tokens": 4179,
+          "cost_usd": 0.000652,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E1",
+              "E3",
+              "E5"
+            ],
+            "missing": [],
+            "reason": "The evidence provides detailed troubleshooting steps for sign-in issues related to Teams Rooms resource accounts."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "To troubleshoot a locked out or sign-in issue with a Teams Room resource account, check for multi-factor authentication settings, password expiration, Conditional Access policies, network connectivity, and ensure the resource account has a valid Teams license assigned.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 104,
+        "schema_ok": true,
+        "raw_direct_answer": "To troubleshoot a locked out or sign-in issue with a Teams Room resource account, check for multi-factor authentication settings, password expiration, Conditional Access policies, network connectivity, and ensure the resource account has a valid Teams license assigned.",
+        "raw_talking_points_n": 5,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1305.69,
+          "t_direct_ms": 1724.49,
+          "complete_ms": 2528.18,
+          "input_tokens": 4243,
+          "output_tokens": 170,
+          "total_tokens": 4413,
+          "cost_usd": 0.000738,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "To troubleshoot a locked out or sign-in issue with a Teams Room resource account, check for multi-factor authentication settings, password expiration, Conditional Access policies, network connectivity, and ensure the resource account has a valid Teams license assigned.",
+            "talking_points": [
+              "Check if multi-factor authentication (MFA) is enabled, as Teams Rooms resource accounts shouldn't use MFA.",
+              "Verify if the resource account's password has expired, which can prevent sign-in.",
+              "Examine Conditional Access policies that may block sign-in attempts.",
+              "Ensure network connectivity to Microsoft 365 endpoints is functioning properly.",
+              "Confirm that the resource account has a Teams Rooms Pro or Teams Rooms Basic license assigned."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 16.18,
+        "retrieval_ms": 62.66,
+        "a_support_ttft_ms": 1034.1,
+        "a_support_complete_ms": 1515.32,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5679.76,
+        "b_ttft_ms": 1305.69,
+        "b_direct_ms": 1724.49,
+        "b_complete_ms": 2528.18
+      }
+    },
+    {
+      "question_id": "Q10",
+      "kind": "ANSWERABLE",
+      "question": "A Teams Room joins the meeting, but the far end cannot hear the room. What would you check?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "6b510d5018704fc4ed7c",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Software issues",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "body_chars": 8139
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6606647cd9d83f10042a",
+          "title": "Known issues with Teams on Android devices",
+          "section": "Issues affecting Teams meeting room devices",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-android",
+          "body_chars": 1485
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "37684d953253faf2ee70",
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Hardware issues",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "body_chars": 2361
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "ef03467101d0edc64a3b",
+          "title": "The Teams Rooms device&#39;s displays show a black or blank screen",
+          "section": "All displays and the touchscreen console show a black or blank screen and don't respond",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen",
+          "body_chars": 4220
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "7a102e26400db7301660",
+          "title": "Managing settings for Teams devices",
+          "section": "Settings available",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "body_chars": 19177
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E3"
+        ],
+        "missing": [],
+        "reason": "The evidence discusses audio quality issues and provides troubleshooting steps relevant to the problem of the far end not hearing the Teams Room.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1170.15,
+          "t_direct_ms": null,
+          "complete_ms": 1681.17,
+          "input_tokens": 7272,
+          "output_tokens": 55,
+          "total_tokens": 7327,
+          "cost_usd": 0.001124,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E3"
+            ],
+            "missing": [],
+            "reason": "The evidence discusses audio quality issues and provides troubleshooting steps relevant to the problem of the far end not hearing the Teams Room."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "You should check the audio settings on the Teams Rooms device to ensure that the correct microphone and speaker are selected and that audio enhancements are disabled.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 145,
+        "schema_ok": true,
+        "raw_direct_answer": "You should check the audio settings on the Teams Rooms device to ensure that the correct microphone and speaker are selected and that audio enhancements are disabled.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1038.04,
+          "t_direct_ms": 1435.95,
+          "complete_ms": 2581.39,
+          "input_tokens": 7392,
+          "output_tokens": 215,
+          "total_tokens": 7607,
+          "cost_usd": 0.001238,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "You should check the audio settings on the Teams Rooms device to ensure that the correct microphone and speaker are selected and that audio enhancements are disabled.",
+            "talking_points": [
+              "Check if the Teams Rooms device is using the correct microphone and speaker settings to ensure audio is transmitted properly. [E3]",
+              "Verify that audio enhancements are disabled in the audio settings, as they can cause poor audio quality. [E3]",
+              "Ensure that the Teams Rooms app is running correctly and that the device is connected to the internet. [E4]",
+              "Test the audio quality by making a test call to see if the far end can hear the room. [E3]",
+              "If issues persist, consider power cycling the Teams Rooms device to reset any temporary glitches. [E4]",
+              "Check for any known issues with the specific Teams Rooms device model that may affect audio functionality. [E1]"
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 16.63,
+        "retrieval_ms": 108.55,
+        "a_support_ttft_ms": 1170.15,
+        "a_support_complete_ms": 1681.17,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5891.95,
+        "b_ttft_ms": 1038.04,
+        "b_direct_ms": 1435.95,
+        "b_complete_ms": 2581.39
+      }
+    },
+    {
+      "question_id": "Q11",
+      "kind": "ANSWERABLE",
+      "question": "How would you manage and monitor a fleet of Microsoft Teams Rooms at scale?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "527efbccd8b6970ca143",
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "body_chars": 1101
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "7a102e26400db7301660",
+          "title": "Managing settings for Teams devices",
+          "section": "Settings available",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "body_chars": 19177
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "2bb214a4c217ead68b10",
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Physically deploying and configuring your Teams Rooms devices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "body_chars": 2487
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "cbfeff612e85940645bc",
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Management options in Teams Admin Center",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "body_chars": 6107
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "9cebf6dab5c109ae7e52",
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "body_chars": 1088
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E4",
+          "E5"
+        ],
+        "missing": [],
+        "reason": "The evidence provides comprehensive information on managing and monitoring Microsoft Teams Rooms at scale through the Pro Management Portal and Teams Admin Center.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1210.41,
+          "t_direct_ms": null,
+          "complete_ms": 1741.21,
+          "input_tokens": 6021,
+          "output_tokens": 67,
+          "total_tokens": 6088,
+          "cost_usd": 0.000943,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E1",
+              "E2",
+              "E4",
+              "E5"
+            ],
+            "missing": [],
+            "reason": "The evidence provides comprehensive information on managing and monitoring Microsoft Teams Rooms at scale through the Pro Management Portal and Teams Admin Center."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "To manage and monitor a fleet of Microsoft Teams Rooms at scale, utilize the Microsoft Teams Rooms Pro Management service for real-time monitoring, automated updates, and enhanced insights.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 101,
+        "schema_ok": true,
+        "raw_direct_answer": "To manage and monitor a fleet of Microsoft Teams Rooms at scale, utilize the Microsoft Teams Rooms Pro Management service for real-time monitoring, automated updates, and enhanced insights.",
+        "raw_talking_points_n": 5,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1702.79,
+          "t_direct_ms": 2879.57,
+          "complete_ms": 3639.0,
+          "input_tokens": 6141,
+          "output_tokens": 156,
+          "total_tokens": 6297,
+          "cost_usd": 0.001015,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "To manage and monitor a fleet of Microsoft Teams Rooms at scale, utilize the Microsoft Teams Rooms Pro Management service for real-time monitoring, automated updates, and enhanced insights.",
+            "talking_points": [
+              "The Teams Rooms Pro Management service is a cloud-based solution for monitoring and updating devices.",
+              "It provides intelligent operations through software and machine learning for problem detection and resolution.",
+              "Automated update management allows for orchestration of meeting application and Windows updates.",
+              "Rich analytics and reporting are available to optimize the meeting room experience.",
+              "Management can be done through the Teams Rooms Pro Management Portal or Teams Admin Center."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 5.44,
+        "retrieval_ms": 44.76,
+        "a_support_ttft_ms": 1210.41,
+        "a_support_complete_ms": 1741.21,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5877.0,
+        "b_ttft_ms": 1702.79,
+        "b_direct_ms": 2879.57,
+        "b_complete_ms": 3639.0
+      }
+    },
+    {
+      "question_id": "Q12",
+      "kind": "ANSWERABLE",
+      "question": "What is the difference between Call Quality Dashboard and per-user/per-call troubleshooting, and when would you use each?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "f7a93390e0700dac12ae",
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Monitor and troubleshoot call quality",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "body_chars": 1525
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "d29d94b6a164a125b161",
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "What does each Teams Support role do?",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "body_chars": 2889
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "8499e39094e6905d4cef",
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Measurements",
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard",
+          "body_chars": 49964
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "275d1ea6787be7dc9fb6",
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "body_chars": 1414
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3e2dc6ae14dd86100683",
+          "title": "Set up call analytics for Microsoft Teams",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/set-up-call-analytics",
+          "body_chars": 1097
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E1",
+          "E2",
+          "E4",
+          "E5"
+        ],
+        "missing": [],
+        "reason": "The evidence provides clear distinctions between Call Quality Dashboard and per-user call analytics, including their use cases.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1198.2,
+          "t_direct_ms": null,
+          "complete_ms": 1793.83,
+          "input_tokens": 10894,
+          "output_tokens": 63,
+          "total_tokens": 10957,
+          "cost_usd": 0.001672,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E1",
+              "E2",
+              "E4",
+              "E5"
+            ],
+            "missing": [],
+            "reason": "The evidence provides clear distinctions between Call Quality Dashboard and per-user call analytics, including their use cases."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "The Call Quality Dashboard provides a network-wide view of call quality across an organization, while per-user call analytics focuses on troubleshooting call quality and connection problems for individual users.",
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 121,
+        "schema_ok": true,
+        "raw_direct_answer": "The Call Quality Dashboard provides a network-wide view of call quality across an organization, while per-user call analytics focuses on troubleshooting call quality and connection problems for individual users.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1730.69,
+          "t_direct_ms": 2073.2,
+          "complete_ms": 3391.34,
+          "input_tokens": 11014,
+          "output_tokens": 209,
+          "total_tokens": 11223,
+          "cost_usd": 0.001778,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "The Call Quality Dashboard provides a network-wide view of call quality across an organization, while per-user call analytics focuses on troubleshooting call quality and connection problems for individual users.",
+            "talking_points": [
+              "Call Quality Dashboard (CQD) helps identify and fix network-wide call quality issues (E1).",
+              "Per-user call analytics allows for detailed troubleshooting of individual user call quality problems (E5).",
+              "CQD can be used in conjunction with per-user analytics for comprehensive troubleshooting (E1).",
+              "CQD provides aggregate data, while per-user analytics offers specific details about individual calls (E2).",
+              "CQD is useful for identifying site-related issues, while per-user analytics is ideal for addressing user-specific problems (E1, E5).",
+              "Both tools can be utilized independently or together depending on the troubleshooting needs (E1)."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 24.65,
+        "retrieval_ms": 80.34,
+        "a_support_ttft_ms": 1198.2,
+        "a_support_complete_ms": 1793.83,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5984.41,
+        "b_ttft_ms": 1730.69,
+        "b_direct_ms": 2073.2,
+        "b_complete_ms": 3391.34
+      }
+    },
+    {
+      "question_id": "Q13",
+      "kind": "ANSWERABLE",
+      "question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "335fc4ddebb342cce3fd",
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 1070
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "565ff8406876e5a7bb6f",
+          "title": "Plan for SharePoint and OneDrive in Microsoft 365 - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive",
+          "body_chars": 1714
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "7e48473186db110c9f43",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 5: Implement backup and restore procedures",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 1385
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "0e52a731bf2a2c600758",
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Pilot rollout of SharePoint and OneDrive",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 2308
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "d064eaebfb66ddca2cab",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 8152
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E3",
+          "E5"
+        ],
+        "missing": [],
+        "reason": "The evidence provides specific steps to secure and review sharing settings in SharePoint and OneDrive before rolling out Microsoft 365 Copilot.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 1021.51,
+          "t_direct_ms": null,
+          "complete_ms": 1611.13,
+          "input_tokens": 3318,
+          "output_tokens": 61,
+          "total_tokens": 3379,
+          "cost_usd": 0.000534,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E3",
+              "E5"
+            ],
+            "missing": [],
+            "reason": "The evidence provides specific steps to secure and review sharing settings in SharePoint and OneDrive before rolling out Microsoft 365 Copilot."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, implement backup and restore procedures, and restrict access to sensitive content in SharePoint and OneDrive.",
+        "talking_points": [
+          {
+            "text": "Adjust sharing settings to prevent accidental oversharing in SharePoint and OneDrive (E5).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Implement backup and restore procedures to ensure data protection and recovery (E3).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Use data access governance reports to identify and mitigate oversharing risks (E5).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Restrict access to sensitive content using Restricted Access Control (E5).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Control content discovery of high-risk sites to prevent accidental exposure (E5).",
+            "evidence_ids": []
+          },
+          {
+            "text": "Ensure compliance by creating a compliant SharePoint and OneDrive environment (E1).",
+            "evidence_ids": []
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, implement backup and restore procedures, and restrict access to sensitive content in SharePoint and OneDrive.\n- Adjust sharing settings to prevent accidental oversharing in SharePoint and OneDrive (E5).\n- Implement backup and restore procedures to ensure data protection and recovery (E3).\n- Use data access governance reports to identify and mitigate oversharing risks (E5).\n- Restrict access to sensitive content using Restricted Access Control (E5).\n- Control content discovery of high-risk sites to prevent accidental exposure (E5).\n- Ensure compliance by creating a compliant SharePoint and OneDrive environment (E1).",
+        "word_count": 102,
+        "schema_ok": true,
+        "raw_direct_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, implement backup and restore procedures, and restrict access to sensitive content in SharePoint and OneDrive.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": [
+          {
+            "role": "direct_answer",
+            "text": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, implement backup and restore procedures, and restrict access to sensitive content in SharePoint and OneDrive.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Adjust sharing settings to prevent accidental oversharing in SharePoint and OneDrive (E5).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Implement backup and restore procedures to ensure data protection and recovery (E3).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Use data access governance reports to identify and mitigate oversharing risks (E5).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Restrict access to sensitive content using Restricted Access Control (E5).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Control content discovery of high-risk sites to prevent accidental exposure (E5).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Ensure compliance by creating a compliant SharePoint and OneDrive environment (E1).",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          }
+        ],
+        "latency": {
+          "ttft_ms": 1061.42,
+          "t_direct_ms": 1353.3,
+          "complete_ms": 2206.45,
+          "input_tokens": 3438,
+          "output_tokens": 187,
+          "total_tokens": 3625,
+          "cost_usd": 0.000628,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "Before rolling out Microsoft 365 Copilot, you should secure and review sharing settings, implement backup and restore procedures, and restrict access to sensitive content in SharePoint and OneDrive.",
+            "talking_points": [
+              "Adjust sharing settings to prevent accidental oversharing in SharePoint and OneDrive (E5).",
+              "Implement backup and restore procedures to ensure data protection and recovery (E3).",
+              "Use data access governance reports to identify and mitigate oversharing risks (E5).",
+              "Restrict access to sensitive content using Restricted Access Control (E5).",
+              "Control content discovery of high-risk sites to prevent accidental exposure (E5).",
+              "Ensure compliance by creating a compliant SharePoint and OneDrive environment (E1)."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 21.37,
+        "retrieval_ms": 108.83,
+        "a_support_ttft_ms": 1021.51,
+        "a_support_complete_ms": 1611.13,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5826.93,
+        "b_ttft_ms": 1061.42,
+        "b_direct_ms": 1353.3,
+        "b_complete_ms": 2206.45
+      }
+    },
+    {
+      "question_id": "Q14",
+      "kind": "ANSWERABLE",
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "scope": "SCOPED",
+      "service": "msteams-ps",
+      "repo": "teams-ps",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "e70392396d1d9841449f",
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "body_chars": 4916
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "0d0e05a0a4f37672b97e",
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "body_chars": 26984
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "26703a61d0bb2ad58cb4",
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute",
+          "body_chars": 3783
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3a75500fa7b96c7e5d3b",
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "body_chars": 2548
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "7c2ba2b7686a783f747b",
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant",
+          "body_chars": 5849
+        }
+      ],
+      "approach_a": {
+        "support": "SUPPORTED",
+        "supporting_evidence_ids": [
+          "E2"
+        ],
+        "missing": [],
+        "reason": "The evidence provides information on how to retrieve details about Teams users, including their voice configuration.",
+        "grade": "ACCEPT",
+        "latency": {
+          "ttft_ms": 2081.56,
+          "t_direct_ms": null,
+          "complete_ms": 3477.12,
+          "input_tokens": 10421,
+          "output_tokens": 49,
+          "total_tokens": 10470,
+          "cost_usd": 0.001593,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "supporting_evidence_ids": [
+              "E2"
+            ],
+            "missing": [],
+            "reason": "The evidence provides information on how to retrieve details about Teams users, including their voice configuration."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "SUPPORTED",
+        "missing": [],
+        "direct_answer": "You can use the Get-CsOnlineUser cmdlet to audit Teams Voice users and their voice configuration.",
+        "talking_points": [
+          {
+            "text": "Get-CsOnlineUser returns information about users with accounts on Microsoft Teams, including their voice configuration.",
+            "evidence_ids": []
+          },
+          {
+            "text": "You can filter results to find users enabled for Enterprise Voice using Get-CsOnlineUser -Filter 'EnterpriseVoiceEnabled -eq $True'.",
+            "evidence_ids": []
+          },
+          {
+            "text": "The cmdlet allows you to specify properties to include in the output, such as voice policies assigned to users.",
+            "evidence_ids": []
+          },
+          {
+            "text": "You can also use Get-CsOnlineVoiceRoutingPolicy to retrieve information about voice routing policies assigned to users.",
+            "evidence_ids": []
+          },
+          {
+            "text": "Using Get-CsOnlineVoiceRoute, you can audit the voice routes configured for your tenant, which are essential for call routing.",
+            "evidence_ids": []
+          },
+          {
+            "text": "Combining these cmdlets provides a comprehensive view of user voice configurations and policies.",
+            "evidence_ids": []
+          }
+        ],
+        "caveat": null,
+        "visible_answer": "You can use the Get-CsOnlineUser cmdlet to audit Teams Voice users and their voice configuration.\n- Get-CsOnlineUser returns information about users with accounts on Microsoft Teams, including their voice configuration.\n- You can filter results to find users enabled for Enterprise Voice using Get-CsOnlineUser -Filter 'EnterpriseVoiceEnabled -eq $True'.\n- The cmdlet allows you to specify properties to include in the output, such as voice policies assigned to users.\n- You can also use Get-CsOnlineVoiceRoutingPolicy to retrieve information about voice routing policies assigned to users.\n- Using Get-CsOnlineVoiceRoute, you can audit the voice routes configured for your tenant, which are essential for call routing.\n- Combining these cmdlets provides a comprehensive view of user voice configurations and policies.",
+        "word_count": 117,
+        "schema_ok": true,
+        "raw_direct_answer": "You can use the Get-CsOnlineUser cmdlet to audit Teams Voice users and their voice configuration.",
+        "raw_talking_points_n": 6,
+        "grade": "ACCEPT",
+        "primitive_audit": "HAS_UNSUPPORTED_PRIMITIVE",
+        "primitive_claims": [
+          {
+            "role": "direct_answer",
+            "text": "You can use the Get-CsOnlineUser cmdlet to audit Teams Voice users and their voice configuration.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Get-CsOnlineUser returns information about users with accounts on Microsoft Teams, including their voice configuration.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "You can filter results to find users enabled for Enterprise Voice using Get-CsOnlineUser -Filter 'EnterpriseVoiceEnabled -eq $True'.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "The cmdlet allows you to specify properties to include in the output, such as voice policies assigned to users.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "You can also use Get-CsOnlineVoiceRoutingPolicy to retrieve information about voice routing policies assigned to users.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Using Get-CsOnlineVoiceRoute, you can audit the voice routes configured for your tenant, which are essential for call routing.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          },
+          {
+            "role": "talking_point",
+            "text": "Combining these cmdlets provides a comprehensive view of user voice configurations and policies.",
+            "evidence_ids": [],
+            "status": "UNSUPPORTED",
+            "issues": [
+              "no supporting evidence ID"
+            ]
+          }
+        ],
+        "latency": {
+          "ttft_ms": 1287.09,
+          "t_direct_ms": 1429.83,
+          "complete_ms": 2612.66,
+          "input_tokens": 10541,
+          "output_tokens": 200,
+          "total_tokens": 10741,
+          "cost_usd": 0.001701,
+          "parse_error": null,
+          "raw_json": {
+            "support": "SUPPORTED",
+            "missing": [],
+            "direct_answer": "You can use the Get-CsOnlineUser cmdlet to audit Teams Voice users and their voice configuration.",
+            "talking_points": [
+              "Get-CsOnlineUser returns information about users with accounts on Microsoft Teams, including their voice configuration.",
+              "You can filter results to find users enabled for Enterprise Voice using Get-CsOnlineUser -Filter 'EnterpriseVoiceEnabled -eq $True'.",
+              "The cmdlet allows you to specify properties to include in the output, such as voice policies assigned to users.",
+              "You can also use Get-CsOnlineVoiceRoutingPolicy to retrieve information about voice routing policies assigned to users.",
+              "Using Get-CsOnlineVoiceRoute, you can audit the voice routes configured for your tenant, which are essential for call routing.",
+              "Combining these cmdlets provides a comprehensive view of user voice configurations and policies."
+            ],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 7.31,
+        "retrieval_ms": 62.76,
+        "a_support_ttft_ms": 2081.56,
+        "a_support_complete_ms": 3477.12,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 7632.78,
+        "b_ttft_ms": 1287.09,
+        "b_direct_ms": 1429.83,
+        "b_complete_ms": 2612.66
+      }
+    },
+    {
+      "question_id": "N01",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How do you enroll iOS devices in Microsoft Intune using Apple Business Manager?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "121ff6c05a7d06149afe",
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Configuring Intune for your Teams Devices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "body_chars": 1341
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "faeacb0259f74003ab2b",
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Conditional Access Considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "body_chars": 1129
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "68720a7a0c347d8dcc26",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Network Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 6309
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "fb8a529909e9b049f463",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Network security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 4317
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "instructions for enrolling iOS devices in Intune using Apple Business Manager"
+        ],
+        "reason": "The provided evidence does not address the enrollment of iOS devices in Microsoft Intune using Apple Business Manager.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 1031.98,
+          "t_direct_ms": null,
+          "complete_ms": 1565.04,
+          "input_tokens": 3820,
+          "output_tokens": 64,
+          "total_tokens": 3884,
+          "cost_usd": 0.000611,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "instructions for enrolling iOS devices in Intune using Apple Business Manager"
+            ],
+            "reason": "The provided evidence does not address the enrollment of iOS devices in Microsoft Intune using Apple Business Manager."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Steps to enroll iOS devices in Microsoft Intune using Apple Business Manager"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1120.08,
+          "t_direct_ms": null,
+          "complete_ms": 1524.53,
+          "input_tokens": 3940,
+          "output_tokens": 56,
+          "total_tokens": 3996,
+          "cost_usd": 0.000625,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Steps to enroll iOS devices in Microsoft Intune using Apple Business Manager"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 15.74,
+        "retrieval_ms": 68.62,
+        "a_support_ttft_ms": 1031.98,
+        "a_support_complete_ms": 1565.04,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1649.4,
+        "b_ttft_ms": 1120.08,
+        "b_direct_ms": null,
+        "b_complete_ms": 1524.53
+      }
+    },
+    {
+      "question_id": "N02",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you configure Azure AD B2C custom policies for a multi-step signup journey?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "7016f57d73fcad8cbbec",
+          "title": "Manage - Voice applications policies",
+          "section": "Create a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 534
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "a7fbceae42110e28fc96",
+          "title": "Manage - Voice applications policies",
+          "section": "Assign a custom voice applications policy to users",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 824
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "51bb3f26abd28c85d7e6",
+          "title": "Manage call routing policies for Direct Routing",
+          "section": "Assign a custom call routing policy to users",
+          "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies",
+          "body_chars": 474
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "f0d4b2d937f10b760b4c",
+          "title": "Manage - Voice applications policies",
+          "section": "Edit a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 445
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "291764107e8cba017f88",
+          "title": "Manage - Voice applications policies",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 2337
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "information on configuring Azure AD B2C custom policies for multi-step signup journey"
+        ],
+        "reason": "The evidence provided pertains to voice applications policies in Microsoft Teams and does not address Azure AD B2C custom policies.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 937.84,
+          "t_direct_ms": null,
+          "complete_ms": 1802.34,
+          "input_tokens": 1324,
+          "output_tokens": 68,
+          "total_tokens": 1392,
+          "cost_usd": 0.000239,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "information on configuring Azure AD B2C custom policies for multi-step signup journey"
+            ],
+            "reason": "The evidence provided pertains to voice applications policies in Microsoft Teams and does not address Azure AD B2C custom policies."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Configuration steps for Azure AD B2C custom policies",
+          "Details on multi-step signup journey"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1311.81,
+          "t_direct_ms": null,
+          "complete_ms": 1525.46,
+          "input_tokens": 1444,
+          "output_tokens": 61,
+          "total_tokens": 1505,
+          "cost_usd": 0.000253,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Configuration steps for Azure AD B2C custom policies",
+              "Details on multi-step signup journey"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 18.44,
+        "retrieval_ms": 38.97,
+        "a_support_ttft_ms": 937.84,
+        "a_support_complete_ms": 1802.34,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1859.75,
+        "b_ttft_ms": 1311.81,
+        "b_direct_ms": null,
+        "b_complete_ms": 1525.46
+      }
+    },
+    {
+      "question_id": "N03",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "Walk through setting up an Azure Virtual Desktop host pool with FSLogix profile containers.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "38b33aaf3451bdcb8e9c",
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Create a trunk and provision users",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+          "body_chars": 4883
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "44353bc5f39e39c3c827",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Group Policy",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 2984
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "c34782ceb9afa2ad1811",
+          "title": "Plan Direct Routing",
+          "section": "SIP signaling: FQDNs, ports, failover mechanism",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "body_chars": 4580
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "1cd424e4d96978fcb3b5",
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "SIP Signaling: FQDNs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "body_chars": 3131
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "steps to set up Azure Virtual Desktop host pool",
+          "information on FSLogix profile containers"
+        ],
+        "reason": "The provided evidence does not contain any information related to setting up an Azure Virtual Desktop host pool or FSLogix profile containers.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 1076.44,
+          "t_direct_ms": null,
+          "complete_ms": 1719.59,
+          "input_tokens": 4693,
+          "output_tokens": 73,
+          "total_tokens": 4766,
+          "cost_usd": 0.000748,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "steps to set up Azure Virtual Desktop host pool",
+              "information on FSLogix profile containers"
+            ],
+            "reason": "The provided evidence does not contain any information related to setting up an Azure Virtual Desktop host pool or FSLogix profile containers."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Steps to set up an Azure Virtual Desktop host pool",
+          "Configuration details for FSLogix profile containers"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1087.63,
+          "t_direct_ms": null,
+          "complete_ms": 1488.4,
+          "input_tokens": 4813,
+          "output_tokens": 63,
+          "total_tokens": 4876,
+          "cost_usd": 0.00076,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Steps to set up an Azure Virtual Desktop host pool",
+              "Configuration details for FSLogix profile containers"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 19.22,
+        "retrieval_ms": 43.15,
+        "a_support_ttft_ms": 1076.44,
+        "a_support_complete_ms": 1719.59,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1781.96,
+        "b_ttft_ms": 1087.63,
+        "b_direct_ms": null,
+        "b_complete_ms": 1488.4
+      }
+    },
+    {
+      "question_id": "N04",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How do you create a Microsoft Defender for Endpoint attack-surface-reduction rule for Office macros?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "a64ed3125e877d56e340",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Software Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 3412
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "36f454dbcacaeba1710e",
+          "title": "Automate workflows in a SharePoint document library - SharePoint in Microsoft 365",
+          "section": "Requirements and limitations",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-automate-workflows",
+          "body_chars": 1209
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "d064eaebfb66ddca2cab",
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "body_chars": 8152
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "7e7f2f0e1eb86ff1db82",
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Hide resource accounts from Teams users",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 6088
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "ed3dce1b51c147d5402d",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Verify DSCP markings in the Group Policy object",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 1232
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "instructions on creating attack-surface-reduction rule for Office macros"
+        ],
+        "reason": "The evidence provided does not address the creation of a Microsoft Defender for Endpoint attack-surface-reduction rule for Office macros.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 990.79,
+          "t_direct_ms": null,
+          "complete_ms": 1613.32,
+          "input_tokens": 4461,
+          "output_tokens": 66,
+          "total_tokens": 4527,
+          "cost_usd": 0.000709,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "instructions on creating attack-surface-reduction rule for Office macros"
+            ],
+            "reason": "The evidence provided does not address the creation of a Microsoft Defender for Endpoint attack-surface-reduction rule for Office macros."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Instructions on creating Microsoft Defender for Endpoint attack-surface-reduction rules for Office macros"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1086.06,
+          "t_direct_ms": null,
+          "complete_ms": 1621.93,
+          "input_tokens": 4581,
+          "output_tokens": 58,
+          "total_tokens": 4639,
+          "cost_usd": 0.000722,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Instructions on creating Microsoft Defender for Endpoint attack-surface-reduction rules for Office macros"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 16.42,
+        "retrieval_ms": 65.7,
+        "a_support_ttft_ms": 990.79,
+        "a_support_complete_ms": 1613.32,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1695.43,
+        "b_ttft_ms": 1086.06,
+        "b_direct_ms": null,
+        "b_complete_ms": 1621.93
+      }
+    },
+    {
+      "question_id": "N05",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you configure a Power BI on-premises data gateway in standard mode?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "bd689ebe19847916e1e1",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Installation",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 1283
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "8783fb7f02b227ed8796",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Limitations",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 3115
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "d207ad8736c39056cea8",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Setup",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 1176
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "60c304f21dce72ab3121",
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "body_chars": 832
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3cfe5ef91ce7bdcb6790",
+          "title": "Voice applications historical reports for GCCH and DoD",
+          "section": "V1.64 Installation",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-cqd-historical-reports-v164",
+          "body_chars": 1401
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "steps to configure Power BI on-premises data gateway in standard mode"
+        ],
+        "reason": "The evidence provided does not contain any information on configuring a Power BI on-premises data gateway in standard mode.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 3012.0,
+          "t_direct_ms": null,
+          "complete_ms": 3639.27,
+          "input_tokens": 1990,
+          "output_tokens": 65,
+          "total_tokens": 2055,
+          "cost_usd": 0.000337,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "steps to configure Power BI on-premises data gateway in standard mode"
+            ],
+            "reason": "The evidence provided does not contain any information on configuring a Power BI on-premises data gateway in standard mode."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Specific steps to configure a Power BI on-premises data gateway in standard mode."
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1632.99,
+          "t_direct_ms": null,
+          "complete_ms": 1959.21,
+          "input_tokens": 2110,
+          "output_tokens": 57,
+          "total_tokens": 2167,
+          "cost_usd": 0.000351,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Specific steps to configure a Power BI on-premises data gateway in standard mode."
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 14.49,
+        "retrieval_ms": 108.86,
+        "a_support_ttft_ms": 3012.0,
+        "a_support_complete_ms": 3639.27,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 3762.62,
+        "b_ttft_ms": 1632.99,
+        "b_direct_ms": null,
+        "b_complete_ms": 1959.21
+      }
+    },
+    {
+      "question_id": "N06",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "Explain how to set up Dynamics 365 Field Service work-order scheduling.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "36f454dbcacaeba1710e",
+          "title": "Automate workflows in a SharePoint document library - SharePoint in Microsoft 365",
+          "section": "Requirements and limitations",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-automate-workflows",
+          "body_chars": 1209
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "3df75c6e612ed792382c",
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 5034
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "e277ce2d0f43a702b876",
+          "title": "Setup - Call Queue",
+          "section": "Steps to create a call queue",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "body_chars": 27010
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "cb6acef4fbdc4c8e47b4",
+          "title": "Setup - Create a Teams Phone Agent via PowerShell",
+          "section": "Contoso Main Menu Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-cmdlets",
+          "body_chars": 9182
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "f1c7221e658fe9d44663",
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "body_chars": 8587
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "specific steps for setting up work-order scheduling in Dynamics 365 Field Service"
+        ],
+        "reason": "The provided evidence does not contain any information related to Dynamics 365 Field Service work-order scheduling.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 1173.54,
+          "t_direct_ms": null,
+          "complete_ms": 1700.5,
+          "input_tokens": 11460,
+          "output_tokens": 63,
+          "total_tokens": 11523,
+          "cost_usd": 0.001757,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "specific steps for setting up work-order scheduling in Dynamics 365 Field Service"
+            ],
+            "reason": "The provided evidence does not contain any information related to Dynamics 365 Field Service work-order scheduling."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Specific steps or procedures for setting up Dynamics 365 Field Service work-order scheduling"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 2667.51,
+          "t_direct_ms": null,
+          "complete_ms": 3100.27,
+          "input_tokens": 11580,
+          "output_tokens": 57,
+          "total_tokens": 11637,
+          "cost_usd": 0.001771,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Specific steps or procedures for setting up Dynamics 365 Field Service work-order scheduling"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 9.48,
+        "retrieval_ms": 70.95,
+        "a_support_ttft_ms": 1173.54,
+        "a_support_complete_ms": 1700.5,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1780.94,
+        "b_ttft_ms": 2667.51,
+        "b_direct_ms": null,
+        "b_complete_ms": 3100.27
+      }
+    },
+    {
+      "question_id": "N07",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How do you configure Windows Autopilot for pre-provisioned deployment?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "c1eecbd32dd18f42917c",
+          "title": "Reference - Getting Started",
+          "section": "Alternate provisioning tools",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-reference-getting-started",
+          "body_chars": 324
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "6277055003ac006eb6b6",
+          "title": "Setup - Create an Auto attendant via PowerShell",
+          "section": "Prerequisites",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant-cmdlets",
+          "body_chars": 1074
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "44353bc5f39e39c3c827",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Group Policy",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 2984
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "7016f57d73fcad8cbbec",
+          "title": "Manage - Voice applications policies",
+          "section": "Create a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 534
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "body_chars": 30134
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "configuration steps for Windows Autopilot pre-provisioned deployment"
+        ],
+        "reason": "The provided evidence does not address Windows Autopilot or its configuration for pre-provisioned deployment.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 1191.85,
+          "t_direct_ms": null,
+          "complete_ms": 1794.37,
+          "input_tokens": 7966,
+          "output_tokens": 62,
+          "total_tokens": 8028,
+          "cost_usd": 0.001232,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "configuration steps for Windows Autopilot pre-provisioned deployment"
+            ],
+            "reason": "The provided evidence does not address Windows Autopilot or its configuration for pre-provisioned deployment."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Specific steps or guidelines for configuring Windows Autopilot for pre-provisioned deployment."
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 3284.78,
+          "t_direct_ms": null,
+          "complete_ms": 3675.37,
+          "input_tokens": 8086,
+          "output_tokens": 58,
+          "total_tokens": 8144,
+          "cost_usd": 0.001248,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Specific steps or guidelines for configuring Windows Autopilot for pre-provisioned deployment."
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 14.32,
+        "retrieval_ms": 55.6,
+        "a_support_ttft_ms": 1191.85,
+        "a_support_complete_ms": 1794.37,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1864.29,
+        "b_ttft_ms": 3284.78,
+        "b_direct_ms": null,
+        "b_complete_ms": 3675.37
+      }
+    },
+    {
+      "question_id": "N08",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you authenticate a Copilot Studio agent to Dataverse using a service principal?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "ea30cc23ba546177541a",
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Planning and licensing review",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 943
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "8f4f264c9df16e22f710",
+          "title": "Setup - Teams Phone Agent - Agents and Queues",
+          "section": "Planning and licensing review",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-agents-queues",
+          "body_chars": 943
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "cf91b40fbf56350b2000",
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Teams Admin Center setup and configuration",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 1671
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "3dc1cff5e07f17c0e754",
+          "title": "Planning - Agents and Queues for Teams Phone Agent",
+          "section": "Agents and Queues",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-agents-queues",
+          "body_chars": 633
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3185a3af7eda47baab3f",
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 1302
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "authentication procedure for a service principal to Dataverse"
+        ],
+        "reason": "The evidence provided does not address the authentication process for a Copilot Studio agent to Dataverse.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 1038.41,
+          "t_direct_ms": null,
+          "complete_ms": 1505.95,
+          "input_tokens": 1535,
+          "output_tokens": 58,
+          "total_tokens": 1593,
+          "cost_usd": 0.000265,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "authentication procedure for a service principal to Dataverse"
+            ],
+            "reason": "The evidence provided does not address the authentication process for a Copilot Studio agent to Dataverse."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Steps to authenticate a Copilot Studio agent to Dataverse using a service principal"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 936.07,
+          "t_direct_ms": null,
+          "complete_ms": 1340.02,
+          "input_tokens": 1655,
+          "output_tokens": 57,
+          "total_tokens": 1712,
+          "cost_usd": 0.000282,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Steps to authenticate a Copilot Studio agent to Dataverse using a service principal"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 15.83,
+        "retrieval_ms": 36.44,
+        "a_support_ttft_ms": 1038.41,
+        "a_support_complete_ms": 1505.95,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1558.22,
+        "b_ttft_ms": 936.07,
+        "b_direct_ms": null,
+        "b_complete_ms": 1340.02
+      }
+    },
+    {
+      "question_id": "N09",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How do you configure Mimecast Secure Email Gateway for Microsoft 365?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "b1a056727536e57e9c66",
+          "title": "Manage Shared Voicemail",
+          "section": "Prerequisites",
+          "url": "https://learn.microsoft.com/microsoftteams/manage-shared-voicemail",
+          "body_chars": 2240
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "c0cf71c1266983abefdc",
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "SIP Signaling: Ports",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "body_chars": 346
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "30fafe23878fea5e737b",
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Manage external trusted IP addresses",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 1230
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "cf679a4233d9abd02479",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Quality investigations",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+          "body_chars": 17826
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "c8708d9ea950228842b2",
+          "title": "Issues with Local Media Optimization",
+          "section": "Wrong location sent in X-Ms-UserLocation header",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-lmo",
+          "body_chars": 1967
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "configuration steps for Mimecast Secure Email Gateway"
+        ],
+        "reason": "The provided evidence does not contain any information related to configuring Mimecast Secure Email Gateway for Microsoft 365.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 998.21,
+          "t_direct_ms": null,
+          "complete_ms": 1748.39,
+          "input_tokens": 5151,
+          "output_tokens": 59,
+          "total_tokens": 5210,
+          "cost_usd": 0.000808,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "configuration steps for Mimecast Secure Email Gateway"
+            ],
+            "reason": "The provided evidence does not contain any information related to configuring Mimecast Secure Email Gateway for Microsoft 365."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Configuration steps for Mimecast Secure Email Gateway",
+          "Integration details with Microsoft 365"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1163.12,
+          "t_direct_ms": null,
+          "complete_ms": 1609.62,
+          "input_tokens": 5271,
+          "output_tokens": 59,
+          "total_tokens": 5330,
+          "cost_usd": 0.000826,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Configuration steps for Mimecast Secure Email Gateway",
+              "Integration details with Microsoft 365"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 4.16,
+        "retrieval_ms": 17.76,
+        "a_support_ttft_ms": 998.21,
+        "a_support_complete_ms": 1748.39,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1770.31,
+        "b_ttft_ms": 1163.12,
+        "b_direct_ms": null,
+        "b_complete_ms": 1609.62
+      }
+    },
+    {
+      "question_id": "N10",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How would you set up Okta as the SAML identity provider for a third-party SaaS app?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "9c7573260c5927d80018",
+          "title": "Setup - Third-party voice agents",
+          "section": "Steps to create a third-party voice agent for Teams Phone Agent, Auto Attendant, or Call Queue",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "body_chars": 2930
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "2a27cbaa8742a206a56c",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Account Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 3658
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "00c7eb702f55553b9007",
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Software security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "body_chars": 5486
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "a4701668f787dd9d5cba",
+          "title": "Setup - Third-party voice agents",
+          "section": "Known issues",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "body_chars": 161
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "fa5d8a31823cc9cfadbc",
+          "title": "Direct Routing SBA",
+          "section": "Configuration",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance",
+          "body_chars": 4163
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "steps to set up Okta as SAML identity provider"
+        ],
+        "reason": "The evidence provided does not address the setup of Okta as a SAML identity provider for a third-party SaaS app.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 972.58,
+          "t_direct_ms": null,
+          "complete_ms": 1473.99,
+          "input_tokens": 3733,
+          "output_tokens": 66,
+          "total_tokens": 3799,
+          "cost_usd": 0.0006,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "steps to set up Okta as SAML identity provider"
+            ],
+            "reason": "The evidence provided does not address the setup of Okta as a SAML identity provider for a third-party SaaS app."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Steps to set up Okta as a SAML identity provider",
+          "Configuration details specific to Okta for SAML integration"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 987.68,
+          "t_direct_ms": null,
+          "complete_ms": 1531.24,
+          "input_tokens": 3853,
+          "output_tokens": 67,
+          "total_tokens": 3920,
+          "cost_usd": 0.000618,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Steps to set up Okta as a SAML identity provider",
+              "Configuration details specific to Okta for SAML integration"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 15.86,
+        "retrieval_ms": 64.99,
+        "a_support_ttft_ms": 972.58,
+        "a_support_complete_ms": 1473.99,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1554.84,
+        "b_ttft_ms": 987.68,
+        "b_direct_ms": null,
+        "b_complete_ms": 1531.24
+      }
+    },
+    {
+      "question_id": "N11",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "Walk through migrating Cisco Webex Calling PSTN onto a Webex-native local gateway.",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "3f7c2509081df33d28a7",
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Define the virtual network topology",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 2697
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "dca62c01dd7f6474d196",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 2222
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "48e6e5f273c06fd20ac3",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Supported customer scenarios",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 2653
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "eab521bf26d5dbb479aa",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Proxy SBC with connected downstream SBCs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 3923
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "bf73e7d81b92663f2168",
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "body_chars": 10919
+        }
+      ],
+      "approach_a": {
+        "support": "PARTIAL",
+        "supporting_evidence_ids": [
+          "E2",
+          "E4"
+        ],
+        "missing": [
+          "specific steps for migrating PSTN onto a Webex-native local gateway"
+        ],
+        "reason": "The evidence discusses Local Media Optimization and Direct Routing but does not provide a direct migration process for Cisco Webex Calling PSTN.",
+        "grade": "PARTIAL_REVIEW",
+        "latency": {
+          "ttft_ms": 1238.63,
+          "t_direct_ms": null,
+          "complete_ms": 1809.17,
+          "input_tokens": 5103,
+          "output_tokens": 75,
+          "total_tokens": 5178,
+          "cost_usd": 0.00081,
+          "parse_error": null,
+          "raw_json": {
+            "support": "PARTIAL",
+            "supporting_evidence_ids": [
+              "E2",
+              "E4"
+            ],
+            "missing": [
+              "specific steps for migrating PSTN onto a Webex-native local gateway"
+            ],
+            "reason": "The evidence discusses Local Media Optimization and Direct Routing but does not provide a direct migration process for Cisco Webex Calling PSTN."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Specific steps for migrating Cisco Webex Calling PSTN onto a Webex-native local gateway"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1048.67,
+          "t_direct_ms": null,
+          "complete_ms": 1438.83,
+          "input_tokens": 5223,
+          "output_tokens": 59,
+          "total_tokens": 5282,
+          "cost_usd": 0.000819,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Specific steps for migrating Cisco Webex Calling PSTN onto a Webex-native local gateway"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 17.33,
+        "retrieval_ms": 75.04,
+        "a_support_ttft_ms": 1238.63,
+        "a_support_complete_ms": 1809.17,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 5987.13,
+        "b_ttft_ms": 1048.67,
+        "b_direct_ms": null,
+        "b_complete_ms": 1438.83
+      }
+    },
+    {
+      "question_id": "N12",
+      "kind": "NEGATIVE_CONTROL",
+      "question": "How do you configure SAP HANA Large Instances on Azure for high availability?",
+      "scope": "GLOBAL",
+      "service": null,
+      "repo": null,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "parent_id": "44353bc5f39e39c3c827",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Group Policy",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 2984
+        },
+        {
+          "evidence_id": "E2",
+          "parent_id": "1c0ccfb6a4b8bc8d5694",
+          "title": "SharePoint Advanced Management overview - SharePoint in Microsoft 365",
+          "section": "Prevent oversharing",
+          "url": "https://learn.microsoft.com/sharepoint/advanced-management",
+          "body_chars": 5006
+        },
+        {
+          "evidence_id": "E3",
+          "parent_id": "43dc089eb73532dab467",
+          "title": "Configure dynamic emergency calling",
+          "section": "Government support",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "body_chars": 474
+        },
+        {
+          "evidence_id": "E4",
+          "parent_id": "29ad6610441d689e50e2",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Reliability investigations",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+          "body_chars": 8851
+        },
+        {
+          "evidence_id": "E5",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533
+        }
+      ],
+      "approach_a": {
+        "support": "UNSUPPORTED",
+        "supporting_evidence_ids": [],
+        "missing": [
+          "evidence on configuring SAP HANA Large Instances on Azure for high availability"
+        ],
+        "reason": "The provided evidence does not relate to configuring SAP HANA Large Instances on Azure.",
+        "grade": "CORRECT_REJECT",
+        "latency": {
+          "ttft_ms": 1087.17,
+          "t_direct_ms": null,
+          "complete_ms": 1678.5,
+          "input_tokens": 4589,
+          "output_tokens": 60,
+          "total_tokens": 4649,
+          "cost_usd": 0.000724,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "supporting_evidence_ids": [],
+            "missing": [
+              "evidence on configuring SAP HANA Large Instances on Azure for high availability"
+            ],
+            "reason": "The provided evidence does not relate to configuring SAP HANA Large Instances on Azure."
+          }
+        }
+      },
+      "approach_b": {
+        "support": "UNSUPPORTED",
+        "missing": [
+          "Configuration steps for SAP HANA Large Instances on Azure",
+          "High availability setup for SAP HANA on Azure"
+        ],
+        "direct_answer": null,
+        "talking_points": null,
+        "caveat": null,
+        "visible_answer": null,
+        "word_count": 0,
+        "schema_ok": true,
+        "raw_direct_answer": null,
+        "raw_talking_points_n": 0,
+        "grade": "CORRECT_REJECT",
+        "primitive_audit": "N/A_NO_ANSWER",
+        "primitive_claims": null,
+        "latency": {
+          "ttft_ms": 1145.91,
+          "t_direct_ms": null,
+          "complete_ms": 1658.12,
+          "input_tokens": 4709,
+          "output_tokens": 64,
+          "total_tokens": 4773,
+          "cost_usd": 0.000745,
+          "parse_error": null,
+          "raw_json": {
+            "support": "UNSUPPORTED",
+            "missing": [
+              "Configuration steps for SAP HANA Large Instances on Azure",
+              "High availability setup for SAP HANA on Azure"
+            ],
+            "direct_answer": null,
+            "talking_points": [],
+            "caveat": null
+          }
+        }
+      },
+      "latency": {
+        "router_ms": 3.18,
+        "retrieval_ms": 12.29,
+        "a_support_ttft_ms": 1087.17,
+        "a_support_complete_ms": 1678.5,
+        "a0_answer_complete_ms": null,
+        "projected_a_combined_ms": 1693.97,
+        "b_ttft_ms": 1145.91,
+        "b_direct_ms": null,
+        "b_complete_ms": 1658.12
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import type {
 } from "@shared/types";
 import type {
   AnswerExecutionPort,
+  AnswerExecutionRequest,
   AnswerExecutionResult
 } from "./answerExecutionPort";
 import { HelpdeskService } from "./helpdeskService";
@@ -116,14 +117,16 @@ function success(
 
 class SequencePort implements AnswerExecutionPort {
   readonly questions: string[] = [];
+  readonly requests: AnswerExecutionRequest[] = [];
 
   constructor(
     private readonly results: AnswerExecutionResult[]
   ) {}
 
-  async execute(request: {
-    question: string;
-  }): Promise<AnswerExecutionResult> {
+  async execute(
+    request: AnswerExecutionRequest
+  ): Promise<AnswerExecutionResult> {
+    this.requests.push(request);
     this.questions.push(request.question);
     return (
       this.results.shift() ?? {
@@ -203,6 +206,15 @@ test("accepted question becomes a durable live_transcript turn using the shared 
       ["accepted", "executing", "answered"]
     );
     const final = context.projections.at(-1);
+    const user = messages.find((message) => message.role === "user");
+    const run = context.store.loadAnswerRuns(conversation.id)[0];
+    assert.ok(
+      context.projections.every(
+        (projection) =>
+          projection.userMessageId === user?.id &&
+          projection.answerRunId === run?.id
+      )
+    );
     assert.equal(final?.answerText, messages[1]?.content);
     assert.equal(
       final?.sources[0]?.citationId,
@@ -550,6 +562,10 @@ test("QA Assist session persists a promoted system question with captureSource=s
       "How would you secure SharePoint data?"
     ]);
     assert.equal(
+      context.port.requests[0]?.presentationSynthesis,
+      "disabled"
+    );
+    assert.equal(
       context.store.getActiveLiveAssistSession()?.id,
       session.id
     );
@@ -623,6 +639,138 @@ test("normal Live Assist accepts a microphone-sourced question and is unaffected
       "microphone"
     );
     assert.equal(context.microphoneRejections.length, 0);
+    assert.equal(
+      context.port.requests[0]?.presentationSynthesis,
+      "optional"
+    );
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("three accepted interview questions create independent turns, runs, and cards", async () => {
+  const context = await fixture([success(), success(), success()]);
+  try {
+    const conversation = context.store.createConversation({
+      title: "I2 STT isolation"
+    });
+    context.live.start(conversation.id, "qa_assist");
+    const questions = [
+      "How do you renew a certificate?",
+      "How do you troubleshoot one-way audio?",
+      "How would you secure SharePoint before Copilot?"
+    ];
+    for (const question of questions) {
+      await context.live.acceptQuestion(question, "system");
+    }
+    const messages = context.store.loadOrderedMessages(conversation.id);
+    const users = messages.filter((message) => message.role === "user");
+    const answers = messages.filter((message) => message.role === "assistant");
+    const runs = context.store.loadAnswerRuns(conversation.id);
+    assert.deepEqual(
+      users.map((message) => message.content),
+      questions
+    );
+    assert.equal(new Set(users.map((message) => message.id)).size, 3);
+    assert.equal(new Set(runs.map((run) => run.id)).size, 3);
+    assert.equal(answers.length, 3);
+    const completed = context.projections.filter(
+      (projection) => projection.state === "answered"
+    );
+    assert.equal(new Set(completed.map((item) => item.answerRunId)).size, 3);
+    assert.deepEqual(
+      completed.map((item) => item.question),
+      questions
+    );
+    assert.ok(
+      completed.every(
+        (item, index) =>
+          item.userMessageId === users[index]?.id &&
+          item.answerRunId === runs[index]?.id &&
+          item.sources[0]?.citationId ===
+            answers[index]?.citations[0]?.citationId
+      )
+    );
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("a second question accepted during first-question execution is retained", async () => {
+  let releaseFirst!: () => void;
+  const firstGate = new Promise<void>((resolvePromise) => {
+    releaseFirst = resolvePromise;
+  });
+  let started = 0;
+  const context = await fixture([success(), success()]);
+  const originalExecute = context.port.execute.bind(context.port);
+  context.port.execute = async (request) => {
+    started += 1;
+    if (started === 1) await firstGate;
+    return originalExecute(request);
+  };
+  try {
+    const conversation = context.store.createConversation({
+      title: "I2 in-flight"
+    });
+    context.live.start(conversation.id, "qa_assist");
+    const first = context.live.acceptQuestion(
+      "How do you renew a certificate?",
+      "system"
+    );
+    for (let attempts = 0; attempts < 30; attempts += 1) {
+      if (context.store.loadOrderedMessages(conversation.id).length >= 1) {
+        break;
+      }
+      await new Promise((resolvePromise) => setTimeout(resolvePromise, 1));
+    }
+    const second = context.live.acceptQuestion(
+      "How do you troubleshoot one-way audio?",
+      "system"
+    );
+    const pending = context.store.loadOrderedMessages(conversation.id);
+    assert.deepEqual(
+      pending.map((message) => message.content),
+      [
+        "How do you renew a certificate?",
+        "How do you troubleshoot one-way audio?"
+      ]
+    );
+    assert.equal(context.store.loadAnswerRuns(conversation.id).length, 2);
+    releaseFirst();
+    await Promise.all([first, second]);
+    const completed = context.store.loadOrderedMessages(conversation.id);
+    assert.equal(
+      completed.filter((message) => message.role === "assistant").length,
+      2
+    );
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("accepted questions stay bound to the session that promoted them", async () => {
+  const context = await fixture([success()]);
+  try {
+    const conversation = context.store.createConversation({
+      title: "Session bound"
+    });
+    const firstSession = context.live.start(conversation.id, "qa_assist");
+    context.live.stop();
+    context.live.start(conversation.id, "qa_assist");
+    await context.live.acceptQuestion(
+      "This belongs to a later session and must be dropped.",
+      "system",
+      firstSession.id
+    );
+    assert.equal(
+      context.store.loadOrderedMessages(conversation.id).length,
+      0
+    );
+    assert.deepEqual(context.port.questions, []);
   } finally {
     context.store.close();
     await rm(context.root, { recursive: true, force: true });
@@ -670,6 +818,10 @@ test("Slice 4 persists no raw audio or continuous transcript and adds no TTS pat
   assert.match(
     main,
     /config\.sessionId !== activeSession\.id/
+  );
+  assert.match(
+    main,
+    /acceptQuestion\(question, source, session\.id\)/
   );
   assert.doesNotMatch(
     overlay,

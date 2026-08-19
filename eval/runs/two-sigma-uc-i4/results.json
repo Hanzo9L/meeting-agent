@@ -1,0 +1,1783 @@
+{
+  "generatedAt": "2026-08-19T17:35:33.434Z",
+  "dataset": "eval/datasets/two_sigma_uc_systems_engineer_scenarios.json",
+  "engine": {
+    "engine": "learn-rag-r0.4",
+    "corpusFingerprint": "7e6b69cb0ab95823",
+    "indexFingerprint": "87a6960b9ebc6701",
+    "searchHash": "8702daf1ee2b2843",
+    "scopeHash": "2a8caaabd00f4b08"
+  },
+  "frozenHashes": {
+    "searchHash": "8702daf1ee2b2843",
+    "scopeHash": "2a8caaabd00f4b08"
+  },
+  "i5Reconciliation": {
+    "correctedAt": "2026-08-19T18:30:00.000Z",
+    "reason": "TSUC22 was graded well_served on 2/4 theme hits, but those hits are lexical false positives against Teams CQD/admin call-quality pages. Returned sources contain no Linux authority. Local corpus term counts for systemctl, journalctl, tcpdump, ss, and man7/freedesktop URLs are zero. The I4 runner treated token overlap (packet/capture, host/port) as theme evidence. Grade corrected to corpus_gap without changing the scenario question or the stored themeHits from the original run.",
+    "originalCounts": {
+      "well_served": 22,
+      "partial": 6,
+      "story_required": 2,
+      "gaps": 0
+    },
+    "authoritativeCounts": {
+      "well_served": 21,
+      "partial": 6,
+      "corpus_gap": 1,
+      "story_required": 2
+    },
+    "tsuc22": {
+      "originalVerdict": "well_served",
+      "reconciledVerdict": "corpus_gap",
+      "themeHitsWereFalsePositives": [
+        "tcpdump or packet capture",
+        "host or port filter"
+      ]
+    }
+  },
+  "counts": {
+    "well_served": 21,
+    "partial": 6,
+    "corpus_gap": 1,
+    "story_required": 2
+  },
+  "wellServed": [
+    "TSUC01",
+    "TSUC02",
+    "TSUC03",
+    "TSUC05",
+    "TSUC06",
+    "TSUC07",
+    "TSUC08",
+    "TSUC09",
+    "TSUC10",
+    "TSUC11",
+    "TSUC12",
+    "TSUC14",
+    "TSUC15",
+    "TSUC16",
+    "TSUC17",
+    "TSUC18",
+    "TSUC19",
+    "TSUC21",
+    "TSUC23",
+    "TSUC24",
+    "TSUC28"
+  ],
+  "partial": [
+    "TSUC04",
+    "TSUC13",
+    "TSUC20",
+    "TSUC25",
+    "TSUC26",
+    "TSUC27"
+  ],
+  "gaps": [
+    "TSUC22"
+  ],
+  "storyRequired": [
+    "TSUC29",
+    "TSUC30"
+  ],
+  "rows": [
+    {
+      "id": "TSUC01",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "architecture",
+      "source": "staffing_explicit",
+      "question": "Explain Direct Routing as if I were a junior engineer. How do SBCs fit into the flow, and what role do certificates play?",
+      "ok": true,
+      "elapsedMs": 118,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Direct Routing connects a certified Session Border Controller to Microsoft Phone System",
+        "TLS certificates for SBC to Teams connectivity",
+        "voice routing policy, PSTN usage, and voice route"
+      ],
+      "themeMisses": [
+        "SIP signaling and media path through the SBC"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Plan Direct Routing",
+          "section": "Public trusted certificate for the SBC",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        },
+        {
+          "rank": 2,
+          "title": "What&#39;s New Direct Routing",
+          "section": "Validation test that switches Microsoft Teams Direct Routing SIP endpoints to certificates issued by a new CA (June 30, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new"
+        },
+        {
+          "rank": 3,
+          "title": "Plan Direct Routing",
+          "section": "Supported Session Border Controllers (SBCs)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        },
+        {
+          "rank": 4,
+          "title": "Monitor Direct Routing",
+          "section": "Monitoring availability of Session Border Controllers using Session Initiation Protocol (SIP) options messages",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+        },
+        {
+          "rank": 5,
+          "title": "What&#39;s New Direct Routing",
+          "section": "Update on upcoming certificate changes (December 12, 2025)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new"
+        }
+      ]
+    },
+    {
+      "id": "TSUC02",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "troubleshooting",
+      "source": "staffing_explicit",
+      "question": "A user can use Teams but cannot call external or PSTN numbers. How do you troubleshoot?",
+      "ok": true,
+      "elapsedMs": 18,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Teams Phone readiness and phone-number assignment",
+        "dial plan and number normalization",
+        "voice routing policy to PSTN usage to voice route to SBC"
+      ],
+      "themeMisses": [
+        "SBC or carrier health"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "PSTN connectivity options",
+          "section": "What's next?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        },
+        {
+          "rank": 2,
+          "title": "Issues with call transfers",
+          "section": "Auto attendant does not transfer calls to an external PSTN number",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers"
+        },
+        {
+          "rank": 3,
+          "title": "PSTN connectivity options",
+          "section": "PSTN connectivity options",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        },
+        {
+          "rank": 4,
+          "title": "Manage phone numbers for users",
+          "section": "Use Teams admin center to assign a phone number to a user",
+          "url": "https://learn.microsoft.com/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user"
+        },
+        {
+          "rank": 5,
+          "title": "Reference - Supported Configurations",
+          "section": "Outbound calling line identification (number)",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-reference-limits-supported-configurations"
+        }
+      ]
+    },
+    {
+      "id": "TSUC03",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "architecture",
+      "source": "staffing_derived",
+      "question": "Walk through the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC or gateway.",
+      "ok": true,
+      "elapsedMs": 18,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "online voice routing policy",
+        "PSTN usage",
+        "voice route",
+        "PSTN gateway or SBC"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 1: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+        },
+        {
+          "rank": 2,
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 2: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing"
+        },
+        {
+          "rank": 3,
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Example: How to configure the use of analog devices with Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+        },
+        {
+          "rank": 4,
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 4: Assign the voice route to the PSTN usage:",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+        },
+        {
+          "rank": 5,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+        }
+      ]
+    },
+    {
+      "id": "TSUC04",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "architecture",
+      "source": "staffing_explicit",
+      "question": "How would you design Direct Routing for a global organization? Where would you place the SBCs, and what happens if an SBC or carrier fails?",
+      "ok": true,
+      "elapsedMs": 21,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Direct Routing planning and topology"
+      ],
+      "themeMisses": [
+        "SBC placement and high availability",
+        "geo-redundancy or failover",
+        "carrier diversity"
+      ],
+      "verdict": "partial",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Plan Direct Routing",
+          "section": "Infrastructure requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        },
+        {
+          "rank": 2,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        },
+        {
+          "rank": 3,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization"
+        },
+        {
+          "rank": 4,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "Use the Microsoft Teams admin center",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc"
+        },
+        {
+          "rank": 5,
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants"
+        }
+      ]
+    },
+    {
+      "id": "TSUC05",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "How do certificates, TLS, and SIP OPTIONS affect Direct Routing SBC connectivity?",
+      "ok": true,
+      "elapsedMs": 13,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "TLS between SBC and Teams",
+        "certificate CN or SAN matching the SBC FQDN",
+        "trusted public CA",
+        "SIP OPTIONS health"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "SBC connectivity issues",
+          "section": "Overview of the SIP options process",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+        },
+        {
+          "rank": 2,
+          "title": "SBC connectivity issues",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues"
+        },
+        {
+          "rank": 3,
+          "title": "What&#39;s New Direct Routing",
+          "section": "Update on upcoming certificate changes (December 12, 2025)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new"
+        },
+        {
+          "rank": 4,
+          "title": "Monitor Direct Routing",
+          "section": "Monitoring availability of Session Border Controllers using Session Initiation Protocol (SIP) options messages",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+        },
+        {
+          "rank": 5,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "Use PowerShell",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc"
+        }
+      ]
+    },
+    {
+      "id": "TSUC06",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "configuration",
+      "source": "staffing_derived",
+      "question": "How do Teams dial plans and normalization rules affect a number a user dials before it is routed to the PSTN?",
+      "ok": true,
+      "elapsedMs": 18,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "tenant or service dial plan",
+        "normalization rules",
+        "dialed-number translation",
+        "effective dial plan"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Translate phone numbers for Direct Routing",
+          "section": "Route-based number translations - for outbound calls",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-translate-numbers"
+        },
+        {
+          "rank": 2,
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+        },
+        {
+          "rank": 3,
+          "title": "Create and manage dial plans",
+          "section": "Using the Microsoft Teams admin center",
+          "url": "https://learn.microsoft.com/microsoftteams/create-and-manage-dial-plans"
+        },
+        {
+          "rank": 4,
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "What are dial plans?",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+        },
+        {
+          "rank": 5,
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Dial plans and routing considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+        }
+      ]
+    },
+    {
+      "id": "TSUC07",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "architecture",
+      "source": "staffing_derived",
+      "question": "What is media bypass in Direct Routing, and what changes in the media path when it is enabled?",
+      "ok": true,
+      "elapsedMs": 15,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "media bypass",
+        "client-to-SBC media path",
+        "SIP signaling remains through Microsoft",
+        "network topology requirements"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Use of Media Processors and Transport Relays",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "rank": 2,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Call flow and firewall planning",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "rank": 3,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "About media bypass with Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "rank": 4,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Client endpoints supported with media bypass",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "rank": 5,
+          "title": "Plan Direct Routing",
+          "section": "Media traffic: port ranges, media processors, CODECS",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        }
+      ]
+    },
+    {
+      "id": "TSUC08",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "configuration",
+      "source": "staffing_explicit",
+      "question": "What is your experience configuring an Auto Attendant and Call Queue from start to finish? Talk me through it.",
+      "ok": true,
+      "elapsedMs": 19,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "resource account",
+        "Auto Attendant setup",
+        "Call Queue setup",
+        "business hours, overflow, timeout, or voicemail"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Planning - Overview of voice applications",
+          "section": "Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview"
+        },
+        {
+          "rank": 2,
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant"
+        },
+        {
+          "rank": 3,
+          "title": "Design - Call flows for voice applications",
+          "section": "Call routing best practices",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows"
+        },
+        {
+          "rank": 4,
+          "title": "Reference - Getting Started",
+          "section": "Getting started",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-reference-getting-started"
+        },
+        {
+          "rank": 5,
+          "title": "Setup - Call Queue",
+          "section": "Steps to create a call queue",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue"
+        }
+      ]
+    },
+    {
+      "id": "TSUC09",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "architecture",
+      "source": "staffing_derived",
+      "question": "What PSTN connectivity options exist for Teams Phone, and when would you choose Direct Routing?",
+      "ok": true,
+      "elapsedMs": 15,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Calling Plan",
+        "Operator Connect",
+        "Direct Routing"
+      ],
+      "themeMisses": [
+        "customer-controlled SBC"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "PSTN connectivity options",
+          "section": "What's next?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        },
+        {
+          "rank": 2,
+          "title": "PSTN connectivity options",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        },
+        {
+          "rank": 3,
+          "title": "PSTN connectivity options",
+          "section": "PSTN connectivity options",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        },
+        {
+          "rank": 4,
+          "title": "PSTN connectivity options",
+          "section": "Use more than one PSTN connectivity type",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        },
+        {
+          "rank": 5,
+          "title": "PSTN connectivity options",
+          "section": "What is the Public Switched Telephone Network (PSTN)?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity"
+        }
+      ]
+    },
+    {
+      "id": "TSUC10",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "intent": "configuration",
+      "source": "staffing_derived",
+      "question": "How do you assign or change a Teams Phone number for a user, and what must be true before the number can route?",
+      "ok": true,
+      "elapsedMs": 16,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "phone number assignment",
+        "user identity",
+        "verification after assignment"
+      ],
+      "themeMisses": [
+        "Teams Phone licensing or readiness"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Manage phone numbers for users",
+          "section": "Use PowerShell to assign a phone number to a user",
+          "url": "https://learn.microsoft.com/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user"
+        },
+        {
+          "rank": 2,
+          "title": "Manage phone numbers for users",
+          "section": "Use Teams admin center to change a phone number for a user",
+          "url": "https://learn.microsoft.com/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user"
+        },
+        {
+          "rank": 3,
+          "title": "Manage emergency locations",
+          "section": "Assign an emergency location",
+          "url": "https://learn.microsoft.com/microsoftteams/add-change-remove-emergency-location-organization"
+        },
+        {
+          "rank": 4,
+          "title": "Manage phone numbers for users",
+          "section": "Prerequisites",
+          "url": "https://learn.microsoft.com/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user"
+        },
+        {
+          "rank": 5,
+          "title": "Manage phone numbers for users",
+          "section": "Use Teams admin center to assign a phone number to a user",
+          "url": "https://learn.microsoft.com/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user"
+        }
+      ]
+    },
+    {
+      "id": "TSUC11",
+      "category": "call_quality_troubleshooting",
+      "intent": "troubleshooting",
+      "source": "staffing_explicit",
+      "question": "Tell me about a time you troubleshot a persistent call quality issue in Microsoft Teams. How did you use Call Quality Dashboard and Call Analytics to identify the root cause?",
+      "ok": true,
+      "elapsedMs": 21,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Call Quality Dashboard",
+        "Call Analytics or current Teams admin call troubleshooting",
+        "packet loss, jitter, or latency"
+      ],
+      "themeMisses": [
+        "device versus network versus service"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Introduction to Call Analytics",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 2,
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Monitor and troubleshoot call quality",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos"
+        },
+        {
+          "rank": 3,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 4,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Troubleshoot user call quality problems",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 5,
+          "title": "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+          "section": "Investigate a meeting",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-troubleshoot-teams-meetings-calls"
+        }
+      ]
+    },
+    {
+      "id": "TSUC12",
+      "category": "call_quality_troubleshooting",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "How do you distinguish device, network, and service as the cause of poor Teams call quality when you see packet loss, jitter, or high RTT?",
+      "ok": true,
+      "elapsedMs": 21,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "jitter",
+        "packet loss",
+        "round-trip time or latency",
+        "stream direction or endpoint versus network"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "What is quality?",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 2,
+          "title": "Intelligent media quality classifiers in CQD",
+          "section": "Troubleshooting quality issues",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-intelligent-media-quality-classifiers"
+        },
+        {
+          "rank": 3,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Quality investigations",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 4,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Troubleshoot user call quality problems",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 5,
+          "title": "Stream classification in Call Quality Dashboard (CQD)",
+          "section": "Classifier Definitions",
+          "url": "https://learn.microsoft.com/microsoftteams/stream-classification-in-call-quality-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "TSUC13",
+      "category": "call_quality_troubleshooting",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "ok": true,
+      "elapsedMs": 12,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "media path or media bypass"
+      ],
+      "themeMisses": [
+        "signaling versus media",
+        "firewall or NAT",
+        "SBC or call telemetry"
+      ],
+      "verdict": "partial",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+        },
+        {
+          "rank": 2,
+          "title": "Plan Direct Routing",
+          "section": "Licensing and other requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        },
+        {
+          "rank": 3,
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls"
+        },
+        {
+          "rank": 4,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        },
+        {
+          "rank": 5,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Audio Conferencing capabilities not supported in Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+        }
+      ]
+    },
+    {
+      "id": "TSUC14",
+      "category": "call_quality_troubleshooting",
+      "intent": "configuration",
+      "source": "staffing_derived",
+      "question": "What role does Quality of Service play in Teams media, and how would you implement QoS in Microsoft Teams?",
+      "ok": true,
+      "elapsedMs": 17,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Quality of Service",
+        "DSCP"
+      ],
+      "themeMisses": [
+        "media modalities",
+        "monitoring after QoS"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Implement Quality of Service in Microsoft Teams",
+          "section": "Step 4. Implement QoS settings",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams"
+        },
+        {
+          "rank": 2,
+          "title": "Implement Quality of Service in Microsoft Teams",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams"
+        },
+        {
+          "rank": 3,
+          "title": "Implement Quality of Service in Microsoft Teams",
+          "section": "Step 1. Make sure your network is ready",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams"
+        },
+        {
+          "rank": 4,
+          "title": "Implement Quality of Service in Microsoft Teams",
+          "section": "Step 6. Manage source ports",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams"
+        },
+        {
+          "rank": 5,
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Prioritize important network traffic using QoS",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos"
+        }
+      ]
+    },
+    {
+      "id": "TSUC15",
+      "category": "call_quality_troubleshooting",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "When would you use Call Analytics or the current Teams admin call-troubleshooting experience versus Call Quality Dashboard?",
+      "ok": true,
+      "elapsedMs": 17,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "individual call or meeting",
+        "organization-wide trend",
+        "Call Quality Dashboard",
+        "Teams admin center troubleshooting"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 2,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Introduction to Call Analytics",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 3,
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Monitor and troubleshoot call quality",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos"
+        },
+        {
+          "rank": 4,
+          "title": "Set up call analytics for Microsoft Teams",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/set-up-call-analytics"
+        },
+        {
+          "rank": 5,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "What does each Teams Support role do?",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        }
+      ]
+    },
+    {
+      "id": "TSUC16",
+      "category": "teams_rooms_exchange_intune",
+      "intent": "configuration",
+      "source": "staffing_explicit",
+      "question": "How do you create and manage standard conference room resources in Exchange or Microsoft 365?",
+      "ok": true,
+      "elapsedMs": 13,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Exchange room mailbox",
+        "Teams Rooms resource account",
+        "calendar processing",
+        "licensing"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 2,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 3,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Configure Exchange mailbox properties",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 4,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Next steps",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 5,
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Creating resource accounts for your Microsoft Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+        }
+      ]
+    },
+    {
+      "id": "TSUC17",
+      "category": "teams_rooms_exchange_intune",
+      "intent": "troubleshooting",
+      "source": "staffing_explicit",
+      "question": "A Teams Room account seems to be locked out constantly. How do you investigate using standard Windows or Microsoft 365 tools?",
+      "ok": true,
+      "elapsedMs": 18,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "resource-account sign-in",
+        "Entra sign-in logs",
+        "Conditional Access or compliance",
+        "credentials or smart lockout"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Software security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security"
+        },
+        {
+          "rank": 2,
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Key differences from the Teams Desktop application",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication"
+        },
+        {
+          "rank": 3,
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues"
+        },
+        {
+          "rank": 4,
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Software Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security"
+        },
+        {
+          "rank": 5,
+          "title": "The Monitored or Offline status of a Teams Rooms device is Unhealthy",
+          "section": "Resolve unmonitored status",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/monitored-offline-status-unhealthy"
+        }
+      ]
+    },
+    {
+      "id": "TSUC18",
+      "category": "teams_rooms_exchange_intune",
+      "intent": "configuration",
+      "source": "staffing_explicit",
+      "question": "How do you approach managing Teams Rooms devices through Intune? Talk about policy configuration or troubleshooting a compliance issue.",
+      "ok": true,
+      "elapsedMs": 17,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "Intune enrollment or compliance",
+        "Teams Rooms device management",
+        "Conditional Access",
+        "configuration profile or policy"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Conditional Access and compliance best practices for Microsoft Teams Rooms",
+          "section": "Intune compliance for Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/conditional-access-and-compliance-for-devices"
+        },
+        {
+          "rank": 2,
+          "title": "Fix Conditional Access-related issues for Teams Android devices",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-android-devices-conditional-access-issues"
+        },
+        {
+          "rank": 3,
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Management options in Teams Admin Center",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage"
+        },
+        {
+          "rank": 4,
+          "title": "Get support for Microsoft Teams Rooms Pro Management",
+          "section": "Collect required information",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/get-support-teams-rooms-pro-management"
+        },
+        {
+          "rank": 5,
+          "title": "Conditional Access and compliance best practices for Microsoft Teams Rooms",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/conditional-access-and-compliance-for-devices"
+        }
+      ]
+    },
+    {
+      "id": "TSUC19",
+      "category": "teams_rooms_exchange_intune",
+      "intent": "configuration",
+      "source": "staffing_derived",
+      "question": "How do you create a Teams Rooms resource account and configure calendar processing so the room can accept meetings?",
+      "ok": true,
+      "elapsedMs": 15,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "create resource account",
+        "Exchange room mailbox",
+        "Set-CalendarProcessing or AutoAccept"
+      ],
+      "themeMisses": [
+        "UPN and SMTP alignment"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Configure Exchange mailbox properties",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 2,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 3,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        },
+        {
+          "rank": 4,
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Creating resource accounts for your Microsoft Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy"
+        },
+        {
+          "rank": 5,
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Next steps",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account"
+        }
+      ]
+    },
+    {
+      "id": "TSUC20",
+      "category": "windows_linux_operational",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "How would you use the Linux command line to investigate a failed service, including status, processes, and recent logs?",
+      "ok": true,
+      "elapsedMs": 16,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "service logs"
+      ],
+      "themeMisses": [
+        "systemctl status",
+        "journalctl",
+        "process inspection"
+      ],
+      "verdict": "partial",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Monitor file processing status - SharePoint in Microsoft 365",
+          "section": "View the activity panel",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-file-processing-status"
+        },
+        {
+          "rank": 2,
+          "title": "Monitor file processing status - SharePoint in Microsoft 365",
+          "section": "Monitor the status of all files",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-file-processing-status"
+        },
+        {
+          "rank": 3,
+          "title": "Monitor file processing status - SharePoint in Microsoft 365",
+          "section": "Monitor the status of any file",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-file-processing-status"
+        },
+        {
+          "rank": 4,
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+        },
+        {
+          "rank": 5,
+          "title": "Monitor file processing status - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-file-processing-status"
+        }
+      ]
+    },
+    {
+      "id": "TSUC21",
+      "category": "windows_linux_operational",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "How would you distinguish bad credentials, smart lockout, and a Conditional Access block when a Windows or resource account cannot sign in?",
+      "ok": true,
+      "elapsedMs": 17,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "sign-in error code",
+        "Conditional Access",
+        "sign-in diagnostic"
+      ],
+      "themeMisses": [
+        "smart lockout"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues"
+        },
+        {
+          "rank": 2,
+          "title": "Conditional Access and compliance best practices for Microsoft Teams Rooms",
+          "section": "Teams Rooms Conditional Access best practices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/conditional-access-and-compliance-for-devices"
+        },
+        {
+          "rank": 3,
+          "title": "Conditional Access and compliance best practices for Microsoft Teams Rooms",
+          "section": "Intune compliance for Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/conditional-access-and-compliance-for-devices"
+        },
+        {
+          "rank": 4,
+          "title": "Fix Conditional Access-related issues for Teams Android devices",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-android-devices-conditional-access-issues"
+        },
+        {
+          "rank": 5,
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Account Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security"
+        }
+      ]
+    },
+    {
+      "id": "TSUC22",
+      "category": "windows_linux_operational",
+      "intent": "troubleshooting",
+      "source": "staffing_derived",
+      "question": "How would you identify listening sockets and capture basic network evidence on Linux while diagnosing a UC-related service?",
+      "ok": true,
+      "elapsedMs": 24,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "tcpdump or packet capture",
+        "host or port filter"
+      ],
+      "themeMisses": [
+        "ss listening sockets",
+        "bounded capture"
+      ],
+      "verdict": "corpus_gap",
+      "i5ReconciliationNote": "Original automated verdict was well_served. I5 reclassified as corpus_gap because the two theme hits are lexical false positives on Teams CQD pages, not Linux documentation.",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+          "section": "Investigate the meeting quality of a specific participant",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-troubleshoot-teams-meetings-calls"
+        },
+        {
+          "rank": 2,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "What is quality?",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 3,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Categories to monitor and maintain",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 4,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Quality investigations",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 5,
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Dimensions - Available dimensions",
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "TSUC23",
+      "category": "powershell_python_automation",
+      "intent": "automation",
+      "source": "staffing_derived",
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "ok": true,
+      "elapsedMs": 20,
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+      },
+      "error": null,
+      "themeHits": [
+        "Get-CsOnlineUser",
+        "phone number or TelephoneNumbers",
+        "OnlineVoiceRoutingPolicy",
+        "EnterpriseVoiceEnabled or equivalent voice state"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        },
+        {
+          "rank": 2,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 3,
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+        },
+        {
+          "rank": 4,
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+        },
+        {
+          "rank": 5,
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant"
+        }
+      ]
+    },
+    {
+      "id": "TSUC24",
+      "category": "powershell_python_automation",
+      "intent": "automation",
+      "source": "staffing_derived",
+      "question": "Which Teams PowerShell checks show the voice-routing policy, PSTN usages, voice routes, and gateways used by Direct Routing?",
+      "ok": true,
+      "elapsedMs": 21,
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+      },
+      "error": null,
+      "themeHits": [
+        "Get-CsOnlineVoiceRoutingPolicy",
+        "Get-CsOnlinePstnUsage",
+        "Get-CsOnlineVoiceRoute",
+        "Get-CsOnlinePSTNGateway"
+      ],
+      "themeMisses": [],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+        },
+        {
+          "rank": 2,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        },
+        {
+          "rank": 3,
+          "title": "Get-CsOnlinePstnUsage",
+          "section": "Get-CsOnlinePstnUsage",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage"
+        },
+        {
+          "rank": 4,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 5,
+          "title": "Get-CsOnlinePSTNGateway",
+          "section": "Get-CsOnlinePSTNGateway",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstngateway"
+        }
+      ]
+    },
+    {
+      "id": "TSUC25",
+      "category": "powershell_python_automation",
+      "intent": "automation",
+      "source": "staffing_derived",
+      "question": "How would you design a PowerShell or Python script from scratch to identify and remediate a systemic voice-routing misconfiguration?",
+      "ok": true,
+      "elapsedMs": 21,
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+      },
+      "error": null,
+      "themeHits": [
+        "read-only discovery first"
+      ],
+      "themeMisses": [
+        "structured logging and error handling",
+        "idempotency or retry",
+        "controlled remediation and validation"
+      ],
+      "verdict": "partial",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute"
+        },
+        {
+          "rank": 2,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        },
+        {
+          "rank": 3,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 4,
+          "title": "Get-CsPhoneNumberAssignment",
+          "section": "Get-CsPhoneNumberAssignment",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment"
+        },
+        {
+          "rank": 5,
+          "title": "Get-CsOnlinePSTNGateway",
+          "section": "Get-CsOnlinePSTNGateway",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstngateway"
+        }
+      ]
+    },
+    {
+      "id": "TSUC26",
+      "category": "powershell_python_automation",
+      "intent": "automation",
+      "source": "staffing_derived",
+      "question": "Which Teams PowerShell cmdlets inspect resource accounts, Auto Attendants, and Call Queues?",
+      "ok": true,
+      "elapsedMs": 14,
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+      },
+      "error": null,
+      "themeHits": [
+        "Get-CsAutoAttendant"
+      ],
+      "themeMisses": [
+        "Get-CsOnlineApplicationInstance",
+        "Get-CsCallQueue"
+      ],
+      "verdict": "partial",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant"
+        },
+        {
+          "rank": 2,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 3,
+          "title": "Set-CsPhoneNumberAssignment",
+          "section": "Set-CsPhoneNumberAssignment",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/set-csphonenumberassignment"
+        },
+        {
+          "rank": 4,
+          "title": "Microsoft Teams cmdlet help reference",
+          "section": "Microsoft Teams cmdlet help reference",
+          "url": "https://learn.microsoft.com/microsoftteams/index"
+        },
+        {
+          "rank": 5,
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+        }
+      ]
+    },
+    {
+      "id": "TSUC27",
+      "category": "enterprise_architecture_rollout_geo",
+      "intent": "architecture",
+      "source": "staffing_explicit",
+      "question": "How would you phase a global Teams Voice rollout and reduce risk during a major UC migration?",
+      "ok": true,
+      "elapsedMs": 13,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "voice migration or PSTN cutover planning"
+      ],
+      "themeMisses": [
+        "pilot or deployment rings",
+        "validation and rollback",
+        "change management"
+      ],
+      "verdict": "partial",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Manage - Voice applications policies",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies"
+        },
+        {
+          "rank": 2,
+          "title": "Setup - Authorized Users",
+          "section": "Step 3: Create a Teams voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-authorized-users"
+        },
+        {
+          "rank": 3,
+          "title": "Planning - Business decisions for voice applications",
+          "section": "Business decisions",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-business-decisions"
+        },
+        {
+          "rank": 4,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+        },
+        {
+          "rank": 5,
+          "title": "Manage call routing policies for Direct Routing",
+          "section": "Edit a call routing policy",
+          "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies"
+        }
+      ]
+    },
+    {
+      "id": "TSUC28",
+      "category": "enterprise_architecture_rollout_geo",
+      "intent": "architecture",
+      "source": "staffing_explicit",
+      "question": "How would you prepare SharePoint and OneDrive before rolling out Microsoft 365 Copilot so data is not retrievable by every Copilot user?",
+      "ok": true,
+      "elapsedMs": 19,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "Copilot spans SharePoint and microsoft-365; leave global"
+      },
+      "error": null,
+      "themeHits": [
+        "Copilot respects existing permissions",
+        "Data Access Governance or SharePoint Advanced Management",
+        "Restricted Content Discovery or Restricted Access Control"
+      ],
+      "themeMisses": [
+        "oversharing still matters"
+      ],
+      "verdict": "well_served",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+        },
+        {
+          "rank": 2,
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+        },
+        {
+          "rank": 3,
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive"
+        },
+        {
+          "rank": 4,
+          "title": "Plan for SharePoint and OneDrive in Microsoft 365 - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive"
+        },
+        {
+          "rank": 5,
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 5: Implement backup and restore procedures",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+        }
+      ]
+    },
+    {
+      "id": "TSUC29",
+      "category": "behavioral_personal_story",
+      "intent": "behavioral_story",
+      "source": "staffing_explicit",
+      "question": "Have you coordinated number porting with carriers? What is the biggest challenge you have faced?",
+      "ok": true,
+      "elapsedMs": 13,
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      },
+      "error": null,
+      "themeHits": [
+        "inventory and FOC or port date"
+      ],
+      "themeMisses": [
+        "LOA or CSR coordination",
+        "cutover and rollback",
+        "post-port validation"
+      ],
+      "verdict": "story_required",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls"
+        },
+        {
+          "rank": 2,
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Dial plans and routing considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview"
+        },
+        {
+          "rank": 3,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+        },
+        {
+          "rank": 4,
+          "title": "Issues with outbound calls",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls"
+        },
+        {
+          "rank": 5,
+          "title": "Issues with call transfers",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers"
+        }
+      ]
+    },
+    {
+      "id": "TSUC30",
+      "category": "behavioral_personal_story",
+      "intent": "behavioral_story",
+      "source": "staffing_explicit",
+      "question": "What is the most complex administrative task you automated from scratch? Walk me through identifying the opportunity and building the PowerShell or Python script.",
+      "ok": true,
+      "elapsedMs": 18,
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+      },
+      "error": null,
+      "themeHits": [
+        "script design from scratch",
+        "logging and error handling",
+        "validation of results"
+      ],
+      "themeMisses": [
+        "opportunity identification"
+      ],
+      "verdict": "story_required",
+      "sources": [
+        {
+          "rank": 1,
+          "title": "Get-CsOnlineApplicationInstance",
+          "section": "Get-CsOnlineApplicationInstance",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineapplicationinstance"
+        },
+        {
+          "rank": 2,
+          "title": "Microsoft Teams cmdlet help reference",
+          "section": "Microsoft Teams cmdlet help reference",
+          "url": "https://learn.microsoft.com/microsoftteams/index"
+        },
+        {
+          "rank": 3,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 4,
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant"
+        },
+        {
+          "rank": 5,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        }
+      ]
+    }
+  ]
+}

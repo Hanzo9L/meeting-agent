@@ -14,6 +14,7 @@ import type {
   AudioChunkPayload,
   CaptureStartConfig,
   ConnectionStatus,
+  EvidenceReadinessStatus,
   LiveAssistHydration,
   LiveAssistProjection,
   LiveAssistSessionView,
@@ -24,7 +25,7 @@ import { SettingsStore } from "./store/settingsStore";
 import { registerHelpdeskIpcHandlers } from "./ipc/helpdeskIpc";
 import {
   createSqliteConversationStore,
-  GroundedAnswerExecutionPort,
+  EvidenceAnswerExecutionPort,
   HelpdeskService,
   HelpdeskServiceError,
   LiveAssistService,
@@ -35,7 +36,8 @@ import { createOverlayWindow } from "./windows/overlayWindow";
 import { createHelpdeskWindow } from "./windows/helpdeskWindow";
 import { DeepgramSttProvider } from "./services/deepgramSttProvider";
 import { PipelineManager } from "./services/pipelineManager";
-import { createConfiguredGroundedSynthesisProvider } from "./services/answerV2";
+import { createEvidenceSearchClient } from "./services/evidence/evidenceSearchClient";
+import { LearnRagChild } from "./services/evidence/learnRagChild";
 
 const preloadRoot = join(__dirname, "../preload");
 const rendererRoot = join(__dirname, "../../out/renderer");
@@ -61,9 +63,11 @@ let pipelineManager: PipelineManager | null = null;
 let conversationStore: SqliteConversationStore | null = null;
 let helpdeskService: HelpdeskService | null = null;
 let liveAssistService: LiveAssistService | null = null;
+let evidenceChild: LearnRagChild | null = null;
 let latestStatus: ConnectionStatus = "idle";
 let latestTranscript: TranscriptMessage | null = null;
-let latestProjection: LiveAssistProjection | null = null;
+let latestProjections: LiveAssistProjection[] = [];
+let latestEvidenceStatus: EvidenceReadinessStatus = "starting";
 let audioChunkCount = 0;
 const settingsStore = new SettingsStore();
 
@@ -108,6 +112,14 @@ function sendTranscript(payload: TranscriptMessage): void {
 function broadcastLiveSession(
   session: LiveAssistSessionView | null
 ): void {
+  if (
+    !session ||
+    latestProjections.some(
+      (projection) => projection.sessionId !== session.id
+    )
+  ) {
+    latestProjections = [];
+  }
   helpdeskWindow?.webContents.send(
     IPC_CHANNELS.liveAssistSessionChanged,
     session
@@ -121,19 +133,33 @@ function broadcastLiveSession(
 function sendLiveProjection(
   projection: LiveAssistProjection
 ): void {
-  latestProjection = projection;
+  latestProjections = [
+    ...latestProjections.filter(
+      (item) => item.answerRunId !== projection.answerRunId
+    ),
+    projection
+  ];
   overlayWindow?.webContents.send(
     IPC_CHANNELS.liveAssistProjection,
     projection
   );
 }
 
+function sendEvidenceStatus(status: EvidenceReadinessStatus): void {
+  latestEvidenceStatus = status;
+  overlayWindow?.webContents.send(
+    IPC_CHANNELS.liveAssistEvidenceStatus,
+    status
+  );
+}
+
 function getLiveAssistHydration(): LiveAssistHydration {
   return {
     session: liveAssistService?.getActiveSession() ?? null,
-    projection: latestProjection,
+    projections: [...latestProjections],
     transcript: latestTranscript,
-    status: latestStatus
+    status: latestStatus,
+    evidenceStatus: latestEvidenceStatus
   };
 }
 
@@ -143,13 +169,23 @@ function createPipeline(): PipelineManager {
       new DeepgramSttProvider(
         settingsStore.getProviderCredential("deepgram")
       ),
-    onAcceptedQuestion: async (question, source) => {
+    onAcceptedQuestion: (question, source) => {
       if (!liveAssistService) {
-        throw new Error(
+        return Promise.reject(new Error(
           "Live Assist session service is unavailable."
-        );
+        ));
       }
-      await liveAssistService.acceptQuestion(question, source);
+      const session = liveAssistService.getActiveSession();
+      if (!session) return Promise.resolve();
+      // Durable acceptance occurs synchronously before acceptQuestion reaches
+      // answer execution. Do not hold the STT promotion queue for the full
+      // answer so rapid completed questions can become independent turns.
+      void liveAssistService
+        .acceptQuestion(question, source, session.id)
+        .catch((error) => {
+          console.error("[Relay Live Assist answer]", error);
+        });
+      return Promise.resolve();
     },
     sendStatus,
     sendTranscript,
@@ -563,12 +599,19 @@ async function initializeRelay(): Promise<void> {
       userDataPath: app.getPath("userData")
     })
   });
+  evidenceChild = new LearnRagChild({
+    onStatusChange: sendEvidenceStatus
+  });
+  sendEvidenceStatus(evidenceChild.getStatus());
   helpdeskService = new HelpdeskService(
     conversationStore,
-    new GroundedAnswerExecutionPort({
-      synthesisProvider: createConfiguredGroundedSynthesisProvider()
-    })
+    new EvidenceAnswerExecutionPort(
+      createEvidenceSearchClient(evidenceChild)
+    )
   );
+  void evidenceChild.start().catch((error) => {
+    console.error("[Relay evidence] child failed to start", error);
+  });
   liveAssistService = new LiveAssistService(
     conversationStore,
     helpdeskService,
@@ -613,6 +656,8 @@ if (hasSingleInstanceLock) {
 
   app.on("will-quit", () => {
     liveAssistService?.stop("application_shutdown");
+    evidenceChild?.dispose();
+    evidenceChild = null;
     conversationStore?.close();
     conversationStore = null;
     helpdeskService = null;

@@ -15,6 +15,11 @@ import type { HybridRetrievalResult } from "../retrievalV2";
 export interface EvidenceInspectionRun {
   bundle: EvidenceBundle;
   hybridDiagnostics: HybridRetrievalResult["diagnostics"];
+  retrievalPopulation: {
+    eligibleChunks: number;
+    scoredChunks: number;
+    returnedCandidates: number;
+  };
   routeScope: {
     selectedDomains: string[];
     focusSubdomains: string[];
@@ -27,6 +32,8 @@ export interface EvidenceInspectionRun {
 export async function runQuestionToEvidenceBundle(params: {
   question: string;
   databasePath?: string;
+  eligibleDocumentIds?: string[];
+  multiConceptSelection?: boolean;
 }): Promise<EvidenceInspectionRun> {
   const dbPath = params.databasePath ?? resolveKnowledgeV2DatabasePath();
   const runtime = resolveEmbeddingRuntimeConfig();
@@ -39,13 +46,25 @@ export async function runQuestionToEvidenceBundle(params: {
 
   const intentResult = extractQueryIntent(params.question);
   const routeResult = routeQueryIntent(intentResult.intent);
+  const scope =
+    params.eligibleDocumentIds === undefined
+      ? routeResult.scope
+      : {
+          ...routeResult.scope,
+          eligibleDocumentIds: [...params.eligibleDocumentIds],
+          estimatedCandidatePopulation: params.eligibleDocumentIds.length,
+          routingRationale: [
+            ...routeResult.scope.routingRationale,
+            `Bounded to ${params.eligibleDocumentIds.length} eligible documents.`
+          ]
+        };
   const provider = new HostedOpenAiEmbeddingProvider({
     defaultModel: runtime.model,
     embeddingSchemaVersion: runtime.embeddingSchemaVersion
   });
   const hybrid = await retrieveHybridCandidates({
     databasePath: dbPath,
-    scope: routeResult.scope,
+    scope,
     embeddingProvider: provider,
     embeddingRuntimeConfig: {
       model: runtime.model,
@@ -53,13 +72,22 @@ export async function runQuestionToEvidenceBundle(params: {
     }
   });
   return {
-    bundle: buildEvidenceBundle(hybrid, { databasePath: dbPath }).bundle,
+    bundle: buildEvidenceBundle(hybrid, {
+      databasePath: dbPath,
+      multiConceptSelection: params.multiConceptSelection === true
+    }).bundle,
     hybridDiagnostics: hybrid.diagnostics,
+    retrievalPopulation: {
+      eligibleChunks:
+        hybrid.semantic.diagnostics.eligiblePopulation,
+      scoredChunks: hybrid.semantic.diagnostics.scoredPopulation,
+      returnedCandidates: hybrid.candidates.length
+    },
     routeScope: {
-      selectedDomains: routeResult.scope.selectedDomains,
-      focusSubdomains: routeResult.scope.focusSubdomains,
-      sourcePriorityChain: routeResult.scope.sourcePriorityChain,
-      exactMatchDirectives: routeResult.scope.exactMatchDirectives
+      selectedDomains: scope.selectedDomains,
+      focusSubdomains: scope.focusSubdomains,
+      sourcePriorityChain: scope.sourcePriorityChain,
+      exactMatchDirectives: scope.exactMatchDirectives
     },
     databasePath: dbPath
   };

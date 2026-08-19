@@ -1,0 +1,3169 @@
+{
+  "question": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "intent": {
+    "originalQuestion": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+    "normalizedQuestion": "how would i configure a conditional access policy to require mfa for all admin roles",
+    "domains": [
+      "entra"
+    ],
+    "products": [
+      "Microsoft Entra"
+    ],
+    "technologies": [
+      "Conditional Access"
+    ],
+    "entities": [
+      "conditional access",
+      "policy"
+    ],
+    "operationIntents": [
+      "set"
+    ],
+    "policyNames": [
+      "policy"
+    ],
+    "requiresFreshnessCheck": false,
+    "allowsBetaSources": false,
+    "expectedAnswerType": "configuration",
+    "retrievalHints": [
+      "answer_type:configuration",
+      "domain:entra",
+      "entity:conditional access",
+      "entity:policy",
+      "operation:set"
+    ],
+    "unresolvedAmbiguity": []
+  },
+  "scope": {
+    "selectedDomains": [
+      "entra",
+      "teams_admin"
+    ],
+    "focusSubdomains": [
+      "conditional_access",
+      "device_access"
+    ],
+    "sourcePriorityChain": [
+      "ms-entra-docs",
+      "ms-m365-docs",
+      "ms-teams-admin",
+      "ms-graph-docs",
+      "ms-teams-dev-docs",
+      "ms-teams-powershell",
+      "ms-sharepoint-docs",
+      "ms-sharepoint-powershell"
+    ],
+    "exactMatchDirectives": []
+  },
+  "hybridDiagnostics": {
+    "exactLatencyMs": 0.008199999999987995,
+    "lexicalLatencyMs": 404.2898,
+    "semanticLatencyMs": 1483.7096000000001,
+    "fusionLatencyMs": 25.622199999999793,
+    "totalLatencyMs": 1511.4597,
+    "orchestrationMode": "overlap_semantic_with_exact_lexical"
+  },
+  "answerability": "answered",
+  "aspectCoverage": {
+    "aspects": [
+      {
+        "aspectId": "mandatory:policy:conditional-access-policy:set",
+        "requirement": "mandatory",
+        "subject": "conditional access policy",
+        "subjectTerms": [
+          "conditional",
+          "access",
+          "policy"
+        ],
+        "subjects": [
+          {
+            "kind": "entity",
+            "value": "conditional access",
+            "terms": [
+              "conditional",
+              "access"
+            ],
+            "aliases": [
+              "conditional access",
+              "conditional",
+              "access"
+            ],
+            "questionSpans": [
+              "conditional access",
+              "conditional",
+              "access"
+            ]
+          },
+          {
+            "kind": "policy",
+            "value": "policy",
+            "terms": [
+              "policy"
+            ],
+            "aliases": [
+              "policy"
+            ],
+            "questionSpans": [
+              "policy"
+            ]
+          }
+        ],
+        "operation": "set",
+        "methodConstraints": [],
+        "answerObject": "configuration_behavior",
+        "relationship": null,
+        "breadth": "bounded",
+        "requiredFacets": [
+          "configuration",
+          "operation"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "entra_identity_primary"
+          ],
+          "requiredDomains": [
+            "entra"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "supportType": "configuration_behavior",
+        "canonicalIdentifier": null,
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "compound_subject_binding",
+            "clause_bound_operation",
+            "answer_object:configuration_behavior",
+            "breadth:bounded"
+          ],
+          "questionSpans": [
+            "conditional access",
+            "policy",
+            "conditional access policy",
+            "set"
+          ],
+          "unresolved": false
+        }
+      },
+      {
+        "aspectId": "optional:product:microsoft-entra:general",
+        "requirement": "optional",
+        "subject": "Microsoft Entra",
+        "subjectTerms": [
+          "entra"
+        ],
+        "subjects": [
+          {
+            "kind": "product",
+            "value": "Microsoft Entra",
+            "terms": [
+              "entra"
+            ],
+            "aliases": [
+              "microsoft entra"
+            ],
+            "questionSpans": [
+              "Microsoft Entra"
+            ]
+          }
+        ],
+        "operation": null,
+        "methodConstraints": [],
+        "answerObject": "configuration_behavior",
+        "relationship": null,
+        "breadth": "narrow",
+        "requiredFacets": [
+          "configuration"
+        ],
+        "authorityRequirement": {
+          "requiredRoles": [
+            "entra_identity_primary"
+          ],
+          "requiredDomains": [
+            "entra"
+          ],
+          "requireCanonicalIdentity": false,
+          "identityType": null
+        },
+        "minimumSupportStrength": "direct",
+        "supportType": "configuration_behavior",
+        "canonicalIdentifier": null,
+        "derivation": {
+          "ruleIds": [
+            "subject_seed",
+            "general_subject",
+            "answer_object:configuration_behavior",
+            "breadth:narrow"
+          ],
+          "questionSpans": [
+            "Microsoft Entra"
+          ],
+          "unresolved": false
+        }
+      }
+    ],
+    "evidenceByAspect": {
+      "mandatory:policy:conditional-access-policy:set": [
+        "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661"
+      ],
+      "optional:product:microsoft-entra:general": []
+    },
+    "supportByAspect": {
+      "mandatory:policy:conditional-access-policy:set": [
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661|-26.87679669040002",
+          "strength": "direct",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 68.8
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85|-26.49784855115854",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.95
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369|-27.477808529510742",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.9
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385|-22.221426232793412",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.6
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b|-25.91489333231313",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.5
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671|-24.557961524393505",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.45
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9|-22.109651299598003",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.4
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037|-24.877159877791165",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.35
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078|-22.07212736794979",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.2
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3|-22.967659727026312",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28.05
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae|-22.91442200291949",
+          "strength": "direct",
+          "matchedFacets": [
+            "behavior",
+            "operation",
+            "procedure",
+            "configuration"
+          ],
+          "missingFacets": [],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "direct_proposition_support"
+          ],
+          "qualityScore": 28
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d|-21.038480778425633",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89|-25.43711929774455",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2|-25.47573853071136",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160|-24.726865881154556",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71|-25.30197534761445",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567|-25.708722224348747",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4|-24.10302648273682",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e|-22.365923723277987",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1|-26.134564569869845",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior",
+            "operation"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54|-25.29317858018165",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f|-23.452983903266443",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3|-25.98942963483968",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "candidateId": "lexical|c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d|-21.638776958913073",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ],
+      "optional:product:microsoft-entra:general": [
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d|-21.038480778425633",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369|-27.477808529510742",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae|-22.91442200291949",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89|-25.43711929774455",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2|-25.47573853071136",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160|-24.726865881154556",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71|-25.30197534761445",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671|-24.557961524393505",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567|-25.708722224348747",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4|-24.10302648273682",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e|-22.365923723277987",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1|-26.134564569869845",
+          "strength": "supporting",
+          "matchedFacets": [
+            "purpose",
+            "mechanism",
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078|-22.07212736794979",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385|-22.221426232793412",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54|-25.29317858018165",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3|-22.967659727026312",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85|-26.49784855115854",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661|-26.87679669040002",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f|-23.452983903266443",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3|-25.98942963483968",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d|-21.638776958913073",
+          "strength": "contextual",
+          "matchedFacets": [],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": false,
+          "reasonCodes": [
+            "not_topical",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b|-25.91489333231313",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9|-22.109651299598003",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "candidateId": "lexical|f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037|-24.877159877791165",
+          "strength": "supporting",
+          "matchedFacets": [
+            "behavior",
+            "procedure"
+          ],
+          "missingFacets": [
+            "configuration"
+          ],
+          "authoritySatisfied": true,
+          "canonicalIdentityVerified": false,
+          "topical": true,
+          "reasonCodes": [
+            "missing_required_facets",
+            "authority_does_not_upgrade_strength"
+          ],
+          "qualityScore": 0
+        }
+      ]
+    },
+    "supportedMandatoryAspectIds": [
+      "mandatory:policy:conditional-access-policy:set"
+    ],
+    "unsupportedMandatoryAspectIds": [],
+    "authorityLimitedAspectIds": [],
+    "supportingOnlyAspectIds": [],
+    "contextualOnlyAspectIds": [],
+    "supportedOptionalAspectIds": []
+  },
+  "freshness": {
+    "state": "unknown",
+    "requiresVerification": false,
+    "reasons": []
+  },
+  "exactIdentifierValidation": {
+    "required": false,
+    "verified": true,
+    "requiredDirectives": [],
+    "missingRequiredDirectives": []
+  },
+  "conflicts": [],
+  "selectedEvidence": [
+    {
+      "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+      "sourceId": "ms-entra-docs",
+      "sourceStatus": "ga",
+      "sourceDomain": "entra",
+      "routePriority": "primary",
+      "title": "Conditional Access adaptive session lifetime policies",
+      "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+      "headingPath": [
+        "Conditional Access adaptive session lifetime policies",
+        "Overview"
+      ],
+      "selectionReason": "selected:aspect:mandatory:policy:conditional-access-policy:set:direct",
+      "supportTypes": [
+        "configuration_behavior"
+      ]
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "candidateId": "lexical|96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85|-26.49784855115854",
+      "chunkId": "96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85",
+      "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+      "title": "Require MFA for administrators with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 1,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369|-27.477808529510742",
+      "chunkId": "07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369",
+      "documentId": "ad656cd14983960a2bd448058906e5e8402c4cb7f3c39ebb592cf85746675257",
+      "title": "Filter for applications in Conditional Access policy",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 2,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89|-25.43711929774455",
+      "chunkId": "1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89",
+      "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+      "title": "Require MFA for administrators with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 3,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71|-25.30197534761445",
+      "chunkId": "4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71",
+      "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+      "title": "Require MFA for administrators with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 5,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3|-25.98942963483968",
+      "chunkId": "c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3",
+      "documentId": "d975d8359dc0474a2a0043ad0527b810695e1a39c9ba48be2381089b9808e224",
+      "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 6,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567|-25.708722224348747",
+      "chunkId": "4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567",
+      "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+      "title": "Require MFA for all users with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 7,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385|-22.221426232793412",
+      "chunkId": "798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385",
+      "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+      "title": "Require MFA for all users with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 8,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1|-26.134564569869845",
+      "chunkId": "6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1",
+      "documentId": "7ce416f1dd9c04df0ca432de033b63f9fbb8a277f231a611eacb03a228bfb9f9",
+      "title": "Resilience defaults for Microsoft Entra Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 9,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b|-25.91489333231313",
+      "chunkId": "d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b",
+      "documentId": "bf4c489309df3c51d993a3c1f13d3937d5939263bc1c2562d5851f5a35c41283",
+      "title": "Require administrators use compliant or hybrid joined devices",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 10,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671|-24.557961524393505",
+      "chunkId": "4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671",
+      "documentId": "932ab74b781f5205fe2b90f4afc76e710319eebce4951b8d1ee91f850708a978",
+      "title": "Require multifactor authentication for Microsoft admin portals",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 11,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9|-22.109651299598003",
+      "chunkId": "ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9",
+      "documentId": "85b3614462668524145f7604e5df39e4c2e9ae55979af70761b4164ac0e278e7",
+      "title": "Require MFA for guest users with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 12,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037|-24.877159877791165",
+      "chunkId": "f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037",
+      "documentId": "75d9910d3917e8247dc91a0ae395e1776fd70a42e2a87e9f572674465c858796",
+      "title": "Require phishing-resistant multifactor authentication for Microsoft Entra administrator roles",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 13,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d|-21.038480778425633",
+      "chunkId": "005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d",
+      "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+      "title": "Require MFA for administrators with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 14,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2|-25.47573853071136",
+      "chunkId": "23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2",
+      "documentId": "d975d8359dc0474a2a0043ad0527b810695e1a39c9ba48be2381089b9808e224",
+      "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 15,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078|-22.07212736794979",
+      "chunkId": "72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078",
+      "documentId": "06971f8a2c1b702295c92e376ede0c645669e0945ec4a11711d759c627383ddd",
+      "title": "Require MFA for Azure management with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 16,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f|-23.452983903266443",
+      "chunkId": "b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f",
+      "documentId": "06971f8a2c1b702295c92e376ede0c645669e0945ec4a11711d759c627383ddd",
+      "title": "Require MFA for Azure management with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 17,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d|-21.638776958913073",
+      "chunkId": "c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d",
+      "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+      "title": "Require MFA for all users with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 18,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3|-22.967659727026312",
+      "chunkId": "910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3",
+      "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+      "title": "Require MFA for all users with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 19,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54|-25.29317858018165",
+      "chunkId": "7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54",
+      "documentId": "69af81cf2183d54b771cef1c3dac817fbd14730f00d72ab4a6c04af091e49a61",
+      "title": "Plan Your Microsoft Entra Conditional Access Deployment",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 20,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e|-22.365923723277987",
+      "chunkId": "5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e",
+      "documentId": "85b3614462668524145f7604e5df39e4c2e9ae55979af70761b4164ac0e278e7",
+      "title": "Require MFA for guest users with Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 21,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160|-24.726865881154556",
+      "chunkId": "32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160",
+      "documentId": "7ce416f1dd9c04df0ca432de033b63f9fbb8a277f231a611eacb03a228bfb9f9",
+      "title": "Resilience defaults for Microsoft Entra Conditional Access",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 22,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    },
+    {
+      "candidateId": "lexical|11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae|-22.91442200291949",
+      "chunkId": "11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae",
+      "documentId": "f5b622523c24139d56f6b0a82193c1c1dabb7437875dd25f9779db9e81c07829",
+      "title": "Require compliant, hybrid joined devices, or MFA",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 23,
+      "reasons": [
+        "redundant"
+      ]
+    },
+    {
+      "candidateId": "lexical|4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4|-24.10302648273682",
+      "chunkId": "4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4",
+      "documentId": "d975d8359dc0474a2a0043ad0527b810695e1a39c9ba48be2381089b9808e224",
+      "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+      "sourceId": "ms-entra-docs",
+      "fusionRank": 24,
+      "reasons": [
+        "insufficient_direct_support"
+      ]
+    }
+  ],
+  "evidenceDiagnostics": {
+    "latencyMs": {
+      "total": 15.233999999999924,
+      "selection": 14.903499999999894,
+      "conflictDetection": 0.06649999999990541,
+      "answerability": 0.1352999999999156
+    },
+    "populations": {
+      "candidates": 24,
+      "selectedEvidence": 1,
+      "rejectedCandidates": 23
+    },
+    "policySignals": {
+      "authoritativeEvidencePresent": true,
+      "exactIdentifierVerified": true,
+      "requiredConceptCoverage": true,
+      "conflictFree": true,
+      "freshnessOk": true,
+      "authorityCoverageOk": true,
+      "provenanceComplete": true
+    }
+  },
+  "bundle": {
+    "question": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+    "intent": {
+      "originalQuestion": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+      "normalizedQuestion": "how would i configure a conditional access policy to require mfa for all admin roles",
+      "domains": [
+        "entra"
+      ],
+      "products": [
+        "Microsoft Entra"
+      ],
+      "technologies": [
+        "Conditional Access"
+      ],
+      "entities": [
+        "conditional access",
+        "policy"
+      ],
+      "operationIntents": [
+        "set"
+      ],
+      "policyNames": [
+        "policy"
+      ],
+      "requiresFreshnessCheck": false,
+      "allowsBetaSources": false,
+      "expectedAnswerType": "configuration",
+      "retrievalHints": [
+        "answer_type:configuration",
+        "domain:entra",
+        "entity:conditional access",
+        "entity:policy",
+        "operation:set"
+      ],
+      "unresolvedAmbiguity": []
+    },
+    "scope": {
+      "intent": {
+        "originalQuestion": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+        "normalizedQuestion": "how would i configure a conditional access policy to require mfa for all admin roles",
+        "domains": [
+          "entra"
+        ],
+        "products": [
+          "Microsoft Entra"
+        ],
+        "technologies": [
+          "Conditional Access"
+        ],
+        "entities": [
+          "conditional access",
+          "policy"
+        ],
+        "operationIntents": [
+          "set"
+        ],
+        "policyNames": [
+          "policy"
+        ],
+        "requiresFreshnessCheck": false,
+        "allowsBetaSources": false,
+        "expectedAnswerType": "configuration",
+        "retrievalHints": [
+          "answer_type:configuration",
+          "domain:entra",
+          "entity:conditional access",
+          "entity:policy",
+          "operation:set"
+        ],
+        "unresolvedAmbiguity": []
+      },
+      "selectedDomains": [
+        "entra",
+        "teams_admin"
+      ],
+      "focusSubdomains": [
+        "conditional_access",
+        "device_access"
+      ],
+      "eligibleSources": [
+        {
+          "sourceId": "ms-entra-docs",
+          "priority": "primary",
+          "authorityRoles": [
+            "entra_identity_primary"
+          ],
+          "eligibleTrackIds": [
+            "ga"
+          ],
+          "eligibleTrackStatuses": [
+            "ga"
+          ],
+          "rationale": [
+            "domain_match:entra,teams_admin",
+            "priority:primary",
+            "authority:entra_identity_primary"
+          ],
+          "subdomainHints": [
+            "conditional_access"
+          ]
+        },
+        {
+          "sourceId": "ms-teams-admin",
+          "priority": "supporting",
+          "authorityRoles": [
+            "teams_admin_primary"
+          ],
+          "eligibleTrackIds": [
+            "ga"
+          ],
+          "eligibleTrackStatuses": [
+            "ga"
+          ],
+          "rationale": [
+            "domain_match:teams_admin",
+            "priority:supporting",
+            "authority:teams_admin_primary"
+          ],
+          "subdomainHints": []
+        }
+      ],
+      "excludedSources": [
+        {
+          "sourceId": "ms-m365-docs",
+          "reason": "m365_source_requires_m365_domain"
+        },
+        {
+          "sourceId": "ms-graph-docs",
+          "reason": "graph_source_requires_graph_domain"
+        },
+        {
+          "sourceId": "ms-teams-dev-docs",
+          "reason": "not_applicable_to_selected_domains"
+        },
+        {
+          "sourceId": "ms-teams-powershell",
+          "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+        },
+        {
+          "sourceId": "ms-sharepoint-docs",
+          "reason": "not_applicable_to_selected_domains"
+        },
+        {
+          "sourceId": "ms-sharepoint-powershell",
+          "reason": "not_applicable_to_selected_domains"
+        }
+      ],
+      "sourcePriorityChain": [
+        "ms-entra-docs",
+        "ms-m365-docs",
+        "ms-teams-admin",
+        "ms-graph-docs",
+        "ms-teams-dev-docs",
+        "ms-teams-powershell",
+        "ms-sharepoint-docs",
+        "ms-sharepoint-powershell"
+      ],
+      "strategy": {
+        "exact": false,
+        "lexical": true,
+        "semantic": true,
+        "semanticPreference": "primary"
+      },
+      "exactMatchDirectives": [],
+      "candidateBudget": {
+        "maxLexicalCandidates": 2400,
+        "maxSemanticCandidates": 1300,
+        "broadScopeWarningThreshold": 3500
+      },
+      "scopeMode": "cross_domain",
+      "freshnessVerification": {
+        "required": false,
+        "reasons": []
+      },
+      "betaPolicy": {
+        "allowsBeta": false,
+        "excludedBetaTracks": []
+      },
+      "estimatedCandidatePopulation": 4100,
+      "routingWarnings": [],
+      "routingRationale": [
+        "answer_type:configuration",
+        "conditional_access_signals_detected",
+        "primary_domain:entra"
+      ]
+    },
+    "evidence": [
+      {
+        "evidenceId": "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+        "chunkId": "ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661",
+        "documentId": "696b491d83541ce620ecae4ee850c59be201d9e52f9c1109c0d6ee130a6fa1f0",
+        "source": {
+          "sourceId": "ms-entra-docs",
+          "trackId": "ga",
+          "sourceStatus": "ga",
+          "sourceDomain": "entra",
+          "authorityTier": "tier1",
+          "authorityRoles": [
+            "entra_identity_primary"
+          ],
+          "routePriority": "primary",
+          "title": "Conditional Access adaptive session lifetime policies",
+          "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-session-lifetime",
+          "sourcePath": "docs/identity/conditional-access/concept-session-lifetime.md",
+          "sourceRevision": {
+            "transport": "github",
+            "repository": "MicrosoftDocs/entra-docs",
+            "branch": "main",
+            "commitSha": "98f5bf995f8c85bc652282f6f677d0b173b7f0e4",
+            "blobSha": "4d90ecc4d5729d8e6b2c44f8f5709ee122ff4d92",
+            "path": "docs/identity/conditional-access/concept-session-lifetime.md"
+          }
+        },
+        "location": {
+          "sectionId": "sec-2",
+          "headingPath": [
+            "Conditional Access adaptive session lifetime policies",
+            "Overview"
+          ]
+        },
+        "text": "Document: Conditional Access adaptive session lifetime policies\nHeading Path: Conditional Access adaptive session lifetime policies -> Overview\n\nConditional Access adaptive session lifetime policies let organizations restrict authentication sessions in complex deployments. Scenarios include:\n\n- Resource access from an unmanaged or shared device\n- Access to sensitive information from an external network\n- High impact users\n- Critical business applications\n\nConditional Access provides adaptive session lifetime policy controls, so you can create policies that target specific use cases within your organization without affecting all users.\n\nBefore exploring how to configure the policy, examine the default configuration.",
+        "supportTypes": [
+          "configuration_behavior"
+        ],
+        "retrieval": {
+          "methods": [
+            "lexical",
+            "semantic"
+          ],
+          "fusionRank": 4,
+          "fusionScore": 29.748022598870058,
+          "methodSignals": {
+            "methods": [
+              "lexical",
+              "semantic"
+            ],
+            "exact": {
+              "matched": false,
+              "score": null,
+              "rank": null
+            },
+            "lexical": {
+              "score": -26.87679669040002,
+              "rank": 2
+            },
+            "semantic": {
+              "similarity": 0.5774128733891069,
+              "rank": 294
+            }
+          },
+          "exactMatch": null,
+          "retrievalReasons": [
+            "lexical_fts_match",
+            "lexical_technical_concept_match",
+            "semantic_preselection:entity_title_shortlist",
+            "semantic_similarity",
+            "semantic_rank:294"
+          ]
+        },
+        "selectionReason": "selected:aspect:mandatory:policy:conditional-access-policy:set:direct"
+      }
+    ],
+    "rejectedCandidates": [
+      {
+        "candidateId": "lexical|96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85|-26.49784855115854",
+        "chunkId": "96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85",
+        "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+        "title": "Require MFA for administrators with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 1,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369|-27.477808529510742",
+        "chunkId": "07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369",
+        "documentId": "ad656cd14983960a2bd448058906e5e8402c4cb7f3c39ebb592cf85746675257",
+        "title": "Filter for applications in Conditional Access policy",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 2,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89|-25.43711929774455",
+        "chunkId": "1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89",
+        "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+        "title": "Require MFA for administrators with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 3,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71|-25.30197534761445",
+        "chunkId": "4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71",
+        "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+        "title": "Require MFA for administrators with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 5,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3|-25.98942963483968",
+        "chunkId": "c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3",
+        "documentId": "d975d8359dc0474a2a0043ad0527b810695e1a39c9ba48be2381089b9808e224",
+        "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 6,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567|-25.708722224348747",
+        "chunkId": "4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567",
+        "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+        "title": "Require MFA for all users with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 7,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385|-22.221426232793412",
+        "chunkId": "798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385",
+        "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+        "title": "Require MFA for all users with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 8,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1|-26.134564569869845",
+        "chunkId": "6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1",
+        "documentId": "7ce416f1dd9c04df0ca432de033b63f9fbb8a277f231a611eacb03a228bfb9f9",
+        "title": "Resilience defaults for Microsoft Entra Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 9,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b|-25.91489333231313",
+        "chunkId": "d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b",
+        "documentId": "bf4c489309df3c51d993a3c1f13d3937d5939263bc1c2562d5851f5a35c41283",
+        "title": "Require administrators use compliant or hybrid joined devices",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 10,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671|-24.557961524393505",
+        "chunkId": "4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671",
+        "documentId": "932ab74b781f5205fe2b90f4afc76e710319eebce4951b8d1ee91f850708a978",
+        "title": "Require multifactor authentication for Microsoft admin portals",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 11,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9|-22.109651299598003",
+        "chunkId": "ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9",
+        "documentId": "85b3614462668524145f7604e5df39e4c2e9ae55979af70761b4164ac0e278e7",
+        "title": "Require MFA for guest users with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 12,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037|-24.877159877791165",
+        "chunkId": "f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037",
+        "documentId": "75d9910d3917e8247dc91a0ae395e1776fd70a42e2a87e9f572674465c858796",
+        "title": "Require phishing-resistant multifactor authentication for Microsoft Entra administrator roles",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 13,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d|-21.038480778425633",
+        "chunkId": "005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d",
+        "documentId": "c8f780f36034ff7f78a8595adb08d0ca159931372857890c9b0174eb0ebceb5a",
+        "title": "Require MFA for administrators with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 14,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2|-25.47573853071136",
+        "chunkId": "23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2",
+        "documentId": "d975d8359dc0474a2a0043ad0527b810695e1a39c9ba48be2381089b9808e224",
+        "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 15,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078|-22.07212736794979",
+        "chunkId": "72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078",
+        "documentId": "06971f8a2c1b702295c92e376ede0c645669e0945ec4a11711d759c627383ddd",
+        "title": "Require MFA for Azure management with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 16,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f|-23.452983903266443",
+        "chunkId": "b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f",
+        "documentId": "06971f8a2c1b702295c92e376ede0c645669e0945ec4a11711d759c627383ddd",
+        "title": "Require MFA for Azure management with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 17,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d|-21.638776958913073",
+        "chunkId": "c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d",
+        "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+        "title": "Require MFA for all users with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 18,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3|-22.967659727026312",
+        "chunkId": "910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3",
+        "documentId": "9b31df4a21009ddf71aff760cd13f55a347e11314470458a27ec31e31eed18aa",
+        "title": "Require MFA for all users with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 19,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54|-25.29317858018165",
+        "chunkId": "7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54",
+        "documentId": "69af81cf2183d54b771cef1c3dac817fbd14730f00d72ab4a6c04af091e49a61",
+        "title": "Plan Your Microsoft Entra Conditional Access Deployment",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 20,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e|-22.365923723277987",
+        "chunkId": "5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e",
+        "documentId": "85b3614462668524145f7604e5df39e4c2e9ae55979af70761b4164ac0e278e7",
+        "title": "Require MFA for guest users with Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 21,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160|-24.726865881154556",
+        "chunkId": "32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160",
+        "documentId": "7ce416f1dd9c04df0ca432de033b63f9fbb8a277f231a611eacb03a228bfb9f9",
+        "title": "Resilience defaults for Microsoft Entra Conditional Access",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 22,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      },
+      {
+        "candidateId": "lexical|11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae|-22.91442200291949",
+        "chunkId": "11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae",
+        "documentId": "f5b622523c24139d56f6b0a82193c1c1dabb7437875dd25f9779db9e81c07829",
+        "title": "Require compliant, hybrid joined devices, or MFA",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 23,
+        "reasons": [
+          "redundant"
+        ]
+      },
+      {
+        "candidateId": "lexical|4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4|-24.10302648273682",
+        "chunkId": "4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4",
+        "documentId": "d975d8359dc0474a2a0043ad0527b810695e1a39c9ba48be2381089b9808e224",
+        "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+        "sourceId": "ms-entra-docs",
+        "fusionRank": 24,
+        "reasons": [
+          "insufficient_direct_support"
+        ]
+      }
+    ],
+    "conflicts": [],
+    "freshness": {
+      "state": "unknown",
+      "requiresVerification": false,
+      "reasons": []
+    },
+    "exactIdentifierValidation": {
+      "required": false,
+      "verified": true,
+      "requiredDirectives": [],
+      "missingRequiredDirectives": []
+    },
+    "aspectCoverage": {
+      "aspects": [
+        {
+          "aspectId": "mandatory:policy:conditional-access-policy:set",
+          "requirement": "mandatory",
+          "subject": "conditional access policy",
+          "subjectTerms": [
+            "conditional",
+            "access",
+            "policy"
+          ],
+          "subjects": [
+            {
+              "kind": "entity",
+              "value": "conditional access",
+              "terms": [
+                "conditional",
+                "access"
+              ],
+              "aliases": [
+                "conditional access",
+                "conditional",
+                "access"
+              ],
+              "questionSpans": [
+                "conditional access",
+                "conditional",
+                "access"
+              ]
+            },
+            {
+              "kind": "policy",
+              "value": "policy",
+              "terms": [
+                "policy"
+              ],
+              "aliases": [
+                "policy"
+              ],
+              "questionSpans": [
+                "policy"
+              ]
+            }
+          ],
+          "operation": "set",
+          "methodConstraints": [],
+          "answerObject": "configuration_behavior",
+          "relationship": null,
+          "breadth": "bounded",
+          "requiredFacets": [
+            "configuration",
+            "operation"
+          ],
+          "authorityRequirement": {
+            "requiredRoles": [
+              "entra_identity_primary"
+            ],
+            "requiredDomains": [
+              "entra"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "minimumSupportStrength": "direct",
+          "supportType": "configuration_behavior",
+          "canonicalIdentifier": null,
+          "derivation": {
+            "ruleIds": [
+              "subject_seed",
+              "compound_subject_binding",
+              "clause_bound_operation",
+              "answer_object:configuration_behavior",
+              "breadth:bounded"
+            ],
+            "questionSpans": [
+              "conditional access",
+              "policy",
+              "conditional access policy",
+              "set"
+            ],
+            "unresolved": false
+          }
+        },
+        {
+          "aspectId": "optional:product:microsoft-entra:general",
+          "requirement": "optional",
+          "subject": "Microsoft Entra",
+          "subjectTerms": [
+            "entra"
+          ],
+          "subjects": [
+            {
+              "kind": "product",
+              "value": "Microsoft Entra",
+              "terms": [
+                "entra"
+              ],
+              "aliases": [
+                "microsoft entra"
+              ],
+              "questionSpans": [
+                "Microsoft Entra"
+              ]
+            }
+          ],
+          "operation": null,
+          "methodConstraints": [],
+          "answerObject": "configuration_behavior",
+          "relationship": null,
+          "breadth": "narrow",
+          "requiredFacets": [
+            "configuration"
+          ],
+          "authorityRequirement": {
+            "requiredRoles": [
+              "entra_identity_primary"
+            ],
+            "requiredDomains": [
+              "entra"
+            ],
+            "requireCanonicalIdentity": false,
+            "identityType": null
+          },
+          "minimumSupportStrength": "direct",
+          "supportType": "configuration_behavior",
+          "canonicalIdentifier": null,
+          "derivation": {
+            "ruleIds": [
+              "subject_seed",
+              "general_subject",
+              "answer_object:configuration_behavior",
+              "breadth:narrow"
+            ],
+            "questionSpans": [
+              "Microsoft Entra"
+            ],
+            "unresolved": false
+          }
+        }
+      ],
+      "evidenceByAspect": {
+        "mandatory:policy:conditional-access-policy:set": [
+          "evidence:ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661"
+        ],
+        "optional:product:microsoft-entra:general": []
+      },
+      "supportByAspect": {
+        "mandatory:policy:conditional-access-policy:set": [
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661|-26.87679669040002",
+            "strength": "direct",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 68.8
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85|-26.49784855115854",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.95
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369|-27.477808529510742",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.9
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385|-22.221426232793412",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.6
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b|-25.91489333231313",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.5
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671|-24.557961524393505",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.45
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9|-22.109651299598003",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.4
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037|-24.877159877791165",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.35
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078|-22.07212736794979",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.2
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3|-22.967659727026312",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28.05
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae|-22.91442200291949",
+            "strength": "direct",
+            "matchedFacets": [
+              "behavior",
+              "operation",
+              "procedure",
+              "configuration"
+            ],
+            "missingFacets": [],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "direct_proposition_support"
+            ],
+            "qualityScore": 28
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d|-21.038480778425633",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89|-25.43711929774455",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2|-25.47573853071136",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160|-24.726865881154556",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71|-25.30197534761445",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567|-25.708722224348747",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior",
+              "operation"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4|-24.10302648273682",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e|-22.365923723277987",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1|-26.134564569869845",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior",
+              "operation"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54|-25.29317858018165",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f|-23.452983903266443",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3|-25.98942963483968",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "candidateId": "lexical|c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d|-21.638776958913073",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration",
+              "operation"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          }
+        ],
+        "optional:product:microsoft-entra:general": [
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|005e918c38d61932b23185627694a516e32b1b9edb22d45791d4bcfdfe47520d|-21.038480778425633",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|07337643ac575ec277f640b48222a774852ba69be68527f0588579c3294fc369|-27.477808529510742",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|11df5f4bbf69a901474c37b345eba9b7e3bb6e57e437d3a4cd266b8b355020ae|-22.91442200291949",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|1a68f8e191e7e33ba6a5cba1273ab0b866e5f62fd871d3ad97e6f86d8c124f89|-25.43711929774455",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|23deb748abb143f381391cdec16bbc672ac2e03a2dd41845c86bb1dd90e417e2|-25.47573853071136",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|32974a68b8b22918a6349673b6de00f6e6e129d7fb62354be53951fc61dae160|-24.726865881154556",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|4006defd8a962e6a24087d2a52171a2beb144d627ac74262c25899ff328c7d71|-25.30197534761445",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|4360848826508e008fcf634135be2b3ed7f69736b12327da1eb17cf2cdc3b671|-24.557961524393505",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|4af6c770b3da6bccf84538eaf787a3bcc53156874e0101f414f3c1211fd26567|-25.708722224348747",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|4e071e0331935756ad81373746959c3974dcbe4ad5ce38dbd4c9fdb6ac70abb4|-24.10302648273682",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|5efd2ce4644f799f86e7e30bb29a1af4f05554635ff9d7a20dc3759b2f36792e|-22.365923723277987",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|6ddebae2bf6c9ae4be533da1ca3d57289b61235d2ec2d75316e81ac8cb18cee1|-26.134564569869845",
+            "strength": "supporting",
+            "matchedFacets": [
+              "purpose",
+              "mechanism",
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|72a07fce51bd7297c7ddd9c4edce744c0fe7bbb18190044ad75c1ee5b2d45078|-22.07212736794979",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|798fba9911b2b491b5f42408cafdd6dd08befe682fb67f31d428ff771e07b385|-22.221426232793412",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|7e4f5fb0a997e0b75a13d5d0e46ab63e7dbf774216d47c0c9d9299cf8d91ec54|-25.29317858018165",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|910eaecc9fc10d31b26b103110a905d9331606729283a4f9d8a4332f2480a2f3|-22.967659727026312",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|96c170163704cd1d17f7682f60d4c1b75523feb5d0f53d68b298b07addbadb85|-26.49784855115854",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|ad080e79d4bcd4fa7c89c46ea3e27dcdd197c8aa4e8d34a1698ff0956b493661|-26.87679669040002",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|b1c7c86a3566b6a93d268c86d397b2dbf66f01a64a542d7d0d8e0e1b152d4d5f|-23.452983903266443",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|c3630ccc1c1991946682509c4a5793185c9e59b7d47a84f9b695848f073829d3|-25.98942963483968",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|c5bc2853c0e4207375aa6e4e4ba7197a75f037ac3700520f7f19dfbbf227151d|-21.638776958913073",
+            "strength": "contextual",
+            "matchedFacets": [],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": false,
+            "reasonCodes": [
+              "not_topical",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|d4c1bebf842690018fc1718c639e7fd50612b57a9e7befb374c9a1642e5e258b|-25.91489333231313",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|ec49df16fe7481c6964273bd4a09b4cc1a7b70b74e8a327d9e848c5f870a4bd9|-22.109651299598003",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "candidateId": "lexical|f570a555548957bdc8880f0ae4bfe2623554ac4e7505127c9e28eb053e16b037|-24.877159877791165",
+            "strength": "supporting",
+            "matchedFacets": [
+              "behavior",
+              "procedure"
+            ],
+            "missingFacets": [
+              "configuration"
+            ],
+            "authoritySatisfied": true,
+            "canonicalIdentityVerified": false,
+            "topical": true,
+            "reasonCodes": [
+              "missing_required_facets",
+              "authority_does_not_upgrade_strength"
+            ],
+            "qualityScore": 0
+          }
+        ]
+      },
+      "supportedMandatoryAspectIds": [
+        "mandatory:policy:conditional-access-policy:set"
+      ],
+      "unsupportedMandatoryAspectIds": [],
+      "authorityLimitedAspectIds": [],
+      "supportingOnlyAspectIds": [],
+      "contextualOnlyAspectIds": [],
+      "supportedOptionalAspectIds": []
+    },
+    "authorityCoverage": {
+      "requestedDomains": [
+        "entra"
+      ],
+      "coveredDomains": [
+        "entra"
+      ],
+      "missingDomains": []
+    },
+    "answerability": "answered",
+    "diagnostics": {
+      "latencyMs": {
+        "total": 15.233999999999924,
+        "selection": 14.903499999999894,
+        "conflictDetection": 0.06649999999990541,
+        "answerability": 0.1352999999999156
+      },
+      "populations": {
+        "candidates": 24,
+        "selectedEvidence": 1,
+        "rejectedCandidates": 23
+      },
+      "policySignals": {
+        "authoritativeEvidencePresent": true,
+        "exactIdentifierVerified": true,
+        "requiredConceptCoverage": true,
+        "conflictFree": true,
+        "freshnessOk": true,
+        "authorityCoverageOk": true,
+        "provenanceComplete": true
+      }
+    },
+    "decisionSnapshot": {
+      "snapshotId": "grounding:bd5536aff8242566079d671f",
+      "snapshotHash": "bd5536aff8242566079d671f4e8c0209b79605820b1467f7f0aab05b81c2c6e2",
+      "schemaVersion": "grounding-decision-snapshot/v1",
+      "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+      "corpusRevisionHash": "7a381570bbd301702c6d90c9aa11edf44d7929ded1622688116685406fff30d1",
+      "createdAt": "2026-08-15T00:07:25.094Z",
+      "questionHash": "5f905b37006db5b4574593c1979533587018b875a034be91d151e81738563fd9",
+      "intentHash": "1813339d5c314311842473a1cc3fedbddca3b77ff49d53828b877b1e16977cce",
+      "scopeHash": "dbceab2afed4f6021ae22a90d1183de274c819d77af0a9405439d01b91651009",
+      "evidenceSetHash": "ff05715e7280c89e0b8dea3c1cf3e0eacd929d578819e690fd4253e7b23c5779",
+      "sourceRevisionCount": 1
+    }
+  }
+}

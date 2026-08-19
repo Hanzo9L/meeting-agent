@@ -1,0 +1,94 @@
+[
+  {
+    "aspectId": "mandatory:entity:csv-export:output-transformation",
+    "supported": false,
+    "methodConstraintRequired": false,
+    "selectedEvidenceSourceIds": [],
+    "selectedEvidenceAuthorityRoles": [],
+    "selectedEvidenceTitles": [],
+    "aspectMethodConstraintsSatisfied": true,
+    "MISMATCH": false
+  },
+  {
+    "aspectId": "mandatory:entity:enterprise-voice:general",
+    "supported": false,
+    "methodConstraintRequired": true,
+    "selectedEvidenceSourceIds": [],
+    "selectedEvidenceAuthorityRoles": [],
+    "selectedEvidenceTitles": [],
+    "aspectMethodConstraintsSatisfied": false,
+    "MISMATCH": false
+  },
+  {
+    "aspectId": "mandatory:entity:phone-number:general",
+    "supported": true,
+    "methodConstraintRequired": true,
+    "selectedEvidenceSourceIds": [
+      "ms-teams-admin"
+    ],
+    "selectedEvidenceAuthorityRoles": [
+      [
+        "teams_admin_primary"
+      ]
+    ],
+    "selectedEvidenceTitles": [
+      "Get Microsoft Teams Calling Plan phone numbers for your tenant"
+    ],
+    "aspectMethodConstraintsSatisfied": false,
+    "MISMATCH": true
+  },
+  {
+    "aspectId": "mandatory:policy:calling-policy:general",
+    "supported": true,
+    "methodConstraintRequired": true,
+    "selectedEvidenceSourceIds": [
+      "ms-teams-powershell"
+    ],
+    "selectedEvidenceAuthorityRoles": [
+      [
+        "teams_powershell_cmdlet_primary"
+      ]
+    ],
+    "selectedEvidenceTitles": [
+      "Get-CsTeamsCallingPolicy"
+    ],
+    "aspectMethodConstraintsSatisfied": true,
+    "MISMATCH": false
+  },
+  {
+    "aspectId": "mandatory:policy:dial-plan:general",
+    "supported": true,
+    "methodConstraintRequired": true,
+    "selectedEvidenceSourceIds": [
+      "ms-teams-powershell"
+    ],
+    "selectedEvidenceAuthorityRoles": [
+      [
+        "teams_powershell_cmdlet_primary"
+      ]
+    ],
+    "selectedEvidenceTitles": [
+      "Get-CsTenantDialPlan"
+    ],
+    "aspectMethodConstraintsSatisfied": true,
+    "MISMATCH": false
+  },
+  {
+    "aspectId": "mandatory:policy:voice-routing-policy:general",
+    "supported": true,
+    "methodConstraintRequired": true,
+    "selectedEvidenceSourceIds": [
+      "ms-teams-powershell"
+    ],
+    "selectedEvidenceAuthorityRoles": [
+      [
+        "teams_powershell_cmdlet_primary"
+      ]
+    ],
+    "selectedEvidenceTitles": [
+      "Get-CsOnlineVoiceRoutingPolicy"
+    ],
+    "aspectMethodConstraintsSatisfied": true,
+    "MISMATCH": false
+  }
+]

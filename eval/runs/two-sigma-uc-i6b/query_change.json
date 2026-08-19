@@ -1,0 +1,168 @@
+{
+  "baseline_hashes": {
+    "search.py_before": "8702daf1ee2b2843",
+    "search.py_after": "252e9b3ced85b9b0",
+    "scope_select.py": "2a8caaabd00f4b08"
+  },
+  "targets": {
+    "TSUC04": {
+      "fts_before": "\"direct routing\" OR \"design\" OR \"global\" OR \"organization\" OR \"place\" OR \"SBCs\" OR \"happens\" OR \"if\" OR \"SBC\" OR \"carrier\" OR \"fails\"",
+      "fts_after": "\"direct routing\" OR \"design\" OR \"global\" OR \"organization\" OR \"place\" OR \"SBCs\" OR \"happens\" OR \"if\" OR \"SBC\" OR \"carrier\" OR \"fails\" OR \"failover\"",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      }
+    },
+    "TSUC13": {
+      "fts_before": "\"direct routing\" OR \"one\" OR \"way\" OR \"audio\" OR \"Teams\" OR \"call\"",
+      "fts_after": "\"one way audio\" OR \"direct routing\" OR \"Teams\" OR \"call\" OR \"media bypass\" OR \"call analytics\" OR \"call flows\"",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      }
+    },
+    "TSUC26": {
+      "fts_before": "\"Which Teams PowerShell\" OR \"Auto Attendants\" OR \"Call Queues\" OR \"cmdlets\" OR \"inspect\" OR \"resource\" OR \"accounts\"",
+      "fts_after": "\"resource account\" OR \"auto attendant\" OR \"call queue\" OR \"Which Teams PowerShell\" OR \"cmdlets\" OR \"inspect\" OR \"application instance\"",
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "reason": "explicit PowerShell token; service=msteams-ps repo=teams-ps"
+      }
+    },
+    "TSUC27": {
+      "fts_before": "\"Teams Voice\" OR \"phase\" OR \"global\" OR \"rollout\" OR \"reduce\" OR \"risk\" OR \"during\" OR \"major\" OR \"UC\" OR \"migration\"",
+      "fts_after": "\"teams voice\" OR \"phase\" OR \"global\" OR \"rollout\" OR \"reduce\" OR \"risk\" OR \"during\" OR \"major\" OR \"UC\" OR \"migration\" OR \"teams phone\"",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "reason": "no high-confidence corpus cue"
+      }
+    }
+  },
+  "latency": {
+    "targets": {
+      "n": 4,
+      "p50": 54.071,
+      "p95": 114.567,
+      "max": 114.567,
+      "mean": 54.788
+    },
+    "bank30": {
+      "n": 30,
+      "p50": 38.337,
+      "p95": 161.484,
+      "max": 167.309,
+      "mean": 65.994
+    },
+    "priority14": {
+      "n": 14,
+      "p50": 87.698,
+      "p95": 129.185,
+      "max": 157.096,
+      "mean": 94.969
+    },
+    "i6a_bank30": {
+      "n": 30,
+      "p50": 13.37,
+      "p95": 31.611,
+      "max": 44.273,
+      "mean": 16.454
+    }
+  },
+  "priority14": {
+    "top1": "6/13",
+    "top3": "11/13",
+    "top5": "13/13"
+  },
+  "production_diff_stat": "service/search.py | 52 +++++++++++++++++++++++++++++++++++++++++++++++++++-",
+  "search_hash_after": "252e9b3ced85b9b0",
+  "phrase_additions": [
+    {
+      "entry": "one way audio",
+      "kind": "technical phrase preservation",
+      "reason": "Microsoft media-troubleshooting questions say one-way audio; docs discuss media path as a unit."
+    },
+    {
+      "entry": "teams voice",
+      "kind": "technical phrase preservation",
+      "reason": "Spoken/product nickname preserved as one lexical unit."
+    }
+  ],
+  "alias_additions": [
+    {
+      "from": "one way audio",
+      "to": [
+        "media bypass",
+        "call analytics",
+        "call flows"
+      ],
+      "kind": "troubleshooting synonym",
+      "reason": "Microsoft one-way/media-path troubleshooting vocabulary is media bypass, Call Analytics, and call flows \u2014 not the words one/way/audio separately."
+    },
+    {
+      "from": "teams voice",
+      "to": [
+        "teams phone"
+      ],
+      "kind": "Microsoft terminology equivalence",
+      "reason": "Current Microsoft product name is Teams Phone. Skipped when PowerShell/cmdlet is present so cmdlet lookup is not expanded into planning docs."
+    },
+    {
+      "from": "resource account + (auto attendant | call queue)",
+      "to": [
+        "application instance"
+      ],
+      "kind": "Microsoft terminology equivalence",
+      "reason": "Voice-app resource accounts are application instances in Microsoft docs. Rooms resource accounts are not, so AA/CQ co-occurrence is required."
+    },
+    {
+      "from": "fail/fails/failed/failure",
+      "to": [
+        "failover"
+      ],
+      "kind": "troubleshooting synonym",
+      "reason": "Direct Routing/SBC docs say failover (trunk failover, failover mechanism). Only when Direct Routing, SBC, or session border controller is already in the query."
+    }
+  ],
+  "mechanism": "plural-insensitive match of existing TECHNICAL_PHRASES; canonical phrase emitted",
+  "not_added": [
+    "upgrade",
+    "network readiness",
+    "deployment planning",
+    "trunk failover as a hard-coded title",
+    "cmdlet names",
+    "TSUC/Q IDs"
+  ],
+  "latency_clean_warm_bank30": {
+    "n": 30,
+    "p50": 13.617,
+    "p95": 28.359,
+    "max": 38.777,
+    "mean": 16.68,
+    "note": "Dedicated warmed top_k=5 pass after 3 discard queries. Comparable to I6A."
+  },
+  "priority14_detail": {
+    "top1": "6/13",
+    "top3": "11/13",
+    "top5": "13/13",
+    "historical_r04": {
+      "top1": "7/13",
+      "top3": "12/13",
+      "top5": "13/13"
+    },
+    "q04_overview_rank": 3,
+    "q14_get_csonlineuser_rank": 2,
+    "q14_scope": "HIGH msteams-ps",
+    "source_gap": [
+      "Q03"
+    ],
+    "notes": "top5 remains 13/13. top1 6/13 and top3 11/13 vs historical 7/12 are Q02 leaving top3; Q02 FTS is unchanged from R0.4 (I6A corpus pages occupy ranks 2-3). Q09 FTS unchanged. Not an I6B query-shape top5 failure."
+  }
+}

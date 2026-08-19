@@ -1,0 +1,102 @@
+{
+  "version": "audiocodes-direct-routing-i7/v1",
+  "notes": "Frozen I7 interview scenarios. Evidence-only. Does not imply AudioCodes object names are universal.",
+  "scenarios": [
+    {
+      "id": "AC01",
+      "intent": "configuration",
+      "question": "How would you configure an SBC for Microsoft Teams Direct Routing?",
+      "expected_microsoft_themes": ["certified SBC requirements", "FQDN", "TLS", "certificate", "connect SBC", "voice routing"],
+      "expected_audiocodes_themes": ["TLS context", "SIP interface", "proxy set", "IP group", "routing"],
+      "must_not_do": ["treat AudioCodes object names as universal SBC configuration"]
+    },
+    {
+      "id": "AC02",
+      "intent": "configuration",
+      "question": "Walk me through the high-level steps to bring an AudioCodes Mediant SBC online for Teams Direct Routing.",
+      "expected_microsoft_themes": ["Direct Routing architecture", "SBC pairing", "PSTN gateway"],
+      "expected_audiocodes_themes": ["network interfaces", "TLS/certificates", "SIP interfaces", "proxy sets", "IP groups", "test call"],
+      "must_not_do": ["present Mediant GUI steps as Microsoft-standard procedure"]
+    },
+    {
+      "id": "AC03",
+      "intent": "architecture",
+      "question": "What are the certificate requirements for a Teams Direct Routing SBC?",
+      "expected_microsoft_themes": ["public trusted certificate", "CN/SAN", "FQDN", "trusted CA list"],
+      "expected_audiocodes_themes": ["TLS context", "CSR", "root/intermediate import"],
+      "must_not_do": ["treat DigiCert example as the only Microsoft-allowed CA"]
+    },
+    {
+      "id": "AC04",
+      "intent": "configuration",
+      "question": "How would you install and bind certificates on an AudioCodes Mediant SBC for Teams?",
+      "expected_microsoft_themes": ["Microsoft certificate requirements for the SBC"],
+      "expected_audiocodes_themes": ["TLS Contexts page", "Change Certificate", "Trusted Root Certificates", "bind to SIP/TLS interface"],
+      "must_not_do": ["imply every vendor uses TLS Context objects"]
+    },
+    {
+      "id": "AC05",
+      "intent": "architecture",
+      "question": "How do SIP signaling and RTP media flow through a Direct Routing SBC?",
+      "expected_microsoft_themes": ["call flows", "media path", "media bypass"],
+      "expected_audiocodes_themes": ["SIP signaling interfaces", "media realms", "SRTP", "Local Media Optimization"],
+      "must_not_do": ["treat Media Realm as a Microsoft object"]
+    },
+    {
+      "id": "AC06",
+      "intent": "configuration",
+      "question": "How would you configure high availability or redundancy on an AudioCodes SBC?",
+      "expected_microsoft_themes": ["multi-SBC", "routing/failover concepts"],
+      "expected_audiocodes_themes": ["1+1 HA", "maintenance interface", "preempt", "ini/MAC identity", "synchronization"],
+      "must_not_do": ["equate Mediant 1+1 HA pair with Microsoft geo-redundant trunk failover"]
+    },
+    {
+      "id": "AC07",
+      "intent": "troubleshooting",
+      "question": "What happens when one SBC in an HA pair fails?",
+      "expected_microsoft_themes": ["call continuity", "failover"],
+      "expected_audiocodes_themes": ["switchover to redundant device", "keep-alive", "preempt mode", "stand-alone mode"],
+      "must_not_do": ["describe AudioCodes preempt as a Microsoft Direct Routing feature"]
+    },
+    {
+      "id": "AC08",
+      "intent": "troubleshooting",
+      "question": "How would you troubleshoot a Teams Direct Routing SBC that is not connecting to Microsoft?",
+      "expected_microsoft_themes": ["SIP OPTIONS", "TLS/certificate issues", "Monitor Direct Routing"],
+      "expected_audiocodes_themes": ["Proxy Set status", "OPTIONS keep-alive", "ONLINE/OFFLINE"],
+      "must_not_do": ["treat Proxy Set Status as a Microsoft admin-center page"]
+    },
+    {
+      "id": "AC09",
+      "intent": "configuration",
+      "question": "What Microsoft-side objects are required after the SBC is connected?",
+      "expected_microsoft_themes": ["PSTN gateway", "voice routing policy", "PSTN usage", "voice route", "user enablement"],
+      "expected_audiocodes_themes": ["optional pairing verification on the SBC"],
+      "must_not_do": ["replace Microsoft routing objects with AudioCodes IP Groups"]
+    },
+    {
+      "id": "AC10",
+      "intent": "architecture",
+      "question": "What parts of Direct Routing configuration are Microsoft-defined versus vendor-specific?",
+      "expected_microsoft_themes": ["architecture", "interoperability", "certificate requirements", "voice routing", "connectivity"],
+      "expected_audiocodes_themes": ["TLS context", "SIP interface", "proxy set", "IP group", "GUI/CLI"],
+      "must_not_do": ["collapse both layers into one generic SBC procedure"]
+    },
+    {
+      "id": "AC11",
+      "intent": "architecture",
+      "question": "If your experience is mainly AudioCodes, how transferable is that knowledge to another certified SBC vendor?",
+      "expected_microsoft_themes": ["certified SBC list", "SIP", "TLS", "certificates", "voice routing", "media"],
+      "expected_audiocodes_themes": ["vendor object names", "Web interface procedures", "HA implementation"],
+      "must_not_do": ["claim AudioCodes GUI steps apply unchanged to other certified SBCs"]
+    },
+    {
+      "id": "AC12",
+      "intent": "architecture",
+      "question": "How would you approach geographic SBC redundancy across two sites or regions?",
+      "expected_microsoft_themes": ["multiple SBCs", "voice routes", "trunk failover", "route priority"],
+      "expected_audiocodes_themes": ["HA pair is site-local 1+1", "not a substitute for geo routing"],
+      "must_not_do": ["treat a Mediant HA pair as geographic redundancy by itself"]
+    }
+  ]
+}

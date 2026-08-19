@@ -1,0 +1,8 @@
+## Monitor and troubleshoot call quality
+
+You'll use **Teams admin center** and **Call Quality Dashboard** to find and troubleshoot call and meeting quality problems that come up during ongoing operation. This lets you drive performance improvements across your network.
+
+- **Teams admin center** shows detailed information about the devices, networks, and connectivity related to ***specific calls and meetings*** for each user in Teams. Teams admin and helpdesk agents can use this information to troubleshoot quality and connection problems in specific meetings and calls. To learn more, read [Monitor and troubleshoot Teams meetings and calls](monitor-troubleshoot-teams-meetings-calls).
+- **Call Quality Dashboard (CQD)** gives you a ***network-wide view*** of call quality across your organization. Use CQD information to help you identify and fix problems. First, [Set up CQD](turning-on-and-using-call-quality-dashboard). Then read [Manage call and meeting quality in Teams](quality-of-experience-review-guide).
+
+Teams admin center and CQD can be used independently or together. For example, if a communications support specialist determines that they need more help troubleshooting a user's call problem, they escalate the call to a communications support engineer, who has access to additional information about the call. In turn, the communications support engineer alerts a network engineer to a possible site-related issue they noticed in Teams admin center. The network engineer checks CQD to see if an overall site-related issue could be a contributing cause of the user's call problem.

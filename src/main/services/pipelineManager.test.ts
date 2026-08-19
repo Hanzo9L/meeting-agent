@@ -101,6 +101,37 @@ test("accepted questions are serialized instead of dropped", async () => {
   assert.deepEqual(started, ["First", "Second"]);
 });
 
+test("an immediate-return handler accepts a second question while the first answer is still running", async () => {
+  const provider = new FakeSttProvider();
+  const accepted: string[] = [];
+  let releaseFirst!: () => void;
+  const firstWork = new Promise<void>((resolvePromise) => {
+    releaseFirst = resolvePromise;
+  });
+  const manager = new PipelineManager({
+    sttProviderFactory: () => provider,
+    onAcceptedQuestion: (question) => {
+      accepted.push(question);
+      if (accepted.length === 1) {
+        void firstWork;
+      }
+      return Promise.resolve();
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  await manager.start({
+    sources: ["microphone"],
+    answerTriggerMode: "all_final"
+  });
+  provider.utterance("First");
+  provider.utterance("Second");
+  await new Promise((resolvePromise) => setTimeout(resolvePromise, 0));
+  assert.deepEqual(accepted, ["First", "Second"]);
+  releaseFirst();
+  await manager.stop();
+});
+
 test("one completed utterance ID is promoted at most once", async () => {
   const provider = new FakeSttProvider();
   const accepted: string[] = [];

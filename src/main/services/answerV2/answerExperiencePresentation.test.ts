@@ -784,10 +784,11 @@ test("Live Assist Quick uses selection not string truncation", () => {
     quick.includes("Some requested aspects remain unsupported.")
   );
   assert.ok(
-    presented.liveAssistQuick.plan.selectedProofFacts.length <= 2
+    presented.liveAssistQuick.plan.selectedProofFacts.length <= 5
   );
-  assert.ok(
-    presented.liveAssistQuick.plan.selectedContextBlockIds.length <= 1
+  assert.equal(
+    presented.liveAssistQuick.plan.selectedContextBlockIds.length,
+    0
   );
 });
 
@@ -826,6 +827,42 @@ test("insufficient evidence keeps gaps and invents no identifiers", () => {
     presented.helpdeskDetailed.answerText,
     /Set-Cs|Grant-Cs|Enable-Cs/
   );
+});
+
+test("Interview Quick stays concise, omits documentation excerpts, and uses no LLM", () => {
+  const { plan, answer, provenance, bundle } = fixture();
+  const context = buildExplanationContext({ bundle, plan });
+  const presented = presentGroundedAnswer({
+    plan,
+    answer,
+    provenance,
+    contextBlocks: context.blocks
+  });
+  const quick = presented.liveAssistQuick.answerText;
+  const words = quick.trim().split(/\s+/).filter(Boolean).length;
+  assert.equal(
+    presented.liveAssistQuick.plan.selectedContextBlockIds.length,
+    0
+  );
+  assert.ok(presented.liveAssistQuick.plan.selectedProofFacts.length <= 5);
+  assert.ok(words <= 120);
+  assert.doesNotMatch(quick, /Microsoft documentation context/);
+  assert.doesNotMatch(quick, /^Summary\n/m);
+  assert.doesNotMatch(quick, /Runnable PowerShell/);
+  const presenter = readFileSync(
+    resolve("src/main/services/answerV2/deterministicAnswerPresenter.ts"),
+    "utf8"
+  );
+  const port = readFileSync(
+    resolve("src/main/services/conversations/answerExecutionPort.ts"),
+    "utf8"
+  );
+  assert.doesNotMatch(
+    presenter,
+    /OpenAiGroundedAnswerGenerator|chat\.completions|streamAnswer/
+  );
+  assert.match(port, /presentationSynthesis === "disabled"/);
+  assert.match(port, /factualGroundingGenerationRequests/);
 });
 
 test("presentation modules perform zero provider or OpenAI calls", () => {

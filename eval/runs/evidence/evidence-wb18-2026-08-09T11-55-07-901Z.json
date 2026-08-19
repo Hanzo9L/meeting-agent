@@ -1,0 +1,183 @@
+{
+  "artifactVersion": "1.0",
+  "runId": "evidence-wb18-2026-08-09T11-55-07-901Z",
+  "createdAt": "2026-08-09T11:55:07.901Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\evidence-wb18.jsonl",
+  "summary": {
+    "total": 8,
+    "answerabilityMatch": 8,
+    "requiredSourcesMatch": 8,
+    "requiredUrlsMatch": 8,
+    "requiredTitlesMatch": 8,
+    "prohibitedUrlsPass": 8,
+    "exactVerificationMatch": 8,
+    "totalLatencyMsP50": 8.533,
+    "totalLatencyMsP95": 31.201
+  },
+  "cases": [
+    {
+      "questionId": "E-001",
+      "question": "How does Teams Direct Routing voice routing work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Configure Direct Routing",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure"
+        }
+      ]
+    },
+    {
+      "questionId": "E-002",
+      "question": "How do Microsoft Teams Calling Plans work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Microsoft Teams Calling Plans",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365"
+        }
+      ]
+    },
+    {
+      "questionId": "E-003",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Set-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md"
+        }
+      ]
+    },
+    {
+      "questionId": "E-004",
+      "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-powershell",
+          "title": "Grant-CsOnlineVoiceRoutingPolicy",
+          "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Grant-CsOnlineVoiceRoutingPolicy.md"
+        }
+      ]
+    },
+    {
+      "questionId": "E-005",
+      "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+      "expectedAnswerability": "insufficient_evidence",
+      "actualAnswerability": "insufficient_evidence",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": []
+    },
+    {
+      "questionId": "E-006",
+      "question": "How do Teams meeting policies work?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "Manage Teams with policies",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-with-policies"
+        }
+      ]
+    },
+    {
+      "questionId": "E-007",
+      "question": "How does external access work in Teams?",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": [
+        {
+          "sourceId": "ms-teams-admin",
+          "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+          "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access"
+        }
+      ]
+    },
+    {
+      "questionId": "E-008",
+      "question": "How does Conditional Access affect Teams on unmanaged devices?",
+      "expectedAnswerability": "insufficient_evidence",
+      "actualAnswerability": "insufficient_evidence",
+      "pass": true,
+      "checks": {
+        "answerability": true,
+        "requiredSources": true,
+        "requiredUrls": true,
+        "requiredTitles": true,
+        "prohibitedUrls": true,
+        "exactVerification": true
+      },
+      "selectedEvidence": []
+    }
+  ]
+}

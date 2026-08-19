@@ -1,0 +1,729 @@
+{
+  "dataset_id": "two_sigma_uc_systems_engineer_scenarios",
+  "version": "i4-v1",
+  "frozen": true,
+  "scenario_count": 30,
+  "purpose": "Evaluate which Two Sigma UC Systems Engineer interview scenarios the current Relay evidence system already serves, versus true corpus or ranking gaps. Interview-context files are not technical authority.",
+  "interview_context": {
+    "preferred_framing": "docs/interview/two_sigma_final_round_prep_relay_ready.md",
+    "authority_pack_spec": "docs/interview/RELAY_INTERVIEW_AUTHORITY_PACK.md",
+    "files": [
+      {
+        "path": "docs/interview/two_sigma_final_round_prep_relay_ready.md",
+        "sha256": "2B10143519C720E349EB8F87AE3209E2C7ABBF61536937FA666FD4CB3AE01A8B",
+        "role": "preferred role/interview framing"
+      },
+      {
+        "path": "docs/interview/RELAY_INTERVIEW_AUTHORITY_PACK.md",
+        "sha256": "ECF35F9AAA21C78BB75050F74E0EA57D2D1AFBCE7564E4C612AE88AC52CE22F9",
+        "role": "technical-domain and corpus-gap context only"
+      }
+    ]
+  },
+  "weighting": {
+    "teams_voice_direct_routing_sip_sbc": 10,
+    "call_quality_troubleshooting": 5,
+    "teams_rooms_exchange_intune": 4,
+    "windows_linux_operational": 3,
+    "powershell_python_automation": 4,
+    "enterprise_architecture_rollout_geo": 2,
+    "behavioral_personal_story": 2
+  },
+  "constraints": {
+    "do_not_ingest_interview_docs": true,
+    "do_not_claim_two_sigma_asked_derived_questions": true,
+    "technical_authority": "existing frozen Microsoft corpus only",
+    "no_public_web_research": true
+  },
+  "scenarios": [
+    {
+      "id": "TSUC01",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "Explain Direct Routing as if I were a junior engineer. How do SBCs fit into the flow, and what role do certificates play?",
+      "intent": "architecture",
+      "domains": ["teams-voice", "direct-routing", "sbc", "sip", "tls", "certificate", "pstn"],
+      "expected_themes": [
+        "Direct Routing connects a certified Session Border Controller to Microsoft Phone System",
+        "SIP signaling and media path through the SBC",
+        "TLS certificates for SBC to Teams connectivity",
+        "voice routing policy, PSTN usage, and voice route"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Treat the interview-prep file as Microsoft technical authority",
+        "Present vendor-specific SBC CLI as Microsoft fact",
+        "Lead with analog-device lab steps instead of the Direct Routing overview",
+        "Claim all media always traverses Microsoft cloud"
+      ]
+    },
+    {
+      "id": "TSUC02",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "A user can use Teams but cannot call external or PSTN numbers. How do you troubleshoot?",
+      "intent": "troubleshooting",
+      "domains": ["teams-phone", "pstn", "direct-routing", "enterprise-voice", "dial-plan", "voice-routing-policy", "sbc"],
+      "expected_themes": [
+        "Teams Phone readiness and phone-number assignment",
+        "dial plan and number normalization",
+        "voice routing policy to PSTN usage to voice route to SBC",
+        "SBC or carrier health"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Skip the user-to-SBC path and jump to an unrelated page",
+        "Assume Calling Plans versus Direct Routing without establishing the PSTN model",
+        "Invent diagnostic cmdlets",
+        "Blame the user before gathering configuration evidence"
+      ]
+    },
+    {
+      "id": "TSUC03",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "Walk through the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC or gateway.",
+      "intent": "architecture",
+      "domains": ["direct-routing", "voice-routing-policy", "pstn-usage", "voice-route", "sbc", "gateway"],
+      "expected_themes": [
+        "online voice routing policy",
+        "PSTN usage",
+        "voice route",
+        "PSTN gateway or SBC"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim this exact wording was asked by Two Sigma",
+        "Treat policy definition as proof of effective user assignment",
+        "Use analog-device examples as the complete architecture answer"
+      ]
+    },
+    {
+      "id": "TSUC04",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "How would you design Direct Routing for a global organization? Where would you place the SBCs, and what happens if an SBC or carrier fails?",
+      "intent": "architecture",
+      "domains": ["direct-routing", "architecture", "sbc", "high-availability", "geo-redundancy", "carrier-diversity", "failover"],
+      "expected_themes": [
+        "Direct Routing planning and topology",
+        "SBC placement and high availability",
+        "geo-redundancy or failover",
+        "carrier diversity"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Lead with isolated configuration steps instead of planning/resiliency documentation",
+        "Assert a specific Two Sigma topology",
+        "Treat one analog-device article as the architecture answer"
+      ]
+    },
+    {
+      "id": "TSUC05",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "How do certificates, TLS, and SIP OPTIONS affect Direct Routing SBC connectivity?",
+      "intent": "troubleshooting",
+      "domains": ["direct-routing", "sbc", "sip", "tls", "certificate"],
+      "expected_themes": [
+        "TLS between SBC and Teams",
+        "certificate CN or SAN matching the SBC FQDN",
+        "trusted public CA",
+        "SIP OPTIONS health"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim Two Sigma asked this exact question",
+        "Give vendor-specific certificate installation steps as Microsoft fact",
+        "Say self-signed certificates are supported for Direct Routing"
+      ]
+    },
+    {
+      "id": "TSUC06",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "How do Teams dial plans and normalization rules affect a number a user dials before it is routed to the PSTN?",
+      "intent": "configuration",
+      "domains": ["dial-plan", "normalization", "teams-voice", "pstn"],
+      "expected_themes": [
+        "tenant or service dial plan",
+        "normalization rules",
+        "dialed-number translation",
+        "effective dial plan"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim dial plans select the SBC",
+        "Claim normalization changes the user's assigned DID",
+        "Treat interview prep as the technical source"
+      ]
+    },
+    {
+      "id": "TSUC07",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "What is media bypass in Direct Routing, and what changes in the media path when it is enabled?",
+      "intent": "architecture",
+      "domains": ["direct-routing", "media-bypass", "sbc", "sip"],
+      "expected_themes": [
+        "media bypass",
+        "client-to-SBC media path",
+        "SIP signaling remains through Microsoft",
+        "network topology requirements"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim signaling bypasses Microsoft",
+        "Claim media bypass is always preferable",
+        "Present vendor packet-capture commands as Microsoft requirements"
+      ]
+    },
+    {
+      "id": "TSUC08",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "What is your experience configuring an Auto Attendant and Call Queue from start to finish? Talk me through it.",
+      "intent": "configuration",
+      "domains": ["auto-attendant", "call-queue", "resource-account", "phone-number", "business-hours", "overflow"],
+      "expected_themes": [
+        "resource account",
+        "Auto Attendant setup",
+        "Call Queue setup",
+        "business hours, overflow, timeout, or voicemail"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Treat Teams Phone Agent preview behavior as GA Auto Attendant or Call Queue fact",
+        "Skip resource-account and licensing prerequisites",
+        "Invent personal production history"
+      ]
+    },
+    {
+      "id": "TSUC09",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "What PSTN connectivity options exist for Teams Phone, and when would you choose Direct Routing?",
+      "intent": "architecture",
+      "domains": ["teams-phone", "pstn", "direct-routing", "calling-plan", "operator-connect"],
+      "expected_themes": [
+        "Calling Plan",
+        "Operator Connect",
+        "Direct Routing",
+        "customer-controlled SBC"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim one PSTN model is mandatory for every tenant",
+        "Assert Two Sigma's current carrier model",
+        "Ignore Direct Routing as a first-class option for this role"
+      ]
+    },
+    {
+      "id": "TSUC10",
+      "category": "teams_voice_direct_routing_sip_sbc",
+      "question": "How do you assign or change a Teams Phone number for a user, and what must be true before the number can route?",
+      "intent": "configuration",
+      "domains": ["did", "phone-number", "teams-phone", "enterprise-voice"],
+      "expected_themes": [
+        "phone number assignment",
+        "Teams Phone licensing or readiness",
+        "user identity",
+        "verification after assignment"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim a number can be assigned to multiple users",
+        "Invent Set-CsPhoneNumberAssignment parameters",
+        "Skip licensing or voice-policy readiness"
+      ]
+    },
+    {
+      "id": "TSUC11",
+      "category": "call_quality_troubleshooting",
+      "question": "Tell me about a time you troubleshot a persistent call quality issue in Microsoft Teams. How did you use Call Quality Dashboard and Call Analytics to identify the root cause?",
+      "intent": "troubleshooting",
+      "domains": ["call-quality", "cqd", "call-analytics", "packet-loss", "jitter", "latency", "root-cause"],
+      "expected_themes": [
+        "Call Quality Dashboard",
+        "Call Analytics or current Teams admin call troubleshooting",
+        "packet loss, jitter, or latency",
+        "device versus network versus service"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Invent a personal incident story",
+        "Treat superseded Call Analytics pages as current primary guidance",
+        "Declare root cause from a single metric"
+      ]
+    },
+    {
+      "id": "TSUC12",
+      "category": "call_quality_troubleshooting",
+      "question": "How do you distinguish device, network, and service as the cause of poor Teams call quality when you see packet loss, jitter, or high RTT?",
+      "intent": "troubleshooting",
+      "domains": ["call-quality", "packet-loss", "jitter", "rtt", "device", "network"],
+      "expected_themes": [
+        "jitter",
+        "packet loss",
+        "round-trip time or latency",
+        "stream direction or endpoint versus network"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim Two Sigma asked this exact wording",
+        "Quote unsupported universal thresholds",
+        "Treat one metric as complete root cause"
+      ]
+    },
+    {
+      "id": "TSUC13",
+      "category": "call_quality_troubleshooting",
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "intent": "troubleshooting",
+      "domains": ["call-quality", "direct-routing", "media", "sbc", "firewall"],
+      "expected_themes": [
+        "signaling versus media",
+        "media path or media bypass",
+        "firewall or NAT",
+        "SBC or call telemetry"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Imply Relay has solved the incident",
+        "Claim certificate expiry always causes one-way audio",
+        "Generate a troubleshooting runbook that is not in Microsoft documentation"
+      ]
+    },
+    {
+      "id": "TSUC14",
+      "category": "call_quality_troubleshooting",
+      "question": "What role does Quality of Service play in Teams media, and how would you implement QoS in Microsoft Teams?",
+      "intent": "configuration",
+      "domains": ["qos", "call-quality", "teams"],
+      "expected_themes": [
+        "Quality of Service",
+        "DSCP",
+        "media modalities",
+        "monitoring after QoS"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim QoS creates bandwidth",
+        "Quote unverified DSCP values as Microsoft requirements without the source page",
+        "Treat QoS as a substitute for locating packet loss outside controlled networks"
+      ]
+    },
+    {
+      "id": "TSUC15",
+      "category": "call_quality_troubleshooting",
+      "question": "When would you use Call Analytics or the current Teams admin call-troubleshooting experience versus Call Quality Dashboard?",
+      "intent": "troubleshooting",
+      "domains": ["call-analytics", "cqd", "call-quality"],
+      "expected_themes": [
+        "individual call or meeting",
+        "organization-wide trend",
+        "Call Quality Dashboard",
+        "Teams admin center troubleshooting"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Treat the tools as identical in scope",
+        "Use retired Real-Time Analytics pages as current primary authority",
+        "Use CQD as an individual live-call debugger"
+      ]
+    },
+    {
+      "id": "TSUC16",
+      "category": "teams_rooms_exchange_intune",
+      "question": "How do you create and manage standard conference room resources in Exchange or Microsoft 365?",
+      "intent": "configuration",
+      "domains": ["teams-rooms", "mtr", "exchange-online", "room-mailbox", "resource-account"],
+      "expected_themes": [
+        "Exchange room mailbox",
+        "Teams Rooms resource account",
+        "calendar processing",
+        "licensing"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Expand into broad Exchange administration",
+        "Treat a normal user mailbox as the preferred room identity",
+        "Use interview prep as the configuration source"
+      ]
+    },
+    {
+      "id": "TSUC17",
+      "category": "teams_rooms_exchange_intune",
+      "question": "A Teams Room account seems to be locked out constantly. How do you investigate using standard Windows or Microsoft 365 tools?",
+      "intent": "troubleshooting",
+      "domains": ["teams-rooms", "mtr", "account-lockout", "entra-id", "sign-in-logs", "windows"],
+      "expected_themes": [
+        "resource-account sign-in",
+        "Entra sign-in logs",
+        "Conditional Access or compliance",
+        "credentials or smart lockout"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Disable Conditional Access without diagnosis",
+        "Treat the room account as an Auto Attendant resource account",
+        "Assume smart lockout is the only cause"
+      ]
+    },
+    {
+      "id": "TSUC18",
+      "category": "teams_rooms_exchange_intune",
+      "question": "How do you approach managing Teams Rooms devices through Intune? Talk about policy configuration or troubleshooting a compliance issue.",
+      "intent": "configuration",
+      "domains": ["mtr", "teams-rooms", "intune", "compliance", "conditional-access"],
+      "expected_themes": [
+        "Intune enrollment or compliance",
+        "Teams Rooms device management",
+        "Conditional Access",
+        "configuration profile or policy"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim identical Windows and Android enrollment paths",
+        "Treat Teams admin center Android workflows as future-state authority",
+        "Give OEM firmware recovery as Microsoft fact"
+      ]
+    },
+    {
+      "id": "TSUC19",
+      "category": "teams_rooms_exchange_intune",
+      "question": "How do you create a Teams Rooms resource account and configure calendar processing so the room can accept meetings?",
+      "intent": "configuration",
+      "domains": ["teams-rooms", "exchange-online", "room-mailbox", "calendar-processing"],
+      "expected_themes": [
+        "create resource account",
+        "Exchange room mailbox",
+        "Set-CalendarProcessing or AutoAccept",
+        "UPN and SMTP alignment"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim Two Sigma asked this exact wording",
+        "Invent unreviewed Exchange parameters",
+        "Prefer a user mailbox over a room mailbox"
+      ]
+    },
+    {
+      "id": "TSUC20",
+      "category": "windows_linux_operational",
+      "question": "How would you use the Linux command line to investigate a failed service, including status, processes, and recent logs?",
+      "intent": "troubleshooting",
+      "domains": ["linux", "cli", "systemctl", "journalctl", "logs"],
+      "expected_themes": [
+        "systemctl status",
+        "journalctl",
+        "service logs",
+        "process inspection"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Attribute Linux commands to Microsoft Learn authority",
+        "Claim a distribution-specific service name without context",
+        "Restart the service as the first diagnostic step",
+        "Invent a personal Linux war story"
+      ]
+    },
+    {
+      "id": "TSUC21",
+      "category": "windows_linux_operational",
+      "question": "How would you distinguish bad credentials, smart lockout, and a Conditional Access block when a Windows or resource account cannot sign in?",
+      "intent": "troubleshooting",
+      "domains": ["windows", "entra-id", "conditional-access", "authentication", "account-lockout"],
+      "expected_themes": [
+        "sign-in error code",
+        "smart lockout",
+        "Conditional Access",
+        "sign-in diagnostic"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Reset the password as the first response to every failure",
+        "Disable Conditional Access without evidence",
+        "Treat this as a Teams Voice routing problem"
+      ]
+    },
+    {
+      "id": "TSUC22",
+      "category": "windows_linux_operational",
+      "question": "How would you identify listening sockets and capture basic network evidence on Linux while diagnosing a UC-related service?",
+      "intent": "troubleshooting",
+      "domains": ["linux", "networking", "ss", "tcpdump"],
+      "expected_themes": [
+        "ss listening sockets",
+        "tcpdump or packet capture",
+        "host or port filter",
+        "bounded capture"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Attribute Linux networking tools to Microsoft documentation",
+        "Recommend unbounded packet capture",
+        "Claim this exact question was asked by Two Sigma"
+      ]
+    },
+    {
+      "id": "TSUC23",
+      "category": "powershell_python_automation",
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "intent": "automation",
+      "domains": ["powershell", "automation", "teams-voice", "get-csonlineuser"],
+      "expected_themes": [
+        "Get-CsOnlineUser",
+        "phone number or TelephoneNumbers",
+        "OnlineVoiceRoutingPolicy",
+        "EnterpriseVoiceEnabled or equivalent voice state"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Synthesize an audit workflow that is not in the cmdlet documentation",
+        "Treat policy-definition getters as proof of user assignment",
+        "Invent cmdlets"
+      ]
+    },
+    {
+      "id": "TSUC24",
+      "category": "powershell_python_automation",
+      "question": "Which Teams PowerShell checks show the voice-routing policy, PSTN usages, voice routes, and gateways used by Direct Routing?",
+      "intent": "automation",
+      "domains": ["powershell", "direct-routing", "voice-routing-policy", "pstn-usage", "voice-route"],
+      "expected_themes": [
+        "Get-CsOnlineVoiceRoutingPolicy",
+        "Get-CsOnlinePstnUsage",
+        "Get-CsOnlineVoiceRoute",
+        "Get-CsOnlinePSTNGateway"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Use write cmdlets in a read-only audit",
+        "Claim a definition getter proves effective user assignment",
+        "Invent cmdlet parameters"
+      ]
+    },
+    {
+      "id": "TSUC25",
+      "category": "powershell_python_automation",
+      "question": "How would you design a PowerShell or Python script from scratch to identify and remediate a systemic voice-routing misconfiguration?",
+      "intent": "automation",
+      "domains": ["powershell", "python", "automation", "idempotency", "logging", "bulk-operations"],
+      "expected_themes": [
+        "read-only discovery first",
+        "structured logging and error handling",
+        "idempotency or retry",
+        "controlled remediation and validation"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md"
+      ],
+      "must_not_do": [
+        "Invent a personal script you never wrote",
+        "Jump to write/remediation before discovery",
+        "Treat Microsoft cmdlet pages as a complete automation methodology",
+        "Claim Two Sigma asked this exact wording"
+      ]
+    },
+    {
+      "id": "TSUC26",
+      "category": "powershell_python_automation",
+      "question": "Which Teams PowerShell cmdlets inspect resource accounts, Auto Attendants, and Call Queues?",
+      "intent": "automation",
+      "domains": ["powershell", "auto-attendant", "call-queue", "resource-account"],
+      "expected_themes": [
+        "Get-CsOnlineApplicationInstance",
+        "Get-CsAutoAttendant",
+        "Get-CsCallQueue"
+      ],
+      "source": "staffing_derived",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Invent a Teams Rooms reporting cmdlet",
+        "Present write operations as required for inspection",
+        "Treat preview Teams Phone Agent cmdlets as GA Call Queue facts"
+      ]
+    },
+    {
+      "id": "TSUC27",
+      "category": "enterprise_architecture_rollout_geo",
+      "question": "How would you phase a global Teams Voice rollout and reduce risk during a major UC migration?",
+      "intent": "architecture",
+      "domains": ["teams", "enterprise-rollout", "voice", "pilot", "cutover", "global"],
+      "expected_themes": [
+        "pilot or deployment rings",
+        "voice migration or PSTN cutover planning",
+        "validation and rollback",
+        "change management"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md"
+      ],
+      "must_not_do": [
+        "Let isolated Teams Rooms, Auto Attendant, or SharePoint pages dominate because they mention rollout",
+        "Present a tenant-specific Two Sigma architecture as fact",
+        "Skip rollback and validation"
+      ]
+    },
+    {
+      "id": "TSUC28",
+      "category": "enterprise_architecture_rollout_geo",
+      "question": "How would you prepare SharePoint and OneDrive before rolling out Microsoft 365 Copilot so data is not retrievable by every Copilot user?",
+      "intent": "architecture",
+      "domains": ["copilot", "sharepoint", "onedrive", "oversharing", "data-access-governance", "purview"],
+      "expected_themes": [
+        "Copilot respects existing permissions",
+        "oversharing still matters",
+        "Data Access Governance or SharePoint Advanced Management",
+        "Restricted Content Discovery or Restricted Access Control"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md",
+        "RELAY_INTERVIEW_AUTHORITY_PACK.md"
+      ],
+      "must_not_do": [
+        "Claim Copilot bypasses permissions",
+        "Recommend retiring Restricted SharePoint Search as the new control",
+        "Claim Restricted Content Discovery revokes existing access or supports OneDrive"
+      ]
+    },
+    {
+      "id": "TSUC29",
+      "category": "behavioral_personal_story",
+      "question": "Have you coordinated number porting with carriers? What is the biggest challenge you have faced?",
+      "intent": "behavioral_story",
+      "domains": ["number-porting", "carrier", "did", "cutover"],
+      "expected_themes": [
+        "inventory and FOC or port date",
+        "LOA or CSR coordination",
+        "cutover and rollback",
+        "post-port validation"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md"
+      ],
+      "must_not_do": [
+        "Invent personal porting history",
+        "Treat Microsoft documentation as a substitute for the candidate's story",
+        "Assert carrier-specific intervals as universal Microsoft fact"
+      ]
+    },
+    {
+      "id": "TSUC30",
+      "category": "behavioral_personal_story",
+      "question": "What is the most complex administrative task you automated from scratch? Walk me through identifying the opportunity and building the PowerShell or Python script.",
+      "intent": "behavioral_story",
+      "domains": ["automation", "powershell", "python", "script-design", "idempotency"],
+      "expected_themes": [
+        "opportunity identification",
+        "script design from scratch",
+        "logging and error handling",
+        "validation of results"
+      ],
+      "source": "staffing_explicit",
+      "source_context": [
+        "two_sigma_final_round_prep_relay_ready.md"
+      ],
+      "must_not_do": [
+        "Invent personal automation history",
+        "Score Microsoft cmdlet pages as the candidate's story",
+        "Skip logging, error handling, or validation"
+      ]
+    }
+  ]
+}

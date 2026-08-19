@@ -1,0 +1,213 @@
+{
+  "artifactVersion": "helpdesk-slice4.0",
+  "runId": "helpdesk-slice4-2026-08-09T14-41-17-195Z",
+  "createdAt": "2026-08-09T14:41:29.664Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\evidence-wb18.jsonl",
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\helpdesk-slice4\\helpdesk-slice4-2026-08-09T14-41-17-195Z.sqlite",
+  "summary": {
+    "total": 8,
+    "answerabilityMatch": 8,
+    "durableLiveTurns": 8,
+    "answerGenerationRequestCount": 0,
+    "latencyMs": {
+      "acceptedQuestionToDurableUser": {
+        "p50": 0.892,
+        "p95": 1.367
+      },
+      "groundedPipeline": {
+        "p50": 1373.258,
+        "p95": 3146.732
+      },
+      "persistence": {
+        "p50": 3.599,
+        "p95": 8.742
+      },
+      "overlayProjection": {
+        "p50": 0,
+        "p95": 0
+      },
+      "acceptedQuestionToVisibleValidatedAnswer": {
+        "p50": 1378.278,
+        "p95": 3156.803
+      }
+    }
+  },
+  "cases": [
+    {
+      "questionId": "E-001",
+      "question": "How does Teams Direct Routing voice routing work?",
+      "expectedAnswerability": "answered",
+      "answerability": "answered",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "Direct Routing lets you connect your on-premises telephony infrastructure to Microsoft Teams Phone.\n\nThis article lists the high-level steps required to connect a supported on-premises Session Border Controller (SBC) to Direct Routing, and to configure Teams users to use Direct Routing to connect to the Public Switched Telephone Network (PSTN).",
+      "citationCount": 2,
+      "snapshotId": "grounding:1e5775bef3e344ce071c118c",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 0.971300000000042,
+        "groundedPipeline": 3146.7323,
+        "persistence": 8.74200000000019,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 3156.8028999999997
+      }
+    },
+    {
+      "questionId": "E-002",
+      "question": "How do Microsoft Teams Calling Plans work?",
+      "expectedAnswerability": "answered",
+      "answerability": "answered",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "Microsoft Teams Calling Plans provide PSTN connectivity for Teams Phone, enabling users to make and receive external phone calls.\n\nThis solution is the simplest option that connects Teams Phone to the PSTN for external calling.",
+      "citationCount": 2,
+      "snapshotId": "grounding:e99861bf4d4597b5e3f22404",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 1.366700000000037,
+        "groundedPipeline": 845.2942000000003,
+        "persistence": 4.967599999999948,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 856.4738000000002
+      }
+    },
+    {
+      "questionId": "E-003",
+      "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+      "expectedAnswerability": "answered",
+      "answerability": "answered",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "Set-CsOnlineVoiceRoutingPolicy | Where-Object {$_.OnlinePstnUsages -contains \"Local\"} | Set-CsOnlineVoiceRoutingPolicy -OnlinePstnUsages @{Remove=\"Local\"}",
+      "citationCount": 1,
+      "snapshotId": "grounding:8b7bd00d1740f540f30087c4",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 0.4911000000001877,
+        "groundedPipeline": 1375.8148,
+        "persistence": 3.7112999999999374,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 1380.2006000000001
+      }
+    },
+    {
+      "questionId": "E-004",
+      "question": "Which cmdlet assigns a Teams voice routing policy to a user?",
+      "expectedAnswerability": "answered",
+      "answerability": "answered",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "Those user accounts are then piped to the Grant-CsOnlineVoiceRoutingPolicy cmdlet, which assigns each user the online voice routing policy RedmondOnlineVoiceRoutingPolicy.\n\nCaveats:\n- Missing authoritative domain coverage: teams_admin",
+      "citationCount": 1,
+      "snapshotId": "grounding:d3fb691d2fc05771ff1d8252",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 0.7309000000004744,
+        "groundedPipeline": 1877.7281999999996,
+        "persistence": 1.5650000000005093,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 1880.1612000000005
+      }
+    },
+    {
+      "questionId": "E-005",
+      "question": "What does Set-CsDefinitelyNotARealCmdlet do?",
+      "expectedAnswerability": "insufficient_evidence",
+      "answerability": "insufficient_evidence",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: Set-CsDefinitelyNotARealCmdlet; required facets: identifier, behavior.\n- Unverified identifier(s): Set-CsDefinitelyNotARealCmdlet\n\nCaveats:\n- Missing authoritative domain coverage: teams_powershell\n- Required technical identifier could not be verified from accepted evidence.",
+      "citationCount": 0,
+      "snapshotId": "grounding:7baf3847674bd338197b2e96",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 0.46569999999974243,
+        "groundedPipeline": 1604.8069999999998,
+        "persistence": 3.0625999999992928,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 1608.6886000000004
+      }
+    },
+    {
+      "questionId": "E-006",
+      "question": "How do Teams meeting policies work?",
+      "expectedAnswerability": "answered",
+      "answerability": "answered",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "A meeting policy is used to control the features that are available to meeting participants for meetings scheduled by users in your organization.",
+      "citationCount": 1,
+      "snapshotId": "grounding:aae3bdbd58e56e1d02a46c17",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 0.8919999999998254,
+        "groundedPipeline": 1373.2584000000006,
+        "persistence": 3.599400000000969,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 1378.278400000001
+      }
+    },
+    {
+      "questionId": "E-007",
+      "question": "How does external access work in Teams?",
+      "expectedAnswerability": "answered",
+      "answerability": "answered",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "With the external access feature in Teams, you can allow users in your organization to chat and meet with people outside the organization who are using Microsoft as an identity provider.",
+      "citationCount": 1,
+      "snapshotId": "grounding:0e1084ef4787de3c49302b11",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 1.159300000001167,
+        "groundedPipeline": 1164.6546999999991,
+        "persistence": 6.735899999999674,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 1172.962300000001
+      }
+    },
+    {
+      "questionId": "E-008",
+      "question": "How does Conditional Access affect Teams on unmanaged devices?",
+      "expectedAnswerability": "insufficient_evidence",
+      "answerability": "insufficient_evidence",
+      "answerabilityMatch": true,
+      "durableUserMessage": true,
+      "inputOrigin": "live_transcript",
+      "answerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: conditional access / unmanaged devices; required facets: relationship.\n\nCaveats:\n- Missing authoritative domain coverage: teams_admin, entra",
+      "citationCount": 0,
+      "snapshotId": "grounding:59ad3b6182c785fce498664b",
+      "answerGenerationRequestCount": 0,
+      "latencyMs": {
+        "stt": null,
+        "sttExcludedReason": "Harness begins at accepted-question boundary.",
+        "acceptedQuestionToDurableUser": 0.9909000000006927,
+        "groundedPipeline": 995.2111999999997,
+        "persistence": 1.7312000000001717,
+        "overlayProjection": 0,
+        "acceptedQuestionToVisibleValidatedAnswer": 998.2221000000009
+      }
+    }
+  ]
+}

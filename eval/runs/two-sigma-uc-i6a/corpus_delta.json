@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-08-19T19:30:00.000Z",
+  "phase": "I6A",
+  "note": "SQLite size/fingerprint after WAL checkpoint. Retrieval hashes unchanged.",
+  "before": {
+    "documents": 241,
+    "parents": 1233,
+    "children": 2255,
+    "vectors": 2255,
+    "sqliteBytes": 13336576,
+    "hnswBytes": 4088356,
+    "corpusFingerprint": "7e6b69cb0ab95823",
+    "indexFingerprint": "87a6960b9ebc6701",
+    "repos": {
+      "teams": 930,
+      "sharepoint": 283,
+      "teams-ps": 14,
+      "m365": 6
+    }
+  },
+  "after": {
+    "documents": 262,
+    "parents": 1289,
+    "children": 2679,
+    "vectors": 2679,
+    "sqliteBytes": 15568896,
+    "hnswBytes": 4857588,
+    "corpusFingerprint": "62ea6dac06dbc4a2",
+    "indexFingerprint": "fdafc1789c490573",
+    "repos": {
+      "teams": 968,
+      "sharepoint": 283,
+      "teams-ps": 14,
+      "linux": 12,
+      "m365": 12
+    }
+  },
+  "delta": {
+    "documents": 21,
+    "parents": 56,
+    "children": 424,
+    "vectors": 424,
+    "sqliteBytes": 2232320,
+    "hnswBytes": 769232
+  },
+  "newParentsByFamily": {
+    "ms_dr_media_firewall_callflows": {
+      "urls-and-ip-address-ranges": 6,
+      "microsoft-teams-online-call-flows": 5,
+      "setting-up-your-phone-system": 11
+    },
+    "ms_teams_phone_rollout_planning": {
+      "upgrade-framework": 5,
+      "upgrade-plan-journey-evaluate-environment": 3,
+      "upgrade-prepare-environment-prepare-service": 2,
+      "prepare-network": 3,
+      "network-planner": 5,
+      "cloud-voice-landing-page": 4
+    },
+    "linux_upstream_minimum": {
+      "linux_repo_parents": 12
+    }
+  },
+  "pipeline": {
+    "command": "python -m build.run --skip-sync",
+    "fullRebuild": false,
+    "changedFiles": 21,
+    "parsedParents": 56,
+    "newEmbeddings": 424,
+    "chunkerUnchanged": true,
+    "embedModel": "BAAI/bge-small-en-v1.5"
+  },
+  "frozenHashes": {
+    "search.py": "8702daf1ee2b2843",
+    "scope_select.py": "2a8caaabd00f4b08"
+  }
+}

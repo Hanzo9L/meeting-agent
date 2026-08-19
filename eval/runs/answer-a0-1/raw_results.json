@@ -1,0 +1,5562 @@
+{
+  "experiment": "PHASE A0.1 \u2014 Evidence Sufficiency Gate Forensic",
+  "retrieval_frozen": {
+    "service/search.py": "8702daf1ee2b2843",
+    "service/scope_select.py": "2a8caaabd00f4b08",
+    "eval/ground_truth/priority14_retrieval.json": "59f6572dc5f3d3d5",
+    "service/answer.py": "1d3bab096a33403a"
+  },
+  "answer_prompt_changed": false,
+  "answer_model_calls": 0,
+  "gate_implemented_in_answer_path": false,
+  "feature_definitions": {
+    "terms": "Quoted clauses from frozen build_fts_query (R0.1 lexical builder)",
+    "coverage_topk": "Fraction of FTS terms occurring in title+section+body of top-k parents",
+    "title_section_coverage": "Same fraction using only title and section",
+    "phrase_coverage": "Coverage of multi-word or hyphenated FTS clauses only",
+    "dual_match_n": "Top-5 parents matched by both vector and lexical",
+    "vector_lex_overlap_k": "Intersection size of vector and lexical parent-id lists truncated at k",
+    "article": "Canonical URL path without locale",
+    "family": "First two URL path segments",
+    "clustered": "max_article_share>=2 or max_family_share>=3"
+  },
+  "gates": {
+    "G_cov85": "coverage_top5 >= 0.85",
+    "G_cov95": "coverage_top5 >= 0.95",
+    "G_title50": "title_section_coverage_top5 >= 0.50",
+    "G_and": "coverage_top5>=0.80 AND title_section_top5>=0.40 AND dual_match_n>=4",
+    "G_phrase_cov": "all FTS phrases present (if any) AND coverage_top5>=0.75"
+  },
+  "priority14": [
+    {
+      "question": "Explain Direct Routing and the role of the SBC.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"direct routing\" OR \"SBC\"",
+      "router_ms": 59.251,
+      "retrieval_ms": 18.368,
+      "feature_ms": 2.574,
+      "features": {
+        "top_fused_score": 0.0263,
+        "top_vector_rank": 6,
+        "top_lexical_rank": 3,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 9,
+        "unique_articles": 5,
+        "unique_families": 5,
+        "max_article_share": 1,
+        "max_family_share": 1,
+        "clustered": false,
+        "coverage_top1": 1.0,
+        "coverage_top3": 1.0,
+        "coverage_top5": 1.0,
+        "title_coverage_top1": 0.5,
+        "section_coverage_top1": 1.0,
+        "title_section_coverage_top1": 1.0,
+        "title_section_coverage_top5": 1.0,
+        "phrase_terms": [
+          "direct routing"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "direct routing",
+          "SBC"
+        ],
+        "fts_query": "\"direct routing\" OR \"SBC\""
+      },
+      "missing_terms": [],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.026263,
+          "vector_rank": 6,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 1: Connect the SBC to Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "family": "microsoftteams/direct-routing-analog-devices",
+          "body_chars": 400,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a4dceeb33512cbf1cb81",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "direct routing",
+            "SBC"
+          ],
+          "term_in_body": [
+            "SBC"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026154,
+          "vector_rank": 5,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan Direct Routing",
+          "section": "Support boundaries",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "family": "microsoftteams/direct-routing-plan",
+          "body_chars": 769,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6f7e1efceeebaacf0464",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "SBC"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.025484,
+          "vector_rank": 4,
+          "lexical_rank": 11,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-configure",
+          "family": "microsoftteams/direct-routing-configure",
+          "body_chars": 1920,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "622ff626b6ac2b426c2e",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "SBC"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.024563,
+          "vector_rank": 2,
+          "lexical_rank": 23,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Monitor Direct Routing",
+          "section": "Monitoring availability of Session Border Controllers using Session Initiation Protocol (SIP) options messages",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "family": "microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "body_chars": 2132,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "689ab6d8f80fa614fdb5",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "SBC"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.023808,
+          "vector_rank": 14,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Configure the user and the SBC sites",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "family": "microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 1171,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "62992204b4a00ba4f462",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "SBC"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "SBC"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": true,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q01",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "A Teams user can make internal calls but cannot call external PSTN numbers. How would you troubleshoot it?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Teams\" OR \"user\" OR \"make\" OR \"internal\" OR \"calls\" OR \"but\" OR \"cannot\" OR \"call\" OR \"external\" OR \"PSTN\" OR \"numbers\"",
+      "router_ms": 4.39,
+      "retrieval_ms": 18.581,
+      "feature_ms": 25.599,
+      "features": {
+        "top_fused_score": 0.0276,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 1,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 8,
+        "unique_articles": 4,
+        "unique_families": 3,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 0.7273,
+        "coverage_top3": 1.0,
+        "coverage_top5": 1.0,
+        "title_coverage_top1": 0.0909,
+        "section_coverage_top1": 0.2727,
+        "title_section_coverage_top1": 0.3636,
+        "title_section_coverage_top5": 0.5455,
+        "phrase_terms": [],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Teams",
+          "user",
+          "make",
+          "internal",
+          "calls",
+          "but",
+          "cannot",
+          "call",
+          "external",
+          "PSTN",
+          "numbers"
+        ],
+        "fts_query": "\"Teams\" OR \"user\" OR \"make\" OR \"internal\" OR \"calls\" OR \"but\" OR \"cannot\" OR \"call\" OR \"external\" OR \"PSTN\" OR \"numbers\""
+      },
+      "missing_terms": [],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027604,
+          "vector_rank": 2,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Issues with call transfers",
+          "section": "Auto attendant does not transfer calls to an external PSTN number",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 912,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "1e8bef6bb7c29eeca308",
+          "term_in_title": [
+            "call"
+          ],
+          "term_in_section": [
+            "calls",
+            "external",
+            "PSTN"
+          ],
+          "term_in_body": [
+            "user",
+            "make",
+            "internal",
+            "calls",
+            "but",
+            "call",
+            "external",
+            "PSTN"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026841,
+          "vector_rank": 1,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "PSTN connectivity options",
+          "section": "What's next?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "article": "learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "family": "microsoftteams/pstn-connectivity",
+          "body_chars": 1021,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "38faf0220256811d79e6",
+          "term_in_title": [
+            "PSTN"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Teams",
+            "make",
+            "calls",
+            "external",
+            "PSTN",
+            "numbers"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.025385,
+          "vector_rank": 5,
+          "lexical_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 1776,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "ea15502e0fc4d73301b4",
+          "term_in_title": [
+            "calls"
+          ],
+          "term_in_section": [
+            "make",
+            "calls"
+          ],
+          "term_in_body": [
+            "Teams",
+            "user",
+            "make",
+            "calls",
+            "but",
+            "cannot",
+            "call"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.02507,
+          "vector_rank": 7,
+          "lexical_rank": 9,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "PSTN connectivity options",
+          "section": "What is the Public Switched Telephone Network (PSTN)?",
+          "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "article": "learn.microsoft.com/microsoftteams/pstn-connectivity",
+          "family": "microsoftteams/pstn-connectivity",
+          "body_chars": 1093,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "4d7aed33c97937e1dae0",
+          "term_in_title": [
+            "PSTN"
+          ],
+          "term_in_section": [
+            "PSTN"
+          ],
+          "term_in_body": [
+            "Teams",
+            "user",
+            "make",
+            "calls",
+            "PSTN",
+            "numbers"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.023584,
+          "vector_rank": 9,
+          "lexical_rank": 17,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Dial plans and routing considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview",
+          "article": "learn.microsoft.com/microsoftteams/dial-plans-routing-overview",
+          "family": "microsoftteams/dial-plans-routing-overview",
+          "body_chars": 5639,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "f40e1f61f52d3950664b",
+          "term_in_title": [
+            "Teams",
+            "call"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Teams",
+            "user",
+            "internal",
+            "calls",
+            "call",
+            "PSTN",
+            "numbers"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": true,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q02",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"direct routing\" OR \"one\" OR \"way\" OR \"audio\" OR \"Teams\" OR \"call\"",
+      "router_ms": 2.742,
+      "retrieval_ms": 31.012,
+      "feature_ms": 22.581,
+      "features": {
+        "top_fused_score": 0.0277,
+        "top_vector_rank": 1,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 7,
+        "unique_articles": 3,
+        "unique_families": 3,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 0.8333,
+        "coverage_top3": 0.8333,
+        "coverage_top5": 0.8333,
+        "title_coverage_top1": 0.3333,
+        "section_coverage_top1": 0.3333,
+        "title_section_coverage_top1": 0.3333,
+        "title_section_coverage_top5": 0.6667,
+        "phrase_terms": [
+          "direct routing"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "direct routing",
+          "one",
+          "way",
+          "audio",
+          "Teams",
+          "call"
+        ],
+        "fts_query": "\"direct routing\" OR \"one\" OR \"way\" OR \"audio\" OR \"Teams\" OR \"call\""
+      },
+      "missing_terms": [
+        "way"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027684,
+          "vector_rank": 1,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "article": "learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "family": "microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 14507,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "0bc10807b06fa7c78bb3",
+          "term_in_title": [
+            "direct routing",
+            "audio"
+          ],
+          "term_in_section": [
+            "direct routing",
+            "audio"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "one",
+            "audio",
+            "Teams",
+            "call"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.0271,
+          "vector_rank": 4,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan Direct Routing",
+          "section": "Licensing and other requirements",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "family": "microsoftteams/direct-routing-plan",
+          "body_chars": 3902,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "89e83e29563a2f26cd6d",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "one",
+            "audio",
+            "Teams",
+            "call"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026479,
+          "vector_rank": 3,
+          "lexical_rank": 6,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Issues that affect inbound Direct Routing calls",
+          "section": "No ringback tone when Teams receives a call from a PSTN endpoint",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-inbound-calls",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 1647,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "4363f23b5098313bf1b8",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "Teams",
+            "call"
+          ],
+          "term_in_body": [
+            "one",
+            "audio",
+            "Teams",
+            "call"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025832,
+          "vector_rank": 5,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "family": "microsoftteams/direct-routing-plan",
+          "body_chars": 2252,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "778741c91a147734fddc",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "audio",
+            "Teams",
+            "call"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025262,
+          "vector_rank": 9,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Audio Conferencing capabilities not supported in Audio Conferencing with Direct Routing for GCC High and DoD",
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "article": "learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "family": "microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+          "body_chars": 720,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a4d9a23d42b421cc6b87",
+          "term_in_title": [
+            "direct routing",
+            "audio"
+          ],
+          "term_in_section": [
+            "direct routing",
+            "audio"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "audio"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q03",
+      "label": "SOURCE_GAP",
+      "forensic": {
+        "symptom_needles": {
+          "one-way audio": false,
+          "one way audio": false,
+          "one-way": false,
+          "one way": false,
+          "audio troubleshooting": false
+        },
+        "note": "Diagnostic only. These needles are not used as gate rules."
+      }
+    },
+    {
+      "question": "Explain the Direct Routing chain from voice-routing policy to PSTN usage to voice route to SBC/gateway.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"direct routing\" OR \"voice routing policy\" OR \"pstn usage\" OR \"voice route\" OR \"SBC\" OR \"gateway\"",
+      "router_ms": 4.055,
+      "retrieval_ms": 27.956,
+      "feature_ms": 11.883,
+      "features": {
+        "top_fused_score": 0.0273,
+        "top_vector_rank": 3,
+        "top_lexical_rank": 1,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 14,
+        "unique_articles": 2,
+        "unique_families": 2,
+        "max_article_share": 3,
+        "max_family_share": 3,
+        "clustered": true,
+        "coverage_top1": 0.6667,
+        "coverage_top3": 1.0,
+        "coverage_top5": 1.0,
+        "title_coverage_top1": 0.1667,
+        "section_coverage_top1": 0.3333,
+        "title_section_coverage_top1": 0.5,
+        "title_section_coverage_top5": 0.5,
+        "phrase_terms": [
+          "direct routing",
+          "voice routing policy",
+          "pstn usage",
+          "voice route"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "direct routing",
+          "voice routing policy",
+          "pstn usage",
+          "voice route",
+          "SBC",
+          "gateway"
+        ],
+        "fts_query": "\"direct routing\" OR \"voice routing policy\" OR \"pstn usage\" OR \"voice route\" OR \"SBC\" OR \"gateway\""
+      },
+      "missing_terms": [],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027348,
+          "vector_rank": 3,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 4: Assign the voice route to the PSTN usage:",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "family": "microsoftteams/direct-routing-analog-devices",
+          "body_chars": 274,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "1c4fab62f3fa26a90c7a",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "pstn usage",
+            "voice route"
+          ],
+          "term_in_body": [
+            "voice routing policy",
+            "pstn usage"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026322,
+          "vector_rank": 5,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 1: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "family": "microsoftteams/direct-routing-voice-routing",
+          "body_chars": 6435,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "c7e14bb3935688e5dab7",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "voice routing policy",
+            "pstn usage",
+            "voice route",
+            "SBC"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.025982,
+          "vector_rank": 1,
+          "lexical_rank": 13,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure call routing for Direct Routing",
+          "section": "Call routing overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "family": "microsoftteams/direct-routing-voice-routing",
+          "body_chars": 1061,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "601fbf6e4fdfbb3f78d2",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "voice routing policy",
+            "pstn usage",
+            "voice route",
+            "SBC",
+            "gateway"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025695,
+          "vector_rank": 7,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure call routing for Direct Routing",
+          "section": "Example 2: Configuration steps",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-voice-routing",
+          "family": "microsoftteams/direct-routing-voice-routing",
+          "body_chars": 5511,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "eda7f728fe91320deb3a",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "voice routing policy",
+            "pstn usage",
+            "voice route"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025576,
+          "vector_rank": 10,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 3: Create a voice route and associate it with the PSTN usage",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-analog-devices",
+          "family": "microsoftteams/direct-routing-analog-devices",
+          "body_chars": 554,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6005615c721051aefc24",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "pstn usage",
+            "voice route"
+          ],
+          "term_in_body": [
+            "pstn usage",
+            "voice route",
+            "SBC"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": true,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q04",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "How would you renew or replace an SBC certificate used for Teams Direct Routing?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"direct routing\" OR \"renew\" OR \"replace\" OR \"SBC\" OR \"certificate\" OR \"Teams\"",
+      "router_ms": 4.387,
+      "retrieval_ms": 10.424,
+      "feature_ms": 14.524,
+      "features": {
+        "top_fused_score": 0.0274,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 10,
+        "unique_articles": 3,
+        "unique_families": 3,
+        "max_article_share": 3,
+        "max_family_share": 3,
+        "clustered": true,
+        "coverage_top1": 0.8333,
+        "coverage_top3": 0.8333,
+        "coverage_top5": 0.8333,
+        "title_coverage_top1": 0.1667,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.1667,
+        "title_section_coverage_top5": 0.6667,
+        "phrase_terms": [
+          "direct routing"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "direct routing",
+          "renew",
+          "replace",
+          "SBC",
+          "certificate",
+          "Teams"
+        ],
+        "fts_query": "\"direct routing\" OR \"renew\" OR \"replace\" OR \"SBC\" OR \"certificate\" OR \"Teams\""
+      },
+      "missing_terms": [
+        "replace"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027419,
+          "vector_rank": 2,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "SBC connectivity issues",
+          "section": "Overview of the SIP options process",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/sip-options-tls-certificate-issues",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 9946,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "98181f2dce06954eef33",
+          "term_in_title": [
+            "SBC"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "renew",
+            "SBC",
+            "certificate",
+            "Teams"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.027331,
+          "vector_rank": 1,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan Direct Routing",
+          "section": "Public trusted certificate for the SBC",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "family": "microsoftteams/direct-routing-plan",
+          "body_chars": 2821,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6e404a6b3d4456abb6ce",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "SBC",
+            "certificate"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "SBC",
+            "certificate",
+            "Teams"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.025732,
+          "vector_rank": 3,
+          "lexical_rank": 11,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "What&#39;s New Direct Routing",
+          "section": "Validation test that switches Microsoft Teams Direct Routing SIP endpoints to certificates issued by a new CA (June 30, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "family": "microsoftteams/direct-routing-whats-new",
+          "body_chars": 1265,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "72f1f6f0bf9d327d63b8",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "direct routing",
+            "Teams"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "SBC",
+            "certificate",
+            "Teams"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025679,
+          "vector_rank": 5,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "What&#39;s New Direct Routing",
+          "section": "Update on upcoming certificate changes (December 12, 2025)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "family": "microsoftteams/direct-routing-whats-new",
+          "body_chars": 3663,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "ce69ec4714d399bdf6a8",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "certificate"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "SBC",
+            "certificate",
+            "Teams"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.024941,
+          "vector_rank": 9,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "What&#39;s New Direct Routing",
+          "section": "Testing endpoint for upcoming certificate changes (February 16, 2026)",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-whats-new",
+          "family": "microsoftteams/direct-routing-whats-new",
+          "body_chars": 865,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a89a210eb7244b0ee936",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "certificate"
+          ],
+          "term_in_body": [
+            "SBC",
+            "certificate",
+            "Teams"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q05",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "Explain emergency calling with Teams Direct Routing, including location information.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"direct routing\" OR \"emergency\" OR \"calling\" OR \"Teams\" OR \"location\" OR \"information\"",
+      "router_ms": 3.411,
+      "retrieval_ms": 8.744,
+      "feature_ms": 6.093,
+      "features": {
+        "top_fused_score": 0.0269,
+        "top_vector_rank": 5,
+        "top_lexical_rank": 1,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 17,
+        "unique_articles": 4,
+        "unique_families": 4,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 1.0,
+        "coverage_top3": 1.0,
+        "coverage_top5": 1.0,
+        "title_coverage_top1": 0.3333,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.3333,
+        "title_section_coverage_top5": 0.6667,
+        "phrase_terms": [
+          "direct routing"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "direct routing",
+          "emergency",
+          "calling",
+          "Teams",
+          "location",
+          "information"
+        ],
+        "fts_query": "\"direct routing\" OR \"emergency\" OR \"calling\" OR \"Teams\" OR \"location\" OR \"information\""
+      },
+      "missing_terms": [],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.02686,
+          "vector_rank": 5,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure dynamic emergency calling",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "article": "learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "family": "microsoftteams/configure-dynamic-emergency-calling",
+          "body_chars": 880,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "895718d2f8c333201a33",
+          "term_in_title": [
+            "emergency",
+            "calling"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "direct routing",
+            "emergency",
+            "calling",
+            "Teams",
+            "location",
+            "information"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026735,
+          "vector_rank": 2,
+          "lexical_rank": 6,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Considerations for Direct Routing",
+          "section": "Emergency call routing for Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "article": "learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "family": "microsoftteams/considerations-direct-routing",
+          "body_chars": 3007,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "d652b18cd2b4c8ca0fb6",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "direct routing",
+            "emergency"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "emergency",
+            "calling",
+            "Teams",
+            "location",
+            "information"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026394,
+          "vector_rank": 4,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Considerations for Direct Routing",
+          "section": "Dynamic emergency calling for Direct Routing",
+          "url": "https://learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "article": "learn.microsoft.com/microsoftteams/considerations-direct-routing",
+          "family": "microsoftteams/considerations-direct-routing",
+          "body_chars": 1507,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "fc213dcf6c655a6f7c03",
+          "term_in_title": [
+            "direct routing"
+          ],
+          "term_in_section": [
+            "direct routing",
+            "emergency",
+            "calling"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "emergency",
+            "calling",
+            "Teams",
+            "location",
+            "information"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025643,
+          "vector_rank": 8,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan and manage emergency calling",
+          "section": "Dynamic emergency calling",
+          "url": "https://learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "article": "learn.microsoft.com/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "family": "microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+          "body_chars": 365,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "27d4f2a732a321f9a818",
+          "term_in_title": [
+            "emergency",
+            "calling"
+          ],
+          "term_in_section": [
+            "emergency",
+            "calling"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "emergency",
+            "calling",
+            "Teams",
+            "location",
+            "information"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025196,
+          "vector_rank": 11,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage emergency locations",
+          "section": "Assign an emergency location",
+          "url": "https://learn.microsoft.com/microsoftteams/add-change-remove-emergency-location-organization",
+          "article": "learn.microsoft.com/microsoftteams/add-change-remove-emergency-location-organization",
+          "family": "microsoftteams/add-change-remove-emergency-location-organization",
+          "body_chars": 2301,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "e93ae5adabcb6cf88512",
+          "term_in_title": [
+            "emergency"
+          ],
+          "term_in_section": [
+            "emergency",
+            "location"
+          ],
+          "term_in_body": [
+            "direct routing",
+            "emergency",
+            "calling",
+            "Teams",
+            "location",
+            "information"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": true,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q06",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "Walk me through building an Auto Attendant that ultimately routes callers into a Call Queue.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"auto attendant\" OR \"call queue\" OR \"building\" OR \"ultimately\" OR \"routes\" OR \"callers\"",
+      "router_ms": 3.568,
+      "retrieval_ms": 10.914,
+      "feature_ms": 45.014,
+      "features": {
+        "top_fused_score": 0.0263,
+        "top_vector_rank": 3,
+        "top_lexical_rank": 7,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 7,
+        "unique_articles": 3,
+        "unique_families": 3,
+        "max_article_share": 3,
+        "max_family_share": 3,
+        "clustered": true,
+        "coverage_top1": 0.6667,
+        "coverage_top3": 0.6667,
+        "coverage_top5": 0.6667,
+        "title_coverage_top1": 0.1667,
+        "section_coverage_top1": 0.1667,
+        "title_section_coverage_top1": 0.1667,
+        "title_section_coverage_top5": 0.1667,
+        "phrase_terms": [
+          "auto attendant",
+          "call queue"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "auto attendant",
+          "call queue",
+          "building",
+          "ultimately",
+          "routes",
+          "callers"
+        ],
+        "fts_query": "\"auto attendant\" OR \"call queue\" OR \"building\" OR \"ultimately\" OR \"routes\" OR \"callers\""
+      },
+      "missing_terms": [
+        "building",
+        "ultimately"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.026321,
+          "vector_rank": 3,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "family": "microsoftteams/aa-cq-setup-auto-attendant",
+          "body_chars": 30134,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "term_in_title": [
+            "auto attendant"
+          ],
+          "term_in_section": [
+            "auto attendant"
+          ],
+          "term_in_body": [
+            "auto attendant",
+            "call queue",
+            "routes",
+            "callers"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026231,
+          "vector_rank": 4,
+          "lexical_rank": 6,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Design - Call flows for voice applications",
+          "section": "Auto Attendants",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "family": "microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2709,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6637e471035249c89e6f",
+          "term_in_title": [],
+          "term_in_section": [
+            "auto attendant"
+          ],
+          "term_in_body": [
+            "auto attendant",
+            "call queue",
+            "callers"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026129,
+          "vector_rank": 2,
+          "lexical_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Design - Call flows for voice applications",
+          "section": "Call routing best practices",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "family": "microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 2281,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "4b897e8ac1d91482d68b",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "auto attendant",
+            "call queue",
+            "callers"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025982,
+          "vector_rank": 1,
+          "lexical_rank": 13,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Planning - Overview of voice applications",
+          "section": "Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-overview",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-plan-overview",
+          "family": "microsoftteams/aa-cq-plan-overview",
+          "body_chars": 1790,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "1729c8e220e75c5df7ea",
+          "term_in_title": [],
+          "term_in_section": [
+            "auto attendant"
+          ],
+          "term_in_body": [
+            "auto attendant",
+            "call queue",
+            "callers"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025219,
+          "vector_rank": 7,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Design - Call flows for voice applications",
+          "section": "Call flow diagrams",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-design-call-flows",
+          "family": "microsoftteams/aa-cq-design-call-flows",
+          "body_chars": 1105,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "16047a90ee09734d4a33",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "auto attendant",
+            "call queue",
+            "callers"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "Q07",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "How would you configure a resource account for a Microsoft Teams Room?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"resource account\" OR \"teams room\" OR \"Microsoft\"",
+      "router_ms": 2.623,
+      "retrieval_ms": 39.583,
+      "feature_ms": 7.073,
+      "features": {
+        "top_fused_score": 0.0275,
+        "top_vector_rank": 1,
+        "top_lexical_rank": 3,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 6,
+        "unique_articles": 4,
+        "unique_families": 2,
+        "max_article_share": 2,
+        "max_family_share": 3,
+        "clustered": true,
+        "coverage_top1": 1.0,
+        "coverage_top3": 1.0,
+        "coverage_top5": 1.0,
+        "title_coverage_top1": 0.6667,
+        "section_coverage_top1": 0.3333,
+        "title_section_coverage_top1": 0.6667,
+        "title_section_coverage_top5": 1.0,
+        "phrase_terms": [
+          "resource account",
+          "teams room"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "resource account",
+          "teams room",
+          "Microsoft"
+        ],
+        "fts_query": "\"resource account\" OR \"teams room\" OR \"Microsoft\""
+      },
+      "missing_terms": [],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027505,
+          "vector_rank": 1,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "article": "learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "family": "microsoftteams/rooms",
+          "body_chars": 8587,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "f1c7221e658fe9d44663",
+          "term_in_title": [
+            "resource account",
+            "teams room"
+          ],
+          "term_in_section": [
+            "resource account"
+          ],
+          "term_in_body": [
+            "resource account",
+            "teams room",
+            "Microsoft"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.02686,
+          "vector_rank": 5,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Creating resource accounts for your Microsoft Teams Rooms",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1569,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a9d4409456a7bb06b805",
+          "term_in_title": [
+            "teams room",
+            "Microsoft"
+          ],
+          "term_in_section": [
+            "resource account",
+            "teams room",
+            "Microsoft"
+          ],
+          "term_in_body": [
+            "resource account",
+            "teams room",
+            "Microsoft"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.023387,
+          "vector_rank": 6,
+          "lexical_rank": 25,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms Resource Accounts",
+          "section": "Configure resource accounts",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/resource-accounts",
+          "article": "learn.microsoft.com/microsoftteams/rooms/resource-accounts",
+          "family": "microsoftteams/rooms",
+          "body_chars": 2672,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6ad4a52593f75d31e98c",
+          "term_in_title": [
+            "resource account",
+            "teams room",
+            "Microsoft"
+          ],
+          "term_in_section": [
+            "resource account"
+          ],
+          "term_in_body": [
+            "resource account",
+            "teams room",
+            "Microsoft"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.023115,
+          "vector_rank": 18,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Create a resource account",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "family": "microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 752,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3436d1068c015efee0f5",
+          "term_in_title": [
+            "resource account"
+          ],
+          "term_in_section": [
+            "resource account"
+          ],
+          "term_in_body": [
+            "resource account",
+            "Microsoft"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.02238,
+          "vector_rank": 19,
+          "lexical_rank": 12,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Assign a license",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "family": "microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 887,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "395465d9ec6427fef88e",
+          "term_in_title": [
+            "resource account"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "resource account",
+            "Microsoft"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": true,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q08",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "A Teams Room resource account is locked out or cannot sign in. How would you troubleshoot it?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"teams room\" OR \"resource account\" OR \"locked\" OR \"out\" OR \"cannot\" OR \"sign\"",
+      "router_ms": 3.8,
+      "retrieval_ms": 10.839,
+      "feature_ms": 14.957,
+      "features": {
+        "top_fused_score": 0.0269,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 5,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 9,
+        "unique_articles": 3,
+        "unique_families": 2,
+        "max_article_share": 3,
+        "max_family_share": 3,
+        "clustered": true,
+        "coverage_top1": 0.5,
+        "coverage_top3": 0.8333,
+        "coverage_top5": 0.8333,
+        "title_coverage_top1": 0.5,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.5,
+        "title_section_coverage_top5": 0.5,
+        "phrase_terms": [
+          "teams room",
+          "resource account"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "teams room",
+          "resource account",
+          "locked",
+          "out",
+          "cannot",
+          "sign"
+        ],
+        "fts_query": "\"teams room\" OR \"resource account\" OR \"locked\" OR \"out\" OR \"cannot\" OR \"sign\""
+      },
+      "missing_terms": [
+        "cannot"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.026898,
+          "vector_rank": 2,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 571,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "fc87164584f255ea269f",
+          "term_in_title": [
+            "teams room",
+            "resource account",
+            "sign"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "resource account",
+            "sign"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026401,
+          "vector_rank": 7,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Key differences from the Teams Desktop application",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1557,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "2f972d9bdc30f66cd786",
+          "term_in_title": [
+            "teams room"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "resource account",
+            "locked",
+            "out",
+            "sign"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026116,
+          "vector_rank": 1,
+          "lexical_rank": 12,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Resolution",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 12538,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "1ed7c9ce0b85e1499c50",
+          "term_in_title": [
+            "teams room",
+            "resource account",
+            "sign"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "resource account",
+            "out",
+            "sign"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.026018,
+          "vector_rank": 3,
+          "lexical_rank": 9,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Turn off password expiration",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "article": "learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1428,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "8b9395dc7c5d20a194c5",
+          "term_in_title": [
+            "teams room",
+            "resource account"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "resource account",
+            "out",
+            "sign"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025625,
+          "vector_rank": 4,
+          "lexical_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Fix Teams Rooms resource account sign-in issues",
+          "section": "Symptoms",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-resource-account-sign-in-issues",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 1897,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3c3703462e45b72e271b",
+          "term_in_title": [
+            "teams room",
+            "resource account",
+            "sign"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "resource account",
+            "sign"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q09",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "A Teams Room joins the meeting, but the far end cannot hear the room. What would you check?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"teams room\" OR \"joins\" OR \"meeting\" OR \"but\" OR \"far\" OR \"end\" OR \"cannot\" OR \"hear\" OR \"room\" OR \"check\"",
+      "router_ms": 4.309,
+      "retrieval_ms": 13.558,
+      "feature_ms": 44.29,
+      "features": {
+        "top_fused_score": 0.0272,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 3,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 7,
+        "unique_articles": 4,
+        "unique_families": 2,
+        "max_article_share": 2,
+        "max_family_share": 4,
+        "clustered": true,
+        "coverage_top1": 0.6,
+        "coverage_top3": 0.7,
+        "coverage_top5": 0.8,
+        "title_coverage_top1": 0.1,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.1,
+        "title_section_coverage_top5": 0.3,
+        "phrase_terms": [
+          "teams room"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "teams room",
+          "joins",
+          "meeting",
+          "but",
+          "far",
+          "end",
+          "cannot",
+          "hear",
+          "room",
+          "check"
+        ],
+        "fts_query": "\"teams room\" OR \"joins\" OR \"meeting\" OR \"but\" OR \"far\" OR \"end\" OR \"cannot\" OR \"hear\" OR \"room\" OR \"check\""
+      },
+      "missing_terms": [
+        "far",
+        "cannot"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.02724,
+          "vector_rank": 2,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Software issues",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 8139,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6b510d5018704fc4ed7c",
+          "term_in_title": [
+            "teams room"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "joins",
+            "meeting",
+            "but",
+            "hear",
+            "room"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026915,
+          "vector_rank": 4,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Known issues with Teams on Android devices",
+          "section": "Issues affecting Teams meeting room devices",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-android",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-android",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 1485,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6606647cd9d83f10042a",
+          "term_in_title": [],
+          "term_in_section": [
+            "meeting",
+            "room"
+          ],
+          "term_in_body": [
+            "teams room",
+            "meeting",
+            "end",
+            "room"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026688,
+          "vector_rank": 1,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Hardware issues",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 2361,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "37684d953253faf2ee70",
+          "term_in_title": [
+            "teams room"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "joins",
+            "meeting",
+            "room"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025732,
+          "vector_rank": 3,
+          "lexical_rank": 11,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "The Teams Rooms device&#39;s displays show a black or blank screen",
+          "section": "All displays and the touchscreen console show a black or blank screen and don't respond",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/black-blank-screen",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 4220,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "ef03467101d0edc64a3b",
+          "term_in_title": [
+            "teams room"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "meeting",
+            "but",
+            "room",
+            "check"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.023952,
+          "vector_rank": 9,
+          "lexical_rank": 14,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Managing settings for Teams devices",
+          "section": "Settings available",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "article": "learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "family": "microsoftteams/rooms",
+          "body_chars": 19177,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "7a102e26400db7301660",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams room",
+            "meeting",
+            "but",
+            "room",
+            "check"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q10",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "How would you manage and monitor a fleet of Microsoft Teams Rooms at scale?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"teams rooms\" OR \"manage\" OR \"monitor\" OR \"fleet\" OR \"Microsoft\" OR \"at\" OR \"scale\"",
+      "router_ms": 3.021,
+      "retrieval_ms": 43.509,
+      "feature_ms": 28.545,
+      "features": {
+        "top_fused_score": 0.0272,
+        "top_vector_rank": 3,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 6,
+        "unique_articles": 4,
+        "unique_families": 1,
+        "max_article_share": 2,
+        "max_family_share": 5,
+        "clustered": true,
+        "coverage_top1": 0.5714,
+        "coverage_top3": 0.8571,
+        "coverage_top5": 0.8571,
+        "title_coverage_top1": 0.2857,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.2857,
+        "title_section_coverage_top5": 0.2857,
+        "phrase_terms": [
+          "teams rooms"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "teams rooms",
+          "manage",
+          "monitor",
+          "fleet",
+          "Microsoft",
+          "at",
+          "scale"
+        ],
+        "fts_query": "\"teams rooms\" OR \"manage\" OR \"monitor\" OR \"fleet\" OR \"Microsoft\" OR \"at\" OR \"scale\""
+      },
+      "missing_terms": [
+        "fleet"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027163,
+          "vector_rank": 3,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms Pro management",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-pro-management",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1101,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "527efbccd8b6970ca143",
+          "term_in_title": [
+            "teams rooms",
+            "Microsoft"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams rooms",
+            "Microsoft",
+            "at",
+            "scale"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.024638,
+          "vector_rank": 9,
+          "lexical_rank": 9,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Managing settings for Teams devices",
+          "section": "Settings available",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "article": "learn.microsoft.com/microsoftteams/rooms/pro-portal-settings",
+          "family": "microsoftteams/rooms",
+          "body_chars": 19177,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "7a102e26400db7301660",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams rooms",
+            "manage",
+            "monitor",
+            "Microsoft",
+            "scale"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.023818,
+          "vector_rank": 5,
+          "lexical_rank": 23,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Physically deploying and configuring your Teams Rooms devices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "family": "microsoftteams/rooms",
+          "body_chars": 2487,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "2bb214a4c217ead68b10",
+          "term_in_title": [
+            "teams rooms",
+            "Microsoft"
+          ],
+          "term_in_section": [
+            "teams rooms"
+          ],
+          "term_in_body": [
+            "teams rooms",
+            "manage",
+            "Microsoft",
+            "at"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.022845,
+          "vector_rank": 8,
+          "lexical_rank": 26,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Management options in Teams Admin Center",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "family": "microsoftteams/rooms",
+          "body_chars": 6107,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "cbfeff612e85940645bc",
+          "term_in_title": [
+            "teams rooms",
+            "Microsoft"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams rooms",
+            "manage",
+            "Microsoft",
+            "at"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.021564,
+          "vector_rank": 13,
+          "lexical_rank": 29,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Managing Microsoft Teams Rooms",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-manage",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1088,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "9cebf6dab5c109ae7e52",
+          "term_in_title": [
+            "teams rooms",
+            "Microsoft"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "teams rooms",
+            "manage",
+            "Microsoft"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q11",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "What is the difference between Call Quality Dashboard and per-user/per-call troubleshooting, and when would you use each?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"call quality dashboard\" OR \"difference\" OR \"per\" OR \"user\" OR \"call\" OR \"troubleshooting\"",
+      "router_ms": 4.897,
+      "retrieval_ms": 35.79,
+      "feature_ms": 39.156,
+      "features": {
+        "top_fused_score": 0.0259,
+        "top_vector_rank": 4,
+        "top_lexical_rank": 8,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 12,
+        "unique_articles": 5,
+        "unique_families": 5,
+        "max_article_share": 1,
+        "max_family_share": 1,
+        "clustered": false,
+        "coverage_top1": 0.6667,
+        "coverage_top3": 1.0,
+        "coverage_top5": 1.0,
+        "title_coverage_top1": 0.1667,
+        "section_coverage_top1": 0.1667,
+        "title_section_coverage_top1": 0.1667,
+        "title_section_coverage_top5": 0.3333,
+        "phrase_terms": [
+          "call quality dashboard"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "call quality dashboard",
+          "difference",
+          "per",
+          "user",
+          "call",
+          "troubleshooting"
+        ],
+        "fts_query": "\"call quality dashboard\" OR \"difference\" OR \"per\" OR \"user\" OR \"call\" OR \"troubleshooting\""
+      },
+      "missing_terms": [],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.025919,
+          "vector_rank": 4,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Monitor and improve call quality for Microsoft Teams",
+          "section": "Monitor and troubleshoot call quality",
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "article": "learn.microsoft.com/microsoftteams/monitor-call-quality-qos",
+          "family": "microsoftteams/monitor-call-quality-qos",
+          "body_chars": 1525,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "f7a93390e0700dac12ae",
+          "term_in_title": [
+            "call"
+          ],
+          "term_in_section": [
+            "call"
+          ],
+          "term_in_body": [
+            "call quality dashboard",
+            "user",
+            "call",
+            "troubleshooting"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.024879,
+          "vector_rank": 2,
+          "lexical_rank": 20,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "What does each Teams Support role do?",
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "article": "learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "family": "microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+          "body_chars": 2889,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "d29d94b6a164a125b161",
+          "term_in_title": [
+            "call"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "per",
+            "user",
+            "call",
+            "troubleshooting"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.024625,
+          "vector_rank": 14,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Measurements",
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard",
+          "article": "learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard",
+          "family": "microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard",
+          "body_chars": 49964,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "8499e39094e6905d4cef",
+          "term_in_title": [
+            "call quality dashboard",
+            "call"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "call quality dashboard",
+            "difference",
+            "per",
+            "user",
+            "call"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.024514,
+          "vector_rank": 7,
+          "lexical_rank": 13,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "family": "microsoftteams/direct-routing-monitor-and-troubleshoot",
+          "body_chars": 1414,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "275d1ea6787be7dc9fb6",
+          "term_in_title": [],
+          "term_in_section": [
+            "call"
+          ],
+          "term_in_body": [
+            "call quality dashboard",
+            "call",
+            "troubleshooting"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.024448,
+          "vector_rank": 16,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Set up call analytics for Microsoft Teams",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/set-up-call-analytics",
+          "article": "learn.microsoft.com/microsoftteams/set-up-call-analytics",
+          "family": "microsoftteams/set-up-call-analytics",
+          "body_chars": 1097,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3e2dc6ae14dd86100683",
+          "term_in_title": [
+            "call"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "per",
+            "user",
+            "call",
+            "troubleshooting"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": true,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q12",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"secure\" OR \"review\" OR \"SharePoint\" OR \"OneDrive\" OR \"rolling\" OR \"out\" OR \"Microsoft\" OR \"365\" OR \"Copilot\"",
+      "router_ms": 4.084,
+      "retrieval_ms": 54.27,
+      "feature_ms": 11.549,
+      "features": {
+        "top_fused_score": 0.0267,
+        "top_vector_rank": 5,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 11,
+        "unique_articles": 3,
+        "unique_families": 3,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 0.6667,
+        "coverage_top3": 0.8889,
+        "coverage_top5": 0.8889,
+        "title_coverage_top1": 0.5556,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.5556,
+        "title_section_coverage_top5": 0.6667,
+        "phrase_terms": [],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "secure",
+          "review",
+          "SharePoint",
+          "OneDrive",
+          "rolling",
+          "out",
+          "Microsoft",
+          "365",
+          "Copilot"
+        ],
+        "fts_query": "\"secure\" OR \"review\" OR \"SharePoint\" OR \"OneDrive\" OR \"rolling\" OR \"out\" OR \"Microsoft\" OR \"365\" OR \"Copilot\""
+      },
+      "missing_terms": [
+        "secure"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.026675,
+          "vector_rank": 5,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "article": "learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "family": "sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 1070,
+          "ms_service": "sharepoint-online",
+          "repo": "sharepoint",
+          "parent_id": "335fc4ddebb342cce3fd",
+          "term_in_title": [
+            "SharePoint",
+            "OneDrive",
+            "out",
+            "Microsoft",
+            "365"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "SharePoint",
+            "OneDrive",
+            "rolling",
+            "out",
+            "Microsoft",
+            "365"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026401,
+          "vector_rank": 7,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan for SharePoint and OneDrive in Microsoft 365 - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive",
+          "article": "learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive",
+          "family": "sharepoint/plan-for-sharepoint-onedrive",
+          "body_chars": 1714,
+          "ms_service": "sharepoint-online",
+          "repo": "sharepoint",
+          "parent_id": "565ff8406876e5a7bb6f",
+          "term_in_title": [
+            "SharePoint",
+            "OneDrive",
+            "Microsoft",
+            "365"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "review",
+            "SharePoint",
+            "OneDrive",
+            "rolling",
+            "out",
+            "Microsoft",
+            "365"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026253,
+          "vector_rank": 1,
+          "lexical_rank": 11,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 5: Implement backup and restore procedures",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "article": "learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "family": "microsoft-365/copilot",
+          "body_chars": 1385,
+          "ms_service": "microsoft-365-copilot",
+          "repo": "m365",
+          "parent_id": "7e48473186db110c9f43",
+          "term_in_title": [
+            "SharePoint",
+            "Microsoft",
+            "365",
+            "Copilot"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "review",
+            "SharePoint",
+            "OneDrive",
+            "Microsoft",
+            "365",
+            "Copilot"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.026089,
+          "vector_rank": 6,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Pilot rollout of SharePoint and OneDrive",
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "article": "learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive",
+          "family": "sharepoint/roll-out-sharepoint-onedrive",
+          "body_chars": 2308,
+          "ms_service": "sharepoint-online",
+          "repo": "sharepoint",
+          "parent_id": "0e52a731bf2a2c600758",
+          "term_in_title": [
+            "SharePoint",
+            "OneDrive",
+            "out",
+            "Microsoft",
+            "365"
+          ],
+          "term_in_section": [
+            "SharePoint",
+            "OneDrive"
+          ],
+          "term_in_body": [
+            "review",
+            "SharePoint",
+            "OneDrive",
+            "rolling",
+            "out"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.024084,
+          "vector_rank": 2,
+          "lexical_rank": 28,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "article": "learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "family": "microsoft-365/copilot",
+          "body_chars": 8152,
+          "ms_service": "microsoft-365-copilot",
+          "repo": "m365",
+          "parent_id": "d064eaebfb66ddca2cab",
+          "term_in_title": [
+            "SharePoint",
+            "Microsoft",
+            "365",
+            "Copilot"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "review",
+            "SharePoint",
+            "OneDrive",
+            "Microsoft",
+            "365",
+            "Copilot"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": true,
+        "G_cov95": false,
+        "G_title50": true,
+        "G_and": true,
+        "G_phrase_cov": true
+      },
+      "question_id": "Q13",
+      "label": "ANSWERABLE"
+    },
+    {
+      "question": "How would you use PowerShell to audit Teams Voice users and their voice configuration?",
+      "scope": "SCOPED",
+      "confidence": "HIGH",
+      "service": "msteams-ps",
+      "fts_query": "\"Teams Voice\" OR \"PowerShell\" OR \"audit\" OR \"users\" OR \"voice\" OR \"configuration\"",
+      "router_ms": 3.299,
+      "retrieval_ms": 16.159,
+      "feature_ms": 27.307,
+      "features": {
+        "top_fused_score": 0.0274,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 3,
+        "vector_lex_overlap_30": 7,
+        "unique_articles": 5,
+        "unique_families": 1,
+        "max_article_share": 1,
+        "max_family_share": 5,
+        "clustered": true,
+        "coverage_top1": 0.5,
+        "coverage_top3": 0.5,
+        "coverage_top5": 0.5,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.0,
+        "title_section_coverage_top5": 0.0,
+        "phrase_terms": [
+          "Teams Voice"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Teams Voice",
+          "PowerShell",
+          "audit",
+          "users",
+          "voice",
+          "configuration"
+        ],
+        "fts_query": "\"Teams Voice\" OR \"PowerShell\" OR \"audit\" OR \"users\" OR \"voice\" OR \"configuration\""
+      },
+      "missing_terms": [
+        "Teams Voice",
+        "audit",
+        "configuration"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027419,
+          "vector_rank": 2,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "article": "learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy",
+          "family": "powershell/module",
+          "body_chars": 4916,
+          "ms_service": "msteams-ps",
+          "repo": "teams-ps",
+          "parent_id": "e70392396d1d9841449f",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "PowerShell",
+            "users",
+            "voice"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.027331,
+          "vector_rank": 1,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "article": "learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser",
+          "family": "powershell/module",
+          "body_chars": 26984,
+          "ms_service": "msteams-ps",
+          "repo": "teams-ps",
+          "parent_id": "0d0e05a0a4f37672b97e",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "PowerShell",
+            "users",
+            "voice"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026736,
+          "vector_rank": 4,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get-CsOnlineVoiceRoute",
+          "section": "Get-CsOnlineVoiceRoute",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute",
+          "article": "learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroute",
+          "family": "powershell/module",
+          "body_chars": 3783,
+          "ms_service": "msteams-ps",
+          "repo": "teams-ps",
+          "parent_id": "26703a61d0bb2ad58cb4",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "PowerShell",
+            "users",
+            "voice"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025758,
+          "vector_rank": 6,
+          "lexical_rank": 6,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "article": "learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy",
+          "family": "powershell/module",
+          "body_chars": 2548,
+          "ms_service": "msteams-ps",
+          "repo": "teams-ps",
+          "parent_id": "3a75500fa7b96c7e5d3b",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "PowerShell",
+            "users"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025595,
+          "vector_rank": 3,
+          "lexical_rank": 12,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Get-CsAutoAttendant",
+          "section": "Get-CsAutoAttendant",
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant",
+          "article": "learn.microsoft.com/powershell/module/microsoftteams/get-csautoattendant",
+          "family": "powershell/module",
+          "body_chars": 5849,
+          "ms_service": "msteams-ps",
+          "repo": "teams-ps",
+          "parent_id": "7c2ba2b7686a783f747b",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "PowerShell"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "Q14",
+      "label": "ANSWERABLE"
+    }
+  ],
+  "positive_controls": [
+    "Q01",
+    "Q02",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09",
+    "Q10",
+    "Q11",
+    "Q12",
+    "Q13",
+    "Q14"
+  ],
+  "negative_controls": [
+    {
+      "question": "How do you enroll iOS devices in Microsoft Intune using Apple Business Manager?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Microsoft Intune\" OR \"Apple Business Manager\" OR \"enroll\" OR \"iOS\" OR \"devices\"",
+      "router_ms": 3.089,
+      "retrieval_ms": 76.964,
+      "feature_ms": 10.17,
+      "features": {
+        "top_fused_score": 0.0277,
+        "top_vector_rank": 1,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 8,
+        "unique_articles": 4,
+        "unique_families": 2,
+        "max_article_share": 2,
+        "max_family_share": 4,
+        "clustered": true,
+        "coverage_top1": 0.4,
+        "coverage_top3": 0.6,
+        "coverage_top5": 0.6,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.2,
+        "title_section_coverage_top1": 0.2,
+        "title_section_coverage_top5": 0.2,
+        "phrase_terms": [
+          "Microsoft Intune",
+          "Apple Business Manager"
+        ],
+        "phrase_coverage_top5": 0.5,
+        "terms": [
+          "Microsoft Intune",
+          "Apple Business Manager",
+          "enroll",
+          "iOS",
+          "devices"
+        ],
+        "fts_query": "\"Microsoft Intune\" OR \"Apple Business Manager\" OR \"enroll\" OR \"iOS\" OR \"devices\""
+      },
+      "missing_terms": [
+        "Apple Business Manager",
+        "iOS"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027684,
+          "vector_rank": 1,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms Deployment Overview",
+          "section": "Configuring Intune for your Teams Devices",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-deploy",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1341,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "121ff6c05a7d06149afe",
+          "term_in_title": [],
+          "term_in_section": [
+            "devices"
+          ],
+          "term_in_body": [
+            "enroll",
+            "devices"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026401,
+          "vector_rank": 7,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Authentication in Microsoft Teams Rooms on Windows",
+          "section": "Conditional Access Considerations",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "article": "learn.microsoft.com/microsoftteams/rooms/rooms-authentication",
+          "family": "microsoftteams/rooms",
+          "body_chars": 1129,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "faeacb0259f74003ab2b",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft Intune",
+            "enroll",
+            "devices"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.02553,
+          "vector_rank": 5,
+          "lexical_rank": 9,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft Intune",
+            "devices"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.024625,
+          "vector_rank": 14,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Network Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "article": "learn.microsoft.com/microsoftteams/rooms/security",
+          "family": "microsoftteams/rooms",
+          "body_chars": 6309,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "68720a7a0c347d8dcc26",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft Intune",
+            "devices"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.024468,
+          "vector_rank": 13,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Network security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "article": "learn.microsoft.com/microsoftteams/rooms/security",
+          "family": "microsoftteams/rooms",
+          "body_chars": 4317,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "fb8a529909e9b049f463",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft Intune",
+            "devices"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N01",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How would you configure Azure AD B2C custom policies for a multi-step signup journey?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Azure AD B2C\" OR \"custom\" OR \"policies\" OR \"multi\" OR \"step\" OR \"signup\" OR \"journey\"",
+      "router_ms": 3.75,
+      "retrieval_ms": 38.867,
+      "feature_ms": 3.799,
+      "features": {
+        "top_fused_score": 0.0266,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 7,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 7,
+        "unique_articles": 2,
+        "unique_families": 2,
+        "max_article_share": 4,
+        "max_family_share": 4,
+        "clustered": true,
+        "coverage_top1": 0.2857,
+        "coverage_top3": 0.2857,
+        "coverage_top5": 0.2857,
+        "title_coverage_top1": 0.1429,
+        "section_coverage_top1": 0.1429,
+        "title_section_coverage_top1": 0.2857,
+        "title_section_coverage_top5": 0.2857,
+        "phrase_terms": [
+          "Azure AD B2C"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Azure AD B2C",
+          "custom",
+          "policies",
+          "multi",
+          "step",
+          "signup",
+          "journey"
+        ],
+        "fts_query": "\"Azure AD B2C\" OR \"custom\" OR \"policies\" OR \"multi\" OR \"step\" OR \"signup\" OR \"journey\""
+      },
+      "missing_terms": [
+        "Azure AD B2C",
+        "multi",
+        "step",
+        "signup",
+        "journey"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.026577,
+          "vector_rank": 2,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Voice applications policies",
+          "section": "Create a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "family": "microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 534,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "7016f57d73fcad8cbbec",
+          "term_in_title": [
+            "policies"
+          ],
+          "term_in_section": [
+            "custom"
+          ],
+          "term_in_body": [
+            "custom",
+            "policies"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.024379,
+          "vector_rank": 11,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Voice applications policies",
+          "section": "Assign a custom voice applications policy to users",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "family": "microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 824,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a7fbceae42110e28fc96",
+          "term_in_title": [
+            "policies"
+          ],
+          "term_in_section": [
+            "custom"
+          ],
+          "term_in_body": [
+            "custom",
+            "policies"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.024286,
+          "vector_rank": 10,
+          "lexical_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage call routing policies for Direct Routing",
+          "section": "Assign a custom call routing policy to users",
+          "url": "https://learn.microsoft.com/microsoftteams/manage-voice-routing-policies",
+          "article": "learn.microsoft.com/microsoftteams/manage-voice-routing-policies",
+          "family": "microsoftteams/manage-voice-routing-policies",
+          "body_chars": 474,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "51bb3f26abd28c85d7e6",
+          "term_in_title": [
+            "policies"
+          ],
+          "term_in_section": [
+            "custom"
+          ],
+          "term_in_body": [
+            "policies"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.024271,
+          "vector_rank": 15,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Voice applications policies",
+          "section": "Edit a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "family": "microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 445,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "f0d4b2d937f10b760b4c",
+          "term_in_title": [
+            "policies"
+          ],
+          "term_in_section": [
+            "custom"
+          ],
+          "term_in_body": [
+            "custom",
+            "policies"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.024165,
+          "vector_rank": 8,
+          "lexical_rank": 14,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Voice applications policies",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "family": "microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 2337,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "291764107e8cba017f88",
+          "term_in_title": [
+            "policies"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "custom",
+            "policies"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N02",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "Walk through setting up an Azure Virtual Desktop host pool with FSLogix profile containers.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Azure Virtual Desktop\" OR \"setting\" OR \"up\" OR \"host\" OR \"pool\" OR \"FSLogix\" OR \"profile\" OR \"containers\"",
+      "router_ms": 3.602,
+      "retrieval_ms": 12.916,
+      "feature_ms": 19.756,
+      "features": {
+        "top_fused_score": 0.0244,
+        "top_vector_rank": 11,
+        "top_lexical_rank": 8,
+        "top_dual_match": true,
+        "dual_match_n": 2,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 2,
+        "unique_articles": 4,
+        "unique_families": 4,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 0.25,
+        "coverage_top3": 0.5,
+        "coverage_top5": 0.5,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.0,
+        "title_section_coverage_top5": 0.0,
+        "phrase_terms": [
+          "Azure Virtual Desktop"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Azure Virtual Desktop",
+          "setting",
+          "up",
+          "host",
+          "pool",
+          "FSLogix",
+          "profile",
+          "containers"
+        ],
+        "fts_query": "\"Azure Virtual Desktop\" OR \"setting\" OR \"up\" OR \"host\" OR \"pool\" OR \"FSLogix\" OR \"profile\" OR \"containers\""
+      },
+      "missing_terms": [
+        "Azure Virtual Desktop",
+        "pool",
+        "FSLogix",
+        "containers"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.024379,
+          "vector_rank": 11,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "setting",
+            "profile"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.022667,
+          "vector_rank": 15,
+          "lexical_rank": 15,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Create a trunk and provision users",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants",
+          "family": "microsoftteams/direct-routing-sbc-multiple-tenants",
+          "body_chars": 4883,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "38b33aaf3451bdcb8e9c",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "up",
+            "host",
+            "profile"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.016393,
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Group Policy",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 2984,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "44353bc5f39e39c3c827",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "setting"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.016129,
+          "vector_rank": 2,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Plan Direct Routing",
+          "section": "SIP signaling: FQDNs, ports, failover mechanism",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan",
+          "family": "microsoftteams/direct-routing-plan",
+          "body_chars": 4580,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "c34782ceb9afa2ad1811",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "up"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.015873,
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "SIP Signaling: FQDNs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "family": "microsoftteams/direct-routing-plan-media-bypass",
+          "body_chars": 3131,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "1cd424e4d96978fcb3b5",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N03",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How do you create a Microsoft Defender for Endpoint attack-surface-reduction rule for Office macros?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Microsoft Defender\" OR \"create\" OR \"Endpoint\" OR \"attack\" OR \"surface\" OR \"reduction\" OR \"rule\" OR \"Office\" OR \"macros\"",
+      "router_ms": 3.973,
+      "retrieval_ms": 35.981,
+      "feature_ms": 19.314,
+      "features": {
+        "top_fused_score": 0.0279,
+        "top_vector_rank": 1,
+        "top_lexical_rank": 1,
+        "top_dual_match": true,
+        "dual_match_n": 2,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 2,
+        "unique_articles": 5,
+        "unique_families": 5,
+        "max_article_share": 1,
+        "max_family_share": 1,
+        "clustered": false,
+        "coverage_top1": 0.3333,
+        "coverage_top3": 0.5556,
+        "coverage_top5": 0.6667,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.0,
+        "title_section_coverage_top5": 0.0,
+        "phrase_terms": [
+          "Microsoft Defender"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "Microsoft Defender",
+          "create",
+          "Endpoint",
+          "attack",
+          "surface",
+          "reduction",
+          "rule",
+          "Office",
+          "macros"
+        ],
+        "fts_query": "\"Microsoft Defender\" OR \"create\" OR \"Endpoint\" OR \"attack\" OR \"surface\" OR \"reduction\" OR \"rule\" OR \"Office\" OR \"macros\""
+      },
+      "missing_terms": [
+        "attack",
+        "reduction",
+        "macros"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027869,
+          "vector_rank": 1,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Software Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "article": "learn.microsoft.com/microsoftteams/rooms/security",
+          "family": "microsoftteams/rooms",
+          "body_chars": 3412,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a64ed3125e877d56e340",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft Defender",
+            "Endpoint",
+            "surface"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026073,
+          "vector_rank": 4,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Automate workflows in a SharePoint document library - SharePoint in Microsoft 365",
+          "section": "Requirements and limitations",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-automate-workflows",
+          "article": "learn.microsoft.com/sharepoint/copilot-in-sharepoint-automate-workflows",
+          "family": "sharepoint/copilot-in-sharepoint-automate-workflows",
+          "body_chars": 1209,
+          "ms_service": "sharepoint-online",
+          "repo": "sharepoint",
+          "parent_id": "36f454dbcacaeba1710e",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "create",
+            "rule"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.016129,
+          "vector_rank": 2,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "article": "learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "family": "microsoft-365/copilot",
+          "body_chars": 8152,
+          "ms_service": "microsoft-365-copilot",
+          "repo": "m365",
+          "parent_id": "d064eaebfb66ddca2cab",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "create"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.015873,
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Hide resource accounts from Teams users",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "family": "microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 6088,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "7e7f2f0e1eb86ff1db82",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "create",
+            "Office"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.015385,
+          "vector_rank": 5,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Verify DSCP markings in the Group Policy object",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 1232,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "ed3dce1b51c147d5402d",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N04",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How would you configure a Power BI on-premises data gateway in standard mode?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Power BI\" OR \"premises\" OR \"data\" OR \"gateway\" OR \"standard\" OR \"mode\"",
+      "router_ms": 3.084,
+      "retrieval_ms": 24.396,
+      "feature_ms": 6.883,
+      "features": {
+        "top_fused_score": 0.0276,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 1,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 13,
+        "unique_articles": 2,
+        "unique_families": 2,
+        "max_article_share": 4,
+        "max_family_share": 4,
+        "clustered": true,
+        "coverage_top1": 0.6667,
+        "coverage_top3": 0.6667,
+        "coverage_top5": 0.8333,
+        "title_coverage_top1": 0.1667,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.1667,
+        "title_section_coverage_top5": 0.1667,
+        "phrase_terms": [
+          "Power BI"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "Power BI",
+          "premises",
+          "data",
+          "gateway",
+          "standard",
+          "mode"
+        ],
+        "fts_query": "\"Power BI\" OR \"premises\" OR \"data\" OR \"gateway\" OR \"standard\" OR \"mode\""
+      },
+      "missing_terms": [
+        "standard"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027604,
+          "vector_rank": 2,
+          "lexical_rank": 1,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Installation",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "article": "learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "family": "microsoftteams/cqd-power-bi-connector",
+          "body_chars": 1283,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "bd689ebe19847916e1e1",
+          "term_in_title": [
+            "Power BI"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Power BI",
+            "premises",
+            "data",
+            "gateway"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026915,
+          "vector_rank": 4,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Limitations",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "article": "learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "family": "microsoftteams/cqd-power-bi-connector",
+          "body_chars": 3115,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "8783fb7f02b227ed8796",
+          "term_in_title": [
+            "Power BI"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Power BI",
+            "premises",
+            "data",
+            "gateway"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026841,
+          "vector_rank": 1,
+          "lexical_rank": 7,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Setup",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "article": "learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "family": "microsoftteams/cqd-power-bi-connector",
+          "body_chars": 1176,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "d207ad8736c39056cea8",
+          "term_in_title": [
+            "Power BI"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Power BI",
+            "data"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025,
+          "vector_rank": 12,
+          "lexical_rank": 3,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Install Power BI Connector to use CQD query templates",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "article": "learn.microsoft.com/microsoftteams/cqd-power-bi-connector",
+          "family": "microsoftteams/cqd-power-bi-connector",
+          "body_chars": 832,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "60c304f21dce72ab3121",
+          "term_in_title": [
+            "Power BI"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Power BI",
+            "data",
+            "mode"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.024974,
+          "vector_rank": 5,
+          "lexical_rank": 13,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Voice applications historical reports for GCCH and DoD",
+          "section": "V1.64 Installation",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-cqd-historical-reports-v164",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-cqd-historical-reports-v164",
+          "family": "microsoftteams/aa-cq-cqd-historical-reports-v164",
+          "body_chars": 1401,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3cfe5ef91ce7bdcb6790",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Power BI",
+            "data"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": true
+      },
+      "question_id": "N05",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "Explain how to set up Dynamics 365 Field Service work-order scheduling.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Field Service\" OR \"set\" OR \"up\" OR \"Dynamics\" OR \"365\" OR \"work\" OR \"order\" OR \"scheduling\"",
+      "router_ms": 2.81,
+      "retrieval_ms": 10.855,
+      "feature_ms": 48.469,
+      "features": {
+        "top_fused_score": 0.0253,
+        "top_vector_rank": 9,
+        "top_lexical_rank": 5,
+        "top_dual_match": true,
+        "dual_match_n": 3,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 3,
+        "unique_articles": 5,
+        "unique_families": 5,
+        "max_article_share": 1,
+        "max_family_share": 1,
+        "clustered": false,
+        "coverage_top1": 0.5,
+        "coverage_top3": 0.75,
+        "coverage_top5": 0.75,
+        "title_coverage_top1": 0.125,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.125,
+        "title_section_coverage_top5": 0.125,
+        "phrase_terms": [
+          "Field Service"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Field Service",
+          "set",
+          "up",
+          "Dynamics",
+          "365",
+          "work",
+          "order",
+          "scheduling"
+        ],
+        "fts_query": "\"Field Service\" OR \"set\" OR \"up\" OR \"Dynamics\" OR \"365\" OR \"work\" OR \"order\" OR \"scheduling\""
+      },
+      "missing_terms": [
+        "Field Service",
+        "Dynamics"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.025262,
+          "vector_rank": 9,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Automate workflows in a SharePoint document library - SharePoint in Microsoft 365",
+          "section": "Requirements and limitations",
+          "url": "https://learn.microsoft.com/sharepoint/copilot-in-sharepoint-automate-workflows",
+          "article": "learn.microsoft.com/sharepoint/copilot-in-sharepoint-automate-workflows",
+          "family": "sharepoint/copilot-in-sharepoint-automate-workflows",
+          "body_chars": 1209,
+          "ms_service": "sharepoint-online",
+          "repo": "sharepoint",
+          "parent_id": "36f454dbcacaeba1710e",
+          "term_in_title": [
+            "365"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "up",
+            "365",
+            "work"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.024989,
+          "vector_rank": 13,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage - Resource accounts for voice applications",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-resource-accounts",
+          "family": "microsoftteams/aa-cq-manage-resource-accounts",
+          "body_chars": 5034,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3df75c6e612ed792382c",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "up",
+            "365",
+            "work",
+            "order"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.024364,
+          "vector_rank": 2,
+          "lexical_rank": 25,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Call Queue",
+          "section": "Steps to create a call queue",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-call-queue",
+          "family": "microsoftteams/aa-cq-setup-call-queue",
+          "body_chars": 27010,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "e277ce2d0f43a702b876",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "up",
+            "365",
+            "work",
+            "order",
+            "scheduling"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.016393,
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Setup - Create a Teams Phone Agent via PowerShell",
+          "section": "Contoso Main Menu Auto Attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-cmdlets",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-cmdlets",
+          "family": "microsoftteams/aa-cq-setup-teams-phone-agent-cmdlets",
+          "body_chars": 9182,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "cb6acef4fbdc4c8e47b4",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.015873,
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "How to create and configure resource accounts for Teams Rooms and panels",
+          "section": "Create resource account & assign the license",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "article": "learn.microsoft.com/microsoftteams/rooms/create-resource-account",
+          "family": "microsoftteams/rooms",
+          "body_chars": 8587,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "f1c7221e658fe9d44663",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "365"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N06",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How do you configure Windows Autopilot for pre-provisioned deployment?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Windows Autopilot\" OR \"pre\" OR \"provisioned\" OR \"deployment\"",
+      "router_ms": 2.558,
+      "retrieval_ms": 65.307,
+      "feature_ms": 15.433,
+      "features": {
+        "top_fused_score": 0.0164,
+        "top_vector_rank": 1,
+        "top_lexical_rank": null,
+        "top_dual_match": false,
+        "dual_match_n": 0,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 0,
+        "unique_articles": 5,
+        "unique_families": 5,
+        "max_article_share": 1,
+        "max_family_share": 1,
+        "clustered": false,
+        "coverage_top1": 0.0,
+        "coverage_top3": 0.0,
+        "coverage_top5": 0.0,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.0,
+        "title_section_coverage_top5": 0.0,
+        "phrase_terms": [
+          "Windows Autopilot"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Windows Autopilot",
+          "pre",
+          "provisioned",
+          "deployment"
+        ],
+        "fts_query": "\"Windows Autopilot\" OR \"pre\" OR \"provisioned\" OR \"deployment\""
+      },
+      "missing_terms": [
+        "Windows Autopilot",
+        "pre",
+        "provisioned",
+        "deployment"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.016393,
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Reference - Getting Started",
+          "section": "Alternate provisioning tools",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-reference-getting-started",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-reference-getting-started",
+          "family": "microsoftteams/aa-cq-reference-getting-started",
+          "body_chars": 324,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "c1eecbd32dd18f42917c",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.016129,
+          "vector_rank": 2,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Setup - Create an Auto attendant via PowerShell",
+          "section": "Prerequisites",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant-cmdlets",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant-cmdlets",
+          "family": "microsoftteams/aa-cq-setup-auto-attendant-cmdlets",
+          "body_chars": 1074,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "6277055003ac006eb6b6",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.015873,
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Group Policy",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 2984,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "44353bc5f39e39c3c827",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.015625,
+          "vector_rank": 4,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Manage - Voice applications policies",
+          "section": "Create a custom voice applications policy",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-manage-voice-applications-policies",
+          "family": "microsoftteams/aa-cq-manage-voice-applications-policies",
+          "body_chars": 534,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "7016f57d73fcad8cbbec",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.015385,
+          "vector_rank": 5,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Setup - Auto Attendant",
+          "section": "Steps to create an auto attendant",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-auto-attendant",
+          "family": "microsoftteams/aa-cq-setup-auto-attendant",
+          "body_chars": 30134,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "8ffe902b4a666d2f8ae4",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N07",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How would you authenticate a Copilot Studio agent to Dataverse using a service principal?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Copilot Studio\" OR \"authenticate\" OR \"agent\" OR \"Dataverse\" OR \"service\" OR \"principal\"",
+      "router_ms": 3.544,
+      "retrieval_ms": 40.642,
+      "feature_ms": 4.203,
+      "features": {
+        "top_fused_score": 0.0277,
+        "top_vector_rank": 1,
+        "top_lexical_rank": 2,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 3,
+        "vector_lex_overlap_30": 10,
+        "unique_articles": 3,
+        "unique_families": 3,
+        "max_article_share": 3,
+        "max_family_share": 3,
+        "clustered": true,
+        "coverage_top1": 0.3333,
+        "coverage_top3": 0.3333,
+        "coverage_top5": 0.3333,
+        "title_coverage_top1": 0.1667,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.1667,
+        "title_section_coverage_top5": 0.3333,
+        "phrase_terms": [
+          "Copilot Studio"
+        ],
+        "phrase_coverage_top5": 1.0,
+        "terms": [
+          "Copilot Studio",
+          "authenticate",
+          "agent",
+          "Dataverse",
+          "service",
+          "principal"
+        ],
+        "fts_query": "\"Copilot Studio\" OR \"authenticate\" OR \"agent\" OR \"Dataverse\" OR \"service\" OR \"principal\""
+      },
+      "missing_terms": [
+        "authenticate",
+        "Dataverse",
+        "service",
+        "principal"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027684,
+          "vector_rank": 1,
+          "lexical_rank": 2,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Planning and licensing review",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "family": "microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 943,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "ea30cc23ba546177541a",
+          "term_in_title": [
+            "Copilot Studio"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Copilot Studio",
+            "agent"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.027067,
+          "vector_rank": 2,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Teams Phone Agent - Agents and Queues",
+          "section": "Planning and licensing review",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-agents-queues",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-teams-phone-agent-agents-queues",
+          "family": "microsoftteams/aa-cq-setup-teams-phone-agent-agents-queues",
+          "body_chars": 943,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "8f4f264c9df16e22f710",
+          "term_in_title": [
+            "agent"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Copilot Studio",
+            "agent"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.026642,
+          "vector_rank": 3,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Teams Admin Center setup and configuration",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "family": "microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 1671,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "cf91b40fbf56350b2000",
+          "term_in_title": [
+            "Copilot Studio"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Copilot Studio",
+            "agent"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.025446,
+          "vector_rank": 6,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Planning - Agents and Queues for Teams Phone Agent",
+          "section": "Agents and Queues",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-agents-queues",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-plan-teams-phone-agent-agents-queues",
+          "family": "microsoftteams/aa-cq-plan-teams-phone-agent-agents-queues",
+          "body_chars": 633,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3dc1cff5e07f17c0e754",
+          "term_in_title": [
+            "agent"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Copilot Studio",
+            "agent"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.025385,
+          "vector_rank": 5,
+          "lexical_rank": 10,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Direct dial Copilot Studio voice agents",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-direct-mcs",
+          "family": "microsoftteams/aa-cq-direct-mcs",
+          "body_chars": 1302,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3185a3af7eda47baab3f",
+          "term_in_title": [
+            "Copilot Studio"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Copilot Studio",
+            "agent"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N08",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How do you configure Mimecast Secure Email Gateway for Microsoft 365?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Mimecast Secure Email Gateway\" OR \"Microsoft\" OR \"365\"",
+      "router_ms": 2.575,
+      "retrieval_ms": 11.44,
+      "feature_ms": 8.397,
+      "features": {
+        "top_fused_score": 0.0241,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 28,
+        "top_dual_match": true,
+        "dual_match_n": 2,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 2,
+        "unique_articles": 5,
+        "unique_families": 5,
+        "max_article_share": 1,
+        "max_family_share": 1,
+        "clustered": false,
+        "coverage_top1": 0.6667,
+        "coverage_top3": 0.6667,
+        "coverage_top5": 0.6667,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.0,
+        "title_section_coverage_top5": 0.3333,
+        "phrase_terms": [
+          "Mimecast Secure Email Gateway"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Mimecast Secure Email Gateway",
+          "Microsoft",
+          "365"
+        ],
+        "fts_query": "\"Mimecast Secure Email Gateway\" OR \"Microsoft\" OR \"365\""
+      },
+      "missing_terms": [
+        "Mimecast Secure Email Gateway"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.024084,
+          "vector_rank": 2,
+          "lexical_rank": 28,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Manage Shared Voicemail",
+          "section": "Prerequisites",
+          "url": "https://learn.microsoft.com/microsoftteams/manage-shared-voicemail",
+          "article": "learn.microsoft.com/microsoftteams/manage-shared-voicemail",
+          "family": "microsoftteams/manage-shared-voicemail",
+          "body_chars": 2240,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "b1a056727536e57e9c66",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft",
+            "365"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.020485,
+          "vector_rank": 21,
+          "lexical_rank": 26,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "SIP Signaling: Ports",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass",
+          "family": "microsoftteams/direct-routing-plan-media-bypass",
+          "body_chars": 346,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "c0cf71c1266983abefdc",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft",
+            "365"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.016393,
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Manage external trusted IP addresses",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "family": "microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 1230,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "30fafe23878fea5e737b",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft",
+            "365"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.015873,
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Quality investigations",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+          "article": "learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+          "family": "microsoftteams/quality-of-experience-review-guide",
+          "body_chars": 17826,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "cf679a4233d9abd02479",
+          "term_in_title": [
+            "Microsoft"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft",
+            "365"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.015625,
+          "vector_rank": 4,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Issues with Local Media Optimization",
+          "section": "Wrong location sent in X-Ms-UserLocation header",
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-lmo",
+          "article": "learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-lmo",
+          "family": "troubleshoot/microsoftteams",
+          "body_chars": 1967,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "c8708d9ea950228842b2",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "Microsoft"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N09",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How would you set up Okta as the SAML identity provider for a third-party SaaS app?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"set\" OR \"up\" OR \"Okta\" OR \"as\" OR \"SAML\" OR \"identity\" OR \"provider\" OR \"third\" OR \"party\" OR \"SaaS\" OR \"app\"",
+      "router_ms": 3.451,
+      "retrieval_ms": 13.588,
+      "feature_ms": 21.611,
+      "features": {
+        "top_fused_score": 0.0271,
+        "top_vector_rank": 2,
+        "top_lexical_rank": 4,
+        "top_dual_match": true,
+        "dual_match_n": 4,
+        "vector_lex_overlap_5": 2,
+        "vector_lex_overlap_30": 4,
+        "unique_articles": 3,
+        "unique_families": 3,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 0.3636,
+        "coverage_top3": 0.7273,
+        "coverage_top5": 0.7273,
+        "title_coverage_top1": 0.1818,
+        "section_coverage_top1": 0.1818,
+        "title_section_coverage_top1": 0.1818,
+        "title_section_coverage_top5": 0.1818,
+        "phrase_terms": [],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "set",
+          "up",
+          "Okta",
+          "as",
+          "SAML",
+          "identity",
+          "provider",
+          "third",
+          "party",
+          "SaaS",
+          "app"
+        ],
+        "fts_query": "\"set\" OR \"up\" OR \"Okta\" OR \"as\" OR \"SAML\" OR \"identity\" OR \"provider\" OR \"third\" OR \"party\" OR \"SaaS\" OR \"app\""
+      },
+      "missing_terms": [
+        "Okta",
+        "provider",
+        "SaaS"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027067,
+          "vector_rank": 2,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Third-party voice agents",
+          "section": "Steps to create a third-party voice agent for Teams Phone Agent, Auto Attendant, or Call Queue",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "family": "microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "body_chars": 2930,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "9c7573260c5927d80018",
+          "term_in_title": [
+            "third",
+            "party"
+          ],
+          "term_in_section": [
+            "third",
+            "party"
+          ],
+          "term_in_body": [
+            "set",
+            "identity",
+            "third",
+            "party"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.026154,
+          "vector_rank": 5,
+          "lexical_rank": 5,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Account Security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "article": "learn.microsoft.com/microsoftteams/rooms/security",
+          "family": "microsoftteams/rooms",
+          "body_chars": 3658,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "2a27cbaa8742a206a56c",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "up",
+            "as",
+            "SAML",
+            "third",
+            "party",
+            "app"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.023808,
+          "vector_rank": 14,
+          "lexical_rank": 8,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Microsoft Teams Rooms on Windows and Teams Android device security",
+          "section": "Software security",
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/security",
+          "article": "learn.microsoft.com/microsoftteams/rooms/security",
+          "family": "microsoftteams/rooms",
+          "body_chars": 5486,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "00c7eb702f55553b9007",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "up",
+            "as",
+            "third",
+            "party",
+            "app"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.021238,
+          "vector_rank": 24,
+          "lexical_rank": 15,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Setup - Third-party voice agents",
+          "section": "Known issues",
+          "url": "https://learn.microsoft.com/microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "article": "learn.microsoft.com/microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "family": "microsoftteams/aa-cq-setup-third-party-voice-agents",
+          "body_chars": 161,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "a4701668f787dd9d5cba",
+          "term_in_title": [
+            "third",
+            "party"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "third",
+            "party"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.016393,
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Direct Routing SBA",
+          "section": "Configuration",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-survivable-branch-appliance",
+          "family": "microsoftteams/direct-routing-survivable-branch-appliance",
+          "body_chars": 4163,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "fa5d8a31823cc9cfadbc",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "set",
+            "as",
+            "identity",
+            "app"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N10",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "Walk through migrating Cisco Webex Calling PSTN onto a Webex-native local gateway.",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"Cisco Webex Calling PSTN\" OR \"migrating\" OR \"onto\" OR \"Webex\" OR \"native\" OR \"local\" OR \"gateway\"",
+      "router_ms": 3.061,
+      "retrieval_ms": 38.583,
+      "feature_ms": 104.531,
+      "features": {
+        "top_fused_score": 0.0273,
+        "top_vector_rank": 1,
+        "top_lexical_rank": 4,
+        "top_dual_match": true,
+        "dual_match_n": 5,
+        "vector_lex_overlap_5": 1,
+        "vector_lex_overlap_30": 6,
+        "unique_articles": 2,
+        "unique_families": 2,
+        "max_article_share": 4,
+        "max_family_share": 4,
+        "clustered": true,
+        "coverage_top1": 0.2857,
+        "coverage_top3": 0.2857,
+        "coverage_top5": 0.2857,
+        "title_coverage_top1": 0.1429,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.1429,
+        "title_section_coverage_top5": 0.1429,
+        "phrase_terms": [
+          "Cisco Webex Calling PSTN"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "Cisco Webex Calling PSTN",
+          "migrating",
+          "onto",
+          "Webex",
+          "native",
+          "local",
+          "gateway"
+        ],
+        "fts_query": "\"Cisco Webex Calling PSTN\" OR \"migrating\" OR \"onto\" OR \"Webex\" OR \"native\" OR \"local\" OR \"gateway\""
+      },
+      "missing_terms": [
+        "Cisco Webex Calling PSTN",
+        "migrating",
+        "onto",
+        "Webex",
+        "native"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.027331,
+          "vector_rank": 1,
+          "lexical_rank": 4,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Configure Local Media Optimization for Direct Routing",
+          "section": "Define the virtual network topology",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization-configure",
+          "family": "microsoftteams/direct-routing-media-optimization-configure",
+          "body_chars": 2697,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3f7c2509081df33d28a7",
+          "term_in_title": [
+            "local"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "local",
+            "gateway"
+          ]
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.024375,
+          "vector_rank": 4,
+          "lexical_rank": 20,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Overview",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "family": "microsoftteams/direct-routing-media-optimization",
+          "body_chars": 2222,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "dca62c01dd7f6474d196",
+          "term_in_title": [
+            "local"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "local"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.023994,
+          "vector_rank": 2,
+          "lexical_rank": 29,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Supported customer scenarios",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "family": "microsoftteams/direct-routing-media-optimization",
+          "body_chars": 2653,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "48e6e5f273c06fd20ac3",
+          "term_in_title": [
+            "local"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "local"
+          ]
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.02362,
+          "vector_rank": 5,
+          "lexical_rank": 25,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Proxy SBC with connected downstream SBCs",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "family": "microsoftteams/direct-routing-media-optimization",
+          "body_chars": 3923,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "eab521bf26d5dbb479aa",
+          "term_in_title": [
+            "local"
+          ],
+          "term_in_section": [],
+          "term_in_body": [
+            "local"
+          ]
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.023359,
+          "vector_rank": 7,
+          "lexical_rank": 23,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Local Media Optimization modes",
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "article": "learn.microsoft.com/microsoftteams/direct-routing-media-optimization",
+          "family": "microsoftteams/direct-routing-media-optimization",
+          "body_chars": 10919,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "bf73e7d81b92663f2168",
+          "term_in_title": [
+            "local"
+          ],
+          "term_in_section": [
+            "local"
+          ],
+          "term_in_body": [
+            "local"
+          ]
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N11",
+      "label": "NEGATIVE_CONTROL"
+    },
+    {
+      "question": "How do you configure SAP HANA Large Instances on Azure for high availability?",
+      "scope": "GLOBAL",
+      "confidence": "NONE",
+      "service": null,
+      "fts_query": "\"SAP HANA Large Instances\" OR \"Azure\" OR \"high\" OR \"availability\"",
+      "router_ms": 7.847,
+      "retrieval_ms": 144.645,
+      "feature_ms": 62.268,
+      "features": {
+        "top_fused_score": 0.0164,
+        "top_vector_rank": 1,
+        "top_lexical_rank": null,
+        "top_dual_match": false,
+        "dual_match_n": 0,
+        "vector_lex_overlap_5": 0,
+        "vector_lex_overlap_30": 0,
+        "unique_articles": 4,
+        "unique_families": 4,
+        "max_article_share": 2,
+        "max_family_share": 2,
+        "clustered": true,
+        "coverage_top1": 0.0,
+        "coverage_top3": 0.25,
+        "coverage_top5": 0.25,
+        "title_coverage_top1": 0.0,
+        "section_coverage_top1": 0.0,
+        "title_section_coverage_top1": 0.0,
+        "title_section_coverage_top5": 0.0,
+        "phrase_terms": [
+          "SAP HANA Large Instances"
+        ],
+        "phrase_coverage_top5": 0.0,
+        "terms": [
+          "SAP HANA Large Instances",
+          "Azure",
+          "high",
+          "availability"
+        ],
+        "fts_query": "\"SAP HANA Large Instances\" OR \"Azure\" OR \"high\" OR \"availability\""
+      },
+      "missing_terms": [
+        "SAP HANA Large Instances",
+        "Azure",
+        "availability"
+      ],
+      "candidates": [
+        {
+          "fused_rank": 1,
+          "fused_score": 0.016393,
+          "vector_rank": 1,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Group Policy",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 2984,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "44353bc5f39e39c3c827",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 2,
+          "fused_score": 0.016129,
+          "vector_rank": 2,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "SharePoint Advanced Management overview - SharePoint in Microsoft 365",
+          "section": "Prevent oversharing",
+          "url": "https://learn.microsoft.com/sharepoint/advanced-management",
+          "article": "learn.microsoft.com/sharepoint/advanced-management",
+          "family": "sharepoint/advanced-management",
+          "body_chars": 5006,
+          "ms_service": "sharepoint-online",
+          "repo": "sharepoint",
+          "parent_id": "1c0ccfb6a4b8bc8d5694",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": [
+            "high"
+          ]
+        },
+        {
+          "fused_rank": 3,
+          "fused_score": 0.015873,
+          "vector_rank": 3,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Configure dynamic emergency calling",
+          "section": "Government support",
+          "url": "https://learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "article": "learn.microsoft.com/microsoftteams/configure-dynamic-emergency-calling",
+          "family": "microsoftteams/configure-dynamic-emergency-calling",
+          "body_chars": 474,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "43dc089eb73532dab467",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 4,
+          "fused_score": 0.015625,
+          "vector_rank": 4,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Reliability investigations",
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+          "article": "learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+          "family": "microsoftteams/quality-of-experience-review-guide",
+          "body_chars": 8851,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "29ad6610441d689e50e2",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        },
+        {
+          "fused_rank": 5,
+          "fused_score": 0.015385,
+          "vector_rank": 5,
+          "lexical_rank": null,
+          "matched_by": [
+            "vector"
+          ],
+          "title": "Implement Quality of Service (QoS) in Microsoft Teams desktop clients on Windows",
+          "section": "Configuring DSCP markings using Intune",
+          "url": "https://learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "article": "learn.microsoft.com/microsoftteams/qos-in-teams-clients",
+          "family": "microsoftteams/qos-in-teams-clients",
+          "body_chars": 3533,
+          "ms_service": "msteams",
+          "repo": "teams",
+          "parent_id": "3d8d88c6ea12126d8496",
+          "term_in_title": [],
+          "term_in_section": [],
+          "term_in_body": []
+        }
+      ],
+      "gates_sufficient": {
+        "G_cov85": false,
+        "G_cov95": false,
+        "G_title50": false,
+        "G_and": false,
+        "G_phrase_cov": false
+      },
+      "question_id": "N12",
+      "label": "NEGATIVE_CONTROL"
+    }
+  ],
+  "gate_scores": {
+    "priority14": {
+      "G_cov85": {
+        "rule": "coverage_top5 >= 0.85",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 1,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q05",
+          "Q07",
+          "Q09",
+          "Q10",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_cov95": {
+        "rule": "coverage_top5 >= 0.95",
+        "true_answerable_accepted": 6,
+        "answerable_falsely_rejected": 7,
+        "source_gap_correctly_rejected": 1,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q05",
+          "Q07",
+          "Q09",
+          "Q10",
+          "Q11",
+          "Q13",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_title50": {
+        "rule": "title_section_coverage_top5 >= 0.50",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 1,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14"
+        ],
+        "accepted_gap_ids": [
+          "Q03"
+        ]
+      },
+      "G_and": {
+        "rule": "coverage_top5>=0.80 AND title_section_top5>=0.40 AND dual_match_n>=4",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 1,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14"
+        ],
+        "accepted_gap_ids": [
+          "Q03"
+        ]
+      },
+      "G_phrase_cov": {
+        "rule": "all FTS phrases present (if any) AND coverage_top5>=0.75",
+        "true_answerable_accepted": 11,
+        "answerable_falsely_rejected": 2,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 1,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q14"
+        ],
+        "accepted_gap_ids": [
+          "Q03"
+        ]
+      }
+    },
+    "positive_controls": {
+      "G_cov85": {
+        "rule": "coverage_top5 >= 0.85",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q05",
+          "Q07",
+          "Q09",
+          "Q10",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_cov95": {
+        "rule": "coverage_top5 >= 0.95",
+        "true_answerable_accepted": 6,
+        "answerable_falsely_rejected": 7,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q05",
+          "Q07",
+          "Q09",
+          "Q10",
+          "Q11",
+          "Q13",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_title50": {
+        "rule": "title_section_coverage_top5 >= 0.50",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_and": {
+        "rule": "coverage_top5>=0.80 AND title_section_top5>=0.40 AND dual_match_n>=4",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_phrase_cov": {
+        "rule": "all FTS phrases present (if any) AND coverage_top5>=0.75",
+        "true_answerable_accepted": 11,
+        "answerable_falsely_rejected": 2,
+        "source_gap_correctly_rejected": 0,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      }
+    },
+    "negative_controls": {
+      "G_cov85": {
+        "rule": "coverage_top5 >= 0.85",
+        "true_answerable_accepted": 0,
+        "answerable_falsely_rejected": 0,
+        "source_gap_correctly_rejected": 12,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [],
+        "accepted_gap_ids": []
+      },
+      "G_cov95": {
+        "rule": "coverage_top5 >= 0.95",
+        "true_answerable_accepted": 0,
+        "answerable_falsely_rejected": 0,
+        "source_gap_correctly_rejected": 12,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [],
+        "accepted_gap_ids": []
+      },
+      "G_title50": {
+        "rule": "title_section_coverage_top5 >= 0.50",
+        "true_answerable_accepted": 0,
+        "answerable_falsely_rejected": 0,
+        "source_gap_correctly_rejected": 12,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [],
+        "accepted_gap_ids": []
+      },
+      "G_and": {
+        "rule": "coverage_top5>=0.80 AND title_section_top5>=0.40 AND dual_match_n>=4",
+        "true_answerable_accepted": 0,
+        "answerable_falsely_rejected": 0,
+        "source_gap_correctly_rejected": 12,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [],
+        "accepted_gap_ids": []
+      },
+      "G_phrase_cov": {
+        "rule": "all FTS phrases present (if any) AND coverage_top5>=0.75",
+        "true_answerable_accepted": 0,
+        "answerable_falsely_rejected": 0,
+        "source_gap_correctly_rejected": 11,
+        "source_gap_falsely_accepted": 1,
+        "rejected_answerable_ids": [],
+        "accepted_gap_ids": [
+          "N05"
+        ]
+      }
+    },
+    "priority14_plus_negatives": {
+      "G_cov85": {
+        "rule": "coverage_top5 >= 0.85",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 13,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q05",
+          "Q07",
+          "Q09",
+          "Q10",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_cov95": {
+        "rule": "coverage_top5 >= 0.95",
+        "true_answerable_accepted": 6,
+        "answerable_falsely_rejected": 7,
+        "source_gap_correctly_rejected": 13,
+        "source_gap_falsely_accepted": 0,
+        "rejected_answerable_ids": [
+          "Q05",
+          "Q07",
+          "Q09",
+          "Q10",
+          "Q11",
+          "Q13",
+          "Q14"
+        ],
+        "accepted_gap_ids": []
+      },
+      "G_title50": {
+        "rule": "title_section_coverage_top5 >= 0.50",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 12,
+        "source_gap_falsely_accepted": 1,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14"
+        ],
+        "accepted_gap_ids": [
+          "Q03"
+        ]
+      },
+      "G_and": {
+        "rule": "coverage_top5>=0.80 AND title_section_top5>=0.40 AND dual_match_n>=4",
+        "true_answerable_accepted": 8,
+        "answerable_falsely_rejected": 5,
+        "source_gap_correctly_rejected": 12,
+        "source_gap_falsely_accepted": 1,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q10",
+          "Q11",
+          "Q12",
+          "Q14"
+        ],
+        "accepted_gap_ids": [
+          "Q03"
+        ]
+      },
+      "G_phrase_cov": {
+        "rule": "all FTS phrases present (if any) AND coverage_top5>=0.75",
+        "true_answerable_accepted": 11,
+        "answerable_falsely_rejected": 2,
+        "source_gap_correctly_rejected": 11,
+        "source_gap_falsely_accepted": 2,
+        "rejected_answerable_ids": [
+          "Q07",
+          "Q14"
+        ],
+        "accepted_gap_ids": [
+          "Q03",
+          "N05"
+        ]
+      }
+    }
+  },
+  "latency_ms": {
+    "feature_p50": 19.314,
+    "feature_max": 104.531,
+    "retrieval_p50": 18.581
+  },
+  "q03_forensic": {
+    "symptom_needles": {
+      "one-way audio": false,
+      "one way audio": false,
+      "one-way": false,
+      "one way": false,
+      "audio troubleshooting": false
+    },
+    "note": "Diagnostic only. These needles are not used as gate rules."
+  },
+  "date": "2026-08-17",
+  "recommendation": "C. DETERMINISTIC GATE REJECTED",
+  "viable_simple_gate": false
+}
