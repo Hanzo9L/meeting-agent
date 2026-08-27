@@ -36,6 +36,8 @@ type StoreSchema = {
   openAiApiKey: string;
   microphoneDeviceId: string | null;
   microphoneLabel: string | null;
+  renderEndpointId: string | null;
+  renderEndpointLabel: string | null;
   overlayAutoShow: boolean;
 };
 
@@ -61,6 +63,8 @@ const defaults: StoreSchema = {
   openAiApiKey: "",
   microphoneDeviceId: null,
   microphoneLabel: null,
+  renderEndpointId: null,
+  renderEndpointLabel: null,
   overlayAutoShow: false
 };
 
@@ -120,6 +124,23 @@ export class SettingsStore {
     this.store.set("demoMode", input.visibleInScreenShare);
     this.updateOverlay(input.overlay);
     return this.getRelaySettings();
+  }
+
+  getRememberedRenderEndpoint(): {
+    id: string | null;
+    label: string | null;
+  } {
+    const id = this.store.get("renderEndpointId");
+    const label = this.store.get("renderEndpointLabel");
+    return {
+      id: typeof id === "string" && id ? id : null,
+      label: typeof label === "string" && label ? label : null
+    };
+  }
+
+  setRememberedRenderEndpoint(id: string, label: string): void {
+    this.store.set("renderEndpointId", id);
+    this.store.set("renderEndpointLabel", label);
   }
 
   getProviderCredential(

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import type { JSX } from "react";
 import type {
   ConnectionStatus,
@@ -6,17 +6,27 @@ import type {
   LiveAssistProjection,
   LiveAssistSessionView
 } from "@shared/types";
-import { updateProjectionFeed } from "./projectionFeed";
+import { updateProjectionFeed } from "@shared/projectionFeed";
 import {
   evidenceSourceItemId,
   excerptOverlayPreview,
   formatEvidenceCardHeading,
   formatEvidenceSourceRoleLabel,
+  isPersonalResponseMode,
   listEvidenceCardSources,
+  NO_APPROVED_PERSONAL_STORY,
   parseEvidenceCardContent,
+  PERSONAL_RESPONSE_HEADING,
+  PERSONAL_RESPONSE_PROMPT,
+  PERSONAL_STORY_FRAMEWORK,
+  resolveResponseMode,
+  SUPPORTING_EVIDENCE_HEADING,
   toggleExpandedEvidenceSource,
+  type EvidenceCardPayload,
   type EvidenceCardSource
 } from "@shared/evidenceCard";
+import { classifyQuestionIntent } from "@shared/questionIntent";
+import { useNewestTurnFocus } from "../turnFocus";
 
 function overlayAnswerLabel(answerText: string | null | undefined): string {
   const parsed = parseEvidenceCardContent(answerText ?? "");
@@ -92,6 +102,30 @@ function OverlayEvidenceSource(props: {
   );
 }
 
+function OverlayPersonalBlock(props: {
+  payload: EvidenceCardPayload;
+}): JSX.Element {
+  const personal = props.payload.personal;
+  return (
+    <div
+      className="overlayPersonal"
+      data-personal-response="true"
+    >
+      <p className="overlayPersonalPrompt">
+        {personal?.prompt ?? PERSONAL_RESPONSE_PROMPT}
+      </p>
+      <ol className="overlayPersonalFramework">
+        {(personal?.framework ?? [...PERSONAL_STORY_FRAMEWORK]).map((step) => (
+          <li key={step}>{step}</li>
+        ))}
+      </ol>
+      <p className="overlayPersonalStory">
+        {personal?.storyText ?? NO_APPROVED_PERSONAL_STORY}
+      </p>
+    </div>
+  );
+}
+
 function OverlayAnswerCard(props: {
   item: LiveAssistProjection;
 }): JSX.Element {
@@ -106,17 +140,27 @@ function OverlayAnswerCard(props: {
       source.citationId
     ])
   );
-  const heading = parsed
-    ? formatEvidenceCardHeading(parsed.payload)
-    : props.item.state === "failed"
-      ? "Evidence"
-      : overlayAnswerLabel(props.item.answerText);
   const pending =
     props.item.state === "executing" || props.item.state === "accepted";
+  const pendingPersonal = isPersonalResponseMode(
+    classifyQuestionIntent(props.item.question).responseMode
+  );
+  const responseMode = parsed
+    ? resolveResponseMode(parsed.payload)
+    : pendingPersonal
+      ? classifyQuestionIntent(props.item.question).responseMode
+      : "technical_evidence";
+  const personalCard = isPersonalResponseMode(responseMode);
+  const heading = parsed
+    ? formatEvidenceCardHeading(parsed.payload)
+    : pendingPersonal
+      ? PERSONAL_RESPONSE_HEADING
+      : props.item.state === "failed"
+        ? "Evidence"
+        : overlayAnswerLabel(props.item.answerText);
 
-  let body: JSX.Element;
-  if (parsed && sources.length > 0) {
-    body = (
+  const evidenceList =
+    parsed && sources.length > 0 ? (
       <div className="overlayEvidenceList">
         {sources.map((source, index) => {
           const sourceId = evidenceSourceItemId(source, index);
@@ -149,7 +193,26 @@ function OverlayAnswerCard(props: {
           );
         })}
       </div>
+    ) : null;
+
+  let body: JSX.Element;
+  if (parsed && personalCard) {
+    body = (
+      <div className="overlayPersonalCard">
+        <OverlayPersonalBlock payload={parsed.payload} />
+        {evidenceList ? (
+          <details
+            className="overlaySupportEvidence"
+            open={responseMode === "mixed_personal_technical"}
+          >
+            <summary>{SUPPORTING_EVIDENCE_HEADING}</summary>
+            {evidenceList}
+          </details>
+        ) : null}
+      </div>
     );
+  } else if (evidenceList) {
+    body = evidenceList;
   } else if (props.item.answerText) {
     body = (
       <p className="answer">
@@ -161,7 +224,11 @@ function OverlayAnswerCard(props: {
   } else if (props.item.state === "accepted") {
     body = <p className="answer">Question accepted.</p>;
   } else {
-    body = <p className="answer">Retrieving evidence…</p>;
+    body = (
+      <p className="answer">
+        {pendingPersonal ? "Preparing response…" : "Retrieving evidence…"}
+      </p>
+    );
   }
 
   return (
@@ -171,6 +238,7 @@ function OverlayAnswerCard(props: {
       }`}
       data-turn-state={props.item.state}
       data-evidence-card={parsed ? "true" : "false"}
+      data-response-mode={responseMode}
     >
       <span className="bubbleLabel">{heading}</span>
       {body}
@@ -190,14 +258,18 @@ export function OverlayApp(): JSX.Element {
   const [projections, setProjections] = useState<
     LiveAssistProjection[]
   >([]);
-  const feedEndRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    feedEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end"
-    });
-  }, [projections, liveTranscript, status]);
+  const newestUserMessageId =
+    projections[projections.length - 1]?.userMessageId ?? null;
+  const turnEls = useRef(new Map<string, HTMLElement>());
+  const elementFor = useCallback(
+    (userMessageId: string) => turnEls.current.get(userMessageId) ?? null,
+    []
+  );
+  useNewestTurnFocus(
+    projections[0]?.conversationId ?? session?.conversationId ?? null,
+    newestUserMessageId,
+    elementFor
+  );
 
   useEffect(() => {
     void window.overlayApi
@@ -281,7 +353,15 @@ export function OverlayApp(): JSX.Element {
             key={item.answerRunId}
             data-answer-run-id={item.answerRunId}
             data-user-message-id={item.userMessageId}
+            data-turn-anchor={item.userMessageId}
             className="interviewTurn"
+            ref={(element) => {
+              if (element) {
+                turnEls.current.set(item.userMessageId, element);
+              } else {
+                turnEls.current.delete(item.userMessageId);
+              }
+            }}
           >
             <article className="userBubble">
               <span className="bubbleLabel">Interviewer</span>
@@ -290,7 +370,6 @@ export function OverlayApp(): JSX.Element {
             <OverlayAnswerCard item={item} />
           </section>
         ))}
-        <div ref={feedEndRef} />
       </div>
     </div>
   );

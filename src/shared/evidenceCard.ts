@@ -1,3 +1,12 @@
+import {
+  isPersonalResponseMode,
+  type ResponseMode
+} from "./questionIntent";
+import { orderEvidenceForPresentation } from "./evidenceAuthorityOrder";
+
+export type { ResponseMode } from "./questionIntent";
+export { isPersonalResponseMode } from "./questionIntent";
+
 export const EVIDENCE_PAYLOAD_SENTINEL =
   "\n\n\u0000RELAY_EVIDENCE_PAYLOAD\u0000\n";
 
@@ -21,6 +30,32 @@ export type EvidenceCardKind =
   | typeof EVIDENCE_CARD_KIND
   | typeof LEGACY_EVIDENCE_CARD_KIND;
 
+export const PERSONAL_RESPONSE_HEADING = "Personal Response";
+export const PERSONAL_RESPONSE_PROMPT =
+  "This question calls for your own experience.";
+export const NO_APPROVED_PERSONAL_STORY =
+  "No approved personal story is stored for this question yet.";
+export const SUPPORTING_EVIDENCE_HEADING = "Supporting Technical Evidence";
+export const PERSONAL_STORY_FRAMEWORK = [
+  "Situation",
+  "Stakes",
+  "Investigation / reasoning",
+  "Action",
+  "Validation",
+  "Result",
+  "Lesson"
+] as const;
+
+export type PersonalStoryStatus = "none" | "approved";
+
+export interface PersonalResponseBlock {
+  heading: typeof PERSONAL_RESPONSE_HEADING;
+  prompt: typeof PERSONAL_RESPONSE_PROMPT;
+  framework: readonly (typeof PERSONAL_STORY_FRAMEWORK)[number][];
+  storyStatus: PersonalStoryStatus;
+  storyText: string | null;
+}
+
 export interface EvidenceRoute {
   confidence: "HIGH" | "NONE" | string;
   service: string | null;
@@ -39,6 +74,7 @@ export interface EvidenceParent {
   repo: string;
   publisher: EvidencePublisher;
   sourceRole: EvidenceSourceRole;
+  retrievalRank?: number;
 }
 
 export interface EvidenceCardSource extends EvidenceParent {
@@ -52,6 +88,8 @@ export interface EvidenceCardPayload {
   route: EvidenceRoute;
   primary: EvidenceCardSource | null;
   additional: EvidenceCardSource[];
+  responseMode?: ResponseMode;
+  personal?: PersonalResponseBlock | null;
 }
 
 export interface ParsedEvidenceCard {
@@ -69,10 +107,14 @@ export type EvidenceMarkupToken =
 export function listEvidenceCardSources(
   payload: EvidenceCardPayload
 ): EvidenceCardSource[] {
-  return [
+  const retrievalOrder = [
     ...(payload.primary ? [payload.primary] : []),
     ...payload.additional
-  ];
+  ].map((source, index) => ({
+    ...source,
+    retrievalRank: source.retrievalRank ?? index + 1
+  }));
+  return orderEvidenceForPresentation(retrievalOrder, payload.query);
 }
 
 export function excerptParentBody(
@@ -114,7 +156,33 @@ export function excerptOverlayPreview(body: string): string {
   );
 }
 
+export function formatPersonalFrameworkText(): string {
+  return PERSONAL_STORY_FRAMEWORK.join("\n→ ");
+}
+
+export function buildPersonalResponseBlock(
+  storyText: string | null
+): PersonalResponseBlock {
+  const approved = typeof storyText === "string" && storyText.trim().length > 0;
+  return {
+    heading: PERSONAL_RESPONSE_HEADING,
+    prompt: PERSONAL_RESPONSE_PROMPT,
+    framework: [...PERSONAL_STORY_FRAMEWORK],
+    storyStatus: approved ? "approved" : "none",
+    storyText: approved ? storyText.trim() : null
+  };
+}
+
+export function resolveResponseMode(
+  payload: EvidenceCardPayload
+): ResponseMode {
+  return payload.responseMode ?? "technical_evidence";
+}
+
 export function formatEvidenceCardHeading(payload: EvidenceCardPayload): string {
+  if (isPersonalResponseMode(resolveResponseMode(payload))) {
+    return PERSONAL_RESPONSE_HEADING;
+  }
   const publishers = [
     ...new Set(
       listEvidenceCardSources(payload).map(
@@ -147,12 +215,9 @@ export function formatEvidenceSourceRoleLabel(
   return "Microsoft";
 }
 
-export function formatEvidenceVisibleText(payload: EvidenceCardPayload): string {
+function formatEvidenceSourceBlocks(payload: EvidenceCardPayload): string[] {
   const sources = listEvidenceCardSources(payload);
-  if (sources.length === 0) {
-    return EVIDENCE_EMPTY_VISIBLE_TEXT;
-  }
-  const blocks = [formatEvidenceCardHeading(payload)];
+  const blocks: string[] = [];
   sources.forEach((source, index) => {
     blocks.push(
       "",
@@ -164,7 +229,39 @@ export function formatEvidenceVisibleText(payload: EvidenceCardPayload): string 
       source.url
     );
   });
+  return blocks;
+}
+
+function formatPersonalVisibleText(payload: EvidenceCardPayload): string {
+  const personal =
+    payload.personal ?? buildPersonalResponseBlock(null);
+  const blocks = [
+    PERSONAL_RESPONSE_HEADING,
+    "",
+    personal.prompt,
+    "",
+    formatPersonalFrameworkText(),
+    "",
+    personal.storyText ?? NO_APPROVED_PERSONAL_STORY
+  ];
+  const sources = listEvidenceCardSources(payload);
+  if (sources.length > 0) {
+    blocks.push("", SUPPORTING_EVIDENCE_HEADING, ...formatEvidenceSourceBlocks(payload));
+  }
   return blocks.join("\n");
+}
+
+export function formatEvidenceVisibleText(payload: EvidenceCardPayload): string {
+  if (isPersonalResponseMode(resolveResponseMode(payload))) {
+    return formatPersonalVisibleText(payload);
+  }
+  const sources = listEvidenceCardSources(payload);
+  if (sources.length === 0) {
+    return EVIDENCE_EMPTY_VISIBLE_TEXT;
+  }
+  return [formatEvidenceCardHeading(payload), ...formatEvidenceSourceBlocks(payload)].join(
+    "\n"
+  );
 }
 
 export function encodeEvidenceCardContent(payload: EvidenceCardPayload): string {
@@ -310,15 +407,21 @@ function normalizeEvidenceCardSource(
 ): EvidenceCardSource {
   return {
     ...source,
-    ...deriveEvidenceProvenance(source)
+    ...deriveEvidenceProvenance(source),
+    retrievalRank: source.retrievalRank
   };
 }
 
 function normalizeEvidenceCardPayload(
   payload: EvidenceCardPayload
 ): EvidenceCardPayload {
+  const responseMode = resolveResponseMode(payload);
   return {
     ...payload,
+    responseMode,
+    personal: isPersonalResponseMode(responseMode)
+      ? payload.personal ?? buildPersonalResponseBlock(null)
+      : payload.personal ?? null,
     primary: payload.primary
       ? normalizeEvidenceCardSource(payload.primary)
       : null,

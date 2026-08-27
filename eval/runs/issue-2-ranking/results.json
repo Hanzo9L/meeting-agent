@@ -1,0 +1,1886 @@
+{
+  "phase": "ISSUE2_RANKING_FORENSIC",
+  "production_modified": false,
+  "fingerprints": {
+    "service/search.py": "252e9b3ced85b9b0",
+    "service/scope_select.py": "2a8caaabd00f4b08",
+    "service/query_cues.py": "c451e8a72d7dc419",
+    "service/asr_normalize.py": "e003a8076adc0c90",
+    "data/corpus.db": "5697ee158796c34c",
+    "data/hnsw.bin": "6cb36a85bc36acf3",
+    "query_shaping_file": "service/search.py::build_fts_query + PHRASE_ALIASES/TECHNICAL_PHRASES; service/asr_normalize.py; service/scope_select.py"
+  },
+  "relay_live_path": {
+    "top_k": 5,
+    "candidates": 30,
+    "vector_query": "raw question text",
+    "asr_applied_to_search": false,
+    "asr_applied_to_scope_cues": true
+  },
+  "decision_gate": "E",
+  "decision_gate_label": "MULTIPLE CAUSES \u2014 NEED ONE SMALL FIX PER CLASS",
+  "cases": [
+    {
+      "id": "LIVE-H1-typed",
+      "raw_question": "What does Get-CsOnlineUser return?",
+      "source": "I9 live typed equivalent; I8 L5",
+      "route": {
+        "confidence": "HIGH",
+        "service": "msteams-ps",
+        "repo": "teams-ps",
+        "subservice": null,
+        "reason": "cmdlet-shaped token Get-CsOnlineUser; service=msteams-ps repo=teams-ps",
+        "search_kwargs": {
+          "service": "msteams-ps",
+          "repo": "teams-ps"
+        }
+      },
+      "expected_domain": "Microsoft Teams PowerShell / Get-CsOnlineUser cmdlet reference",
+      "actual_top_ranked_domain": "Microsoft Teams PowerShell",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.027869,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 2,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.027163,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        },
+        {
+          "rank": 3,
+          "title": "Get-CsPhoneNumberAssignment",
+          "section": "Get-CsPhoneNumberAssignment",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.026231,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csphonenumberassignment"
+        },
+        {
+          "rank": 4,
+          "title": "Get-CsCallQueue",
+          "section": "Get-CsCallQueue",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.025643,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-cscallqueue"
+        },
+        {
+          "rank": 5,
+          "title": "Get-CsTeamsCallingPolicy",
+          "section": "Get-CsTeamsCallingPolicy",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.025604,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csteamscallingpolicy"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 1,
+        "title": "Get-CsOnlineUser",
+        "section": "Get-CsOnlineUser",
+        "why": "Authored SYNOPSIS/DESCRIPTION of the asked cmdlet"
+      },
+      "query_shaping_trace": {
+        "raw_question": "What does Get-CsOnlineUser return?",
+        "normalized_query": "What does Get-CsOnlineUser return?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "HIGH",
+          "service": "msteams-ps",
+          "repo": "teams-ps",
+          "subservice": null,
+          "reason": "cmdlet-shaped token Get-CsOnlineUser; service=msteams-ps repo=teams-ps",
+          "search_kwargs": {
+            "service": "msteams-ps",
+            "repo": "teams-ps"
+          }
+        },
+        "cues": {
+          "topic": "reference",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "Get-CsOnlineUser",
+          "return"
+        ],
+        "lexical_fts": "\"Get-CsOnlineUser\" OR \"return\"",
+        "lexical_fts_after_asr": "\"Get-CsOnlineUser\" OR \"return\"",
+        "vector_query_text": "What does Get-CsOnlineUser return?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 5,
+          "AudioCodes": 0,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "genuinely relevant cmdlet page (synopsis/syntax/description)",
+      "primary_cause": "OTHER",
+      "secondary_cause": "adjacent Get-* siblings in ranks 2-5",
+      "likely_smallest_fix_category": "NO_CHANGE_NEEDED",
+      "notes": "I9 overlay failure used the STT string, not this typed string",
+      "production_fused_unique": 13
+    },
+    {
+      "id": "LIVE-H1-stt",
+      "raw_question": "What does Gixonline user return?",
+      "source": "I9 accepted STT for spoken Get-CsOnlineUser",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Teams PowerShell / Get-CsOnlineUser cmdlet reference",
+      "actual_top_ranked_domain": "Microsoft Teams PowerShell (wrong cmdlet) + Linux man page at rank 5",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Get-CsOnlineVoiceRoutingPolicy",
+          "section": "Get-CsOnlineVoiceRoutingPolicy",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.026915,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinevoiceroutingpolicy"
+        },
+        {
+          "rank": 2,
+          "title": "Get-CsOnlineUser",
+          "section": "Get-CsOnlineUser",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.025982,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlineuser"
+        },
+        {
+          "rank": 3,
+          "title": "Enable users for Direct Routing",
+          "section": "Ensure that the user is homed online",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-enable-users"
+        },
+        {
+          "rank": 4,
+          "title": "Get-CsOnlinePstnUsage",
+          "section": "Get-CsOnlinePstnUsage",
+          "repo": "teams-ps",
+          "publisher": "Microsoft",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/powershell/module/microsoftteams/get-csonlinepstnusage"
+        },
+        {
+          "rank": 5,
+          "title": "ps(1)",
+          "section": "ps(1)",
+          "repo": "linux",
+          "publisher": "Linux",
+          "score": 0.015385,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 2,
+        "title": "Get-CsOnlineUser",
+        "section": "Get-CsOnlineUser",
+        "why": "Correct cmdlet; rank 1 is VoiceRoutingPolicy"
+      },
+      "query_shaping_trace": {
+        "raw_question": "What does Gixonline user return?",
+        "normalized_query": "What does Gixonline user return?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "conceptual",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "Gixonline",
+          "user",
+          "return"
+        ],
+        "lexical_fts": "\"Gixonline\" OR \"user\" OR \"return\"",
+        "lexical_fts_after_asr": "\"Gixonline\" OR \"user\" OR \"return\"",
+        "vector_query_text": "What does Gixonline user return?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 4,
+          "AudioCodes": 0,
+          "Linux": 1
+        },
+        "non_microsoft_without_substantive_relevance": [
+          {
+            "rank": 5,
+            "publisher": "Linux",
+            "title": "ps(1)",
+            "section": "ps(1)"
+          }
+        ],
+        "pollution": true
+      },
+      "parent_quality_check": "rank1 real but different cmdlet; rank5 Linux ps(1) chrome",
+      "primary_cause": "RANK1_WRONG_TOP5_GOOD",
+      "secondary_cause": "MIXED_CORPUS_POLLUTION; QUERY_SHAPE_WEAK",
+      "likely_smallest_fix_category": "BOUNDED_QUERY_SHAPE",
+      "notes": "No ASR alias for gixonline; scope NONE; I9 overlay match",
+      "production_fused_unique": 40
+    },
+    {
+      "id": "LIVE-H2",
+      "raw_question": "A user can use Teams but cannot call external numbers. How do you troubleshoot?",
+      "source": "I9 H2 accepted",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Teams Phone / Direct Routing outbound PSTN troubleshooting",
+      "actual_top_ranked_domain": "Microsoft Teams Phone troubleshooting",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.026253,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls"
+        },
+        {
+          "rank": 2,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "What does each Teams Support role do?",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.025214,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 3,
+          "title": "Set up Teams Phone in your organization",
+          "section": "Step 3: Get and assign phone numbers for your users and services",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024135,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/setting-up-your-phone-system"
+        },
+        {
+          "rank": 4,
+          "title": "Set up Teams Phone in your organization",
+          "section": "Step 2: Choose a PSTN connectivity option",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024098,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/setting-up-your-phone-system"
+        },
+        {
+          "rank": 5,
+          "title": "Issues with call transfers",
+          "section": "Auto attendant does not transfer calls to an external PSTN number",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.021917,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-call-transfers"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 1,
+        "title": "Issues with outbound calls",
+        "section": "Some users are unable to make calls",
+        "why": "Frozen Priority-14 GT outbound Direct Routing section"
+      },
+      "query_shaping_trace": {
+        "raw_question": "A user can use Teams but cannot call external numbers. How do you troubleshoot?",
+        "normalized_query": "A user can use Teams but cannot call external numbers. How do you troubleshoot?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "troubleshooting",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "user",
+          "Teams",
+          "but",
+          "cannot",
+          "call",
+          "external",
+          "numbers"
+        ],
+        "lexical_fts": "\"user\" OR \"Teams\" OR \"but\" OR \"cannot\" OR \"call\" OR \"external\" OR \"numbers\"",
+        "lexical_fts_after_asr": "\"user\" OR \"Teams\" OR \"but\" OR \"cannot\" OR \"call\" OR \"external\" OR \"numbers\"",
+        "vector_query_text": "A user can use Teams but cannot call external numbers. How do you troubleshoot?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 5,
+          "AudioCodes": 0,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "rank1 correct; peers include setup/AA/roles adjacent pages",
+      "primary_cause": "OTHER",
+      "secondary_cause": "QUERY_SHAPE_WEAK",
+      "likely_smallest_fix_category": "UI_PEER_SOURCES_ONLY",
+      "notes": "No Direct Routing/PSTN phrase in FTS",
+      "production_fused_unique": 49
+    },
+    {
+      "id": "LIVE-Q-SBC-FAIL",
+      "raw_question": "What happens if the SBC fails?",
+      "source": "I9 rapid Q2 accepted",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Direct Routing trunk failover / SBC resiliency",
+      "actual_top_ranked_domain": "Microsoft Direct Routing trunk failover",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Trunk failover on outbound calls",
+          "section": "Failover on network errors",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.027419,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call"
+        },
+        {
+          "rank": 2,
+          "title": "Trunk failover on outbound calls",
+          "section": "Failover of specific SIP codes received from the Session Border Controller (SBC)",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.026811,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call"
+        },
+        {
+          "rank": 3,
+          "title": "Trunk failover on outbound calls",
+          "section": "Overview",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.025262,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-trunk-failover-on-outbound-call"
+        },
+        {
+          "rank": 4,
+          "title": "Configure a Session Border Controller for multiple tenants",
+          "section": "Considerations for setting up multi-tenant failover",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024989,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-sbc-multiple-tenants"
+        },
+        {
+          "rank": 5,
+          "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+          "section": "SBC settings",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.023889,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-connect-the-sbc"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 3,
+        "title": "Trunk failover on outbound calls",
+        "section": "Overview",
+        "why": "Microsoft trunk/SBC failover overview; rank1 is a narrower H2"
+      },
+      "query_shaping_trace": {
+        "raw_question": "What happens if the SBC fails?",
+        "normalized_query": "What happens if the SBC fails?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "conceptual",
+          "service": "msteams",
+          "subservice": "teams-voice",
+          "repo": "teams",
+          "service_confident": true
+        },
+        "lexical_terms": [
+          "happens",
+          "if",
+          "SBC",
+          "fails",
+          "failover"
+        ],
+        "lexical_fts": "\"happens\" OR \"if\" OR \"SBC\" OR \"fails\" OR \"failover\"",
+        "lexical_fts_after_asr": "\"happens\" OR \"if\" OR \"SBC\" OR \"fails\" OR \"failover\"",
+        "vector_query_text": "What happens if the SBC fails?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": true
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 5,
+          "AudioCodes": 0,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "rank1 network-error subsection is related but too narrow vs overview",
+      "primary_cause": "RANK1_WRONG_TOP5_GOOD",
+      "secondary_cause": "SOURCE_FRAGMENT_QUALITY",
+      "likely_smallest_fix_category": "UI_PEER_SOURCES_ONLY",
+      "notes": "failover clause added because fails+sbc; Plan DR SIP FQDN failover is rank 24",
+      "production_fused_unique": 43
+    },
+    {
+      "id": "LIVE-Q-GEO",
+      "raw_question": "What would geographic redundancy look like?",
+      "source": "I9 rapid Q3 accepted",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Direct Routing geo-redundant SBC / multiple SIP proxy FQDNs / carrier diversity",
+      "actual_top_ranked_domain": "AudioCodes Mediant 1+1 HA",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC: Overview of High Availability Mode",
+          "section": "Overview",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.026736,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://techdocs.audiocodes.com/session-border-controller-sbc/mediant-software-sbc/user-manual/version-740/content/um/HA%20Overview.htm"
+        },
+        {
+          "rank": 2,
+          "title": "Direct Routing country/region codes",
+          "section": "Country and region code reference table",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-country-codes"
+        },
+        {
+          "rank": 3,
+          "title": "Local Media Optimization for Direct Routing",
+          "section": "Supported customer scenarios",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-media-optimization"
+        },
+        {
+          "rank": 4,
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Dimensions - Available dimensions",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard"
+        },
+        {
+          "rank": 5,
+          "title": "Intelligent media quality classifiers in CQD",
+          "section": "Locating the origins of quality issues",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.015385,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/cqd-intelligent-media-quality-classifiers"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": null,
+        "title": "Plan Direct Routing",
+        "section": "SIP signaling: FQDNs, ports, failover mechanism",
+        "why": "Microsoft geo/SIP proxy FQDN failover; not in production fused 44; wide candidates=120 rank 32",
+        "production_rank": null,
+        "wide120_rank": 32
+      },
+      "query_shaping_trace": {
+        "raw_question": "What would geographic redundancy look like?",
+        "normalized_query": "What would geographic redundancy look ?",
+        "asr_changed": true,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "conceptual",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "geographic",
+          "redundancy",
+          "look",
+          "like"
+        ],
+        "lexical_fts": "\"geographic\" OR \"redundancy\" OR \"look\" OR \"like\"",
+        "lexical_fts_after_asr": "\"geographic\" OR \"redundancy\" OR \"look\"",
+        "vector_query_text": "What would geographic redundancy look like?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 4,
+          "AudioCodes": 1,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [
+          {
+            "rank": 1,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC: Overview of High Availability Mode",
+            "section": "Overview"
+          }
+        ],
+        "pollution": true
+      },
+      "parent_quality_check": "vendor pair HA, not Microsoft geographic trunk redundancy",
+      "primary_cause": "MIXED_CORPUS_POLLUTION",
+      "secondary_cause": "QUERY_SHAPE_WEAK; CORRECT_BELOW_TOP5",
+      "likely_smallest_fix_category": "BOUNDED_QUERY_SHAPE",
+      "notes": "FTS only geographic/redundancy/look/like; ASR strips filler 'like'; country-code table is lexical accident",
+      "production_fused_unique": 44
+    },
+    {
+      "id": "HIST-Q03-ONEWAY",
+      "raw_question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+      "source": "Priority-14 Q03 SOURCE_GAP; interview family",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Direct Routing media path / one-way audio / media bypass / Call Analytics",
+      "actual_top_ranked_domain": "Microsoft Direct Routing monitoring / media bypass; AudioCodes pairing at 4",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Monitor Direct Routing",
+          "section": "Monitor Call Quality Analytics dashboard and SBC logs",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024625,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-monitor-and-troubleshoot"
+        },
+        {
+          "rank": 2,
+          "title": "Plan for media bypass with Direct Routing",
+          "section": "Configure separate trunks for media bypass and non-media bypass",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.020779,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan-media-bypass"
+        },
+        {
+          "rank": 3,
+          "title": "Audio Conferencing with Direct Routing, GCC High and DoD",
+          "section": "Deploy Audio Conferencing with Direct Routing for GCC High and DoD",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod"
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "3 Verifying the Pairing Between the SBC and Direct",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        },
+        {
+          "rank": 5,
+          "title": "Issues with outbound calls",
+          "section": "Some users are unable to make calls",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.015873,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/phone-system/direct-routing/issues-with-outbound-calls"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 39,
+        "title": "Use Call Analytics to troubleshoot poor call quality",
+        "section": "Troubleshoot user call quality problems",
+        "why": "Best adjacent Microsoft media-quality page; no one-way-audio parent exists"
+      },
+      "query_shaping_trace": {
+        "raw_question": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+        "normalized_query": "How would you troubleshoot one-way audio on a Teams Direct-Routing call?",
+        "asr_changed": true,
+        "preserved_phrases": [
+          "one way audio",
+          "direct routing"
+        ],
+        "aliases_added": [
+          "media bypass",
+          "call analytics",
+          "call flows"
+        ],
+        "dropped_terms": [
+          "one-way"
+        ],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "troubleshooting",
+          "service": "msteams",
+          "subservice": "teams-voice",
+          "repo": "teams",
+          "service_confident": true
+        },
+        "lexical_terms": [
+          "one way audio",
+          "direct routing",
+          "Teams",
+          "call",
+          "media bypass",
+          "call analytics",
+          "call flows"
+        ],
+        "lexical_fts": "\"one way audio\" OR \"direct routing\" OR \"Teams\" OR \"call\" OR \"media bypass\" OR \"call analytics\" OR \"call flows\"",
+        "lexical_fts_after_asr": "\"Direct-Routing\" OR \"one way audio\" OR \"Teams\" OR \"call\" OR \"media bypass\" OR \"call analytics\" OR \"call flows\"",
+        "vector_query_text": "How would you troubleshoot one-way audio on a Teams Direct Routing call?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 4,
+          "AudioCodes": 1,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [
+          {
+            "rank": 4,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+            "section": "3 Verifying the Pairing Between the SBC and Direct"
+          }
+        ],
+        "pollution": true
+      },
+      "parent_quality_check": "no dedicated runbook; aliases pull media bypass; GCC High conferencing is a false friend",
+      "primary_cause": "SOURCE_MISSING",
+      "secondary_cause": "QUERY_SHAPE_WEAK; MIXED_CORPUS_POLLUTION",
+      "likely_smallest_fix_category": "TARGETED_SOURCE_ADD",
+      "notes": "Read-only corpus scan: zero parents mention one-way audio",
+      "production_fused_unique": 49
+    },
+    {
+      "id": "HIST-Q01-ARCH",
+      "raw_question": "Explain Direct Routing and the role of the SBC.",
+      "source": "I9 rapid Q1 / Priority-14 Q01",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Direct Routing plan/configure overview (SBC role)",
+      "actual_top_ranked_domain": "AudioCodes vendor implementation notes",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "1.4 Infrastructure Prerequisites",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.026562,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "2.3 Infrastructure Prerequisites",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.026036,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf"
+        },
+        {
+          "rank": 3,
+          "title": "Direct Routing - Connecting analog devices",
+          "section": "Step 1: Connect the SBC to Direct Routing",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024295,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-analog-devices"
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "1.1 About Microsoft Teams Direct Routing",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.021508,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf"
+        },
+        {
+          "rank": 5,
+          "title": "Plan Direct Routing",
+          "section": "Overview",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.016393,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-plan"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 5,
+        "title": "Plan Direct Routing",
+        "section": "Overview",
+        "why": "Microsoft DR+SBC planning overview"
+      },
+      "query_shaping_trace": {
+        "raw_question": "Explain Direct Routing and the role of the SBC.",
+        "normalized_query": "Explain Direct-Routing and the role of the SBC.",
+        "asr_changed": true,
+        "preserved_phrases": [
+          "direct routing"
+        ],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "conceptual",
+          "service": "msteams",
+          "subservice": "teams-voice",
+          "repo": "teams",
+          "service_confident": true
+        },
+        "lexical_terms": [
+          "direct routing",
+          "SBC"
+        ],
+        "lexical_fts": "\"direct routing\" OR \"SBC\"",
+        "lexical_fts_after_asr": "\"Direct-Routing\" OR \"SBC\"",
+        "vector_query_text": "Explain Direct Routing and the role of the SBC.",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 2,
+          "AudioCodes": 3,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [
+          {
+            "rank": 1,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+            "section": "1.4 Infrastructure Prerequisites"
+          },
+          {
+            "rank": 2,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+            "section": "2.3 Infrastructure Prerequisites"
+          },
+          {
+            "rank": 4,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+            "section": "1.1 About Microsoft Teams Direct Routing"
+          }
+        ],
+        "pollution": true
+      },
+      "parent_quality_check": "vendor prerequisite tables and analog-device Step 1 PowerShell vs Microsoft overview",
+      "primary_cause": "MIXED_CORPUS_POLLUTION",
+      "secondary_cause": "RANK1_WRONG_TOP5_GOOD",
+      "likely_smallest_fix_category": "SOURCE_FILTER",
+      "notes": "Configure Direct Routing Overview is rank 8",
+      "production_fused_unique": 49
+    },
+    {
+      "id": "LIVE-H4-POOR-AUDIO",
+      "raw_question": "A user is complaining of poor audio. How would you determine where the problem is?",
+      "source": "I9 H4 accepted",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Call Analytics / CQD path isolation, not a random codec page",
+      "actual_top_ranked_domain": "Microsoft Call Analytics / CQD",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Use Call Analytics to troubleshoot poor call quality",
+          "section": "Troubleshoot user call quality problems",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.027419,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality"
+        },
+        {
+          "rank": 2,
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Measurements",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.026394,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard"
+        },
+        {
+          "rank": 3,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "What is quality?",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.026263,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 4,
+          "title": "Dimensions and measurements - Call Quality Dashboard (CQD)",
+          "section": "Dimensions - Available dimensions",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.02507,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/dimensions-and-measures-available-in-call-quality-dashboard"
+        },
+        {
+          "rank": 5,
+          "title": "Known issues with Teams Rooms on Windows",
+          "section": "Hardware issues",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024307,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/troubleshoot/microsoftteams/teams-rooms-and-devices/teams-rooms-known-issues-windows"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 1,
+        "title": "Use Call Analytics to troubleshoot poor call quality",
+        "section": "Troubleshoot user call quality problems",
+        "why": "Matches the isolation question; matches I9 overlay"
+      },
+      "query_shaping_trace": {
+        "raw_question": "A user is complaining of poor audio. How would you determine where the problem is?",
+        "normalized_query": "A user is complaining of poor audio. How would you determine where the problem is?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "how-to",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "user",
+          "complaining",
+          "poor",
+          "audio",
+          "determine",
+          "problem"
+        ],
+        "lexical_fts": "\"user\" OR \"complaining\" OR \"poor\" OR \"audio\" OR \"determine\" OR \"problem\"",
+        "lexical_fts_after_asr": "\"user\" OR \"complaining\" OR \"poor\" OR \"audio\" OR \"determine\" OR \"problem\"",
+        "vector_query_text": "A user is complaining of poor audio. How would you determine where the problem is?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 5,
+          "AudioCodes": 0,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "rank1 good; rank5 Rooms hardware is a different failure domain",
+      "primary_cause": "OTHER",
+      "secondary_cause": "SOURCE_FRAGMENT_QUALITY on CQD dimension tables / Rooms peer",
+      "likely_smallest_fix_category": "UI_PEER_SOURCES_ONLY",
+      "notes": "",
+      "production_fused_unique": 31
+    },
+    {
+      "id": "HIST-Q13-COPILOT",
+      "raw_question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+      "source": "Priority-14 Q13 / interview Copilot rollout",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "Copilot spans SharePoint and microsoft-365; leave global",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft SharePoint Advanced Management / oversharing / Copilot governance",
+      "actual_top_ranked_domain": "Microsoft SharePoint/OneDrive generic rollout",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "repo": "sharepoint",
+          "publisher": "Microsoft",
+          "score": 0.026675,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive"
+        },
+        {
+          "rank": 2,
+          "title": "Plan for SharePoint and OneDrive in Microsoft 365 - SharePoint in Microsoft 365",
+          "section": "Overview",
+          "repo": "sharepoint",
+          "publisher": "Microsoft",
+          "score": 0.026401,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/sharepoint/plan-for-sharepoint-onedrive"
+        },
+        {
+          "rank": 3,
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 5: Implement backup and restore procedures",
+          "repo": "m365",
+          "publisher": "Microsoft",
+          "score": 0.026393,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+        },
+        {
+          "rank": 4,
+          "title": "Roll out SharePoint and OneDrive - SharePoint in Microsoft 365",
+          "section": "Pilot rollout of SharePoint and OneDrive",
+          "repo": "sharepoint",
+          "publisher": "Microsoft",
+          "score": 0.026263,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/sharepoint/roll-out-sharepoint-onedrive"
+        },
+        {
+          "rank": 5,
+          "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+          "section": "Step 3: Prevent accidental oversharing",
+          "repo": "m365",
+          "publisher": "Microsoft",
+          "score": 0.024269,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 5,
+        "title": "Get ready for Microsoft 365 Copilot with SharePoint Advanced Management",
+        "section": "Step 3: Prevent accidental oversharing",
+        "why": "Governance/oversharing; rank3 is backup/restore"
+      },
+      "query_shaping_trace": {
+        "raw_question": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+        "normalized_query": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "Copilot spans SharePoint and microsoft-365; leave global",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "how-to",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "secure",
+          "review",
+          "SharePoint",
+          "OneDrive",
+          "rolling",
+          "out",
+          "Microsoft",
+          "365",
+          "Copilot"
+        ],
+        "lexical_fts": "\"secure\" OR \"review\" OR \"SharePoint\" OR \"OneDrive\" OR \"rolling\" OR \"out\" OR \"Microsoft\" OR \"365\" OR \"Copilot\"",
+        "lexical_fts_after_asr": "\"secure\" OR \"review\" OR \"SharePoint\" OR \"OneDrive\" OR \"rolling\" OR \"out\" OR \"Microsoft\" OR \"365\" OR \"Copilot\"",
+        "vector_query_text": "What would you secure or review in SharePoint and OneDrive before rolling out Microsoft 365 Copilot?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 5,
+          "AudioCodes": 0,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "rollout/pilot landing pages; backup step is Copilot-branded but wrong step",
+      "primary_cause": "RANK1_WRONG_TOP5_GOOD",
+      "secondary_cause": "QUERY_SHAPE_WEAK; SOURCE_FRAGMENT_QUALITY",
+      "likely_smallest_fix_category": "BOUNDED_QUERY_SHAPE",
+      "notes": "Copilot forces unscoped search by design",
+      "production_fused_unique": 46
+    },
+    {
+      "id": "HIST-TEAMS-ROLLOUT",
+      "raw_question": "How would you roll out Teams to a large organization?",
+      "source": "interview pack Enterprise Teams Rollout",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Teams adoption/planning/rollout architecture, not Rooms/AA fragments",
+      "actual_top_ranked_domain": "Microsoft Teams network planning",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "Prepare your organization&#39;s network for Teams",
+          "section": "Network requirements",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.026811,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/prepare-network"
+        },
+        {
+          "rank": 2,
+          "title": "Prepare your organization&#39;s network for Teams",
+          "section": "Network optimization",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.026538,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/prepare-network"
+        },
+        {
+          "rank": 3,
+          "title": "Microsoft Teams Rooms Pro Management Portal device update management",
+          "section": "Update Rings",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.023427,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/rooms/update-management"
+        },
+        {
+          "rank": 4,
+          "title": "Set up Teams Phone in your organization",
+          "section": "Step 2: Choose a PSTN connectivity option",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.022308,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/setting-up-your-phone-system"
+        },
+        {
+          "rank": 5,
+          "title": "Prepare your service for an upgrade to Microsoft Teams",
+          "section": "Onboarding checklists and landing pages for Microsoft Teams rollout",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.016129,
+          "matched_by": [
+            "vector"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/upgrade-prepare-environment-prepare-service"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 5,
+        "title": "Prepare your service for an upgrade to Microsoft Teams",
+        "section": "Onboarding checklists and landing pages for Microsoft Teams",
+        "why": "Closest adoption/upgrade program parent in production list"
+      },
+      "query_shaping_trace": {
+        "raw_question": "How would you roll out Teams to a large organization?",
+        "normalized_query": "How would you roll out Teams to a large organization?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "how-to",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "roll",
+          "out",
+          "Teams",
+          "large",
+          "organization"
+        ],
+        "lexical_fts": "\"roll\" OR \"out\" OR \"Teams\" OR \"large\" OR \"organization\"",
+        "lexical_fts_after_asr": "\"roll\" OR \"out\" OR \"Teams\" OR \"large\" OR \"organization\"",
+        "vector_query_text": "How would you roll out Teams to a large organization?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 5,
+          "AudioCodes": 0,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "network prep adjacent; Rooms Update Rings is lexical accident",
+      "primary_cause": "QUERY_SHAPE_WEAK",
+      "secondary_cause": "SOURCE_FRAGMENT_QUALITY",
+      "likely_smallest_fix_category": "BOUNDED_QUERY_SHAPE",
+      "notes": "FTS is roll/out/Teams/large/organization only",
+      "production_fused_unique": 48
+    },
+    {
+      "id": "LIVE-Q-CERT",
+      "raw_question": "What does the certificate do?",
+      "source": "I8 live Q2 follow-up without DR context",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Microsoft Direct Routing public trusted SBC certificate (if in DR session); otherwise underspecified",
+      "actual_top_ranked_domain": "AudioCodes wildcard CSR procedures",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.5.6 Method for Generating and Installing the Wildcard Certificate",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.027419,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.4 Method for Generating and Installing the Wildcard Certificate",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.027348,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf"
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2.5.5.4 Deploying the SBC and Root / Intermediate Certificates on the SBC",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.026841,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "4.3.4 Deploying the SBC and Root / Intermediate Certificates on the SBC",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.026394,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf"
+        },
+        {
+          "rank": 5,
+          "title": "What&#39;s New Direct Routing",
+          "section": "Update on upcoming certificate changes (December 12, 2025)",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.025863,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/direct-routing-whats-new"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 7,
+        "title": "Plan Direct Routing",
+        "section": "Public trusted certificate for the SBC",
+        "why": "Microsoft SBC certificate requirement"
+      },
+      "query_shaping_trace": {
+        "raw_question": "What does the certificate do?",
+        "normalized_query": "What does the certificate do?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "conceptual",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "certificate"
+        ],
+        "lexical_fts": "\"certificate\"",
+        "lexical_fts_after_asr": "\"certificate\"",
+        "vector_query_text": "What does the certificate do?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 1,
+          "AudioCodes": 4,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [
+          {
+            "rank": 1,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+            "section": "2.5.6 Method for Generating and Installing the Wildcard Certificate"
+          },
+          {
+            "rank": 2,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+            "section": "4.4 Method for Generating and Installing the Wildcard Certificate"
+          },
+          {
+            "rank": 3,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+            "section": "2.5.5.4 Deploying the SBC and Root / Intermediate Certificates on the SBC"
+          },
+          {
+            "rank": 4,
+            "publisher": "AudioCodes",
+            "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+            "section": "4.3.4 Deploying the SBC and Root / Intermediate Certificates on the SBC"
+          }
+        ],
+        "pollution": true
+      },
+      "parent_quality_check": "vendor implementation + What's New changelog vs Microsoft requirement section",
+      "primary_cause": "MIXED_CORPUS_POLLUTION",
+      "secondary_cause": "QUERY_SHAPE_WEAK",
+      "likely_smallest_fix_category": "BOUNDED_QUERY_SHAPE",
+      "notes": "Single-token FTS 'certificate'; no follow-up context resolver",
+      "production_fused_unique": 35
+    },
+    {
+      "id": "CTRL-AUDIOCODES",
+      "raw_question": "How would you configure an AudioCodes Mediant SBC for Teams Direct Routing?",
+      "source": "I8 L3 / I9 H3 control (vendor SHOULD appear)",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "AudioCodes Mediant Direct Routing implementation plus Microsoft DR plan",
+      "actual_top_ranked_domain": "AudioCodes (expected)",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "A.1 Terminology",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.025996,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        },
+        {
+          "rank": 2,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "A.1 Terminology",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.025761,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf"
+        },
+        {
+          "rank": 3,
+          "title": "AudioCodes Mediant SBC with Microsoft Teams Direct Routing (Enterprise Model)",
+          "section": "3.3.4 Enabling Online User",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.025332,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/13253/connecting-audiocodes-sbc-to-microsoft-teams-direct-routing-enterprise-model-configuration-note.pdf"
+        },
+        {
+          "rank": 4,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "2 SIP Trunk to Teams",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.024532,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        },
+        {
+          "rank": 5,
+          "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+          "section": "5 Teams_52_123",
+          "repo": "audiocodes",
+          "publisher": "AudioCodes",
+          "score": 0.024271,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.audiocodes.com/media/15757/mediant-sbc-to-microsoft-teams-direct-routing-with-local-media-optimization.pdf"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 4,
+        "title": "AudioCodes Mediant SBC to Microsoft Teams Direct Routing with Local Media Optimization",
+        "section": "2 SIP Trunk to Teams",
+        "why": "Actual vendor DR procedure; rank1 is terminology glossary"
+      },
+      "query_shaping_trace": {
+        "raw_question": "How would you configure an AudioCodes Mediant SBC for Teams Direct Routing?",
+        "normalized_query": "How would you configure an AudioCodes Mediant SBC for Teams Direct-Routing?",
+        "asr_changed": true,
+        "preserved_phrases": [
+          "direct routing"
+        ],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "how-to",
+          "service": "msteams",
+          "subservice": "teams-voice",
+          "repo": "teams",
+          "service_confident": true
+        },
+        "lexical_terms": [
+          "direct routing",
+          "AudioCodes Mediant SBC",
+          "Teams"
+        ],
+        "lexical_fts": "\"direct routing\" OR \"AudioCodes Mediant SBC\" OR \"Teams\"",
+        "lexical_fts_after_asr": "\"Direct-Routing\" OR \"AudioCodes Mediant SBC\" OR \"Teams\"",
+        "vector_query_text": "How would you configure an AudioCodes Mediant SBC for Teams Direct Routing?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 0,
+          "AudioCodes": 5,
+          "Linux": 0
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "glossary/chrome first; procedure later",
+      "primary_cause": "SOURCE_FRAGMENT_QUALITY",
+      "secondary_cause": null,
+      "likely_smallest_fix_category": "SOURCE_QUALITY_CLEANUP",
+      "notes": "Control case: vendor SHOULD appear. Microsoft Plan DR not in top 5",
+      "production_fused_unique": 49
+    },
+    {
+      "id": "CTRL-LINUX",
+      "raw_question": "A Linux service is failing intermittently. How would you investigate it?",
+      "source": "I8 L6 / I9 H5 control (Linux SHOULD appear)",
+      "route": {
+        "confidence": "NONE",
+        "service": null,
+        "repo": null,
+        "subservice": null,
+        "reason": "no high-confidence corpus cue",
+        "search_kwargs": {}
+      },
+      "expected_domain": "Linux systemd/journal/service troubleshooting",
+      "actual_top_ranked_domain": "Linux systemctl plus Microsoft CQD/Teams meeting in top 5",
+      "current_top_5": [
+        {
+          "rank": 1,
+          "title": "systemctl",
+          "section": "systemctl",
+          "repo": "linux",
+          "publisher": "Linux",
+          "score": 0.026898,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+        },
+        {
+          "rank": 2,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Reliability investigations",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024439,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        },
+        {
+          "rank": 3,
+          "title": "Monitor and troubleshoot Teams meetings and calls from the Teams admin center",
+          "section": "Investigate a meeting",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.024162,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/monitor-troubleshoot-teams-meetings-calls"
+        },
+        {
+          "rank": 4,
+          "title": "ps(1)",
+          "section": "ps(1)",
+          "repo": "linux",
+          "publisher": "Linux",
+          "score": 0.024013,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+        },
+        {
+          "rank": 5,
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "What is quality?",
+          "repo": "teams",
+          "publisher": "Microsoft",
+          "score": 0.022941,
+          "matched_by": [
+            "vector",
+            "lexical"
+          ],
+          "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide"
+        }
+      ],
+      "first_useful_source_and_rank": {
+        "rank": 1,
+        "title": "systemctl",
+        "section": "systemctl",
+        "why": "Linux service control; expected"
+      },
+      "query_shaping_trace": {
+        "raw_question": "A Linux service is failing intermittently. How would you investigate it?",
+        "normalized_query": "A Linux service is failing intermittently. How would you investigate it?",
+        "asr_changed": false,
+        "preserved_phrases": [],
+        "aliases_added": [],
+        "dropped_terms": [],
+        "router": {
+          "confidence": "NONE",
+          "service": null,
+          "repo": null,
+          "subservice": null,
+          "reason": "no high-confidence corpus cue",
+          "search_kwargs": {}
+        },
+        "cues": {
+          "topic": "how-to",
+          "service": null,
+          "subservice": null,
+          "repo": null,
+          "service_confident": false
+        },
+        "lexical_terms": [
+          "Linux",
+          "service",
+          "failing",
+          "intermittently",
+          "investigate"
+        ],
+        "lexical_fts": "\"Linux\" OR \"service\" OR \"failing\" OR \"intermittently\" OR \"investigate\"",
+        "lexical_fts_after_asr": "\"Linux\" OR \"service\" OR \"failing\" OR \"intermittently\" OR \"investigate\"",
+        "vector_query_text": "A Linux service is failing intermittently. How would you investigate it?",
+        "vector_uses_raw_not_fts": true,
+        "failover_clause_added": false
+      },
+      "mixed_corpus_check": {
+        "top5_counts": {
+          "Microsoft": 3,
+          "AudioCodes": 0,
+          "Linux": 2
+        },
+        "non_microsoft_without_substantive_relevance": [],
+        "pollution": false
+      },
+      "parent_quality_check": "rank1 good; Microsoft CQD pages are reverse pollution",
+      "primary_cause": "MIXED_CORPUS_POLLUTION",
+      "secondary_cause": "QUERY_SHAPE_WEAK",
+      "likely_smallest_fix_category": "BOUNDED_QUERY_SHAPE",
+      "notes": "Control case for Linux SHOULD appear; Microsoft still occupies 3 of top 5",
+      "production_fused_unique": 35
+    }
+  ]
+}

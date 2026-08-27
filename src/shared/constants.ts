@@ -33,7 +33,10 @@ export const IPC_CHANNELS = {
   liveAssistCaptureError: "live-assist:capture-error",
   liveAssistProjection: "live-assist:projection",
   liveAssistOpenCitation: "live-assist:open-citation",
-  liveAssistEvidenceStatus: "live-assist:evidence-status"
+  liveAssistEvidenceStatus: "live-assist:evidence-status",
+  renderCaptureGetStatus: "render-capture:get-status",
+  renderCaptureSelect: "render-capture:select",
+  renderCaptureStatus: "render-capture:status"
 } as const;
 
 export const DEFAULT_TOPIC_PROMPT =

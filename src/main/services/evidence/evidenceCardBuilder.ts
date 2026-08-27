@@ -3,13 +3,17 @@ import {
   EVIDENCE_CARD_KIND,
   EVIDENCE_RESOLVER_POLICY,
   EVIDENCE_SNAPSHOT_SCHEMA,
+  buildPersonalResponseBlock,
   deriveEvidenceProvenance,
   encodeEvidenceCardContent,
   evidenceCitationAuthority,
   excerptParentBody,
+  isPersonalResponseMode,
   listEvidenceCardSources,
   type EvidenceCardPayload,
-  type EvidenceCardSource
+  type EvidenceCardSource,
+  type PersonalResponseBlock,
+  type ResponseMode
 } from "@shared/evidenceCard";
 import type { AnswerExecutionCitation } from "../conversations/answerExecutionPort";
 import type { ContextReference } from "../answerV2/explanationContextTypes";
@@ -22,25 +26,39 @@ function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
 
-function toCardSource(hit: EvidenceParentResult): EvidenceCardSource {
+function toCardSource(
+  hit: EvidenceParentResult,
+  retrievalRank: number
+): EvidenceCardSource {
   return {
     ...hit,
     ...deriveEvidenceProvenance(hit),
-    preview: excerptParentBody(hit.body)
+    preview: excerptParentBody(hit.body),
+    retrievalRank
   };
 }
 
 export function buildEvidenceCardPayload(
-  result: EvidenceSearchSuccess
+  result: EvidenceSearchSuccess,
+  presentation?: {
+    responseMode?: ResponseMode;
+    personal?: PersonalResponseBlock | null;
+  }
 ): EvidenceCardPayload {
   const [primaryHit, ...rest] = result.results;
+  const responseMode = presentation?.responseMode ?? "technical_evidence";
+  const personal = isPersonalResponseMode(responseMode)
+    ? presentation?.personal ?? buildPersonalResponseBlock(null)
+    : null;
   return {
     version: 1,
     kind: EVIDENCE_CARD_KIND,
     query: result.query,
     route: result.route,
-    primary: primaryHit ? toCardSource(primaryHit) : null,
-    additional: rest.map(toCardSource)
+    primary: primaryHit ? toCardSource(primaryHit, 1) : null,
+    additional: rest.map((hit, index) => toCardSource(hit, index + 2)),
+    responseMode,
+    personal
   };
 }
 
@@ -145,14 +163,20 @@ export function mapEvidenceContextReferences(
   });
 }
 
-export function persistEvidenceCard(result: EvidenceSearchSuccess): {
+export function persistEvidenceCard(
+  result: EvidenceSearchSuccess,
+  presentation?: {
+    responseMode?: ResponseMode;
+    personal?: PersonalResponseBlock | null;
+  }
+): {
   content: string;
   payload: EvidenceCardPayload;
   snapshot: ReturnType<typeof buildEvidenceSnapshot>;
   citations: AnswerExecutionCitation[];
   contextReferences: ContextReference[];
 } {
-  const payload = buildEvidenceCardPayload(result);
+  const payload = buildEvidenceCardPayload(result, presentation);
   const content = encodeEvidenceCardContent(payload);
   const visibleText = content.slice(
     0,

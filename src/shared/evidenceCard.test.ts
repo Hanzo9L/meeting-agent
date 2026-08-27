@@ -5,6 +5,11 @@ import {
   EVIDENCE_PREVIEW_MAX_CHARS,
   EVIDENCE_PREVIEW_MAX_LINES,
   LEGACY_EVIDENCE_CARD_KIND,
+  NO_APPROVED_PERSONAL_STORY,
+  PERSONAL_RESPONSE_HEADING,
+  PERSONAL_RESPONSE_PROMPT,
+  SUPPORTING_EVIDENCE_HEADING,
+  buildPersonalResponseBlock,
   deriveEvidenceProvenance,
   encodeEvidenceCardContent,
   excerptOverlayPreview,
@@ -84,18 +89,19 @@ test("excerpt is an exact compact prefix of the parent body", () => {
   assert.doesNotMatch(preview, /This answers your question/);
 });
 
-test("peer sources keep retrieval order and are not labeled as the answer", () => {
+test("peer sources stay unlabeled peers after intent-aware presentation order", () => {
   const sources = listEvidenceCardSources(payload);
   const visible = formatEvidenceVisibleText(payload);
   assert.deepEqual(
     sources.map((item) => item.parentId),
-    ["analog", "overview", "example"]
+    ["overview", "analog", "example"]
   );
+  assert.equal(payload.primary?.parentId, "analog");
   assert.match(visible, /^Microsoft Evidence/);
-  assert.match(visible, /1\. Direct Routing - Connecting analog devices/);
-  assert.match(visible, /\nMicrosoft\n/);
-  assert.match(visible, /2\. Configure call routing for Direct Routing/);
+  assert.match(visible, /1\. Configure call routing for Direct Routing/);
   assert.match(visible, /Call routing overview/);
+  assert.match(visible, /\nMicrosoft\n/);
+  assert.match(visible, /2\. Direct Routing - Connecting analog devices/);
   assert.match(visible, /3\. Configure call routing for Direct Routing/);
   assert.doesNotMatch(visible, /Best answer|Best source|Recommended answer|Primary answer/);
   assert.doesNotMatch(visible, /Additional Microsoft sources/);
@@ -263,4 +269,260 @@ test("overlay preview is a shorter exact prefix than the Helpdesk preview", () =
   assert.ok(helpdesk.startsWith(overlay) || overlay === helpdesk);
   assert.ok(overlay.length <= 220);
   assert.ok(overlay.split("\n").length <= 2);
+});
+
+test("personal response cards are not Microsoft evidence dumps", () => {
+  const personal: EvidenceCardPayload = {
+    ...payload,
+    query: "Tell me about the hardest UC problem you solved.",
+    responseMode: "personal_response",
+    personal: buildPersonalResponseBlock(null),
+    primary: source({
+      parentId: "cqd",
+      title: "Call Quality Dashboard",
+      section: "Overview",
+      body: "Use CQD to inspect organization-wide call quality."
+    }),
+    additional: []
+  };
+  const visible = formatEvidenceVisibleText(personal);
+  assert.equal(formatEvidenceCardHeading(personal), PERSONAL_RESPONSE_HEADING);
+  assert.match(visible, new RegExp(`^${PERSONAL_RESPONSE_HEADING}`));
+  assert.match(visible, new RegExp(PERSONAL_RESPONSE_PROMPT));
+  assert.match(visible, /Situation\n→ Stakes\n→ Investigation \/ reasoning/);
+  assert.match(visible, new RegExp(NO_APPROVED_PERSONAL_STORY));
+  assert.match(visible, new RegExp(SUPPORTING_EVIDENCE_HEADING));
+  assert.match(visible, /Call Quality Dashboard/);
+  assert.doesNotMatch(visible, /^Microsoft Evidence/);
+  assert.doesNotMatch(visible, /I diagnosed|I solved|I wrote/);
+  const parsed = parseEvidenceCardContent(encodeEvidenceCardContent(personal));
+  assert.equal(parsed?.payload.responseMode, "personal_response");
+  assert.equal(parsed?.payload.personal?.storyStatus, "none");
+  assert.equal(parsed?.payload.personal?.storyText, null);
+});
+
+function rankedSource(
+  parentId: string,
+  title: string,
+  publisher: EvidenceCardSource["publisher"],
+  retrievalRank: number,
+  extras: Partial<EvidenceCardSource> = {}
+): EvidenceCardSource {
+  const url =
+    publisher === "AudioCodes"
+      ? "https://www.audiocodes.com/media/note.pdf"
+      : publisher === "Linux"
+        ? "https://man7.org/linux/man-pages/man1/ps.1.html"
+        : "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan";
+  return source({
+    parentId,
+    title,
+    section: title,
+    body: `${title} body.`,
+    url,
+    repo:
+      publisher === "AudioCodes"
+        ? "audiocodes"
+        : publisher === "Linux"
+          ? "linux"
+          : "teams",
+    retrievalRank,
+    ...extras
+  });
+}
+
+test("A1/B1 Explain Direct Routing presents Plan Overview ahead of analog steps", () => {
+  const mixed: EvidenceCardPayload = {
+    ...payload,
+    query: "Explain Direct Routing",
+    primary: rankedSource(
+      "ac-prereq",
+      "AudioCodes infrastructure prerequisites",
+      "AudioCodes",
+      1,
+      { section: "Infrastructure Prerequisites" }
+    ),
+    additional: [
+      rankedSource(
+        "analog",
+        "Direct Routing - Connecting analog devices",
+        "Microsoft",
+        3,
+        { section: "Step 1: Connect the SBC to Direct Routing" }
+      ),
+      rankedSource(
+        "ms-plan",
+        "Plan Direct Routing",
+        "Microsoft",
+        5,
+        { section: "Overview" }
+      )
+    ]
+  };
+  assert.equal(mixed.primary?.publisher, "AudioCodes");
+  assert.equal(mixed.primary?.retrievalRank, 1);
+  const presented = listEvidenceCardSources(mixed);
+  assert.equal(presented[0]?.parentId, "ms-plan");
+  assert.ok(
+    presented.findIndex((item) => item.parentId === "ms-plan") <
+      presented.findIndex((item) => item.parentId === "analog")
+  );
+  assert.equal(presented.find((item) => item.parentId === "analog")?.retrievalRank, 3);
+  assert.equal(presented.find((item) => item.parentId === "ms-plan")?.retrievalRank, 5);
+  assert.equal(presented.length, 3);
+  const visible = formatEvidenceVisibleText(mixed);
+  assert.match(visible, /1\. Plan Direct Routing/);
+});
+
+test("A2/B2 geographic redundancy presents HA ahead of country/region codes", () => {
+  const mixed: EvidenceCardPayload = {
+    ...payload,
+    query: "What would geographic redundancy look like for Direct Routing?",
+    primary: rankedSource(
+      "ac-ha",
+      "AudioCodes Mediant SBC: Overview of High Availability Mode",
+      "AudioCodes",
+      1,
+      { section: "Overview" }
+    ),
+    additional: [
+      rankedSource(
+        "ms-geo",
+        "Direct Routing country/region codes",
+        "Microsoft",
+        2,
+        { section: "Country and region code reference table" }
+      ),
+      rankedSource(
+        "ms-lmo",
+        "Local Media Optimization for Direct Routing",
+        "Microsoft",
+        3
+      )
+    ]
+  };
+  const presented = listEvidenceCardSources(mixed);
+  assert.equal(presented[0]?.parentId, "ac-ha");
+  assert.equal(presented[0]?.publisher, "AudioCodes");
+  assert.ok(
+    presented.findIndex((item) => item.parentId === "ac-ha") <
+      presented.findIndex((item) => item.parentId === "ms-geo")
+  );
+  assert.equal(presented.find((item) => item.parentId === "ac-ha")?.retrievalRank, 1);
+  assert.equal(mixed.primary?.parentId, "ac-ha");
+  assert.equal(presented.length, 3);
+});
+
+test("A3 explicit AudioCodes/Mediant questions keep vendor evidence first", () => {
+  const mixed: EvidenceCardPayload = {
+    ...payload,
+    query:
+      "How would you configure an AudioCodes Mediant SBC for Teams Direct Routing?",
+    primary: rankedSource(
+      "ac-1",
+      "AudioCodes Mediant pairing",
+      "AudioCodes",
+      1
+    ),
+    additional: [
+      rankedSource("ms-plan", "Plan Direct Routing Overview", "Microsoft", 2)
+    ]
+  };
+  const presented = listEvidenceCardSources(mixed);
+  assert.deepEqual(
+    presented.map((item) => item.parentId),
+    ["ac-1", "ms-plan"]
+  );
+  assert.equal(presented[0]?.retrievalRank, 1);
+  assert.equal(presented[1]?.retrievalRank, 2);
+});
+
+test("A4 explicit Linux questions keep Linux evidence first", () => {
+  const mixed: EvidenceCardPayload = {
+    ...payload,
+    query: "A Linux service is failing intermittently. How would you investigate it?",
+    primary: rankedSource("linux-systemctl", "systemctl", "Linux", 1),
+    additional: [
+      rankedSource("ms-cqd", "CQD reliability investigations", "Microsoft", 2),
+      rankedSource("linux-ps", "ps(1)", "Linux", 4)
+    ]
+  };
+  const presented = listEvidenceCardSources(mixed);
+  assert.equal(presented[0]?.parentId, "linux-systemctl");
+  assert.deepEqual(
+    new Set(presented.map((item) => item.parentId)),
+    new Set(["linux-systemctl", "ms-cqd", "linux-ps"])
+  );
+  assert.equal(presented.find((item) => item.parentId === "linux-ps")?.retrievalRank, 4);
+  assert.equal(presented.find((item) => item.parentId === "ms-cqd")?.retrievalRank, 2);
+});
+
+test("A5 Get-CsOnlineUser stays Microsoft-first with no behavioral change", () => {
+  const card: EvidenceCardPayload = {
+    ...payload,
+    query: "What does Get-CsOnlineUser return?",
+    primary: rankedSource("ms-user", "Get-CsOnlineUser", "Microsoft", 1),
+    additional: [
+      rankedSource("ms-vrp", "Get-CsOnlineVoiceRoutingPolicy", "Microsoft", 2)
+    ]
+  };
+  assert.deepEqual(
+    listEvidenceCardSources(card).map((item) => item.parentId),
+    ["ms-user", "ms-vrp"]
+  );
+});
+
+test("A6 Copilot SharePoint cards keep Microsoft-only retrieval order", () => {
+  const card: EvidenceCardPayload = {
+    ...payload,
+    query: "How would you secure SharePoint and OneDrive before Copilot?",
+    primary: rankedSource("ms-rollout", "SharePoint OneDrive rollout Overview", "Microsoft", 1),
+    additional: [
+      rankedSource("ms-plan", "Plan SharePoint and OneDrive Overview", "Microsoft", 2),
+      rankedSource("ms-overshare", "SAM Step 3 oversharing", "Microsoft", 3)
+    ]
+  };
+  assert.deepEqual(
+    listEvidenceCardSources(card).map((item) => item.parentId),
+    ["ms-rollout", "ms-plan", "ms-overshare"]
+  );
+});
+
+test("Gixonline STT miss is not solved here; Linux may only move below Microsoft", () => {
+  const card: EvidenceCardPayload = {
+    ...payload,
+    query: "What does Gixonline user return?",
+    primary: rankedSource(
+      "ms-vrp",
+      "Get-CsOnlineVoiceRoutingPolicy",
+      "Microsoft",
+      1
+    ),
+    additional: [
+      rankedSource("ms-user", "Get-CsOnlineUser", "Microsoft", 2),
+      rankedSource("linux-ps", "ps(1)", "Linux", 5)
+    ]
+  };
+  const presented = listEvidenceCardSources(card);
+  assert.deepEqual(
+    presented.map((item) => item.parentId),
+    ["ms-vrp", "ms-user", "linux-ps"]
+  );
+  assert.equal(presented[2]?.retrievalRank, 5);
+  assert.equal(card.primary?.parentId, "ms-vrp");
+});
+
+test("personal cards without sources still show the framework, not a source gap", () => {
+  const emptyPersonal: EvidenceCardPayload = {
+    ...payload,
+    responseMode: "personal_response",
+    personal: buildPersonalResponseBlock(null),
+    primary: null,
+    additional: []
+  };
+  const visible = formatEvidenceVisibleText(emptyPersonal);
+  assert.match(visible, new RegExp(PERSONAL_RESPONSE_HEADING));
+  assert.match(visible, new RegExp(NO_APPROVED_PERSONAL_STORY));
+  assert.doesNotMatch(visible, /No evidence found for this question/);
+  assert.doesNotMatch(visible, new RegExp(SUPPORTING_EVIDENCE_HEADING));
 });

@@ -10,6 +10,7 @@ import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { initMain as initLoopbackMain } from "electron-audio-loopback";
 import { IPC_CHANNELS } from "@shared/constants";
+import { updateProjectionFeed } from "@shared/projectionFeed";
 import type {
   AudioChunkPayload,
   CaptureStartConfig,
@@ -38,6 +39,12 @@ import { DeepgramSttProvider } from "./services/deepgramSttProvider";
 import { PipelineManager } from "./services/pipelineManager";
 import { createEvidenceSearchClient } from "./services/evidence/evidenceSearchClient";
 import { LearnRagChild } from "./services/evidence/learnRagChild";
+import { RenderCaptureController } from "./audio/renderCaptureController";
+import {
+  WasapiLoopbackProcess,
+  enumerateRenderEndpoints
+} from "./audio/wasapiCaptureHost";
+import type { RenderCaptureStatusView } from "@shared/renderEndpoint";
 
 const preloadRoot = join(__dirname, "../preload");
 const rendererRoot = join(__dirname, "../../out/renderer");
@@ -70,6 +77,8 @@ let latestProjections: LiveAssistProjection[] = [];
 let latestEvidenceStatus: EvidenceReadinessStatus = "starting";
 let audioChunkCount = 0;
 const settingsStore = new SettingsStore();
+const wasapiLoopback = new WasapiLoopbackProcess();
+let renderCapture: RenderCaptureController | null = null;
 
 function isHelpdeskSender(senderId: number): boolean {
   return (
@@ -83,6 +92,76 @@ function isOverlaySender(senderId: number): boolean {
     overlayWindow !== null &&
     senderId === overlayWindow.webContents.id
   );
+}
+
+function ingestSystemPcm(sessionId: string, chunk: Int16Array): void {
+  if (!pipelineManager) return;
+  const activeSession = liveAssistService?.getActiveSession() ?? null;
+  if (!activeSession || activeSession.id !== sessionId) return;
+  if (chunk.length === 0) return;
+  if (audioChunkCount === 0) {
+    sendTranscript({
+      text: "Audio stream detected in main process...",
+      isFinal: false,
+      timestamp: Date.now()
+    });
+  }
+  audioChunkCount += 1;
+  pipelineManager.sendAudioChunk("system", chunk);
+}
+
+function getRenderCapture(): RenderCaptureController {
+  renderCapture ??= new RenderCaptureController({
+    host: {
+      enumerate: () =>
+        enumerateRenderEndpoints({
+          userDataPath: app.getPath("userData"),
+          appPath: app.getAppPath(),
+          excludeProcessIds: [process.pid]
+        }),
+      startLoopback: (endpointId, handlers) =>
+        wasapiLoopback.start(
+          endpointId,
+          {
+            userDataPath: app.getPath("userData"),
+            appPath: app.getAppPath()
+          },
+          handlers
+        ),
+      stopLoopback: () => wasapiLoopback.stop()
+    },
+    getRemembered: () => settingsStore.getRememberedRenderEndpoint(),
+    setRemembered: (id, label) =>
+      settingsStore.setRememberedRenderEndpoint(id, label),
+    onStatus: (status) => {
+      helpdeskWindow?.webContents.send(
+        IPC_CHANNELS.renderCaptureStatus,
+        status
+      );
+    },
+    onSystemPcm: (chunk) => {
+      const session = liveAssistService?.getActiveSession();
+      if (session) ingestSystemPcm(session.id, chunk);
+    },
+    excludeProcessIds: [process.pid]
+  });
+  return renderCapture;
+}
+
+function idleRenderCaptureStatus(): RenderCaptureStatusView {
+  return {
+    listenState: "idle",
+    selectedEndpointId: null,
+    selectedEndpointName: null,
+    automatic: true,
+    message: null,
+    activityLevel: 0,
+    endpoints: []
+  };
+}
+
+async function stopRenderCapture(): Promise<void> {
+  await renderCapture?.stop();
 }
 
 function sendStatus(status: ConnectionStatus): void {
@@ -133,12 +212,7 @@ function broadcastLiveSession(
 function sendLiveProjection(
   projection: LiveAssistProjection
 ): void {
-  latestProjections = [
-    ...latestProjections.filter(
-      (item) => item.answerRunId !== projection.answerRunId
-    ),
-    projection
-  ];
+  latestProjections = updateProjectionFeed(latestProjections, projection);
   overlayWindow?.webContents.send(
     IPC_CHANNELS.liveAssistProjection,
     projection
@@ -426,6 +500,27 @@ function registerRuntimeIpcHandlers(): void {
               .answerTriggerMode
         });
         service.setCaptureStatus("capturing");
+        if (
+          config.sources.length === 1 &&
+          config.sources[0] === "system"
+        ) {
+          try {
+            await getRenderCapture().start(config.sessionId);
+          } catch (error) {
+            const message =
+              error instanceof Error
+                ? error.message
+                : "Render endpoint capture failed.";
+            helpdeskWindow?.webContents.send(
+              IPC_CHANNELS.renderCaptureStatus,
+              {
+                ...idleRenderCaptureStatus(),
+                listenState: "error",
+                message
+              }
+            );
+          }
+        }
       } catch (error) {
         service.setCaptureStatus("error");
         throw error;
@@ -448,7 +543,31 @@ function registerRuntimeIpcHandlers(): void {
       ) {
         return;
       }
+      await stopRenderCapture();
       await pipelineManager?.stop();
+    }
+  );
+
+  ipcMain.handle(
+    IPC_CHANNELS.renderCaptureGetStatus,
+    (event) => {
+      if (!isHelpdeskSender(event.sender.id)) {
+        throw new Error("Render capture status is not allowed.");
+      }
+      return renderCapture?.getStatus() ?? idleRenderCaptureStatus();
+    }
+  );
+
+  ipcMain.handle(
+    IPC_CHANNELS.renderCaptureSelect,
+    async (event, endpointId: unknown) => {
+      if (!isHelpdeskSender(event.sender.id)) {
+        throw new Error("Render capture select is not allowed.");
+      }
+      if (typeof endpointId !== "string" || !endpointId.trim()) {
+        throw new Error("A render endpoint ID is required.");
+      }
+      return getRenderCapture().select(endpointId.trim());
     }
   );
 
@@ -557,6 +676,7 @@ function registerHelpdeskHandlers(): void {
     stopLiveAssist: async () => {
       const active = liveAssistService?.getActiveSession();
       if (!active) return null;
+      await stopRenderCapture();
       await pipelineManager?.stop();
       const stopped =
         liveAssistService?.stop("user_stopped") ?? null;
@@ -650,11 +770,13 @@ if (hasSingleInstanceLock) {
   });
 
   app.on("window-all-closed", async () => {
+    await stopRenderCapture();
     await pipelineManager?.stop();
     if (process.platform !== "darwin") app.quit();
   });
 
   app.on("will-quit", () => {
+    void stopRenderCapture();
     liveAssistService?.stop("application_shutdown");
     evidenceChild?.dispose();
     evidenceChild = null;

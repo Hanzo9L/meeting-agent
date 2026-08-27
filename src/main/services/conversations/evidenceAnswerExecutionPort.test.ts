@@ -197,3 +197,124 @@ test("STT and audio files were not edited for typed evidence", () => {
     assert.doesNotMatch(source, /learn-rag/);
   }
 });
+
+test("personal questions present a Personal Response card instead of Microsoft evidence", async () => {
+  const root = await mkdtemp(join(tmpdir(), "relay-personal-card-"));
+  const store = createSqliteConversationStore({
+    databasePath: join(root, "conversations.sqlite")
+  });
+  const client = new ScriptedClient([
+    hit("get-csonlineuser", "Get-CsOnlineUser")
+  ]);
+  const service = new HelpdeskService(
+    store,
+    new EvidenceAnswerExecutionPort(client)
+  );
+  try {
+    const conversation = service.createConversation("Personal");
+    const submitted = await service.submitMessage({
+      conversationId: conversation.conversation.id,
+      content: "Tell me about the hardest UC problem you solved.",
+      inputOrigin: "typed"
+    });
+    assert.equal(submitted.outcome, "answered");
+    assert.deepEqual(client.questions, [
+      "Tell me about the hardest UC problem you solved."
+    ]);
+    const assistant = submitted.view.messages.find(
+      (message) => message.role === "assistant"
+    )!;
+    const parsed = parseEvidenceCardContent(assistant.content);
+    assert.ok(parsed);
+    assert.equal(parsed.payload.responseMode, "personal_response");
+    assert.match(parsed.visibleText, /^Personal Response/);
+    assert.match(parsed.visibleText, /This question calls for your own experience/);
+    assert.match(
+      parsed.visibleText,
+      /No approved personal story is stored for this question yet/
+    );
+    assert.doesNotMatch(parsed.visibleText, /^Microsoft Evidence/);
+    assert.doesNotMatch(parsed.visibleText, /I solved|I diagnosed|I wrote/);
+    assert.equal(parsed.payload.personal?.storyText, null);
+  } finally {
+    store.close();
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("mixed personal questions keep technical evidence secondary", async () => {
+  const root = await mkdtemp(join(tmpdir(), "relay-mixed-card-"));
+  const store = createSqliteConversationStore({
+    databasePath: join(root, "conversations.sqlite")
+  });
+  const client = new ScriptedClient([
+    hit("get-csonlineuser", "Get-CsOnlineUser")
+  ]);
+  const service = new HelpdeskService(
+    store,
+    new EvidenceAnswerExecutionPort(client)
+  );
+  try {
+    const conversation = service.createConversation("Mixed");
+    const submitted = await service.submitMessage({
+      conversationId: conversation.conversation.id,
+      content:
+        "Tell me about a PowerShell script you wrote to fix a systemic UC issue.",
+      inputOrigin: "typed"
+    });
+    assert.equal(submitted.outcome, "answered");
+    const assistant = submitted.view.messages.find(
+      (message) => message.role === "assistant"
+    )!;
+    const parsed = parseEvidenceCardContent(assistant.content);
+    assert.ok(parsed);
+    assert.equal(parsed.payload.responseMode, "mixed_personal_technical");
+    assert.match(parsed.visibleText, /^Personal Response/);
+    assert.match(parsed.visibleText, /Supporting Technical Evidence/);
+    assert.match(parsed.visibleText, /Get-CsOnlineUser/);
+    assert.doesNotMatch(parsed.visibleText, /^Microsoft Evidence/);
+  } finally {
+    store.close();
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("personal questions still answer when retrieval fails", async () => {
+  const root = await mkdtemp(join(tmpdir(), "relay-personal-fail-"));
+  const store = createSqliteConversationStore({
+    databasePath: join(root, "conversations.sqlite")
+  });
+  const client: EvidenceSearchClient = {
+    async search() {
+      return {
+        ok: false,
+        code: "python_unavailable",
+        message: "Microsoft evidence retrieval is unavailable."
+      };
+    }
+  };
+  const service = new HelpdeskService(
+    store,
+    new EvidenceAnswerExecutionPort(client)
+  );
+  try {
+    const conversation = service.createConversation("Personal fail");
+    const submitted = await service.submitMessage({
+      conversationId: conversation.conversation.id,
+      content: "Tell me about a time you diagnosed a difficult issue.",
+      inputOrigin: "typed"
+    });
+    assert.equal(submitted.outcome, "answered");
+    const assistant = submitted.view.messages.find(
+      (message) => message.role === "assistant"
+    )!;
+    const parsed = parseEvidenceCardContent(assistant.content);
+    assert.ok(parsed);
+    assert.equal(parsed.payload.responseMode, "personal_response");
+    assert.match(parsed.visibleText, /^Personal Response/);
+    assert.doesNotMatch(parsed.visibleText, /Supporting Technical Evidence/);
+  } finally {
+    store.close();
+    await rm(root, { recursive: true, force: true });
+  }
+});

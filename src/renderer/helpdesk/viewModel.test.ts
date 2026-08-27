@@ -8,6 +8,8 @@ import {
   HELP_DESK_ACTIVE_CONVERSATION_KEY,
   buildHelpdeskTimeline,
   copyAnswerText,
+  groupHelpdeskInterviewTurns,
+  newestTurnUserMessageId,
   resolveComposerInputOrigin,
   resolveInitialConversationId,
   resolveSubmitConversationId
@@ -106,6 +108,16 @@ test("timeline preserves message order and renders execution failure as non-mess
     ]
   );
   assert.equal(rows.filter((row) => row.kind === "message").length, 2);
+  const turns = groupHelpdeskInterviewTurns(rows);
+  assert.deepEqual(
+    turns.map((turn) =>
+      turn.kind === "turn"
+        ? `turn:${turn.userMessageId}:${turn.rows.length}`
+        : `orphan:${turn.row.id}`
+    ),
+    ["turn:msg-1:2", "turn:msg-2:1"]
+  );
+  assert.equal(newestTurnUserMessageId(turns), "msg-2");
 });
 
 test("timeline groups each assistant card with its triggering turn despite completion order", () => {
@@ -202,6 +214,23 @@ test("timeline groups each assistant card with its triggering turn despite compl
       "Answer 2:run-2"
     ]
   );
+  const turns = groupHelpdeskInterviewTurns(rows);
+  assert.equal(turns.length, 2);
+  assert.equal(turns[0]?.kind, "turn");
+  assert.equal(turns[1]?.kind, "turn");
+  if (turns[0]?.kind === "turn" && turns[1]?.kind === "turn") {
+    assert.equal(turns[0].userMessageId, "user-1");
+    assert.equal(turns[1].userMessageId, "user-2");
+    assert.equal(
+      turns[0].rows[0]?.kind === "message" && turns[0].rows[0].message.role,
+      "user"
+    );
+    assert.equal(
+      turns[0].rows[1]?.kind === "message" && turns[0].rows[1].message.role,
+      "assistant"
+    );
+  }
+  assert.equal(newestTurnUserMessageId(turns), "user-2");
 });
 
 test("three typed Q/A pairs stay visible in chronological order", () => {
@@ -459,6 +488,9 @@ test("copy answer writes the exact R4 text without transformation", async () => 
 test("helpdesk renderer keeps interview turns as independent user bubbles and answer cards", () => {
   const app = readFileSync(resolve("src/renderer/helpdesk/App.tsx"), "utf8");
   assert.match(app, /data-user-message-id/);
+  assert.match(app, /data-turn-anchor/);
+  assert.match(app, /helpdeskTurn/);
+  assert.match(app, /useNewestTurnFocus/);
   assert.match(app, /data-answer-run-id=\{row\.run\?\.id\}/);
   assert.match(app, /interview-quick/);
   assert.match(app, /Interview Quick/);
@@ -503,7 +535,7 @@ test("typed Helpdesk submit reuses the selected conversation and pins the compos
     /createConversation/
   );
   assert.match(styles, /\.conversation-pane \{\s*display: flex;/);
-  assert.match(styles, /\.timeline \{\s*flex: 1;/);
+  assert.match(styles, /\.timeline \{[\s\S]*?flex: 1;/);
   assert.match(styles, /\.composer-shell \{\s*flex-shrink: 0;/);
   assert.doesNotMatch(styles, /grid-template-rows: auto auto minmax/);
   assert.ok(viewModel.includes(HELP_DESK_ACTIVE_CONVERSATION_KEY));
@@ -533,7 +565,7 @@ test("ask-question composer stays visible for empty, evidence, and long timeline
   assert.match(timeline, /return \(\s*<div className="timeline"/);
   assert.doesNotMatch(timeline, /if \(props\.loading\) \{\s*return /);
   assert.match(styles, /\.composer-heading \{/);
-  assert.match(styles, /\.timeline \{\s*flex: 1;/);
+  assert.match(styles, /\.timeline \{[\s\S]*?flex: 1;/);
   assert.match(styles, /\.composer-shell \{\s*flex-shrink: 0;/);
   assert.doesNotMatch(
     styles,
@@ -578,11 +610,15 @@ test("evidence cards render retrieved sources as independent peer items", () => 
     "utf8"
   );
   assert.match(app, /listEvidenceCardSources\(payload\)/);
+  assert.doesNotMatch(app, /orderEvidenceByAuthority|orderEvidenceForPresentation/);
   assert.match(app, /className="evidence-item"/);
   assert.match(app, /toggleExpandedEvidenceSource\(current, sourceId\)/);
   assert.match(app, /props\.expanded \? "Collapse" : "Expand"/);
   assert.match(app, /tokenizeEvidenceMarkup/);
   assert.match(app, /className="evidence-md-code"/);
+  assert.match(app, /personal-card/);
+  assert.match(app, /PERSONAL_RESPONSE_PROMPT/);
+  assert.match(app, /SUPPORTING_EVIDENCE_HEADING/);
   assert.doesNotMatch(
     app,
     /Best source|Best answer|Recommended answer|Primary answer/

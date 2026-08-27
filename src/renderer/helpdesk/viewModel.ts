@@ -147,3 +147,60 @@ export function buildHelpdeskTimeline(
   }
   return rows;
 }
+
+export type HelpdeskInterviewTurn =
+  | {
+      kind: "turn";
+      id: string;
+      userMessageId: string;
+      rows: HelpdeskTimelineRow[];
+    }
+  | {
+      kind: "orphan";
+      id: string;
+      row: HelpdeskTimelineRow;
+    };
+
+export function groupHelpdeskInterviewTurns(
+  rows: HelpdeskTimelineRow[]
+): HelpdeskInterviewTurn[] {
+  const grouped: HelpdeskInterviewTurn[] = [];
+  let current: Extract<HelpdeskInterviewTurn, { kind: "turn" }> | null = null;
+  const flush = (): void => {
+    if (current) grouped.push(current);
+    current = null;
+  };
+  for (const row of rows) {
+    if (row.kind === "message" && row.message.role === "user") {
+      flush();
+      current = {
+        kind: "turn",
+        id: `turn:${row.message.id}`,
+        userMessageId: row.message.id,
+        rows: [row]
+      };
+      continue;
+    }
+    if (current) {
+      current.rows.push(row);
+      continue;
+    }
+    grouped.push({
+      kind: "orphan",
+      id: `orphan:${row.id}`,
+      row
+    });
+  }
+  flush();
+  return grouped;
+}
+
+export function newestTurnUserMessageId(
+  turns: HelpdeskInterviewTurn[]
+): string | null {
+  for (let index = turns.length - 1; index >= 0; index -= 1) {
+    const turn = turns[index];
+    if (turn?.kind === "turn") return turn.userMessageId;
+  }
+  return null;
+}

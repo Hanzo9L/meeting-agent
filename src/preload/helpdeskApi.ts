@@ -20,6 +20,7 @@ import type {
   TranscriptMessage,
   UpdateRelaySettingsInput
 } from "@shared/types";
+import type { RenderCaptureStatusView } from "@shared/renderEndpoint";
 
 export interface HelpdeskIpcInvoker {
   invoke(channel: string, ...args: unknown[]): Promise<unknown>;
@@ -190,6 +191,24 @@ export function createHelpdeskApi(ipc: HelpdeskIpcInvoker): HelpdeskApi {
       ipc.invoke("disable-loopback-audio") as Promise<void>,
     sendAudioChunk: (payload: AudioChunkPayload) =>
       ipc.send(IPC_CHANNELS.audioChunk, payload),
+    getRenderCaptureStatus: () =>
+      ipc.invoke(
+        IPC_CHANNELS.renderCaptureGetStatus
+      ) as Promise<RenderCaptureStatusView>,
+    selectRenderEndpoint: (endpointId: string) =>
+      ipc.invoke(
+        IPC_CHANNELS.renderCaptureSelect,
+        endpointId
+      ) as Promise<RenderCaptureStatusView>,
+    onRenderCaptureStatus: (
+      handler: (status: RenderCaptureStatusView) => void
+    ) => {
+      const listener = (_event: unknown, payload: unknown) =>
+        handler(payload as RenderCaptureStatusView);
+      ipc.on(IPC_CHANNELS.renderCaptureStatus, listener);
+      return () =>
+        ipc.off(IPC_CHANNELS.renderCaptureStatus, listener);
+    },
     onLiveAssistCaptureCommand: (
       handler: (command: LiveAssistCaptureCommand) => void
     ) => {

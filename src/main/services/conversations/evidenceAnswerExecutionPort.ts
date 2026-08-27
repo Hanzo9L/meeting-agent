@@ -6,10 +6,38 @@ import type {
   AnswerExecutionResult
 } from "./answerExecutionPort";
 import { persistEvidenceCard } from "../evidence/evidenceCardBuilder";
-import type { EvidenceSearchClient } from "../evidence/evidenceTypes";
+import type {
+  EvidenceSearchClient,
+  EvidenceSearchSuccess
+} from "../evidence/evidenceTypes";
+import { lookupApprovedPersonalStory } from "@shared/approvedPersonalStories";
+import {
+  buildPersonalResponseBlock,
+  isPersonalResponseMode
+} from "@shared/evidenceCard";
+import { classifyQuestionIntent } from "@shared/questionIntent";
 
 const EVIDENCE_UNAVAILABLE =
   "Microsoft evidence retrieval is unavailable.";
+
+function emptyPersonalRetrieval(query: string): EvidenceSearchSuccess {
+  return {
+    ok: true,
+    query,
+    route: {
+      confidence: "NONE",
+      service: null,
+      repo: null,
+      reason: "personal_response"
+    },
+    results: [],
+    timing: { total_ms: 0 },
+    topK: 5,
+    engine: "learn-rag-r0.4",
+    corpusFingerprint: "",
+    indexFingerprint: ""
+  };
+}
 
 function failure(
   code: AnswerExecutionFailure["code"],
@@ -30,17 +58,29 @@ export class EvidenceAnswerExecutionPort implements AnswerExecutionPort {
     request: AnswerExecutionRequest
   ): Promise<AnswerExecutionResult> {
     const started = performance.now();
+    const intent = classifyQuestionIntent(request.question);
+    const personal = isPersonalResponseMode(intent.responseMode)
+      ? buildPersonalResponseBlock(lookupApprovedPersonalStory(request.question))
+      : null;
     const retrieved = await this.search.search(request.question);
     const retrievalMs = performance.now() - started;
-    if (!retrieved.ok) {
+    if (!retrieved.ok && !personal) {
       return failure("evidence_retrieval_failed", retrieved.message || EVIDENCE_UNAVAILABLE);
     }
 
-    const persisted = persistEvidenceCard(retrieved);
+    const searchSuccess = retrieved.ok
+      ? retrieved
+      : emptyPersonalRetrieval(request.question);
+    const persisted = persistEvidenceCard(searchSuccess, {
+      responseMode: intent.responseMode,
+      personal
+    });
     const hasEvidence = persisted.payload.primary !== null;
+    const answerability =
+      personal || hasEvidence ? "answered" : "insufficient_evidence";
     const diagnostics = {
       retrievalMs,
-      evidenceResolutionMs: retrieved.timing.total_ms ?? retrievalMs,
+      evidenceResolutionMs: searchSuccess.timing.total_ms ?? retrievalMs,
       planningMs: 0,
       assemblyMs: 0,
       citationMappingMs: 0,
@@ -57,9 +97,13 @@ export class EvidenceAnswerExecutionPort implements AnswerExecutionPort {
 
     return {
       ok: true,
-      answerability: hasEvidence ? "answered" : "insufficient_evidence",
+      answerability,
       answerText: persisted.content,
-      factualAnswerText: persisted.payload.primary?.preview ?? persisted.content,
+      factualAnswerText: personal
+        ? persisted.payload.personal?.storyText ??
+          persisted.payload.personal?.prompt ??
+          persisted.content
+        : persisted.payload.primary?.preview ?? persisted.content,
       presentationProfile: request.presentationProfile ?? "helpdesk_detailed",
       helpdeskDetailedText: persisted.content,
       liveAssistQuickText: persisted.content,
@@ -67,11 +111,11 @@ export class EvidenceAnswerExecutionPort implements AnswerExecutionPort {
       citations: persisted.citations,
       contextReferences: persisted.contextReferences,
       retrievalSummary: {
-        eligibleDocumentCount: retrieved.results.length,
-        eligibleChunkCount: retrieved.results.length,
-        scoredChunkCount: retrieved.results.length,
-        returnedCandidateCount: retrieved.results.length,
-        topEvidence: retrieved.results.map((hit) => ({
+        eligibleDocumentCount: searchSuccess.results.length,
+        eligibleChunkCount: searchSuccess.results.length,
+        scoredChunkCount: searchSuccess.results.length,
+        returnedCandidateCount: searchSuccess.results.length,
+        topEvidence: searchSuccess.results.map((hit) => ({
           documentId: hit.parentId,
           title: hit.title,
           canonicalUrl: hit.url,

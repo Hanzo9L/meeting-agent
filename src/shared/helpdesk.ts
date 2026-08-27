@@ -11,6 +11,7 @@ import type {
   ConnectionStatus,
   UpdateRelaySettingsInput
 } from "./types";
+import type { RenderCaptureStatusView } from "./renderEndpoint";
 
 export type HelpdeskInputOrigin = "typed" | "pasted" | "live_transcript";
 export type HelpdeskAnswerability =
@@ -220,6 +221,11 @@ export interface HelpdeskApi {
   enableLoopbackAudio(): Promise<void>;
   disableLoopbackAudio(): Promise<void>;
   sendAudioChunk(payload: AudioChunkPayload): void;
+  getRenderCaptureStatus(): Promise<RenderCaptureStatusView>;
+  selectRenderEndpoint(endpointId: string): Promise<RenderCaptureStatusView>;
+  onRenderCaptureStatus(
+    handler: (status: RenderCaptureStatusView) => void
+  ): () => void;
   onLiveAssistCaptureCommand(
     handler: (command: LiveAssistCaptureCommand) => void
   ): () => void;

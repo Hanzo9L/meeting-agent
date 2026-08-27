@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   EVIDENCE_RESOLVER_POLICY,
-  EVIDENCE_SNAPSHOT_SCHEMA
+  EVIDENCE_SNAPSHOT_SCHEMA,
+  listEvidenceCardSources
 } from "@shared/evidenceCard";
 import {
   persistEvidenceCard
@@ -174,4 +175,82 @@ test("AudioCodes hits persist vendor provenance instead of microsoft_learn", () 
     "vendor_implementation_reference"
   );
   assert.equal(persisted.contextReferences[0]?.sourceId, "audiocodes");
+});
+
+test("generic Microsoft questions persist retrieval order but present Microsoft first", () => {
+  const persisted = persistEvidenceCard({
+    ok: true,
+    query: "Explain Direct Routing",
+    route: {
+      confidence: "NONE",
+      service: null,
+      repo: null,
+      reason: "no high-confidence corpus cue"
+    },
+    results: [
+      {
+        parentId: "ac-prereq",
+        title: "AudioCodes infrastructure prerequisites",
+        section: "Prerequisites",
+        url: "https://www.audiocodes.com/media/note.pdf",
+        body: "AudioCodes prerequisite table.",
+        score: 0.9,
+        matchedBy: ["lexical"],
+        repo: "audiocodes"
+      },
+      {
+        parentId: "ms-plan",
+        title: "Plan Direct Routing Overview",
+        section: "Overview",
+        url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        body: "Direct Routing lets you connect a certified SBC.",
+        score: 0.8,
+        matchedBy: ["lexical"],
+        repo: "teams"
+      },
+      {
+        parentId: "ms-sbc",
+        title: "Direct Routing SBC role",
+        section: "SBC",
+        url: "https://learn.microsoft.com/en-us/microsoftteams/direct-routing",
+        body: "The SBC is the boundary between Teams and PSTN.",
+        score: 0.7,
+        matchedBy: ["vector"],
+        repo: "teams"
+      }
+    ],
+    timing: { total_ms: 20 },
+    topK: 5,
+    engine: "learn-rag-r0.4",
+    corpusFingerprint: "c".repeat(16),
+    indexFingerprint: "i".repeat(16)
+  });
+  assert.equal(persisted.payload.primary?.parentId, "ac-prereq");
+  assert.equal(persisted.payload.primary?.publisher, "AudioCodes");
+  assert.equal(persisted.payload.primary?.retrievalRank, 1);
+  assert.equal(persisted.payload.additional[0]?.retrievalRank, 2);
+  assert.equal(persisted.payload.additional[1]?.retrievalRank, 3);
+  const presented = listEvidenceCardSources(persisted.payload);
+  assert.deepEqual(
+    presented.map((item) => item.parentId),
+    ["ms-plan", "ms-sbc", "ac-prereq"]
+  );
+  assert.deepEqual(
+    presented.map((item) => item.retrievalRank),
+    [2, 3, 1]
+  );
+  const visible = persisted.content.slice(
+    0,
+    persisted.content.indexOf("\n\n\u0000RELAY_EVIDENCE_PAYLOAD\u0000\n")
+  );
+  assert.match(visible, /1\. Plan Direct Routing Overview/);
+  assert.match(visible, /3\. AudioCodes infrastructure prerequisites/);
+  assert.deepEqual(
+    persisted.citations.map((citation) => citation.documentId),
+    ["ms-plan", "ms-sbc", "ac-prereq"]
+  );
+  assert.deepEqual(
+    persisted.contextReferences.map((reference) => reference.documentId),
+    ["ac-prereq", "ms-plan", "ms-sbc"]
+  );
 });

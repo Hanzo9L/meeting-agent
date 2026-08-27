@@ -22,6 +22,11 @@ import type {
   RelaySettingsSnapshot
 } from "@shared/types";
 import {
+  describeListenState,
+  formatRenderCaptureLine,
+  type RenderCaptureStatusView
+} from "@shared/renderEndpoint";
+import {
   startLoopbackCapture,
   stopLoopbackCapture
 } from "@renderer/audio-capture/captureLoopbackAudio";
@@ -29,6 +34,8 @@ import {
   HELP_DESK_ACTIVE_CONVERSATION_KEY,
   buildHelpdeskTimeline,
   copyAnswerText,
+  groupHelpdeskInterviewTurns,
+  newestTurnUserMessageId,
   resolveComposerInputOrigin,
   resolveInitialConversationId,
   resolveSubmitConversationId
@@ -37,14 +44,21 @@ import {
   evidenceSourceItemId,
   formatEvidenceCardHeading,
   formatEvidenceSourceRoleLabel,
+  isPersonalResponseMode,
   listEvidenceCardSources,
+  NO_APPROVED_PERSONAL_STORY,
   parseEvidenceCardContent,
+  PERSONAL_RESPONSE_PROMPT,
+  PERSONAL_STORY_FRAMEWORK,
+  resolveResponseMode,
+  SUPPORTING_EVIDENCE_HEADING,
   toggleExpandedEvidenceSource,
   tokenizeEvidenceMarkup,
   type EvidenceCardSource,
   type EvidenceMarkupToken
 } from "@shared/evidenceCard";
 import { SettingsPage } from "./SettingsPage";
+import { useNewestTurnFocus } from "../turnFocus";
 
 function resultErrorMessage(
   fallback: string,
@@ -316,6 +330,8 @@ function EvidenceAssistantMessage(props: {
   const [notice, setNotice] = useState<string | null>(null);
   const { payload, visibleText } = props.evidence;
   const sources = listEvidenceCardSources(payload);
+  const responseMode = resolveResponseMode(payload);
+  const personalCard = isPersonalResponseMode(responseMode);
 
   const copy = async (): Promise<void> => {
     try {
@@ -323,7 +339,7 @@ function EvidenceAssistantMessage(props: {
         throw new Error("clipboard unavailable");
       }
       await copyAnswerText(visibleText, navigator.clipboard);
-      setNotice("Evidence copied.");
+      setNotice(personalCard ? "Response copied." : "Evidence copied.");
     } catch {
       setNotice("The evidence card could not be copied.");
     }
@@ -350,12 +366,70 @@ function EvidenceAssistantMessage(props: {
     <>
       <div className="message-label">
         Relay
-        <span className="answerability-label evidence">
+        <span
+          className={`answerability-label ${personalCard ? "personal" : "evidence"}`}
+        >
           {formatEvidenceCardHeading(payload)}
         </span>
       </div>
-      {sources.length > 0 ? (
-        <div className="evidence-card" data-evidence-card="true">
+      {personalCard ? (
+        <div
+          className="personal-card"
+          data-evidence-card="true"
+          data-response-mode={responseMode}
+        >
+          <p className="personal-prompt">
+            {payload.personal?.prompt ?? PERSONAL_RESPONSE_PROMPT}
+          </p>
+          <ol className="personal-framework">
+            {(payload.personal?.framework ?? [...PERSONAL_STORY_FRAMEWORK]).map(
+              (step) => (
+                <li key={step}>{step}</li>
+              )
+            )}
+          </ol>
+          <p className="personal-story">
+            {payload.personal?.storyText ?? NO_APPROVED_PERSONAL_STORY}
+          </p>
+          {sources.length > 0 ? (
+            <details
+              className="personal-support"
+              open={responseMode === "mixed_personal_technical"}
+            >
+              <summary>{SUPPORTING_EVIDENCE_HEADING}</summary>
+              <div className="evidence-card">
+                {sources.map((source, index) => {
+                  const sourceId = evidenceSourceItemId(source, index);
+                  return (
+                    <EvidenceSourceItem
+                      key={sourceId}
+                      source={source}
+                      index={index}
+                      expanded={expandedIds.has(sourceId)}
+                      citationId={
+                        citationByDocumentId.get(source.parentId) ?? null
+                      }
+                      onToggle={() =>
+                        setExpandedIds((current) =>
+                          toggleExpandedEvidenceSource(current, sourceId)
+                        )
+                      }
+                      onOpenCitation={(citationId) =>
+                        void openCitation(citationId)
+                      }
+                    />
+                  );
+                })}
+              </div>
+            </details>
+          ) : null}
+        </div>
+      ) : sources.length > 0 ? (
+        <div
+          className="evidence-card"
+          data-evidence-card="true"
+          data-response-mode={responseMode}
+        >
           {sources.map((source, index) => {
             const sourceId = evidenceSourceItemId(source, index);
             return (
@@ -376,13 +450,17 @@ function EvidenceAssistantMessage(props: {
           })}
         </div>
       ) : (
-        <div className="message-content" data-evidence-card="true">
+        <div
+          className="message-content"
+          data-evidence-card="true"
+          data-response-mode={responseMode}
+        >
           No evidence found for this question.
         </div>
       )}
       <div className="assistant-actions">
         <button type="button" onClick={() => void copy()}>
-          Copy evidence
+          {personalCard ? "Copy response" : "Copy evidence"}
         </button>
         {notice ? <span role="status">{notice}</span> : null}
       </div>
@@ -524,6 +602,59 @@ function GroundedAssistantMessage(props: {
   );
 }
 
+function TimelineRow(props: {
+  row: ReturnType<typeof buildHelpdeskTimeline>[number];
+}): JSX.Element {
+  const row = props.row;
+  if (row.kind !== "message") {
+    return (
+      <div
+        className={`answer-status ${row.tone}`}
+        role={row.tone === "error" ? "alert" : "status"}
+      >
+        {row.text}
+      </div>
+    );
+  }
+  return (
+    <article
+      className={`message-row ${row.message.role}${
+        row.message.role === "assistant" &&
+        parseEvidenceCardContent(row.message.content)
+          ? " evidence-card-row"
+          : row.message.role === "assistant" &&
+              row.message.presentationProfile === "live_assist_quick"
+            ? " interview-quick"
+            : ""
+      }`}
+      data-message-origin={row.message.inputOrigin ?? undefined}
+      data-user-message-id={
+        row.message.role === "user" ? row.message.id : undefined
+      }
+      data-answer-run-id={row.run?.id}
+      data-triggering-user-message-id={row.run?.triggeringUserMessageId}
+    >
+      {row.message.role === "user" ? (
+        <div className="message-label">
+          {row.message.inputOrigin === "live_transcript"
+            ? "Interviewer"
+            : "You"}
+          {row.message.inputOrigin === "pasted" ? (
+            <span className="origin-label">Pasted</span>
+          ) : row.message.inputOrigin === "live_transcript" ? (
+            <span className="origin-label">Live transcript</span>
+          ) : null}
+        </div>
+      ) : null}
+      {row.message.role === "assistant" ? (
+        <AssistantMessage message={row.message} />
+      ) : (
+        <div className="message-content">{row.message.content}</div>
+      )}
+    </article>
+  );
+}
+
 function ConversationTimeline(props: {
   view: HelpdeskConversationView | null;
   loading: boolean;
@@ -533,11 +664,18 @@ function ConversationTimeline(props: {
     () => (props.view ? buildHelpdeskTimeline(props.view) : []),
     [props.view]
   );
-  const endRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ block: "end" });
-  }, [props.view?.conversation.id, rows.length]);
+  const turns = useMemo(() => groupHelpdeskInterviewTurns(rows), [rows]);
+  const newestUserMessageId = newestTurnUserMessageId(turns);
+  const turnEls = useRef(new Map<string, HTMLElement>());
+  const elementFor = useCallback(
+    (userMessageId: string) => turnEls.current.get(userMessageId) ?? null,
+    []
+  );
+  useNewestTurnFocus(
+    props.view?.conversation.id ?? null,
+    newestUserMessageId,
+    elementFor
+  );
 
   let body: JSX.Element;
   if (props.loading) {
@@ -559,62 +697,29 @@ function ConversationTimeline(props: {
   } else {
     body = (
       <div className="timeline-content">
-        {rows.map((row) =>
-          row.kind === "message" ? (
-            <article
-              key={row.id}
-              className={`message-row ${row.message.role}${
-                row.message.role === "assistant" &&
-                parseEvidenceCardContent(row.message.content)
-                  ? " evidence-card-row"
-                  : row.message.role === "assistant" &&
-                      row.message.presentationProfile === "live_assist_quick"
-                    ? " interview-quick"
-                    : ""
-              }`}
-              data-message-origin={row.message.inputOrigin ?? undefined}
-              data-user-message-id={
-                row.message.role === "user" ? row.message.id : undefined
-              }
-              data-answer-run-id={row.run?.id}
-              data-triggering-user-message-id={
-                row.run?.triggeringUserMessageId
-              }
+        {turns.map((turn) =>
+          turn.kind === "turn" ? (
+            <section
+              key={turn.id}
+              className="helpdeskTurn"
+              data-turn-anchor={turn.userMessageId}
+              data-user-message-id={turn.userMessageId}
+              ref={(element) => {
+                if (element) {
+                  turnEls.current.set(turn.userMessageId, element);
+                } else {
+                  turnEls.current.delete(turn.userMessageId);
+                }
+              }}
             >
-              {row.message.role === "user" ? (
-                <div className="message-label">
-                  {row.message.inputOrigin === "live_transcript"
-                    ? "Interviewer"
-                    : "You"}
-                  {row.message.inputOrigin === "pasted" ? (
-                    <span className="origin-label">Pasted</span>
-                  ) : row.message.inputOrigin ===
-                    "live_transcript" ? (
-                    <span className="origin-label">
-                      Live transcript
-                    </span>
-                  ) : null}
-                </div>
-              ) : null}
-              {row.message.role === "assistant" ? (
-                <AssistantMessage message={row.message} />
-              ) : (
-                <div className="message-content">
-                  {row.message.content}
-                </div>
-              )}
-            </article>
+              {turn.rows.map((row) => (
+                <TimelineRow key={row.id} row={row} />
+              ))}
+            </section>
           ) : (
-            <div
-              key={row.id}
-              className={`answer-status ${row.tone}`}
-              role={row.tone === "error" ? "alert" : "status"}
-            >
-              {row.text}
-            </div>
+            <TimelineRow key={turn.id} row={turn.row} />
           )
         )}
-        <div ref={endRef} />
       </div>
     );
   }
@@ -718,6 +823,8 @@ export function HelpdeskApp() {
     CaptureSourceTag[]
   >([]);
   const [liveTranscript, setLiveTranscript] = useState("");
+  const [renderCaptureStatus, setRenderCaptureStatus] =
+    useState<RenderCaptureStatusView | null>(null);
   const loadRequest = useRef(0);
   const activeIdRef = useRef<string | null>(null);
   const settingsRef = useRef<RelaySettingsSnapshot | null>(
@@ -809,6 +916,17 @@ export function HelpdeskApp() {
       }
       captureStartingRef.current = true;
       try {
+        if (sourceMode === "system") {
+          await window.helpdeskApi.startCapture({
+            sessionId,
+            sources: ["system"]
+          });
+          setActiveSources(["system"]);
+          const status =
+            await window.helpdeskApi.getRenderCaptureStatus();
+          setRenderCaptureStatus(status);
+          return;
+        }
         const result = await startLoopbackCapture(
           sourceMode,
           sessionId,
@@ -845,6 +963,7 @@ export function HelpdeskApp() {
       await stopLoopbackCapture().catch(() => undefined);
       setActiveSources([]);
       setLiveTranscript("");
+      setRenderCaptureStatus(null);
       await window.helpdeskApi
         .stopCapture(sessionId)
         .catch(() => undefined);
@@ -909,12 +1028,15 @@ export function HelpdeskApp() {
     );
     const stopConnectionStatus =
       window.helpdeskApi.onConnectionStatus(setCaptureStatus);
+    const stopRenderCapture =
+      window.helpdeskApi.onRenderCaptureStatus(setRenderCaptureStatus);
     return () => {
       stopSession();
       stopConversation();
       stopCaptureCommands();
       stopTranscript();
       stopConnectionStatus();
+      stopRenderCapture();
       void stopLoopbackCapture();
     };
   }, [loadConversation, startCaptureFlow, stopCaptureFlow]);
@@ -1196,7 +1318,9 @@ export function HelpdeskApp() {
             <span className="capture-summary">
               {liveSession?.state === "active" &&
               liveSession.profile === "qa_assist"
-                ? "system · microphone excluded"
+                ? renderCaptureStatus
+                  ? formatRenderCaptureLine(renderCaptureStatus)
+                  : "system · microphone excluded"
                 : settings
                   ? `${settings.speech.captureSourceMode} · ${
                       settings.speech.microphoneLabel ??
@@ -1207,6 +1331,52 @@ export function HelpdeskApp() {
                 ? ` · ${captureStatus}`
                 : ""}
             </span>
+            {liveSession?.state === "active" &&
+            liveSession.profile === "qa_assist" ? (
+              <div className="render-audio-status">
+                <span
+                  className={`render-audio-listen${
+                    renderCaptureStatus?.listenState === "listening"
+                      ? " active"
+                      : ""
+                  }`}
+                >
+                  {describeListenState(
+                    renderCaptureStatus?.listenState ?? "idle"
+                  )}
+                </span>
+                <label className="render-audio-select">
+                  Output
+                  <select
+                    value={
+                      renderCaptureStatus?.selectedEndpointId ?? ""
+                    }
+                    onChange={(event) => {
+                      const endpointId = event.target.value;
+                      if (!endpointId) return;
+                      void window.helpdeskApi
+                        .selectRenderEndpoint(endpointId)
+                        .then(setRenderCaptureStatus)
+                        .catch(() => undefined);
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select output device
+                    </option>
+                    {(renderCaptureStatus?.endpoints ?? []).map(
+                      (endpoint) => (
+                        <option key={endpoint.id} value={endpoint.id}>
+                          {endpoint.name}
+                          {endpoint.isDefault
+                            ? " (Windows default)"
+                            : ""}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </label>
+              </div>
+            ) : null}
             <button
               type="button"
               onClick={() => void toggleOverlay()}
