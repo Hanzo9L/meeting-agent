@@ -590,6 +590,52 @@ button:disabled {
   font-weight: 650;
 }
 
+.interview-answer-card {
+  display: grid;
+  gap: 10px;
+}
+
+.interview-direct-answer {
+  margin: 0;
+  color: #f3f6fc;
+  font-size: 15px;
+  font-weight: 550;
+  line-height: 1.5;
+}
+
+.interview-answer-bullets {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #dce4f2;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.interview-unsupported {
+  margin: 0;
+  color: #d7bf8a;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.interview-sources {
+  border-top: 1px solid #2a2d35;
+  padding-top: 8px;
+}
+
+.interview-sources summary {
+  cursor: pointer;
+  color: #aeb8cb;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.interview-sources[open] summary {
+  margin-bottom: 8px;
+}
+
 .message-row.assistant.evidence-card-row {
   width: min(88%, 720px);
   border-radius: 14px;

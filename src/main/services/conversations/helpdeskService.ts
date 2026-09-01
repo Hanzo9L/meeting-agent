@@ -9,6 +9,7 @@ import type {
 import type { CaptureSourceTag } from "@shared/types";
 import { isAuthoritativeEvidenceUrl } from "@shared/evidenceCard";
 import type { AnswerExecutionPort } from "./answerExecutionPort";
+import type { QuestionFacet } from "../questionUnderstandingPort";
 import type {
   AnswerRunRecord,
   ConversationMessage,
@@ -205,8 +206,10 @@ export class HelpdeskService {
   async submitLiveQuestion(input: {
     conversationId: string;
     content: string;
+    normalizedQuestion?: string;
     captureSource?: CaptureSourceTag;
     presentationSynthesis?: "optional" | "disabled";
+    retrievalQueries?: QuestionFacet[];
   }): Promise<SubmitHelpdeskMessageResult> {
     return this.beginLiveQuestion(input).completion;
   }
@@ -214,15 +217,19 @@ export class HelpdeskService {
   beginLiveQuestion(input: {
     conversationId: string;
     content: string;
+    normalizedQuestion?: string;
     captureSource?: CaptureSourceTag;
     presentationSynthesis?: "optional" | "disabled";
+    retrievalQueries?: QuestionFacet[];
   }): BegunHelpdeskTurn {
     return this.beginTurn({
       conversationId: input.conversationId,
       content: input.content,
       inputOrigin: "live_transcript",
       captureSource: input.captureSource ?? "microphone",
-      presentationSynthesis: input.presentationSynthesis ?? "optional"
+      presentationSynthesis: input.presentationSynthesis ?? "optional",
+      retrievalQueries: input.retrievalQueries,
+      normalizedQuestion: input.normalizedQuestion
     });
   }
 
@@ -241,6 +248,8 @@ export class HelpdeskService {
     inputOrigin: "typed" | "pasted" | "live_transcript";
     captureSource?: CaptureSourceTag;
     presentationSynthesis?: "optional" | "disabled";
+    retrievalQueries?: QuestionFacet[];
+    normalizedQuestion?: string;
   }): BegunHelpdeskTurn {
     const content = input.content.trim();
     if (!content) {
@@ -268,7 +277,9 @@ export class HelpdeskService {
               ? "live_assist_quick"
               : "helpdesk_detailed",
           presentationSynthesis:
-            input.presentationSynthesis ?? "optional"
+            input.presentationSynthesis ?? "optional",
+          retrievalQueries: input.retrievalQueries,
+          normalizedQuestion: input.normalizedQuestion
         })
     );
     return { started, completion };
@@ -305,6 +316,8 @@ export class HelpdeskService {
       | "helpdesk_detailed"
       | "live_assist_quick";
     presentationSynthesis: "optional" | "disabled";
+    retrievalQueries?: QuestionFacet[];
+    normalizedQuestion?: string;
   }): Promise<SubmitHelpdeskMessageResult> {
     const { conversationId, content, started } = params;
     this.store.updateAnswerRun({
@@ -319,9 +332,11 @@ export class HelpdeskService {
       result = await this.answerExecution.execute({
         conversationId,
         userMessageId: started.message.id,
-        question: content,
+        originalQuestion: content,
+        question: params.normalizedQuestion?.trim() || content,
         presentationProfile: params.presentationProfile,
-        presentationSynthesis: params.presentationSynthesis
+        presentationSynthesis: params.presentationSynthesis,
+        retrievalQueries: params.retrievalQueries
       });
     } catch {
       result = {

@@ -177,6 +177,159 @@ async function fixture(results: AnswerExecutionResult[]) {
   };
 }
 
+test("production semantic gate rejects direct live ingestion without COMPLETE", async () => {
+  const context = await fixture([success()]);
+  const strict = new LiveAssistService(
+    context.store,
+    context.helpdesk,
+    {
+      sessionChanged: () => undefined,
+      projectionChanged: (projection) =>
+        context.projections.push(projection),
+      conversationUpdated: (conversationId) =>
+        context.updated.push(conversationId)
+    },
+    { requireSemanticComplete: true }
+  );
+  try {
+    const conversation = context.store.createConversation({
+      title: "Strict semantic gate"
+    });
+    const session = strict.start(conversation.id, "qa_assist");
+
+    await strict.acceptQuestion(
+      "What is your experience like with Teams?",
+      "system",
+      session.id
+    );
+
+    assert.equal(
+      context.store.loadOrderedMessages(conversation.id).length,
+      0
+    );
+    assert.equal(context.port.requests.length, 0);
+    assert.equal(context.projections.length, 0);
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("semantic CONTINUE produces zero SQLite, retrieval, and projection side effects", async () => {
+  const context = await fixture([success()]);
+  const provider = new CompletedUtteranceProvider();
+  const strict = new LiveAssistService(
+    context.store,
+    context.helpdesk,
+    {
+      sessionChanged: () => undefined,
+      projectionChanged: (projection) =>
+        context.projections.push(projection),
+      conversationUpdated: (conversationId) =>
+        context.updated.push(conversationId)
+    },
+    { requireSemanticComplete: true }
+  );
+  let semanticCalls = 0;
+  const pipeline = new PipelineManager({
+    sttProviderFactory: () => provider,
+    requireSemanticCompletion: true,
+    questionUnderstanding: {
+      async understand() {
+        semanticCalls += 1;
+        if (semanticCalls === 1) {
+          return {
+            decision: "continue",
+            confidence: 1,
+            reason: "The interviewer is still adding scope."
+          };
+        }
+        return {
+          decision: "complete",
+          normalizedQuestion:
+            "Describe Teams experience and diagnose Calling Plans or Operator Connect issues.",
+          facets: [],
+          confidence: 1,
+          reason: "The complete request is present."
+        };
+      }
+    },
+    onAcceptedQuestion: async (
+      question,
+      source,
+      understanding,
+      sessionId
+    ) => {
+      await strict.acceptQuestion(
+        question,
+        source,
+        sessionId,
+        understanding
+      );
+    },
+    sendStatus: () => undefined,
+    sendTranscript: () => undefined
+  });
+  try {
+    const conversation = context.store.createConversation({
+      title: "Integrated semantic gate"
+    });
+    const session = strict.start(conversation.id, "qa_assist");
+    await pipeline.start({
+      sessionId: session.id,
+      sources: ["system"],
+      answerTriggerMode: "questions_only"
+    });
+
+    provider.emit({
+      utteranceId: "u1",
+      text: "What is your experience like with Teams?",
+      completionSignal: "utterance_end",
+      segmentCount: 1,
+      sourceStartSeconds: 0,
+      sourceEndSeconds: 1,
+      speechFinalObserved: true
+    });
+    await new Promise((resolvePromise) => setTimeout(resolvePromise, 0));
+
+    assert.equal(
+      context.store.loadOrderedMessages(conversation.id).length,
+      0
+    );
+    assert.equal(context.port.requests.length, 0);
+    assert.equal(context.projections.length, 0);
+
+    provider.emit({
+      utteranceId: "u2",
+      text: "How would you diagnose Calling Plans or Operator Connect issues?",
+      completionSignal: "utterance_end",
+      segmentCount: 1,
+      sourceStartSeconds: 2,
+      sourceEndSeconds: 3,
+      speechFinalObserved: true
+    });
+    await new Promise((resolvePromise) => setTimeout(resolvePromise, 25));
+
+    assert.equal(
+      context.store
+        .loadOrderedMessages(conversation.id)
+        .filter((message) => message.role === "user").length,
+      1
+    );
+    assert.equal(context.port.requests.length, 1);
+    assert.equal(
+      context.projections.filter(
+        (projection) => projection.state === "accepted"
+      ).length,
+      1
+    );
+  } finally {
+    await pipeline.stop();
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
 test("accepted question becomes a durable live_transcript turn using the shared answer port", async () => {
   const context = await fixture([success()]);
   try {
@@ -222,6 +375,56 @@ test("accepted question becomes a durable live_transcript turn using the shared 
     );
     assert.equal(context.updated[0], conversation.id);
     assert.equal(session.conversationId, conversation.id);
+  } finally {
+    context.store.close();
+    await rm(context.root, { recursive: true, force: true });
+  }
+});
+
+test("live turn preserves exact STT text while execution uses the normalized V2.1 question", async () => {
+  const context = await fixture([success()]);
+  try {
+    const conversation = context.store.createConversation({
+      title: "Normalized live question"
+    });
+    const session = context.live.start(conversation.id);
+    await context.live.acceptQuestion(
+      "How did you implement Teams and the migration?",
+      "system",
+      session.id,
+      {
+        decision: "complete",
+        originalQuestion:
+          "tell me how you implemented teams and uh the migration",
+        normalizedQuestion: "How did you implement Teams and the migration?",
+        facets: [{
+          id: "implementation",
+          label: "Implementation",
+          query: "Teams implementation migration"
+        }],
+        confidence: 0.9,
+        reason: "Complete."
+      }
+    );
+
+    const messages =
+      context.store.loadOrderedMessages(conversation.id);
+    assert.equal(
+      messages[0]?.content,
+      "tell me how you implemented teams and uh the migration"
+    );
+    assert.equal(
+      context.port.requests[0]?.originalQuestion,
+      "tell me how you implemented teams and uh the migration"
+    );
+    assert.equal(
+      context.port.requests[0]?.question,
+      "How did you implement Teams and the migration?"
+    );
+    assert.equal(
+      context.projections[0]?.question,
+      "tell me how you implemented teams and uh the migration"
+    );
   } finally {
     context.store.close();
     await rm(context.root, { recursive: true, force: true });
@@ -563,7 +766,7 @@ test("QA Assist session persists a promoted system question with captureSource=s
     ]);
     assert.equal(
       context.port.requests[0]?.presentationSynthesis,
-      "disabled"
+      "optional"
     );
     assert.equal(
       context.store.getActiveLiveAssistSession()?.id,
@@ -821,7 +1024,7 @@ test("Slice 4 persists no raw audio or continuous transcript and adds no TTS pat
   );
   assert.match(
     main,
-    /acceptQuestion\(question, source, session\.id\)/
+    /\.acceptQuestion\(\s*question,\s*source,\s*expectedSessionId,\s*understanding\s*\)/
   );
   assert.doesNotMatch(
     overlay,

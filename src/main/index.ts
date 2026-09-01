@@ -20,6 +20,7 @@ import type {
   LiveAssistProjection,
   LiveAssistSessionView,
   OverlayVisibilityState,
+  RelaySettingsSnapshot,
   TranscriptMessage
 } from "@shared/types";
 import { SettingsStore } from "./store/settingsStore";
@@ -39,6 +40,7 @@ import { DeepgramSttProvider } from "./services/deepgramSttProvider";
 import { PipelineManager } from "./services/pipelineManager";
 import { createEvidenceSearchClient } from "./services/evidence/evidenceSearchClient";
 import { LearnRagChild } from "./services/evidence/learnRagChild";
+import { V2ProviderRuntime } from "./services/v2ProviderRuntime";
 import { RenderCaptureController } from "./audio/renderCaptureController";
 import {
   WasapiLoopbackProcess,
@@ -77,8 +79,35 @@ let latestProjections: LiveAssistProjection[] = [];
 let latestEvidenceStatus: EvidenceReadinessStatus = "starting";
 let audioChunkCount = 0;
 const settingsStore = new SettingsStore();
+let v2Runtime: V2ProviderRuntime | null = null;
 const wasapiLoopback = new WasapiLoopbackProcess();
 let renderCapture: RenderCaptureController | null = null;
+
+function refreshV2Runtime(): V2ProviderRuntime {
+  v2Runtime ??= new V2ProviderRuntime({
+    getApiKey: () =>
+      settingsStore.getProviderCredential("openai_embeddings")
+  });
+  const readiness = v2Runtime.refresh();
+  console.info(
+    "[Relay V2 readiness]",
+    JSON.stringify(readiness)
+  );
+  return v2Runtime;
+}
+
+function getRelaySettingsSnapshot(): RelaySettingsSnapshot {
+  return {
+    ...settingsStore.getRelaySettings(),
+    v2: v2Runtime?.getReadiness() ?? {
+      state: "misconfigured",
+      model: null,
+      semanticReady: false,
+      synthesisReady: false,
+      reason: "not_initialized"
+    }
+  };
+}
 
 function isHelpdeskSender(senderId: number): boolean {
   return (
@@ -212,6 +241,19 @@ function broadcastLiveSession(
 function sendLiveProjection(
   projection: LiveAssistProjection
 ): void {
+  console.info(
+    "[Relay live latency]",
+    JSON.stringify({
+      event: "projection_created",
+      timestampMs: Date.now(),
+      sessionId: projection.sessionId,
+      conversationId: projection.conversationId,
+      userMessageId: projection.userMessageId,
+      answerRunId: projection.answerRunId,
+      state: projection.state,
+      usefulAnswer: Boolean(projection.answerText)
+    })
+  );
   latestProjections = updateProjectionFeed(latestProjections, projection);
   overlayWindow?.webContents.send(
     IPC_CHANNELS.liveAssistProjection,
@@ -243,19 +285,48 @@ function createPipeline(): PipelineManager {
       new DeepgramSttProvider(
         settingsStore.getProviderCredential("deepgram")
       ),
-    onAcceptedQuestion: (question, source) => {
+    questionUnderstanding: {
+      understand: (input) =>
+        (v2Runtime ?? refreshV2Runtime()).understand(input)
+    },
+    onQuestionUnderstandingDiagnostic: (diagnostic) => {
+      console.info(
+        "[Relay V2 semantic]",
+        JSON.stringify(diagnostic)
+      );
+    },
+    requireSemanticCompletion: true,
+    onQuestionGateDiagnostic: (diagnostic) => {
+      console.info(
+        "[Relay V2 acceptance gate]",
+        JSON.stringify(diagnostic)
+      );
+    },
+    onAcceptedQuestion: (
+      question,
+      source,
+      understanding,
+      originatingSessionId
+    ) => {
       if (!liveAssistService) {
         return Promise.reject(new Error(
           "Live Assist session service is unavailable."
         ));
       }
-      const session = liveAssistService.getActiveSession();
-      if (!session) return Promise.resolve();
+      const expectedSessionId =
+        originatingSessionId ??
+        liveAssistService.getActiveSession()?.id;
+      if (!expectedSessionId) return Promise.resolve();
       // Durable acceptance occurs synchronously before acceptQuestion reaches
       // answer execution. Do not hold the STT promotion queue for the full
       // answer so rapid completed questions can become independent turns.
       void liveAssistService
-        .acceptQuestion(question, source, session.id)
+        .acceptQuestion(
+          question,
+          source,
+          expectedSessionId,
+          understanding
+        )
         .catch((error) => {
           console.error("[Relay Live Assist answer]", error);
         });
@@ -266,6 +337,12 @@ function createPipeline(): PipelineManager {
     onArbitrationDiagnostic: (diagnostic) => {
       console.info(
         "[Relay Live Assist arbitration]",
+        JSON.stringify(diagnostic)
+      );
+    },
+    onSttDiagnostic: (diagnostic) => {
+      console.info(
+        "[Relay Deepgram event]",
         JSON.stringify(diagnostic)
       );
     }
@@ -304,6 +381,20 @@ function startLiveAssistSession(
     throw new HelpdeskServiceError(
       "invalid_request",
       "Configure Deepgram STT in Relay Settings before starting Live Assist."
+    );
+  }
+  const readiness =
+    (v2Runtime ?? refreshV2Runtime()).getReadiness();
+  if (readiness.state !== "ready") {
+    throw new HelpdeskServiceError(
+      "invalid_request",
+      `V2 unavailable: ${
+        readiness.reason === "model_not_configured"
+          ? "model not configured"
+          : readiness.reason === "api_key_missing"
+            ? "OpenAI API key not configured"
+            : "provider could not be constructed"
+      }.`
     );
   }
   const session = liveAssistService.start(conversationId, profile);
@@ -687,20 +778,25 @@ function registerHelpdeskHandlers(): void {
       return stopped;
     },
     getRelaySettings: () =>
-      settingsStore.getRelaySettings(),
+      getRelaySettingsSnapshot(),
     updateRelaySettings: (input) => {
-      const settings =
-        settingsStore.updateRelaySettings(input);
+      settingsStore.updateRelaySettings(input);
       applyOverlaySettings();
-      return settings;
+      return getRelaySettingsSnapshot();
     },
-    setProviderCredential: (provider, credential) =>
+    setProviderCredential: (provider, credential) => {
       settingsStore.setProviderCredential(
         provider,
         credential
-      ),
-    clearProviderCredential: (provider) =>
-      settingsStore.clearProviderCredential(provider),
+      );
+      if (provider === "openai_embeddings") refreshV2Runtime();
+      return getRelaySettingsSnapshot();
+    },
+    clearProviderCredential: (provider) => {
+      settingsStore.clearProviderCredential(provider);
+      if (provider === "openai_embeddings") refreshV2Runtime();
+      return getRelaySettingsSnapshot();
+    },
     getOverlayVisibility: overlayVisibility,
     showOverlay,
     hideOverlay
@@ -713,6 +809,7 @@ async function initializeRelay(): Promise<void> {
     preloadRoot;
   nativeTheme.themeSource = "dark";
   settingsStore.applyRuntimeCredentials();
+  refreshV2Runtime();
   initLoopbackMain();
   conversationStore = createSqliteConversationStore({
     databasePath: resolveConversationDatabasePath({
@@ -726,7 +823,21 @@ async function initializeRelay(): Promise<void> {
   helpdeskService = new HelpdeskService(
     conversationStore,
     new EvidenceAnswerExecutionPort(
-      createEvidenceSearchClient(evidenceChild)
+      createEvidenceSearchClient(evidenceChild),
+      {
+        synthesis: {
+          getReadiness: () =>
+            (v2Runtime ?? refreshV2Runtime()).getReadiness(),
+          synthesize: (input) =>
+            (v2Runtime ?? refreshV2Runtime()).synthesize(input)
+        },
+        onLatencyEvent: (event) => {
+          console.info(
+            "[Relay live latency]",
+            JSON.stringify(event)
+          );
+        }
+      }
     )
   );
   void evidenceChild.start().catch((error) => {
@@ -750,7 +861,8 @@ async function initializeRelay(): Promise<void> {
           JSON.stringify(event)
         );
       }
-    }
+    },
+    { requireSemanticComplete: true }
   );
   registerRuntimeIpcHandlers();
   registerHelpdeskHandlers();

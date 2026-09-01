@@ -1,9 +1,50 @@
 import { DeepgramClient } from "@deepgram/sdk";
-import type { SttEvents, SttProvider } from "./sttProvider";
+import type {
+  RawSttDiagnostic,
+  SttEvents,
+  SttProvider
+} from "./sttProvider";
 import {
   DeepgramUtteranceProcessor,
   type DeepgramTranscriptMessage
 } from "./deepgramUtteranceAssembler";
+
+function transcriptPreview(message: DeepgramTranscriptMessage): string | null {
+  const text =
+    message.channel?.alternatives?.[0]?.transcript
+      ?.replace(/\s+/g, " ")
+      .trim() ?? "";
+  return text ? text.slice(0, 96) : null;
+}
+
+export function toRawDeepgramDiagnostic(
+  message: DeepgramTranscriptMessage,
+  timestamp = Date.now()
+): RawSttDiagnostic | null {
+  if (message.type === "Results") {
+    return {
+      event: "results",
+      timestamp,
+      transcriptLength:
+        message.channel?.alternatives?.[0]?.transcript?.trim()
+          .length ?? 0,
+      transcriptPreview: transcriptPreview(message),
+      isFinal: Boolean(message.is_final),
+      speechFinal: Boolean(message.speech_final)
+    };
+  }
+  if (message.type === "UtteranceEnd") {
+    return {
+      event: "utterance_end",
+      timestamp,
+      transcriptLength: 0,
+      transcriptPreview: null,
+      isFinal: null,
+      speechFinal: null
+    };
+  }
+  return null;
+}
 
 export class DeepgramSttProvider implements SttProvider {
   private readonly client: DeepgramClient;
@@ -36,8 +77,11 @@ export class DeepgramSttProvider implements SttProvider {
     });
 
     this.connection.on("message", (data: unknown) => {
+      const message = data as DeepgramTranscriptMessage;
+      const diagnostic = toRawDeepgramDiagnostic(message);
+      if (diagnostic) this.events?.onDiagnostic?.(diagnostic);
       const result = this.transcriptProcessor.process(
-        data as DeepgramTranscriptMessage
+        message
       );
       if (result.interimText) {
         this.events?.onInterim(result.interimText);

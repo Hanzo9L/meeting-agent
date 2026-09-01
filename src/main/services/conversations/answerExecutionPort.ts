@@ -24,10 +24,14 @@ import type {
 } from "../answerV2";
 import type { AnswerPresentationProfile } from "../answerV2/answerPresentationTypes";
 import type { ContextReference } from "../answerV2/explanationContextTypes";
+import type { QuestionFacet } from "../questionUnderstandingPort";
 
 export interface AnswerExecutionRequest {
   conversationId: string;
   userMessageId: string;
+  /** Exact accepted STT thought shown in the durable user turn. */
+  originalQuestion?: string;
+  /** Normalized V2.1 question used for retrieval and synthesis. */
   question: string;
   presentationProfile?: AnswerPresentationProfile;
   /**
@@ -37,6 +41,8 @@ export interface AnswerExecutionRequest {
   presentationSynthesis?: "optional" | "disabled";
   /** Optional bounded validation scope; production routing leaves this unset. */
   eligibleDocumentIds?: string[];
+  /** V2.1 live-only ordered semantic search plan. */
+  retrievalQueries?: QuestionFacet[];
 }
 
 export interface AnswerExecutionCitation {
@@ -122,6 +128,16 @@ export interface GroundedAnswerExecutionSuccess {
       | "provider_failed"
       | "validation_failed";
     presentationSynthesisFallbackReason: string | null;
+    interviewSynthesis?: {
+      configuredModel: string;
+      actualModel: string | null;
+      reasoningEffort: "medium";
+      latencyMs: number;
+      inputTokens: number | null;
+      outputTokens: number | null;
+      totalTokens: number | null;
+      estimatedCostUsd: number | null;
+    };
   };
 }
 

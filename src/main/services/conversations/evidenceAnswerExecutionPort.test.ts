@@ -6,7 +6,10 @@ import { join, resolve } from "node:path";
 import test from "node:test";
 import { HelpdeskService } from "./helpdeskService";
 import { createSqliteConversationStore } from "./sqliteConversationStore";
-import { EvidenceAnswerExecutionPort } from "./evidenceAnswerExecutionPort";
+import {
+  EvidenceAnswerExecutionPort,
+  type EvidenceLatencyEvent
+} from "./evidenceAnswerExecutionPort";
 import type { EvidenceSearchClient, EvidenceSearchResult } from "../evidence/evidenceTypes";
 import { parseEvidenceCardContent } from "@shared/evidenceCard";
 
@@ -98,6 +101,7 @@ test("typed turns isolate evidence cards and do not call the interview generator
     );
     const parsed = parseEvidenceCardContent(firstAssistant.content);
     assert.ok(parsed);
+    assert.equal(parsed.payload.liveFallback, null);
     assert.match(parsed.visibleText, /Microsoft Evidence/);
     assert.doesNotMatch(firstAssistant.content, /This answers your question/);
     store.close();
@@ -317,4 +321,327 @@ test("personal questions still answer when retrieval fails", async () => {
     store.close();
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test("compound live plans run at most four searches and persist one deduplicated evidence card", async () => {
+  const duplicateByUrl = hit(
+    "shared-alias",
+    "Shared architecture duplicate"
+  );
+  if (duplicateByUrl.ok) {
+    duplicateByUrl.results[0]!.url =
+      "https://learn.microsoft.com/en-us/powershell/module/teams/shared";
+  }
+  const client = new ScriptedClient([
+    hit("shared", "Shared architecture"),
+    duplicateByUrl,
+    hit("exchange", "Exchange room resources"),
+    hit("migration", "Teams migration")
+  ]);
+  const result = await new EvidenceAnswerExecutionPort(client).execute({
+    conversationId: "conversation:v2.1",
+    userMessageId: "message:v2.1",
+    question:
+      "How did Teams rooms, Exchange resources, and migration sequencing fit together?",
+    presentationProfile: "live_assist_quick",
+    presentationSynthesis: "disabled",
+    retrievalQueries: [
+      { id: "one", label: "One", query: "teams rooms" },
+      { id: "two", label: "Two", query: "room architecture" },
+      { id: "three", label: "Three", query: "exchange resources" },
+      { id: "four", label: "Four", query: "migration sequencing" },
+      { id: "five", label: "Five", query: "must not execute" }
+    ]
+  });
+
+  assert.deepEqual(client.questions, [
+    "teams rooms",
+    "room architecture",
+    "exchange resources",
+    "migration sequencing"
+  ]);
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  const parsed = parseEvidenceCardContent(result.answerText);
+  assert.ok(parsed);
+  assert.equal(parsed.payload.query, result.ok
+    ? "How did Teams rooms, Exchange resources, and migration sequencing fit together?"
+    : "");
+  assert.deepEqual(
+    [
+      parsed.payload.primary,
+      ...parsed.payload.additional
+    ]
+      .filter(Boolean)
+      .map((source) => source!.parentId),
+    ["shared", "exchange", "migration"]
+  );
+  assert.equal(
+    result.diagnostics.factualGroundingGenerationRequests,
+    0
+  );
+  assert.equal(
+    result.diagnostics.presentationSynthesisRequests,
+    0
+  );
+});
+
+test("compound aggregation fails closed across incompatible corpus snapshots", async () => {
+  const first = hit("first", "First");
+  const second = hit("second", "Second");
+  if (second.ok) second.corpusFingerprint = "different-corpus";
+  const client = new ScriptedClient([first, second]);
+
+  const result = await new EvidenceAnswerExecutionPort(client).execute({
+    conversationId: "conversation:snapshot",
+    userMessageId: "message:snapshot",
+    question: "Compare the two systems.",
+    retrievalQueries: [
+      { id: "first", label: "First", query: "first system" },
+      { id: "second", label: "Second", query: "second system" }
+    ]
+  });
+
+  assert.equal(result.ok, false);
+  if (result.ok) return;
+  assert.equal(result.code, "evidence_retrieval_failed");
+  assert.match(result.userSafeMessage, /incompatible corpus snapshots/i);
+});
+
+test("live evidence receives exactly one synthesis call and persists one interview card", async () => {
+  const client = new ScriptedClient([
+    hit("get-csonlineuser", "Get-CsOnlineUser")
+  ]);
+  let synthesisCalls = 0;
+  const latencyEvents: EvidenceLatencyEvent[] = [];
+  const port = new EvidenceAnswerExecutionPort(client, {
+    onLatencyEvent: (event) => latencyEvents.push(event),
+    synthesis: {
+      async synthesize(input) {
+        synthesisCalls += 1;
+        assert.equal(
+          input.originalQuestion,
+          "what does get c s online user return"
+        );
+        assert.equal(
+          input.normalizedQuestion,
+          "What does Get-CsOnlineUser return?"
+        );
+        assert.deepEqual(
+          input.facetCoverage[0]?.evidenceIds,
+          ["E1"]
+        );
+        return {
+          directAnswer: {
+            text: "It returns the requested Microsoft 365 user object.",
+            evidenceIds: ["E1"]
+          },
+          bullets: [{
+            text: "Use it to retrieve the relevant user object.",
+            facetId: "cmdlet",
+            evidenceIds: ["E1"]
+          }],
+          unsupportedFacets: [],
+          confidence: "high",
+          diagnostics: {
+            configuredModel: "account-v2-alias",
+            actualModel: "resolved-model",
+            reasoningEffort: "medium",
+            latencyMs: 25,
+            inputTokens: 100,
+            outputTokens: 30,
+            totalTokens: 130,
+            estimatedCostUsd: null
+          }
+        };
+      }
+    }
+  });
+
+  const result = await port.execute({
+    conversationId: "conversation:synthesis",
+    userMessageId: "message:synthesis",
+    originalQuestion: "what does get c s online user return",
+    question: "What does Get-CsOnlineUser return?",
+    presentationProfile: "live_assist_quick",
+    retrievalQueries: [{
+      id: "cmdlet",
+      label: "Cmdlet return value",
+      query: "Get-CsOnlineUser return value"
+    }]
+  });
+
+  assert.equal(synthesisCalls, 1);
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  const parsed = parseEvidenceCardContent(result.answerText);
+  assert.ok(parsed?.payload.interviewAnswer);
+  assert.match(
+    parsed.visibleText,
+    /^It returns the requested Microsoft 365 user object\./
+  );
+  assert.equal(result.diagnostics.presentationSynthesisRequests, 1);
+  assert.equal(result.diagnostics.presentationSynthesisStatus, "succeeded");
+  assert.equal(
+    result.diagnostics.interviewSynthesis?.actualModel,
+    "resolved-model"
+  );
+  assert.deepEqual(
+    latencyEvents.map((event) => event.event),
+    [
+      "retrieval_started",
+      "retrieval_completed",
+      "synthesis_started",
+      "synthesis_completed"
+    ]
+  );
+  assert.equal(
+    latencyEvents.every(
+      (event, index) =>
+        index === 0 ||
+        event.timestampMs >= latencyEvents[index - 1]!.timestampMs
+    ),
+    true
+  );
+  assert.equal(latencyEvents[3]?.inputTokens, 100);
+  assert.equal(latencyEvents[3]?.outputTokens, 30);
+});
+
+test("one failed live synthesis call renders one compact card with collapsed-source payload", async () => {
+  const client = new ScriptedClient([
+    hit("get-csonlineuser", "Get-CsOnlineUser")
+  ]);
+  let synthesisCalls = 0;
+  const port = new EvidenceAnswerExecutionPort(client, {
+    synthesis: {
+      async synthesize() {
+        synthesisCalls += 1;
+        throw new Error("provider_rejected_model");
+      }
+    }
+  });
+  const result = await port.execute({
+    conversationId: "conversation:fallback",
+    userMessageId: "message:fallback",
+    question: "What does Get-CsOnlineUser return?",
+    presentationProfile: "live_assist_quick"
+  });
+
+  assert.equal(synthesisCalls, 1);
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  const parsed = parseEvidenceCardContent(result.answerText);
+  assert.equal(parsed?.payload.interviewAnswer, null);
+  assert.deepEqual(parsed?.payload.liveFallback, {
+    message: "Answer synthesis unavailable.",
+    status: "Authoritative evidence available — expand sources."
+  });
+  assert.equal(parsed?.visibleText, [
+    "Answer synthesis unavailable.",
+    "Authoritative evidence available — expand sources."
+  ].join("\n"));
+  assert.doesNotMatch(parsed?.visibleText ?? "", /Microsoft Evidence/);
+  assert.doesNotMatch(parsed?.visibleText ?? "", /Get-CsOnlineUser/);
+  assert.equal(parsed?.payload.primary?.title, "Get-CsOnlineUser");
+  assert.equal(
+    result.diagnostics.presentationSynthesisStatus,
+    "provider_failed"
+  );
+  assert.deepEqual(
+    parseEvidenceCardContent(result.answerText)?.payload.synthesis,
+    {
+      attempted: true,
+      status: "provider_failed",
+      model: null,
+      fallbackReason: "provider_rejected_model"
+    }
+  );
+});
+
+test("live insufficient evidence renders a compact status without document previews", async () => {
+  const client = new ScriptedClient([{
+    ok: true,
+    query: "Unknown live question",
+    route: {
+      confidence: "NONE",
+      service: null,
+      repo: null,
+      reason: "no_match"
+    },
+    results: [],
+    timing: { total_ms: 1 },
+    topK: 5,
+    engine: "learn-rag-r0.4",
+    corpusFingerprint: "corpus",
+    indexFingerprint: "index"
+  }]);
+  const result = await new EvidenceAnswerExecutionPort(client).execute({
+    conversationId: "conversation:insufficient",
+    userMessageId: "message:insufficient",
+    question: "Unknown live question",
+    presentationProfile: "live_assist_quick"
+  });
+
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  const parsed = parseEvidenceCardContent(result.answerText);
+  assert.equal(parsed?.visibleText, "Answer synthesis unavailable.");
+  assert.deepEqual(parsed?.payload.liveFallback, {
+    message: "Answer synthesis unavailable.",
+    status: null
+  });
+  assert.equal(
+    result.diagnostics.presentationSynthesisStatus,
+    "bypassed_insufficient_evidence"
+  );
+});
+
+test("missing model skips synthesis and persists an explicit fallback reason", async () => {
+  const client = new ScriptedClient([
+    hit("get-csonlineuser", "Get-CsOnlineUser")
+  ]);
+  let synthesisCalls = 0;
+  const port = new EvidenceAnswerExecutionPort(client, {
+    synthesis: {
+      getReadiness: () => ({
+        state: "misconfigured",
+        model: null,
+        semanticReady: false,
+        synthesisReady: false,
+        reason: "model_not_configured"
+      }),
+      async synthesize() {
+        synthesisCalls += 1;
+        throw new Error("must not be called");
+      }
+    }
+  });
+
+  const result = await port.execute({
+    conversationId: "conversation:missing-model",
+    userMessageId: "message:missing-model",
+    question: "What does Get-CsOnlineUser return?",
+    presentationProfile: "live_assist_quick"
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(synthesisCalls, 0);
+  if (!result.ok) return;
+  assert.equal(
+    result.diagnostics.presentationSynthesisStatus,
+    "not_configured"
+  );
+  assert.equal(
+    result.diagnostics.presentationSynthesisFallbackReason,
+    "model_not_configured"
+  );
+  assert.deepEqual(
+    parseEvidenceCardContent(result.answerText)?.payload.synthesis,
+    {
+      attempted: false,
+      status: "not_configured",
+      model: null,
+      fallbackReason: "model_not_configured"
+    }
+  );
 });

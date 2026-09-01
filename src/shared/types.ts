@@ -46,11 +46,24 @@ export interface ProviderCredentialStatus {
   maskedSuffix: string | null;
 }
 
+export interface V2ReadinessStatus {
+  state: "ready" | "misconfigured" | "provider_error";
+  model: string | null;
+  semanticReady: boolean;
+  synthesisReady: boolean;
+  reason: string | null;
+}
+
 export interface RelaySettingsSnapshot {
   providers: {
     deepgram: ProviderCredentialStatus;
     openAiEmbeddings: ProviderCredentialStatus;
   };
+  /**
+   * Main-process V2 provider readiness. Older isolated SettingsStore callers
+   * may omit this; production IPC always supplies it.
+   */
+  v2?: V2ReadinessStatus;
   speech: {
     captureSourceMode: CaptureSourceMode;
     answerTriggerMode: AnswerTriggerMode;

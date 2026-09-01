@@ -19,6 +19,7 @@ import {
   PERSONAL_RESPONSE_HEADING,
   PERSONAL_RESPONSE_PROMPT,
   PERSONAL_STORY_FRAMEWORK,
+  resolveLiveAnswerFallback,
   resolveResponseMode,
   SUPPORTING_EVIDENCE_HEADING,
   toggleExpandedEvidenceSource,
@@ -196,7 +197,67 @@ function OverlayAnswerCard(props: {
     ) : null;
 
   let body: JSX.Element;
-  if (parsed && personalCard) {
+  const interviewAnswer = parsed?.payload.interviewAnswer ?? null;
+  const liveFallback = parsed
+    ? resolveLiveAnswerFallback(parsed.payload)
+    : null;
+  if (interviewAnswer) {
+    body = (
+      <div
+        className="overlayInterviewAnswer"
+        data-confidence={interviewAnswer.confidence}
+      >
+        {interviewAnswer.directAnswer ? (
+          <p className="overlayInterviewDirect">
+            {interviewAnswer.directAnswer.text}
+          </p>
+        ) : null}
+        {interviewAnswer.bullets.length > 0 ? (
+          <ul className="overlayInterviewBullets">
+            {interviewAnswer.bullets.map((bullet) => (
+              <li key={bullet.facetId}>{bullet.text}</li>
+            ))}
+          </ul>
+        ) : null}
+        {interviewAnswer.unsupportedFacets.map((facet) => (
+          <p
+            className="overlayInterviewUnsupported"
+            key={facet.facetId}
+          >
+            Unsupported: {facet.reason}
+          </p>
+        ))}
+        {evidenceList ? (
+          <details className="overlaySupportEvidence">
+            <summary>Sources ({sources.length})</summary>
+            {evidenceList}
+          </details>
+        ) : null}
+      </div>
+    );
+  } else if (liveFallback) {
+    body = (
+      <div
+        className="overlayInterviewAnswer overlayAnswerFallback"
+        data-live-answer-fallback="true"
+      >
+        <p className="overlayInterviewDirect">
+          {liveFallback.message}
+        </p>
+        {liveFallback.status ? (
+          <p className="overlayInterviewUnsupported">
+            {liveFallback.status}
+          </p>
+        ) : null}
+        {evidenceList ? (
+          <details className="overlaySupportEvidence">
+            <summary>Sources ({sources.length})</summary>
+            {evidenceList}
+          </details>
+        ) : null}
+      </div>
+    );
+  } else if (parsed && personalCard) {
     body = (
       <div className="overlayPersonalCard">
         <OverlayPersonalBlock payload={parsed.payload} />
@@ -289,8 +350,7 @@ export function OverlayApp(): JSX.Element {
     const unsubscribe = [
       window.overlayApi.onDemoMode(setDemoMode),
       window.overlayApi.onTranscript((payload) => {
-        const text = payload.text.trim();
-        if (text) setLiveTranscript(text);
+        setLiveTranscript(payload.text.trim());
       }),
       window.overlayApi.onStatus(setStatus),
       window.overlayApi.onEvidenceStatus(setEvidenceStatus),

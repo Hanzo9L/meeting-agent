@@ -3,16 +3,17 @@ import type {
   AnswerExecutionFailure,
   AnswerExecutionPort,
   AnswerExecutionRequest,
-  AnswerExecutionResult
+  AnswerExecutionResult,
+  GroundedAnswerExecutionSuccess
 } from "./answerExecutionPort";
 import { persistEvidenceCard } from "../evidence/evidenceCardBuilder";
-import type {
-  EvidenceSearchClient,
-  EvidenceSearchSuccess
-} from "../evidence/evidenceTypes";
+import type { EvidenceSearchClient, EvidenceSearchSuccess } from "../evidence/evidenceTypes";
+import { MultiSearchEvidenceOrchestrator } from "../evidence/multiSearchEvidenceOrchestrator";
+import type { InterviewAnswerSynthesisPort } from "../evidence/interviewAnswerSynthesisPort";
 import { lookupApprovedPersonalStory } from "@shared/approvedPersonalStories";
 import {
   buildPersonalResponseBlock,
+  formatInterviewAnswerText,
   isPersonalResponseMode
 } from "@shared/evidenceCard";
 import { classifyQuestionIntent } from "@shared/questionIntent";
@@ -51,8 +52,36 @@ function failure(
   };
 }
 
+export interface EvidenceLatencyEvent {
+  event:
+    | "retrieval_started"
+    | "retrieval_completed"
+    | "synthesis_started"
+    | "synthesis_completed";
+  timestampMs: number;
+  conversationId: string;
+  userMessageId: string;
+  model?: string | null;
+  reasoningEffort?: "medium";
+  inputTokens?: number | null;
+  outputTokens?: number | null;
+  totalTokens?: number | null;
+  status?: string;
+  fallbackReason?: string | null;
+}
+
 export class EvidenceAnswerExecutionPort implements AnswerExecutionPort {
-  constructor(private readonly search: EvidenceSearchClient) {}
+  private readonly orchestrator: MultiSearchEvidenceOrchestrator;
+
+  constructor(
+    search: EvidenceSearchClient,
+    private readonly options: {
+      synthesis?: InterviewAnswerSynthesisPort | null;
+      onLatencyEvent?: (event: EvidenceLatencyEvent) => void;
+    } = {}
+  ) {
+    this.orchestrator = new MultiSearchEvidenceOrchestrator(search);
+  }
 
   async execute(
     request: AnswerExecutionRequest
@@ -62,22 +91,162 @@ export class EvidenceAnswerExecutionPort implements AnswerExecutionPort {
     const personal = isPersonalResponseMode(intent.responseMode)
       ? buildPersonalResponseBlock(lookupApprovedPersonalStory(request.question))
       : null;
-    const retrieved = await this.search.search(request.question);
+    const liveTrace =
+      request.presentationProfile === "live_assist_quick";
+    if (liveTrace) {
+      this.options.onLatencyEvent?.({
+        event: "retrieval_started",
+        timestampMs: Date.now(),
+        conversationId: request.conversationId,
+        userMessageId: request.userMessageId
+      });
+    }
+    const retrieval = await this.orchestrator.execute({
+      question: request.question,
+      facets: request.retrievalQueries
+    });
+    if (liveTrace) {
+      this.options.onLatencyEvent?.({
+        event: "retrieval_completed",
+        timestampMs: Date.now(),
+        conversationId: request.conversationId,
+        userMessageId: request.userMessageId,
+        status: retrieval.ok ? "succeeded" : "failed"
+      });
+    }
     const retrievalMs = performance.now() - started;
-    if (!retrieved.ok && !personal) {
-      return failure("evidence_retrieval_failed", retrieved.message || EVIDENCE_UNAVAILABLE);
+    if (!retrieval.ok && !personal) {
+      return failure(
+        "evidence_retrieval_failed",
+        retrieval.failure.message || EVIDENCE_UNAVAILABLE
+      );
     }
 
-    const searchSuccess = retrieved.ok
-      ? retrieved
+    const searchSuccess = retrieval.ok
+      ? retrieval.result
       : emptyPersonalRetrieval(request.question);
+    let interviewAnswer: Awaited<
+      ReturnType<InterviewAnswerSynthesisPort["synthesize"]>
+    > | null = null;
+    let synthesisMs = 0;
+    let synthesisRequests: 0 | 1 = 0;
+    let synthesisStatus:
+      GroundedAnswerExecutionSuccess["diagnostics"]["presentationSynthesisStatus"] =
+      "bypassed_by_policy";
+    let synthesisFallbackReason: string | null = null;
+    let synthesisModel: string | null = null;
+    if (
+      request.presentationProfile === "live_assist_quick" &&
+      retrieval.ok &&
+      !personal &&
+      retrieval.evidence.length > 0
+    ) {
+      const readiness = this.options.synthesis?.getReadiness?.();
+      synthesisModel = readiness?.model ?? null;
+      if (
+        !this.options.synthesis ||
+        (readiness && readiness.state !== "ready")
+      ) {
+        synthesisStatus = "not_configured";
+        synthesisFallbackReason =
+          readiness?.reason ?? "interview_synthesis_not_configured";
+      } else {
+        const synthesisStarted = performance.now();
+        synthesisRequests = 1;
+        this.options.onLatencyEvent?.({
+          event: "synthesis_started",
+          timestampMs: Date.now(),
+          conversationId: request.conversationId,
+          userMessageId: request.userMessageId,
+          model: synthesisModel,
+          reasoningEffort: "medium"
+        });
+        try {
+          interviewAnswer = await this.options.synthesis.synthesize({
+            originalQuestion:
+              request.originalQuestion ?? request.question,
+            normalizedQuestion: request.question,
+            facets: retrieval.facets,
+            facetCoverage: retrieval.facetCoverage,
+            evidence: retrieval.evidence
+          });
+          synthesisStatus = "succeeded";
+          synthesisModel =
+            interviewAnswer.diagnostics.configuredModel;
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : "unknown";
+          synthesisStatus = message.startsWith(
+            "interview_synthesis_"
+          )
+            ? "validation_failed"
+            : "provider_failed";
+          synthesisFallbackReason = message;
+        }
+        synthesisMs = performance.now() - synthesisStarted;
+        this.options.onLatencyEvent?.({
+          event: "synthesis_completed",
+          timestampMs: Date.now(),
+          conversationId: request.conversationId,
+          userMessageId: request.userMessageId,
+          model: synthesisModel,
+          reasoningEffort: "medium",
+          inputTokens:
+            interviewAnswer?.diagnostics.inputTokens ?? null,
+          outputTokens:
+            interviewAnswer?.diagnostics.outputTokens ?? null,
+          totalTokens:
+            interviewAnswer?.diagnostics.totalTokens ?? null,
+          status: synthesisStatus,
+          fallbackReason: synthesisFallbackReason
+        });
+      }
+    } else if (
+      request.presentationProfile === "live_assist_quick" &&
+      retrieval.ok &&
+      !personal &&
+      retrieval.evidence.length === 0
+    ) {
+      synthesisStatus = "bypassed_insufficient_evidence";
+      synthesisFallbackReason = "interview_synthesis_insufficient_evidence";
+    }
+    const liveFallback =
+      request.presentationProfile === "live_assist_quick" &&
+      !personal &&
+      !interviewAnswer
+        ? {
+            message: "Answer synthesis unavailable." as const,
+            status:
+              retrieval.ok && retrieval.evidence.length > 0
+                ? "Authoritative evidence available — expand sources." as const
+                : null
+          }
+        : null;
     const persisted = persistEvidenceCard(searchSuccess, {
       responseMode: intent.responseMode,
-      personal
+      personal,
+      interviewAnswer,
+      liveFallback,
+      synthesis: {
+        attempted: synthesisRequests === 1,
+        status: synthesisStatus,
+        model: synthesisModel,
+        fallbackReason: synthesisFallbackReason
+      }
     });
     const hasEvidence = persisted.payload.primary !== null;
+    const hasSynthesizedAnswer = Boolean(
+      interviewAnswer?.directAnswer ||
+      interviewAnswer?.bullets.length
+    );
     const answerability =
-      personal || hasEvidence ? "answered" : "insufficient_evidence";
+      interviewAnswer && !hasSynthesizedAnswer
+        ? "insufficient_evidence"
+        : interviewAnswer?.unsupportedFacets.length
+          ? "partial"
+          : personal || hasEvidence
+            ? "answered"
+            : "insufficient_evidence";
     const diagnostics = {
       retrievalMs,
       evidenceResolutionMs: searchSuccess.timing.total_ms ?? retrievalMs,
@@ -87,19 +256,22 @@ export class EvidenceAnswerExecutionPort implements AnswerExecutionPort {
       contextBuildMs: 0,
       presentationPlanningMs: 0,
       presentationRenderMs: 0,
-      synthesisMs: 0,
+      synthesisMs,
       pipelineTotalMs: performance.now() - started,
       factualGroundingGenerationRequests: 0 as const,
-      presentationSynthesisRequests: 0 as const,
-      presentationSynthesisStatus: "bypassed_by_policy" as const,
-      presentationSynthesisFallbackReason: null
+      presentationSynthesisRequests: synthesisRequests,
+      presentationSynthesisStatus: synthesisStatus,
+      presentationSynthesisFallbackReason: synthesisFallbackReason,
+      interviewSynthesis: interviewAnswer?.diagnostics
     };
 
     return {
       ok: true,
       answerability,
       answerText: persisted.content,
-      factualAnswerText: personal
+      factualAnswerText: interviewAnswer
+        ? formatInterviewAnswerText(interviewAnswer)
+        : personal
         ? persisted.payload.personal?.storyText ??
           persisted.payload.personal?.prompt ??
           persisted.content

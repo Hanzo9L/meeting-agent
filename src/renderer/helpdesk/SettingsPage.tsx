@@ -7,7 +7,7 @@ import type {
 function providerLabel(provider: ProviderCredentialId): string {
   return provider === "deepgram"
     ? "Deepgram STT"
-    : "OpenAI Embeddings";
+    : "OpenAI";
 }
 
 function ProviderSetting(props: {
@@ -59,7 +59,7 @@ function ProviderSetting(props: {
           <p>
             {props.provider === "deepgram"
               ? "Speech-to-text for Live Assist."
-              : "Semantic retrieval embeddings only. Factual answers use no generation LLM."}
+              : "Semantic retrieval, live question completion/planning, and one evidence-bound interview answer call."}
           </p>
         </div>
         <span className={`provider-state ${status.state}`}>

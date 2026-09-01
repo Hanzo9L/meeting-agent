@@ -14,6 +14,7 @@ import type {
   LiveAssistSessionProfile,
   LiveAssistSessionRecord
 } from "./types";
+import type { QuestionUnderstandingResult } from "../questionUnderstandingPort";
 
 function toView(
   session: LiveAssistSessionRecord
@@ -45,7 +46,10 @@ export class LiveAssistService {
   constructor(
     private readonly store: ConversationStore,
     private readonly helpdesk: HelpdeskService,
-    private readonly events: LiveAssistServiceEvents
+    private readonly events: LiveAssistServiceEvents,
+    private readonly options: {
+      requireSemanticComplete?: boolean;
+    } = {}
   ) {}
 
   getActiveSession(): LiveAssistSessionView | null {
@@ -98,12 +102,22 @@ export class LiveAssistService {
   async acceptQuestion(
     question: string,
     source: CaptureSourceTag = "microphone",
-    expectedSessionId?: string
+    expectedSessionId?: string,
+    understanding?: QuestionUnderstandingResult
   ): Promise<void> {
-    const text = question.trim();
+    const normalizedQuestion = question.trim();
+    const text =
+      understanding?.originalQuestion?.trim() ||
+      normalizedQuestion;
     const session = this.store.getActiveLiveAssistSession();
     if (!text || !session) return;
     if (expectedSessionId && session.id !== expectedSessionId) return;
+    if (
+      this.options.requireSemanticComplete &&
+      understanding?.decision !== "complete"
+    ) {
+      return;
+    }
 
     if (session.profile === "qa_assist" && source === "microphone") {
       // Defense-in-depth only: normal QA Assist system-only capture never
@@ -122,9 +136,10 @@ export class LiveAssistService {
     const begun = this.helpdesk.beginLiveQuestion({
       conversationId: session.conversationId,
       content: text,
+      normalizedQuestion,
       captureSource: source,
-      presentationSynthesis:
-        session.profile === "qa_assist" ? "disabled" : "optional"
+      presentationSynthesis: "optional",
+      retrievalQueries: understanding?.facets
     });
     const base = {
       sessionId: session.id,

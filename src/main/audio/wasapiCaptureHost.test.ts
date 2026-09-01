@@ -16,6 +16,44 @@ test("WASAPI helper enumerates render loopback endpoints by stable ID", () => {
   assert.match(source, /EnumAudioEndpoints\(EDataFlowRender/);
 });
 
+test("WASAPI helper emits bounded real-time silence only after audible audio", () => {
+  const source = readFileSync(
+    resolve("src/main/audio/native/RelayWasapiCapture.cs"),
+    "utf8"
+  );
+
+  assert.match(source, /SyntheticSilenceFrameMs = 20/);
+  assert.match(source, /SyntheticSilenceMaxMs = 2500/);
+  assert.match(source, /hasSeenAudibleAudio &&/);
+  assert.match(
+    source,
+    /nextSyntheticSilenceAtMs =\s*silentForMs \+ SyntheticSilenceFrameMs/
+  );
+  assert.match(
+    source,
+    /new byte\[TargetRate \* SyntheticSilenceFrameMs \/ 1000 \* 2\]/
+  );
+  assert.match(source, /noPacketClock\.Reset\(\)/);
+  assert.doesNotMatch(source, /while\s*\([^)]*catch.?up/i);
+});
+
+test("native helper revisions compile to versioned executables", () => {
+  const source = readFileSync(
+    resolve("src/main/audio/wasapiCaptureHost.ts"),
+    "utf8"
+  );
+
+  assert.match(source, /createHash\("sha256"\)/);
+  assert.match(
+    source,
+    /`RelayWasapiCapture-\$\{sourceVersion\}\.exe`/
+  );
+  assert.doesNotMatch(
+    source,
+    /const HELPER_NAME = "RelayWasapiCapture\.exe"/
+  );
+});
+
 test("enumerated snapshot keeps endpoint IDs distinct from display names", () => {
   const parsed = parseRenderEndpointSnapshot(
     JSON.stringify({

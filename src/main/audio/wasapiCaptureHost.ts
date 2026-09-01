@@ -1,5 +1,6 @@
 import { spawn, type ChildProcess } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { RenderEndpoint, RenderEndpointSnapshot } from "@shared/renderEndpoint";
@@ -10,7 +11,6 @@ export interface WasapiLoopbackHandlers {
   onError(message: string): void;
 }
 
-const HELPER_NAME = "RelayWasapiCapture.exe";
 const SOURCE_NAME = "RelayWasapiCapture.cs";
 
 export function resolveWasapiSourcePath(appPath?: string): string {
@@ -108,17 +108,22 @@ async function compileHelper(options: {
   appPath?: string;
 }): Promise<string> {
   const sourcePath = resolveWasapiSourcePath(options.appPath);
-  const outputPath = join(helperOutputDir(options.userDataPath), HELPER_NAME);
-  const sourceStamp = statSync(sourcePath).mtimeMs;
-  if (existsSync(outputPath) && statSync(outputPath).mtimeMs >= sourceStamp) {
-    return outputPath;
-  }
+  const source = readFileSync(sourcePath);
+  const sourceVersion = createHash("sha256")
+    .update(source)
+    .digest("hex")
+    .slice(0, 12);
+  const outputPath = join(
+    helperOutputDir(options.userDataPath),
+    `RelayWasapiCapture-${sourceVersion}.exe`
+  );
+  if (existsSync(outputPath)) return outputPath;
   const { execFile } = await import("node:child_process");
   const { promisify } = await import("node:util");
   const execFileAsync = promisify(execFile);
   const csc = findCscPath();
   const staging = join(helperOutputDir(options.userDataPath), SOURCE_NAME);
-  writeFileSync(staging, readFileSync(sourcePath));
+  writeFileSync(staging, source);
   await execFileAsync(csc, [
     "/nologo",
     "/optimize",

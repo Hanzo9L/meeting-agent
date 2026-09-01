@@ -12,6 +12,9 @@ import {
   listEvidenceCardSources,
   type EvidenceCardPayload,
   type EvidenceCardSource,
+  type EvidenceSynthesisDiagnostic,
+  type InterviewAnswerPayload,
+  type LiveAnswerFallback,
   type PersonalResponseBlock,
   type ResponseMode
 } from "@shared/evidenceCard";
@@ -43,6 +46,9 @@ export function buildEvidenceCardPayload(
   presentation?: {
     responseMode?: ResponseMode;
     personal?: PersonalResponseBlock | null;
+    interviewAnswer?: InterviewAnswerPayload | null;
+    synthesis?: EvidenceSynthesisDiagnostic;
+    liveFallback?: LiveAnswerFallback | null;
   }
 ): EvidenceCardPayload {
   const [primaryHit, ...rest] = result.results;
@@ -58,7 +64,10 @@ export function buildEvidenceCardPayload(
     primary: primaryHit ? toCardSource(primaryHit, 1) : null,
     additional: rest.map((hit, index) => toCardSource(hit, index + 2)),
     responseMode,
-    personal
+    personal,
+    interviewAnswer: presentation?.interviewAnswer ?? null,
+    synthesis: presentation?.synthesis,
+    liveFallback: presentation?.liveFallback ?? null
   };
 }
 
@@ -168,6 +177,9 @@ export function persistEvidenceCard(
   presentation?: {
     responseMode?: ResponseMode;
     personal?: PersonalResponseBlock | null;
+    interviewAnswer?: InterviewAnswerPayload | null;
+    synthesis?: EvidenceSynthesisDiagnostic;
+    liveFallback?: LiveAnswerFallback | null;
   }
 ): {
   content: string;

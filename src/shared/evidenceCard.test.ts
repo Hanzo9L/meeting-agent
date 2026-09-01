@@ -20,6 +20,7 @@ import {
   isAuthoritativeEvidenceUrl,
   listEvidenceCardSources,
   parseEvidenceCardContent,
+  resolveLiveAnswerFallback,
   toggleExpandedEvidenceSource,
   tokenizeEvidenceMarkup,
   type EvidenceCardPayload,
@@ -525,4 +526,68 @@ test("personal cards without sources still show the framework, not a source gap"
   assert.match(visible, new RegExp(NO_APPROVED_PERSONAL_STORY));
   assert.doesNotMatch(visible, /No evidence found for this question/);
   assert.doesNotMatch(visible, new RegExp(SUPPORTING_EVIDENCE_HEADING));
+});
+
+test("interview cards lead with the concise answer and retain sources in the payload", () => {
+  const interviewPayload: EvidenceCardPayload = {
+    ...payload,
+    query: "What does Get-CsOnlineUser return?",
+    interviewAnswer: {
+      directAnswer: {
+        text: "It returns information about Teams-homed users.",
+        evidenceIds: ["E1"]
+      },
+      bullets: [{
+        text: "The result is scoped to users homed on Teams.",
+        facetId: "cmdlet",
+        evidenceIds: ["E1"]
+      }],
+      unsupportedFacets: [],
+      confidence: "high",
+      diagnostics: {
+        configuredModel: "account-v2-alias",
+        actualModel: "resolved",
+        reasoningEffort: "medium",
+        latencyMs: 20,
+        inputTokens: 100,
+        outputTokens: 30,
+        totalTokens: 130,
+        estimatedCostUsd: null
+      }
+    }
+  };
+
+  const parsed = parseEvidenceCardContent(
+    encodeEvidenceCardContent(interviewPayload)
+  );
+  assert.ok(parsed);
+  assert.match(
+    parsed.visibleText,
+    /^It returns information about Teams-homed users\.\n\n• /
+  );
+  assert.match(parsed.visibleText, /\n\nSources\n/);
+  assert.equal(parsed.payload.interviewAnswer?.confidence, "high");
+});
+
+test("legacy live synthesis failures resolve to the compact fallback", () => {
+  const legacyLiveFailure: EvidenceCardPayload = {
+    ...payload,
+    interviewAnswer: null,
+    synthesis: {
+      attempted: true,
+      status: "validation_failed",
+      model: "configured-model",
+      fallbackReason: "interview_synthesis_cross_facet_binding"
+    }
+  };
+
+  assert.deepEqual(resolveLiveAnswerFallback(legacyLiveFailure), {
+    message: "Answer synthesis unavailable.",
+    status: "Authoritative evidence available — expand sources."
+  });
+  assert.equal(formatEvidenceCardHeading(legacyLiveFailure), "Relay");
+  assert.doesNotMatch(
+    formatEvidenceVisibleText(legacyLiveFailure),
+    /Microsoft Evidence/
+  );
 });

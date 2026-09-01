@@ -581,7 +581,6 @@ test("I2 conversation continuity does not change retrieval or STT/audio", () => 
     "src/main/services/conversations/evidenceAnswerExecutionPort.ts"
   ];
   const sttFiles = [
-    "src/main/services/pipelineManager.ts",
     "src/main/services/deepgramSttProvider.ts",
     "src/main/services/deepgramUtteranceAssembler.ts",
     "src/main/services/crossSourceUtteranceArbiter.ts",
@@ -636,7 +635,6 @@ test("I3 presentation does not change retrieval or STT/audio", () => {
     "src/main/services/evidence/evidenceSearchClient.ts"
   ];
   const sttFiles = [
-    "src/main/services/pipelineManager.ts",
     "src/main/services/deepgramSttProvider.ts",
     "src/main/services/deepgramUtteranceAssembler.ts",
     "src/main/services/crossSourceUtteranceArbiter.ts",

@@ -81,6 +81,54 @@ export interface EvidenceCardSource extends EvidenceParent {
   preview: string;
 }
 
+export interface InterviewAnswerBinding {
+  text: string;
+  evidenceIds: string[];
+}
+
+export interface InterviewAnswerBullet
+extends InterviewAnswerBinding {
+  facetId: string;
+}
+
+export interface InterviewAnswerPayload {
+  directAnswer: InterviewAnswerBinding | null;
+  bullets: InterviewAnswerBullet[];
+  unsupportedFacets: Array<{
+    facetId: string;
+    reason: string;
+  }>;
+  confidence: "high" | "medium" | "low";
+  diagnostics: {
+    configuredModel: string;
+    actualModel: string | null;
+    reasoningEffort: "medium";
+    latencyMs: number;
+    inputTokens: number | null;
+    outputTokens: number | null;
+    totalTokens: number | null;
+    estimatedCostUsd: number | null;
+  };
+}
+
+export interface EvidenceSynthesisDiagnostic {
+  attempted: boolean;
+  status:
+    | "succeeded"
+    | "not_configured"
+    | "provider_failed"
+    | "validation_failed"
+    | "bypassed_insufficient_evidence"
+    | "bypassed_by_policy";
+  model: string | null;
+  fallbackReason: string | null;
+}
+
+export interface LiveAnswerFallback {
+  message: "Answer synthesis unavailable.";
+  status: "Authoritative evidence available — expand sources." | null;
+}
+
 export interface EvidenceCardPayload {
   version: 1;
   kind: EvidenceCardKind;
@@ -90,6 +138,9 @@ export interface EvidenceCardPayload {
   additional: EvidenceCardSource[];
   responseMode?: ResponseMode;
   personal?: PersonalResponseBlock | null;
+  interviewAnswer?: InterviewAnswerPayload | null;
+  synthesis?: EvidenceSynthesisDiagnostic;
+  liveFallback?: LiveAnswerFallback | null;
 }
 
 export interface ParsedEvidenceCard {
@@ -179,7 +230,38 @@ export function resolveResponseMode(
   return payload.responseMode ?? "technical_evidence";
 }
 
+export function resolveLiveAnswerFallback(
+  payload: EvidenceCardPayload
+): LiveAnswerFallback | null {
+  if (payload.liveFallback) return payload.liveFallback;
+  if (
+    payload.interviewAnswer ||
+    isPersonalResponseMode(resolveResponseMode(payload))
+  ) {
+    return null;
+  }
+  const status = payload.synthesis?.status;
+  if (
+    status !== "not_configured" &&
+    status !== "provider_failed" &&
+    status !== "validation_failed" &&
+    status !== "bypassed_insufficient_evidence"
+  ) {
+    return null;
+  }
+  return {
+    message: "Answer synthesis unavailable.",
+    status:
+      listEvidenceCardSources(payload).length > 0
+        ? "Authoritative evidence available — expand sources."
+        : null
+  };
+}
+
 export function formatEvidenceCardHeading(payload: EvidenceCardPayload): string {
+  if (payload.interviewAnswer || resolveLiveAnswerFallback(payload)) {
+    return "Relay";
+  }
   if (isPersonalResponseMode(resolveResponseMode(payload))) {
     return PERSONAL_RESPONSE_HEADING;
   }
@@ -200,6 +282,30 @@ export function formatEvidenceCardHeading(payload: EvidenceCardPayload): string 
     return "Linux Evidence";
   }
   return "Evidence";
+}
+
+export function formatInterviewAnswerText(
+  answer: InterviewAnswerPayload
+): string {
+  const blocks: string[] = [];
+  if (answer.directAnswer) {
+    blocks.push(answer.directAnswer.text);
+  }
+  if (answer.bullets.length > 0) {
+    if (blocks.length > 0) blocks.push("");
+    blocks.push(
+      ...answer.bullets.map((bullet) => `• ${bullet.text}`)
+    );
+  }
+  if (answer.unsupportedFacets.length > 0) {
+    if (blocks.length > 0) blocks.push("");
+    blocks.push(
+      ...answer.unsupportedFacets.map(
+        (facet) => `Unsupported: ${facet.reason}`
+      )
+    );
+  }
+  return blocks.join("\n");
 }
 
 export function formatEvidenceSourceRoleLabel(
@@ -256,6 +362,23 @@ export function formatEvidenceVisibleText(payload: EvidenceCardPayload): string 
     return formatPersonalVisibleText(payload);
   }
   const sources = listEvidenceCardSources(payload);
+  if (payload.interviewAnswer) {
+    return [
+      formatInterviewAnswerText(payload.interviewAnswer),
+      "",
+      "Sources",
+      ...formatEvidenceSourceBlocks(payload)
+    ].join("\n");
+  }
+  const liveFallback = resolveLiveAnswerFallback(payload);
+  if (liveFallback) {
+    return [
+      liveFallback.message,
+      ...(liveFallback.status
+        ? [liveFallback.status]
+        : [])
+    ].join("\n");
+  }
   if (sources.length === 0) {
     return EVIDENCE_EMPTY_VISIBLE_TEXT;
   }

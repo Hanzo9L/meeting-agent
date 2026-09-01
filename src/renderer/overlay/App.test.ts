@@ -40,3 +40,43 @@ test("overlay and Helpdesk share listEvidenceCardSources for authority presentat
   assert.doesNotMatch(overlay, /orderEvidenceByAuthority|orderEvidenceForPresentation/);
   assert.doesNotMatch(helpdesk, /orderEvidenceByAuthority|orderEvidenceForPresentation/);
 });
+
+test("V2.2 renders one concise interview answer with collapsed sources", () => {
+  const overlay = readFileSync(resolve("src/renderer/overlay/App.tsx"), "utf8");
+  const helpdesk = readFileSync(resolve("src/renderer/helpdesk/App.tsx"), "utf8");
+
+  for (const source of [overlay, helpdesk]) {
+    assert.match(source, /interviewAnswer\.directAnswer/);
+    assert.match(source, /interviewAnswer\.bullets\.map/);
+    assert.match(source, /interviewAnswer\.unsupportedFacets\.map/);
+    assert.match(source, /<details className=/);
+    assert.match(source, /<summary>Sources \(\{sources\.length\}\)<\/summary>/);
+  }
+  assert.doesNotMatch(
+    helpdesk,
+    /<details className="interview-sources"\s+open/
+  );
+  assert.doesNotMatch(
+    overlay,
+    /<details className="overlaySupportEvidence"\s+open/
+  );
+});
+
+test("V2.4 renders live synthesis failure as one compact Relay card", () => {
+  const overlay = readFileSync(resolve("src/renderer/overlay/App.tsx"), "utf8");
+  const helpdesk = readFileSync(resolve("src/renderer/helpdesk/App.tsx"), "utf8");
+
+  for (const source of [overlay, helpdesk]) {
+    assert.match(source, /data-live-answer-fallback="true"/);
+    assert.match(source, /liveFallback\.message/);
+    assert.match(source, /<summary>Sources \(\{sources\.length\}\)<\/summary>/);
+  }
+  assert.doesNotMatch(
+    overlay,
+    /<details className="overlaySupportEvidence"\s+open=\{Boolean\(liveFallback\)/
+  );
+  assert.doesNotMatch(
+    helpdesk,
+    /<details className="interview-sources"\s+open=\{Boolean\(liveFallback\)/
+  );
+});

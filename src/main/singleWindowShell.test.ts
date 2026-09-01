@@ -83,7 +83,7 @@ test("in-app Settings exposes retained controls without deprecated product UI", 
   );
 
   assert.match(settings, /Deepgram STT/);
-  assert.match(settings, /OpenAI Embeddings/);
+  assert.match(settings, /live question completion\/planning/);
   assert.match(settings, /Capture mode/);
   assert.match(settings, /Question trigger/);
   assert.match(settings, /screen shares/);
@@ -95,6 +95,20 @@ test("in-app Settings exposes retained controls without deprecated product UI", 
     preload,
     /deepgramApiKey|openAiApiKey|getSettings/
   );
+});
+
+test("Live and QA Assist expose and enforce main-process V2 readiness", async () => {
+  const main = await source("src/main/index.ts");
+  const helpdesk = await source(
+    "src/renderer/helpdesk/App.tsx"
+  );
+
+  assert.match(main, /refreshV2Runtime\(\)/);
+  assert.match(main, /readiness\.state !== "ready"/);
+  assert.match(main, /V2 unavailable:/);
+  assert.match(helpdesk, /Question understanding ready/);
+  assert.match(helpdesk, /settings\.v2\?\.state !== "ready"/);
+  assert.match(helpdesk, /Live and QA Assist remain disabled/);
 });
 
 test("Slice 4B.1 adds no TTS or read-aloud path", async () => {

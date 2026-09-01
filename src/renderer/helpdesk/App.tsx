@@ -44,12 +44,14 @@ import {
   evidenceSourceItemId,
   formatEvidenceCardHeading,
   formatEvidenceSourceRoleLabel,
+  formatInterviewAnswerText,
   isPersonalResponseMode,
   listEvidenceCardSources,
   NO_APPROVED_PERSONAL_STORY,
   parseEvidenceCardContent,
   PERSONAL_RESPONSE_PROMPT,
   PERSONAL_STORY_FRAMEWORK,
+  resolveLiveAnswerFallback,
   resolveResponseMode,
   SUPPORTING_EVIDENCE_HEADING,
   toggleExpandedEvidenceSource,
@@ -332,14 +334,29 @@ function EvidenceAssistantMessage(props: {
   const sources = listEvidenceCardSources(payload);
   const responseMode = resolveResponseMode(payload);
   const personalCard = isPersonalResponseMode(responseMode);
+  const interviewAnswer = payload.interviewAnswer ?? null;
+  const liveFallback = resolveLiveAnswerFallback(payload);
 
   const copy = async (): Promise<void> => {
     try {
       if (!navigator.clipboard) {
         throw new Error("clipboard unavailable");
       }
-      await copyAnswerText(visibleText, navigator.clipboard);
-      setNotice(personalCard ? "Response copied." : "Evidence copied.");
+      await copyAnswerText(
+        interviewAnswer
+          ? formatInterviewAnswerText(interviewAnswer)
+          : visibleText,
+        navigator.clipboard
+      );
+      setNotice(
+        interviewAnswer
+          ? "Answer copied."
+          : liveFallback
+            ? "Status copied."
+          : personalCard
+            ? "Response copied."
+            : "Evidence copied."
+      );
     } catch {
       setNotice("The evidence card could not be copied.");
     }
@@ -372,7 +389,110 @@ function EvidenceAssistantMessage(props: {
           {formatEvidenceCardHeading(payload)}
         </span>
       </div>
-      {personalCard ? (
+      {interviewAnswer ? (
+        <div
+          className="interview-answer-card"
+          data-interview-answer="true"
+          data-confidence={interviewAnswer.confidence}
+        >
+          {interviewAnswer.directAnswer ? (
+            <p className="interview-direct-answer">
+              {interviewAnswer.directAnswer.text}
+            </p>
+          ) : null}
+          {interviewAnswer.bullets.length > 0 ? (
+            <ul className="interview-answer-bullets">
+              {interviewAnswer.bullets.map((bullet) => (
+                <li key={bullet.facetId}>{bullet.text}</li>
+              ))}
+            </ul>
+          ) : null}
+          {interviewAnswer.unsupportedFacets.map((facet) => (
+            <p
+              className="interview-unsupported"
+              key={facet.facetId}
+            >
+              Unsupported: {facet.reason}
+            </p>
+          ))}
+          <details className="interview-sources">
+            <summary>Sources ({sources.length})</summary>
+            <div className="evidence-card">
+              {sources.map((source, index) => {
+                const sourceId = evidenceSourceItemId(source, index);
+                return (
+                  <EvidenceSourceItem
+                    key={sourceId}
+                    source={source}
+                    index={index}
+                    expanded={expandedIds.has(sourceId)}
+                    citationId={
+                      citationByDocumentId.get(source.parentId) ?? null
+                    }
+                    onToggle={() =>
+                      setExpandedIds((current) =>
+                        toggleExpandedEvidenceSource(
+                          current,
+                          sourceId
+                        )
+                      )
+                    }
+                    onOpenCitation={(citationId) =>
+                      void openCitation(citationId)
+                    }
+                  />
+                );
+              })}
+            </div>
+          </details>
+        </div>
+      ) : liveFallback ? (
+        <div
+          className="interview-answer-card live-answer-fallback"
+          data-live-answer-fallback="true"
+        >
+          <p className="interview-direct-answer">
+            {liveFallback.message}
+          </p>
+          {liveFallback.status ? (
+            <p className="interview-unsupported">
+              {liveFallback.status}
+            </p>
+          ) : null}
+          {sources.length > 0 ? (
+            <details className="interview-sources">
+              <summary>Sources ({sources.length})</summary>
+              <div className="evidence-card">
+                {sources.map((source, index) => {
+                  const sourceId = evidenceSourceItemId(source, index);
+                  return (
+                    <EvidenceSourceItem
+                      key={sourceId}
+                      source={source}
+                      index={index}
+                      expanded={expandedIds.has(sourceId)}
+                      citationId={
+                        citationByDocumentId.get(source.parentId) ?? null
+                      }
+                      onToggle={() =>
+                        setExpandedIds((current) =>
+                          toggleExpandedEvidenceSource(
+                            current,
+                            sourceId
+                          )
+                        )
+                      }
+                      onOpenCitation={(citationId) =>
+                        void openCitation(citationId)
+                      }
+                    />
+                  );
+                })}
+              </div>
+            </details>
+          ) : null}
+        </div>
+      ) : personalCard ? (
         <div
           className="personal-card"
           data-evidence-card="true"
@@ -460,7 +580,13 @@ function EvidenceAssistantMessage(props: {
       )}
       <div className="assistant-actions">
         <button type="button" onClick={() => void copy()}>
-          {personalCard ? "Copy response" : "Copy evidence"}
+          {interviewAnswer
+            ? "Copy answer"
+            : liveFallback
+              ? "Copy status"
+            : personalCard
+              ? "Copy response"
+              : "Copy evidence"}
         </button>
         {notice ? <span role="status">{notice}</span> : null}
       </div>
@@ -1021,9 +1147,7 @@ export function HelpdeskApp() {
       );
     const stopTranscript = window.helpdeskApi.onTranscript(
       (payload) => {
-        if (payload.text.trim()) {
-          setLiveTranscript(payload.text.trim());
-        }
+        setLiveTranscript(payload.text.trim());
       }
     );
     const stopConnectionStatus =
@@ -1313,7 +1437,11 @@ export function HelpdeskApp() {
                     } · ${liveSession.captureStatus}`
                 : busy
                   ? "Grounding answer…"
-                  : "Grounded answers ready"}
+                  : settings?.v2?.state === "ready"
+                    ? `Question understanding ready · ${
+                        settings.v2.model ?? "configured model"
+                      }`
+                    : "V2 unavailable"}
             </div>
             <span className="capture-summary">
               {liveSession?.state === "active" &&
@@ -1412,7 +1540,8 @@ export function HelpdeskApp() {
                     liveBusy ||
                     !settings ||
                     settings.providers.deepgram.state !==
-                      "configured"
+                      "configured" ||
+                    settings.v2?.state !== "ready"
                   }
                   onClick={() => void startLiveAssist()}
                 >
@@ -1425,7 +1554,8 @@ export function HelpdeskApp() {
                     liveBusy ||
                     !settings ||
                     settings.providers.deepgram.state !==
-                      "configured"
+                      "configured" ||
+                    settings.v2?.state !== "ready"
                   }
                   onClick={() => void startQaAssist()}
                 >
@@ -1450,6 +1580,17 @@ export function HelpdeskApp() {
               OpenAI Embeddings is not configured.
               Retrieval-backed answers will fail closed; history
               and settings remain available.
+            </div>
+          ) : null}
+          {settings?.v2 && settings.v2.state !== "ready" ? (
+            <div className="readiness-banner" role="status">
+              V2 unavailable:{" "}
+              {settings.v2.reason === "model_not_configured"
+                ? "model not configured"
+                : settings.v2.reason === "api_key_missing"
+                  ? "OpenAI API key not configured"
+                  : "provider could not be constructed"}
+              . Live and QA Assist remain disabled.
             </div>
           ) : null}
           {liveSession?.state === "active" && liveTranscript ? (

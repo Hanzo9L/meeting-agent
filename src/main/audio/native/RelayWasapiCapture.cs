@@ -20,6 +20,8 @@ internal static class RelayWasapiCapture
     const uint WaveFormatExtensible = 0xFFFE;
     const int VtLpWstr = 31;
     const int TargetRate = 16000;
+    const int SyntheticSilenceFrameMs = 20;
+    const int SyntheticSilenceMaxMs = 2500;
     const int DeviceInvalidated = unchecked((int)0x88890004);
 
     static readonly Guid IID_IAudioClient = new Guid("1CB9AD4C-DBFA-4c32-B178-C2F568A703B2");
@@ -302,6 +304,11 @@ internal static class RelayWasapiCapture
         double resampleCursor = 0;
         double ratio = (double)rate / TargetRate;
         float[] leftover = new float[0];
+        bool hasSeenAudibleAudio = false;
+        var noPacketClock = new Stopwatch();
+        long nextSyntheticSilenceAtMs = SyntheticSilenceFrameMs;
+        byte[] syntheticSilenceFrame =
+            new byte[TargetRate * SyntheticSilenceFrameMs / 1000 * 2];
         try
         {
             while (true)
@@ -316,9 +323,34 @@ internal static class RelayWasapiCapture
                 Marshal.ThrowExceptionForHR(hr);
                 if (packet == 0)
                 {
-                    Thread.Sleep(15);
+                    if (!noPacketClock.IsRunning)
+                    {
+                        noPacketClock.Restart();
+                        nextSyntheticSilenceAtMs = SyntheticSilenceFrameMs;
+                    }
+                    long silentForMs = noPacketClock.ElapsedMilliseconds;
+                    if (
+                        hasSeenAudibleAudio &&
+                        silentForMs >= nextSyntheticSilenceAtMs &&
+                        nextSyntheticSilenceAtMs <= SyntheticSilenceMaxMs
+                    )
+                    {
+                        stdout.Write(
+                            syntheticSilenceFrame,
+                            0,
+                            syntheticSilenceFrame.Length
+                        );
+                        stdout.Flush();
+                        // Schedule from wall clock instead of catching up in a
+                        // burst if this process was briefly descheduled.
+                        nextSyntheticSilenceAtMs =
+                            silentForMs + SyntheticSilenceFrameMs;
+                    }
+                    Thread.Sleep(5);
                     continue;
                 }
+                noPacketClock.Reset();
+                nextSyntheticSilenceAtMs = SyntheticSilenceFrameMs;
                 IntPtr data;
                 uint frames;
                 int flags;
@@ -339,6 +371,10 @@ internal static class RelayWasapiCapture
                 else
                 {
                     mono = ToMonoFloat(data, (int)frames, channels, bits, ieeeFloat);
+                    if (!hasSeenAudibleAudio && ContainsAudibleSignal(mono))
+                    {
+                        hasSeenAudibleAudio = true;
+                    }
                 }
                 capture.ReleaseBuffer(frames);
                 var pcm = Downsample(leftover, mono, ratio, ref resampleCursor, out leftover);
@@ -358,6 +394,15 @@ internal static class RelayWasapiCapture
             Marshal.ReleaseComObject(device);
             Marshal.ReleaseComObject(enumerator);
         }
+    }
+
+    static bool ContainsAudibleSignal(float[] samples)
+    {
+        for (int i = 0; i < samples.Length; i++)
+        {
+            if (Math.Abs(samples[i]) >= 0.0001f) return true;
+        }
+        return false;
     }
 
     static float[] ToMonoFloat(IntPtr data, int frames, int channels, int bits, bool ieeeFloat)

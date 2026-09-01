@@ -901,7 +901,23 @@ test("Helpdesk service consumes only the execution port contract", () => {
   );
   assert.match(
     mainSource,
-    /new EvidenceAnswerExecutionPort\(\s*createEvidenceSearchClient\(evidenceChild\)\s*\)/
+    /new EvidenceAnswerExecutionPort\(\s*createEvidenceSearchClient\(evidenceChild\),/
+  );
+  assert.match(
+    mainSource,
+    /new V2ProviderRuntime\(\{/
+  );
+  const v2RuntimeSource = readFileSync(
+    resolve("src/main/services/v2ProviderRuntime.ts"),
+    "utf8"
+  );
+  assert.match(
+    v2RuntimeSource,
+    /new OpenAiInterviewAnswerSynthesisPort\(\{\s*apiKey,\s*model\s*\}\)/
+  );
+  assert.match(
+    v2RuntimeSource,
+    /new OpenAiQuestionUnderstandingPort\(\{\s*apiKey,\s*model\s*\}\)/
   );
   assert.doesNotMatch(mainSource, /new GroundedAnswerExecutionPort\(/);
   assert.doesNotMatch(

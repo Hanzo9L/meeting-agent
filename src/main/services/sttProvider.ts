@@ -12,10 +12,20 @@ export interface CompletedSttUtterance {
   speechFinalObserved: boolean;
 }
 
+export interface RawSttDiagnostic {
+  event: "results" | "utterance_end";
+  timestamp: number;
+  transcriptLength: number;
+  transcriptPreview: string | null;
+  isFinal: boolean | null;
+  speechFinal: boolean | null;
+}
+
 export interface SttEvents {
   onInterim: (text: string) => void;
   onUtterance: (utterance: CompletedSttUtterance) => void;
   onError: (message: string) => void;
+  onDiagnostic?: (diagnostic: RawSttDiagnostic) => void;
 }
 
 export interface SttProvider {
