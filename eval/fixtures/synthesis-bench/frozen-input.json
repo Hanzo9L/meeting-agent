@@ -1,0 +1,195 @@
+{
+  "originalQuestion": "Walk me through your Teams experience with Calling Plans and Operator Connect, and how you isolate whether a call issue is client, network, or Microsoft service.",
+  "normalizedQuestion": "Walk me through your Microsoft Teams experience with Calling Plans and Operator Connect, and explain how you isolate whether a calling issue is caused by the client, the network, or a Microsoft service.",
+  "facets": [
+    {
+      "id": "facet_1",
+      "query": "Microsoft Teams experience with Calling Plans and Operator Connect",
+      "label": "Calling Plans and Operator Connect experience"
+    },
+    {
+      "id": "facet_2",
+      "query": "How to isolate a Microsoft Teams calling issue to the client, network, or Microsoft service",
+      "label": "Calling issue isolation"
+    }
+  ],
+  "facetCoverage": [
+    {
+      "facetId": "facet_1",
+      "label": "Calling Plans and Operator Connect experience",
+      "query": "Microsoft Teams experience with Calling Plans and Operator Connect",
+      "covered": true,
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E5"
+      ],
+      "sources": [
+        {
+          "evidenceId": "E1",
+          "parentId": "d6216a86cb2a8f6a2c31",
+          "title": "PSTN connectivity options",
+          "section": "PSTN connectivity options",
+          "publisher": "Microsoft"
+        },
+        {
+          "evidenceId": "E3",
+          "parentId": "c4907e1dc7e884c8f9a7",
+          "title": "Microsoft Teams Dial plans for phone call routing",
+          "section": "Overview",
+          "publisher": "Microsoft"
+        },
+        {
+          "evidenceId": "E5",
+          "parentId": "d0a9727c15c4150113ea",
+          "title": "Set up Teams Phone in your organization",
+          "section": "Step 2: Choose a PSTN connectivity option",
+          "publisher": "Microsoft"
+        }
+      ]
+    },
+    {
+      "facetId": "facet_2",
+      "label": "Calling issue isolation",
+      "query": "How to isolate a Microsoft Teams calling issue to the client, network, or Microsoft service",
+      "covered": true,
+      "evidenceIds": [
+        "E2",
+        "E4"
+      ],
+      "sources": [
+        {
+          "evidenceId": "E2",
+          "parentId": "29ad6610441d689e50e2",
+          "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+          "section": "Reliability investigations",
+          "publisher": "Microsoft"
+        },
+        {
+          "evidenceId": "E4",
+          "parentId": "1da2ac94c1b1f44d6347",
+          "title": "Teams calling and cloud voice overview",
+          "section": "Native Teams calling",
+          "publisher": "Microsoft"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "evidenceId": "E1",
+      "facetIds": [
+        "facet_1"
+      ],
+      "hit": {
+        "parentId": "d6216a86cb2a8f6a2c31",
+        "title": "PSTN connectivity options",
+        "section": "PSTN connectivity options",
+        "url": "https://learn.microsoft.com/microsoftteams/pstn-connectivity",
+        "body": "Microsoft’s Teams Phone is a highly flexible platform, supporting several methods to connect with the PSTN, and you can equip your tenant with as many of the available PSTN integrations as you’d like.\n\nChoosing the right PSTN connectivity option depends on your organization's business and technical requirements. Factors such as how you want to manage your telephony services, whether you have an existing telecommunications provider, your users' calling patterns, and any existing telephony infrastructure can all influence which solution is the best fit.\n\nThe highlights of the four PSTN connectivity models for Teams are as follows:\n\nMicrosoft Teams Calling Plan (calling-plans-for-office-365). A cloud based Phone System solution with Microsoft as your operator. Calling Plans are Microsoft licenses that can be tailored to the calling behavior of your user base. PSTN access, phone numbers, emergency screening service in the U.S., and support for your telephone service come from Microsoft, with a 99.999% reliability Service Level Agreement (SLA).\n\nThis option requires a Microsoft Teams Calling Plan license.\n\nOperator Connect (operator-connect-plan). With the Operator Connect offer, take advantage of certified third-party landline operators who have already completed the PSTN integration with Microsoft. All that is required is a subscription from the certified service provider of your choice. You can easily enable their access to your tenant in the Teams Admin Center and assign their phone numbers to your Teams users. PSTN access, phone numbers, emergency screening service in the U.S., support, SLA and other products for your telephone service come from the certified Operator Connect partner.\n\nThis option requires a contract with a third-party service provider.\n\nFor a list of operators participating in the Microsoft Operator Connect Program and the countries or regions where their service is available, see the Microsoft 365 Operator Connect directory (https://microsoftpartners.microsoft.com/abs/Operator-Directory/).\n\nFor this PSTN connectivity solution in India, see Operator Connect for India (operator-connect-india-plan).\n\nTeams Phone Mobile (operator-connect-mobile-plan). With Microsoft Teams Phone Mobile, take advantage of certified third-party mobile operators, who have already completed the PSTN integration with Microsoft. All that is required is a subscription from the certified mobile operator of your choice. You then administer mobile numbers that are assigned to the user’s mobile SIM to also be assigned as the user’s Teams phone number. PSTN access, phone numbers, emergency screening service in the U.S., support, SLA, and other products for your telephone service come from the certified Teams Phone Mobile partner.\n\nThis option requires a contract with a third-party service provider.\n\nDirect Routing (direct-routing-plan). With the Direct Routing model, you can use any PSTN operator. Integration of your preferred PSTN operator’s access to your tenant is achieved through a certified Session Border Controller (SBC) that is procured, installed, and managed by you, your integrator, or a Direct-Routing-as-a-Service (DRaaS) provider. PSTN access, phone numbers, emergency screening service in the U.S., support, SLA, and other products for your telephone service come from a combination of your PSTN partner and you.\n\nThis option requires a contract with a third-party service provider and a session border controller solution.\n\nNote\n\nTeams Phone supports different phone number types depending on the PSTN connectivity option you use. Microsoft Calling Plan, Operator Connect, and Direct Routing support user phone numbers, Audio Conferencing numbers, and voice application numbers (such as Auto Attendants and Call Queues). Teams Phone Mobile supports user phone numbers only and doesn't support Audio Conferencing or voice application numbers.",
+        "score": 0.026321,
+        "matchedBy": [
+          "vector",
+          "lexical"
+        ],
+        "repo": "teams",
+        "publisher": "Microsoft",
+        "sourceRole": "microsoft_authority"
+      },
+      "publisher": "Microsoft",
+      "sourceRole": "microsoft_authority"
+    },
+    {
+      "evidenceId": "E2",
+      "facetIds": [
+        "facet_2"
+      ],
+      "hit": {
+        "parentId": "29ad6610441d689e50e2",
+        "title": "Use CQD to manage call and meeting quality in Microsoft Teams",
+        "section": "Reliability investigations",
+        "url": "https://learn.microsoft.com/microsoftteams/quality-of-experience-review-guide",
+        "body": "The first step to improving quality is to assess the state of reliability across the organization. Because reliability is vital to a positive user experience, we start with the two components that measure reliability:\n\nSetup failures: The call couldn't be established.\n\nDrop failures: The call was established and unexpectedly terminated.\n\nThroughout this section, we'll cover methods to investigate both areas.\n\nNote\n\nNot all reports included in the templates are covered in this article. However, the methods of investigation explained below still apply. Please refer to the individual report description for more information.\n\n### Setup failures\n\nPrioritize remediating setup failures in this area first, because these failures have a significant negative impact on the user experience.\n\nBegin your investigation by assessing the percentage of overall setup failures for the organization, and then prioritize areas of investigation based on the highest percentage by building or network.\n\n#### Setup failure trend analysis\n\nThis report displays the total amount of streams, stream setup failures, and the stream setup failure rate. Point to any one of the columns to display its individual values.\nAnalysis\nBy using this report, you can answer the following questions and determine your next course of action:\n\nWhat is the total call setup failure percentage for the current month?\n\nIs the total call setup failure percentage below or above the defined target metric?\n\nIs the failure trend worse or better than the previous month?\n\nIs the failure trend increasing, steady, or decreasing?\n\nIrrespective of your answers to these questions, take the time to investigate further by using the companion sub-reports to look for any individual buildings or subnets that might need remediation. Although the overall failure rate might be below the target metric, the failure rates for one or more buildings or networks might be above the target metric and need investigation.\n\n#### Setup failure investigations\n\nThis summary report is used to discover and isolate any buildings or networks that might need remediation.\n\nNote\n\nBe sure to adjust the Month Year report filter to the current month. Select Edit, and adjust the Month Year report filter to save the new default month.\nRemediation\nFocus your first remediation efforts on buildings or subnets that have the largest volume of failures. This will maximize impact on the user experience and help to quickly reduce the rate of organizational call setup failures. The following table lists the two reasons for setup failures as reported by CQD.\n\nCall Setup Failures reasonTypical cause\nMissing FW Deep Packet Inspection Exemption RuleIndicates that network equipment along the path prevented the media path from being established due to deep packet inspection rules. This is likely due to firewall rules not being correctly configured. In this scenario, the TCP handshake succeeded but the SSL handshake didn't.\nMissing FW IP Block Exception RuleIndicates that network equipment along the path prevented the media path from being established to the Microsoft 365 or Office 365 network. This might be due to proxy or firewall rules not being correctly configured to allow access to IP addresses and ports used for Teams and Skype for Business traffic.\nAs you begin your remediation, you can focus your efforts on a particular building or subnet. As the preceding table shows, these issues are due to firewall or proxy configurations. Review the options in the following table for remediation actions.\n\nRemediationGuidance\nConfigure firewallsWork with your network team and verify your firewalls configuration against the Office 365 IP address list (/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges).\n\nVerify that the media subnets (https://support.office.com/article/Office-365-URLs-and-IP-address-ranges-8548a211-3fe7-47cb-abb1-355ea5aa88a2#bkmk_teams) and ports are included in the firewall rules. \n\nVerify that the necessary ports (prepare-network) are opened in the firewall. UDP should be given priority because TCP is considered as a failback protocol for audio, video, and video-based screen sharing, and its use will affect the quality of the call. Legacy RDP application sharing uses TCP only.\n\n### Drop failures\n\nUnlike setup failure codes, CQD has no drop failure code to indicate why drop failures occur, which makes it difficult to isolate a specific root cause. To better triage drop failures, use an inferred approach. By remediating any areas of interest for media, patching clients and drivers, and driving usage of certified devices for Teams, you can expect drop failures to decline.\n\n#### Drop failure trend analysis\n\nThis report displays the total amount of audio streams, total drop failures, and the drop failure rate. Point to any one of the columns to display its values.\nAnalysis\nBy using this type of report, you can answer the following questions:\n\nWhat is the current drop failure rate?\n\nIs the drop failure rate below the defined target metric?\n\nIs the failure trend worse or better than the previous month?\n\nIs the failure trend increasing, steady, or decreasing?\n\nIrrespective of the answers to the questions above, take the time to investigate using the sub-reports to look for any buildings or networks that might need remediation. Although the overall drop failure rate might be below the target metric, the drop failure rate for one or more buildings or networks might be above the target metric and need investigation.\n\n#### Drop failure investigations\n\nFailures reported here indicate that the call was dropped unexpectedly and resulted in a negative user experience. Unlike the trending reports, these reports provide additional insights into specific subnets that need further investigation.\nRemediation\nUsing the included table reports, you can isolate problem areas in the network where the drop rate is above the target metric you've defined. Focus your first remediation efforts on buildings or subnets that have the highest total stream count, to make the biggest impact.\n\nCommon causes of call drops:\n\nUnder-provisioned network or internet egress\n\nNo QoS configured on constrained networks\n\nOlder client versions\n\nUser behavior\n\nAfter you discover your problem areas, you can use Teams admin center (monitor-troubleshoot-teams-meetings-calls) to further review users in that building for specific issues. Teams admin center contains additional EUII data and can be useful for further isolating potential reasons for the drop failures.\n\nRegardless of your next step, it's a good practice to notify your helpdesk that an issue has been discovered with specific buildings or subnets. This lets the helpdesk quickly respond to incoming calls and triage users more efficiently. Flagged users can then be reported back to the engineering team for further investigation.\n\nThe following table lists some common methods to manage and remediate drop failures.\n\nRemediationGuidance\nNetwork/internetCongestion: Work with your network team to monitor bandwidth at specific buildings/subnets to confirm that there are issues with overutilization. If you do confirm that there is network congestion, consider increasing bandwidth to that building or applying QoS. Use the included Quality Poor Stream summary reports (#quality-investigations) to review the problem subnets for issues with jitter, latency, and packet loss, because these will often precede a dropped stream.\n\nQoS: If increasing bandwidth is impractical or cost-prohibitive, consider implementing QoS. This tool is very effective at managing congested traffic and can guarantee that media packets on the managed network are prioritized above non-media traffic. Alternatively, if there's no clear evidence that bandwidth is the culprit, consider these solutions:\nMicrosoft Teams QoS guidance (qos-in-teams)\n\nPerform a network readiness assessment: A network assessment provides details about expected bandwidth usage, how to cope with bandwidth and network changes, and recommended networking practices for Teams. Using the preceding table as your source, you have a list of buildings or subnets that are excellent candidates for an assessment.\nPrepare your organization's network for Teams (prepare-network)\n\nDevicesIf devices are the culprit in call-quality problems, consider updating offending devices. Read Phones for Teams (devices/phones-for-teams) to learn more.\nUser behaviorIf you determine that neither network, devices, or clients are the issue, consider developing a user adoption strategy to educate users how to best join and exit meetings. A smarter Teams user will produce a better user experience for all participants in the meeting. For example, a user who puts their laptop to sleep (by closing the lid) without exiting the meeting will be classified as an unexpected call drop.",
+        "score": 0.024658,
+        "matchedBy": [
+          "vector",
+          "lexical"
+        ],
+        "repo": "teams",
+        "publisher": "Microsoft",
+        "sourceRole": "microsoft_authority"
+      },
+      "publisher": "Microsoft",
+      "sourceRole": "microsoft_authority"
+    },
+    {
+      "evidenceId": "E3",
+      "facetIds": [
+        "facet_1"
+      ],
+      "hit": {
+        "parentId": "c4907e1dc7e884c8f9a7",
+        "title": "Microsoft Teams Dial plans for phone call routing",
+        "section": "Overview",
+        "url": "https://learn.microsoft.com/microsoftteams/dial-plans-routing-overview",
+        "body": "Note\n\n \n# Planning Teams dial plans for Teams Phone\n\nApplies to: Microsoft Teams\n\nAPPLIES TO:Microsoft Calling Plans, Operator Connect, Teams Phone Mobile, and Direct Routing\n\nThis article is for IT Admins and IT Pros who are researching and planning to use:\n\nTeams dial plans (with normalization rules) for ensuring user-dialed numbers get processed into a standard phone number format.\n\nAn overview of outbound and inbound called number processing is provided for context in relation to how Teams translates called numbers so that they can be processed for routing to a person or to a PSTN resource.\n\nUnderstand the concepts in this article are a prerequisite for creating Teams dial plans (create-and-manage-dial-plans) and normalization rules (phone-normalization-rules).",
+        "score": 0.026253,
+        "matchedBy": [
+          "vector",
+          "lexical"
+        ],
+        "repo": "teams",
+        "publisher": "Microsoft",
+        "sourceRole": "microsoft_authority"
+      },
+      "publisher": "Microsoft",
+      "sourceRole": "microsoft_authority"
+    },
+    {
+      "evidenceId": "E4",
+      "facetIds": [
+        "facet_2"
+      ],
+      "hit": {
+        "parentId": "1da2ac94c1b1f44d6347",
+        "title": "Teams calling and cloud voice overview",
+        "section": "Native Teams calling",
+        "url": "https://learn.microsoft.com/microsoftteams/cloud-voice-landing-page",
+        "body": "Microsoft Teams is a Microsoft 365 application for communication and collaboration. It includes support for native 1:1 calling and group calling, from one Teams client to any other internal or external Teams clients.\n\nNative calls between Teams clients are processed by Microsoft 365 Teams cloud services and include unlimited calling.\n\nThe Calls app in Teams allows users to originate calls to other Teams users, view call history, and access voicemail that is automatically set up for all Teams users.\n\nUsers can use a wide range of features to call each other. For example, they can select a name in their address book and place Teams calls to that person. They can transfer calls to other users, and set up distinctive rings. They make and receive calls using Teams on their mobile devices, on a laptop or PC with a headset, or one of many certified, third-party phone devices.\n\nWith the addition of a Public Switched Telephone Network (PSTN) connection to your tenant and Teams Phone licensing for your users, Teams calling also supports making and receiving external telephone calls and a rich set of enterprise-grade, telephone system features.\n\nFor more insight on Teams calling features, see What is Teams Phone (what-is-phone-system-in-office-365) and Teams calling features (here-s-what-you-get-with-phone-system).\n\nNote\n\nCalling is controlled at the tenant level, per calling policy with the setting Make private calls (settings-policies-reference). If the Make private calls setting is turned off in the calling policy, users with that policy can't see the Calls app in their Teams client, can't escalate Chat conversations to audio calls, and can't receive incoming calls.\n\nWith Make private calls setting turned on, users can call from the Calls app and can escalate Chat conversations to audio calls. By default, Microsoft Teams native calling is turned on via policy for all users.\n\nNote\n\nAll users licensed for Teams can make calls to other Teams users. To support users making Teams calls with other Teams users who are external to your organization, see Collaborate with people outside your organization (communicate-with-users-from-other-organizations).",
+        "score": 0.024364,
+        "matchedBy": [
+          "vector",
+          "lexical"
+        ],
+        "repo": "teams",
+        "publisher": "Microsoft",
+        "sourceRole": "microsoft_authority"
+      },
+      "publisher": "Microsoft",
+      "sourceRole": "microsoft_authority"
+    },
+    {
+      "evidenceId": "E5",
+      "facetIds": [
+        "facet_1"
+      ],
+      "hit": {
+        "parentId": "d0a9727c15c4150113ea",
+        "title": "Set up Teams Phone in your organization",
+        "section": "Step 2: Choose a PSTN connectivity option",
+        "url": "https://learn.microsoft.com/microsoftteams/setting-up-your-phone-system",
+        "body": "Microsoft options for making external calls to the PSTN include:\n\nMicrosoft Calling Plan (calling-plans-for-office-365). An all-in-the-cloud solution with Microsoft as your PSTN carrier. If you choose Microsoft Calling Plan as your connectivity option, you have a choice of Calling Plan options, including Domestic, International, and Pay-as-you-go plans.\n\nOperator Connect (operator-connect-plan). If your existing carrier participates in the Microsoft Operator Connect program, they can manage PSTN calling for you.\n\nTeams Phone Mobile (operator-connect-mobile-plan). If your existing carrier participates in the Microsoft Teams Phone Mobile program, they can manage the service for using SIM-enabled mobile phone numbers with Teams.\n\nDirect Routing (direct-routing-plan). This option lets you use your own PSTN carrier by connecting your SBCs to Teams Phone.\n\nFor more information about all connectivity options and which one is the best solution for your organization, see PSTN connectivity options (pstn-connectivity) and Voice and PSTN connectivity license options (/en-us/microsoftteams//teams-add-on-licensing/microsoft-teams-add-on-licensing#voice-and-pstn-connectivity).\n\nNote\n\nFor user migrations to PSTN, Shared Calling allows migrating large groups of users to Teams Phone without assigning phone numbers, but still allows users to make calls. Shared calling enables user migration as an effective first step in your migration and supports a phased approach to your Teams Phone road map. See Shared Calling (shared-calling-plan).",
+        "score": 0.02553,
+        "matchedBy": [
+          "vector",
+          "lexical"
+        ],
+        "repo": "teams",
+        "publisher": "Microsoft",
+        "sourceRole": "microsoft_authority"
+      },
+      "publisher": "Microsoft",
+      "sourceRole": "microsoft_authority"
+    }
+  ]
+}
