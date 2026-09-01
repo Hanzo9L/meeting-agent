@@ -1,0 +1,341 @@
+{
+  "timestamp": "2026-09-01T20:57:56.313Z",
+  "fixtureSha256": "3e09a072f76bc8adf916874cf31925d347705bd4a0d24392c1b636a06e4d0a65",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "runs": 6,
+  "summary": {
+    "medianMs": 10451.644800000002,
+    "p95Ms": 14268.0154,
+    "minMs": 9826.972600000001,
+    "maxMs": 15050.964,
+    "schemaValid": 5,
+    "bindingValid": 5,
+    "errors": {
+      "Request timed out.": 1
+    }
+  },
+  "results": [
+    {
+      "run": 1,
+      "latencyMs": 15050.964,
+      "inputTokens": null,
+      "outputTokens": null,
+      "schemaValid": false,
+      "bindingValid": false,
+      "errorCode": "Request timed out.",
+      "actualModel": null,
+      "answer": null
+    },
+    {
+      "run": 2,
+      "latencyMs": 10711.719,
+      "inputTokens": 3927,
+      "outputTokens": 528,
+      "schemaValid": true,
+      "bindingValid": true,
+      "errorCode": null,
+      "actualModel": "gpt-5.6-sol",
+      "answer": {
+        "directAnswer": {
+          "text": "The supplied evidence supports a conceptual explanation of Calling Plans, Operator Connect, and CQD-based troubleshooting, but it does not establish personal hands-on experience or a complete method for proving that Microsoft’s service is the fault.",
+          "evidenceIds": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        "bullets": [
+          {
+            "text": "Calling Plans are an all-cloud option with Microsoft as the PSTN operator, offering Domestic, International, and Pay-as-you-go choices. Operator Connect uses a certified third-party carrier whose access is enabled in Teams Admin Center, after which its numbers can be assigned to users. Both models support Teams dial plans and normalization rules for converting user-dialed numbers into a standard format for routing. Personal implementation or migration experience is unsupported by the supplied evidence.",
+            "evidenceIds": [
+              "E1",
+              "E3",
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would first separate setup failures from unexpected drops in CQD, review trends, and correlate failures by building and subnet. Concentration in a building or subnet points toward the network; CQD setup reasons can identify missing firewall deep-packet-inspection exemptions or IP-block exceptions. For drops, Microsoft recommends an inferred approach that includes investigating media problem areas and patching clients and drivers, which helps distinguish network concentration from possible client-side causes. Native Teams calls are processed by Microsoft 365 Teams cloud services, but the supplied evidence does not provide a procedure for conclusively isolating a fault to that service.",
+            "evidenceIds": [
+              "E2",
+              "E4"
+            ],
+            "facetId": "facet_2"
+          }
+        ],
+        "unsupportedFacets": [
+          {
+            "facetId": "facet_1",
+            "reason": "No evidence describes the candidate’s personal hands-on experience with Calling Plans or Operator Connect."
+          },
+          {
+            "facetId": "facet_2",
+            "reason": "The evidence supports network-focused CQD investigation and limited client remediation guidance, but not a conclusive Microsoft-service isolation procedure."
+          }
+        ],
+        "confidence": "high",
+        "diagnostics": {
+          "configuredModel": "gpt-5.6-sol",
+          "actualModel": "gpt-5.6-sol",
+          "reasoningEffort": "low",
+          "latencyMs": 10711.6797,
+          "inputTokens": 3927,
+          "outputTokens": 528,
+          "totalTokens": 4455,
+          "estimatedCostUsd": null
+        }
+      }
+    },
+    {
+      "run": 3,
+      "latencyMs": 11919.169600000001,
+      "inputTokens": 3927,
+      "outputTokens": 606,
+      "schemaValid": true,
+      "bindingValid": true,
+      "errorCode": null,
+      "actualModel": "gpt-5.6-sol",
+      "answer": {
+        "directAnswer": {
+          "text": "I can explain the supported operating model and troubleshooting approach, but the evidence does not establish personal hands-on experience or a complete method for proving a Microsoft-service fault.",
+          "evidenceIds": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        "bullets": [
+          {
+            "text": "Calling Plans use Microsoft as the PSTN operator and provide PSTN access, numbers, support, and applicable Calling Plan options. Operator Connect uses a certified third-party operator already integrated with Microsoft; the operator is enabled in Teams Admin Center and its numbers are assigned to users. For either model, I would account for Teams dial plans and normalization rules so user-dialed numbers are converted to a standard routable format.",
+            "evidenceIds": [
+              "E1",
+              "E3",
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would first classify the symptom as a setup failure or an unexpected drop, then use CQD trends and subreports to correlate failures by building or subnet. Concentration in a building or subnet points the investigation toward the network; CQD setup reasons can identify missing firewall deep-packet-inspection exemptions or IP-block exceptions, followed by validation of Microsoft 365 IP ranges, media subnets, and required ports. For drops, CQD does not provide a specific cause code, so Microsoft recommends an inferred approach that includes addressing media problem areas and patching clients and drivers. Native Teams-to-Teams calls are processed by Microsoft 365 Teams cloud services, but the supplied evidence does not define a conclusive procedure for isolating a fault specifically to that service.",
+            "evidenceIds": [
+              "E2",
+              "E4"
+            ],
+            "facetId": "facet_2"
+          }
+        ],
+        "unsupportedFacets": [
+          {
+            "facetId": "facet_1",
+            "reason": "The evidence describes Calling Plans and Operator Connect but does not establish the candidate's personal implementation experience."
+          },
+          {
+            "facetId": "facet_2",
+            "reason": "The evidence supports network correlation and limited client remediation, but not a complete client-versus-network-versus-Microsoft-service isolation procedure or a definitive Microsoft-service test."
+          }
+        ],
+        "confidence": "high",
+        "diagnostics": {
+          "configuredModel": "gpt-5.6-sol",
+          "actualModel": "gpt-5.6-sol",
+          "reasoningEffort": "low",
+          "latencyMs": 11919.145499999999,
+          "inputTokens": 3927,
+          "outputTokens": 606,
+          "totalTokens": 4533,
+          "estimatedCostUsd": null
+        }
+      }
+    },
+    {
+      "run": 4,
+      "latencyMs": 9826.972600000001,
+      "inputTokens": 3927,
+      "outputTokens": 590,
+      "schemaValid": true,
+      "bindingValid": true,
+      "errorCode": null,
+      "actualModel": "gpt-5.6-sol",
+      "answer": {
+        "directAnswer": {
+          "text": "The supplied evidence supports explaining the two connectivity models and a CQD-led triage approach, but it does not establish personal hands-on experience or a definitive procedure for proving a Microsoft service fault.",
+          "evidenceIds": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        "bullets": [
+          {
+            "text": "Calling Plans are an all-cloud model with Microsoft as the PSTN operator, offering Domestic, International, and Pay-as-you-go options. Operator Connect uses a certified third-party carrier already integrated with Microsoft; the operator supplies PSTN access, numbers, support, and SLA, while access is enabled and numbers are assigned through Teams Admin Center. Both models use Teams dial plans and normalization rules to convert user-dialed numbers into a standard format for routing. Personal implementation experience is unsupported by the evidence.",
+            "evidenceIds": [
+              "E1",
+              "E3",
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would begin by separating setup failures—calls that never establish—from drop failures—calls that establish and then terminate. In CQD, I would review trends and drill into buildings and subnets with the highest failure volume. Setup reasons involving missing firewall DPI exemptions or IP-block exceptions point toward network equipment, proxy, or firewall configuration. For drops, CQD provides no specific cause code, so Microsoft recommends inferred triage across media problem areas, client and driver patching, and certified devices. Native Teams calls are processed by Microsoft 365 Teams cloud services, but the supplied evidence does not provide a method for conclusively isolating a fault to that service.",
+            "evidenceIds": [
+              "E2",
+              "E4"
+            ],
+            "facetId": "facet_2"
+          }
+        ],
+        "unsupportedFacets": [
+          {
+            "facetId": "facet_1",
+            "reason": "The evidence describes Calling Plans and Operator Connect but does not document the candidate's personal experience."
+          },
+          {
+            "facetId": "facet_2",
+            "reason": "The evidence supports network and inferred client triage, but not a definitive procedure for proving that Microsoft service is the cause."
+          }
+        ],
+        "confidence": "high",
+        "diagnostics": {
+          "configuredModel": "gpt-5.6-sol",
+          "actualModel": "gpt-5.6-sol",
+          "reasoningEffort": "low",
+          "latencyMs": 9826.9447,
+          "inputTokens": 3927,
+          "outputTokens": 590,
+          "totalTokens": 4517,
+          "estimatedCostUsd": null
+        }
+      }
+    },
+    {
+      "run": 5,
+      "latencyMs": 10006.907700000003,
+      "inputTokens": 3927,
+      "outputTokens": 635,
+      "schemaValid": true,
+      "bindingValid": true,
+      "errorCode": null,
+      "actualModel": "gpt-5.6-sol",
+      "answer": {
+        "directAnswer": {
+          "text": "I can explain the supported operating model and troubleshooting approach, but the evidence does not establish personal hands-on experience or a complete client-versus-Microsoft-service isolation procedure.",
+          "evidenceIds": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        "bullets": [
+          {
+            "text": "Calling Plans are cloud-based PSTN connectivity with Microsoft as the operator, while Operator Connect uses a certified third-party operator already integrated with Microsoft. Operator Connect access is enabled in Teams Admin Center and the operator’s numbers are assigned to users. For either model, I would account for Teams Phone licensing and dial-plan normalization so user-dialed numbers are converted into a standard format for routing.",
+            "evidenceIds": [
+              "E1",
+              "E3",
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would first classify the symptom as a setup failure or an unexpected drop, then use CQD trends and subreports to identify concentration by building or subnet. Setup failures can point to firewall deep-packet-inspection exemptions or missing IP/port exceptions; I would validate those areas with the network team. For drops, CQD has no specific reason code, so Microsoft recommends an inferred approach that includes investigating media problem areas, patching clients and drivers, and using Teams-certified devices. Native Teams calls are processed by Microsoft 365 Teams cloud services, but the supplied evidence does not provide a complete method for proving that Microsoft—not the client or network—is the cause.",
+            "evidenceIds": [
+              "E2",
+              "E4"
+            ],
+            "facetId": "facet_2"
+          }
+        ],
+        "unsupportedFacets": [
+          {
+            "facetId": "facet_1",
+            "reason": "The evidence describes Calling Plans and Operator Connect but does not establish the candidate’s personal implementation or operational experience."
+          },
+          {
+            "facetId": "facet_2",
+            "reason": "The evidence supports CQD-based network investigation and client remediation considerations, but not a complete client-versus-network-versus-Microsoft-service isolation workflow."
+          }
+        ],
+        "confidence": "medium",
+        "diagnostics": {
+          "configuredModel": "gpt-5.6-sol",
+          "actualModel": "gpt-5.6-sol",
+          "reasoningEffort": "low",
+          "latencyMs": 10006.869099999996,
+          "inputTokens": 3927,
+          "outputTokens": 635,
+          "totalTokens": 4562,
+          "estimatedCostUsd": null
+        }
+      }
+    },
+    {
+      "run": 6,
+      "latencyMs": 10191.570600000006,
+      "inputTokens": 3927,
+      "outputTokens": 675,
+      "schemaValid": true,
+      "bindingValid": true,
+      "errorCode": null,
+      "actualModel": "gpt-5.6-sol",
+      "answer": {
+        "directAnswer": {
+          "text": "The evidence supports a strong product-knowledge answer, but it does not establish personal hands-on experience or a complete method for confirming a Microsoft service incident.",
+          "evidenceIds": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        "bullets": [
+          {
+            "text": "Calling Plans are cloud-based PSTN connectivity with Microsoft as the operator, while Operator Connect uses a certified third-party carrier already integrated with Microsoft. With Operator Connect, the carrier is enabled in Teams Admin Center and its numbers are assigned to Teams users. For either model, dial plans and normalization rules standardize user-dialed numbers for routing.",
+            "evidenceIds": [
+              "E1",
+              "E3",
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would begin in CQD by separating setup failures from unexpected drops, then look for concentration by building or subnet. Setup failures tied to deep-packet-inspection or IP-block exceptions point toward firewall or proxy configuration. Drop failures require inferred triage because CQD provides no specific drop code; Microsoft recommends investigating media problem areas, client and driver patching, and certified devices. Native Teams-to-Teams calls are processed by Microsoft 365 Teams cloud services, but the supplied evidence does not provide a procedure for proving that Microsoft’s service is the root cause.",
+            "evidenceIds": [
+              "E2",
+              "E4"
+            ],
+            "facetId": "facet_2"
+          }
+        ],
+        "unsupportedFacets": [
+          {
+            "facetId": "facet_1",
+            "reason": "The supplied evidence describes Calling Plans and Operator Connect but does not substantiate the candidate’s personal implementation or operational experience."
+          },
+          {
+            "facetId": "facet_2",
+            "reason": "The evidence supports client and network triage indicators, but it does not provide a complete method for confirming a Microsoft service-side incident."
+          }
+        ],
+        "confidence": "high",
+        "diagnostics": {
+          "configuredModel": "gpt-5.6-sol",
+          "actualModel": "gpt-5.6-sol",
+          "reasoningEffort": "low",
+          "latencyMs": 10191.546199999997,
+          "inputTokens": 3927,
+          "outputTokens": 675,
+          "totalTokens": 4602,
+          "estimatedCostUsd": null
+        }
+      }
+    }
+  ]
+}
