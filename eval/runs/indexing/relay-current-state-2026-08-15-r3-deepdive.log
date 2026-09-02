@@ -1,0 +1,288 @@
+=== authorityCoverage ===
+{
+  "requestedDomains": [
+    "teams_admin",
+    "teams_powershell"
+  ],
+  "coveredDomains": [
+    "teams_powershell",
+    "teams_admin"
+  ],
+  "missingDomains": []
+}
+
+=== full evidence items (with text) ===
+{
+  "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+  "title": "Get-CsTenantDialPlan",
+  "sourceId": "ms-teams-powershell",
+  "authorityRoles": [
+    "teams_powershell_cmdlet_primary"
+  ],
+  "sourceDomain": "teams_powershell",
+  "supportTypes": [
+    "licensing_or_status"
+  ],
+  "text": "Document: Get-CsTenantDialPlan\nHeading Path: Get-CsTenantDialPlan -> SYNOPSIS\n\nUse the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan."
+}
+{
+  "evidenceId": "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c",
+  "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+  "sourceId": "ms-teams-admin",
+  "authorityRoles": [
+    "teams_admin_primary"
+  ],
+  "sourceDomain": "teams_admin",
+  "supportTypes": [
+    "licensing_or_status"
+  ],
+  "text": "Document: Get Microsoft Teams Calling Plan phone numbers for your tenant\nHeading Path: Get Microsoft Teams Calling Plan phone numbers for your tenant -> Get new phone numbers\n\n1. Sign into the Microsoft Teams admin center with one of the following roles:Teams Telephony AdministratorTeams Communications AdministratorTeams AdministratorSee Use Teams administrator roles to manage Teams to read about getting admin roles and permissions. 2. In the left navigation, go to Voice > Phone numbers, and then select Add.ImportantFor you to see the Voice option in the left navigation in the Teams admin center, you must first buy at least one Enterprise E5 or E3 license, one Phone System add-on license, or one Audio Conferencing add-on license. 3. On the resulting page, enter a name for the order and add a description. 4. Select From Operator. 5. On the Location and quantity section, do the following steps:Under Country or region, select a country or region.Under Number type, select the desired number type for this order.If you are submitting an order for a phone number to be used by a user for calling plan, select User (subscriber).If you are submitting an order for a Toll- or Toll-free phone number to be used for Audio conferencing, select Dedicated conference bridge (Toll) or Dedicated conference bridge (Toll Free) respectively.If you are submitting an order for a Toll- or Toll-free phone number to be used for Voice applications (Call Queue or Auto Attendant) select Call Queue (Toll/Toll Free) or Auto Attendant (Toll/Toll Free) accordingly.For more information on number usage types, See Number usage types.Under Operator, select Microsoft as the operator.Under Quantity, enter the number of numbers that you want for your organization.Under Search for new numbers, select your criteria. Criteria vary depending on the country or region and the number type selected. If you need to create a new location, select Add a location.NoteOccasionally, phone numbers might not be available according to your criteria. In an unsuccessful search scenario, you might want to change your search criteria and try again. Alternatively, from the criteria failure message, select Sending this to the PSTN service desk to engage search assistance from our Telephone Number Services Support team.Select Next to select your numbers.NoteIn some countries or regions where phone"
+}
+{
+  "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+  "title": "Get-CsOnlineVoiceRoutingPolicy",
+  "sourceId": "ms-teams-powershell",
+  "authorityRoles": [
+    "teams_powershell_cmdlet_primary"
+  ],
+  "sourceDomain": "teams_powershell",
+  "supportTypes": [
+    "licensing_or_status"
+  ],
+  "text": "Document: Get-CsOnlineVoiceRoutingPolicy\nHeading Path: Get-CsOnlineVoiceRoutingPolicy -> DESCRIPTION\n\nOnline voice routing policies are used in Microsoft Phone System Direct Routing scenarios. Assigning your Teams users an online voice routing policy enables those users to receive and to place phone calls to the public switched telephone network by using your on-premises SIP trunks.\n\nNote that simply assigning a user an online voice routing policy will not enable them to make PSTN calls via Teams. Among other things, you will also need to enable those users for Phone System and will need to assign them an appropriate online voice policy."
+}
+{
+  "evidenceId": "evidence:f8a9861727b051652bbbf3b5bf352fe180c6c3433ad22d7db6ea3e0759dc362f",
+  "title": "Get-CsTeamsCallingPolicy",
+  "sourceId": "ms-teams-powershell",
+  "authorityRoles": [
+    "teams_powershell_cmdlet_primary"
+  ],
+  "sourceDomain": "teams_powershell",
+  "supportTypes": [
+    "licensing_or_status"
+  ],
+  "text": "Document: Get-CsTeamsCallingPolicy\nHeading Path: Get-CsTeamsCallingPolicy -> DESCRIPTION\n\nReturns information about the teams calling policies configured for use in your organization.\nTeams calling policies help determine which users are able to use calling functionality within Microsoft Teams and interoperability with Skype for Business."
+}
+
+=== rejectedCandidates (ALL) grouped by reason ===
+{
+  redundant: 8,
+  'insufficient_direct_support,lower_authority': 9,
+  'low_topical_relevance,insufficient_direct_support': 3
+}
+
+=== rejectedCandidates mentioning powershell/cmdlet titles (Get-Cs*) ===
+{"title":"Get-CsPhoneNumberPolicyAssignment","sourceId":"ms-teams-powershell","reasons":["low_topical_relevance","insufficient_direct_support"],"fusionRank":3}
+{"title":"Set-CsUser","sourceId":"ms-teams-powershell","reasons":["insufficient_direct_support","lower_authority"],"fusionRank":24}
+
+=== plan.plannedClaims ===
+[
+  {
+    "claimId": "claim:0a75a0fcb0c43f68a0754248",
+    "groundingSnapshotId": "grounding:f1fd95fae911ba8c93a7de1e",
+    "groundingSnapshotHash": "f1fd95fae911ba8c93a7de1e261ec38a81947b1dbe045fddaf9d956cb569ae2a",
+    "requiredAspectId": "mandatory:policy:dial-plan:general",
+    "coveredFacets": [
+      "state"
+    ],
+    "claimType": "configuration",
+    "sectionId": "configuration",
+    "proposition": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+    "evidenceIds": [
+      "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc"
+    ],
+    "sourceSpans": [
+      {
+        "spanId": "span:03f58e621a1013f33d4d845b",
+        "evidenceId": "evidence:0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+        "chunkId": "0610e03570d3406cd4b2d8a40620c41832ad483b5600485be5cb4b6eaaf8dcbc",
+        "documentId": "fd33fba90f699a74d17e574dc82f1ee8760a54396cc8d1e999a749092edd4c49",
+        "sourceId": "ms-teams-powershell",
+        "sourcePath": "teams/teams-ps/MicrosoftTeams/Get-CsTenantDialPlan.md",
+        "sectionId": "sec-2",
+        "headingPath": [
+          "Get-CsTenantDialPlan",
+          "SYNOPSIS"
+        ],
+        "sourceField": "text",
+        "fieldIndex": null,
+        "sentenceIndex": 0,
+        "startOffset": 79,
+        "endOffset": 146,
+        "text": "Use the Get-CsTenantDialPlan cmdlet to retrieve a tenant dial plan.",
+        "contentHash": "97360808d548755a31ba7011d4fdae4d7d4eb0a71e901ae03316be788b928d67",
+        "authorityRole": "teams_powershell_cmdlet_primary",
+        "sourceOrder": 0
+      }
+    ],
+    "supportStrength": "direct",
+    "status": "mandatory",
+    "mandatory": true,
+    "requiresCaveat": true,
+    "caveatCodes": [
+      "partial_coverage"
+    ],
+    "unsupportedAspectIds": [
+      "mandatory:entity:csv-export:output-transformation",
+      "mandatory:entity:enterprise-voice:general",
+      "mandatory:policy:calling-policy:general"
+    ],
+    "ordering": {
+      "sequence": 1,
+      "procedureStep": null,
+      "sourceOrder": 0,
+      "spanOrder": 0
+    },
+    "authorityContext": {
+      "sourceIds": [
+        "ms-teams-powershell"
+      ],
+      "routePriorities": [
+        "primary"
+      ],
+      "authorityRoles": [
+        "teams_powershell_cmdlet_primary"
+      ]
+    }
+  },
+  {
+    "claimId": "claim:9e5bf07e566330afc06e1c86",
+    "groundingSnapshotId": "grounding:f1fd95fae911ba8c93a7de1e",
+    "groundingSnapshotHash": "f1fd95fae911ba8c93a7de1e261ec38a81947b1dbe045fddaf9d956cb569ae2a",
+    "requiredAspectId": "mandatory:entity:phone-number:general",
+    "coveredFacets": [
+      "state"
+    ],
+    "claimType": "configuration",
+    "sectionId": "configuration",
+    "proposition": "1. Sign into the Microsoft Teams admin center with one of the following roles:Teams Telephony AdministratorTeams Communications AdministratorTeams AdministratorSee Use Teams administrator roles to manage Teams to read about getting admin roles and permissions. 2. In the left navigation, go to Voice > Phone numbers, and then select Add.ImportantFor you to see the Voice option in the left navigation in the Teams admin center, you must first buy at least one Enterprise E5 or E3 license, one Phone System add-on license, or one Audio Conferencing add-on license. 3. On the resulting page, enter a name for the order and add a description. 4. Select From Operator. 5. On the Location and quantity section, do the following steps:Under Country or region, select a country or region.Under Number type, select the desired number type for this order.If you are submitting an order for a phone number to be used by a user for calling plan, select User (subscriber).If you are submitting an order for a Toll- or Toll-free phone number to be used for Audio conferencing, select Dedicated conference bridge (Toll) or Dedicated conference bridge (Toll Free) respectively.If you are submitting an order for a Toll- or Toll-free phone number to be used for Voice applications (Call Queue or Auto Attendant) select Call Queue (Toll/Toll Free) or Auto Attendant (Toll/Toll Free) accordingly.For more information on number usage types, See Number usage types.Under Operator, select Microsoft as the operator.Under Quantity, enter the number of numbers that you want for your organization.Under Search for new numbers, select your criteria. Criteria vary depending on the country or region and the number type selected. If you need to create a new location, select Add a location.NoteOccasionally, phone numbers might not be available according to your criteria. In an unsuccessful search scenario, you might want to change your search criteria and try again. Alternatively, from the criteria failure message, select Sending this to the PSTN service desk to engage search assistance from our Telephone Number Services Support team.Select Next to select your numbers.NoteIn some countries or regions where phone",
+    "evidenceIds": [
+      "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c"
+    ],
+    "sourceSpans": [
+      {
+        "spanId": "span:d637658d68c8731bca90c1b0",
+        "evidenceId": "evidence:0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c",
+        "chunkId": "0905d421d2c7a5de11aea31608d346654592de7ccf1c4bcabf71697337950f6c",
+        "documentId": "0dbc841df20be92ef3ad868c7a53c4d6ec88e4e60a6951838416769e5886c8a6",
+        "sourceId": "ms-teams-admin",
+        "sourcePath": "microsoftteams/getting-phone-numbers-for-your-users",
+        "sectionId": "sec-5",
+        "headingPath": [
+          "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+          "Get new phone numbers"
+        ],
+        "sourceField": "text",
+        "fieldIndex": null,
+        "sentenceIndex": 0,
+        "startOffset": 176,
+        "endOffset": 2371,
+        "text": "1. Sign into the Microsoft Teams admin center with one of the following roles:Teams Telephony AdministratorTeams Communications AdministratorTeams AdministratorSee Use Teams administrator roles to manage Teams to read about getting admin roles and permissions. 2. In the left navigation, go to Voice > Phone numbers, and then select Add.ImportantFor you to see the Voice option in the left navigation in the Teams admin center, you must first buy at least one Enterprise E5 or E3 license, one Phone System add-on license, or one Audio Conferencing add-on license. 3. On the resulting page, enter a name for the order and add a description. 4. Select From Operator. 5. On the Location and quantity section, do the following steps:Under Country or region, select a country or region.Under Number type, select the desired number type for this order.If you are submitting an order for a phone number to be used by a user for calling plan, select User (subscriber).If you are submitting an order for a Toll- or Toll-free phone number to be used for Audio conferencing, select Dedicated conference bridge (Toll) or Dedicated conference bridge (Toll Free) respectively.If you are submitting an order for a Toll- or Toll-free phone number to be used for Voice applications (Call Queue or Auto Attendant) select Call Queue (Toll/Toll Free) or Auto Attendant (Toll/Toll Free) accordingly.For more information on number usage types, See Number usage types.Under Operator, select Microsoft as the operator.Under Quantity, enter the number of numbers that you want for your organization.Under Search for new numbers, select your criteria. Criteria vary depending on the country or region and the number type selected. If you need to create a new location, select Add a location.NoteOccasionally, phone numbers might not be available according to your criteria. In an unsuccessful search scenario, you might want to change your search criteria and try again. Alternatively, from the criteria failure message, select Sending this to the PSTN service desk to engage search assistance from our Telephone Number Services Support team.Select Next to select your numbers.NoteIn some countries or regions where phone",
+        "contentHash": "fbec4b3156dab5abeea83d2b3378b1407dcf8b9a8ad6a113aece55dc84c1c2e2",
+        "authorityRole": "teams_admin_primary",
+        "sourceOrder": 1
+      }
+    ],
+    "supportStrength": "direct",
+    "status": "mandatory",
+    "mandatory": true,
+    "requiresCaveat": true,
+    "caveatCodes": [
+      "partial_coverage"
+    ],
+    "unsupportedAspectIds": [
+      "mandatory:entity:csv-export:output-transformation",
+      "mandatory:entity:enterprise-voice:general",
+      "mandatory:policy:calling-policy:general"
+    ],
+    "ordering": {
+      "sequence": 2,
+      "procedureStep": null,
+      "sourceOrder": 1,
+      "spanOrder": 0
+    },
+    "authorityContext": {
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "routePriorities": [
+        "primary"
+      ],
+      "authorityRoles": [
+        "teams_admin_primary"
+      ]
+    }
+  },
+  {
+    "claimId": "claim:68ff7d72db533918a81fca02",
+    "groundingSnapshotId": "grounding:f1fd95fae911ba8c93a7de1e",
+    "groundingSnapshotHash": "f1fd95fae911ba8c93a7de1e261ec38a81947b1dbe045fddaf9d956cb569ae2a",
+    "requiredAspectId": "mandatory:policy:voice-routing-policy:general",
+    "coveredFacets": [
+      "state"
+    ],
+    "claimType": "configuration",
+    "sectionId": "configuration",
+    "proposition": "Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.",
+    "evidenceIds": [
+      "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3"
+    ],
+    "sourceSpans": [
+      {
+        "spanId": "span:e412bf865c30820e7c243ac2",
+        "evidenceId": "evidence:327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+        "chunkId": "327ddb4bd8b322edb3aaf1bc2302dce67e9595d29388ce5a86242bf2812fb4b3",
+        "documentId": "40778376085a29cf0d085dfd4ae8609e43ee5d1a4417f147808bda34403676cf",
+        "sourceId": "ms-teams-powershell",
+        "sourcePath": "teams/teams-ps/MicrosoftTeams/Get-CsOnlineVoiceRoutingPolicy.md",
+        "sectionId": "sec-6",
+        "headingPath": [
+          "Get-CsOnlineVoiceRoutingPolicy",
+          "DESCRIPTION"
+        ],
+        "sourceField": "text",
+        "fieldIndex": null,
+        "sentenceIndex": 0,
+        "startOffset": 102,
+        "endOffset": 192,
+        "text": "Online voice routing policies are used in Microsoft Phone System Direct Routing scenarios.",
+        "contentHash": "ac9914b26d7dba4b818729e31f772ce32e354ce2cd693c821388f2cea61ec611",
+        "authorityRole": "teams_powershell_cmdlet_primary",
+        "sourceOrder": 2
+      }
+    ],
+    "supportStrength": "direct",
+    "status": "mandatory",
+    "mandatory": true,
+    "requiresCaveat": true,
+    "caveatCodes": [
+      "partial_coverage"
+    ],
+    "unsupportedAspectIds": [
+      "mandatory:entity:csv-export:output-transformation",
+      "mandatory:entity:enterprise-voice:general",
+      "mandatory:policy:calling-policy:general"
+    ],
+    "ordering": {
+      "sequence": 3,
+      "procedureStep": null,
+      "sourceOrder": 2,
+      "spanOrder": 0
+    },
+    "authorityContext": {
+      "sourceIds": [
+        "ms-teams-powershell"
+      ],
+      "routePriorities": [
+        "primary"
+      ],
+      "authorityRoles": [
+        "teams_powershell_cmdlet_primary"
+      ]
+    }
+  }
+]
+
+=== plan.caveats ===
+undefined

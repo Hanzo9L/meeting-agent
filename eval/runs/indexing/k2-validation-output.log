@@ -1,0 +1,986 @@
+
+> meeting-agent@1.0.0 eval:k2-sharepoint
+> tsx eval/harness/runSharePointK2Validation.ts
+
+[K2-validate] primary-copilot-security domains=sharepoint answerability=answered portOk=true
+[K2-validate] copilot-permission-boundary domains=m365,sharepoint answerability=answered portOk=true
+[K2-validate] oversharing domains=sharepoint answerability=answered portOk=true
+[K2-validate] restricted-content-discovery domains=sharepoint answerability=answered portOk=true
+[K2-validate] sharing-restriction domains=sharepoint answerability=answered portOk=true
+[K2-validate] anyone-links domains=sharepoint answerability=answered portOk=true
+[K2-validate] spo-cmdlet domains=sharepoint answerability=answered portOk=true
+[K2-validate] entra-conditional-access-regression domains=entra answerability=answered portOk=true
+[K2-validate] teams-calling-plans-regression domains=teams_admin answerability=answered portOk=true
+[K2-validate] exchange-negative-control domains= answerability=insufficient_evidence portOk=true
+{
+  "results": [
+    {
+      "id": "primary-copilot-security",
+      "question": "How would you secure SharePoint data so it is not accessible by all Copilot users?",
+      "queryIntent": {
+        "domains": [
+          "sharepoint"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "conceptual"
+      },
+      "routed": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs"
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:unresolved:secure-sharepoint-data-accessible:general",
+            "requirement": "mandatory",
+            "answerObject": "fact"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "sourceDomain": "unknown",
+            "title": "Manage access to agents in SharePoint",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+            "headingPath": [
+              "Manage access to agents in SharePoint",
+              "Manage who can access the agents",
+              "Control user access through licensing"
+            ],
+            "supportTypes": [
+              "concept_definition"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nCurrently, users with a Microsoft 365 Copilot license can use the agents.\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage who can access the agents ΓÇ║ Control user access through licensing\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage who can access the agents -> Control user access through licensing Currently, users with a Microsoft 365 Copilot license can use the agents. You can use the Microsoft 365 Copilot setup guide in the Microsoft 365 admin center to assign the required licenses to users. For more information, see Assign licenses to users in the Microsoft 365 admin center and Microsoft 365 Copilot requirements. Admins can choose to edit the service plans under the Copilot license to specifically allow or block users from using Copilot experiences on SharePoint. Under the license details page for Microsoft 365 Copilot on the Microsoft 365 admin center, admins can turn 'Microsoft 365 Copilot for SharePoint' on or off on a per-user basis. For example, a user could be allowed to use Microsoft 365 Copilot on Teams but not use any agents on SharePoint alone. However, this change also disables Copilot in OneDrive and on the SharePoint page authoring Copilot for that user.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nCaveats / limitations\nMissing authoritative domain coverage: sharepoint\n\nSources\nManage access to agents in SharePoint ΓÇö https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+        "factualAnswerText": "Currently, users with a Microsoft 365 Copilot license can use the agents.\n\nCaveats:\n- Missing authoritative domain coverage: sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "authorityRole": "sharepoint_admin_primary",
+            "sourceTitle": "Manage access to agents in SharePoint",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+            "headingPath": [
+              "Manage access to agents in SharePoint",
+              "Manage who can access the agents",
+              "Control user access through licensing"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 916.1637000000001,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 916.2807999999998
+    },
+    {
+      "id": "copilot-permission-boundary",
+      "question": "Does Microsoft 365 Copilot bypass existing SharePoint permissions?",
+      "queryIntent": {
+        "domains": [
+          "m365",
+          "sharepoint"
+        ],
+        "products": [
+          "Microsoft 365"
+        ],
+        "technologies": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "conceptual"
+      },
+      "routed": {
+        "selectedDomains": [
+          "m365",
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-m365-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "m365_tenant_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "supporting",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "supporting",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-m365-docs",
+          "ms-teams-admin",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs",
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell"
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:unresolved:copilot-bypass-existing-sharepoint:general",
+            "requirement": "mandatory",
+            "answerObject": "fact"
+          },
+          {
+            "aspectId": "optional:product:microsoft-365:general",
+            "requirement": "optional",
+            "answerObject": "fact"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "sourceDomain": "unknown",
+            "title": "Set-SPOTenant",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-spotenant",
+            "headingPath": [
+              "Set-SPOTenant",
+              "PARAMETERS",
+              "-KnowledgeAgentSelectedSitesList"
+            ],
+            "supportTypes": [
+              "concept_definition"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nApplicable: SharePoint Online\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nSet-SPOTenant ΓÇ║ PARAMETERS ΓÇ║ -KnowledgeAgentSelectedSitesList\nDocument: Set-SPOTenant Heading Path: Set-SPOTenant -> PARAMETERS -> -KnowledgeAgentSelectedSitesList Applicable: SharePoint Online This parameter allows administrators to pass a list of SharePoint site URLs to exclude from the Knowledge agent feature. By default, this overwrites any existing exclusion list with the provided list. This parameter can only be called when KnowledgeAgentScope is set to ExcludeSelectedSites. The list of site URLs can't exceed 100 items. [!NOTE] Use of this parameter requires Microsoft 365 Copilot license.\nSource: Set-SPOTenant\nhttps://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-spotenant\n\nCaveats / limitations\nMissing authoritative domain coverage: m365, sharepoint\n\nSources\nSet-SPOTenant ΓÇö https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-spotenant",
+        "factualAnswerText": "Applicable: SharePoint Online\n\nCaveats:\n- Missing authoritative domain coverage: m365, sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "authorityRole": "sharepoint_powershell_cmdlet_primary",
+            "sourceTitle": "Set-SPOTenant",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-spotenant",
+            "headingPath": [
+              "Set-SPOTenant",
+              "PARAMETERS",
+              "-KnowledgeAgentSelectedSitesList"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 728.8611000000001,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 728.8760000000002
+    },
+    {
+      "id": "oversharing",
+      "question": "How do I identify SharePoint sites that are overshared before rolling out Copilot?",
+      "queryIntent": {
+        "domains": [
+          "sharepoint"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs"
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:unresolved:identify-sharepoint-sites-that:general",
+            "requirement": "mandatory",
+            "answerObject": "procedure"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "sourceDomain": "unknown",
+            "title": "Data access governance reports for SharePoint and OneDrive sites",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+            "headingPath": [
+              "Data access governance reports for SharePoint and OneDrive sites",
+              "What is the sites and files shared via special SharePoint groups report?"
+            ],
+            "supportTypes": [
+              "procedure"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nLearn how to run and use the sites and files shared via special SharePoint groups report.\n\nWhat to do\n[Microsoft documentation context ΓÇö procedure]\nData access governance reports for SharePoint and OneDrive sites ΓÇ║ What is the sites and files shared via special SharePoint groups report?\nDocument: Data access governance reports for SharePoint and OneDrive sites Heading Path: Data access governance reports for SharePoint and OneDrive sites -> What is the sites and files shared via special SharePoint groups report? The sites and files shared via special SharePoint groups report is a snapshot report that identifies all sites, folders, and files across SharePoint and OneDrive that are effectively public because of the special SharePoint groups 'Everyone except external users' (EEEU) or 'Everyone'. While the site permissions for your organization report tells you which sites are overshared, this report tells you exactly which items are overshared and how access was granted, so you can accelerate cleanup through scripting instead of depending on site owners. Learn how to run and use the sites and files shared via special SharePoint groups report.\nSource: Data access governance reports for SharePoint and OneDrive sites\nhttps://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports\n\nCaveats / limitations\nMissing authoritative domain coverage: sharepoint\n\nSources\nData access governance reports for SharePoint and OneDrive sites ΓÇö https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+        "factualAnswerText": "Steps:\n- Learn how to run and use the sites and files shared via special SharePoint groups report.\n\nCaveats:\n- Missing authoritative domain coverage: sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "authorityRole": "sharepoint_admin_primary",
+            "sourceTitle": "Data access governance reports for SharePoint and OneDrive sites",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+            "headingPath": [
+              "Data access governance reports for SharePoint and OneDrive sites",
+              "What is the sites and files shared via special SharePoint groups report?"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 678.3453,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 678.3595000000005
+    },
+    {
+      "id": "restricted-content-discovery",
+      "question": "What is Restricted Content Discovery?",
+      "queryIntent": {
+        "domains": [
+          "sharepoint"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [
+          "restricted content discovery"
+        ],
+        "unresolvedAmbiguity": [],
+        "expectedAnswerType": "conceptual"
+      },
+      "routed": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs"
+        ],
+        "routingWarnings": []
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:entity:restricted-content-discovery:general",
+            "requirement": "mandatory",
+            "answerObject": "fact"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "sourceDomain": "unknown",
+            "title": "Set-SPOSite",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+            "headingPath": [
+              "Set-SPOSite",
+              "PARAMETERS",
+              "-RestrictedContentDiscoveryforCopilotAndAgents"
+            ],
+            "supportTypes": [
+              "concept_definition"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nSets or updates the site setting to host Agents by activating or deactivating the Restricted Content Discovery (RCD) for Agents.\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nSet-SPOSite ΓÇ║ PARAMETERS ΓÇ║ -RestrictedContentDiscoveryforCopilotAndAgents\nDocument: Set-SPOSite Heading Path: Set-SPOSite -> PARAMETERS -> -RestrictedContentDiscoveryforCopilotAndAgents Sets or updates the site setting to host Agents by activating or deactivating the Restricted Content Discovery (RCD) for Agents. Currently under private preview.\nSource: Set-SPOSite\nhttps://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite\n\nCaveats / limitations\nMissing authoritative domain coverage: sharepoint\n\nSources\nSet-SPOSite ΓÇö https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+        "factualAnswerText": "Sets or updates the site setting to host Agents by activating or deactivating the Restricted Content Discovery (RCD) for Agents.\n\nCaveats:\n- Missing authoritative domain coverage: sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "authorityRole": "sharepoint_powershell_cmdlet_primary",
+            "sourceTitle": "Set-SPOSite",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+            "headingPath": [
+              "Set-SPOSite",
+              "PARAMETERS",
+              "-RestrictedContentDiscoveryforCopilotAndAgents"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 508.7541999999994,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 508.77110000000084
+    },
+    {
+      "id": "sharing-restriction",
+      "question": "How would I restrict sharing on a sensitive SharePoint site?",
+      "queryIntent": {
+        "domains": [
+          "sharepoint"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "conceptual"
+      },
+      "routed": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs"
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:unresolved:restrict-sharing-sensitive-sharepoint:general",
+            "requirement": "mandatory",
+            "answerObject": "fact"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "sourceDomain": "unknown",
+            "title": "Set-SPOSite",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+            "headingPath": [
+              "Set-SPOSite",
+              "PARAMETERS",
+              "-OverrideSharingCapability"
+            ],
+            "supportTypes": [
+              "concept_definition"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nApplicable: SharePoint Online\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nSet-SPOSite ΓÇ║ PARAMETERS ΓÇ║ -OverrideSharingCapability\nDocument: Set-SPOSite Heading Path: Set-SPOSite -> PARAMETERS -> -OverrideSharingCapability Applicable: SharePoint Online Determines whether it should override the sharing capability on its partition. For example, if the tenant sharing capability is ExternalUserAndGuestSharing, the core partition sharing capability is Disabled, and the sharing capability defined on the site collection is ExternalUserAndGuestSharing, the effective site sharing capability should be Disabled (the most restrictive one among tenant, partition, and site collection) if OverrideSharingCapability is false. If OverrideSharingCapability is true, it skips checking partition sharing capability and the effective site sharing capability should be ExternalUserAndGuestSharing. PARAMVALUE: False | True\nSource: Set-SPOSite\nhttps://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite\n\nCaveats / limitations\nMissing authoritative domain coverage: sharepoint\n\nSources\nSet-SPOSite ΓÇö https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+        "factualAnswerText": "Applicable: SharePoint Online\n\nCaveats:\n- Missing authoritative domain coverage: sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "authorityRole": "sharepoint_powershell_cmdlet_primary",
+            "sourceTitle": "Set-SPOSite",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+            "headingPath": [
+              "Set-SPOSite",
+              "PARAMETERS",
+              "-OverrideSharingCapability"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 551.1900999999998,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 551.2055
+    },
+    {
+      "id": "anyone-links",
+      "question": "How do I review or remove Anyone sharing links?",
+      "queryIntent": {
+        "domains": [
+          "sharepoint"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [
+          "sharing link"
+        ],
+        "unresolvedAmbiguity": [],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs"
+        ],
+        "routingWarnings": []
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:entity:sharing-link:remove",
+            "requirement": "mandatory",
+            "answerObject": "procedure"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "sourceDomain": "unknown",
+            "title": "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview",
+            "headingPath": [
+              "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+              "How do I stop sharing?"
+            ],
+            "supportTypes": [
+              "procedure"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nTo stop sharing with people who have an Anyone link, go to the file or folder that you shared and delete the link or turn off Anyone links for the site.\n\nWhat to do\n[Microsoft documentation context ΓÇö procedure]\nOverview of external sharing in SharePoint and OneDrive in Microsoft 365 ΓÇ║ How do I stop sharing?\nDocument: Overview of external sharing in SharePoint and OneDrive in Microsoft 365 Heading Path: Overview of external sharing in SharePoint and OneDrive in Microsoft 365 -> How do I stop sharing? To stop sharing with guests, remove their permissions from the shared item or remove them as a guest in your directory. To stop sharing with people who have an Anyone link, go to the file or folder that you shared and delete the link or turn off Anyone links for the site. Learn how to stop sharing an item\nSource: Overview of external sharing in SharePoint and OneDrive in Microsoft 365\nhttps://learn.microsoft.com/en-us/sharepoint/external-sharing-overview\n\nCaveats / limitations\nMissing authoritative domain coverage: sharepoint\n\nSources\nOverview of external sharing in SharePoint and OneDrive in Microsoft 365 ΓÇö https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview",
+        "factualAnswerText": "Steps:\n- To stop sharing with people who have an Anyone link, go to the file or folder that you shared and delete the link or turn off Anyone links for the site.\n\nCaveats:\n- Missing authoritative domain coverage: sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "authorityRole": "sharepoint_admin_primary",
+            "sourceTitle": "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview",
+            "headingPath": [
+              "Overview of external sharing in SharePoint and OneDrive in Microsoft 365",
+              "How do I stop sharing?"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 534.3454999999994,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 534.3644000000004
+    },
+    {
+      "id": "spo-cmdlet",
+      "question": "What does the Set-SPOSite cmdlet do?",
+      "queryIntent": {
+        "domains": [
+          "sharepoint"
+        ],
+        "products": [],
+        "technologies": [
+          "PowerShell"
+        ],
+        "entities": [
+          "Set-SPOSite"
+        ],
+        "commandNames": [
+          "Set-SPOSite"
+        ],
+        "unresolvedAmbiguity": [],
+        "expectedAnswerType": "reference"
+      },
+      "routed": {
+        "selectedDomains": [
+          "sharepoint"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_powershell_cmdlet_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-sharepoint-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "sharepoint_admin_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-sharepoint-powershell",
+          "ms-sharepoint-docs",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-powershell",
+          "ms-teams-dev-docs"
+        ],
+        "routingWarnings": []
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:cmdlet:set-sposite:general",
+            "requirement": "mandatory",
+            "answerObject": "cmdlet_semantics"
+          },
+          {
+            "aspectId": "optional:technology:powershell:general",
+            "requirement": "optional",
+            "answerObject": "fact"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "sourceDomain": "unknown",
+            "title": "Set-SPOSite",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+            "headingPath": [
+              "Set-SPOSite",
+              "SYNTAX",
+              "ParamSet3"
+            ],
+            "supportTypes": [
+              "cmdlet_semantics"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nSet-SPOSite [-Identity] <SpoSitePipeBind> [-DisableSharingForNonOwners] [-InformationBarriersMode <String>]\n\nPowerShell / Commands\n[Microsoft documentation context ΓÇö cmdlet_reference]\nSet-SPOSite ΓÇ║ SYNTAX ΓÇ║ ParamSet3\nDocument: Set-SPOSite Heading Path: Set-SPOSite -> SYNTAX -> ParamSet3 ``` Set-SPOSite [-Identity] <SpoSitePipeBind> [-DisableSharingForNonOwners] [-InformationBarriersMode <String>] [-WhatIf] [-Confirm] [<CommonParameters>] ```\nSource: Set-SPOSite\nhttps://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite\n\nCaveats / limitations\nMissing authoritative domain coverage: sharepoint\n\nSources\nSet-SPOSite ΓÇö https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+        "factualAnswerText": "Set-SPOSite [-Identity] <SpoSitePipeBind> [-DisableSharingForNonOwners] [-InformationBarriersMode <String>]\n\nCaveats:\n- Missing authoritative domain coverage: sharepoint",
+        "citations": [
+          {
+            "sourceId": "ms-sharepoint-powershell",
+            "authorityRole": "sharepoint_powershell_cmdlet_primary",
+            "sourceTitle": "Set-SPOSite",
+            "canonicalUrl": "https://learn.microsoft.com/powershell/module/microsoft.online.sharepoint.powershell/set-sposite",
+            "headingPath": [
+              "Set-SPOSite",
+              "SYNTAX",
+              "ParamSet3"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 569.6016,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 569.6155999999992
+    },
+    {
+      "id": "entra-conditional-access-regression",
+      "question": "How would I configure a Conditional Access policy to require MFA for all admin roles?",
+      "queryIntent": {
+        "domains": [
+          "entra"
+        ],
+        "products": [
+          "Microsoft Entra"
+        ],
+        "technologies": [
+          "Conditional Access"
+        ],
+        "entities": [
+          "conditional access",
+          "policy"
+        ],
+        "unresolvedAmbiguity": [],
+        "expectedAnswerType": "configuration"
+      },
+      "routed": {
+        "selectedDomains": [
+          "entra",
+          "teams_admin"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-entra-docs",
+            "priority": "primary",
+            "authorityRoles": [
+              "entra_identity_primary"
+            ]
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "supporting",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-entra-docs",
+          "ms-m365-docs",
+          "ms-teams-admin",
+          "ms-graph-docs",
+          "ms-teams-dev-docs",
+          "ms-teams-powershell",
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell"
+        ],
+        "routingWarnings": []
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:policy:conditional-access-policy:set",
+            "requirement": "mandatory",
+            "answerObject": "configuration_behavior"
+          },
+          {
+            "aspectId": "optional:product:microsoft-entra:general",
+            "requirement": "optional",
+            "answerObject": "configuration_behavior"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-entra-docs",
+            "sourceDomain": "entra",
+            "title": "Filter for applications in Conditional Access policy",
+            "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications",
+            "headingPath": [
+              "Conditional Access: Filter for applications",
+              "Configure custom attributes",
+              "Step 3: Test the policy"
+            ],
+            "supportTypes": [
+              "configuration_behavior"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nSign in as a user who the policy would apply to and test to see that MFA is required when accessing the application.\n\nSources\nFilter for applications in Conditional Access policy ΓÇö https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications",
+        "factualAnswerText": "Steps:\n- Sign in as a user who the policy would apply to and test to see that MFA is required when accessing the application.",
+        "citations": [
+          {
+            "sourceId": "ms-entra-docs",
+            "authorityRole": "entra_identity_primary",
+            "sourceTitle": "Filter for applications in Conditional Access policy",
+            "canonicalUrl": "https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications",
+            "headingPath": [
+              "Conditional Access: Filter for applications",
+              "Configure custom attributes",
+              "Step 3: Test the policy"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 1889.1296000000002,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 1889.1515999999992
+    },
+    {
+      "id": "teams-calling-plans-regression",
+      "question": "How do I assign a Calling Plan phone number to a user?",
+      "queryIntent": {
+        "domains": [
+          "teams_admin"
+        ],
+        "products": [],
+        "technologies": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [
+          "teams_admin"
+        ],
+        "eligibleSources": [
+          {
+            "sourceId": "ms-teams-admin",
+            "priority": "primary",
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        ],
+        "sourcePriorityChain": [
+          "ms-teams-admin",
+          "ms-teams-powershell",
+          "ms-m365-docs",
+          "ms-entra-docs",
+          "ms-graph-docs",
+          "ms-teams-dev-docs",
+          "ms-sharepoint-docs",
+          "ms-sharepoint-powershell"
+        ],
+        "routingWarnings": [
+          "candidate_population_above_preferred_target",
+          "scope_broadened_due_to_unresolved_ambiguity"
+        ]
+      },
+      "r2": {
+        "answerability": "answered",
+        "aspects": [
+          {
+            "aspectId": "mandatory:unresolved:assign-calling-plan-phone:grant",
+            "requirement": "mandatory",
+            "answerObject": "procedure"
+          }
+        ],
+        "selectedEvidence": [
+          {
+            "sourceId": "ms-teams-admin",
+            "sourceDomain": "teams_admin",
+            "title": "Set up Microsoft Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+            "headingPath": [
+              "Set up Microsoft Calling Plans",
+              "Step 6: Assign an emergency address and a phone number to a user"
+            ],
+            "supportTypes": [
+              "procedure"
+            ]
+          }
+        ]
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "answered",
+        "answerText": "Summary\nYou must assign a phone number and an emergency address to each of your users.\n\nIf you add more people to your business right before doing this step, it may take several hours for them to appear on the Voice users page.\n\nWhat to do\n[Microsoft documentation context ΓÇö procedure]\nSet up Microsoft Calling Plans ΓÇ║ Step 6: Assign an emergency address and a phone number to a user\nDocument: Set up Microsoft Calling Plans Heading Path: Set up Microsoft Calling Plans -> Step 6: Assign an emergency address and a phone number to a user You must assign a phone number and an emergency address to each of your users. The emergency address must be created before you can associate it with a phone number. For more information, see Manage emergency locations and Manage phone numbers for users. Tip If you add more people to your business right before doing this step, it may take several hours for them to appear on the Voice users page.\nSource: Set up Microsoft Calling Plans\nhttps://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans\n\nSources\nSet up Microsoft Calling Plans ΓÇö https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+        "factualAnswerText": "Steps:\n- You must assign a phone number and an emergency address to each of your users.\n- If you add more people to your business right before doing this step, it may take several hours for them to appear on the Voice users page.",
+        "citations": [
+          {
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "sourceTitle": "Set up Microsoft Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+            "headingPath": [
+              "Set up Microsoft Calling Plans",
+              "Step 6: Assign an emergency address and a phone number to a user"
+            ],
+            "preview": false
+          },
+          {
+            "sourceId": "ms-teams-admin",
+            "authorityRole": "teams_admin_primary",
+            "sourceTitle": "Set up Microsoft Calling Plans",
+            "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+            "headingPath": [
+              "Set up Microsoft Calling Plans",
+              "Step 6: Assign an emergency address and a phone number to a user"
+            ],
+            "preview": false
+          }
+        ],
+        "latencyMs": 993.2308999999987,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 993.2645000000011
+    },
+    {
+      "id": "exchange-negative-control",
+      "question": "How do I set up a mailbox delegation so my assistant can manage my calendar and email?",
+      "queryIntent": {
+        "domains": [],
+        "products": [],
+        "technologies": [],
+        "entities": [],
+        "unresolvedAmbiguity": [
+          "domain_unresolved",
+          "no_explicit_entity"
+        ],
+        "expectedAnswerType": "procedural"
+      },
+      "routed": {
+        "selectedDomains": [],
+        "eligibleSources": [],
+        "sourcePriorityChain": [],
+        "routingWarnings": [
+          "scope_broadened_due_to_unresolved_ambiguity",
+          "domain_unresolved_no_authoritative_scope"
+        ]
+      },
+      "r2": {
+        "answerability": "insufficient_evidence",
+        "aspects": [
+          {
+            "aspectId": "mandatory:unresolved:mailbox-delegation-assistant-manage:set",
+            "requirement": "mandatory",
+            "answerObject": "procedure"
+          }
+        ],
+        "selectedEvidence": []
+      },
+      "productionPort": {
+        "ok": true,
+        "answerability": "insufficient_evidence",
+        "answerText": "Unable to provide a factual answer from the approved evidence.\n\nUnsupported gaps\nNot established from available authoritative evidence (mandatory:unresolved:mailbox-delegation-assistant-manage:set): Unsupported required aspect: mailbox delegation assistant manage; required facets: procedure, operation.\n\nNot established from available authoritative evidence (unsupported:freshness): Freshness verification is required before asserting mutable details.\n\nNot established from available authoritative evidence (insufficient_evidence): Unsupported required aspect: mailbox delegation assistant manage; required facets: procedure, operation.\n\nNot established from available authoritative evidence (freshness_verification_required): Freshness verification is required before asserting mutable details.\n\nCaveats / limitations\nFreshness must be verified before final answer.",
+        "factualAnswerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: mailbox delegation assistant manage; required facets: procedure, operation.\n- Freshness verification is required before asserting mutable details.\n\nCaveats:\n- Freshness must be verified before final answer.",
+        "citations": [],
+        "latencyMs": 227.99079999999958,
+        "answerGenerationRequestCount": 0
+      },
+      "wallClockLatencyMs": 228.02859999999964
+    }
+  ]
+}

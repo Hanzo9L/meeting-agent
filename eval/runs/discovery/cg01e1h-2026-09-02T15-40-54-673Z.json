@@ -1,0 +1,4934 @@
+{
+  "runId": "cg01e1h-2026-09-02T15-40-54-673Z",
+  "generatedAt": "2026-09-02T15:40:54.674Z",
+  "sourceManifests": {
+    "baseSanitizedManifest": "eval/runs/discovery/cg01e1s-2026-09-02T15-37-49-498Z.json",
+    "targetedCallingPlansManifest": "C:/Users/joegc/AppData/Local/Temp/empty-targeted.json"
+  },
+  "authorityRule": "Include cross-product dependencies when Teams is the workload being administered; do not widen to generic M365 corpus.",
+  "environmentProfileHint": {
+    "targetPstnModel": "microsoft_calling_plans",
+    "note": "Preference hint for later orchestration only; does not alter source authority."
+  },
+  "summary": {
+    "baseSanitizedAcceptedCount": 106,
+    "previouslyHumanApprovedGeneralCount": 9,
+    "targetedCallingPlansAcceptedCount": 0,
+    "callingPlansNeedsReviewApprovedCount": 5,
+    "classifierOverrideApprovedCount": 2,
+    "deduplicatedFinalApprovedCount": 114,
+    "environmentProfileHint": "microsoft_calling_plans"
+  },
+  "coverage": [
+    {
+      "category": "Core Teams administration",
+      "rating": "adequate",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles"
+      ]
+    },
+    {
+      "category": "Teams Phone / Calling Plans",
+      "rating": "strong",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system"
+      ]
+    },
+    {
+      "category": "Direct Routing",
+      "rating": "strong",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-landing-page"
+      ]
+    },
+    {
+      "category": "Operator Connect",
+      "rating": "adequate",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-conferencing-configure",
+        "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-conferencing-plan",
+        "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-configure",
+        "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-india-configure",
+        "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure",
+        "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers"
+      ]
+    },
+    {
+      "category": "phone number management",
+      "rating": "strong",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/transfer-phone-numbers-to-teams"
+      ]
+    },
+    {
+      "category": "emergency calling",
+      "rating": "strong",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+        "https://learn.microsoft.com/en-us/microsoftteams/considerations-calling-plan"
+      ]
+    },
+    {
+      "category": "call queues / auto attendants",
+      "rating": "strong",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+        "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant"
+      ]
+    },
+    {
+      "category": "meetings",
+      "rating": "adequate",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview"
+      ]
+    },
+    {
+      "category": "external/guest access",
+      "rating": "adequate",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+        "https://learn.microsoft.com/en-us/microsoftteams/guest-access"
+      ]
+    },
+    {
+      "category": "Teams/channel management",
+      "rating": "strong",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-with-policies",
+        "https://learn.microsoft.com/en-us/microsoftteams/manage-channel-moderation-in-teams"
+      ]
+    },
+    {
+      "category": "devices",
+      "rating": "adequate",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/aboutunifieddevicemanagement-pmp1",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/androidupdatemanagementinpmp",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/enrolling-mtrp-managed-service",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/health-reports",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/managed-meeting-rooms-portal",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/pro-portal-settings",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-configure-accounts",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-manage",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-operations",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-pro-management",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/surface-hub-manage-config",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/voice-and-face-recognition",
+        "https://learn.microsoft.com/en-us/microsoftteams/rooms/voice-recognition"
+      ]
+    },
+    {
+      "category": "reporting/analytics",
+      "rating": "adequate",
+      "evidenceUrls": [
+        "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "entryId": "ta-678a9ec659565bb3",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+      "articlePath": "/microsoftteams/aa-cq-manage-resource-accounts",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-001",
+        "TA-CALL-004"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-8e242a5a38d6ba42",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-voice-applications-policies",
+      "articlePath": "/microsoftteams/aa-cq-manage-voice-applications-policies",
+      "title": null,
+      "taxonomyDomains": [
+        "core_admin",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-002",
+        "TA-CALL-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-0642b3ea59376705",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant-cmdlets",
+      "articlePath": "/microsoftteams/aa-cq-setup-auto-attendant-cmdlets",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-001",
+        "TA-CALL-004"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f6b3b2627ab6ea3b",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+      "articlePath": "/microsoftteams/aa-cq-setup-call-queue",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-001",
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-97f0f5779451bf44",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-cmdlets",
+      "articlePath": "/microsoftteams/aa-cq-setup-call-queue-cmdlets",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c29680549e7fce13",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-priorities",
+      "articlePath": "/microsoftteams/aa-cq-setup-call-queue-priorities",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-16ac17630bce378b",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-template-recording-automatic",
+      "articlePath": "/microsoftteams/aa-cq-setup-call-queue-template-recording-automatic",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5f7268562e361454",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-template-recording-compliance",
+      "articlePath": "/microsoftteams/aa-cq-setup-call-queue-template-recording-compliance",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-68705497e1a61299",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-template-shared-history",
+      "articlePath": "/microsoftteams/aa-cq-setup-call-queue-template-shared-history",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-42f6fa960ca97cf7",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-on-network",
+      "articlePath": "/microsoftteams/audio-conferencing-on-network",
+      "title": "On-network Conferencing for Audio Conferencing",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5e2fca93f0167b23",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+      "articlePath": "/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-VOICE-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c535c4a2c981c52b",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voice-landing-page",
+      "articlePath": "/microsoftteams/cloud-voice-landing-page",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-002",
+        "TA-CALL-008",
+        "TA-CALL-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-231f3e7bb30bc720",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voice-network-settings",
+      "articlePath": "/microsoftteams/cloud-voice-network-settings",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-007",
+        "TA-CALL-009"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b494cd53685cab49",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-desktop-sharing",
+      "articlePath": "/microsoftteams/configure-desktop-sharing",
+      "title": null,
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5e64caf7655aa1ba",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-dynamic-emergency-calling",
+      "articlePath": "/microsoftteams/configure-dynamic-emergency-calling",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-008",
+        "TA-CALL-009"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-509e6246c820469a",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/configure-lobby-sensitive-meetings",
+      "articlePath": "/microsoftteams/configure-lobby-sensitive-meetings",
+      "title": null,
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-7a408b3e8bd79883",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/considerations-calling-plan",
+      "articlePath": "/microsoftteams/considerations-calling-plan",
+      "title": "Emergency calling considerations for Microsoft Calling Plans",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-009"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f73e7e94a2523836",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/considerations-operator-connect",
+      "articlePath": "/microsoftteams/considerations-operator-connect",
+      "title": "Considerations for Operator Connect",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-008"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b5c879f694696eb8",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/cqd-upload-tenant-building-data",
+      "articlePath": "/microsoftteams/cqd-upload-tenant-building-data",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-010"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b251f9b504f6ea6d",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+      "articlePath": "/microsoftteams/create-a-phone-system-auto-attendant",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-004"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f57114d6440a6ee4",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+      "articlePath": "/microsoftteams/create-a-phone-system-call-queue",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-8e19933dc773d1e5",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+      "articlePath": "/microsoftteams/create-and-manage-dial-plans",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-7250acae638929e4",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/custom-meeting-templates-overview",
+      "articlePath": "/microsoftteams/custom-meeting-templates-overview",
+      "title": "Overview of custom meeting templates in Microsoft Teams",
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-11126cd706a15316",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+      "articlePath": "/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+      "title": "Chat, teams, channels, & apps in Microsoft Teams",
+      "taxonomyDomains": [
+        "external_collaboration",
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-EXT-002",
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-4f4a39682edd3807",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/devices/device-management",
+      "articlePath": "/microsoftteams/devices/device-management",
+      "title": "Manage devices in Teams",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001",
+        "TA-DEVICES-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b043712f77599341",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/devices/manage-device-tags",
+      "articlePath": "/microsoftteams/devices/manage-device-tags",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-e69b0979372ccd55",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/devices/pmpsignal-unmonitored-offline",
+      "articlePath": "/microsoftteams/devices/pmpsignal-unmonitored-offline",
+      "title": "The Monitored or Offline status is Unhealthy",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b534131eb8a7b5c4",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+      "articlePath": "/microsoftteams/dial-plans-routing-overview",
+      "title": "Planning Teams dial plans for Teams Phone",
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-CALL-002",
+        "TA-CALL-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5fb1edff716b861d",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+      "articlePath": "/microsoftteams/direct-routing-border-controllers",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-VOICE-004",
+        "TA-VOICE-005",
+        "TA-VOICE-002",
+        "TA-VOICE-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-086d964ba0fbcf27",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-configure",
+      "articlePath": "/microsoftteams/direct-routing-configure",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-001",
+        "TA-VOICE-003",
+        "TA-VOICE-004",
+        "TA-CALL-007",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-63527e51b03162e4",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc",
+      "articlePath": "/microsoftteams/direct-routing-connect-the-sbc",
+      "title": "Connect your Session Border Controller (SBC) to Direct Routing",
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-004",
+        "TA-VOICE-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-dbc130c9d9cc7904",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-enable-users",
+      "articlePath": "/microsoftteams/direct-routing-enable-users",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-004"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5ad4a50c59f45cf3",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-health-dashboard",
+      "articlePath": "/microsoftteams/direct-routing-health-dashboard",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-005",
+        "TA-VOICE-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-bf1a32e07ffeec75",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-landing-page",
+      "articlePath": "/microsoftteams/direct-routing-landing-page",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-001",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-0534572dc22354f5",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-media-optimization",
+      "articlePath": "/microsoftteams/direct-routing-media-optimization",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-VOICE-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c32a143b12f10858",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-media-optimization-configure",
+      "articlePath": "/microsoftteams/direct-routing-media-optimization-configure",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-2afdd5c38cd71eef",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "articlePath": "/microsoftteams/direct-routing-plan",
+      "title": "Plan Direct Routing",
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-VOICE-004",
+        "TA-VOICE-005",
+        "TA-VOICE-006",
+        "TA-CALL-008",
+        "TA-CALL-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5055bede8c38f4c5",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan-media-bypass",
+      "articlePath": "/microsoftteams/direct-routing-plan-media-bypass",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-VOICE-004",
+        "TA-VOICE-005",
+        "TA-VOICE-002",
+        "TA-VOICE-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-a7e80c5503387e47",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-sbc-multiple-tenants",
+      "articlePath": "/microsoftteams/direct-routing-sbc-multiple-tenants",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-004",
+        "TA-VOICE-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-73ce813fa40e2f15",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-translate-numbers",
+      "articlePath": "/microsoftteams/direct-routing-translate-numbers",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling",
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-VOICE-004",
+        "TA-CALL-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-1d73a268f7852a96",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+      "articlePath": "/microsoftteams/direct-routing-trunk-failover-on-outbound-call",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-004",
+        "TA-VOICE-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-cc6f0b912f3249ff",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+      "articlePath": "/microsoftteams/direct-routing-voice-routing",
+      "title": "Configure call routing for Direct Routing",
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-001",
+        "TA-VOICE-003",
+        "TA-CALL-002",
+        "TA-VOICE-004",
+        "TA-CALL-005",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-84c408dcaa110ada",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-whats-new",
+      "articlePath": "/microsoftteams/direct-routing-whats-new",
+      "title": "What's new for Direct Routing",
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-808af02f137cb41e",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/easy-policy-setup-edu",
+      "articlePath": "/microsoftteams/easy-policy-setup-edu",
+      "title": null,
+      "taxonomyDomains": [
+        "core_admin"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-11b424bedfd3f0b4",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+      "articlePath": "/microsoftteams/guest-access",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-4c5f9159fed24076",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+      "articlePath": "/microsoftteams/location-based-routing-plan",
+      "title": "Plan Location-Based Routing for Direct Routing",
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-003",
+        "TA-VOICE-004",
+        "TA-VOICE-002",
+        "TA-VOICE-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-679e89ad794110fa",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-apps",
+      "articlePath": "/microsoftteams/manage-apps",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-e67910209b9e3b3e",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-channel-moderation-in-teams",
+      "articlePath": "/microsoftteams/manage-channel-moderation-in-teams",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001",
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b036a6a509625b20",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-emergency-call-routing-policies",
+      "articlePath": "/microsoftteams/manage-emergency-call-routing-policies",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-009"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5794d07a266d603e",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+      "articlePath": "/microsoftteams/manage-external-access",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b08f1fa983efcef6",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-meeting-templates",
+      "articlePath": "/microsoftteams/manage-meeting-templates",
+      "title": "Manage meeting templates in Microsoft Teams",
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5c53592e952f408a",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-phone-numbers-for-your-organization",
+      "articlePath": "/microsoftteams/manage-phone-numbers-for-your-organization",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-9efb9a75b6513096",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-phone-numbers-for-your-organization/contact-tns-service-desk",
+      "articlePath": "/microsoftteams/manage-phone-numbers-for-your-organization/contact-tns-service-desk",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-d4a766394bddc67b",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-policy-packages",
+      "articlePath": "/microsoftteams/manage-policy-packages",
+      "title": "Managing policy packages in Teams",
+      "taxonomyDomains": [
+        "core_admin",
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-001",
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-284bb332f9af2ac1",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-queues-app",
+      "articlePath": "/microsoftteams/manage-queues-app",
+      "title": null,
+      "taxonomyDomains": [
+        "core_admin",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-002",
+        "TA-CALL-001",
+        "TA-CALL-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-474885a3e5098750",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-resource-accounts",
+      "articlePath": "/microsoftteams/manage-resource-accounts",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b864060743f1144b",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-auto-recording",
+      "articlePath": "/microsoftteams/manage-teams-auto-recording",
+      "title": "Manage Teams meeting auto recording",
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-90083261ac168426",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-in-modern-portal",
+      "articlePath": "/microsoftteams/manage-teams-in-modern-portal",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c76fda33e8a8bb6a",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-skypeforbusiness-admin-center",
+      "articlePath": "/microsoftteams/manage-teams-skypeforbusiness-admin-center",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-fa13d020ff4a9f22",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-teams-with-policies",
+      "articlePath": "/microsoftteams/manage-teams-with-policies",
+      "title": "Manage Teams with policies",
+      "taxonomyDomains": [
+        "core_admin",
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-001",
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-3455a170b46fb471",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-applications-policies",
+      "articlePath": "/microsoftteams/manage-voice-applications-policies",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-86e21d4e10bda1ed",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+      "articlePath": "/microsoftteams/manage-voice-routing-policies",
+      "title": "Manage call routing policies for Direct Routing",
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-001",
+        "TA-CALL-002",
+        "TA-CALL-005",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-0d329ddc1a2ee801",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-your-network-topology",
+      "articlePath": "/microsoftteams/manage-your-network-topology",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "meetings",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-001",
+        "TA-MEET-001",
+        "TA-VOICE-007",
+        "TA-CALL-009"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-a605a66e643f04f7",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-audio-and-video",
+      "articlePath": "/microsoftteams/meeting-policies-audio-and-video",
+      "title": null,
+      "taxonomyDomains": [
+        "meetings",
+        "core_admin"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001",
+        "TA-CORE-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f5783d2c099b7417",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-content-sharing",
+      "articlePath": "/microsoftteams/meeting-policies-content-sharing",
+      "title": "Manage meeting policies for content sharing",
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-ee64de45fd17fb6e",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-policies-overview",
+      "articlePath": "/microsoftteams/meeting-policies-overview",
+      "title": "Manage meeting and events policies in Microsoft Teams",
+      "taxonomyDomains": [
+        "core_admin",
+        "meetings",
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-001",
+        "TA-MEET-001",
+        "TA-MSG-001",
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5a0b3d5d7f629865",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+      "articlePath": "/microsoftteams/meeting-settings-in-teams",
+      "title": null,
+      "taxonomyDomains": [
+        "external_collaboration"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-EXT-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c0c89c6028a07ba1",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/messaging-policies-in-teams",
+      "articlePath": "/microsoftteams/messaging-policies-in-teams",
+      "title": "Manage messaging policies in Teams",
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001",
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-2120a70d4e177a90",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/monitor-call-quality-qos",
+      "articlePath": "/microsoftteams/monitor-call-quality-qos",
+      "title": "Improve call quality in Microsoft Teams",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-010"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f6d86de5224bb674",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-conferencing-configure",
+      "articlePath": "/microsoftteams/operator-connect-conferencing-configure",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-008"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-bd9043cb48505a35",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-conferencing-plan",
+      "articlePath": "/microsoftteams/operator-connect-conferencing-plan",
+      "title": "Plan for Operator Connect Conferencing",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-008"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-61f265890ab647a7",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-configure",
+      "articlePath": "/microsoftteams/operator-connect-configure",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-008"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept",
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-4a0309bc0b2963e0",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-india-configure",
+      "articlePath": "/microsoftteams/operator-connect-india-configure",
+      "title": "Configure Operator Connect for India",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-008"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-9985a09a3d2e90ee",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure",
+      "articlePath": "/microsoftteams/operator-connect-mobile-configure",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-597726d2fac91943",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+      "articlePath": "/microsoftteams/operator-connect-mobile-configure-numbers",
+      "title": "Manage phone numbers for Teams Phone Mobile",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-92012c7fc6400a38",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/transfer-phone-numbers-to-teams",
+      "articlePath": "/microsoftteams/phone-number-calling-plans/transfer-phone-numbers-to-teams",
+      "title": "Submitting a port request",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-df3557f9e8d4e37b",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-reference/manage-numbers/contact-tns-service-desk",
+      "articlePath": "/microsoftteams/phone-reference/manage-numbers/contact-tns-service-desk",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-eb41943e9891ecb3",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phones/manage-teams-phones",
+      "articlePath": "/microsoftteams/phones/manage-teams-phones",
+      "title": "Manage Teams phones",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b8d0fd5a15815c77",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phones/phones-for-teams",
+      "articlePath": "/microsoftteams/phones/phones-for-teams",
+      "title": "Phones for Microsoft Teams",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-b21c6edccbedabb4",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phones/qos-on-teams-phones",
+      "articlePath": "/microsoftteams/phones/qos-on-teams-phones",
+      "title": "Quality of service (QoS) set up on Teams phones",
+      "taxonomyDomains": [
+        "core_admin"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b111f2d9054bf626",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/plan-teams-governance",
+      "articlePath": "/microsoftteams/plan-teams-governance",
+      "title": "Plan for governance in Teams",
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-75e86ffa595f9725",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/plan-teams-lifecycle",
+      "articlePath": "/microsoftteams/plan-teams-lifecycle",
+      "title": "Plan for lifecycle management in Teams",
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-65da13b00495e182",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/policy-assignment-overview",
+      "articlePath": "/microsoftteams/policy-assignment-overview",
+      "title": null,
+      "taxonomyDomains": [
+        "core_admin",
+        "voice_direct_routing",
+        "meetings",
+        "messaging_teams_management",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-001",
+        "TA-VOICE-001",
+        "TA-MEET-001",
+        "TA-MSG-001",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-3893a75ed1664470",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+      "articlePath": "/microsoftteams/qos-in-teams",
+      "title": "Implement Quality of Service (QoS) in Microsoft Teams",
+      "taxonomyDomains": [
+        "core_admin"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-3c4214e6b0ae5686",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/aboutunifieddevicemanagement-pmp1",
+      "articlePath": "/microsoftteams/rooms/aboutunifieddevicemanagement-pmp1",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001",
+        "TA-DEVICES-002",
+        "TA-DEVICES-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-0d5e53fd1f89a8a1",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/androidupdatemanagementinpmp",
+      "articlePath": "/microsoftteams/rooms/androidupdatemanagementinpmp",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-116b239623506af9",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/enrolling-mtrp-managed-service",
+      "articlePath": "/microsoftteams/rooms/enrolling-mtrp-managed-service",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-004",
+        "TA-DEVICES-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-216b67267ec97ae2",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/health-reports",
+      "articlePath": "/microsoftteams/rooms/health-reports",
+      "title": "Health reports in the Teams Management Pro portal",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-4f8833fe2b1d6265",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/managed-meeting-rooms-portal",
+      "articlePath": "/microsoftteams/rooms/managed-meeting-rooms-portal",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001",
+        "TA-DEVICES-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-97af06742b321177",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/pro-portal-settings",
+      "articlePath": "/microsoftteams/rooms/pro-portal-settings",
+      "title": "Managing settings for Teams devices",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-1817956a88467932",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-configure-accounts",
+      "articlePath": "/microsoftteams/rooms/rooms-configure-accounts",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-004"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b4a8ab6accb0f880",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-manage",
+      "articlePath": "/microsoftteams/rooms/rooms-manage",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001",
+        "TA-DEVICES-004"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b47e5c422d346179",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-operations",
+      "articlePath": "/microsoftteams/rooms/rooms-operations",
+      "title": "Microsoft Teams Rooms Maintenance and Operations",
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001",
+        "TA-DEVICES-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-bb104f9932d55d73",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/rooms-pro-management",
+      "articlePath": "/microsoftteams/rooms/rooms-pro-management",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c0d6fd89cf5e84be",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/surface-hub-manage-config",
+      "articlePath": "/microsoftteams/rooms/surface-hub-manage-config",
+      "title": null,
+      "taxonomyDomains": [
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-DEVICES-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-a707eea30f7422c6",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/voice-and-face-recognition",
+      "articlePath": "/microsoftteams/rooms/voice-and-face-recognition",
+      "title": null,
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-74c41bc601f4b6ea",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/rooms/voice-recognition",
+      "articlePath": "/microsoftteams/rooms/voice-recognition",
+      "title": null,
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-5fb28a3a2be9b7ba",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/routing-calls-to-unassigned-numbers",
+      "articlePath": "/microsoftteams/routing-calls-to-unassigned-numbers",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-005"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-29935c86448e8b2d",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/scripts/powershell-script-teams-messaging-policy-edu",
+      "articlePath": "/microsoftteams/scripts/powershell-script-teams-messaging-policy-edu",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-c64e28894c320362",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+      "articlePath": "/microsoftteams/setting-up-your-phone-system",
+      "title": "Set up Teams Phone in your organization",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-008",
+        "TA-CALL-007"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-29ba3f3d4163cb54",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/settings-policies-reference",
+      "articlePath": "/microsoftteams/settings-policies-reference",
+      "title": "Teams settings and policies reference",
+      "taxonomyDomains": [
+        "voice_direct_routing",
+        "meetings",
+        "messaging_teams_management",
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-001",
+        "TA-MEET-001",
+        "TA-MEET-002",
+        "TA-MSG-001",
+        "TA-MSG-002",
+        "TA-CALL-009",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f8a90c807f107bbd",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/shared-calling-setup",
+      "articlePath": "/microsoftteams/shared-calling-setup",
+      "title": "Configure Shared Calling",
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-009",
+        "TA-CALL-011"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-f8b8cb7c5337e273",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/shared-channels-errors",
+      "articlePath": "/microsoftteams/shared-channels-errors",
+      "title": "Shared channels errors in Microsoft Teams",
+      "taxonomyDomains": [
+        "external_collaboration"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-EXT-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-1dc7c4111753fcea",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/sms-microsoft-teams-policy",
+      "articlePath": "/microsoftteams/sms-microsoft-teams-policy",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-924f301df0b3cf4f",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-premium-usage-report",
+      "articlePath": "/microsoftteams/teams-analytics-and-reports/teams-premium-usage-report",
+      "title": "Teams Premium feature usage report",
+      "taxonomyDomains": [
+        "core_admin"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-ad3cf6c2e1b9611f",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+      "articlePath": "/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+      "title": "Microsoft Teams analytics and reporting",
+      "taxonomyDomains": [
+        "core_admin"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-002",
+        "TA-CORE-003"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "needs_review",
+        "baseSanitizedStatus": "needs_review",
+        "baseOriginalReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "baseSanitizedReasonCodes": [
+          "needs_review_cross_product_authority"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "previous_human_general_approval"
+        ],
+        "notes": [
+          "Included from prior human general review decision set."
+        ]
+      }
+    },
+    {
+      "entryId": "ta-0d528f7a9edc39f5",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-client-desktop-admin",
+      "articlePath": "/microsoftteams/teams-client-desktop-admin",
+      "title": null,
+      "taxonomyDomains": [
+        "external_collaboration"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-EXT-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-7c7a8c8c2fb7d6fc",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-policies",
+      "articlePath": "/microsoftteams/teams-policies",
+      "title": "Manage channel policies in Microsoft Teams",
+      "taxonomyDomains": [
+        "core_admin",
+        "external_collaboration",
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-001",
+        "TA-EXT-002",
+        "TA-MSG-001",
+        "TA-MSG-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-8cdd3d1473c90fdf",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/troubleshoot/phone-system/direct-routing/diagnose-direct-routing-issues",
+      "articlePath": "/microsoftteams/troubleshoot/phone-system/direct-routing/diagnose-direct-routing-issues",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_direct_routing"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-VOICE-006"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-61b9595091eca0c3",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+      "articlePath": "/microsoftteams/using-admin-roles",
+      "title": null,
+      "taxonomyDomains": [
+        "core_admin",
+        "messaging_teams_management",
+        "devices"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CORE-002",
+        "TA-MSG-001",
+        "TA-DEVICES-001",
+        "TA-DEVICES-002"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-b466e3609fff80ab",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+      "articlePath": "/microsoftteams/voice-and-calling-policies",
+      "title": null,
+      "taxonomyDomains": [
+        "messaging_teams_management"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MSG-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-2d362e7d5a7afb94",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-isolation",
+      "articlePath": "/microsoftteams/voice-isolation",
+      "title": null,
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-37cb18aece52137e",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "articlePath": "/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "title": null,
+      "taxonomyDomains": [
+        "voice_calling"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-CALL-002",
+        "TA-CALL-008",
+        "TA-CALL-009"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    },
+    {
+      "entryId": "ta-6262456b33b9f7b9",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/who-can-bypass-meeting-lobby",
+      "articlePath": "/microsoftteams/who-can-bypass-meeting-lobby",
+      "title": "IT Admins - Manage lobby options in Microsoft Teams",
+      "taxonomyDomains": [
+        "meetings"
+      ],
+      "sourceIds": [
+        "ms-teams-admin"
+      ],
+      "discoveryQueryIds": [
+        "TA-MEET-001"
+      ],
+      "discoveryTopics": [],
+      "discoveryRunIds": [
+        "cg01e1-2026-09-02T13-18-33-421Z"
+      ],
+      "classification": {
+        "baseOriginalStatus": "accepted",
+        "baseSanitizedStatus": "accepted",
+        "baseOriginalReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "baseSanitizedReasonCodes": [
+          "accepted_teams_admin_namespace",
+          "accepted_admin_terminology"
+        ],
+        "targetedStatus": null,
+        "targetedStatuses": [],
+        "targetedReasonCodes": []
+      },
+      "humanApproval": {
+        "include": true,
+        "reasons": [
+          "sanitized_deterministic_accept"
+        ],
+        "notes": []
+      }
+    }
+  ]
+}

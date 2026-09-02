@@ -1,0 +1,168 @@
+answerability: answered
+aspect count: 1
+aspects: [
+  {
+    "aspectId": "mandatory:unresolved:secure-sharepoint-data-accessible:general",
+    "subject": "secure sharepoint data accessible",
+    "requirement": "mandatory"
+  }
+]
+supportedMandatoryAspectIds: [ 'mandatory:unresolved:secure-sharepoint-data-accessible:general' ]
+
+selected evidence count: 4
+{"evidenceId":"evidence:dadc9ee7f978c470b6c5f3a85cddbdf1494a9437bfa2f4f111f3ee769b271d5e","title":"Manage access to agents in SharePoint","sourceId":"ms-sharepoint-docs","supportTypes":["concept_definition"]}
+{"evidenceId":"evidence:7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9","title":"Manage access to agents in SharePoint","sourceId":"ms-sharepoint-docs","supportTypes":["concept_definition"]}
+{"evidenceId":"evidence:b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b","title":"Manage access to agents in SharePoint","sourceId":"ms-sharepoint-docs","supportTypes":["concept_definition"]}
+{"evidenceId":"evidence:df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df","title":"Restrict discovery of SharePoint sites and content","sourceId":"ms-sharepoint-docs","supportTypes":["concept_definition"]}
+
+plan.answerability: answered
+plannedClaims count: 1
+{"claimId":"claim:00f3f03556fd7cbc1b341c5a","requiredAspectId":"mandatory:unresolved:secure-sharepoint-data-accessible:general","proposition":"Currently, users with a Microsoft 365 Copilot license can use the agents."}
+
+plan diagnostics decomposition: {
+  "requestedConcepts": [
+    "secure sharepoint data accessible"
+  ],
+  "supportedConcepts": [
+    "secure sharepoint data accessible"
+  ],
+  "omittedConcepts": []
+}
+evidenceWithoutIndependentClaims: [
+  "evidence:7b4849c721dc963085fa84e65948efcc127f2c7d21de3cd03cad3a7adbf322f9",
+  "evidence:b64fd72456cb8b13f6aa6ab801ed2f99f1bc87ce048af4ee31c8323bcdea310b",
+  "evidence:df00ee9492a23e3bd4162ad76b8fd55c444912bf9d6bdf10866fa489986275df"
+]
+
+R4 ok: true
+answerText:
+ Currently, users with a Microsoft 365 Copilot license can use the agents.
+
+=== Full production port execution ===
+{
+  "ok": true,
+  "answerability": "answered",
+  "answerText": "Summary\nCurrently, users with a Microsoft 365 Copilot license can use the agents.\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage who can access the agents ΓÇ║ Control user access through licensing\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage who can access the agents -> Control user access through licensing Currently, users with a Microsoft 365 Copilot license can use the agents. You can use the Microsoft 365 Copilot setup guide in the Microsoft 365 admin center to assign the required licenses to users. For more information, see Assign licenses to users in the Microsoft 365 admin center and Microsoft 365 Copilot requirements. Admins can choose to edit the service plans under the Copilot license to specifically allow or block users from using Copilot experiences on SharePoint. Under the license details page for Microsoft 365 Copilot on the Microsoft 365 admin center, admins can turn 'Microsoft 365 Copilot for SharePoint' on or off on a per-user basis. For example, a user could be allowed to use Microsoft 365 Copilot on Teams but not use any agents on SharePoint alone. However, this change also disables Copilot in OneDrive and on the SharePoint page authoring Copilot for that user.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage what information a user can access through the agents ΓÇ║ Use SharePoint Advanced Management\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage what information a user can access through the agents -> Use SharePoint Advanced Management Currently, to restrict access to a site by Microsoft 365 Copilot, the SharePoint admin can set up a restricted access control policy. As a result, all access to the site is restricted to only the group of users specified in the policy. Accordingly, the content from the site is visible in Microsoft 365 Copilot only for this restricted group of users. You can restrict access to individual sites or OneDrive. To learn more about features to prevent oversharing, control access, and enhance your content governance, see Get ready for Microsoft 365 Copilot with SharePoint Advanced Management.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint Agents in SharePoint, powered by AI, help users quickly find information and insights on SharePoint sites, pages, and document libraries. Agents in SharePoint access your organization's data the same way Copilot in other Microsoft 365 apps does, responding to users based on their access permissions to the data. As a SharePoint admin, you can manage users' access to an agent in multiple ways by managing: - Who can access the agents - What information the user can access through the agent - Where agents are available\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nSources\nManage access to agents in SharePoint ΓÇö https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nRestrict discovery of SharePoint sites and content ΓÇö https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+  "factualAnswerText": "Currently, users with a Microsoft 365 Copilot license can use the agents.",
+  "presentationProfile": "helpdesk_detailed",
+  "helpdeskDetailedText": "Summary\nCurrently, users with a Microsoft 365 Copilot license can use the agents.\n\nAuthoritative context\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage who can access the agents ΓÇ║ Control user access through licensing\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage who can access the agents -> Control user access through licensing Currently, users with a Microsoft 365 Copilot license can use the agents. You can use the Microsoft 365 Copilot setup guide in the Microsoft 365 admin center to assign the required licenses to users. For more information, see Assign licenses to users in the Microsoft 365 admin center and Microsoft 365 Copilot requirements. Admins can choose to edit the service plans under the Copilot license to specifically allow or block users from using Copilot experiences on SharePoint. Under the license details page for Microsoft 365 Copilot on the Microsoft 365 admin center, admins can turn 'Microsoft 365 Copilot for SharePoint' on or off on a per-user basis. For example, a user could be allowed to use Microsoft 365 Copilot on Teams but not use any agents on SharePoint alone. However, this change also disables Copilot in OneDrive and on the SharePoint page authoring Copilot for that user.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage what information a user can access through the agents ΓÇ║ Use SharePoint Advanced Management\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage what information a user can access through the agents -> Use SharePoint Advanced Management Currently, to restrict access to a site by Microsoft 365 Copilot, the SharePoint admin can set up a restricted access control policy. As a result, all access to the site is restricted to only the group of users specified in the policy. Accordingly, the content from the site is visible in Microsoft 365 Copilot only for this restricted group of users. You can restrict access to individual sites or OneDrive. To learn more about features to prevent oversharing, control access, and enhance your content governance, see Get ready for Microsoft 365 Copilot with SharePoint Advanced Management.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint Agents in SharePoint, powered by AI, help users quickly find information and insights on SharePoint sites, pages, and document libraries. Agents in SharePoint access your organization's data the same way Copilot in other Microsoft 365 apps does, responding to users based on their access permissions to the data. As a SharePoint admin, you can manage users' access to an agent in multiple ways by managing: - Who can access the agents - What information the user can access through the agent - Where agents are available\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nSources\nManage access to agents in SharePoint ΓÇö https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nRestrict discovery of SharePoint sites and content ΓÇö https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+  "liveAssistQuickText": "Currently, users with a Microsoft 365 Copilot license can use the agents.\n\n[Microsoft documentation context ΓÇö definition]\nManage access to agents in SharePoint ΓÇ║ Manage who can access the agents ΓÇ║ Control user access through licensing\nDocument: Manage access to agents in SharePoint Heading Path: Manage access to agents in SharePoint -> Manage who can access the agents -> Control user access through licensing Currently, users with a Microsoft 365 Copilot license can use the agents. You can use the Microsoft 365 Copilot setup guide in the Microsoft 365 admin center to assign the required licenses to users. For more information, see Assign licenses to users in the Microsoft 365 admin center and Microsoft 365 Copilot requirements. Admins can choose to edit the service plans under the Copilot license to specifically allow or block users from using Copilot experiences on SharePoint. Under the license details page for Microsoft 365 Copilot on the Microsoft 365 admin center, admins can turn 'Microsoft 365 Copilot for SharePoint' on or off on a per-user basis. For example, a user could be allowed to use Microsoft 365 Copilot on Teams but not use any agents on SharePoint alone. However, this change also disables Copilot in OneDrive and on the SharePoint page authoring Copilot for that user.\nSource: Manage access to agents in SharePoint\nhttps://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint\n\nManage access to agents in SharePoint ΓÇö https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+  "snapshot": {
+    "snapshotId": "grounding:1650d1d92e2e4d02645b7031",
+    "snapshotHash": "1650d1d92e2e4d02645b70317724ca7c24628ebf779c2dc3563e461cf17ca68d",
+    "schemaVersion": "grounding-decision-snapshot/v1",
+    "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+    "corpusRevisionHash": "4f09fac2759d6049dd5fda845630a1a3d07b6080e6b8be89e1b26230a20dc57b",
+    "createdAt": "2026-08-15T22:21:29.367Z"
+  },
+  "citations": [
+    {
+      "citationId": "citation:cb3c4cdc4bea5d7603d37c45",
+      "factualRangeId": "factual-range:03209533e6a42adab21ce01d",
+      "answerRange": {
+        "startOffset": 0,
+        "endOffset": 73
+      },
+      "sourceTitle": "Manage access to agents in SharePoint",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "sourceId": "ms-sharepoint-docs",
+      "authorityRole": "sharepoint_admin_primary",
+      "headingPath": [
+        "Manage access to agents in SharePoint",
+        "Manage who can access the agents",
+        "Control user access through licensing"
+      ],
+      "sectionId": "sec-3",
+      "sourceStatus": "ga",
+      "preview": false
+    }
+  ],
+  "contextReferences": [
+    {
+      "contextBlockId": "context:3e298873865c7d8c267139db",
+      "sourceTitle": "Manage access to agents in SharePoint",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "sourceId": "ms-sharepoint-docs",
+      "authorityRole": "sharepoint_admin_primary",
+      "headingPath": [
+        "Manage access to agents in SharePoint",
+        "Manage who can access the agents",
+        "Control user access through licensing"
+      ],
+      "sectionId": "sec-3",
+      "contextType": "definition",
+      "preview": false
+    },
+    {
+      "contextBlockId": "context:bb709331163f3c27714fd5cd",
+      "sourceTitle": "Manage access to agents in SharePoint",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "sourceId": "ms-sharepoint-docs",
+      "authorityRole": "sharepoint_admin_primary",
+      "headingPath": [
+        "Manage access to agents in SharePoint",
+        "Manage what information a user can access through the agents",
+        "Use SharePoint Advanced Management"
+      ],
+      "sectionId": "sec-8",
+      "contextType": "definition",
+      "preview": false
+    },
+    {
+      "contextBlockId": "context:f03811d5b7e0c6bef5e3e900",
+      "sourceTitle": "Manage access to agents in SharePoint",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/manage-access-agents-in-sharepoint",
+      "sourceId": "ms-sharepoint-docs",
+      "authorityRole": "sharepoint_admin_primary",
+      "headingPath": [
+        "Manage access to agents in SharePoint"
+      ],
+      "sectionId": "sec-1",
+      "contextType": "definition",
+      "preview": false
+    },
+    {
+      "contextBlockId": "context:917f14f91d46bda6846d487c",
+      "sourceTitle": "Restrict discovery of SharePoint sites and content",
+      "canonicalUrl": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+      "sourceId": "ms-sharepoint-docs",
+      "authorityRole": "sharepoint_admin_primary",
+      "headingPath": [
+        "Restrict discovery of SharePoint sites and content",
+        "Frequently asked questions",
+        "How does Restricted Content Discovery fit into a Copilot readiness strategy?"
+      ],
+      "sectionId": "sec-23",
+      "contextType": "definition",
+      "preview": false
+    }
+  ],
+  "diagnostics": {
+    "retrievalMs": 1567.4711000000007,
+    "evidenceResolutionMs": 11.281799999999748,
+    "planningMs": 5.73949999999968,
+    "assemblyMs": 1.346599999999853,
+    "citationMappingMs": 1.9916999999995824,
+    "contextBuildMs": 1.6257999999997992,
+    "presentationPlanningMs": 0.6920000000000073,
+    "presentationRenderMs": 0.24700000000029831,
+    "pipelineTotalMs": 1590.2158000000004,
+    "answerGenerationRequestCount": 0
+  }
+}
+
+=== explanation context blocks (not first-class claims) ===
+[
+  {
+    "sourceTitle": "Manage access to agents in SharePoint"
+  },
+  {
+    "sourceTitle": "Manage access to agents in SharePoint"
+  },
+  {
+    "sourceTitle": "Manage access to agents in SharePoint"
+  },
+  {
+    "sourceTitle": "Restrict discovery of SharePoint sites and content"
+  }
+]

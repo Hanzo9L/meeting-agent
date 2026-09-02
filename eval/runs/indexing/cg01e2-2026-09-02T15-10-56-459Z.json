@@ -1,0 +1,4614 @@
+{
+  "runId": "cg01e2-2026-09-02T15-10-56-459Z",
+  "mode": "execute",
+  "approvedManifestPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\discovery\\cg01e1-2026-09-02T13-18-33-421Z.json",
+  "approvedManifestRunId": "cg01e1-2026-09-02T13-18-33-421Z",
+  "approvedArticleCount": 0,
+  "databasePath": "C:\\Users\\joegc\\projects\\meeting-agent\\.knowledge-v2\\knowledge-v2.sqlite",
+  "startedAt": "2026-09-02T15:10:56.459Z",
+  "completedAt": "2026-09-02T15:12:27.212Z",
+  "durationMs": 90752.0394,
+  "environmentHint": {
+    "pstnModel": null
+  },
+  "powerShellSafety": {
+    "before": {
+      "documents": 622,
+      "activeChunks": 15026,
+      "embeddings": 15026
+    },
+    "after": {
+      "documents": 622,
+      "activeChunks": 15026,
+      "embeddings": 15026
+    },
+    "unchanged": true
+  },
+  "plan": {
+    "approvedCanonicalUrls": [],
+    "fetchAttempted": 0,
+    "fetchableCount": 0,
+    "unavailableCount": 0,
+    "alreadyPresentReusableCount": 0,
+    "documentsRequiringParseCount": 0,
+    "estimatedChunkCount": 0,
+    "embeddingsReusable": 0,
+    "embeddingsToGenerate": 0,
+    "estimatedEmbeddingInputChars": 0,
+    "estimatedEmbeddingInputTokens": 0,
+    "plannedEmbeddingRequestCount": 0,
+    "existingCounts": {
+      "teamsAdminDocuments": 128,
+      "teamsAdminActiveChunks": 2543,
+      "teamsAdminEmbeddings": 2543,
+      "powerShellDocuments": 622,
+      "powerShellActiveChunks": 15026,
+      "powerShellEmbeddings": 15026
+    },
+    "embeddingRuntime": {
+      "providerId": "openai",
+      "model": "text-embedding-3-small",
+      "dimensions": 1536,
+      "embeddingSchemaVersion": "v1",
+      "credentialAvailable": true
+    }
+  },
+  "fetch": {
+    "attempted": 0,
+    "fetched": 0,
+    "failed": 0
+  },
+  "parse": {
+    "success": 114,
+    "warning": 14,
+    "failed": 0
+  },
+  "documents": {
+    "inserted": 0,
+    "updated": 0,
+    "reused": 0
+  },
+  "chunks": {
+    "activeTotal": 2543,
+    "inserted": 0,
+    "updated": 0,
+    "reused": 0,
+    "tombstoned": 0,
+    "chunkKindDistribution": {
+      "conceptual": 928,
+      "configuration": 539,
+      "procedure": 121,
+      "table": 334,
+      "reference": 314,
+      "troubleshooting": 59,
+      "code": 200,
+      "powershell_example": 46,
+      "powershell_description": 1,
+      "powershell_notes": 1
+    },
+    "averagePerDocument": 19.87,
+    "medianPerDocument": 12.5,
+    "largestDocuments": [
+      {
+        "sourcePath": "microsoftteams/meeting-settings-in-teams",
+        "chunkCount": 183
+      },
+      {
+        "sourcePath": "microsoftteams/voice-and-calling-policies",
+        "chunkCount": 183
+      },
+      {
+        "sourcePath": "microsoftteams/quality-of-experience-review-guide",
+        "chunkCount": 83
+      },
+      {
+        "sourcePath": "microsoftteams/direct-routing-voice-routing",
+        "chunkCount": 69
+      },
+      {
+        "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+        "chunkCount": 57
+      }
+    ]
+  },
+  "fts": {
+    "rowCount": 2543,
+    "consistentWithActiveChunks": true
+  },
+  "embeddings": {
+    "providerId": "openai",
+    "model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "embeddingSchemaVersion": "v1",
+    "generated": 0,
+    "reused": 0,
+    "missingOrFailed": 0,
+    "requestCount": 0,
+    "inputTokens": 0,
+    "semanticReadyChunks": 2543,
+    "semanticReadinessPercent": 100
+  },
+  "lifecycleTotals": {
+    "parsed": 0,
+    "parseReused": 0,
+    "parseFailed": 0,
+    "chunked": 0,
+    "chunksReused": 0,
+    "chunksFailed": 0,
+    "embeddingGenerated": 0,
+    "embeddingReused": 0,
+    "embeddingPartial": 0,
+    "embeddingSkipped": 0,
+    "embeddingFailed": 0,
+    "embeddingCancelled": 0
+  },
+  "failures": [],
+  "failureManifestPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01e2-2026-09-02T15-10-56-459Z.failures.json",
+  "smoke": {
+    "queries": [
+      {
+        "question": "How do Microsoft Teams Calling Plans work?",
+        "intent": {
+          "originalQuestion": "How do Microsoft Teams Calling Plans work?",
+          "normalizedQuestion": "how do microsoft teams calling plans work",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "calling plans"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:calling plans"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do Microsoft Teams Calling Plans work?",
+            "normalizedQuestion": "how do microsoft teams calling plans work",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "calling plans"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:calling plans"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.016999999999825377
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -24.380316924582836
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -23.743353099729944
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -22.98232549524599
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -22.942700525296793
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "method": "lexical",
+              "lexicalScore": -23.197374528510725
+            }
+          ],
+          "latencyMs": 671.9267000000036
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.8211148327551071
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7993844134141475
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7782411304267519
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7736388100670898
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7504057769093742
+            }
+          ],
+          "latencyMs": 1991.3251000000018,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 46,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 37.666666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 33.5,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.2,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:5"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 27.38095238095238,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:8"
+              ]
+            }
+          ],
+          "latencyMs": 4486.053099999997,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do I set up Microsoft Calling Plans?",
+        "intent": {
+          "originalQuestion": "How do I set up Microsoft Calling Plans?",
+          "normalizedQuestion": "how do i set up microsoft calling plans",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [],
+          "entities": [
+            "calling plans"
+          ],
+          "operationIntents": [
+            "set"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "entity:calling plans",
+            "operation:set"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do I set up Microsoft Calling Plans?",
+            "normalizedQuestion": "how do i set up microsoft calling plans",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [],
+            "technologies": [],
+            "entities": [
+              "calling plans"
+            ],
+            "operationIntents": [
+              "set"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "procedural",
+            "retrievalHints": [
+              "answer_type:procedural",
+              "domain:teams_admin",
+              "entity:calling plans",
+              "operation:set"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:procedural",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.011500000000523869
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -21.408900047663888
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/considerations-calling-plan",
+              "title": "Emergency calling considerations for Microsoft Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -21.16450406366091
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -20.661696326193585
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -20.656831481710558
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -20.54059594523237
+            }
+          ],
+          "latencyMs": 680.1823999999979
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7842577217743899
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7824879451637736
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7609336944454025
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7029119637437821
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7006892249355907
+            }
+          ],
+          "latencyMs": 790.675599999995,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 39.5,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 38.8,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31.88888888888889,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/considerations-calling-plan",
+              "title": "Emergency calling considerations for Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31.38095238095238,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:13"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 28.444444444444443,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            }
+          ],
+          "latencyMs": 1580.1045000000013,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do I assign a Calling Plan phone number to a user?",
+        "intent": {
+          "originalQuestion": "How do I assign a Calling Plan phone number to a user?",
+          "normalizedQuestion": "how do i assign a calling plan phone number to a user",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [],
+          "entities": [
+            "phone number"
+          ],
+          "operationIntents": [
+            "grant"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "entity:phone number",
+            "operation:grant"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do I assign a Calling Plan phone number to a user?",
+            "normalizedQuestion": "how do i assign a calling plan phone number to a user",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [],
+            "technologies": [],
+            "entities": [
+              "phone number"
+            ],
+            "operationIntents": [
+              "grant"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "procedural",
+            "retrievalHints": [
+              "answer_type:procedural",
+              "domain:teams_admin",
+              "entity:phone number",
+              "operation:grant"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:procedural",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.010099999999511056
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "method": "lexical",
+              "lexicalScore": -31.017609581961793
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "lexical",
+              "lexicalScore": -28.557853755814374
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "lexical",
+              "lexicalScore": -27.482574760068637
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "method": "lexical",
+              "lexicalScore": -27.279356268157443
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -27.17496595664126
+            }
+          ],
+          "latencyMs": 525.1731999999975
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "semantic",
+              "semanticScore": 0.7162304263940696
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "semantic",
+              "semanticScore": 0.691991188738265
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "semantic",
+              "semanticScore": 0.6717648716365447
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "semantic",
+              "semanticScore": 0.6684174597381537
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "method": "semantic",
+              "semanticScore": 0.6684174597381537
+            }
+          ],
+          "latencyMs": 934.1938999999984,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 41.666666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 36,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:11"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.866666666666667,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/assign-change-or-remove-a-phone-number-for-a-user",
+              "title": "Manage phone numbers for users",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.1,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:14"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 28.76190476190476,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:6"
+              ]
+            }
+          ],
+          "latencyMs": 2153.3542000000016,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do I port phone numbers into Microsoft Teams Calling Plans?",
+        "intent": {
+          "originalQuestion": "How do I port phone numbers into Microsoft Teams Calling Plans?",
+          "normalizedQuestion": "how do i port phone numbers into microsoft teams calling plans",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "calling plans",
+            "phone number"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "entity:calling plans",
+            "entity:phone number"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do I port phone numbers into Microsoft Teams Calling Plans?",
+            "normalizedQuestion": "how do i port phone numbers into microsoft teams calling plans",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "calling plans",
+              "phone number"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "procedural",
+            "retrievalHints": [
+              "answer_type:procedural",
+              "domain:teams_admin",
+              "entity:calling plans",
+              "entity:phone number"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:procedural",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.010099999999511056
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/port-order-overview",
+              "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+              "method": "lexical",
+              "lexicalScore": -41.322135734258055
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "method": "lexical",
+              "lexicalScore": -41.88803880142015
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -38.917999158683024
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "method": "lexical",
+              "lexicalScore": -38.906087855488636
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/port-order-overview",
+              "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+              "method": "lexical",
+              "lexicalScore": -38.68204556905559
+            }
+          ],
+          "latencyMs": 593.3505999999979
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/port-order-overview",
+              "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+              "method": "semantic",
+              "semanticScore": 0.7761761406554205
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+              "title": "Manage phone numbers for Teams Phone Mobile",
+              "method": "semantic",
+              "semanticScore": 0.7678925802468115
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/port-order-overview",
+              "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+              "method": "semantic",
+              "semanticScore": 0.7678810905739564
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7584016418428037
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "semantic",
+              "semanticScore": 0.7582772688232349
+            }
+          ],
+          "latencyMs": 750.1557999999932,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/port-order-overview",
+              "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 40,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/phone-number-calling-plans/port-order-overview",
+              "title": "What's a port order? - Planning to transfer telephone numbers to Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 36.25,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 32.3,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-configure-numbers",
+              "title": "Manage phone numbers for Teams Phone Mobile",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/getting-phone-numbers-for-your-users",
+              "title": "Get Microsoft Teams Calling Plan phone numbers for your tenant",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.757575757575758,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:21"
+              ]
+            }
+          ],
+          "latencyMs": 1318.7512999999963,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do I view PSTN usage for Calling Plans?",
+        "intent": {
+          "originalQuestion": "How do I view PSTN usage for Calling Plans?",
+          "normalizedQuestion": "how do i view pstn usage for calling plans",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [],
+          "technologies": [],
+          "entities": [
+            "calling plans",
+            "pstn"
+          ],
+          "operationIntents": [
+            "get"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "entity:calling plans",
+            "entity:pstn",
+            "operation:get"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do I view PSTN usage for Calling Plans?",
+            "normalizedQuestion": "how do i view pstn usage for calling plans",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [],
+            "technologies": [],
+            "entities": [
+              "calling plans",
+              "pstn"
+            ],
+            "operationIntents": [
+              "get"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "procedural",
+            "retrievalHints": [
+              "answer_type:procedural",
+              "domain:teams_admin",
+              "entity:calling plans",
+              "entity:pstn",
+              "operation:get"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:procedural",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.010600000008707866
+        },
+        "lexical": {
+          "count": 2400,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "lexical",
+              "lexicalScore": -32.78668772730069
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "lexical",
+              "lexicalScore": -30.224472598753113
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -26.01988727204889
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -25.38391638356552
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "method": "lexical",
+              "lexicalScore": -24.04517427392592
+            }
+          ],
+          "latencyMs": 577.5982999999978
+        },
+        "semantic": {
+          "count": 1300,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "semantic",
+              "semanticScore": 0.7648397481116737
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "semantic",
+              "semanticScore": 0.7193884373768278
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "semantic",
+              "semanticScore": 0.6873801559064263
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "semantic",
+              "semanticScore": 0.6782462321888697
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "semantic",
+              "semanticScore": 0.6516574800149396
+            }
+          ],
+          "latencyMs": 1212.6157000000094,
+          "warnings": [
+            "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+          ]
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 46,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 37.666666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.363636363636363,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+              "title": "Microsoft Teams Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.1,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:14"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/set-up-calling-plans",
+              "title": "Set up Microsoft Calling Plans",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 27.4,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:19"
+              ]
+            }
+          ],
+          "latencyMs": 1848.1744000000035,
+          "warnings": [
+            "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+          ]
+        }
+      },
+      {
+        "question": "How does Teams Direct Routing voice routing work?",
+        "intent": {
+          "originalQuestion": "How does Teams Direct Routing voice routing work?",
+          "normalizedQuestion": "how does teams direct routing voice routing work",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Direct Routing",
+            "Microsoft Teams",
+            "Voice Routing"
+          ],
+          "entities": [
+            "direct routing",
+            "voice routing"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:direct routing",
+            "entity:voice routing"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How does Teams Direct Routing voice routing work?",
+            "normalizedQuestion": "how does teams direct routing voice routing work",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Direct Routing",
+              "Microsoft Teams",
+              "Voice Routing"
+            ],
+            "entities": [
+              "direct routing",
+              "voice routing"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:direct routing",
+              "entity:voice routing"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin",
+            "teams_powershell"
+          ],
+          "focusSubdomains": [
+            "calling",
+            "voice",
+            "voice_routing"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": [
+                "voice",
+                "calling"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin,teams_powershell",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "calling_configuration"
+              ]
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3600,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin",
+            "voice_routing_signals_detected"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.011599999997997656
+        },
+        "lexical": {
+          "count": 2400,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+              "title": "Planning Teams dial plans for Teams Phone",
+              "method": "lexical",
+              "lexicalScore": -37.81324821652852
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -38.21323959429647
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -38.21323959429647
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+              "title": "Planning Teams dial plans for Teams Phone",
+              "method": "lexical",
+              "lexicalScore": -35.202484872485456
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+              "title": "Configure call routing for Direct Routing",
+              "method": "lexical",
+              "lexicalScore": -34.294685182959036
+            }
+          ],
+          "latencyMs": 581.1947999999975
+        },
+        "semantic": {
+          "count": 1300,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.7106406966957796
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.7106406966957796
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+              "title": "Configure call routing for Direct Routing",
+              "method": "semantic",
+              "semanticScore": 0.7060428516371068
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+              "title": "Configure call routing for Direct Routing",
+              "method": "semantic",
+              "semanticScore": 0.7048963327474613
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+              "title": "Plan Direct Routing",
+              "method": "semantic",
+              "semanticScore": 0.7047093159790526
+            }
+          ],
+          "latencyMs": 1286.9550000000017,
+          "warnings": [
+            "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+          ]
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/dial-plans-routing-overview",
+              "title": "Planning Teams dial plans for Teams Phone",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 35.84615384615385,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:12"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 33.96296296296296,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.166666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:47"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.92857142857143,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing",
+              "title": "Configure call routing for Direct Routing",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.514285714285712,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            }
+          ],
+          "latencyMs": 1875.4590999999928,
+          "warnings": [
+            "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+          ]
+        }
+      },
+      {
+        "question": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+        "intent": {
+          "originalQuestion": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+          "normalizedQuestion": "what does set csonlinevoiceroutingpolicy do",
+          "domains": [
+            "teams_powershell"
+          ],
+          "products": [],
+          "technologies": [
+            "PowerShell"
+          ],
+          "entities": [
+            "csonlinevoiceroutingpolicy",
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "operationIntents": [
+            "set"
+          ],
+          "commandNames": [
+            "Set-CsOnlineVoiceRoutingPolicy"
+          ],
+          "policyNames": [
+            "csonlinevoiceroutingpolicy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "reference",
+          "retrievalHints": [
+            "answer_type:reference",
+            "cmdlet:set-csonlinevoiceroutingpolicy",
+            "domain:teams_powershell",
+            "entity:csonlinevoiceroutingpolicy",
+            "entity:set-csonlinevoiceroutingpolicy",
+            "operation:set"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "What does Set-CsOnlineVoiceRoutingPolicy do?",
+            "normalizedQuestion": "what does set csonlinevoiceroutingpolicy do",
+            "domains": [
+              "teams_powershell"
+            ],
+            "products": [],
+            "technologies": [
+              "PowerShell"
+            ],
+            "entities": [
+              "csonlinevoiceroutingpolicy",
+              "Set-CsOnlineVoiceRoutingPolicy"
+            ],
+            "operationIntents": [
+              "set"
+            ],
+            "commandNames": [
+              "Set-CsOnlineVoiceRoutingPolicy"
+            ],
+            "policyNames": [
+              "csonlinevoiceroutingpolicy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "reference",
+            "retrievalHints": [
+              "answer_type:reference",
+              "cmdlet:set-csonlinevoiceroutingpolicy",
+              "domain:teams_powershell",
+              "entity:csonlinevoiceroutingpolicy",
+              "entity:set-csonlinevoiceroutingpolicy",
+              "operation:set"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_powershell",
+            "teams_admin"
+          ],
+          "focusSubdomains": [
+            "cmdlet_reference"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_powershell_cmdlet_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_powershell,teams_admin",
+                "priority:primary",
+                "authority:teams_powershell_cmdlet_primary"
+              ],
+              "subdomainHints": [
+                "cmdlet_reference"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-powershell",
+            "ms-teams-admin",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": true,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "secondary"
+          },
+          "exactMatchDirectives": [
+            {
+              "type": "cmdlet",
+              "value": "Set-CsOnlineVoiceRoutingPolicy",
+              "required": true
+            },
+            {
+              "type": "policy",
+              "value": "csonlinevoiceroutingpolicy",
+              "required": false
+            }
+          ],
+          "candidateBudget": {
+            "maxLexicalCandidates": 2400,
+            "maxSemanticCandidates": 1300,
+            "broadScopeWarningThreshold": 3500
+          },
+          "scopeMode": "cross_domain",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 1200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:reference",
+            "exact_cmdlet_detected",
+            "primary_domain:teams_powershell"
+          ]
+        },
+        "exact": {
+          "count": 64,
+          "top": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Remove-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Remove-CsOnlineVoiceRoutingPolicy",
+              "method": "exact",
+              "reasons": [
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity"
+              ],
+              "exactMatch": "policy:csonlinevoiceroutingpolicy:entity"
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "exact",
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity"
+              ],
+              "exactMatch": "policy:csonlinevoiceroutingpolicy:entity"
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/audio-conferencing-with-direct-routing-for-gcch-and-dod",
+              "title": "Audio Conferencing with Direct Routing for Government Community Cloud High (GCC High) and Department of Defense (DOD)",
+              "method": "exact",
+              "reasons": [
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity"
+              ],
+              "exactMatch": "policy:csonlinevoiceroutingpolicy:entity"
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "exact",
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity"
+              ],
+              "exactMatch": "policy:csonlinevoiceroutingpolicy:entity"
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Grant-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Grant-CsOnlineVoiceRoutingPolicy",
+              "method": "exact",
+              "reasons": [
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity"
+              ],
+              "exactMatch": "policy:csonlinevoiceroutingpolicy:entity"
+            }
+          ],
+          "latencyMs": 578.3506000000052
+        },
+        "lexical": {
+          "count": 2400,
+          "top": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "lexical",
+              "lexicalScore": -24.143707758038342
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "lexical",
+              "lexicalScore": -23.587330846545314
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "lexical",
+              "lexicalScore": -23.545920241968034
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "lexical",
+              "lexicalScore": -23.462000867444246
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "lexical",
+              "lexicalScore": -23.21379391116523
+            }
+          ],
+          "latencyMs": 661.6725000000006
+        },
+        "semantic": {
+          "count": 1300,
+          "top": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "semantic",
+              "semanticScore": 0.8331931936487267
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "semantic",
+              "semanticScore": 0.8283636092373502
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "semantic",
+              "semanticScore": 0.8007893606215825
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "method": "semantic",
+              "semanticScore": 0.7949195226703389
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Get-CsOnlineVoiceRoutingPolicy",
+              "method": "semantic",
+              "semanticScore": 0.7936739419497876
+            }
+          ],
+          "latencyMs": 1681.5040000000008,
+          "warnings": [
+            "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+          ]
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "methods": [
+                "exact",
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 134.66666666666669,
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity",
+                "lexical_fts_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:8"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "methods": [
+                "exact",
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 133.66666666666669,
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity",
+                "lexical_fts_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "methods": [
+                "exact",
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 130.3,
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity",
+                "lexical_fts_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Set-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Set-CsOnlineVoiceRoutingPolicy",
+              "methods": [
+                "exact",
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 127.62857142857143,
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:title",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity",
+                "lexical_fts_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:6"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-powershell",
+              "canonicalUrl": "https://github.com/MicrosoftDocs/office-docs-powershell/blob/5ce493d6c8d83bdb2974781cd10bd1751cfc55df/teams/teams-ps/MicrosoftTeams/Get-CsOnlineVoiceRoutingPolicy.md",
+              "title": "Get-CsOnlineVoiceRoutingPolicy",
+              "methods": [
+                "exact",
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 122.69696969696969,
+              "reasons": [
+                "exact_match:cmdlet:Set-CsOnlineVoiceRoutingPolicy:entity",
+                "exact_match:policy:csonlinevoiceroutingpolicy:entity",
+                "lexical_fts_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:17"
+              ]
+            }
+          ],
+          "latencyMs": 2769.5216000000073,
+          "warnings": [
+            "semantic_eligible_population_approaches_whole_corpus_scan_risk"
+          ]
+        }
+      },
+      {
+        "question": "How does external access work in Teams?",
+        "intent": {
+          "originalQuestion": "How does external access work in Teams?",
+          "normalizedQuestion": "how does external access work in teams",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "external access"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:external access"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How does external access work in Teams?",
+            "normalizedQuestion": "how does external access work in teams",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "external access"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:external access"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [
+            "external_access"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.010800000003655441
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "lexical",
+              "lexicalScore": -20.58986397282571
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -19.832939476988724
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "lexical",
+              "lexicalScore": -20.07039772043941
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "lexical",
+              "lexicalScore": -18.180597878590262
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "lexical",
+              "lexicalScore": -18.11245881395856
+            }
+          ],
+          "latencyMs": 408.63649999999325
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.735675605212374
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "semantic",
+              "semanticScore": 0.7303897122666456
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.668940154678985
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "semantic",
+              "semanticScore": 0.6664134026767767
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "method": "semantic",
+              "semanticScore": 0.6612888850431871
+            }
+          ],
+          "latencyMs": 651.3105999999971,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 41.666666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 38,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:5"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.92857142857143,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:6"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.133333333333333,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-external-access",
+              "title": "IT Admins - Manage external meetings and chat with people and organizations using Microsoft identities",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.083333333333336,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            }
+          ],
+          "latencyMs": 952.2022999999899,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How does guest access work in Teams?",
+        "intent": {
+          "originalQuestion": "How does guest access work in Teams?",
+          "normalizedQuestion": "how does guest access work in teams",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "guest access"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:guest access"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How does guest access work in Teams?",
+            "normalizedQuestion": "how does guest access work in teams",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "guest access"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:guest access"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [
+            "guest_access"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.010899999993853271
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -27.415925503035712
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -27.235593397443978
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -26.5567104674629
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -26.46450702124845
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -24.99937276636222
+            }
+          ],
+          "latencyMs": 430.5533999999898
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.7944971677915132
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.7864243845236197
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.7796476956420794
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.77788179823833
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "method": "semantic",
+              "semanticScore": 0.7601339787872262
+            }
+          ],
+          "latencyMs": 1025.1831999999995,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 38.2,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 36.18181818181818,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:10"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 33.5,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 32.666666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:7"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/guest-access",
+              "title": "Guest access in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31.6,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            }
+          ],
+          "latencyMs": 824.7157000000007,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do Teams meeting policies work?",
+        "intent": {
+          "originalQuestion": "How do Teams meeting policies work?",
+          "normalizedQuestion": "how do teams meeting policies work",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "meeting policies"
+          ],
+          "policyNames": [
+            "meeting policy"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:meeting policies"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do Teams meeting policies work?",
+            "normalizedQuestion": "how do teams meeting policies work",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "meeting policies"
+            ],
+            "policyNames": [
+              "meeting policy"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:meeting policies"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [
+            "meeting_policy"
+          ],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": [
+                "meeting_policy"
+              ]
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.009500000000116415
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -29.180542574112593
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -29.180542574112593
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -29.06775365014222
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -29.06775365014222
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "lexical",
+              "lexicalScore": -28.88611172606512
+            }
+          ],
+          "latencyMs": 165.86109999999462
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.765549610783183
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.765474090048428
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.7371033536781391
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.7371033536781391
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "method": "semantic",
+              "semanticScore": 0.729381187630824
+            }
+          ],
+          "latencyMs": 556.0809000000008,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 35.6,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 34.58536585365854,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:40"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 33.5,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31.363636363636363,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/voice-and-calling-policies",
+              "title": "Teams settings and policies reference",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            }
+          ],
+          "latencyMs": 651.5887000000075,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do Teams call queues work?",
+        "intent": {
+          "originalQuestion": "How do Teams call queues work?",
+          "normalizedQuestion": "how do teams call queues work",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "call queue"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:call queue"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do Teams call queues work?",
+            "normalizedQuestion": "how do teams call queues work",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "call queue"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:call queue"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.0015999999886844307
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+              "title": "Setup - Call Queue",
+              "method": "lexical",
+              "lexicalScore": -20.642109043883046
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+              "title": "Setup - Call Queue",
+              "method": "lexical",
+              "lexicalScore": -20.642109043883046
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-queues-app",
+              "title": "Manage Queues app for Microsoft Teams in your organization",
+              "method": "lexical",
+              "lexicalScore": -20.412233776148057
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-shared-history",
+              "title": "Setup - Shared Call History for Call Queue",
+              "method": "lexical",
+              "lexicalScore": -20.257876178546848
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue-recording-compliance",
+              "title": "Setup - Compliance Recording for Call Queues",
+              "method": "lexical",
+              "lexicalScore": -20.181477097064274
+            }
+          ],
+          "latencyMs": 157.238400000002
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview",
+              "title": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+              "method": "semantic",
+              "semanticScore": 0.6731295376598031
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows",
+              "title": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+              "method": "semantic",
+              "semanticScore": 0.6550648781552614
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+              "title": "Setup - Call Queue",
+              "method": "semantic",
+              "semanticScore": 0.6384900158652879
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+              "title": "Setup - Call Queue",
+              "method": "semantic",
+              "semanticScore": 0.6380691067492339
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-queues-app",
+              "title": "Manage Queues app for Microsoft Teams in your organization",
+              "method": "semantic",
+              "semanticScore": 0.6261766864091568
+            }
+          ],
+          "latencyMs": 373.6094000000012,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+              "title": "Setup - Call Queue",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 35.714285714285715,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:13"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview",
+              "title": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 35.36363636363636,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+              "title": "Setup - Call Queue",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 31.51282051282051,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:12"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-design-call-flows",
+              "title": "Design - Call flows for Teams Phone Agent, Auto Attendant, and Call Queue",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.22608695652174,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/manage-queues-app",
+              "title": "Manage Queues app for Microsoft Teams in your organization",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 29.1,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:14"
+              ]
+            }
+          ],
+          "latencyMs": 701.2214000000095,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do Teams auto attendants work?",
+        "intent": {
+          "originalQuestion": "How do Teams auto attendants work?",
+          "normalizedQuestion": "how do teams auto attendants work",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [
+            "auto attendant"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "conceptual",
+          "retrievalHints": [
+            "answer_type:conceptual",
+            "domain:teams_admin",
+            "entity:auto attendant"
+          ],
+          "unresolvedAmbiguity": []
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do Teams auto attendants work?",
+            "normalizedQuestion": "how do teams auto attendants work",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [
+              "auto attendant"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "conceptual",
+            "retrievalHints": [
+              "answer_type:conceptual",
+              "domain:teams_admin",
+              "entity:auto attendant"
+            ],
+            "unresolvedAmbiguity": []
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 1600,
+            "maxSemanticCandidates": 900,
+            "broadScopeWarningThreshold": 2500
+          },
+          "scopeMode": "narrow",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 3200,
+          "routingWarnings": [],
+          "routingRationale": [
+            "answer_type:conceptual",
+            "primary_domain:teams_admin"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.0011000000085914508
+        },
+        "lexical": {
+          "count": 1600,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "lexical",
+              "lexicalScore": -25.262565875810207
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "lexical",
+              "lexicalScore": -25.262565875810207
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "lexical",
+              "lexicalScore": -24.37886656666286
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "lexical",
+              "lexicalScore": -24.37886656666286
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "lexical",
+              "lexicalScore": -24.370323368131835
+            }
+          ],
+          "latencyMs": 192.80019999999786
+        },
+        "semantic": {
+          "count": 900,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview",
+              "title": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+              "method": "semantic",
+              "semanticScore": 0.6994090389118578
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "semantic",
+              "semanticScore": 0.6897556432494997
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "semantic",
+              "semanticScore": 0.6897556432494997
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "semantic",
+              "semanticScore": 0.6870356948493994
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "method": "semantic",
+              "semanticScore": 0.6870356948493994
+            }
+          ],
+          "latencyMs": 637.957899999994,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 40,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:3"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 37.666666666666664,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-plan-overview",
+              "title": "Plan - Overview of Teams Phone Agent, Auto Attendant, and Call Queue",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 33.3768115942029,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 32.3,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+              "title": "Setup - Auto Attendant",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 30.2,
+              "reasons": [
+                "lexical_fts_match",
+                "lexical_technical_concept_match",
+                "semantic_preselection:entity_title_shortlist",
+                "semantic_similarity",
+                "semantic_rank:5"
+              ]
+            }
+          ],
+          "latencyMs": 931.7595999999903,
+          "warnings": []
+        }
+      },
+      {
+        "question": "How do I view Teams analytics and usage reports?",
+        "intent": {
+          "originalQuestion": "How do I view Teams analytics and usage reports?",
+          "normalizedQuestion": "how do i view teams analytics and usage reports",
+          "domains": [
+            "teams_admin"
+          ],
+          "products": [
+            "Microsoft Teams"
+          ],
+          "technologies": [
+            "Microsoft Teams"
+          ],
+          "entities": [],
+          "operationIntents": [
+            "get"
+          ],
+          "requiresFreshnessCheck": false,
+          "allowsBetaSources": false,
+          "expectedAnswerType": "procedural",
+          "retrievalHints": [
+            "answer_type:procedural",
+            "domain:teams_admin",
+            "operation:get"
+          ],
+          "unresolvedAmbiguity": [
+            "no_explicit_entity"
+          ]
+        },
+        "route": {
+          "intent": {
+            "originalQuestion": "How do I view Teams analytics and usage reports?",
+            "normalizedQuestion": "how do i view teams analytics and usage reports",
+            "domains": [
+              "teams_admin"
+            ],
+            "products": [
+              "Microsoft Teams"
+            ],
+            "technologies": [
+              "Microsoft Teams"
+            ],
+            "entities": [],
+            "operationIntents": [
+              "get"
+            ],
+            "requiresFreshnessCheck": false,
+            "allowsBetaSources": false,
+            "expectedAnswerType": "procedural",
+            "retrievalHints": [
+              "answer_type:procedural",
+              "domain:teams_admin",
+              "operation:get"
+            ],
+            "unresolvedAmbiguity": [
+              "no_explicit_entity"
+            ]
+          },
+          "selectedDomains": [
+            "teams_admin"
+          ],
+          "focusSubdomains": [],
+          "eligibleSources": [
+            {
+              "sourceId": "ms-teams-admin",
+              "priority": "primary",
+              "authorityRoles": [
+                "teams_admin_primary"
+              ],
+              "eligibleTrackIds": [
+                "ga"
+              ],
+              "eligibleTrackStatuses": [
+                "ga"
+              ],
+              "rationale": [
+                "domain_match:teams_admin",
+                "priority:primary",
+                "authority:teams_admin_primary"
+              ],
+              "subdomainHints": []
+            }
+          ],
+          "excludedSources": [
+            {
+              "sourceId": "ms-teams-powershell",
+              "reason": "powershell_source_requires_cmdlet_voice_or_implicit_cmdlet_signal"
+            },
+            {
+              "sourceId": "ms-m365-docs",
+              "reason": "m365_source_requires_m365_domain"
+            },
+            {
+              "sourceId": "ms-entra-docs",
+              "reason": "entra_source_requires_identity_signal"
+            },
+            {
+              "sourceId": "ms-graph-docs",
+              "reason": "graph_source_requires_graph_domain"
+            },
+            {
+              "sourceId": "ms-teams-dev-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-docs",
+              "reason": "not_applicable_to_selected_domains"
+            },
+            {
+              "sourceId": "ms-sharepoint-powershell",
+              "reason": "not_applicable_to_selected_domains"
+            }
+          ],
+          "sourcePriorityChain": [
+            "ms-teams-admin",
+            "ms-teams-powershell",
+            "ms-m365-docs",
+            "ms-entra-docs",
+            "ms-graph-docs",
+            "ms-teams-dev-docs",
+            "ms-sharepoint-docs",
+            "ms-sharepoint-powershell"
+          ],
+          "strategy": {
+            "exact": false,
+            "lexical": true,
+            "semantic": true,
+            "semanticPreference": "primary"
+          },
+          "exactMatchDirectives": [],
+          "candidateBudget": {
+            "maxLexicalCandidates": 3200,
+            "maxSemanticCandidates": 1500,
+            "broadScopeWarningThreshold": 4000
+          },
+          "scopeMode": "broad_due_to_ambiguity",
+          "freshnessVerification": {
+            "required": false,
+            "reasons": []
+          },
+          "betaPolicy": {
+            "allowsBeta": false,
+            "excludedBetaTracks": []
+          },
+          "estimatedCandidatePopulation": 6200,
+          "routingWarnings": [
+            "candidate_population_above_preferred_target",
+            "scope_broadened_due_to_unresolved_ambiguity"
+          ],
+          "routingRationale": [
+            "answer_type:procedural",
+            "primary_domain:teams_admin",
+            "scope_broadened_due_to_ambiguity"
+          ]
+        },
+        "exact": {
+          "count": 0,
+          "top": [],
+          "latencyMs": 0.0028000000020256266
+        },
+        "lexical": {
+          "count": 1891,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "method": "lexical",
+              "lexicalScore": -27.99009098892922
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "method": "lexical",
+              "lexicalScore": -27.527625208893916
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-premium-usage-report",
+              "title": "Teams Premium feature usage report",
+              "method": "lexical",
+              "lexicalScore": -23.316120554991812
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "method": "lexical",
+              "lexicalScore": -21.015537834556653
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "method": "lexical",
+              "lexicalScore": -20.364785338230284
+            }
+          ],
+          "latencyMs": 313.80509999999776
+        },
+        "semantic": {
+          "count": 1500,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "method": "semantic",
+              "semanticScore": 0.776074977127285
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "method": "semantic",
+              "semanticScore": 0.7706087850005511
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "method": "semantic",
+              "semanticScore": 0.7245579858469995
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-premium-usage-report",
+              "title": "Teams Premium feature usage report",
+              "method": "semantic",
+              "semanticScore": 0.7182009505594668
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "method": "semantic",
+              "semanticScore": 0.7119373001295818
+            }
+          ],
+          "latencyMs": 581.0327000000107,
+          "warnings": []
+        },
+        "hybrid": {
+          "count": 24,
+          "top": [
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 38.2,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:1"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/pstn-usage-report",
+              "title": "Microsoft Teams PSTN usage report",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 36.4,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:9"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/deploy-chat-teams-channels-microsoft-teams-landing-page",
+              "title": "Chat, teams, channels, & apps in Microsoft Teams",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 33.095238095238095,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:6"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-premium-usage-report",
+              "title": "Teams Premium feature usage report",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 32.3,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:4"
+              ]
+            },
+            {
+              "sourceId": "ms-teams-admin",
+              "canonicalUrl": "https://learn.microsoft.com/en-us/microsoftteams/teams-analytics-and-reports/teams-reporting-reference",
+              "title": "Microsoft Teams analytics and reporting",
+              "methods": [
+                "lexical",
+                "semantic"
+              ],
+              "fusionScore": 32.25,
+              "reasons": [
+                "lexical_fts_match",
+                "semantic_preselection:lexical_shortlist",
+                "semantic_similarity",
+                "semantic_rank:2"
+              ]
+            }
+          ],
+          "latencyMs": 1010.2353000000003,
+          "warnings": [
+            "candidate_population_above_preferred_target",
+            "scope_broadened_due_to_unresolved_ambiguity"
+          ]
+        }
+      }
+    ]
+  },
+  "artifactPaths": {
+    "jsonPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01e2-2026-09-02T15-10-56-459Z.json",
+    "jsonlPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01e2-2026-09-02T15-10-56-459Z.jsonl",
+    "markdownPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\runs\\indexing\\cg01e2-2026-09-02T15-10-56-459Z.md"
+  }
+}

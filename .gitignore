@@ -6,3 +6,11 @@ npm-debug.log*
 .env
 .conversations/
 .knowledge-v2/
+
+# Large eval artifacts - never commit
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+eval/runs/spikes/
+eval/runs/indexing/_*
+eval/runs/**/audio/

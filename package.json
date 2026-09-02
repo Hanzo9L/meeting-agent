@@ -9,6 +9,7 @@
     "build:win": "npm run build && electron-builder --win nsis -c electron-builder.yml",
     "preview": "electron-vite preview",
     "typecheck": "tsc --noEmit",
+    "baseline:query-intent": "tsx eval/harness/runQueryIntentBaseline.ts",
     "eval:baseline": "tsx eval/harness/runLegacyBaseline.ts",
     "capture:synthesis-fixture": "tsx eval/harness/captureSynthesisFixture.ts",
     "bench:synthesis": "tsx eval/harness/runSynthesisBenchmark.ts",

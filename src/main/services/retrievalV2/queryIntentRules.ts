@@ -219,6 +219,22 @@ function classifyAnswerType(
   cmdlets: string[]
 ): QueryAnswerType {
   if (
+    normalized.includes("tell me how you") ||
+    normalized.includes("walk me through") ||
+    normalized.includes("talk me through") ||
+    normalized.includes("how do you approach") ||
+    normalized.includes("what is your experience") ||
+    normalized.includes("what's your experience") ||
+    normalized.includes("how did you use") ||
+    normalized.includes("how do you troubleshoot") ||
+    normalized.includes("how do you investigate") ||
+    normalized.includes("give me an example of how") ||
+    normalized.includes("tell me about a time you") ||
+    normalized.includes("tell me about a script you")
+  ) {
+    return "procedural";
+  }
+  if (
     normalized.includes("difference between") ||
     normalized.startsWith("compare ") ||
     normalized.includes("compare ") ||
