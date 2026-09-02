@@ -339,7 +339,10 @@ function inferGenericChunkKind(section: CanonicalSection): KnowledgeChunkKind {
   if (/\b(configure|configuration|setting|requirements?|policy|routing|sbc|plan)\b/.test(headingText)) {
     return hasOrdered ? "procedure" : "configuration";
   }
-  if (hasOrdered && /\b(step|steps|how to|procedure)\b/.test(headingText)) {
+  // An ordered list is itself the procedure signal. Learn section headings
+  // are usually imperative ("Create a resource account") and rarely contain
+  // the literal words "step" or "how to".
+  if (hasOrdered) {
     return "procedure";
   }
   if (/\b(reference|overview|definitions?|api)\b/.test(headingText)) {
