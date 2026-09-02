@@ -418,6 +418,14 @@ export function assembleDeterministicAnswer(params: {
     });
   }
 
+  const emittedClaimTexts = new Set<string>();
+  const renderedForPresentation = rendered.filter(({ rendered: claimText }) => {
+    const normalizedText = normalizeWhitespace(claimText.text);
+    if (emittedClaimTexts.has(normalizedText)) return false;
+    emittedClaimTexts.add(normalizedText);
+    return true;
+  });
+
   const builder = new AnswerTextBuilder();
   if (params.plan.answerability === "insufficient_evidence") {
     builder.appendStructural(
@@ -427,7 +435,7 @@ export function assembleDeterministicAnswer(params: {
     appendClaims({
       builder,
       plan: params.plan,
-      claims: rendered
+      claims: renderedForPresentation
     });
   }
   appendPolicyDecisions({
