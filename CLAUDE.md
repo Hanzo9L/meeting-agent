@@ -36,4 +36,79 @@ forces troubleshooting.
     ms-sharepoint-*         50   irrelevant
     ms-m365-docs             3   near-empty
 
-~87% is PowerShell
+~87% is PowerShell reference and Entra identity. No networking content at all
+(no TCP, DNS, SIP, NAT, packet loss, QoS).
+
+Two sync checkpoints are in `error` state: ms-entra-docs, ms-teams-powershell.
+
+These two causes are independent. Fixing either alone is insufficient.
+
+## Already tested and ruled out — do not re-propose
+
+- **Removing dynamic `enum` arrays from the synthesis JSON schema.** Theory was
+  that per-request schemas defeat OpenAI's schema cache. Measured: median
+  regressed 9,060ms -> 10,452ms, p95 13,091 -> 14,268, plus one timeout.
+  Reverted. The enums were helping.
+- **Lowering `V2_REASONING_EFFORT` from medium to low.** Not authorized for
+  production. Faster (7,697ms vs 9,060ms) but an earlier benchmark observed an
+  83.3% binding pass rate at low effort. Unresolved; do not ship without a
+  larger sample.
+- Synthesis latency was NOT the primary problem. Do not lead with speed work.
+
+## Benchmark
+
+Reproducible, committed, frozen fixture. Use it before and after any change to
+the synthesis path.
+
+    npm run bench:synthesis -- --runs=6 --effort=medium
+    npm run bench:synthesis -- --runs=6 --effort=low
+
+Fixture: eval/fixtures/synthesis-bench/frozen-input.json
+SHA-256: 3e09a072f76bc8adf916874cf31925d347705bd4a0d24392c1b636a06e4d0a65
+The harness verifies this hash and exits nonzero on mismatch. Never regenerate
+the fixture without recording a new baseline — a previous ad-hoc benchmark was
+lost this way and its results became uncitable.
+
+Baseline 2026-09-01, both arms 6/6 schema-valid and 6/6 binding-valid:
+
+    medium   median 9,060ms   p95 13,091ms
+    low      median 7,697ms   p95  8,147ms
+
+## Diagnostics
+
+    npm run inspect:query-intent -- "<question>"
+    npm run inspect:answer-plan -- "<question>"
+    npm run inspect:grounded-answer -- "<question>"
+    npm run inspect:knowledge-store
+    npm run discover:v2-teams-admin
+
+Append `2>/dev/null` to suppress hot-path console.info spam.
+
+## Known defects, not yet fixed
+
+- Question normalization drops spaces between words: "Microsoftservice",
+  "exchange androom". Observed repeatedly. Likely damages lexical search terms.
+- `openAiInterviewAnswerSynthesisPort.ts` ~line 208 checks `facets[0]?.id ===
+  "facet-1"` (hyphen) but real ids are `facet_1` (underscore), so
+  `fullQuestionEvidence` is permanently false. Diagnostics only.
+- ~90 untracked debug artifacts under `eval/runs/indexing/` make `git status`
+  hard to read. Needs a .gitignore entry.
+- One pre-existing `test:evidence` failure. 91 pass, 1 fail. Unidentified.
+- This repo has known pre-existing TypeScript errors. Always capture a baseline
+  with `npm run build 2>&1 | tee /tmp/tsc-baseline.txt` before edits and diff
+  against it. Only NEW errors matter.
+
+## Product constraints
+
+- The user supplies their own experience stories separately. Do NOT build a
+  personal-story or STAR-format corpus. This tool provides technical scaffolding
+  only — the correct facts, in order.
+- Answers are read on screen while the user is speaking on a live call. Short
+  scannable lines, not paragraphs.
+- Wrong guidance is worse than no guidance.
+
+## Working agreement
+
+- One change at a time. Measure before and after.
+- Stop and report rather than expanding scope.
+- Never modify files outside the stated scope of a task
