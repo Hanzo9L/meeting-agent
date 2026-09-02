@@ -1,0 +1,2697 @@
+{
+  "artifactVersion": "r4.0",
+  "runId": "extractive-answer-r4-2026-09-02T19-38-47-820Z",
+  "createdAt": "2026-09-02T19:38:47.820Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\procedural-probe.jsonl",
+  "summary": {
+    "total": 6,
+    "successful": 5,
+    "answerabilityMatch": 4,
+    "provenanceAuditPass": 5,
+    "providerRequestCount": 0,
+    "assemblyLatencyP50Ms": 0.747,
+    "assemblyLatencyP95Ms": 6.777
+  },
+  "cases": [
+    {
+      "questionId": "P-001",
+      "question": "How do I create a resource account for an auto attendant",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:5429c597549f553430f061e0",
+        "snapshotHash": "5429c597549f553430f061e0aa3c2d4713a261a86e86845da54cb0ffac5676b2",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "8f400fb78528033e341b2510e5263bced0ca8f7ca431557e2bb8d0a12e5e2169"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:a1db01b91c9a3d91c439c2f0",
+        "planHash": "a1db01b91c9a3d91c439c2f069de6157953a9bfec2138a097d7482df8d0fec72",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:72c3019f45689bed8ed64190",
+          "requiredAspectId": "mandatory:entity:auto-attendant:new",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:7c5cc38e4da5eb5fbe99ee75",
+              "evidenceId": "evidence:7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "chunkId": "7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "documentId": "c180417b764e4b5422a9f58580c59d9df0fc9cfe61a1440381e3a92164a8f25c",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/create-a-phone-system-auto-attendant",
+              "sectionId": "sec-18",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 194,
+              "endOffset": 321,
+              "text": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+              "contentHash": "8264c93c7e0c2417475467048c487909fab472f2b3f7bc1adcd76c4c2ad83106",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:5767eff09e5baf16f757737a",
+          "requiredAspectId": "mandatory:entity:resource-account:new",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "Select this option if this auto attendant needs to be called directly.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:8d0f44570d2849db43d39a03",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 224,
+              "endOffset": 294,
+              "text": "Select this option if this auto attendant needs to be called directly.",
+              "contentHash": "230101a1ef8bb778dc92b3694ec8434b38ae1350390e6a5aa6b5608fb42e5413",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            },
+            {
+              "spanId": "span:afd16b0d38a1892a881d2f35",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "heading",
+              "fieldIndex": 1,
+              "sentenceIndex": null,
+              "startOffset": 0,
+              "endOffset": 33,
+              "text": "Steps to create an auto attendant",
+              "contentHash": "e9d34967bebd72c893b15166f5e3d6e9eb40e0334f72edcced7e20a20d9ac339",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ]
+        }
+      ],
+      "renderedClaims": [
+        {
+          "claimId": "claim:72c3019f45689bed8ed64190",
+          "renderedText": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 9,
+            "endOffset": 136
+          },
+          "evidenceIds": [
+            "evidence:7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:7c5cc38e4da5eb5fbe99ee75",
+              "evidenceId": "evidence:7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "chunkId": "7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "documentId": "c180417b764e4b5422a9f58580c59d9df0fc9cfe61a1440381e3a92164a8f25c",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/create-a-phone-system-auto-attendant",
+              "sectionId": "sec-18",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 194,
+              "endOffset": 321,
+              "text": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+              "contentHash": "8264c93c7e0c2417475467048c487909fab472f2b3f7bc1adcd76c4c2ad83106",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:5767eff09e5baf16f757737a",
+          "renderedText": "Select this option if this auto attendant needs to be called directly.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 139,
+            "endOffset": 209
+          },
+          "evidenceIds": [
+            "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:8d0f44570d2849db43d39a03",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 224,
+              "endOffset": 294,
+              "text": "Select this option if this auto attendant needs to be called directly.",
+              "contentHash": "230101a1ef8bb778dc92b3694ec8434b38ae1350390e6a5aa6b5608fb42e5413",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            },
+            {
+              "spanId": "span:afd16b0d38a1892a881d2f35",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "heading",
+              "fieldIndex": 1,
+              "sentenceIndex": null,
+              "startOffset": 0,
+              "endOffset": 33,
+              "text": "Steps to create an auto attendant",
+              "contentHash": "e9d34967bebd72c893b15166f5e3d6e9eb40e0334f72edcced7e20a20d9ac339",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ]
+        }
+      ],
+      "finalAnswerText": "Steps:\n- For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.\n- Select this option if this auto attendant needs to be called directly.",
+      "caveats": [],
+      "unsupportedAspects": [],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 2,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 2,
+            "mandatoryClaimsRealized": 2,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 6.777399999999943,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-002",
+      "question": "What are the steps to configure a resource account",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "insufficient_evidence",
+      "answerabilityMatch": false,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:fc4d3de97950a6afc77e0401",
+        "snapshotHash": "fc4d3de97950a6afc77e0401e0b6e56cbb47ef04719d83589e20065b23e11354",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:057b53e85671f111a14ac40a",
+        "planHash": "057b53e85671f111a14ac40a0d303b308f67ac6af8e76897c1844758c8399e83",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [],
+      "renderedClaims": [],
+      "finalAnswerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: resource account; required facets: procedure, operation.",
+      "caveats": [],
+      "unsupportedAspects": [
+        {
+          "aspectId": "mandatory:entity:resource-account:set",
+          "text": "Unsupported required aspect: resource account; required facets: procedure, operation."
+        }
+      ],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 0,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 0,
+            "mandatoryClaimsRealized": 0,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 0.6224000000001979,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-003",
+      "question": "How do I assign a phone number to a resource account",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "insufficient_evidence",
+      "answerabilityMatch": false,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:84671f49a6583f205f37b2a5",
+        "snapshotHash": "84671f49a6583f205f37b2a5139073f6361d0af994e48a580d223092bf505ccf",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:b0ed3efa8c1e558fb034a41a",
+        "planHash": "b0ed3efa8c1e558fb034a41a875659a727d1eaff08fb4086d12978212add90d8",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [],
+      "renderedClaims": [],
+      "finalAnswerText": "Unable to provide a factual answer from the approved evidence.\n\nLimitations:\n- Unsupported required aspect: phone number; required facets: procedure, operation.\n- Unsupported required aspect: resource account; required facets: procedure, operation.",
+      "caveats": [],
+      "unsupportedAspects": [
+        {
+          "aspectId": "mandatory:entity:phone-number:grant",
+          "text": "Unsupported required aspect: phone number; required facets: procedure, operation."
+        },
+        {
+          "aspectId": "mandatory:entity:resource-account:grant",
+          "text": "Unsupported required aspect: resource account; required facets: procedure, operation."
+        }
+      ],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 0,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 0,
+            "mandatoryClaimsRealized": 0,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 0.7469999999998436,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-004",
+      "question": "What are the steps to configure Direct Routing with an SBC",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:1703e69916ef664438cd9707",
+        "snapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "e2b42bc49825398eeacdffd0e5e6ddbd7df19ab86aa2e7157d3a323b0296f484"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:7f2abb9cd1009c99c9b78077",
+        "planHash": "7f2abb9cd1009c99c9b78077e9ee11459725bafcaf1d82c2565cd2d80bed4178",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:82054ab5eb2b52aed51b2d87",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:0cdb7acc416a43195b4cb064",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 151,
+              "endOffset": 258,
+              "text": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+              "contentHash": "ec9cacd4ccbdce60394995fbfd5fe0e8035729da99fc3e34e5a8780586dd94d3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:ec4997f15dd913cc6a491918",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:0cdb7acc416a43195b4cb064",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 151,
+              "endOffset": 258,
+              "text": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+              "contentHash": "ec9cacd4ccbdce60394995fbfd5fe0e8035729da99fc3e34e5a8780586dd94d3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:c80034722dca625b4a3534ad",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "This is step 1 of the following steps to configure Direct Routing:",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:854c0124c2afa5750d936a35",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 259,
+              "endOffset": 325,
+              "text": "This is step 1 of the following steps to configure Direct Routing:",
+              "contentHash": "befc284bfa373f16724fe1fff6b8ff3bfd5b68114b7c6ea669b11c5fe49017cd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:634c7e8b71640bd4215e18c0",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "This is step 1 of the following steps to configure Direct Routing:",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:854c0124c2afa5750d936a35",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 259,
+              "endOffset": 325,
+              "text": "This is step 1 of the following steps to configure Direct Routing:",
+              "contentHash": "befc284bfa373f16724fe1fff6b8ff3bfd5b68114b7c6ea669b11c5fe49017cd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:86ff0e15aa941cac27213801",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 1.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:7171e4acb02048158b095fa0",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 327,
+              "endOffset": 336,
+              "text": "- Step 1.",
+              "contentHash": "11c34db7de3c0db9b79076602ec971952e090acdcb821cacfff9543005712eb3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:43db2d1c1081a12908c2c2f4",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 1.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:7171e4acb02048158b095fa0",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 327,
+              "endOffset": 336,
+              "text": "- Step 1.",
+              "contentHash": "11c34db7de3c0db9b79076602ec971952e090acdcb821cacfff9543005712eb3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:e2b30e49561a76ca7e9ca565",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 2.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:e9016f2d5b5005f9853baacf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 415,
+              "endOffset": 424,
+              "text": "- Step 2.",
+              "contentHash": "f09dd33932db6514b4e5e6c172bdfb40de449d57fa7596c370a9bfe6560c377b",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:da214b7c90d3162d6fdd58a2",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 2.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:e9016f2d5b5005f9853baacf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 415,
+              "endOffset": 424,
+              "text": "- Step 2.",
+              "contentHash": "f09dd33932db6514b4e5e6c172bdfb40de449d57fa7596c370a9bfe6560c377b",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:cf42b5c67041134817eab00a",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "Enable users for Direct Routing",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:48774a47b2a7fcd9e8b287cc",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 425,
+              "endOffset": 456,
+              "text": "Enable users for Direct Routing",
+              "contentHash": "6b7cc223836e0e207e7dabaa79aea91cbc534fe9c127f3cbcf397abfe77615b0",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:b745ad9d62169b59be481e2d",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "Enable users for Direct Routing",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:48774a47b2a7fcd9e8b287cc",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 425,
+              "endOffset": 456,
+              "text": "Enable users for Direct Routing",
+              "contentHash": "6b7cc223836e0e207e7dabaa79aea91cbc534fe9c127f3cbcf397abfe77615b0",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:ce2bbe07d9918279233cd28b",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 3.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:089e142c5778778be48e3b51",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 457,
+              "endOffset": 466,
+              "text": "- Step 3.",
+              "contentHash": "10e90cafd02455cf446d9f41220804d844343bb6eaee2a6bba4b1524a9f5eefc",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:3d83fd6a4448119d537d3a5d",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 3.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:089e142c5778778be48e3b51",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 457,
+              "endOffset": 466,
+              "text": "- Step 3.",
+              "contentHash": "10e90cafd02455cf446d9f41220804d844343bb6eaee2a6bba4b1524a9f5eefc",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:1fc76fa10a05ce97006e6b1f",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "Configure call routing",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:0a8d82ecef7a43cc051e5fef",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 7,
+              "startOffset": 467,
+              "endOffset": 489,
+              "text": "Configure call routing",
+              "contentHash": "66915868cf04f055ce525b9c9346e439423c91fbd952240b9a765f00be5eadd4",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:5cc65d3bddfb2040812a702f",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "Configure call routing",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:0a8d82ecef7a43cc051e5fef",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 7,
+              "startOffset": 467,
+              "endOffset": 489,
+              "text": "Configure call routing",
+              "contentHash": "66915868cf04f055ce525b9c9346e439423c91fbd952240b9a765f00be5eadd4",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:3a8666c5b0ac26185748db47",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 4.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:81cb69daffaab8e4d1d43de9",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 8,
+              "startOffset": 490,
+              "endOffset": 499,
+              "text": "- Step 4.",
+              "contentHash": "4fe932bd86275bb5cccb0713b990c7329bace28f7088499dfeb187147128d989",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:857c6cd8c180e60343e82bff",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "- Step 4.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:81cb69daffaab8e4d1d43de9",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 8,
+              "startOffset": 490,
+              "endOffset": 499,
+              "text": "- Step 4.",
+              "contentHash": "4fe932bd86275bb5cccb0713b990c7329bace28f7088499dfeb187147128d989",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:811387c1b1aa31c9f7a29152",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:850f17738fee050f558d6cbf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 10,
+              "startOffset": 542,
+              "endOffset": 639,
+              "text": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+              "contentHash": "963492d492453e29eeb741a2a828558ef2f7a37fe6f6b423c2465ad737aeb20f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:d7c6baad5b8cfcd07a90b6ff",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:850f17738fee050f558d6cbf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 10,
+              "startOffset": 542,
+              "endOffset": 639,
+              "text": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+              "contentHash": "963492d492453e29eeb741a2a828558ef2f7a37fe6f6b423c2465ad737aeb20f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:c871eb4cc481246393035b73",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:ae2753f30b2ebda7b8248da4",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 11,
+              "startOffset": 641,
+              "endOffset": 751,
+              "text": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+              "contentHash": "cbcb4661a9e9c83ca9fb9d6ecd258369c18f0a4191fc186100f4da9f87fa1eb2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:06d186542397e394190ea5eb",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:ae2753f30b2ebda7b8248da4",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 11,
+              "startOffset": 641,
+              "endOffset": 751,
+              "text": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+              "contentHash": "cbcb4661a9e9c83ca9fb9d6ecd258369c18f0a4191fc186100f4da9f87fa1eb2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:aa0865081ddaff53de4595c2",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "For GCC High and DoD clouds, you must use PowerShell.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:ca46a390322f2ca2be20f855",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 12,
+              "startOffset": 759,
+              "endOffset": 812,
+              "text": "For GCC High and DoD clouds, you must use PowerShell.",
+              "contentHash": "27cc76408f25b8aca5e670e8c361ae76aaf8eda8692896711c3805fbaaf8935d",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:1e96551c13c20a3cffa63348",
+          "requiredAspectId": "mandatory:entity:sbc:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "proposition": "For GCC High and DoD clouds, you must use PowerShell.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:ca46a390322f2ca2be20f855",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 12,
+              "startOffset": 759,
+              "endOffset": 812,
+              "text": "For GCC High and DoD clouds, you must use PowerShell.",
+              "contentHash": "27cc76408f25b8aca5e670e8c361ae76aaf8eda8692896711c3805fbaaf8935d",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "renderedClaims": [
+        {
+          "claimId": "claim:82054ab5eb2b52aed51b2d87",
+          "renderedText": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 9,
+            "endOffset": 116
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:0cdb7acc416a43195b4cb064",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 151,
+              "endOffset": 258,
+              "text": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+              "contentHash": "ec9cacd4ccbdce60394995fbfd5fe0e8035729da99fc3e34e5a8780586dd94d3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:ec4997f15dd913cc6a491918",
+          "renderedText": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 119,
+            "endOffset": 226
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:0cdb7acc416a43195b4cb064",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 151,
+              "endOffset": 258,
+              "text": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+              "contentHash": "ec9cacd4ccbdce60394995fbfd5fe0e8035729da99fc3e34e5a8780586dd94d3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:c80034722dca625b4a3534ad",
+          "renderedText": "This is step 1 of the following steps to configure Direct Routing:",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 229,
+            "endOffset": 295
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:854c0124c2afa5750d936a35",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 259,
+              "endOffset": 325,
+              "text": "This is step 1 of the following steps to configure Direct Routing:",
+              "contentHash": "befc284bfa373f16724fe1fff6b8ff3bfd5b68114b7c6ea669b11c5fe49017cd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:634c7e8b71640bd4215e18c0",
+          "renderedText": "This is step 1 of the following steps to configure Direct Routing:",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 298,
+            "endOffset": 364
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:854c0124c2afa5750d936a35",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 259,
+              "endOffset": 325,
+              "text": "This is step 1 of the following steps to configure Direct Routing:",
+              "contentHash": "befc284bfa373f16724fe1fff6b8ff3bfd5b68114b7c6ea669b11c5fe49017cd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:86ff0e15aa941cac27213801",
+          "renderedText": "- Step 1.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 367,
+            "endOffset": 376
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:7171e4acb02048158b095fa0",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 327,
+              "endOffset": 336,
+              "text": "- Step 1.",
+              "contentHash": "11c34db7de3c0db9b79076602ec971952e090acdcb821cacfff9543005712eb3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:43db2d1c1081a12908c2c2f4",
+          "renderedText": "- Step 1.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 379,
+            "endOffset": 388
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:7171e4acb02048158b095fa0",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 327,
+              "endOffset": 336,
+              "text": "- Step 1.",
+              "contentHash": "11c34db7de3c0db9b79076602ec971952e090acdcb821cacfff9543005712eb3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:e2b30e49561a76ca7e9ca565",
+          "renderedText": "- Step 2.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 391,
+            "endOffset": 400
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:e9016f2d5b5005f9853baacf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 415,
+              "endOffset": 424,
+              "text": "- Step 2.",
+              "contentHash": "f09dd33932db6514b4e5e6c172bdfb40de449d57fa7596c370a9bfe6560c377b",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:da214b7c90d3162d6fdd58a2",
+          "renderedText": "- Step 2.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 403,
+            "endOffset": 412
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:e9016f2d5b5005f9853baacf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 415,
+              "endOffset": 424,
+              "text": "- Step 2.",
+              "contentHash": "f09dd33932db6514b4e5e6c172bdfb40de449d57fa7596c370a9bfe6560c377b",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:cf42b5c67041134817eab00a",
+          "renderedText": "Enable users for Direct Routing",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 415,
+            "endOffset": 446
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:48774a47b2a7fcd9e8b287cc",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 425,
+              "endOffset": 456,
+              "text": "Enable users for Direct Routing",
+              "contentHash": "6b7cc223836e0e207e7dabaa79aea91cbc534fe9c127f3cbcf397abfe77615b0",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:b745ad9d62169b59be481e2d",
+          "renderedText": "Enable users for Direct Routing",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 449,
+            "endOffset": 480
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:48774a47b2a7fcd9e8b287cc",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 425,
+              "endOffset": 456,
+              "text": "Enable users for Direct Routing",
+              "contentHash": "6b7cc223836e0e207e7dabaa79aea91cbc534fe9c127f3cbcf397abfe77615b0",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:ce2bbe07d9918279233cd28b",
+          "renderedText": "- Step 3.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 483,
+            "endOffset": 492
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:089e142c5778778be48e3b51",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 457,
+              "endOffset": 466,
+              "text": "- Step 3.",
+              "contentHash": "10e90cafd02455cf446d9f41220804d844343bb6eaee2a6bba4b1524a9f5eefc",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:3d83fd6a4448119d537d3a5d",
+          "renderedText": "- Step 3.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 495,
+            "endOffset": 504
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:089e142c5778778be48e3b51",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 457,
+              "endOffset": 466,
+              "text": "- Step 3.",
+              "contentHash": "10e90cafd02455cf446d9f41220804d844343bb6eaee2a6bba4b1524a9f5eefc",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:1fc76fa10a05ce97006e6b1f",
+          "renderedText": "Configure call routing",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 507,
+            "endOffset": 529
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:0a8d82ecef7a43cc051e5fef",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 7,
+              "startOffset": 467,
+              "endOffset": 489,
+              "text": "Configure call routing",
+              "contentHash": "66915868cf04f055ce525b9c9346e439423c91fbd952240b9a765f00be5eadd4",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:5cc65d3bddfb2040812a702f",
+          "renderedText": "Configure call routing",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 532,
+            "endOffset": 554
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:0a8d82ecef7a43cc051e5fef",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 7,
+              "startOffset": 467,
+              "endOffset": 489,
+              "text": "Configure call routing",
+              "contentHash": "66915868cf04f055ce525b9c9346e439423c91fbd952240b9a765f00be5eadd4",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:3a8666c5b0ac26185748db47",
+          "renderedText": "- Step 4.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 557,
+            "endOffset": 566
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:81cb69daffaab8e4d1d43de9",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 8,
+              "startOffset": 490,
+              "endOffset": 499,
+              "text": "- Step 4.",
+              "contentHash": "4fe932bd86275bb5cccb0713b990c7329bace28f7088499dfeb187147128d989",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:857c6cd8c180e60343e82bff",
+          "renderedText": "- Step 4.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 569,
+            "endOffset": 578
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:81cb69daffaab8e4d1d43de9",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 8,
+              "startOffset": 490,
+              "endOffset": 499,
+              "text": "- Step 4.",
+              "contentHash": "4fe932bd86275bb5cccb0713b990c7329bace28f7088499dfeb187147128d989",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:811387c1b1aa31c9f7a29152",
+          "renderedText": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 581,
+            "endOffset": 678
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:850f17738fee050f558d6cbf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 10,
+              "startOffset": 542,
+              "endOffset": 639,
+              "text": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+              "contentHash": "963492d492453e29eeb741a2a828558ef2f7a37fe6f6b423c2465ad737aeb20f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:d7c6baad5b8cfcd07a90b6ff",
+          "renderedText": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 681,
+            "endOffset": 778
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:850f17738fee050f558d6cbf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 10,
+              "startOffset": 542,
+              "endOffset": 639,
+              "text": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+              "contentHash": "963492d492453e29eeb741a2a828558ef2f7a37fe6f6b423c2465ad737aeb20f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:c871eb4cc481246393035b73",
+          "renderedText": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 781,
+            "endOffset": 891
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ae2753f30b2ebda7b8248da4",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 11,
+              "startOffset": 641,
+              "endOffset": 751,
+              "text": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+              "contentHash": "cbcb4661a9e9c83ca9fb9d6ecd258369c18f0a4191fc186100f4da9f87fa1eb2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:06d186542397e394190ea5eb",
+          "renderedText": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 894,
+            "endOffset": 1004
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ae2753f30b2ebda7b8248da4",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 11,
+              "startOffset": 641,
+              "endOffset": 751,
+              "text": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+              "contentHash": "cbcb4661a9e9c83ca9fb9d6ecd258369c18f0a4191fc186100f4da9f87fa1eb2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:aa0865081ddaff53de4595c2",
+          "renderedText": "For GCC High and DoD clouds, you must use PowerShell.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 1007,
+            "endOffset": 1060
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ca46a390322f2ca2be20f855",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 12,
+              "startOffset": 759,
+              "endOffset": 812,
+              "text": "For GCC High and DoD clouds, you must use PowerShell.",
+              "contentHash": "27cc76408f25b8aca5e670e8c361ae76aaf8eda8692896711c3805fbaaf8935d",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:1e96551c13c20a3cffa63348",
+          "renderedText": "For GCC High and DoD clouds, you must use PowerShell.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 1063,
+            "endOffset": 1116
+          },
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ca46a390322f2ca2be20f855",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 12,
+              "startOffset": 759,
+              "endOffset": 812,
+              "text": "For GCC High and DoD clouds, you must use PowerShell.",
+              "contentHash": "27cc76408f25b8aca5e670e8c361ae76aaf8eda8692896711c3805fbaaf8935d",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "finalAnswerText": "Steps:\n- This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.\n- This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.\n- This is step 1 of the following steps to configure Direct Routing:\n- This is step 1 of the following steps to configure Direct Routing:\n- - Step 1.\n- - Step 1.\n- - Step 2.\n- - Step 2.\n- Enable users for Direct Routing\n- Enable users for Direct Routing\n- - Step 3.\n- - Step 3.\n- Configure call routing\n- Configure call routing\n- - Step 4.\n- - Step 4.\n- For information on all the steps required to set up Direct Routing, see Configure Direct Routing.\n- For information on all the steps required to set up Direct Routing, see Configure Direct Routing.\n- To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.\n- To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.\n- For GCC High and DoD clouds, you must use PowerShell.\n- For GCC High and DoD clouds, you must use PowerShell.",
+      "caveats": [],
+      "unsupportedAspects": [],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 22,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 22,
+            "mandatoryClaimsRealized": 22,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 1.675000000000182,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-005",
+      "question": "How do I set up an auto attendant",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:f10343697bb432056120afb2",
+        "snapshotHash": "f10343697bb432056120afb221ce2e28396d05f69dcbb8a97196174237a2d70e",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "7886e3a369d62f5dc72c30049173ee03a2bea3f8d0adbe142913b7891e146579"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:9cda284fd8279e7b4c245b40",
+        "planHash": "9cda284fd8279e7b4c245b408b3bc8caa5618e856ae6b81f077838d76e600b8b",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:824a361a3f862db4e39cf3af",
+          "requiredAspectId": "mandatory:entity:auto-attendant:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:f0de1e94f6300093694f2871",
+              "evidenceId": "evidence:56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "chunkId": "56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-6",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 108,
+              "endOffset": 221,
+              "text": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+              "contentHash": "96147bd5c676295633d4dcefdb9af46a4cdcb0a2d28e4bd7d672bfdcf9f6ade8",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "renderedClaims": [
+        {
+          "claimId": "claim:824a361a3f862db4e39cf3af",
+          "renderedText": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 9,
+            "endOffset": 122
+          },
+          "evidenceIds": [
+            "evidence:56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:f0de1e94f6300093694f2871",
+              "evidenceId": "evidence:56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "chunkId": "56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-6",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 108,
+              "endOffset": 221,
+              "text": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+              "contentHash": "96147bd5c676295633d4dcefdb9af46a4cdcb0a2d28e4bd7d672bfdcf9f6ade8",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "finalAnswerText": "Steps:\n- To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+      "caveats": [],
+      "unsupportedAspects": [],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 1,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 1,
+            "mandatoryClaimsRealized": 1,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 0.5378000000000611,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-006",
+      "question": "What are the steps to configure QoS for Teams",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": false,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:4b7c36c75c048dfde556f915",
+        "snapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "faced63cef329dab828bba0ae1868f521eccb68f541fbe69b70099826a0fa745"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:faac3a5ce00c0dd5c9050d38",
+        "planHash": "faac3a5ce00c0dd5c9050d387db336b2890dc563c407768f4083a4d672a71c13",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:131d7d894372edf5258dcbe3",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- As a prerequisite, enable QoS globally in the Teams Admin Center.",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:91b0809fa32562b527b10486",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 289,
+              "endOffset": 356,
+              "text": "- As a prerequisite, enable QoS globally in the Teams Admin Center.",
+              "contentHash": "ef1b8cdb37e17555b164c0fbbbf5fed353b6e2b635217292a97f574d162f545c",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 1,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 1
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:ca52920241395392b784a7e3",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting. — See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting.",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:379c718d76f80f149cf826a9",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 357,
+              "endOffset": 505,
+              "text": "See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting.",
+              "contentHash": "e97de2a762c9b69068a99784aaa2fd51c6ea54cb1fae57dff20be26bf150ab20",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            },
+            {
+              "spanId": "span:7df69b3305101028e90d7374",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 926,
+              "endOffset": 1074,
+              "text": "See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting.",
+              "contentHash": "e97de2a762c9b69068a99784aaa2fd51c6ea54cb1fae57dff20be26bf150ab20",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 2,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 2
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:2aa0f0890b587ee60a5cae04",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- Mac and mobile (iOS and Android) clients use hard-coded values for audio (EF) and video and application/screen sharing (AF41).",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:5411b63d152485015d15fe27",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 3,
+              "startOffset": 657,
+              "endOffset": 785,
+              "text": "- Mac and mobile (iOS and Android) clients use hard-coded values for audio (EF) and video and application/screen sharing (AF41).",
+              "contentHash": "439df0da9787db342ad3fca60eaffcc4510e0ce2aefe7b03f5e6dbef78abfb2a",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 3,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 3
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:cf311fa7eca89d171c13ec8e",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "Teams Phone devices also use the default value for audio (EF).",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:71178cd4dac19899c1b60e6f",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 786,
+              "endOffset": 848,
+              "text": "Teams Phone devices also use the default value for audio (EF).",
+              "contentHash": "fcc4442853c15dbc4f0f06aed411675d59d37c06612778abed6b7cd9ec3cb874",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 4,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:4ef4cc870aeee2292ff526b2",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "Port-based ACLs on routers would allow for identification of traffic coming from devices that are unable to configure client-side DSCP markings.",
+          "evidenceIds": [
+            "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:fa043f7007dc2afd79af7974",
+              "evidenceId": "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "chunkId": "e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-9",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 2. Select a QoS implementation method",
+                "Best practice"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 460,
+              "endOffset": 604,
+              "text": "Port-based ACLs on routers would allow for identification of traffic coming from devices that are unable to configure client-side DSCP markings.",
+              "contentHash": "e6ae4b8a5f7265c5c1ea0fdc99468565139c6566af8d8d587faf822b34a9ef62",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 5,
+            "procedureStep": null,
+            "sourceOrder": 1,
+            "spanOrder": 2
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:5f208e3ec3f99ae52034366e",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "From a Teams perspective, the most important configuration step is the classification and marking of packets.",
+          "evidenceIds": [
+            "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:99c55ce646a3172715865f63",
+              "evidenceId": "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "chunkId": "e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-9",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 2. Select a QoS implementation method",
+                "Best practice"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 865,
+              "endOffset": 974,
+              "text": "From a Teams perspective, the most important configuration step is the classification and marking of packets.",
+              "contentHash": "2607889d5b9da3063e29a1ccfd823090fdae02e600877239f962f5dbdb4dbf3a",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 6,
+            "procedureStep": null,
+            "sourceOrder": 1,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:edcbcc50df9d6ec4f8e3fa45",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "1. How much bandwidth does a Microsoft Teams phone device use?",
+          "evidenceIds": [
+            "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:d9f6777dcd7ab6e5168944f5",
+              "evidenceId": "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "chunkId": "cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "documentId": "0ea3c5354ed276f2d865e8983e469ce3bd961b5fa28d0339cbbd23c4315c51dc",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/phones/qos-on-teams-phones",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Quality of service (QoS) set up on Teams phones"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 3,
+              "startOffset": 331,
+              "endOffset": 393,
+              "text": "1. How much bandwidth does a Microsoft Teams phone device use?",
+              "contentHash": "81ba495bb60b92dece3978b50e223efbeb8b4d82924c8d1b38d60f0e26f8f6fd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 2
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 7,
+            "procedureStep": 1,
+            "sourceOrder": 2,
+            "spanOrder": 3
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:2322f34d73c6fafc3c3df630",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "2. How to control that bandwidth usage?",
+          "evidenceIds": [
+            "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:013f34d5db4677dbd6e59b3b",
+              "evidenceId": "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "chunkId": "cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "documentId": "0ea3c5354ed276f2d865e8983e469ce3bd961b5fa28d0339cbbd23c4315c51dc",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/phones/qos-on-teams-phones",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Quality of service (QoS) set up on Teams phones"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 394,
+              "endOffset": 433,
+              "text": "2. How to control that bandwidth usage?",
+              "contentHash": "c4c54ae011301ce8881e2e008596c4714a756a0b2f72d5be603442104e23130f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 2
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 8,
+            "procedureStep": 2,
+            "sourceOrder": 2,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:4928aa994deaaffb392d59d5",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "3. How to ensure your devices are optimized with the right quality of service (QoS) configuration to align to your organizations requirements?",
+          "evidenceIds": [
+            "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:4b81ce671f927b47138390d0",
+              "evidenceId": "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "chunkId": "cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "documentId": "0ea3c5354ed276f2d865e8983e469ce3bd961b5fa28d0339cbbd23c4315c51dc",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/phones/qos-on-teams-phones",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Quality of service (QoS) set up on Teams phones"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 434,
+              "endOffset": 576,
+              "text": "3. How to ensure your devices are optimized with the right quality of service (QoS) configuration to align to your organizations requirements?",
+              "contentHash": "45b3ddf9331fed403baeda99fb3427b97df70583ad89dee241f1e3246d4ff008",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 2
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 9,
+            "procedureStep": 3,
+            "sourceOrder": 2,
+            "spanOrder": 5
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        }
+      ],
+      "failure": {
+        "code": "assembly_validation_failed",
+        "message": "Deterministic assembly failed closed before producing factual output.",
+        "snapshotIssues": [],
+        "groundingIssues": [],
+        "failedClaimIds": [
+          "claim:131d7d894372edf5258dcbe3",
+          "claim:ca52920241395392b784a7e3",
+          "claim:2aa0f0890b587ee60a5cae04",
+          "claim:cf311fa7eca89d171c13ec8e",
+          "claim:4ef4cc870aeee2292ff526b2",
+          "claim:5f208e3ec3f99ae52034366e",
+          "claim:edcbcc50df9d6ec4f8e3fa45",
+          "claim:2322f34d73c6fafc3c3df630",
+          "claim:4928aa994deaaffb392d59d5"
+        ],
+        "assemblyIssues": [
+          {
+            "code": "rendered_claim_not_source_bound",
+            "message": "Rendered claim is not reconstructable from its exact source spans: claim:ca52920241395392b784a7e3",
+            "claimId": "claim:ca52920241395392b784a7e3"
+          }
+        ],
+        "diagnostics": {
+          "generatorProviderId": "deterministic-extractive-assembler/r4",
+          "generationLatencyMs": 0,
+          "validationLatencyMs": 1.3321999999998297,
+          "totalLatencyMs": 1.6791999999995824,
+          "claimTaskCount": 9,
+          "mandatoryClaimTaskCount": 9,
+          "successfulClaimCount": 0,
+          "failedClaimCount": 9,
+          "requestCount": 0,
+          "retryCount": 0,
+          "firstAttemptValid": false,
+          "finalAttemptValid": false,
+          "firstAttemptIssues": [],
+          "attempts": [],
+          "tokenUsage": {
+            "inputTokens": null,
+            "outputTokens": null
+          }
+        }
+      }
+    }
+  ]
+}
