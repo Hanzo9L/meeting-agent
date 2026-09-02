@@ -28,13 +28,15 @@ and a bare `includes("error")` or `includes("fail")` anywhere in a sentence
 forces troubleshooting.
 
 ### 2. Corpus is misweighted for this use case
-`npm run inspect:knowledge-store` on 2026-09-01: 1,467 documents total.
+`npm run inspect:knowledge-store` on 2026-09-02: 1,496 documents total.
 
     ms-teams-powershell    622   cmdlet reference
     ms-entra-docs          660   identity, mostly off-topic
-    ms-teams-admin         128   the actual Teams Voice / MTR content
+    ms-teams-admin         157   the actual Teams Voice / MTR content
     ms-sharepoint-*         50   irrelevant
     ms-m365-docs             3   near-empty
+
+Teams Admin active chunks: 3,228.
 
 ~87% is PowerShell reference and Entra identity. No networking content at all
 (no TCP, DNS, SIP, NAT, packet loss, QoS).
@@ -42,6 +44,35 @@ forces troubleshooting.
 Two sync checkpoints are in `error` state: ms-entra-docs, ms-teams-powershell.
 
 These two causes are independent. Fixing either alone is insufficient.
+
+### 3. Chunk classifier mislabels procedures as conceptual
+Corpus-wide chunk_kind distribution after the 2026-09-02 index run
+(3,228 active chunks):
+
+    conceptual    1150
+    configuration  674
+    reference      442
+    table          423
+    code           235
+    procedure      169   <- 5%
+
+Per-document, the resource-account pages produce NO procedure chunks:
+
+    microsoftteams/manage-resource-accounts         conceptual 12, procedure 0
+    microsoftteams/aa-cq-manage-resource-accounts   conceptual 12, procedure 0
+    microsoftteams/rooms/create-resource-account    conceptual  9, procedure 1
+
+Consequence: `breadthAndFacets` in evidenceAspectPolicy.ts (~line 1219) requires
+a `procedure` facet for answerObject === "procedure". answerPlanner.ts ~line 1488
+computes missingFacetAspectIds; with no procedure-facet span, claimTaskCount is 0
+and the answer is "No exact source span could be planned for all required facets".
+
+This is now the primary blocker. Root causes 1 and 2 are fixed; this one is not.
+The fix is in the chunker's chunk_kind classification, not in retrieval or the
+query classifier.
+
+Useful query:
+    node -e "const D=require('better-sqlite3');const d=new D('.knowledge-v2/knowledge-v2.sqlite',{readonly:true});const r=d.prepare(\"SELECT dc.source_path, kc.chunk_kind, COUNT(*) n FROM knowledge_chunks kc JOIN documents dc ON dc.document_id=kc.document_id WHERE kc.tombstoned_at IS NULL GROUP BY dc.source_path, kc.chunk_kind\").all();console.log(r);"
 
 ## Already tested and ruled out — do not re-propose
 
