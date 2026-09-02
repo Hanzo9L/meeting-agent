@@ -4,6 +4,30 @@ Live interview-assist tool. Deepgram STT captures the interviewer's question,
 a local SQLite knowledge store is searched, and an answer is displayed on screen
 during the call.
 
+## ARCHITECTURE — two answer systems, only one is live
+
+`src/main/index.ts` line ~825 wires the LIVE path:
+
+    LearnRagChild -> createEvidenceSearchClient -> EvidenceAnswerExecutionPort
+      -> MultiSearchEvidenceOrchestrator -> openAiInterviewAnswerSynthesisPort
+
+`answerV2` is NEVER imported by index.ts. The whole aspect / facet / claim
+planner system — and the `inspect:grounded-answer`, `inspect:answer-plan`,
+`eval:r4` harnesses — is reachable only from eval harnesses.
+
+Consequence: fixes to `retrievalV2/queryIntentRules.ts` and to the answerV2
+planner do NOT affect what the app displays. The chunker fix and corpus
+expansion DO, because both systems share the same SQLite store.
+
+Live path caps, all in code, all responsible for reported product complaints:
+
+    MAX_RETRIEVAL_QUERIES  = 4   multiSearchEvidenceOrchestrator.ts:11
+    MAX_AGGREGATED_RESULTS = 5   multiSearchEvidenceOrchestrator.ts:12   <- "five cards"
+    maxItems: 4                  openAiInterviewAnswerSynthesisPort.ts:377  <- bullet cap
+
+`maxItems: 4` makes complete procedures structurally impossible on the live
+path. The user requires full start-to-finish steps.
+
 ## Root causes identified 2026-09-01 — READ BEFORE PROPOSING FIXES
 
 ### 1. Query classifier misroutes interview phrasing
@@ -45,34 +69,51 @@ Two sync checkpoints are in `error` state: ms-entra-docs, ms-teams-powershell.
 
 These two causes are independent. Fixing either alone is insufficient.
 
-### 3. Chunk classifier mislabels procedures as conceptual
-Corpus-wide chunk_kind distribution after the 2026-09-02 index run
-(3,228 active chunks):
+### 3. Chunk classifier mislabels procedures as conceptual [FIXED 2026-09-02]
+Before the fix, only 169 of 3,228 active chunks were classified as procedures.
+The resource-account pages produced no procedure chunks despite containing
+numbered instructions.
 
-    conceptual    1150
-    configuration  674
-    reference      442
-    table          423
-    code           235
-    procedure      169   <- 5%
+Fixed 2026-09-02 in semanticChunker.ts `inferGenericChunkKind`: an
+`ordered_list` block alone now returns `"procedure"`; previously it also required
+the heading to contain `"step"`, `"steps"`, `"how to"`, or `"procedure"`. Re-indexed
+with `--chunker-version cg01a-v2` (2,502 embeddings regenerated, 0 reused).
 
-Per-document, the resource-account pages produce NO procedure chunks:
+Result: `microsoftteams/manage-resource-accounts` went from 0 to 5 procedure
+chunks; `microsoftteams/aa-cq-manage-resource-accounts` went from 0 to 5.
+Verified content is genuine numbered admin-center steps. Procedural questions
+now produce realized claims for the first time (for example, "How do I create a
+resource account for an auto attendant" returns a "Steps:" answer with 2 bound
+claims).
 
-    microsoftteams/manage-resource-accounts         conceptual 12, procedure 0
-    microsoftteams/aa-cq-manage-resource-accounts   conceptual 12, procedure 0
-    microsoftteams/rooms/create-resource-account    conceptual  9, procedure 1
+Duplicate-claim defect fixed 2026-09-02 in deterministicAnswerAssembler.ts:
+identical rendered claim text is now suppressed across aspects (P-004 went from
+24 claims to 12). Cause was `deriveProcedureClaims` deduping per-aspect only.
 
-Consequence: `breadthAndFacets` in evidenceAspectPolicy.ts (~line 1219) requires
-a `procedure` facet for answerObject === "procedure". answerPlanner.ts ~line 1488
-computes missingFacetAspectIds; with no procedure-facet span, claimTaskCount is 0
-and the answer is "No exact source span could be planned for all required facets".
+### 4. Retrieval drops secondary-entity documents [CURRENT BLOCKER]
+Retrieval scopes the evidence bundle to the question's dominant entity and
+excludes documents matching a secondary entity, even when those documents hold
+the only procedural content.
 
-This is now the primary blocker. Root causes 1 and 2 are fixed; this one is not.
-The fix is in the chunker's chunk_kind classification, not in retrieval or the
-query classifier.
+Evidence, 2026-09-02:
+- "How do I create a resource account for an auto attendant" -> bundle contains
+  ONLY `aa-cq-setup-auto-attendant` and
+  `create-a-phone-system-auto-attendant`.
+  `microsoftteams/manage-resource-accounts` (5 procedure chunks, contains
+  "Create a resource account / Teams admin center / 1. Sign into the Teams admin
+  center...") is absent.
+- "Tell me how you implemented Teams in a large conference room environment..."
+  -> bundle is entirely Teams Rooms documents. Both manage-resource-accounts
+  documents are absent.
 
-Useful query:
-    node -e "const D=require('better-sqlite3');const d=new D('.knowledge-v2/knowledge-v2.sqlite',{readonly:true});const r=d.prepare(\"SELECT dc.source_path, kc.chunk_kind, COUNT(*) n FROM knowledge_chunks kc JOIN documents dc ON dc.document_id=kc.document_id WHERE kc.tombstoned_at IS NULL GROUP BY dc.source_path, kc.chunk_kind\").all();console.log(r);"
+Consequence: answerPlanner.ts `deriveProcedureClaims` (~line 940) filters on
+`candidate.procedureStep !== null || facetScore(...) > 60`. With no numbered-step
+span in the bundle, it falls through to weaker spans and produces cross-references
+instead of steps—for example, it returned "To learn how to create resource
+accounts for use with auto attendants, refer to the section on managing Teams
+resource accounts."
+
+Investigate in retrievalV2 routing/scoping, not in the chunker or the planner.
 
 ## Already tested and ruled out — do not re-propose
 
@@ -105,6 +146,28 @@ Baseline 2026-09-01, both arms 6/6 schema-valid and 6/6 binding-valid:
     medium   median 9,060ms   p95 13,091ms
     low      median 7,697ms   p95  8,147ms
 
+## DIRECTION: extractive over synthesis
+
+Measured 2026-09-02 with `npm run eval:r4`:
+
+    extractive   0.747ms p50, 0 API calls, no step cap, cannot hallucinate
+    synthesis    9,060ms p50, 1 API call, hard 4-bullet cap
+
+The extractive path (`deterministicAnswerAssembler.ts`, `eval:r4`) is roughly
+12,000x faster, produces multi-step output, and refuses with specific reasons
+when evidence is missing. It is NOT wired to the live app.
+
+Decision: fix output quality on the instant extractive path rather than
+optimize the 9-second synthesis call. Do NOT propose migrating to Azure AI
+Search, Supabase, or another vector store — retrieval is already milliseconds
+and local; 100% of the 9 seconds is one OpenAI call. Changing the store adds
+network latency and fixes none of the product complaints, which are turn
+detection, presentation, a schema cap, and session state.
+
+Regression dataset: eval/datasets/procedural-probe.jsonl (6 procedural
+questions). The default eval/datasets/evidence-wb18.jsonl contains only
+conceptual questions and never exercised deriveProcedureClaims.
+
 ## Diagnostics
 
     npm run inspect:query-intent -- "<question>"
@@ -119,6 +182,16 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
 
 - Question normalization drops spaces between words: "Microsoftservice",
   "exchange androom". Observed repeatedly. Likely damages lexical search terms.
+  The bug now also appears in generated answer text; observed
+  "withauto attendants".
+- Extractive assembler truncates ordered-list step bodies. P-004 renders
+  "- - Step 1." / "- - Step 2." as bare markers with the instruction text split
+  into separate claims ("Enable users for Direct Routing" appears on its own
+  line after "- Step 2."). Sentence splitting is treating the period in
+  "Step 1." as a sentence boundary. This is the next defect to fix.
+- Probe cases P-002 and P-003 fail with requiredFacets [procedure, operation];
+  the `operation` facet is a separate gate that resource-account content does
+  not satisfy.
 - `openAiInterviewAnswerSynthesisPort.ts` ~line 208 checks `facets[0]?.id ===
   "facet-1"` (hyphen) but real ids are `facet_1` (underscore), so
   `fullQuestionEvidence` is permanently false. Diagnostics only.
