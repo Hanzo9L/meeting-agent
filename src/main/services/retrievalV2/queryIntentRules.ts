@@ -292,6 +292,21 @@ function detectDomains(
     normalized.includes("call queue") ||
     normalized.includes("cqd") ||
     normalized.includes("call quality dashboard") ||
+    normalized.includes("resource account") ||
+    normalized.includes("operator connect") ||
+    normalized.includes("direct routing") ||
+    normalized.includes("dial plan") ||
+    normalized.includes("voice routing") ||
+    normalized.includes("pstn") ||
+    normalized.includes("teams rooms") ||
+    normalized.includes("mtr") ||
+    normalized.includes("phone system") ||
+    normalized.includes("teams phone") ||
+    normalized.includes("session border controller") ||
+    normalized.includes("sbc") ||
+    normalized.includes("media bypass") ||
+    normalized.includes("emergency calling") ||
+    normalized.includes("voice application") ||
     DIRECT_ROUTING_TERMS.some((term) => normalized.includes(term));
   const hasGraph = normalized.includes("graph");
   const hasEntra =
