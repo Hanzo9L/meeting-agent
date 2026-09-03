@@ -130,12 +130,6 @@ function parseOutput(
     }
   );
   if (
-    new Set(bullets.map((bullet) => bullet.facetId)).size !==
-    bullets.length
-  ) {
-    throw new Error("interview_synthesis_duplicate_facet");
-  }
-  if (
     !Array.isArray(raw["unsupportedFacets"]) ||
     raw["unsupportedFacets"].length > input.facets.length
   ) {
@@ -374,7 +368,7 @@ implements InterviewAnswerSynthesisPort {
               },
               bullets: {
                 type: "array",
-                maxItems: 4,
+                maxItems: 12,
                 items: {
                   type: "object",
                   additionalProperties: false,
