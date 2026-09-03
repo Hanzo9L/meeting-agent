@@ -257,6 +257,62 @@ provenance audit. Judge this path on answerabilityMatch, not raw audit count.
   to prefer spans with a non-null procedureStep and drop non-step prose when a
   step sequence is present.
 
+## NETWORKING CORPUS — added 2026-09-03, NOT YET INDEXED
+
+Location: data/corpus/networking/ (41 files, committed a4ee200)
+License: CC-BY-4.0, derived from "Computer Networks: A Systems Approach" 7th ed
+(Peterson & Davie), https://github.com/SystemsApproach/7E. Text is rewritten,
+not copied. Attribution in data/corpus/networking/ATTRIBUTION.md.
+
+Covers the gap Microsoft Learn cannot fill: NAT/PAT, firewalls, subnetting,
+TCP/UDP, DNS, DHCP, VLANs, QoS, plus a UC bridge layer (SIP, RTP/SRTP,
+NAT traversal STUN/TURN/ICE, SBC fundamentals) and three troubleshooting
+playbooks (one-way audio, SIP vs RTP, phone has IP but will not register).
+
+Files carry YAML frontmatter with sourceId, documentId, license, and
+retrievalIntents. INTEGRATION/source-definition.json is provided but
+`intendedDomains` still contains REPLACE_WITH_... placeholders.
+
+### Markup constraint discovered 2026-09-03
+The parser is remark-parse. `### 1. Confirm the symptom` is a HEADING, never an
+ordered_list node, so inferGenericChunkKind cannot return "procedure" and each
+`###` starts a NEW section — a seven-step sequence fragments into seven
+unrelated chunks.
+
+Fix is in the corpus, NOT the chunker: one `##` heading with a numbered list
+beneath, matching how Microsoft Learn pages that work are structured. Do not
+change semanticChunker to treat numbered headings as procedures — that would
+reclassify the 1,500 Microsoft documents and would not fix the fragmentation.
+
+Troubleshooting_Playbooks/00_One_Way_Audio.md has been converted as a pilot.
+Verified: one `list ordered=true items=7` under `## Troubleshooting sequence`,
+code fences indented so the list does not split, all prose preserved verbatim.
+
+Chunked result: 7 chunks — 5 troubleshooting, 1 code, 1 table. NOT "procedure".
+The troubleshooting branch is checked first in inferGenericChunkKind and this
+content is full of troubleshooting vocabulary. That is probably correct, since
+queryIntentRules routes "call connects but audio is one-way" to
+expectedAnswerType "troubleshooting".
+
+### Next steps, in order
+1. Check what requiredFacets a "troubleshooting" aspect demands in
+   evidenceAspectPolicy.ts. If it requires a "procedure" facet, these chunks hit
+   the same gate that blocked P-002/P-003. If it wants a "troubleshooting"
+   facet, they work as-is.
+2. Map the domain. `intendedDomains` placeholders must become real taxonomy.ts
+   values and a routing eligibility rule must be added, or the router excludes
+   this source from every query as not_applicable_to_selected_domains — the same
+   empty-bundle failure as root cause 4.
+3. Index a small slice and ask "Why does NAT cause one-way audio".
+4. Convert the remaining playbooks only after step 3 confirms the shape works.
+
+### Chunk inspection recipe
+inspectSemanticChunks.ts takes `--fixture <path>` expecting an
+AcquiredDocumentInput JSON, not raw markdown. Build one with:
+sourceId, trackId, transport, canonicalUrl, rawMarkdown, revision.
+Write the fixture INSIDE the repo — Git Bash /tmp and Windows %TEMP% differ and
+the resolver will not find /tmp paths.
+
 ## Diagnostics
 
     npm run inspect:query-intent -- "<question>"
@@ -294,6 +350,8 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
   fixed 15,000ms timeout; 3 of 6 benchmark runs time out. No timeout CLI flag.
   Extractive is 0.787ms with zero API calls. Direction stands: extractive primary,
   synthesis fallback only for questions no single document answers.
+- ITEN NOC scenarios and other second-source corpora were proposed. Do not add a
+  second source until the networking corpus is indexed and retrievable end to end.
 - This repo has known pre-existing TypeScript errors. Always capture a baseline
   with `npm run build 2>&1 | tee /tmp/tsc-baseline.txt` before edits and diff
   against it. Only NEW errors matter.
