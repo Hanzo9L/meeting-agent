@@ -90,7 +90,7 @@ Duplicate-claim defect fixed 2026-09-02 in deterministicAnswerAssembler.ts:
 identical rendered claim text is now suppressed across aspects (P-004 went from
 24 claims to 12). Cause was `deriveProcedureClaims` deduping per-aspect only.
 
-### 4. Retrieval drops secondary-entity documents [CURRENT BLOCKER]
+### 4. Retrieval drops secondary-entity documents [PARTIALLY FIXED 2026-09-03]
 Retrieval scopes the evidence bundle to the question's dominant entity and
 excludes documents matching a secondary entity, even when those documents hold
 the only procedural content.
@@ -114,6 +114,25 @@ accounts for use with auto attendants, refer to the section on managing Teams
 resource accounts."
 
 Investigate in retrievalV2 routing/scoping, not in the chunker or the planner.
+
+Fixed 2026-09-03 in queryIntentRules.ts `detectDomains`: `hasTeams` matched
+only "teams", "calling plan", "auto attendant", "call queue", "cqd", and
+DIRECT_ROUTING_TERMS. Core voice vocabulary was missing, so questions like
+"What are the steps to configure a resource account" resolved `domains: []`,
+every source was excluded by the router, and retrieval returned an EMPTY
+evidence bundle. The planner then refused with "required facets: procedure,
+operation" — which looked like a facet problem but was an empty-bundle problem.
+
+Added 15 terms: resource account, operator connect, direct routing, dial plan,
+voice routing, pstn, teams rooms, mtr, phone system, teams phone, session
+border controller, sbc, media bypass, emergency calling, voice application.
+
+Probe answerabilityMatch went 4/6 -> 6/6.
+
+DO NOT default empty domains to teams_admin. That was tried and reverted: six
+tests in queryIntent.test.ts and domainRouter.test.ts explicitly assert that
+unresolved subjects (Exchange mailbox, Set-ExoMailbox) return []. Guessing a
+domain is a deliberate non-goal.
 
 ## Already tested and ruled out — do not re-propose
 
@@ -196,6 +215,48 @@ Extractive path for comparison: 0.747ms, zero API calls, no bullet cap.
 Retrieval is 132ms and local. STT is clean and needs no keyterms — verified
 against live audio, all domain terms transcribed correctly.
 
+## EXTRACTIVE PATH STATUS 2026-09-03
+
+Fixed today:
+- semanticChunker.ts: ordered_list alone implies "procedure" chunk kind
+- deterministicAnswerAssembler.ts: dedupe identical rendered claim text across
+  aspects (P-004 24 -> 12 claims)
+- answerPlanner.ts stepLine guard: added disjunct
+  `/^[-*]\s*(?:step|phase)\s+\d+[.)]\s+\S+/i` so "- Step N. ..." list lines are
+  kept whole. Previously sentence splitting cut at the period in "Step 1." and
+  orphaned the body.
+- queryIntentRules.ts detectDomains: voice vocabulary (see root cause 4)
+- operationMatching.ts: bridged create/configure alias families. NOTE this was
+  not the P-002 blocker — the bundle was empty. Kept because it is correct on
+  its own terms; delete-question negative check still refuses correctly.
+
+Probe results (eval/datasets/procedural-probe.jsonl):
+    answerabilityMatch     4/6 -> 6/6
+    provenanceAuditPass    5   -> 4
+    assemblyLatencyP50Ms   0.787
+    providerRequestCount   0
+
+provenanceAuditPass dropping is NOT a regression: P-003 moved from refusing
+outright to answering with one ordering defect. A refused question cannot fail a
+provenance audit. Judge this path on answerabilityMatch, not raw audit count.
+
+### Open defects on the extractive path
+- P-003 `invalid_procedure_order` (claim:fc0a20ef640dcd394c932b2f). Steps
+  assembled out of sequence; the assembler correctly fails closed rather than
+  emitting a scrambled procedure. Next fix.
+- P-006 `rendered_claim_not_source_bound` — pre-existing, predates today.
+- "resource account" is ambiguous between Exchange resource MAILBOXES and Teams
+  voice resource ACCOUNTS. P-002 answers from the Exchange doc ("Account
+  settings and Mailbox settings panes") rather than
+  microsoftteams/manage-resource-accounts. Correct against its source, wrong
+  topic. Retrieval ranking issue.
+- Assembler renders "- - Step 2. ..." — source dash plus bullet prefix.
+  Cosmetic, one line in the presenter.
+- P-004 still emits article connective tissue (intro sentence, cross-references,
+  trailing notes) alongside the 4 real steps. 9 claims, 4 useful. Fix would be
+  to prefer spans with a non-null procedureStep and drop non-step prose when a
+  step sequence is present.
+
 ## Diagnostics
 
     npm run inspect:query-intent -- "<question>"
@@ -229,6 +290,10 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
 - ~90 untracked debug artifacts under `eval/runs/indexing/` make `git status`
   hard to read. Needs a .gitignore entry.
 - One pre-existing `test:evidence` failure. 91 pass, 1 fail. Unidentified.
+- With 12-bullet procedural answers the synthesis path medians 14,870ms against a
+  fixed 15,000ms timeout; 3 of 6 benchmark runs time out. No timeout CLI flag.
+  Extractive is 0.787ms with zero API calls. Direction stands: extractive primary,
+  synthesis fallback only for questions no single document answers.
 - This repo has known pre-existing TypeScript errors. Always capture a baseline
   with `npm run build 2>&1 | tee /tmp/tsc-baseline.txt` before edits and diff
   against it. Only NEW errors matter.
