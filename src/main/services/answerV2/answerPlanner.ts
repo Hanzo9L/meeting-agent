@@ -341,7 +341,8 @@ function sentenceSpans(
     }
     // Keep "Step N. ..." / "N. ..." lines intact so the marker is not split away.
     const stepLine = /^(?:step|phase)\s+\d+[.)]\s+\S+/i.test(trimmedLine)
-      || /^(?:[-*]\s*)?\d+[.)]\s+\S+/.test(trimmedLine);
+      || /^(?:[-*]\s*)?\d+[.)]\s+\S+/.test(trimmedLine)
+      || /^[-*]\s*(?:step|phase)\s+\d+[.)]\s+\S+/i.test(trimmedLine);
     const sentencePattern = inCodeBlock || stepLine
       ? /.+/g
       : /[^.!?]+(?:[.!?]+(?=\s|$)|$)/g;
