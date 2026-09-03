@@ -150,7 +150,7 @@ function matchesResponseSchema(
   const bullets = value["bullets"];
   if (
     !Array.isArray(bullets) ||
-    bullets.length > 4 ||
+    bullets.length > 12 ||
     !bullets.every(
       (item) =>
         isRecord(item) &&
