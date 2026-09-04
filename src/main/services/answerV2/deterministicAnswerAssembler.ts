@@ -137,7 +137,20 @@ function validateAssemblyOrder(plan: AnswerPlan): ExtractiveAssemblyIssue[] {
   );
   let previousStep: number | null = null;
   let previousSourceOrder = -1;
+  let previousProposition: string | null = null;
+  let previousSpanHashes = "";
   for (const claim of procedureClaims) {
+    const normalizedProposition = normalizeWhitespace(claim.proposition);
+    const spanHashes = claim.sourceSpans
+      .map((span) => span.contentHash)
+      .join(",");
+    if (
+      previousProposition !== null &&
+      normalizedProposition === previousProposition &&
+      spanHashes === previousSpanHashes
+    ) {
+      continue;
+    }
     const step = claim.ordering.procedureStep;
     if (
       (step !== null &&
@@ -155,6 +168,8 @@ function validateAssemblyOrder(plan: AnswerPlan): ExtractiveAssemblyIssue[] {
     }
     if (step !== null) previousStep = step;
     previousSourceOrder = claim.ordering.sourceOrder;
+    previousProposition = normalizedProposition;
+    previousSpanHashes = spanHashes;
   }
   return issues;
 }

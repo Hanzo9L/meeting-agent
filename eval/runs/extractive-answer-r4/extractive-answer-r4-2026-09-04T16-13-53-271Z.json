@@ -1,0 +1,2474 @@
+{
+  "artifactVersion": "r4.0",
+  "runId": "extractive-answer-r4-2026-09-04T16-13-53-271Z",
+  "createdAt": "2026-09-04T16:13:53.271Z",
+  "datasetPath": "C:\\Users\\joegc\\projects\\meeting-agent\\eval\\datasets\\procedural-probe.jsonl",
+  "summary": {
+    "total": 6,
+    "successful": 3,
+    "answerabilityMatch": 6,
+    "provenanceAuditPass": 3,
+    "providerRequestCount": 0,
+    "assemblyLatencyP50Ms": 1.253,
+    "assemblyLatencyP95Ms": 3.226
+  },
+  "cases": [
+    {
+      "questionId": "P-001",
+      "question": "How do I create a resource account for an auto attendant",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:306707ca6ddf3f68ed43b27b",
+        "snapshotHash": "306707ca6ddf3f68ed43b27bc7e4a4bfa7b49d4f7998f1eb52205e814c580129",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "8f400fb78528033e341b2510e5263bced0ca8f7ca431557e2bb8d0a12e5e2169"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:24cf2e66a67adb08d0656ffc",
+        "planHash": "24cf2e66a67adb08d0656ffc7e0ca257c55bc2768485f838e828c86afde2257d",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:e0640b97fd873f9417f18f55",
+          "requiredAspectId": "mandatory:entity:auto-attendant:new",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:7c5cc38e4da5eb5fbe99ee75",
+              "evidenceId": "evidence:7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "chunkId": "7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "documentId": "c180417b764e4b5422a9f58580c59d9df0fc9cfe61a1440381e3a92164a8f25c",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/create-a-phone-system-auto-attendant",
+              "sectionId": "sec-18",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 194,
+              "endOffset": 321,
+              "text": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+              "contentHash": "8264c93c7e0c2417475467048c487909fab472f2b3f7bc1adcd76c4c2ad83106",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:33746b0663ee740e034736f4",
+          "requiredAspectId": "mandatory:entity:resource-account:new",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "Select this option if this auto attendant needs to be called directly.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:8d0f44570d2849db43d39a03",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 224,
+              "endOffset": 294,
+              "text": "Select this option if this auto attendant needs to be called directly.",
+              "contentHash": "230101a1ef8bb778dc92b3694ec8434b38ae1350390e6a5aa6b5608fb42e5413",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            },
+            {
+              "spanId": "span:afd16b0d38a1892a881d2f35",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "heading",
+              "fieldIndex": 1,
+              "sentenceIndex": null,
+              "startOffset": 0,
+              "endOffset": 33,
+              "text": "Steps to create an auto attendant",
+              "contentHash": "e9d34967bebd72c893b15166f5e3d6e9eb40e0334f72edcced7e20a20d9ac339",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ]
+        }
+      ],
+      "renderedClaims": [
+        {
+          "claimId": "claim:e0640b97fd873f9417f18f55",
+          "renderedText": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 9,
+            "endOffset": 136
+          },
+          "evidenceIds": [
+            "evidence:7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:7c5cc38e4da5eb5fbe99ee75",
+              "evidenceId": "evidence:7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "chunkId": "7cb3369fca5372e747d50a3f9751545e6f1cd9303ac87e00ba99e056284e925d",
+              "documentId": "c180417b764e4b5422a9f58580c59d9df0fc9cfe61a1440381e3a92164a8f25c",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/create-a-phone-system-auto-attendant",
+              "sectionId": "sec-18",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 194,
+              "endOffset": 321,
+              "text": "For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.",
+              "contentHash": "8264c93c7e0c2417475467048c487909fab472f2b3f7bc1adcd76c4c2ad83106",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:33746b0663ee740e034736f4",
+          "renderedText": "Select this option if this auto attendant needs to be called directly.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 139,
+            "endOffset": 209
+          },
+          "evidenceIds": [
+            "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:8d0f44570d2849db43d39a03",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 224,
+              "endOffset": 294,
+              "text": "Select this option if this auto attendant needs to be called directly.",
+              "contentHash": "230101a1ef8bb778dc92b3694ec8434b38ae1350390e6a5aa6b5608fb42e5413",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            },
+            {
+              "spanId": "span:afd16b0d38a1892a881d2f35",
+              "evidenceId": "evidence:3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "chunkId": "3632b0d65c455f719bf7353a3665c7a11faa971f98011afffa76640d62c01955",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-16",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant",
+                "Advanced setup",
+                "Step 1: General info",
+                "How do callers reach this auto attendant",
+                "Through a resource account"
+              ],
+              "sourceField": "heading",
+              "fieldIndex": 1,
+              "sentenceIndex": null,
+              "startOffset": 0,
+              "endOffset": 33,
+              "text": "Steps to create an auto attendant",
+              "contentHash": "e9d34967bebd72c893b15166f5e3d6e9eb40e0334f72edcced7e20a20d9ac339",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ]
+        }
+      ],
+      "finalAnswerText": "Steps:\n- For details on how to create resource accounts and ready them for use with auto attendants, see Manage Teams resource accounts.\n- Select this option if this auto attendant needs to be called directly.",
+      "caveats": [],
+      "unsupportedAspects": [],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 2,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 2,
+            "mandatoryClaimsRealized": 2,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 3.2257999999999356,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-002",
+      "question": "What are the steps to configure a resource account",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:d2a9f864bbdfab45ce600404",
+        "snapshotHash": "d2a9f864bbdfab45ce600404e69feac25fb0fa789019ef935235b7a68abae5c7",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "a524557cda1c56650e65fe00d4f6d544bb9ef6a9e3cacb764740fc963222de8a"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:af5be7b18541d911b10f74b4",
+        "planHash": "af5be7b18541d911b10f74b42ca05604d46db1be4ffb4f0561c2a0261274f7d2",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:920c61ca2fbfafd869af112b",
+          "requiredAspectId": "mandatory:entity:resource-account:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "To configure the settings of a resource account and its mailbox, perform the following steps:",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:116b435f0bdc0614864dc717",
+              "evidenceId": "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "chunkId": "fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/rooms/resource-accounts",
+              "sectionId": "sec-4",
+              "headingPath": [
+                "Resource accounts",
+                "Configure resource accounts"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 92,
+              "endOffset": 185,
+              "text": "To configure the settings of a resource account and its mailbox, perform the following steps:",
+              "contentHash": "e2406c0cd290019892708352a4db31fe258a31d16647769f5ccd9b0c86b8e39f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:642d37b2a622c3da366300cd",
+          "requiredAspectId": "mandatory:entity:resource-account:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "1. Select a resource account to navigate to the page containing the resource account's settings and other details.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:e5cdf41d9f276f24bc9b6d11",
+              "evidenceId": "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "chunkId": "fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/rooms/resource-accounts",
+              "sectionId": "sec-4",
+              "headingPath": [
+                "Resource accounts",
+                "Configure resource accounts"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 187,
+              "endOffset": 301,
+              "text": "1. Select a resource account to navigate to the page containing the resource account's settings and other details.",
+              "contentHash": "7672116294b24e0d0437c0341e524752f2172e5c2ad6ab0c88fa169419a5bfe2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:77fbe38de0c796534eca527b",
+          "requiredAspectId": "mandatory:entity:resource-account:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "2. Enable the settings under the Account settings and Mailbox settings panes.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:83763d2fda641ef500a621a9",
+              "evidenceId": "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "chunkId": "fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/rooms/resource-accounts",
+              "sectionId": "sec-4",
+              "headingPath": [
+                "Resource accounts",
+                "Configure resource accounts"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 302,
+              "endOffset": 379,
+              "text": "2. Enable the settings under the Account settings and Mailbox settings panes.",
+              "contentHash": "bf873fac24af8d7f2058932e84a37083c5d638642123bf44b0554bcb781699af",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "renderedClaims": [
+        {
+          "claimId": "claim:920c61ca2fbfafd869af112b",
+          "renderedText": "To configure the settings of a resource account and its mailbox, perform the following steps:",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 9,
+            "endOffset": 102
+          },
+          "evidenceIds": [
+            "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:116b435f0bdc0614864dc717",
+              "evidenceId": "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "chunkId": "fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/rooms/resource-accounts",
+              "sectionId": "sec-4",
+              "headingPath": [
+                "Resource accounts",
+                "Configure resource accounts"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 92,
+              "endOffset": 185,
+              "text": "To configure the settings of a resource account and its mailbox, perform the following steps:",
+              "contentHash": "e2406c0cd290019892708352a4db31fe258a31d16647769f5ccd9b0c86b8e39f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:642d37b2a622c3da366300cd",
+          "renderedText": "1. Select a resource account to navigate to the page containing the resource account's settings and other details.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 105,
+            "endOffset": 219
+          },
+          "evidenceIds": [
+            "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:e5cdf41d9f276f24bc9b6d11",
+              "evidenceId": "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "chunkId": "fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/rooms/resource-accounts",
+              "sectionId": "sec-4",
+              "headingPath": [
+                "Resource accounts",
+                "Configure resource accounts"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 187,
+              "endOffset": 301,
+              "text": "1. Select a resource account to navigate to the page containing the resource account's settings and other details.",
+              "contentHash": "7672116294b24e0d0437c0341e524752f2172e5c2ad6ab0c88fa169419a5bfe2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        },
+        {
+          "claimId": "claim:77fbe38de0c796534eca527b",
+          "renderedText": "2. Enable the settings under the Account settings and Mailbox settings panes.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 222,
+            "endOffset": 299
+          },
+          "evidenceIds": [
+            "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:83763d2fda641ef500a621a9",
+              "evidenceId": "evidence:fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "chunkId": "fa900ddfbdd07e8febb495d62d478e81b628ab67a9050a75509b410c760ed0b5",
+              "documentId": "cc7aca8fdb21aa1865168c6184af9016b5a0a20beba92a147e361ab161a46c68",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/rooms/resource-accounts",
+              "sectionId": "sec-4",
+              "headingPath": [
+                "Resource accounts",
+                "Configure resource accounts"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 302,
+              "endOffset": 379,
+              "text": "2. Enable the settings under the Account settings and Mailbox settings panes.",
+              "contentHash": "bf873fac24af8d7f2058932e84a37083c5d638642123bf44b0554bcb781699af",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "finalAnswerText": "Steps:\n- To configure the settings of a resource account and its mailbox, perform the following steps:\n- 1. Select a resource account to navigate to the page containing the resource account's settings and other details.\n- 2. Enable the settings under the Account settings and Mailbox settings panes.",
+      "caveats": [],
+      "unsupportedAspects": [],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 3,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 3,
+            "mandatoryClaimsRealized": 3,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 0.6948999999999614,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-003",
+      "question": "How do I assign a phone number to a resource account",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": false,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:52f6be709829164fa5860acd",
+        "snapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "92567f1fdf8967cb779b33d735fcd32c38522d577c02848dffbc173360e5d792"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:68bc5d4860fbd0900f821202",
+        "planHash": "68bc5d4860fbd0900f821202cf6320a1005c2d225c5b9f7890011045e701f3e1",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:222633e71fe69433123482fa",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "If you're planning to use the resource account with an auto attendant or call queue that requires a phone number, assign a number to the resource account.",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:956521b8774689768ea85cd5",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 150,
+              "endOffset": 304,
+              "text": "If you're planning to use the resource account with an auto attendant or call queue that requires a phone number, assign a number to the resource account.",
+              "contentHash": "632edcbb883d74bf7e04f9b5d74249e551f1dce74ab1cfae4cffa468017541d8",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 1,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 0
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:a501a15ba29077b5ae7a8931",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "1. Sign into the Teams admin center.",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:cdd25f0238e959a8dba7851c",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 306,
+              "endOffset": 342,
+              "text": "1. Sign into the Teams admin center.",
+              "contentHash": "70b7984d1d9736c1f7ff949ec7a800ed5f49981c05776d8dfc0d1c795b141747",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 2,
+            "procedureStep": 1,
+            "sourceOrder": 0,
+            "spanOrder": 1
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:fc67b3cb897f22620c20dab5",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "2. Expand Voice, and then select Resource accounts page.",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:16356caa2093c4eac03afe3e",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 343,
+              "endOffset": 399,
+              "text": "2. Expand Voice, and then select Resource accounts page.",
+              "contentHash": "eb71955661c98c3ddde85a84831b8c2f556200f20a46ccd36ebe1b7a3e452f66",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 3,
+            "procedureStep": 2,
+            "sourceOrder": 0,
+            "spanOrder": 2
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:4ccfd82b93c5f495ceeb93cc",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "3. Select the resource account to which you want to assign a phone number, and then select Assign/unassign.",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:bd53bc61962dceee336b818a",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 3,
+              "startOffset": 400,
+              "endOffset": 507,
+              "text": "3. Select the resource account to which you want to assign a phone number, and then select Assign/unassign.",
+              "contentHash": "56fa6392e83007c077a1618ddc886b851b3834bb5bb59ab8bb1ac3ad0df5ff22",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 4,
+            "procedureStep": 3,
+            "sourceOrder": 0,
+            "spanOrder": 3
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:7ba88b5c38e22bc8f0b4524d",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "4. In the Phone number type dropdown, choose the type of number that you want to use.",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:bd657d7b9ec24050a9dda453",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 508,
+              "endOffset": 593,
+              "text": "4. In the Phone number type dropdown, choose the type of number that you want to use.",
+              "contentHash": "f588ffa6585fe248cd4ee451594825b4c520207d3c660b2ea54bd24a8de125d5",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 5,
+            "procedureStep": 4,
+            "sourceOrder": 0,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:9ce705fc76f4b00418cdac58",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "5. In the Assigned phone number box, search for the number you want to use and select Add. Be sure to include the country code (for example, +1 250 555 0012).",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:8520fb389bd23ede885c3fca",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 594,
+              "endOffset": 752,
+              "text": "5. In the Assigned phone number box, search for the number you want to use and select Add. Be sure to include the country code (for example, +1 250 555 0012).",
+              "contentHash": "fa18f0a4fa110b01c57f06ee42f6ca224552712a7aa3e38b8b9c3dad14b84b13",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 6,
+            "procedureStep": 5,
+            "sourceOrder": 0,
+            "spanOrder": 5
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:33377c9923bf65939e2218aa",
+          "groundingSnapshotId": "grounding:52f6be709829164fa5860acd",
+          "groundingSnapshotHash": "52f6be709829164fa5860acd9ca6a915fc158447c42458b50dc349e85d8741a9",
+          "requiredAspectId": "mandatory:entity:phone-number:grant",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "6. Select Save.",
+          "evidenceIds": [
+            "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:5b5e7cbce2ff14829d0c1826",
+              "evidenceId": "evidence:352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "chunkId": "352362a20f13507d8890a2bd3707fd514bc787148b2786622b1a0e2f1b4b84d9",
+              "documentId": "68fbdf7bacffbaba8526a7f96a3afc62df376b3c8278d65b13c70b661324df46",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-manage-resource-accounts",
+              "sectionId": "sec-12",
+              "headingPath": [
+                "Manage - Resource accounts for voice applications",
+                "Assign a phone number"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 753,
+              "endOffset": 768,
+              "text": "6. Select Save.",
+              "contentHash": "b35ac267615abcbead221bd9e05f61e3739cc4d966dfa1421ff6a9544886df1a",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:resource-account:grant"
+          ],
+          "ordering": {
+            "sequence": 7,
+            "procedureStep": 6,
+            "sourceOrder": 0,
+            "spanOrder": 6
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        }
+      ],
+      "failure": {
+        "code": "answer_plan_integrity_failed",
+        "message": "Deterministic assembly rejected an invalid source-bound answer plan.",
+        "snapshotIssues": [],
+        "groundingIssues": [],
+        "failedClaimIds": [
+          "claim:222633e71fe69433123482fa",
+          "claim:a501a15ba29077b5ae7a8931",
+          "claim:fc67b3cb897f22620c20dab5",
+          "claim:4ccfd82b93c5f495ceeb93cc",
+          "claim:7ba88b5c38e22bc8f0b4524d",
+          "claim:9ce705fc76f4b00418cdac58",
+          "claim:33377c9923bf65939e2218aa"
+        ],
+        "planIntegrityIssues": [
+          {
+            "code": "required_facet_unplanned",
+            "message": "Required facet procedure has no source-bound claim for mandatory:entity:resource-account:grant.",
+            "aspectId": "mandatory:entity:resource-account:grant"
+          },
+          {
+            "code": "required_facet_unplanned",
+            "message": "Required facet operation has no source-bound claim for mandatory:entity:resource-account:grant.",
+            "aspectId": "mandatory:entity:resource-account:grant"
+          }
+        ],
+        "diagnostics": {
+          "generatorProviderId": "deterministic-extractive-assembler/r4",
+          "generationLatencyMs": 0,
+          "validationLatencyMs": 0.9284999999999854,
+          "totalLatencyMs": 1.047900000000027,
+          "claimTaskCount": 7,
+          "mandatoryClaimTaskCount": 7,
+          "successfulClaimCount": 0,
+          "failedClaimCount": 7,
+          "requestCount": 0,
+          "retryCount": 0,
+          "firstAttemptValid": false,
+          "finalAttemptValid": false,
+          "firstAttemptIssues": [],
+          "attempts": [],
+          "tokenUsage": {
+            "inputTokens": null,
+            "outputTokens": null
+          }
+        }
+      }
+    },
+    {
+      "questionId": "P-004",
+      "question": "What are the steps to configure Direct Routing with an SBC",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": false,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:1703e69916ef664438cd9707",
+        "snapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "e2b42bc49825398eeacdffd0e5e6ddbd7df19ab86aa2e7157d3a323b0296f484"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:9124afd7638b1e0f25027cb0",
+        "planHash": "9124afd7638b1e0f25027cb005deddf1c3a597f25dbe238093264d19a7b5926d",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:82054ab5eb2b52aed51b2d87",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:0cdb7acc416a43195b4cb064",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 151,
+              "endOffset": 258,
+              "text": "This article describes how to configure a Session Border Controller (SBC) and connect it to Direct Routing.",
+              "contentHash": "ec9cacd4ccbdce60394995fbfd5fe0e8035729da99fc3e34e5a8780586dd94d3",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 1,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 0
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:c80034722dca625b4a3534ad",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "This is step 1 of the following steps to configure Direct Routing:",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:854c0124c2afa5750d936a35",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 259,
+              "endOffset": 325,
+              "text": "This is step 1 of the following steps to configure Direct Routing:",
+              "contentHash": "befc284bfa373f16724fe1fff6b8ff3bfd5b68114b7c6ea669b11c5fe49017cd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 2,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 1
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:c93bcae657cd4bdca8842a82",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- Step 1. Connect your SBC with Phone System and validate the connection (This article)",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:68b169fd052210b9e61de8ea",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 327,
+              "endOffset": 414,
+              "text": "- Step 1. Connect your SBC with Phone System and validate the connection (This article)",
+              "contentHash": "5535820795691c091263b5dd930d0f9ade60b516c2cb2dbd90f6a523aea342dc",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 3,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 2
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:25d34be1f75967d52a771e88",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- Step 2. Enable users for Direct Routing",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ede0d16de8826fa69b33d4e6",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 3,
+              "startOffset": 415,
+              "endOffset": 456,
+              "text": "- Step 2. Enable users for Direct Routing",
+              "contentHash": "b2ef07b75840f03667b1f80beb7c021ffb3e07f08240953e16af6fd27ef40127",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 4,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 3
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:744649dd7eecb1716058a24c",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- Step 3. Configure call routing",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:4bfe9e8285de5b4483f3c489",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 457,
+              "endOffset": 489,
+              "text": "- Step 3. Configure call routing",
+              "contentHash": "f6936412bcc61fc1af25961030e0313cc364ed12ffd9fb5d9592b956281d2701",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 5,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:f6fddb67d255fdff68a10d47",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- Step 4. Translate numbers to an alternate format",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:41142c83991b66ea12a061a1",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 490,
+              "endOffset": 540,
+              "text": "- Step 4. Translate numbers to an alternate format",
+              "contentHash": "47d095ba5ec368ce3c562dac88fb06055d9823246839b9d6f064395a982ecf94",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 6,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 5
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:811387c1b1aa31c9f7a29152",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:850f17738fee050f558d6cbf",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 542,
+              "endOffset": 639,
+              "text": "For information on all the steps required to set up Direct Routing, see Configure Direct Routing.",
+              "contentHash": "963492d492453e29eeb741a2a828558ef2f7a37fe6f6b423c2465ad737aeb20f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 7,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 6
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:c871eb4cc481246393035b73",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ae2753f30b2ebda7b8248da4",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 7,
+              "startOffset": 641,
+              "endOffset": 751,
+              "text": "To configure and connect an SBC to Direct Routing, you can use the Microsoft Teams admin center or PowerShell.",
+              "contentHash": "cbcb4661a9e9c83ca9fb9d6ecd258369c18f0a4191fc186100f4da9f87fa1eb2",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 8,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 7
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:aa0865081ddaff53de4595c2",
+          "groundingSnapshotId": "grounding:1703e69916ef664438cd9707",
+          "groundingSnapshotHash": "1703e69916ef664438cd970794956eaaccb917c173d3fe454c3d4623412d9fc6",
+          "requiredAspectId": "mandatory:entity:direct-routing:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "For GCC High and DoD clouds, you must use PowerShell.",
+          "evidenceIds": [
+            "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:ca46a390322f2ca2be20f855",
+              "evidenceId": "evidence:17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "chunkId": "17a33c7408d278b53216207666c0023f0dd0e40625e79c3ba88c07f9bbbac531",
+              "documentId": "af5653b0f7d8fc00bb4e41f64ca98e3550c64c310486c33ff2c3785cfad8b19f",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/direct-routing-connect-the-sbc",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Connect your Session Border Controller (SBC) to Direct Routing"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 8,
+              "startOffset": 759,
+              "endOffset": 812,
+              "text": "For GCC High and DoD clouds, you must use PowerShell.",
+              "contentHash": "27cc76408f25b8aca5e670e8c361ae76aaf8eda8692896711c3805fbaaf8935d",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [
+            "mandatory:entity:sbc:set"
+          ],
+          "ordering": {
+            "sequence": 9,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 8
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        }
+      ],
+      "failure": {
+        "code": "answer_plan_integrity_failed",
+        "message": "Deterministic assembly rejected an invalid source-bound answer plan.",
+        "snapshotIssues": [],
+        "groundingIssues": [],
+        "failedClaimIds": [
+          "claim:82054ab5eb2b52aed51b2d87",
+          "claim:c80034722dca625b4a3534ad",
+          "claim:c93bcae657cd4bdca8842a82",
+          "claim:25d34be1f75967d52a771e88",
+          "claim:744649dd7eecb1716058a24c",
+          "claim:f6fddb67d255fdff68a10d47",
+          "claim:811387c1b1aa31c9f7a29152",
+          "claim:c871eb4cc481246393035b73",
+          "claim:aa0865081ddaff53de4595c2"
+        ],
+        "planIntegrityIssues": [
+          {
+            "code": "required_facet_unplanned",
+            "message": "Required facet procedure has no source-bound claim for mandatory:entity:sbc:set.",
+            "aspectId": "mandatory:entity:sbc:set"
+          },
+          {
+            "code": "required_facet_unplanned",
+            "message": "Required facet operation has no source-bound claim for mandatory:entity:sbc:set.",
+            "aspectId": "mandatory:entity:sbc:set"
+          }
+        ],
+        "diagnostics": {
+          "generatorProviderId": "deterministic-extractive-assembler/r4",
+          "generationLatencyMs": 0,
+          "validationLatencyMs": 1.7454999999999927,
+          "totalLatencyMs": 1.7694000000001324,
+          "claimTaskCount": 9,
+          "mandatoryClaimTaskCount": 9,
+          "successfulClaimCount": 0,
+          "failedClaimCount": 9,
+          "requestCount": 0,
+          "retryCount": 0,
+          "firstAttemptValid": false,
+          "finalAttemptValid": false,
+          "firstAttemptIssues": [],
+          "attempts": [],
+          "tokenUsage": {
+            "inputTokens": null,
+            "outputTokens": null
+          }
+        }
+      }
+    },
+    {
+      "questionId": "P-005",
+      "question": "How do I set up an auto attendant",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": true,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:f10343697bb432056120afb2",
+        "snapshotHash": "f10343697bb432056120afb221ce2e28396d05f69dcbb8a97196174237a2d70e",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "7886e3a369d62f5dc72c30049173ee03a2bea3f8d0adbe142913b7891e146579"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:9cda284fd8279e7b4c245b40",
+        "planHash": "9cda284fd8279e7b4c245b408b3bc8caa5618e856ae6b81f077838d76e600b8b",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:824a361a3f862db4e39cf3af",
+          "requiredAspectId": "mandatory:entity:auto-attendant:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "proposition": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+          "status": "mandatory",
+          "sourceSpans": [
+            {
+              "spanId": "span:f0de1e94f6300093694f2871",
+              "evidenceId": "evidence:56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "chunkId": "56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-6",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 108,
+              "endOffset": 221,
+              "text": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+              "contentHash": "96147bd5c676295633d4dcefdb9af46a4cdcb0a2d28e4bd7d672bfdcf9f6ade8",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "renderedClaims": [
+        {
+          "claimId": "claim:824a361a3f862db4e39cf3af",
+          "renderedText": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+          "transformation": "none",
+          "answerTextRange": {
+            "startOffset": 9,
+            "endOffset": 122
+          },
+          "evidenceIds": [
+            "evidence:56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:f0de1e94f6300093694f2871",
+              "evidenceId": "evidence:56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "chunkId": "56ae492a62d1919dd8b9260419f1c9ab913b88cbe34ae8b1023141020734a296",
+              "documentId": "edd5e1161907a21ceec99a9997e9c87714a7b6f477cf398a8d664a5d49832394",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/aa-cq-setup-auto-attendant",
+              "sectionId": "sec-6",
+              "headingPath": [
+                "Setup - Auto Attendant",
+                "Steps to create an auto attendant"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 0,
+              "startOffset": 108,
+              "endOffset": 221,
+              "text": "To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+              "contentHash": "96147bd5c676295633d4dcefdb9af46a4cdcb0a2d28e4bd7d672bfdcf9f6ade8",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ]
+        }
+      ],
+      "finalAnswerText": "Steps:\n- To set up an auto attendant in the Teams admin center, expand Voice, select Auto attendants, and then select Add.",
+      "caveats": [],
+      "unsupportedAspects": [],
+      "omittedClaimIds": [],
+      "factualTextAudit": {
+        "factualUnitCount": 1,
+        "allFactualUnitsAttributed": true,
+        "unattributedText": []
+      },
+      "validation": {
+        "grounding": {
+          "valid": true,
+          "issues": [],
+          "coverage": {
+            "mandatoryClaimsTotal": 1,
+            "mandatoryClaimsRealized": 1,
+            "unknownClaimCount": 0,
+            "missingCaveatCount": 0
+          }
+        },
+        "assembly": {
+          "valid": true,
+          "issues": []
+        }
+      },
+      "assemblyLatencyMs": 1.2528999999994994,
+      "providerRequestCount": 0
+    },
+    {
+      "questionId": "P-006",
+      "question": "What are the steps to configure QoS for Teams",
+      "expectedAnswerability": "answered",
+      "actualAnswerability": "answered",
+      "answerabilityMatch": true,
+      "ok": false,
+      "snapshotIdentity": {
+        "snapshotId": "grounding:4b7c36c75c048dfde556f915",
+        "snapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+        "schemaVersion": "grounding-decision-snapshot/v1",
+        "resolverPolicyVersion": "proposition-aware-evidence-policy/r2.2",
+        "corpusRevisionHash": "faced63cef329dab828bba0ae1868f521eccb68f541fbe69b70099826a0fa745"
+      },
+      "planIdentity": {
+        "planId": "answer-plan:faac3a5ce00c0dd5c9050d38",
+        "planHash": "faac3a5ce00c0dd5c9050d387db336b2890dc563c407768f4083a4d672a71c13",
+        "schemaVersion": "atomic-source-bound-answer-plan/v1",
+        "plannerPolicyVersion": "minimal-atomic-source-bound-planner/r3"
+      },
+      "r3Claims": [
+        {
+          "claimId": "claim:131d7d894372edf5258dcbe3",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- As a prerequisite, enable QoS globally in the Teams Admin Center.",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:91b0809fa32562b527b10486",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 1,
+              "startOffset": 289,
+              "endOffset": 356,
+              "text": "- As a prerequisite, enable QoS globally in the Teams Admin Center.",
+              "contentHash": "ef1b8cdb37e17555b164c0fbbbf5fed353b6e2b635217292a97f574d162f545c",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 1,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 1
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:ca52920241395392b784a7e3",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting. — See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting.",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:379c718d76f80f149cf826a9",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 357,
+              "endOffset": 505,
+              "text": "See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting.",
+              "contentHash": "e97de2a762c9b69068a99784aaa2fd51c6ea54cb1fae57dff20be26bf150ab20",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            },
+            {
+              "spanId": "span:7df69b3305101028e90d7374",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 6,
+              "startOffset": 926,
+              "endOffset": 1074,
+              "text": "See Configure QoS in the Teams admin center for details on enabling the Insert Quality of Service (QoS) markers for real-time media traffic setting.",
+              "contentHash": "e97de2a762c9b69068a99784aaa2fd51c6ea54cb1fae57dff20be26bf150ab20",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 2,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 2
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:2aa0f0890b587ee60a5cae04",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "- Mac and mobile (iOS and Android) clients use hard-coded values for audio (EF) and video and application/screen sharing (AF41).",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:5411b63d152485015d15fe27",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 3,
+              "startOffset": 657,
+              "endOffset": 785,
+              "text": "- Mac and mobile (iOS and Android) clients use hard-coded values for audio (EF) and video and application/screen sharing (AF41).",
+              "contentHash": "439df0da9787db342ad3fca60eaffcc4510e0ce2aefe7b03f5e6dbef78abfb2a",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 3,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 3
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:cf311fa7eca89d171c13ec8e",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "Teams Phone devices also use the default value for audio (EF).",
+          "evidenceIds": [
+            "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:71178cd4dac19899c1b60e6f",
+              "evidenceId": "evidence:ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "chunkId": "ef359712bb5673eb7487076c20a26a16e808869497a3a1a5cc13faa495d33940",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-11",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 4. Implement QoS settings"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 786,
+              "endOffset": 848,
+              "text": "Teams Phone devices also use the default value for audio (EF).",
+              "contentHash": "fcc4442853c15dbc4f0f06aed411675d59d37c06612778abed6b7cd9ec3cb874",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 0
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 4,
+            "procedureStep": null,
+            "sourceOrder": 0,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:4ef4cc870aeee2292ff526b2",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "Port-based ACLs on routers would allow for identification of traffic coming from devices that are unable to configure client-side DSCP markings.",
+          "evidenceIds": [
+            "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:fa043f7007dc2afd79af7974",
+              "evidenceId": "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "chunkId": "e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-9",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 2. Select a QoS implementation method",
+                "Best practice"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 2,
+              "startOffset": 460,
+              "endOffset": 604,
+              "text": "Port-based ACLs on routers would allow for identification of traffic coming from devices that are unable to configure client-side DSCP markings.",
+              "contentHash": "e6ae4b8a5f7265c5c1ea0fdc99468565139c6566af8d8d587faf822b34a9ef62",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 5,
+            "procedureStep": null,
+            "sourceOrder": 1,
+            "spanOrder": 2
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:5f208e3ec3f99ae52034366e",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "From a Teams perspective, the most important configuration step is the classification and marking of packets.",
+          "evidenceIds": [
+            "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:99c55ce646a3172715865f63",
+              "evidenceId": "evidence:e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "chunkId": "e5fa8fa8b41e5ad0f3ee2dc7540cc0e022efa5e4a6096bc199cc0b1168ae0a81",
+              "documentId": "5b5b34fc797dad6745b1dbd63ccfdc2052ba6569d8009255ccd2171121593675",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/qos-in-teams",
+              "sectionId": "sec-9",
+              "headingPath": [
+                "Implement Quality of Service (QoS) in Microsoft Teams",
+                "Step 2. Select a QoS implementation method",
+                "Best practice"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 865,
+              "endOffset": 974,
+              "text": "From a Teams perspective, the most important configuration step is the classification and marking of packets.",
+              "contentHash": "2607889d5b9da3063e29a1ccfd823090fdae02e600877239f962f5dbdb4dbf3a",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 1
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 6,
+            "procedureStep": null,
+            "sourceOrder": 1,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:edcbcc50df9d6ec4f8e3fa45",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "1. How much bandwidth does a Microsoft Teams phone device use?",
+          "evidenceIds": [
+            "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:d9f6777dcd7ab6e5168944f5",
+              "evidenceId": "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "chunkId": "cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "documentId": "0ea3c5354ed276f2d865e8983e469ce3bd961b5fa28d0339cbbd23c4315c51dc",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/phones/qos-on-teams-phones",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Quality of service (QoS) set up on Teams phones"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 3,
+              "startOffset": 331,
+              "endOffset": 393,
+              "text": "1. How much bandwidth does a Microsoft Teams phone device use?",
+              "contentHash": "81ba495bb60b92dece3978b50e223efbeb8b4d82924c8d1b38d60f0e26f8f6fd",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 2
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 7,
+            "procedureStep": 1,
+            "sourceOrder": 2,
+            "spanOrder": 3
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:2322f34d73c6fafc3c3df630",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "2. How to control that bandwidth usage?",
+          "evidenceIds": [
+            "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:013f34d5db4677dbd6e59b3b",
+              "evidenceId": "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "chunkId": "cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "documentId": "0ea3c5354ed276f2d865e8983e469ce3bd961b5fa28d0339cbbd23c4315c51dc",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/phones/qos-on-teams-phones",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Quality of service (QoS) set up on Teams phones"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 4,
+              "startOffset": 394,
+              "endOffset": 433,
+              "text": "2. How to control that bandwidth usage?",
+              "contentHash": "c4c54ae011301ce8881e2e008596c4714a756a0b2f72d5be603442104e23130f",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 2
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 8,
+            "procedureStep": 2,
+            "sourceOrder": 2,
+            "spanOrder": 4
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        },
+        {
+          "claimId": "claim:4928aa994deaaffb392d59d5",
+          "groundingSnapshotId": "grounding:4b7c36c75c048dfde556f915",
+          "groundingSnapshotHash": "4b7c36c75c048dfde556f9150678c6a3b6597157fb5a1f96b9dd500474b43faf",
+          "requiredAspectId": "mandatory:technology:microsoft-teams:set",
+          "coveredFacets": [
+            "procedure",
+            "operation"
+          ],
+          "claimType": "procedure_step",
+          "sectionId": "steps",
+          "proposition": "3. How to ensure your devices are optimized with the right quality of service (QoS) configuration to align to your organizations requirements?",
+          "evidenceIds": [
+            "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a"
+          ],
+          "sourceSpans": [
+            {
+              "spanId": "span:4b81ce671f927b47138390d0",
+              "evidenceId": "evidence:cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "chunkId": "cd48ea0bec7ef45221409def811d496e3d89db222d38f5053b6f5790f5407d4a",
+              "documentId": "0ea3c5354ed276f2d865e8983e469ce3bd961b5fa28d0339cbbd23c4315c51dc",
+              "sourceId": "ms-teams-admin",
+              "sourcePath": "microsoftteams/phones/qos-on-teams-phones",
+              "sectionId": "sec-1",
+              "headingPath": [
+                "Quality of service (QoS) set up on Teams phones"
+              ],
+              "sourceField": "text",
+              "fieldIndex": null,
+              "sentenceIndex": 5,
+              "startOffset": 434,
+              "endOffset": 576,
+              "text": "3. How to ensure your devices are optimized with the right quality of service (QoS) configuration to align to your organizations requirements?",
+              "contentHash": "45b3ddf9331fed403baeda99fb3427b97df70583ad89dee241f1e3246d4ff008",
+              "authorityRole": "teams_admin_primary",
+              "sourceOrder": 2
+            }
+          ],
+          "supportStrength": "direct",
+          "status": "mandatory",
+          "mandatory": true,
+          "requiresCaveat": false,
+          "caveatCodes": [],
+          "unsupportedAspectIds": [],
+          "ordering": {
+            "sequence": 9,
+            "procedureStep": 3,
+            "sourceOrder": 2,
+            "spanOrder": 5
+          },
+          "authorityContext": {
+            "sourceIds": [
+              "ms-teams-admin"
+            ],
+            "routePriorities": [
+              "primary"
+            ],
+            "authorityRoles": [
+              "teams_admin_primary"
+            ]
+          }
+        }
+      ],
+      "failure": {
+        "code": "assembly_validation_failed",
+        "message": "Deterministic assembly failed closed before producing factual output.",
+        "snapshotIssues": [],
+        "groundingIssues": [],
+        "failedClaimIds": [
+          "claim:131d7d894372edf5258dcbe3",
+          "claim:ca52920241395392b784a7e3",
+          "claim:2aa0f0890b587ee60a5cae04",
+          "claim:cf311fa7eca89d171c13ec8e",
+          "claim:4ef4cc870aeee2292ff526b2",
+          "claim:5f208e3ec3f99ae52034366e",
+          "claim:edcbcc50df9d6ec4f8e3fa45",
+          "claim:2322f34d73c6fafc3c3df630",
+          "claim:4928aa994deaaffb392d59d5"
+        ],
+        "assemblyIssues": [
+          {
+            "code": "rendered_claim_not_source_bound",
+            "message": "Rendered claim is not reconstructable from its exact source spans: claim:ca52920241395392b784a7e3",
+            "claimId": "claim:ca52920241395392b784a7e3"
+          }
+        ],
+        "diagnostics": {
+          "generatorProviderId": "deterministic-extractive-assembler/r4",
+          "generationLatencyMs": 0,
+          "validationLatencyMs": 1.496900000000096,
+          "totalLatencyMs": 2.2710000000006403,
+          "claimTaskCount": 9,
+          "mandatoryClaimTaskCount": 9,
+          "successfulClaimCount": 0,
+          "failedClaimCount": 9,
+          "requestCount": 0,
+          "retryCount": 0,
+          "firstAttemptValid": false,
+          "finalAttemptValid": false,
+          "firstAttemptIssues": [],
+          "attempts": [],
+          "tokenUsage": {
+            "inputTokens": null,
+            "outputTokens": null
+          }
+        }
+      }
+    }
+  ]
+}
