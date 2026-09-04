@@ -943,14 +943,20 @@ function deriveProcedureClaims(params: {
   aspect: EvidenceAspect;
   candidates: SpanCandidate[];
 }): DraftClaim[] {
-  const structured = params.candidates
-    .filter(
-      (candidate) =>
-        candidate.span.sourceField === "text" &&
-        (candidate.procedureStep !== null ||
-          facetScore(candidate, params.aspect, "procedure") > 60)
-    )
-    .sort(
+  const steps = params.candidates.filter(
+    (candidate) =>
+      candidate.span.sourceField === "text" &&
+      candidate.procedureStep !== null
+  );
+  const structured = (
+    steps.length > 0
+      ? steps
+      : params.candidates.filter(
+          (candidate) =>
+            candidate.span.sourceField === "text" &&
+            facetScore(candidate, params.aspect, "procedure") > 60
+        )
+  ).sort(
       (left, right) =>
         (left.procedureStep ?? Number.MAX_SAFE_INTEGER) -
           (right.procedureStep ?? Number.MAX_SAFE_INTEGER) ||
