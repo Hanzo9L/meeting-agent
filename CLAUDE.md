@@ -229,33 +229,55 @@ Fixed today:
 - operationMatching.ts: bridged create/configure alias families. NOTE this was
   not the P-002 blocker — the bundle was empty. Kept because it is correct on
   its own terms; delete-question negative check still refuses correctly.
+- deterministicAnswerAssembler.ts `validateProcedureOrder`: skip exact duplicate
+  claims (same normalized proposition AND same sourceSpans contentHash list)
+  without updating previousStep. Two mandatory aspects legitimately claim the
+  same procedure steps — e.g. "assign a phone number to a resource account"
+  yields phone-number:grant and resource-account:grant, each emitting all six
+  steps. That is correct; PlannedClaim has a singular requiredAspectId and
+  cannot express one claim satisfying two aspects. Genuine ordering violations
+  (1, 5, 2) still fail.
+- answerPlanner.ts `deriveProcedureClaims`: two-tier selection. When candidates
+  with `procedureStep !== null` exist, use ONLY those. Fall back to
+  `facetScore > 60` prose only when no real numbered steps are present. The old
+  `||` admitted topically-relevant article prose alongside genuine steps.
 
 Probe results (eval/datasets/procedural-probe.jsonl):
-    answerabilityMatch     4/6 -> 6/6
-    provenanceAuditPass    5   -> 4
-    assemblyLatencyP50Ms   0.787
-    providerRequestCount   0
+    total 6, successful 6, answerabilityMatch 6, provenanceAuditPass 6
+    assemblyLatencyP50Ms ~1.4, providerRequestCount 0
 
-provenanceAuditPass dropping is NOT a regression: P-003 moved from refusing
-outright to answering with one ordering defect. A refused question cannot fail a
-provenance audit. Judge this path on answerabilityMatch, not raw audit count.
+All six probe cases now assemble and render. P-003 now renders exactly six
+numbered steps with no connective tissue.
 
 ### Open defects on the extractive path
-- P-003 `invalid_procedure_order` (claim:fc0a20ef640dcd394c932b2f). Steps
-  assembled out of sequence; the assembler correctly fails closed rather than
-  emitting a scrambled procedure. Next fix.
 - P-006 `rendered_claim_not_source_bound` — pre-existing, predates today.
 - "resource account" is ambiguous between Exchange resource MAILBOXES and Teams
   voice resource ACCOUNTS. P-002 answers from the Exchange doc ("Account
   settings and Mailbox settings panes") rather than
   microsoftteams/manage-resource-accounts. Correct against its source, wrong
   topic. Retrieval ranking issue.
-- Assembler renders "- - Step 2. ..." — source dash plus bullet prefix.
+- P-004 still renders 9 claims, only 4 of which are steps. `procedureStepFrom`
+  does not recognise "- Step 1. ..." (list marker followed by the word Step) as
+  carrying a step number, so the steps tier is empty and selection falls back to
+  prose. Fix is a regex disjunct in `procedureStepFrom`, mirroring the one added
+  to `stepLine` on 2026-09-03. NEXT TASK.
+- Assembler still renders "- - Step 2. ..." — source dash plus bullet prefix.
   Cosmetic, one line in the presenter.
-- P-004 still emits article connective tissue (intro sentence, cross-references,
-  trailing notes) alongside the 4 real steps. 9 claims, 4 useful. Fix would be
-  to prefer spans with a non-null procedureStep and drop non-step prose when a
-  step sequence is present.
+
+### Long procedures — verified 2026-09-04
+There is NO cap on procedure claims in the extractive path. Line 1243's
+slice(0,24) is a hash truncation; line 1727's maxExtras limits supplementary
+claims only. A twelve- or twenty-step procedure emits every step.
+
+The risk is chunk boundaries, not caps: if a long procedure spans two chunks and
+retrieval returns only one, the answer silently stops mid-procedure with no
+continuation signal. This is why corpus markup matters — one heading with a
+numbered list beneath keeps a sequence in one chunk, while `### 1.` style
+headings fragment it.
+
+UNTESTED. Probe cases P-007 and P-008 were drafted to exercise long procedures
+(full Direct Routing configuration, auto attendant with call queues and business
+hours) but have not been run.
 
 ## NETWORKING CORPUS — added 2026-09-03, NOT YET INDEXED
 
