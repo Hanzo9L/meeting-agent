@@ -135,6 +135,7 @@ function authorityRoleFor(
 function procedureStepFrom(text: string): number | null {
   const normalized = text.trim();
   const match =
+    normalized.match(/^[-*]\s*(?:step|phase)\s+(\d+)\b/i) ??
     normalized.match(/^(?:step|phase)\s+(\d+)\b/i) ??
     normalized.match(/^(?:[-*]\s*)?(\d+)[.)]\s+/);
   if (!match?.[1]) return null;
