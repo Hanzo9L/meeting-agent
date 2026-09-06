@@ -263,6 +263,19 @@ numbered steps with no connective tissue.
   to `stepLine` on 2026-09-03. NEXT TASK.
 - Assembler still renders "- - Step 2. ..." — source dash plus bullet prefix.
   Cosmetic, one line in the presenter.
+- P-007 ("all the steps to configure Direct Routing from start to finish")
+  returns zero claims. Root cause traced to evidenceAspectPolicy.ts
+  evaluateCandidateAspectSupport: a procedure aspect with an operation requires
+  BOTH the procedure and operation facets for "direct" strength. Multi-phase
+  procedures use different verbs per phase ("Enable users...", "Connect your
+  SBC...") that don't match the question's single verb family, so those
+  candidates are demoted to "supporting" and rejected as
+  insufficient_direct_support. A proposed fix — don't demote a procedure
+  candidate for a missing operation facet when it already carries the
+  procedure facet — was reasoned through but NOT implemented. Aspect
+  construction binds subject+operation into one aspectId (e.g.
+  mandatory:entity:resource-account:remove), so this fix would not bridge
+  across different operations like remove vs create. Deferred, not started.
 
 ### Long procedures — verified 2026-09-04
 There is NO cap on procedure claims in the extractive path. Line 1243's
@@ -335,6 +348,69 @@ sourceId, trackId, transport, canonicalUrl, rawMarkdown, revision.
 Write the fixture INSIDE the repo — Git Bash /tmp and Windows %TEMP% differ and
 the resolver will not find /tmp paths.
 
+## DOMAIN ROUTING — investigated 2026-09-06, not started
+
+Attempted to scope adding a "networking" QueryDomain to unblock the networking
+corpus. Findings:
+
+QueryDomain (retrievalV2/queryIntent.ts) has 8 values: teams_admin,
+teams_powershell, graph, entra, m365, teams_dev, sharepoint, powershell_core.
+No networking domain exists.
+
+Three files reference QueryDomain: queryIntent.ts (type), queryIntentRules.ts
+(detection via keyword regex, same pattern as hasTeams), domainRouter.ts (type
+interfaces only, no logic).
+
+The actual eligibility rules (m365_source_requires_m365_domain,
+not_applicable_to_selected_domains, etc.) live in domainPolicies.ts (786 lines),
+specifically routeQueryIntent() at approx. line 691. This is where a new
+domain's source-eligibility rule would go, following the pattern of the
+existing per-domain checks.
+
+Also confirmed: chunk_kind "troubleshooting" has NO corresponding
+answerObject in evidenceAspectPolicy.ts. The answerObject values are
+cmdlet_identifier, cmdlet_semantics, procedure, configuration_behavior,
+configuration_state, comparison, status, relationship, mechanism. A
+troubleshooting-labeled chunk gets no special facet treatment or penalty — it
+is judged by the same rules as any other chunk_kind once retrieved. This
+resolves the open question from 2026-09-03: the one-way-audio pilot playbook is
+NOT blocked by a troubleshooting-specific gate.
+
+NOT STARTED: adding the domain enum value, detection vocabulary, eligibility
+rule in domainPolicies.ts, a corpus job that reads local markdown (every
+existing corpus job fetches from GitHub or Learn, none read from disk), and
+indexing.
+
+### Two options considered for reducing future domain-vocabulary work
+
+This week required THREE separate keyword-vocabulary fixes across different
+files: hasTeams missing "resource account" and 14 other terms (2026-09-03),
+enable/disable collapsing to one operation intent (2026-09-05), and now a
+missing networking domain entirely. Same root pattern each time: hand-maintained
+keyword lists with holes, scattered across queryIntentRules.ts and
+domainPolicies.ts.
+
+**Option A — config consolidation (light, near-term).** Move domain and
+operation keyword lists out of scattered regex arrays into one structured
+config file, grouped by domain. No new dependency, no latency change, no new
+failure mode — a data move, not a logic change. Should be verifiable against
+the existing test:wb12 (129/0) with no behavior change expected. Makes future
+vocabulary gaps a one-line add instead of a find-the-right-file search.
+
+**Option B — semantic domain classifier (heavier, strategic).** Research
+2026-09-06 confirms the current keyword-router-with-fallback shape matches
+current production RAG practice (domain-scoped retrieval + fast rule-based
+router, per arxiv 2606.11350 and the CRAG KDD Cup 2024 winning approach, which
+used a small classification model for exactly this domain-routing step instead
+of keyword regex). Replacing hasTeams/hasEntra/etc. keyword matching with a
+lightweight classifier would make new domains a documents-only addition rather
+than a code change, at the cost of new latency, a new failure mode
+(misclassification), and needing its own eval harness. Not started. Estimate:
+a focused, separate effort, not a same-day task.
+
+RECOMMENDATION for next session: do Option A first regardless of whether B is
+pursued — it is required scaffolding either way and is low-risk.
+
 ## Diagnostics
 
     npm run inspect:query-intent -- "<question>"
@@ -377,6 +453,16 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
 - This repo has known pre-existing TypeScript errors. Always capture a baseline
   with `npm run build 2>&1 | tee /tmp/tsc-baseline.txt` before edits and diff
   against it. Only NEW errors matter.
+- "How do I remove a Teams user" extracts entities: [] — no subject captured
+  for "Teams user". On the answerV2 harness path this produced claimTaskCount:
+  25 and requestCount: 25 (25 OpenAI calls, 18s), suggesting the planner may
+  over-generate claims when no specific entity anchors the question. Not
+  investigated further. This is a real question the user expects to be asked.
+  UNRELATED to the P-007 facet issue above — different failure, entity
+  extraction rather than facet matching.
+- FIXED 2026-09-05: OPERATION_PATTERNS in queryIntentRules.ts previously
+  collapsed "enable" and "disable" into one operation intent. Split into
+  separate patterns checked in order (disable before enable).
 
 ## Product constraints
 
