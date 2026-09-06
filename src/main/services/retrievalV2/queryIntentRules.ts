@@ -145,7 +145,8 @@ const OPERATION_PATTERNS: Array<{ operation: string; pattern: RegExp }> = [
   },
   { operation: "remove", pattern: /\b(remove|delete|unassign|revoke)\b/i },
   { operation: "new", pattern: /\b(create|new|add|provision)\b/i },
-  { operation: "enable", pattern: /\b(enable|disable|turn on|turn off)\b/i },
+  { operation: "disable", pattern: /\b(disable|turn off|block)\b/i },
+  { operation: "enable", pattern: /\b(enable|turn on|allow)\b/i },
   { operation: "test", pattern: /\b(test|validate|diagnose|troubleshoot)\b/i }
 ];
 
