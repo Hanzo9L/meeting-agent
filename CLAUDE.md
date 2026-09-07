@@ -411,6 +411,224 @@ a focused, separate effort, not a same-day task.
 RECOMMENDATION for next session: do Option A first regardless of whether B is
 pursued — it is required scaffolding either way and is low-risk.
 
+## LOCAL MARKDOWN CORPUS ADAPTER — scoped, not started
+
+Current `SourceSyncAdapter` / `SyncTrackResult` appears Git-shaped.
+
+`SyncTrackResult` requires:
+
+* `commitSha`
+* `blobSha`
+* `repository`
+* `branch`
+
+These may be true Git semantics, or they may simply be opaque version/checkpoint identifiers. Do not assume either before tracing their consumers.
+
+Do **not** implement the local networking corpus by fabricating Git metadata merely to satisfy the current type.
+
+### FIRST CHECK NEXT SESSION — do this before writing adapter code
+
+Read:
+
+```text
+sourceSyncJobs.ts
+```
+
+and trace **every consumer of `SyncTrackResult`**.
+
+Produce a short field-flow map showing where each of these values goes:
+
+```text
+commitSha
+blobSha
+repository
+branch
+documents / acquired document inputs
+checkpoint state
+```
+
+Specifically determine:
+
+1. Which fields flow into `DocumentIndexingJob`
+2. Which fields are used only for checkpoint persistence, logging, or provenance
+3. Whether `commitSha` or `blobSha` are ever used for real Git operations such as:
+
+   * resolving refs
+   * fetching blobs
+   * diffing trees
+   * incremental Git synchronization
+4. Whether they are instead treated only as opaque change/version identifiers
+5. Whether an existing lower-level indexing entrypoint accepts `AcquiredDocumentInput[]` directly
+
+Do not write adapter code until this trace is complete.
+
+### Preferred path — check this first
+
+Determine whether `DocumentIndexingJob`, or another existing lower-level indexing entrypoint, can be called directly with a list of:
+
+```text
+AcquiredDocumentInput
+```
+
+This is the preferred outcome.
+
+We already successfully constructed an `AcquiredDocumentInput` manually when testing the one-way-audio Markdown document against the chunker.
+
+If the production indexing pipeline accepts that same input shape directly, then local Markdown ingestion may not need `SourceSyncAdapter` or `SyncTrackResult` at all.
+
+The desired flow would simply be:
+
+```text
+data/corpus/networking/*.md
+        ↓
+read Markdown
+        ↓
+parse frontmatter
+        ↓
+build AcquiredDocumentInput[]
+        ↓
+DocumentIndexingJob
+        ↓
+existing chunking/indexing pipeline
+```
+
+If this path exists and preserves the normal indexing/checkpoint guarantees needed by the application, use it rather than forcing local files through a Git-shaped abstraction.
+
+### If direct indexing is not available, resolve the SyncTrackResult semantics
+
+Before choosing an adapter design, determine whether the Git-named fields are operationally Git-specific or merely generic version metadata.
+
+#### Case A — fields are opaque checkpoint/version identifiers
+
+If `commitSha` / `blobSha` are only:
+
+```text
+persisted
+compared on the next sync
+used to determine whether content changed
+used for logging/provenance
+```
+
+then a deterministic local content hash may satisfy the contract legitimately.
+
+For example:
+
+```text
+commitSha → aggregate corpus/version hash
+blobSha   → individual file content hash
+repository → local corpus identifier
+branch     → local/static identifier
+```
+
+Only use this approach if downstream consumers treat those fields as opaque strings and never perform Git operations with them.
+
+A content hash in an opaque version slot is acceptable.
+
+A fake Git SHA in a field whose semantics are actually Git-specific is not.
+
+### If the fields are truly Git-specific
+
+If any downstream consumer expects real Git semantics, choose between:
+
+#### Option 1 — generalize the sync contract
+
+Refactor Git-specific version fields into source-agnostic metadata.
+
+Conceptually:
+
+```text
+sourceVersion
+documentVersion
+sourceIdentity
+revisionContext
+```
+
+Git-backed adapters can continue to populate commit/blob/ref data.
+
+Local adapters can populate deterministic file/content hashes.
+
+This is architecturally cleaner, but larger in scope and requires careful regression testing of every existing source adapter.
+
+#### Option 2 — add a separate local-source ingestion interface
+
+Leave existing Git-backed `SourceSyncAdapter` behavior unchanged.
+
+Create a local Markdown path that:
+
+```text
+reads local files
+parses frontmatter
+builds AcquiredDocumentInput
+uses deterministic local change detection
+feeds the existing downstream indexing pipeline
+```
+
+Prefer this over weakening the meaning of existing Git-specific fields if the current interface is intentionally Git-oriented.
+
+### Required evidence before selecting an option
+
+Next session must answer:
+
+* Does `DocumentIndexingJob` accept `AcquiredDocumentInput[]` directly?
+* Are `commitSha` and `blobSha` operationally required or provenance/checkpoint-only?
+* Do any consumers perform actual Git operations from those values?
+* How is successful sync state persisted?
+* How are partial or failed syncs represented?
+* What currently prevents duplicate indexing?
+* What determines whether an unchanged document is skipped?
+* Can a deterministic file-content hash satisfy those same guarantees?
+* Does bypassing `SourceSyncAdapter` skip any required cleanup, deletion, or stale-document handling?
+
+### Local identity requirements
+
+If a local adapter/path is needed, define deterministic identity before implementation.
+
+Suggested document identity:
+
+```text
+sourceId + normalized relative file path
+```
+
+Suggested document revision:
+
+```text
+SHA-256 of normalized file contents
+```
+
+Suggested corpus revision, only if needed:
+
+```text
+deterministic hash of ordered document identities + document revisions
+```
+
+Do not use timestamps as the primary identity/change signal.
+
+If this investigation surfaces a real parser or indexing defect in how the existing corpus files are structured, fix it in its own commit with its own message — do not fold a corpus content change into the same commit as adapter/trace work.
+
+### Existing networking state
+
+The networking query domain is already wired and tested.
+
+The corpus remains committed locally under:
+
+```text
+data/corpus/networking/
+```
+
+Do not duplicate it into another repository.
+
+Do not modify the corpus while investigating ingestion unless a real parser/indexing defect requires it.
+
+### Stop condition
+
+The next session is successful even if no adapter code is written.
+
+Stop after producing the field-flow trace if the correct ingestion boundary is still ambiguous.
+
+The goal is to understand the contract first, then implement the smallest path that preserves existing indexing semantics.
+
+Do not bend `SourceSyncAdapter` until it compiles merely because it is the first visible abstraction.
+
 ## Diagnostics
 
     npm run inspect:query-intent -- "<question>"
