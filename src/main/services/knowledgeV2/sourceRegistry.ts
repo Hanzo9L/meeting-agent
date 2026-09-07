@@ -98,7 +98,11 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
   ],
   powershell_core: [
     SOURCE_IDS.powerShellCore
-  ]
+  ],
+  // TEMPORARY: no networking source registered yet.
+  // Keep the domain valid without routing it to unrelated corpora.
+  // Replace with networking_beginner once the corpus is registered and indexed.
+  networking: []
 };
 
 const LEARN_MCP_ENDPOINT = "https://learn.microsoft.com/api/mcp";
@@ -692,6 +696,8 @@ export function validateSourceRegistry(registry: SourceRegistry): void {
     [SourceDomain, string[]]
   >) {
     if (orderedIds.length === 0) {
+      // TEMPORARY: networking is a valid domain before a corpus is registered.
+      if (domain === "networking") continue;
       throw new Error(`Domain ${domain}: authority priority cannot be empty.`);
     }
     const missing = orderedIds.find((id) => !ids.has(id));

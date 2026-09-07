@@ -319,6 +319,27 @@ function detectDomains(
     normalized.includes("app registration") ||
     normalized.includes("locked out") ||
     normalized.includes("lockout");
+  const hasNetworking =
+    normalized.includes("dhcp") ||
+    normalized.includes("dhcp relay") ||
+    normalized.includes("subnet mask") ||
+    normalized.includes("cidr") ||
+    normalized.includes("default gateway") ||
+    normalized.includes("vlan") ||
+    normalized.includes("802.1q") ||
+    /\barp\b/.test(normalized) ||
+    normalized.includes("routing table") ||
+    /\bnat\b/.test(normalized) ||
+    /\bpat\b/.test(normalized) ||
+    normalized.includes("traceroute") ||
+    /\bmtu\b/.test(normalized) ||
+    /\brtp\b/.test(normalized) ||
+    normalized.includes("srtp") ||
+    /\bstun\b/.test(normalized) ||
+    /\bturn\b/.test(normalized) ||
+    /\bice\b/.test(normalized) ||
+    normalized.includes("one-way audio") ||
+    normalized.includes("one way audio");
   const hasM365 =
     normalized.includes("microsoft 365") ||
     normalized.includes("m365") ||
@@ -374,6 +395,7 @@ function detectDomains(
   if (hasM365) domains.add("m365");
   if (hasDev) domains.add("teams_dev");
   if (hasSharePoint) domains.add("sharepoint");
+  if (hasNetworking) domains.add("networking");
 
   // No implicit default domain: an unrecognized subject must remain
   // unresolved rather than silently becoming a Teams Admin question.

@@ -6,7 +6,8 @@ export type SourceDomain =
   | "m365"
   | "teams_dev"
   | "sharepoint"
-  | "powershell_core";
+  | "powershell_core"
+  | "networking";
 
 export type SourceAudience =
   | "administrator"
