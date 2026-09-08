@@ -757,14 +757,6 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
   which returns "how exchange and room resource accounts fit" with spaces
   intact. `normalizeQuestion` in queryIntentRules.ts only collapses whitespace
   and never deletes it. Do not re-open this.
-- Extractive assembler truncates ordered-list step bodies. P-004 renders
-  "- - Step 1." / "- - Step 2." as bare markers with the instruction text split
-  into separate claims ("Enable users for Direct Routing" appears on its own
-  line after "- Step 2."). Sentence splitting is treating the period in
-  "Step 1." as a sentence boundary. This is the next defect to fix.
-- Probe cases P-002 and P-003 fail with requiredFacets [procedure, operation];
-  the `operation` facet is a separate gate that resource-account content does
-  not satisfy.
 - `openAiInterviewAnswerSynthesisPort.ts` ~line 208 checks `facets[0]?.id ===
   "facet-1"` (hyphen) but real ids are `facet_1` (underscore), so
   `fullQuestionEvidence` is permanently false. Diagnostics only.
