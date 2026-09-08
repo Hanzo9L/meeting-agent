@@ -12,5 +12,7 @@ npm-debug.log*
 *.sqlite-shm
 *.sqlite-wal
 eval/runs/spikes/
-eval/runs/indexing/_*
+# Indexing job run logs are debug output, not source. Ignore everything in
+# this directory so future corpus jobs cannot re-accumulate tracked artifacts.
+eval/runs/indexing/*
 eval/runs/**/audio/
