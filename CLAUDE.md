@@ -781,13 +781,79 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
 - This repo has known pre-existing TypeScript errors. Always capture a baseline
   with `npm run build 2>&1 | tee /tmp/tsc-baseline.txt` before edits and diff
   against it. Only NEW errors matter.
-- "How do I remove a Teams user" extracts entities: [] — no subject captured
-  for "Teams user". On the answerV2 harness path this produced claimTaskCount:
-  25 and requestCount: 25 (25 OpenAI calls, 18s), suggesting the planner may
-  over-generate claims when no specific entity anchors the question. Not
-  investigated further. This is a real question the user expects to be asked.
-  UNRELATED to the P-007 facet issue above — different failure, entity
-  extraction rather than facet matching.
+
+## OPEN — entity extraction hallucination on ungrounded questions [ESCALATED 2026-09-08]
+
+"How do I remove a Teams user" reproduces exactly as before: entities: [],
+domains: ["teams_admin"], operationIntents: ["remove"],
+expectedAnswerType: "procedural". Only the entity is missing — everything
+else about the question is classified correctly.
+
+### Confirmed root cause
+detectEntities() in queryIntentRules.ts (~line 435) has no vocabulary for
+generic Teams object types. It matches specific compound nouns from
+MULTIWORD_TECHNICAL_CONCEPTS (auto attendant, resource account, call queue,
+etc.) plus a few hardcoded singles (cqd, one-way audio, conditional access)
+and a *policy/dial plan regex — but nothing for "user", "account", "device"
+as bare nouns. "Teams user" matches none of these.
+
+When entities is empty, evidenceAspectPolicy.ts's fallbackSubject() (~line
+1120) builds a SYNTHETIC subject from the first 4 non-stopword tokens of the
+raw question instead of a real recognized entity. This synthetic subject is
+not a known concept with authority mappings — it's just leftover question
+words.
+
+### Actual observed impact — worse than the original entry suggested
+On the answerV2 harness (npm run inspect:grounded-answer), this produces
+claimTaskCount: 25, requestCount: 25 — confirmed 25 REAL separate OpenAI API
+calls (~543 input tokens each, not cheap local operations). The resulting
+answerText is a HALLUCINATED, INCOHERENT MIX of unrelated device-management
+procedures:
+
+    - Removing a Teams user (correct topic, 2-3 claims)
+    - Resetting a Surface Hub device
+    - Managing device tags
+    - Deleting a provisioning package
+    - Applying a configuration profile
+    - Restarting a Surface Hub (twice, as separate claims)
+
+None of these device-management claims answer "how do I remove a Teams
+user." They were pulled in because they loosely keyword-match the synthetic
+fallback subject (likely something like "remove teams user" built from raw
+question tokens) with no real entity anchor to filter against, and no
+coherence check across the 25 independently-generated claims before
+assembly.
+
+This DIRECTLY VIOLATES the project's own stated invariant: "wrong guidance is
+worse than no guidance." A real user asking this question would receive a
+confident, well-formatted, fully-cited-looking answer that is substantively
+about the wrong topic.
+
+### NOT YET CONFIRMED
+Whether this reproduces on the LIVE extractive or synthesis path that Relay
+actually runs, or is isolated to the answerV2 harness
+(runInspectGroundedAnswer.ts / inspectGroundedAnswer.ts). This must be
+checked FIRST in the next session before any fix is scoped, per the
+architecture note at the top of this file (two answer systems, only one is
+live).
+
+### Next session should investigate, in order
+1. Confirm live-path reproduction (or non-reproduction) first
+2. Whether adding "user"/"account"/"device" as generic entity terms in
+   detectEntities is sufficient, or whether the deeper issue is that
+   fallbackSubject's synthetic-subject path should trigger a REFUSAL rather
+   than an attempted answer when no real entity is found — this may be the
+   more important fix given the severity of the observed hallucination
+2b. Whether claim task generation has any cap or coherence check that should
+    exist regardless of entity coverage — 25 unrelated claims assembled into
+    one answer with no cross-claim topical check looks like a second,
+    independent gap even after entity extraction is fixed
+3. Whether this same fallback mechanism affects OTHER ungrounded/generic
+   questions beyond "remove a Teams user" — this may not be an isolated case
+
+Test this by hand, not just with the automated probe, since the current probe
+dataset does not include a case like this.
+
 - FIXED 2026-09-05: OPERATION_PATTERNS in queryIntentRules.ts previously
   collapsed "enable" and "disable" into one operation intent. Split into
   separate patterns checked in order (disable before enable).
