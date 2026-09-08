@@ -760,8 +760,12 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
 - `openAiInterviewAnswerSynthesisPort.ts` ~line 208 checks `facets[0]?.id ===
   "facet-1"` (hyphen) but real ids are `facet_1` (underscore), so
   `fullQuestionEvidence` is permanently false. Diagnostics only.
-- ~90 untracked debug artifacts under `eval/runs/indexing/` make `git status`
-  hard to read. Needs a .gitignore entry.
+- RESOLVED 2026-09-08: removed 171 pre-2026-09-01 tracked debug artifacts
+  from eval/runs/indexing/ (35.4MB). gitignore changed from
+  `eval/runs/indexing/_*` to `eval/runs/indexing/*` so no future run
+  artifacts are tracked. 28 files from 2026-09-02 onward were kept tracked
+  as recent session evidence. Corpus jobs still write here for local
+  debugging; output is just no longer committed.
 - RESOLVED (cause unknown) 2026-09-08: test:evidence now passes 92/0,
   verified on a standalone run. Previously tracked as "91 pass, 1 fail,
   unidentified." The failure no longer reproduces and was never diagnosed
