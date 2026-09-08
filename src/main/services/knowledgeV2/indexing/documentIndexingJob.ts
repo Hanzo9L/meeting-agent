@@ -558,6 +558,7 @@ function summarizeRun(params: {
 
 function deriveSourcePath(acquired: AcquiredDocumentInput): string {
   if (acquired.revision.transport === "github") return acquired.revision.path;
+  if (acquired.revision.transport === "local") return acquired.revision.relativePath;
   if (acquired.revision.sourcePath) return acquired.revision.sourcePath;
   return new URL(acquired.canonicalUrl).pathname.replace(/^\/+/, "");
 }

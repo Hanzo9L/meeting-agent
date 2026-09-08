@@ -161,6 +161,15 @@ function buildDocumentLogicalIdentity(document: KnowledgeDocument): string {
       document.sourcePath.toLowerCase()
     ].join("|");
   }
+  if (document.sourceRevision.transport === "local") {
+    return [
+      document.sourceId,
+      document.trackId,
+      "local",
+      document.canonicalUrl.toLowerCase(),
+      document.sourceRevision.relativePath.toLowerCase()
+    ].join("|");
+  }
   return [
     document.sourceId,
     document.trackId,
@@ -176,6 +185,15 @@ function buildIdentityFromQuery(query: FindDocumentIdentityQuery): string {
       query.sourceId,
       query.trackId,
       "github",
+      query.canonicalUrl.toLowerCase(),
+      query.sourcePath.toLowerCase()
+    ].join("|");
+  }
+  if (query.transport === "local") {
+    return [
+      query.sourceId,
+      query.trackId,
+      "local",
       query.canonicalUrl.toLowerCase(),
       query.sourcePath.toLowerCase()
     ].join("|");
@@ -422,7 +440,7 @@ export class KnowledgeV2SqliteStore implements KnowledgeStore {
           document.sourceRevision.blobSha,
           document.sourceRevision.path
         );
-      } else {
+      } else if (document.sourceRevision.transport === "learn_mcp") {
         this.db.prepare(
           `
             INSERT INTO document_learn_revisions (

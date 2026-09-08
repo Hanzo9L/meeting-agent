@@ -21,7 +21,7 @@ export type SourceAuthorityTier = "tier1" | "secondary";
 export type SourceType = "documentation" | "reference" | "platform";
 
 export type SourceStatus = "ga" | "beta" | "preview" | "mixed";
-export type SourceTransport = "github" | "learn_mcp";
+export type SourceTransport = "github" | "learn_mcp" | "local";
 
 export type SourceAuthorityRole =
   | "teams_admin_primary"
@@ -147,6 +147,13 @@ export type SourceRevision =
       lastUpdated?: string;
       documentId?: string;
       sourcePath?: string;
+    }
+  | {
+      transport: "local";
+      sourceRoot: string;
+      relativePath: string;
+      contentHash: string;
+      retrievedAt: string;
     };
 
 export interface KnowledgeSourceDefinition {

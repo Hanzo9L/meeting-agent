@@ -35,6 +35,7 @@ function hashStable(value: string): string {
 
 function toSourcePath(input: AcquiredDocumentInput): string {
   if (input.revision.transport === "github") return input.revision.path;
+  if (input.revision.transport === "local") return input.revision.relativePath;
   if (input.revision.sourcePath) return input.revision.sourcePath;
   return new URL(input.canonicalUrl).pathname.replace(/^\/+/, "");
 }
