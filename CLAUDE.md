@@ -762,7 +762,12 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
   `fullQuestionEvidence` is permanently false. Diagnostics only.
 - ~90 untracked debug artifacts under `eval/runs/indexing/` make `git status`
   hard to read. Needs a .gitignore entry.
-- One pre-existing `test:evidence` failure. 91 pass, 1 fail. Unidentified.
+- RESOLVED (cause unknown) 2026-09-08: test:evidence now passes 92/0,
+  verified on a standalone run. Previously tracked as "91 pass, 1 fail,
+  unidentified." The failure no longer reproduces and was never diagnosed
+  before it stopped occurring — likely a side effect of an unrelated fix
+  earlier in the project. If it recurs, investigate rather than assume it
+  is the same issue.
 - With 12-bullet procedural answers the synthesis path medians 14,870ms against a
   fixed 15,000ms timeout; 3 of 6 benchmark runs time out. No timeout CLI flag.
   Extractive is 0.787ms with zero API calls. Direction stands: extractive primary,
