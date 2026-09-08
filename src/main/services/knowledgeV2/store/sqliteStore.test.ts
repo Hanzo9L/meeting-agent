@@ -45,9 +45,9 @@ test("initializes WB-08 database and applies migrations idempotently", async () 
   const store = createKnowledgeV2SqliteStore({ databasePath: dbPath, migrationsDir: MIGRATIONS_DIR });
   try {
     store.initializeDatabase();
-    assert.equal(store.getSchemaVersion(), 2);
+    assert.equal(store.getSchemaVersion(), 3);
     store.initializeDatabase();
-    assert.equal(store.getSchemaVersion(), 2);
+    assert.equal(store.getSchemaVersion(), 3);
     const inspection = store.inspect();
     assert.equal(inspection.documentCount, 0);
     assert.ok(inspection.databasePath.includes("meeting-agent-wb08-"));

@@ -42,6 +42,11 @@ function loadMigrationFiles(migrationsDir: string): MigrationFile[] {
   return files.map((entry) => ({ ...entry, path: join(migrationsDir, entry.path) }));
 }
 
+function wantsNoTransaction(sql: string): boolean {
+  const firstLine = sql.split(/\r?\n/, 1)[0] ?? "";
+  return firstLine.trim() === "-- runner: no-transaction";
+}
+
 export function runMigrations(db: SqliteConnection, migrationsDir: string): void {
   db.pragma("foreign_keys = ON");
   db.exec(`
@@ -68,6 +73,23 @@ export function runMigrations(db: SqliteConnection, migrationsDir: string): void
 
   for (const migration of migrationFiles) {
     if (applied.has(migration.version)) continue;
+    const sql = readFileSync(migration.path, "utf8");
+    if (wantsNoTransaction(sql)) {
+      try {
+        db.exec(sql);
+      } catch (error) {
+        try {
+          db.exec("ROLLBACK");
+        } catch {
+          // No open transaction to roll back.
+        }
+        throw error;
+      }
+      db.prepare(
+        "INSERT INTO schema_migrations (version, name, applied_at) VALUES (?, ?, ?)"
+      ).run(migration.version, migration.name, new Date().toISOString());
+      continue;
+    }
     applyMigration(migration);
   }
 }

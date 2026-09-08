@@ -1,6 +1,8 @@
 -- Snapshot of the current Knowledge Engine V2 SQLite schema.
--- This file mirrors migration state after applying migrations/001_initial.sql.
--- Source of truth for evolution remains the migrations folder.
+-- This file mirrors migration state after applying migrations/003_local_transport.sql
+-- (including 002_chunk_embeddings_identity.sql). Source of truth for evolution remains
+-- the migrations folder. Documents indexes from 001_initial.sql are created by
+-- migrations and are not duplicated in this snapshot.
 
 PRAGMA foreign_keys = ON;
 
@@ -13,7 +15,7 @@ CREATE TABLE schema_migrations (
 CREATE TABLE source_tracks (
   source_id TEXT NOT NULL,
   track_id TEXT NOT NULL,
-  transport TEXT NOT NULL CHECK (transport IN ('github', 'learn_mcp')),
+  transport TEXT NOT NULL CHECK (transport IN ('github', 'learn_mcp', 'local')),
   config_fingerprint TEXT,
   last_seen_at TEXT NOT NULL,
   PRIMARY KEY (source_id, track_id)
@@ -22,7 +24,7 @@ CREATE TABLE source_tracks (
 CREATE TABLE sync_checkpoints (
   source_id TEXT NOT NULL,
   track_id TEXT NOT NULL,
-  transport TEXT NOT NULL CHECK (transport IN ('github', 'learn_mcp')),
+  transport TEXT NOT NULL CHECK (transport IN ('github', 'learn_mcp', 'local')),
   status TEXT NOT NULL CHECK (status IN ('idle', 'ok', 'error')),
   last_revision_fingerprint TEXT NOT NULL,
   last_synced_at TEXT NOT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE documents (
   logical_identity_key TEXT NOT NULL UNIQUE,
   source_id TEXT NOT NULL,
   track_id TEXT NOT NULL,
-  transport TEXT NOT NULL CHECK (transport IN ('github', 'learn_mcp')),
+  transport TEXT NOT NULL CHECK (transport IN ('github', 'learn_mcp', 'local')),
   canonical_url TEXT NOT NULL,
   source_path TEXT NOT NULL,
   content_hash TEXT NOT NULL,
