@@ -2318,7 +2318,14 @@ export function evaluateCandidateAspectSupport(
   } else if (!authoritative) {
     strength = "supporting";
     reasonCodes.push("authority_not_satisfied");
-  } else if (missingFacets.length > 0) {
+  } else if (
+    missingFacets.length > 0 &&
+    !(
+      missingFacets.length === 1 &&
+      missingFacets[0] === "operation" &&
+      matchedFacets.includes("procedure")
+    )
+  ) {
     strength = "supporting";
     reasonCodes.push("missing_required_facets");
   } else if (reasonCodes.includes("narrow_subsection_for_broad_aspect")) {
