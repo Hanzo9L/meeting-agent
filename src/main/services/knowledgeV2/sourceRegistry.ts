@@ -22,7 +22,8 @@ const SOURCE_IDS = {
   teamsDev: "ms-teams-dev-docs",
   sharepoint: "ms-sharepoint-docs",
   sharepointPowerShell: "ms-sharepoint-powershell",
-  powerShellCore: "ms-powershell-core"
+  powerShellCore: "ms-powershell-core",
+  networking: "networking_beginner"
 } as const;
 
 const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
@@ -99,10 +100,7 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
   powershell_core: [
     SOURCE_IDS.powerShellCore
   ],
-  // TEMPORARY: no networking source registered yet.
-  // Keep the domain valid without routing it to unrelated corpora.
-  // Replace with networking_beginner once the corpus is registered and indexed.
-  networking: []
+  networking: [SOURCE_IDS.networking]
 };
 
 const LEARN_MCP_ENDPOINT = "https://learn.microsoft.com/api/mcp";
@@ -575,13 +573,50 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
         statusFields: ["ms.topic", "schema"],
         ownerFields: ["author", "ms.author"]
       }
+    },
+    {
+      id: SOURCE_IDS.networking,
+      displayName: "Networking Fundamentals for UC/Voice Engineers",
+      description:
+        "Beginner-to-intermediate general networking and UC-voice networking material (TCP/IP, subnetting, NAT/PAT, DNS/DHCP, VLANs, QoS, SIP, RTP/SRTP, NAT traversal, SBC fundamentals) with troubleshooting playbooks. Fills the gap Microsoft Learn does not cover.",
+      product: "Networking",
+      domains: ["networking"],
+      subdomains: [
+        "network_fundamentals",
+        "uc_voice_networking",
+        "network_troubleshooting"
+      ],
+      audiences: ["administrator", "it_pro"],
+      sourceType: "reference",
+      authorityTier: "tier1",
+      authorityRoles: ["networking_primary"],
+      defaultRetrievalEligible: true,
+      synchronizationEnabled: false,
+      acquisition: {
+        transport: "local",
+        sourceRoot: "data/corpus/networking"
+      },
+      contentTracks: [
+        {
+          id: "ga",
+          status: "ga",
+          includeGlobs: [
+            "Networking_Fundamentals/**",
+            "UC_Networking_Bridge/**",
+            "Troubleshooting_Playbooks/**"
+          ],
+          excludeGlobs: [],
+          defaultRetrievalEligible: true,
+          synchronizationEnabled: false
+        }
+      ]
     }
   ]
 };
 
-const SOURCE_ID_PATTERN = /^[a-z0-9-]+$/;
+const SOURCE_ID_PATTERN = /^[a-z0-9_-]+$/;
 const OWNER_REPO_TOKEN_PATTERN = /^[A-Za-z0-9._-]+$/;
-const TRANSPORTS: SourceTransport[] = ["github", "learn_mcp"];
+const TRANSPORTS: SourceTransport[] = ["github", "learn_mcp", "local"];
 
 function assertValidAcquisitionConfig(source: KnowledgeSourceDefinition): void {
   const acquisition = source.acquisition as AcquisitionConfig;
@@ -608,6 +643,13 @@ function assertValidAcquisitionConfig(source: KnowledgeSourceDefinition): void {
     return;
   }
 
+  if (acquisition.transport === "local") {
+    if (!acquisition.sourceRoot.trim()) {
+      throw new Error(`Source ${source.id}: missing local sourceRoot.`);
+    }
+    return;
+  }
+
   if (!acquisition.endpoint.startsWith("https://")) {
     throw new Error(`Source ${source.id}: Learn MCP endpoint must be https.`);
   }
@@ -628,7 +670,8 @@ function assertValidAuthorityRoles(source: KnowledgeSourceDefinition): void {
     m365: ["m365_tenant_primary"],
     teams_dev: ["teams_dev_specialized"],
     sharepoint: ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"],
-    powershell_core: ["powershell_core_primary"]
+    powershell_core: ["powershell_core_primary"],
+    networking: ["networking_primary"]
   };
 
   if (source.authorityRoles.length === 0) {
@@ -782,10 +825,12 @@ export function formatSourceRegistryReport(): string {
       lines.push(
         `  transport=github repo=${source.acquisition.owner}/${source.acquisition.repo}#${source.acquisition.branch}`
       );
-    } else {
+    } else if (source.acquisition.transport === "learn_mcp") {
       lines.push(
         `  transport=learn_mcp endpoint=${source.acquisition.endpoint} base=${source.acquisition.canonicalBaseUrl}`
       );
+    } else {
+      lines.push(`  transport=local sourceRoot=${source.acquisition.sourceRoot}`);
     }
     lines.push(`  domains=${source.domains.join(", ")}`);
     lines.push(`  roles=${source.authorityRoles.join(", ")}`);

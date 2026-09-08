@@ -32,7 +32,8 @@ export type SourceAuthorityRole =
   | "teams_dev_specialized"
   | "sharepoint_admin_primary"
   | "sharepoint_powershell_cmdlet_primary"
-  | "powershell_core_primary";
+  | "powershell_core_primary"
+  | "networking_primary";
 
 export interface SourceContentTrack {
   id: string;
@@ -63,7 +64,15 @@ export interface LearnMcpTransportConfig {
   cacheEnabled: boolean;
 }
 
-export type AcquisitionConfig = GitHubTransportConfig | LearnMcpTransportConfig;
+export interface LocalTransportConfig {
+  transport: "local";
+  sourceRoot: string;
+}
+
+export type AcquisitionConfig =
+  | GitHubTransportConfig
+  | LearnMcpTransportConfig
+  | LocalTransportConfig;
 
 /**
  * Deterministic rule for reconstructing a trusted Microsoft Learn canonical URL
