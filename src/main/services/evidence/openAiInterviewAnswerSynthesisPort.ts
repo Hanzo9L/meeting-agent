@@ -196,7 +196,7 @@ export function buildSynthesisInputDiagnostic(
 ): Record<string, unknown> {
   const fallbackFullQuestionFacet =
     input.facets.length === 1 &&
-    input.facets[0]?.id === "facet-1" &&
+    /^facet[-_]1$/.test(input.facets[0]?.id ?? "") &&
     input.facets[0]?.query === input.normalizedQuestion;
   return {
     normalizedQuestion: input.normalizedQuestion,
@@ -215,7 +215,7 @@ export function buildSynthesisInputDiagnostic(
         })),
       fullQuestionEvidence:
         fallbackFullQuestionFacet &&
-        item.facetIds.includes("facet-1")
+        item.facetIds.some((id) => /^facet[-_]1$/.test(id))
     }))
   };
 }
