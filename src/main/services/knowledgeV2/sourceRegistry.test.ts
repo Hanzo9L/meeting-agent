@@ -14,7 +14,7 @@ test("loads all approved initial sources with stable unique IDs", () => {
   const registry = getDefaultSourceRegistry();
   const ids = registry.sources.map((source) => source.id);
   assert.equal(new Set(ids).size, ids.length);
-  assert.equal(ids.length, 9);
+  assert.equal(ids.length, 10);
   assert.ok(ids.includes("ms-teams-admin"));
   assert.ok(ids.includes("ms-teams-powershell"));
   assert.ok(ids.includes("ms-graph-docs"));
@@ -24,6 +24,7 @@ test("loads all approved initial sources with stable unique IDs", () => {
   assert.ok(ids.includes("ms-sharepoint-docs"));
   assert.ok(ids.includes("ms-sharepoint-powershell"));
   assert.ok(ids.includes("ms-powershell-core"));
+  assert.ok(ids.includes("networking_beginner"));
 });
 
 test("has required repository branch and include globs", () => {
@@ -39,8 +40,11 @@ test("has required repository branch and include globs", () => {
       assert.ok(source.acquisition.owner.length > 0);
       assert.ok(source.acquisition.repo.length > 0);
       assert.ok(source.acquisition.branch.length > 0);
-    } else {
+    } else if (source.acquisition.transport === "learn_mcp") {
       assert.ok(source.acquisition.canonicalBaseUrl.startsWith("https://learn.microsoft.com/"));
+    } else {
+      assert.equal(source.acquisition.transport, "local");
+      assert.ok(source.acquisition.sourceRoot.length > 0);
     }
     assert.ok(source.contentTracks.length > 0);
     for (const track of source.contentTracks) {

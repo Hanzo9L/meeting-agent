@@ -327,6 +327,7 @@ function sourceDomainFromSourceId(sourceId: string): SourceDomain | "unknown" {
     return "sharepoint";
   }
   if (sourceId === "ms-powershell-core") return "powershell_core";
+  if (sourceId === "networking_beginner") return "networking";
   return "unknown";
 }
 
@@ -341,6 +342,7 @@ function domainAuthorityRoles(domain: SourceDomain): SourceAuthorityRole[] {
     return ["sharepoint_admin_primary", "sharepoint_powershell_cmdlet_primary"];
   }
   if (domain === "powershell_core") return ["powershell_core_primary"];
+  if (domain === "networking") return ["networking_primary"];
   return [];
 }
 
