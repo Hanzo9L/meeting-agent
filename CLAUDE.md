@@ -629,6 +629,115 @@ The goal is to understand the contract first, then implement the smallest path t
 
 Do not bend `SourceSyncAdapter` until it compiles merely because it is the first visible abstraction.
 
+## NETWORKING DOMAIN — WORKING, 2026-09-08
+
+Full chain now proven end to end on real questions:
+QueryDomain type -> word-boundary detection (hasNetworking) -> SourceTransport
+"local" -> SourceRevision "local" branch -> migration 003 (schema CHECK
+constraint) -> LocalMarkdownCorpusJob (bypasses SourceSyncAdapter entirely,
+calls DocumentIndexingJob.run() directly with AcquiredDocumentInput[]) ->
+KnowledgeSourceDefinition for networking_beginner -> domainAuthorityRoles ->
+sourceDomainFromSourceId.
+
+27/27 documents indexed successfully (migration 003 applied to the live
+database; verified 1,496 -> 1,496 documents, zero data loss,
+foreign_key_check clean).
+
+### Confirmed working — real answers, real citations
+- "Why does NAT cause one-way audio?" -> answered, cited to
+  Troubleshooting_Playbooks/00_One_Way_Audio.md, chunk_kind troubleshooting.
+- "What does DHCP give a device, and how do DNS and the default gateway fit
+  into what happens next?" -> answered (labeled "partial" only due to an
+  unsupported:freshness caveat, NOT a coverage gap — the DHCP claim itself was
+  correct and fully cited).
+
+Both are CONCEPTUAL/EXPLAIN questions. This works today, no further action
+needed for this question type.
+
+### Confirmed BLOCKED — procedural questions against troubleshooting-kind chunks
+- "Walk me through the troubleshooting steps for one-way audio" ->
+  insufficient_evidence, required facets: procedure.
+- "What are all the steps to configure Direct Routing from start to finish"
+  (Teams corpus, same underlying mechanism) -> answered with zero claims,
+  required_facet_unplanned.
+
+## ROOT CAUSE — confirmed by direct database query, not inferred
+
+The procedure-facet match in evidenceAspectPolicy.ts (~line 2205-2210):
+
+    chunkKind === "procedure" ||
+    /step|procedure|how to/.test(heading) ||
+    /step|procedure|how to/.test(allContext)
+
+Verified against the actual "Troubleshooting sequence" chunk in
+00_One_Way_Audio.md (2,055 characters, a genuine 7-item numbered procedure:
+"1. Confirm the symptom precisely...", "2. Separate signaling from media...",
+etc.):
+
+    /step|procedure|how to/i.test(fullChunkText) === false
+
+The words "step", "procedure", and "how to" literally never appear in this
+well-written chunk. Its heading is "Troubleshooting sequence" ("sequence", not
+"step"). Each numbered item opens with an imperative verb instead. The
+chunk_kind is "troubleshooting", which also fails the first clause. This is a
+real, confirmed content gap in the facet detector, not a retrieval or
+indexing bug — the chunk itself is correctly formed (list ordered=true
+items=7, verified 2026-09-08 morning) and correctly retrieved (fusionRank: 1,
+the top match).
+
+## ATTEMPTED FIX — tried, correctly reverted, DO NOT RETRY AS-IS
+
+Added a 4th OR clause detecting markdown numbered-list structure directly
+(`/(?:^|\n)\s*\d+\.\s+\S/` matched 2+ times in candidate.text) as a
+structural signal independent of keywords.
+
+RESULT: fixed the one-way-audio case (7 claims, real sourced multi-step
+answer) but caused "How do I delete a resource account" to return
+license-assignment/configure steps as if they answered the DELETE question —
+a real create/configure content leak on the safety-critical negative check.
+Reverted immediately, same session, before any further changes.
+
+### Why it failed — the actual mechanism
+matched.add("procedure") only asserts "this candidate has procedural
+content." It carries no information about WHICH operation that procedure is
+for. The existing keyword check ("step"/"procedure"/"how to") was accidentally
+narrow enough to rarely fire on unrelated content. Numbered lists are far more
+common across every operation type (assign, create, remove, configure) than
+those three specific words, so loosening procedure-detection to "any numbered
+list" let candidates from unrelated operations satisfy the procedure facet
+for the wrong aspect. The procedure-facet check and the operation-facet check
+are only loosely coupled today; a real fix needs the numbered-list signal
+COMBINED WITH verification that the list's content is actually about the
+aspect's specific operation/subject, not just "contains a numbered list
+somewhere."
+
+### Next attempt should consider
+- Requiring the numbered-list match to occur within a heading/section whose
+  text also relates to the aspect's subject (not just anywhere in
+  candidate.text)
+- Checking operation-relevant terms appear near the numbered items themselves,
+  not just presence of numbers
+- Whether authoritySatisfied / domainOk should be tightened rather than
+  procedure-detection loosened
+- Testing against BOTH confirmed cases (one-way-audio troubleshooting AND
+  Direct Routing full-procedure) plus the delete/remove negative check, every
+  single iteration — this is now a required 3-question regression set for any
+  future attempt at this specific fix
+
+### Do NOT do next
+- Do not re-add the plain numbered-list regex as committed and reverted
+  tonight without the subject/operation coupling described above
+- Do not weaken or remove the delete/remove negative check to make a fix
+  "pass" — that check is protecting a real safety property (wrong guidance is
+  worse than no guidance)
+
+## STATUS
+Section closed for this session. Conceptual networking questions work and are
+shippable today. Procedural networking questions (and the parallel Teams
+Direct Routing case) remain blocked on a real, well-understood, not-yet-solved
+facet-detection gap. This is the first task for whoever picks up networking
+next.
+
 ## Diagnostics
 
     npm run inspect:query-intent -- "<question>"
