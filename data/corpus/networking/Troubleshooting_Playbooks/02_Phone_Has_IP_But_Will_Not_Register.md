@@ -23,57 +23,43 @@ An IP address proves only that some layer of network configuration succeeded. It
 
 ## Troubleshooting order
 
-### 1. Validate the IP configuration
+1. **Validate the IP configuration.** Confirm the phone has the expected:
 
-Confirm the phone has the expected:
+   ```text
+   IP address
+   subnet mask/prefix
+   default gateway
+   DNS servers
+   DHCP lease/source
+   VLAN
+   ```
 
-```text
-IP address
-subnet mask/prefix
-default gateway
-DNS servers
-DHCP lease/source
-VLAN
-```
+   A phone can receive a valid-looking IP from the wrong scope or VLAN.
 
-A phone can receive a valid-looking IP from the wrong scope or VLAN.
+2. **Validate DNS.** Determine the exact FQDNs the phone must reach and verify they resolve to expected addresses.
 
-### 2. Validate DNS
+   If DNS fails, registration may never leave the endpoint even though generic IP connectivity works.
 
-Determine the exact FQDNs the phone must reach and verify they resolve to expected addresses.
+3. **Validate routing.** Confirm the phone can reach its default gateway and that the network has a route toward the resolved service addresses.
 
-If DNS fails, registration may never leave the endpoint even though generic IP connectivity works.
+4. **Validate firewall and required transport.** Check that the required signaling traffic is permitted outbound and that return traffic is allowed. Depending on the platform this might involve TCP, UDP, or TLS/TCP.
 
-### 3. Validate routing
+5. **Validate time and certificates.** Secure registration can fail when endpoint time is badly wrong or certificate trust/identity validation fails.
 
-Confirm the phone can reach its default gateway and that the network has a route toward the resolved service addresses.
+6. **Validate provisioning/service discovery.** Check whether DHCP options, provisioning URLs, configuration files, or platform discovery settings point the phone to the correct service.
 
-### 4. Validate firewall and required transport
+7. **Inspect the actual registration exchange.** If SIP-based, answer:
 
-Check that the required signaling traffic is permitted outbound and that return traffic is allowed. Depending on the platform this might involve TCP, UDP, or TLS/TCP.
+   ```text
+   Does REGISTER leave the phone?
+   What destination does it use?
+   Does a response return?
+   What response code?
+   Is authentication challenged and then satisfied?
+   Does TLS establish successfully if used?
+   ```
 
-### 5. Validate time and certificates
-
-Secure registration can fail when endpoint time is badly wrong or certificate trust/identity validation fails.
-
-### 6. Validate provisioning/service discovery
-
-Check whether DHCP options, provisioning URLs, configuration files, or platform discovery settings point the phone to the correct service.
-
-### 7. Inspect the actual registration exchange
-
-If SIP-based, answer:
-
-```text
-Does REGISTER leave the phone?
-What destination does it use?
-Does a response return?
-What response code?
-Is authentication challenged and then satisfied?
-Does TLS establish successfully if used?
-```
-
-The location of the failure tells you whether to stay with networking or move into service/authentication configuration.
+   The location of the failure tells you whether to stay with networking or move into service/authentication configuration.
 
 ## Useful interpretation
 
