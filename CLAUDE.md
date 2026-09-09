@@ -782,7 +782,63 @@ Append `2>/dev/null` to suppress hot-path console.info spam.
   with `npm run build 2>&1 | tee /tmp/tsc-baseline.txt` before edits and diff
   against it. Only NEW errors matter.
 
-## OPEN — entity extraction hallucination on ungrounded questions [ESCALATED 2026-09-08]
+## MOSTLY RESOLVED 2026-09-09 — entity extraction hallucination on ungrounded questions
+
+Fixed across three layers, each verified with test suites and eval:r4
+holding at 6/6 (probe) and 6/6 (default) throughout:
+
+1. Generic admin-object entity tier (queryIntentRules.ts detectEntities):
+   added user/account/device/license/group/mailbox with word-boundary
+   matching. claimTaskCount on "remove a Teams user" dropped 25 -> 7.
+
+2. Subject demotion on directional prepositions (evidenceAspectPolicy.ts
+   bindCompoundSubjectSeeds): added SUBORDINATING_BETWEEN (/^(?:from|to)
+   (?:\s+(?:a|an|the))?$/ or equivalent) so "remove a license FROM a
+   user" now correctly plans license:remove as the sole mandatory
+   aspect, with "user" demoted to optional — not two co-equal subjects.
+   This generalizes beyond "user" to any two-entity question joined by
+   from/to.
+
+3. Title/heading object-noun precision gate (evidenceAspectPolicy.ts
+   evaluateCandidateAspectSupport): new titleHeadingNamesDifferentObject
+   helper rejects a candidate as non-direct evidence when the aspect's
+   subject does not appear (after singularization, reusing the existing
+   singularize() helper) anywhere in the candidate's title/heading path,
+   for narrow/procedural aspects only. This took THREE attempts:
+     - Attempt 1 reverted: failed before layer 2 existed (tag/license
+       discriminators broken by co-equal-subject problem)
+     - Attempt 2 reverted: layer 2 fixed the discriminators but the gate
+       itself had a bug — no plural/singular normalization, so
+       "resource account" (aspect) vs "Resource accounts" (real document
+       title) false-rejected the correct P-002 resource-account case
+     - Attempt 3 (current): added .map(singularize) to both token
+       arrays, reusing the existing helper already in this file. P-002
+       now plans real procedure_step claims from the correct document.
+       Device-tag hallucination confirmed gone on "remove/delete a Teams
+       user".
+
+RESULT: "How do I remove a Teams user" no longer returns Surface Hub
+resets or device-tag management steps. It now returns an honest
+partial answer / refusal, because the corpus genuinely lacks a real
+standard-user-deletion procedure page (a content gap, not a retrieval
+bug — see "Next session" below).
+
+Discriminator regression set frozen for future work (all currently
+insufficient_evidence, unchanged class, not regressed):
+    "remove a tag from a user"     -> needs "tag" added to detectEntities
+    "remove a license from a user" -> user correctly demoted; no
+                                       license-removal doc in corpus
+    "assign a license to a user"   -> same, grant direction
+
+NOT YET DONE: adding "tag" to detectEntities' generic-object tier would
+likely make the tag discriminator fully pass. Low-risk, same pattern as
+layer 1. Good next small task if revisited.
+
+A real standard-Teams-user-deletion procedure page does not appear to
+exist in the current ms-teams-admin corpus. If this question class stays
+important, that may be worth a discovery/index task rather than a code
+fix — the retrieval and planning logic is now correct; there may simply
+be nothing to find.
 
 "How do I remove a Teams user" reproduces exactly as before: entities: [],
 domains: ["teams_admin"], operationIntents: ["remove"],
