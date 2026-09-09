@@ -910,6 +910,42 @@ Remaining open questions for next session, in priority order:
    separate investigation. Do not conflate this with the entity-extraction
    bug — track it as a distinct, lower-priority item unless it recurs.
 
+### Test After Session Ended — 2026-09-08 STT
+
+Spoken question (Deepgram, speaker playback into mic, QA Assist UI):
+"How do we delete a Teams user?"
+
+STT captured the question correctly. This is not an ASR failure.
+
+Live synthesis returned a mixed procedure, not a refusal:
+
+    A standard Teams user is deleted from the organization through the
+    Microsoft 365 admin center, PowerShell, or Microsoft Graph API; Teams
+    voice resource accounts require extra preparation before deletion.
+    Then: retain data; remove via admin center / PowerShell / Graph;
+    OneDrive recycle bin 93 days; then a full resource-account teardown
+    (unassign number, Teams admin center Voice → Resource accounts,
+    Assign/unassign, remove AA/CQ, Save, delete under Users in M365).
+    Unsupported: no exact admin-center clicks or PowerShell/Graph
+    commands for deleting a standard user.
+
+Same weak-entity class as typed "How do I remove a Teams user?" earlier
+the same evening (entities empty; "user" not in detectEntities). Last
+night's typed Live Assist run refused because retrieval returned phone
+numbers / emergency locations / policies. This STT run found enough
+delete-user language plus manage-resource-accounts that synthesis
+answered by stitching org-user deletion and resource-account deletion
+into one list. The Unsupported line only covers missing standard-user
+clicks; it does not flag that resource-account steps do not answer
+"delete a Teams user."
+
+LIVE PATH CONFIRMED SAFE above is therefore too strong for this
+question class: refusal vs mixed-steps depends on which Learn-RAG
+hits land (delete vs remove wording, and/or STT facet split), not on
+a hard missing-entity refusal. Evidence titles and [Relay V2 semantic]
+facets for this STT turn were not pulled from the log before the
+session ended.
+
 - FIXED 2026-09-05: OPERATION_PATTERNS in queryIntentRules.ts previously
   collapsed "enable" and "disable" into one operation intent. Split into
   separate patterns checked in order (disable before enable).
