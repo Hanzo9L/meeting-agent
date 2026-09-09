@@ -464,6 +464,17 @@ function detectEntities(
       policies.add(concept.replace("policies", "policy"));
     }
   }
+  // Generic administrative object nouns — apply across every Microsoft
+  // product, not just Teams. Domain resolution (teams_admin/sharepoint/
+  // entra/etc.) already disambiguates WHICH product's instance is meant;
+  // this tier only needs to recognize that an object of this kind is
+  // being discussed at all.
+  const GENERIC_ADMIN_ENTITIES = ["user", "account", "device", "license", "group", "mailbox"];
+  for (const term of GENERIC_ADMIN_ENTITIES) {
+    if (new RegExp(`\\b${term}s?\\b`, "i").test(normalized)) {
+      entities.add(term);
+    }
+  }
   return {
     entities: uniqueSorted(entities),
     policyNames: uniqueSorted(policies)
