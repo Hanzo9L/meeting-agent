@@ -1006,6 +1006,79 @@ session ended.
   collapsed "enable" and "disable" into one operation intent. Split into
   separate patterns checked in order (disable before enable).
 
+## PowerShell domain routing — fixed 2026-09-09
+
+"What is the command to log into Microsoft Teams online" produced
+domains: ["teams_admin"] only — teams_powershell (622 docs, including the
+real Connect-MicrosoftTeams cmdlet) was never searched. Confirmed via
+inspect:evidence: all candidates were ms-teams-admin.
+
+Root cause: hasGenericPowerShellPhrasing (queryIntentRules.ts) checked for
+"powershell", "cmdlet", or the exact phrase "which command" — never the bare
+word "command"/"commands". Fixed with one word-boundary disjunct:
+/\bcommands?\b/. Verified: domain now correctly includes teams_powershell.
+SharePoint-override protection and unrelated-Teams-question non-interference
+both confirmed intact via negative checks.
+
+## NEW FINDING — retrieval precision gap, NOT a content or routing gap
+
+Even with correct routing, the grounded-answer for the login-command question
+still did not surface Connect-MicrosoftTeams. Traced completely:
+
+- scope.sourcePriorityChain correctly includes ms-teams-powershell at
+  position 2 — routing/eligibility is fully correct
+- Direct DB query confirms Connect-MicrosoftTeams IS indexed in
+  ms-teams-powershell (along with Disconnect-MicrosoftTeams and 7 related
+  cmdlets) — this is NOT a missing-content gap like the DHCP/PowerShell-user-
+  removal cases found earlier
+- Despite the right source being searched and the right document existing,
+  it never appeared in selectedEvidence OR rejectedCandidates for this query
+  — meaning it did not surface as a candidate at the retrieval/ranking step
+  at all, not that it was found and rejected
+
+CONCLUSION: this is a genuine retrieval/ranking precision problem — "log
+into Microsoft Teams online" is not matching "Connect-MicrosoftTeams"
+closely enough lexically or semantically to be retrieved as a candidate,
+even though a human would immediately recognize "log in" = "connect" in
+this context. This is a DIFFERENT class of bug than anything fixed today
+(intent classification, entity extraction, subject binding, or evidence
+gating) — those all operate AFTER candidates are retrieved. This is upstream,
+in the retrieval/embedding/lexical-match step itself.
+
+Because the right document exists and isn't found, the system currently
+falls back to accepting a weak, low-value claim ("PowerShell can be used to
+collect logs locally") as "answered" rather than refusing — this is the
+SAME claim-acceptance gap noted in passing on the DHCP/device-tag
+investigations, now confirmed as a real, recurring pattern: when nothing
+strong is retrieved, the system sometimes accepts a weak claim instead of
+producing an honest insufficient_evidence refusal.
+
+### Next session should investigate, in order
+1. Why "log into"/"log in" doesn't retrieve "Connect-MicrosoftTeams" — check
+   whether this is a lexical (keyword/FTS) gap, an embedding/semantic
+   similarity gap, or both. Test with closer phrasings ("how do I connect to
+   Microsoft Teams PowerShell", "sign in to Teams PowerShell module") to
+   isolate whether ANY phrasing surfaces this cmdlet, or whether it's
+   effectively unreachable regardless of query wording.
+2. Whether a small, targeted synonym/alias layer for common verbs
+   (log in/sign in/authenticate -> connect; log out/sign out -> disconnect)
+   at the retrieval-query-construction step would fix this class of gap
+   without a broader ranking overhaul — this may be the cheapest real fix,
+   similar in spirit to the operation-alias bridging done 2026-09-04 for
+   create/configure.
+3. The weak-claim-acceptance pattern (accepting "PowerShell can be used to
+   collect logs" as answering a specific command question) — this is now
+   confirmed to recur across at least two independent test questions
+   (this one and the earlier device-tag case before yesterday's gate fix)
+   and may deserve its own investigation into WHY a low-relevance claim
+   passes evidence-sufficiency checks that should require closer topical
+   match.
+
+## Testing notes for continuity
+Verified corpus content directly via SQLite query — useful pattern for next
+session:
+    node -e "const D=require('better-sqlite3');const d=new D('.knowledge-v2/knowledge-v2.sqlite',{readonly:true});const rows=d.prepare(\"SELECT title FROM documents WHERE source_id='ms-teams-powershell' AND title LIKE '%Connect%' AND (tombstoned_at IS NULL OR tombstoned_at='')\").all();console.log(rows);"
+
 ## Product constraints
 
 - The user supplies their own experience stories separately. Do NOT build a
