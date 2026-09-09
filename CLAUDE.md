@@ -829,30 +829,86 @@ worse than no guidance." A real user asking this question would receive a
 confident, well-formatted, fully-cited-looking answer that is substantively
 about the wrong topic.
 
-### NOT YET CONFIRMED
-Whether this reproduces on the LIVE extractive or synthesis path that Relay
-actually runs, or is isolated to the answerV2 harness
-(runInspectGroundedAnswer.ts / inspectGroundedAnswer.ts). This must be
-checked FIRST in the next session before any fix is scoped, per the
-architecture note at the top of this file (two answer systems, only one is
-live).
+### LIVE PATH CONFIRMED SAFE — 2026-09-08
 
-### Next session should investigate, in order
-1. Confirm live-path reproduction (or non-reproduction) first
-2. Whether adding "user"/"account"/"device" as generic entity terms in
-   detectEntities is sufficient, or whether the deeper issue is that
-   fallbackSubject's synthetic-subject path should trigger a REFUSAL rather
-   than an attempted answer when no real entity is found — this may be the
-   more important fix given the severity of the observed hallucination
-2b. Whether claim task generation has any cap or coherence check that should
-    exist regardless of entity coverage — 25 unrelated claims assembled into
-    one answer with no cross-claim topical check looks like a second,
-    independent gap even after entity extraction is fixed
-3. Whether this same fallback mechanism affects OTHER ungrounded/generic
-   questions beyond "remove a Teams user" — this may not be an isolated case
+Typed "How do I remove a Teams user?" into Relay (Live Assist mode,
+correcting the earlier wrong-mode attempt). Full trace captured:
 
-Test this by hand, not just with the automated probe, since the current probe
-dataset does not include a case like this.
+    synthesis_completed, status: "succeeded", fallbackReason: null
+    4 evidence documents retrieved, all under ONE facet ("facet-1"):
+      - "Manage phone numbers for users" / remove a phone number
+      - "Manage emergency locations" / remove an emergency location
+      - "Manage resource accounts for voice applications" / change license
+      - "Manage voice applications policies" / overview
+
+None of these documents actually describe removing a Teams USER account —
+same underlying weak-entity-match problem seen on the answerV2 harness.
+BUT the live synthesis path's answer was:
+
+    "The supplied evidence does not explain how to remove a user from
+    Microsoft Teams; it only covers removing a user's assigned phone
+    number, an emergency location, a resource account, or a voice
+    applications policy. Unsupported: No supplied source provides a
+    procedure for removing a Microsoft Teams user."
+
+CORRECT, HONEST REFUSAL. No hallucination. The live path's grounding
+prompt constraints ("mark every unsupported requested facet as
+unsupported") correctly caught that the retrieved evidence didn't answer
+the question, even though retrieval itself found the wrong documents.
+
+CONCLUSION: the severe 25-claim hallucination (Surface Hub resets, device
+tags, provisioning packages) is CONFIRMED ISOLATED to the answerV2 harness
+path (runInspectGroundedAnswer.ts / inspectGroundedAnswer.ts), which
+apparently lacks an equivalent grounding/refusal safeguard or generates
+far more independent claim tasks (25 vs synthesis's 1 facet) with no
+cross-claim coherence check. This is NOT a live production safety issue
+today — Relay's actual users would see an honest "I can't answer that,"
+not a hallucinated wrong answer.
+
+REPRIORITIZED: this is now a RETRIEVAL QUALITY gap (weak entity match
+causes the wrong 4 documents to be retrieved) with a SAFE failure mode
+on the live path, not an active hallucination risk in the shipped
+product. Still worth fixing — a real user would get "no answer" instead
+of real help — but no longer the most urgent item on this list.
+
+Remaining open questions for next session, in priority order:
+1. Should answerV2's harness path get the same grounding safeguard the
+   live synthesis path has, given both apparently share the same weak
+   entity extraction? (lower urgency now that live is confirmed safe,
+   but answerV2 IS the extractive path we've invested in getting to 6/6
+   — this gap matters for that investment even if not for today's live
+   product)
+2. Adding "user"/"account"/"device" to detectEntities' vocabulary would
+   likely improve retrieval quality for this whole question class on
+   BOTH paths, addressing the root cause rather than just the symptom
+3. Whether other generic-noun questions (not just "user") share this
+   weak-retrieval-but-safe-refusal pattern on live, and whether that
+   refusal rate is itself worth reducing by better entity coverage
+4. UNCHECKED: does answerV2's synthesis path (used by
+   runInspectGroundedAnswer.ts) use the SAME model and SAME grounding-prompt
+   constraints as the live synthesis path
+   (openAiInterviewAnswerSynthesisPort.ts, confirmed using "gpt-5.6-sol" with
+   explicit prompt instructions like "mark every unsupported requested facet
+   as unsupported")? A quick grep for a hardcoded model string or
+   OPENAI_MODEL env var in src/main/services/answerV2/ turned up nothing
+   2026-09-08 late session — model resolution for this path was not located.
+   If answerV2 uses a different model, OR the same model without an
+   equivalent grounding/refusal instruction in its system prompt, that alone
+   could fully explain why it hallucinated while live safely refused on
+   IDENTICAL retrieved evidence. Find groundedAnswerSynthesis.ts or wherever
+   answerV2 actually calls OpenAI and read its system prompt in full before
+   proposing any entity-extraction fix — the prompt gap may be the more
+   important and simpler fix than vocabulary.
+5. UNCHECKED: Deepgram/STT configuration was never audited during tonight's
+   live test. The first live-path attempt (QA Assist mode) produced only
+   transcriptLength: 0 events for the full session with no question ever
+   transcribed. The second attempt (Live Assist mode) transcribed
+   "How do I remove a Teams user?" cleanly. This discrepancy was NOT
+   diagnosed — it may be purely a mode-selection issue (QA Assist vs Live
+   Assist routing to different capture paths) unrelated to Deepgram settings
+   at all, or it may indicate a real intermittent capture issue worth a
+   separate investigation. Do not conflate this with the entity-extraction
+   bug — track it as a distinct, lower-priority item unless it recurs.
 
 - FIXED 2026-09-05: OPERATION_PATTERNS in queryIntentRules.ts previously
   collapsed "enable" and "disable" into one operation intent. Split into
