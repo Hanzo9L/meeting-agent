@@ -368,7 +368,8 @@ function detectDomains(
   const hasGenericPowerShellPhrasing =
     normalized.includes("powershell") ||
     normalized.includes("cmdlet") ||
-    normalized.includes("which command");
+    normalized.includes("which command") ||
+    /\bcommands?\b/.test(normalized);
   const hasBoundedPowerShellCoreSignal =
     hasKnownCoreCmdlet ||
     normalized.includes("export csv") ||
