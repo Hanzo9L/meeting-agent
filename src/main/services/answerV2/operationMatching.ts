@@ -12,6 +12,7 @@ export const OPERATION_ALIASES: Record<string, string[]> = {
   configure: ["configure", "set", "update", "change", "create", "set up"],
   create: ["create", "add", "new", "configure", "set", "set up"],
   new: ["new", "create", "add", "configure", "set", "set up"],
+  connect: ["connect", "log in", "sign in", "authenticate"],
   enable: ["enable", "allow", "turn on"],
   disable: ["disable", "block", "turn off"],
   troubleshoot: ["troubleshoot", "diagnose", "resolve", "fix"],
