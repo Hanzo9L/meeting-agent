@@ -13,10 +13,9 @@ import { DocumentIndexingJob } from "../indexing/documentIndexingJob";
 import type { IndexingDocumentResult } from "../indexing/types";
 import type { AcquiredDocumentInput } from "../parse";
 
-const SOURCE_ID = "networking_beginner";
+const DEFAULT_SOURCE_ID = "networking_beginner";
 const TRACK_ID = "ga";
-const CORPUS_ROOT = "data/corpus/networking";
-const SOURCE_DEFINITION_PATH = "data/corpus/networking/INTEGRATION/source-definition.json";
+const DEFAULT_CORPUS_ROOT = "data/corpus/networking";
 const DEFAULT_ARTIFACTS_DIR = "eval/runs/indexing";
 
 export interface LocalMarkdownCorpusJobRequest {
@@ -42,9 +41,9 @@ export interface LocalMarkdownCorpusRunResult {
   databasePath: string;
   durationMs: number;
   source: {
-    sourceId: typeof SOURCE_ID;
+    sourceId: string;
     trackId: typeof TRACK_ID;
-    corpusRoot: typeof CORPUS_ROOT;
+    corpusRoot: string;
     ingestRoots: string[];
     excludeFromIngest: string[];
     counts: {
@@ -73,6 +72,8 @@ interface SourceDefinition {
 }
 
 interface Dependencies {
+  sourceId?: string;
+  corpusRoot?: string;
   createEmbeddingProvider?: () => {
     provider: EmbeddingProvider;
     dimensions: number;
@@ -81,11 +82,15 @@ interface Dependencies {
 }
 
 export class LocalMarkdownCorpusJob {
+  private readonly sourceId: string;
+  private readonly corpusRoot: string;
   private readonly createEmbeddingProvider: NonNullable<
     Dependencies["createEmbeddingProvider"]
   >;
 
   constructor(deps: Dependencies = {}) {
+    this.sourceId = deps.sourceId ?? DEFAULT_SOURCE_ID;
+    this.corpusRoot = deps.corpusRoot ?? DEFAULT_CORPUS_ROOT;
     this.createEmbeddingProvider =
       deps.createEmbeddingProvider ?? createHostedEmbeddingProvider;
   }
@@ -95,9 +100,7 @@ export class LocalMarkdownCorpusJob {
   ): Promise<LocalMarkdownCorpusRunResult> {
     const startedAt = new Date();
     const started = performance.now();
-    const runId = `networking-beginner-${startedAt
-      .toISOString()
-      .replace(/[:.]/g, "-")}`;
+    const runId = `${this.sourceId}-${startedAt.toISOString().replace(/[:.]/g, "-")}`;
     const dbPath = resolve(
       request.dbPath ?? resolveKnowledgeV2DatabasePath({ cwd: process.cwd() })
     );
@@ -108,12 +111,14 @@ export class LocalMarkdownCorpusJob {
     };
     await mkdir(dirname(artifactPaths.jsonPath), { recursive: true });
 
-    const corpusRoot = resolve(process.cwd(), CORPUS_ROOT);
+    const corpusRoot = resolve(process.cwd(), this.corpusRoot);
     const definition = await loadSourceDefinition(
-      resolve(process.cwd(), SOURCE_DEFINITION_PATH)
+      resolve(process.cwd(), this.corpusRoot, "INTEGRATION/source-definition.json")
     );
     const retrievedAt = startedAt.toISOString();
     const { files, acquiredDocuments } = await collectDocuments({
+      sourceId: this.sourceId,
+      relativeCorpusRoot: this.corpusRoot,
       corpusRoot,
       definition,
       retrievedAt
@@ -167,9 +172,9 @@ export class LocalMarkdownCorpusJob {
       databasePath: dbPath,
       durationMs: performance.now() - started,
       source: {
-        sourceId: SOURCE_ID,
+        sourceId: this.sourceId,
         trackId: TRACK_ID,
-        corpusRoot: CORPUS_ROOT,
+        corpusRoot: this.corpusRoot,
         ingestRoots: definition.ingestRoots,
         excludeFromIngest: definition.excludeFromIngest,
         counts: {
@@ -190,6 +195,8 @@ export class LocalMarkdownCorpusJob {
 }
 
 async function collectDocuments(params: {
+  sourceId: string;
+  relativeCorpusRoot: string;
   corpusRoot: string;
   definition: SourceDefinition;
   retrievedAt: string;
@@ -232,17 +239,17 @@ async function collectDocuments(params: {
         });
         continue;
       }
-      const canonicalUrl = `local://${SOURCE_ID}/${relativePath}`;
+      const canonicalUrl = `local://${params.sourceId}/${relativePath}`;
       const contentHash = sha256(rawMarkdown);
       acquiredDocuments.push({
-        sourceId: SOURCE_ID,
+        sourceId: params.sourceId,
         trackId: TRACK_ID,
         transport: "local",
         canonicalUrl,
         rawMarkdown,
         revision: {
           transport: "local",
-          sourceRoot: CORPUS_ROOT,
+          sourceRoot: params.relativeCorpusRoot,
           relativePath,
           contentHash,
           retrievedAt: params.retrievedAt

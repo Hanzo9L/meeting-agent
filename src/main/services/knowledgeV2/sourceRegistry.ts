@@ -23,12 +23,14 @@ const SOURCE_IDS = {
   sharepoint: "ms-sharepoint-docs",
   sharepointPowerShell: "ms-sharepoint-powershell",
   powerShellCore: "ms-powershell-core",
-  networking: "networking_beginner"
+  networking: "networking_beginner",
+  teamsRecipes: "teams_ps_recipes"
 } as const;
 
 const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
   teams_admin: [
     SOURCE_IDS.teamsAdmin,
+    SOURCE_IDS.teamsRecipes,
     SOURCE_IDS.teamsPowerShell,
     SOURCE_IDS.m365,
     SOURCE_IDS.entra,
@@ -39,6 +41,7 @@ const DOMAIN_AUTHORITY_PRIORITY: DomainAuthorityPriority = {
   ],
   teams_powershell: [
     SOURCE_IDS.teamsPowerShell,
+    SOURCE_IDS.teamsRecipes,
     SOURCE_IDS.teamsAdmin,
     SOURCE_IDS.m365,
     SOURCE_IDS.entra,
@@ -606,6 +609,35 @@ const DEFAULT_SOURCE_REGISTRY: SourceRegistry = {
             "Troubleshooting_Playbooks/**"
           ],
           excludeGlobs: [],
+          defaultRetrievalEligible: true,
+          synchronizationEnabled: false
+        }
+      ]
+    },
+    {
+      id: SOURCE_IDS.teamsRecipes,
+      displayName: "Teams PowerShell Task Recipes",
+      description:
+        "Hand-authored CLI task recipes for Teams voice administration via PowerShell. One document per real task, cross-module where needed (MicrosoftTeams + Microsoft.Graph). Covers phone number assignment, user voice config, calling policy, dial plans, and connecting to Teams PowerShell. CLI-first: no GUI click-paths.",
+      product: "Microsoft Teams",
+      domains: ["teams_powershell", "teams_admin"],
+      subdomains: ["voice", "calling", "tenant_configuration"],
+      audiences: ["administrator", "it_pro"],
+      sourceType: "reference",
+      authorityTier: "tier1",
+      authorityRoles: ["teams_admin_primary"],
+      defaultRetrievalEligible: true,
+      synchronizationEnabled: false,
+      acquisition: {
+        transport: "local",
+        sourceRoot: "data/corpus/teams_ps_recipes"
+      },
+      contentTracks: [
+        {
+          id: "ga",
+          status: "ga",
+          includeGlobs: ["*.md"],
+          excludeGlobs: ["INTEGRATION/**", "README.md"],
           defaultRetrievalEligible: true,
           synchronizationEnabled: false
         }

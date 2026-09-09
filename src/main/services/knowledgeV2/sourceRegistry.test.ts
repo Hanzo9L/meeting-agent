@@ -14,7 +14,7 @@ test("loads all approved initial sources with stable unique IDs", () => {
   const registry = getDefaultSourceRegistry();
   const ids = registry.sources.map((source) => source.id);
   assert.equal(new Set(ids).size, ids.length);
-  assert.equal(ids.length, 10);
+  assert.equal(ids.length, 11);
   assert.ok(ids.includes("ms-teams-admin"));
   assert.ok(ids.includes("ms-teams-powershell"));
   assert.ok(ids.includes("ms-graph-docs"));
@@ -25,6 +25,7 @@ test("loads all approved initial sources with stable unique IDs", () => {
   assert.ok(ids.includes("ms-sharepoint-powershell"));
   assert.ok(ids.includes("ms-powershell-core"));
   assert.ok(ids.includes("networking_beginner"));
+  assert.ok(ids.includes("teams_ps_recipes"));
 });
 
 test("has required repository branch and include globs", () => {
@@ -146,10 +147,18 @@ test("represents Graph GA and beta tracks separately", () => {
 
 test("resolves domain-aware authority priority without flat score ranking", () => {
   const teamsAdminOrder = getDomainAuthorityPriority("teams_admin");
-  assert.deepEqual(teamsAdminOrder.slice(0, 2), ["ms-teams-admin", "ms-teams-powershell"]);
+  assert.deepEqual(teamsAdminOrder.slice(0, 3), [
+    "ms-teams-admin",
+    "teams_ps_recipes",
+    "ms-teams-powershell"
+  ]);
 
   const cmdletOrder = getDomainAuthorityPriority("teams_powershell");
-  assert.deepEqual(cmdletOrder.slice(0, 2), ["ms-teams-powershell", "ms-teams-admin"]);
+  assert.deepEqual(cmdletOrder.slice(0, 3), [
+    "ms-teams-powershell",
+    "teams_ps_recipes",
+    "ms-teams-admin"
+  ]);
 });
 
 test("supports query by domain and authority role without repo-name hacks", () => {
@@ -166,7 +175,8 @@ test("returns ordered source definitions for domain chain", () => {
   const chain = getSourcePriorityChainForDomain("teams_admin");
   assert.ok(chain.length >= 2);
   assert.equal(chain[0]?.id, "ms-teams-admin");
-  assert.equal(chain[1]?.id, "ms-teams-powershell");
+  assert.equal(chain[1]?.id, "teams_ps_recipes");
+  assert.equal(chain[2]?.id, "ms-teams-powershell");
 });
 
 test("fails validation for duplicate IDs and malformed repository identifiers", () => {
