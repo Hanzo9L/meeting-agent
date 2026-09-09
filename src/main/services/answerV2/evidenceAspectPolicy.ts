@@ -881,6 +881,16 @@ const SEPARATE_TREATMENT_BETWEEN =
 
 const SCOPING_BETWEEN = /^(?:for|in|with|of|on|via|using|the)$/;
 
+// Prepositions signaling the entity AFTER them is subordinate to the
+// entity BEFORE them (source/target of the action), not a co-equal
+// mandatory subject. "Remove a tag FROM a user" is about the tag;
+// "assign a policy TO a group" is about the policy. The entity after
+// the preposition should be demoted to optional, not treated as an
+// equally mandatory aspect subject.
+// Optional determiner: entity spans do not include "a"/"an"/"the", so the
+// slice between "tag" and "user" is "from a", not bare "from".
+const SUBORDINATING_BETWEEN = /^(?:from|to)(?:\s+(?:a|an|the))?$/;
+
 function uniqueSpecificSeeds(seeds: SubjectSeed[]): SubjectSeed[] {
   const byNormalized = new Map<string, SubjectSeed>();
   for (const seed of seeds) {
@@ -1031,6 +1041,7 @@ function bindCompoundSubjectSeeds(
   );
 
   const merged: SubjectSeed[] = [];
+  const demoted: SubjectSeed[] = [];
   let index = 0;
   while (index < located.length) {
     const start = located[index];
@@ -1057,6 +1068,11 @@ function bindCompoundSubjectSeeds(
       }
       const between = questionNorm.slice(end, next.index).trim();
       if (SEPARATE_TREATMENT_BETWEEN.test(between)) break;
+      if (SUBORDINATING_BETWEEN.test(between)) {
+        demoted.push({ ...next.seed, requirement: "optional" });
+        cursor += 1;
+        break;
+      }
       if (!(between === "" || SCOPING_BETWEEN.test(between))) break;
       if (haveSeparateClauseBoundOperations(start.seed, next.seed, intent)) break;
       const previous = components[components.length - 1]!;
@@ -1094,7 +1110,7 @@ function bindCompoundSubjectSeeds(
     index = Math.max(cursor, index + 1);
   }
 
-  return [...cmdlets, ...merged, ...unlocated, ...optional];
+  return [...cmdlets, ...merged, ...unlocated, ...demoted, ...optional];
 }
 
 function subjectsForSeed(
@@ -2254,6 +2270,44 @@ function authoritySatisfied(
   );
 }
 
+/**
+ * Cheap precision gate: rejects a candidate when the aspect's subject
+ * does not appear as a head noun anywhere in the candidate's own title
+ * or heading path, AND the candidate's title/heading names a clearly
+ * DIFFERENT specific object instead. Catches cases like "Manage
+ * Microsoft Teams device tags" satisfying a "remove a Teams user"
+ * aspect purely because "user" is mentioned inside body text, not
+ * because the document is actually about users.
+ *
+ * Deliberately conservative: only rejects when the aspect requires a
+ * narrow, bounded answer AND the candidate's heading is itself narrow
+ * and specific. Broad/overview pages are never rejected by this gate.
+ */
+function titleHeadingNamesDifferentObject(
+  candidate: FusedRetrievalCandidate,
+  aspect: EvidenceAspect
+): boolean {
+  const subject = normalizeEvidenceText(aspect.subject);
+  const subjectTokens = tokens(subject).map(singularize);
+  if (subjectTokens.length === 0) return false;
+
+  const titleHeading = normalizeEvidenceText(
+    [candidate.title, candidate.headingPath.join(" ")].join(" ")
+  );
+  const titleTokens = tokens(titleHeading).map(singularize);
+  if (titleTokens.length === 0) return false;
+
+  const subjectPresentInTitle = subjectTokens.every((t) =>
+    titleTokens.includes(t)
+  );
+  if (subjectPresentInTitle) return false;
+
+  const narrowAspect =
+    aspect.breadth === "bounded" || aspect.answerObject === "procedure";
+  const narrowHeading = candidate.headingPath.length >= 2;
+  return narrowAspect && narrowHeading;
+}
+
 export function evaluateCandidateAspectSupport(
   _result: HybridRetrievalResult,
   candidate: FusedRetrievalCandidate,
@@ -2281,6 +2335,9 @@ export function evaluateCandidateAspectSupport(
   }
   if (isNarrowSubsection(candidate, aspect)) {
     reasonCodes.push("narrow_subsection_for_broad_aspect");
+  }
+  if (titleHeadingNamesDifferentObject(candidate, aspect)) {
+    reasonCodes.push("title_heading_names_different_object");
   }
   if (
     aspect.breadth === "broad" &&
@@ -2329,6 +2386,8 @@ export function evaluateCandidateAspectSupport(
     strength = "supporting";
     reasonCodes.push("missing_required_facets");
   } else if (reasonCodes.includes("narrow_subsection_for_broad_aspect")) {
+    strength = "supporting";
+  } else if (reasonCodes.includes("title_heading_names_different_object")) {
     strength = "supporting";
   } else if (reasonCodes.includes("config_metadata_insufficient_for_broad")) {
     strength = "supporting";
