@@ -1074,6 +1074,115 @@ producing an honest insufficient_evidence refusal.
    passes evidence-sufficiency checks that should require closer topical
    match.
 
+## teams_ps_recipes corpus and the connect-operation investigation — 2026-09-09/10
+
+### What was built
+Following an external CLI-first corpus proposal (validated against the real
+codebase before implementation — confirmed Connect-MicrosoftTeams and
+Set-CsPhoneNumberAssignment already existed indexed in ms-teams-powershell
+with correct parameter names, ruling out the proposal's own worry about
+hallucinated cmdlet syntax), built teams_ps_recipes: 5 hand-authored recipe
+documents (connect, assign phone number, check user voice config, assign
+calling policy, assign dial plan), each with primary_command and
+retrievalIntents frontmatter fields. Registered as a new local source
+(teamsRecipes in SOURCE_IDS, added to DOMAIN_AUTHORITY_PRIORITY for both
+teams_admin and teams_powershell chains). LocalMarkdownCorpusJob was
+parameterized (sourceId/corpusRoot now configurable) rather than duplicated
+— networking corpus job unaffected, verified via test:wb12. Indexed
+successfully: 5/5 semantic_ready.
+
+### Investigation: why doesn't the Connect-MicrosoftTeams recipe win?
+Sequence, each step correctly verified before moving to the next — do not
+repeat any of these:
+
+1. Proposed reordering DOMAIN_AUTHORITY_PRIORITY to put teamsRecipes first
+   (option B). CORRECTLY REJECTED before implementation: raw candidate data
+   showed the recipe already at fusionRank 2, outranking the documents that
+   were actually selected. Reordering authority would not have fixed
+   insufficient_direct_support, which fired independently of lower_authority
+   on the same candidate — would have shipped with zero effect and
+   destroyed the diagnostic signal.
+2. Checked document-shape hypothesis (command buried in prose) against real
+   chunk_kind/heading_path/chunk_text from the database. RULED OUT: the
+   ## Steps chunk correctly classifies as "procedure", markdown is
+   well-formed (real ordered list, proper fenced code blocks), no
+   fragmentation.
+3. Found and fixed: no "connect"/"log in"/"sign in" entry existed in either
+   OPERATION_PATTERNS (queryIntentRules.ts) or OPERATION_ALIASES
+   (operationMatching.ts). Added both, aliased together. Verified via
+   inspect:query-intent: operationIntents now correctly includes "connect".
+   No regressions (test:wb08 17/0, test:wb12 129/0, two negative-check
+   questions — remove user, assign phone number — unchanged).
+
+### Result after the fix: the answer changed, and got worse
+"What is the command to log into Microsoft Teams online" previously
+returned "PowerShell can be used to collect logs locally for Microsoft
+Teams Rooms" — a generic non-answer. After the connect-operation fix, it
+returns a Microsoft Teams ROOMS DEVICE sign-in procedure, including the
+documented default local admin password for non-domain-joined Rooms
+hardware ('Admin' / 'sfb') — for a question about Teams PowerShell/online,
+an unrelated product surface. This is the SAME wrong-topic pattern as the
+device-tag and Surface Hub hallucinations fixed 2026-09-08, now surfacing
+device-onboarding credentials rather than an unrelated menu path. This is
+a MORE SERIOUS instance of "wrong guidance is worse than no guidance" than
+the bug this investigation set out to fix.
+
+### Root cause confirmed: classifyAnswerType does not consult operationIntents
+classifyAnswerType(normalizedQuestion, cmdlets) — queryIntentRules.ts
+~line 586 — takes only question text and cmdlets. operationIntents,
+computed elsewhere in the same file, is never passed in. So even with
+"connect" now correctly extracted, "What is the command to log into
+Microsoft Teams online" still classifies expectedAnswerType as
+"conceptual" (the phrasing does not match classifyAnswerType's own
+separate pattern set: starts with "how do i"/"how to", contains "steps").
+Two functions in the same file compute related but disconnected signals.
+This is the reason the recipe still does not win — not authority, not
+document shape, not the connect vocabulary gap (all three checked and
+ruled out or fixed) but a fourth, deeper layer.
+
+### PRIORITY — credential guard, not yet scoped
+The Rooms-device-password result is a distinct class of problem from
+retrieval relevance and should be tracked as its own item, not folded into
+the recipe-retrieval investigation. Two open questions:
+- Does "Microsoft Teams" vs "Microsoft Teams Rooms" need explicit
+  disambiguation as different products/entities, independent of this
+  specific bug?
+- Should any answer containing a literal default credential (password,
+  PIN, shared secret) carry a mandatory caveat or require a stricter
+  evidence-support threshold, regardless of topical match? This is a
+  content-sensitivity question, not a relevance-ranking question, and may
+  warrant its own gate rather than being fixed as a side effect of
+  improving operation/entity matching.
+
+### Full discriminator set for next session (do not test with only one
+question)
+- "log into Microsoft Teams online" (the original failing case)
+- "connect to Microsoft Teams PowerShell"
+- "sign in to Teams PowerShell module"
+- "How do I remove a Teams user" (negative check, must stay unchanged)
+- "How do I assign a phone number to a resource account" (negative check)
+- Any question referencing Teams Rooms devices specifically — confirm the
+  credential-bearing answer is CORRECT and appropriately caveated when the
+  question genuinely is about Rooms hardware, not just suppressed
+  everywhere.
+
+### Next session, in order
+1. Fix classifyAnswerType to consult operationIntents, OR add "what is the
+   command to X" / "what is the command for X" as a recognized procedural
+   phrasing pattern directly in classifyAnswerType (narrower, lower-risk,
+   consistent with tonight's pattern of adding specific vocabulary rather
+   than restructuring shared functions).
+2. Re-test the FULL discriminator set above, not just the original question.
+3. Separately scope the credential-guard question — do not fix it as an
+   incidental side effect of the classifyAnswerType fix.
+4. If the recipe still does not win after expectedAnswerType is corrected,
+   the gap is in evaluateCandidateAspectSupport itself — the same function
+   edited multiple times this week (operation-facet demotion, title/heading
+   gate across three attempts). Read real chunk data before proposing
+   anything; test against the FULL regression set (P-002/P-003, tag/license
+   discriminators, this session's discriminator set), not just the question
+   in front of you.
+
 ## Testing notes for continuity
 Verified corpus content directly via SQLite query — useful pattern for next
 session:
