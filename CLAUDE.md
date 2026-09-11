@@ -1183,6 +1183,240 @@ question)
    discriminators, this session's discriminator set), not just the question
    in front of you.
 
+## Command-intent detection is lexical, not semantic — 2026-09-10, NO FIX SHIPPED
+
+### Why no code changed tonight
+A cmdlet-promotion fix was designed, reviewed, and correctly NOT
+implemented. The investigation found a larger, prior architectural gap that
+made the narrow fix pointless to ship. This section exists so tomorrow does
+not re-derive tonight's reasoning from scratch.
+
+### Investigation sequence — each step verified against real data before
+the next
+1. Diagnosed why Connect-MicrosoftTeams (63 correctly-structured, complete
+   chunks — verified via direct DB query, nothing lost or truncated in
+   ingestion) loses to a Teams Rooms hardware admin-mode document for
+   "What is the command to log into Microsoft Teams online." Root cause:
+   qualityScore only computes when strength === "direct"
+   (evidenceAspectPolicy.ts ~2369), and with entities: [] for this
+   question, the candidate never reaches "direct" — it is stuck at
+   "supporting" regardless of content quality.
+2. Designed a fix: let a discovered cmdlet satisfy a missing "operation"
+   facet when its verb is alias-compatible with the question's operation
+   (extending the existing READ_CMDLET_VERB_PATTERN precedent, line 79).
+   REJECTED on inspection: operation compatibility alone does not
+   distinguish "log into Microsoft Teams" from "log into a Teams desk
+   phone" — both extract the same connect/login operation, so
+   Connect-MicrosoftTeams would wrongly promote for the desk-phone
+   question too.
+3. Added a second guardrail: also require hasGenericPowerShellPhrasing
+   (queryIntentRules.ts ~368: "powershell"/"cmdlet"/"which command"/bare
+   "command") to have resolved teams_powershell into domains. Verified
+   this correctly separates the original 7-question test set.
+4. Found a THIRD adversarial case before implementing: "What command logs
+   into a Teams desk phone" ALSO contains "command", so it ALSO resolves
+   teams_powershell, and would ALSO pass the two-part guardrail —
+   promoting Connect-MicrosoftTeams for a hardware question. Verified via
+   inspect:query-intent: "Teams Room" produces products: ["Teams Rooms"]
+   (a real, usable subject signal), but "Teams desk phone" produces
+   products: ["Microsoft Teams"] only — "desk phone" is recognized
+   NOWHERE in the codebase (confirmed via grep, zero matches in any
+   entity/product/domain vocabulary list).
+5. Considered a narrower fix: require explicit "powershell"/"cmdlet"
+   wording (drop bare "command" from the trigger). This IS safe — it does
+   not create the desk-phone failure, because "what command logs into a
+   desk phone" would no longer qualify without an explicit
+   PowerShell/cmdlet word. BUT: this also excludes the ORIGINAL motivating
+   question, "What is the command to log into Microsoft Teams online",
+   which uses bare "command" with no "powershell"/"cmdlet". Shipping this
+   would be a real code change that does not fix the bug that started the
+   investigation. NOT SHIPPED — no benefit to justify the complexity.
+6. Ran 5 additional paraphrases, all realistic interview phrasings, NONE
+   containing "powershell"/"cmdlet"/"command":
+       "What do I run to connect to Teams?"
+       "How do I authenticate to Teams from the terminal?"
+       "What's the Teams login syntax?"
+       "How do I start a Teams admin session?"
+       "Connect me to Teams from the shell"
+   ALL FIVE resolve to domains: ["teams_admin"] ONLY. Zero out of five
+   reach teams_powershell. This confirms command-intent detection in this
+   codebase is a fixed lexical trigger list, not a semantic
+   classification — there is no fallback layer that infers "the user
+   wants an executable command" from meaning rather than exact wording.
+
+### Confirmed facts, in order — read before proposing anything
+1. Microsoft source ingestion for Connect-MicrosoftTeams is complete and
+   correct — 63 chunks, nothing missing (verified by direct database
+   read).
+2. Over-chunking (63 chunks for one cmdlet) exists and matches an external
+   diagnosis document's critique, but is NOT PROVEN to be the immediate
+   blocker for this specific bug — the direct/supporting gate blocks the
+   candidate before chunk-count or ranking ever matters.
+3. The direct/supporting strength gate (evaluateCandidateAspectSupport)
+   prevents authoritative evidence from ever reaching qualityScore when
+   the question has no extracted entity. This is the actual proximate
+   cause of tonight's specific failure.
+4. Cmdlet-verb operation-compatibility ALONE is unsafe as a promotion
+   rule (fails the desk-phone/Teams-Room negatives).
+5. teams_powershell domain resolution depends heavily on a small,
+   explicit lexical trigger list, not semantic understanding.
+6. Ordinary, realistic phrasings ("run", "terminal", "syntax", "session",
+   "shell") do NOT resolve to PowerShell/command intent at all — verified
+   empirically, 5/5 negative.
+7. Device/hardware-noun recognition is incomplete and inconsistent:
+   "Teams Rooms" is recognized as a product; "desk phone" is recognized
+   NOWHERE.
+8. Therefore: a general cmdlet-promotion rule cannot yet be made safe
+   without either (a) fixing device-noun recognition first, or (b)
+   restricting promotion so narrowly (explicit powershell/cmdlet wording)
+   that it no longer fixes the original motivating question.
+9. The narrow/conservative fix was NOT merged — it is safe but earns no
+   benefit, since it leaves "What is the command to log into Microsoft
+   Teams online" (the question that started this entire investigation)
+   still unresolved.
+
+### The actual headline finding
+This investigation started as "why does Connect-MicrosoftTeams lose to a
+Rooms document." It ends as: command/tool intent in this system is
+inferred lexically (a fixed word list) rather than semantically, and
+subject/device recognition is incomplete and inconsistent across product
+types. Both are prerequisites for ANY safe cmdlet-promotion rule. Fixing
+the narrow symptom without fixing either of these prerequisites would
+either do nothing (the conservative version) or reintroduce the original
+credential-adjacent hallucination class under a new phrasing (the broader
+version).
+
+### Permanent regression suite — freeze these questions now
+These 12 questions, across all three investigation rounds, should become a
+standing test set for whatever fixes this properly:
+
+POSITIVE (should eventually resolve to Connect-MicrosoftTeams or
+equivalent, once fixed):
+    "What is the command to log into Microsoft Teams online"
+    "What command logs into Microsoft Teams?"
+    "How do I authenticate to Teams PowerShell?"
+    "What cmdlet connects me to Teams Online?"
+    "What do I run to connect to Teams?"
+    "How do I authenticate to Teams from the terminal?"
+    "What's the Teams login syntax?"
+    "How do I start a Teams admin session?"
+    "Connect me to Teams from the shell"
+
+NEGATIVE (must NEVER resolve to Connect-MicrosoftTeams):
+    "How do I log into a Teams desk phone"
+    "How do I sign into a Teams Room"
+    "What command gets Teams users?"
+    "What command logs into a Teams desk phone"
+    "What command signs into a Teams Room"
+
+### Proposed direction for tomorrow (design only, not started)
+Replace lexical command-intent detection with a proper two-stage
+classification, reusing existing infrastructure rather than adding a
+parallel system:
+
+    question -> "what KIND of thing is being asked for?"
+             -> command / procedure / explanation / state / configuration
+             -> "which technical domain/subject?"
+             -> Teams PowerShell / Teams Admin / Devices / etc.
+             -> evidence retrieval
+
+rather than the current:
+
+    question -> contains "powershell"/"cmdlet"/"command"? -> teams_powershell
+
+This is a real architecture question, not a quick fix — it likely touches
+classifyAnswerType (already known from last session to ignore
+operationIntents), detectDomains, and the entity/product extraction layer
+together, rather than any single function. Should be scoped as its own
+investigation, starting from running the full 14-question regression suite
+above and characterizing exactly which layer needs to change, before
+writing any code.
+
+### Also still open from last session, unrelated to this investigation
+- classifyAnswerType ignoring operationIntents (documented previously)
+- The credential-guard fix (mandatory caveat preservation) IS shipped and
+  verified working — unrelated to and unaffected by tonight's findings
+
+## DESIGN BRIEF FOR NEXT SESSION — intent and subject are separate decisions
+
+Tonight's investigation converged on a single architectural insight, more
+important than any individual bug fixed or rejected: this codebase asks one
+lexical check to answer two different questions at once — "what does the
+user want" (a command, a procedure, an explanation) and "what are they
+asking about" (Teams PowerShell, a desk phone, Teams Rooms). Every false
+positive and every missed paraphrase tonight traces back to that
+conflation. "Contains the word command" was standing in for both signals
+simultaneously, which is why a desk-phone question and a PowerShell
+question could not be told apart — both can legitimately want a
+command-shaped answer, about entirely different subjects.
+
+### The two axes, kept genuinely separate
+    WHAT is being asked for (intent):
+        command_lookup / procedural / conceptual / troubleshooting /
+        configuration / state-read
+    WHAT it is asked about (subject/domain):
+        Microsoft Teams / Teams PowerShell / Teams Rooms / desk phone /
+        Direct Routing / E911 / SBC / etc.
+
+Example of the target shape:
+    "What do I run to connect to Teams?"
+        intent: command_lookup
+        domain/product: Microsoft Teams
+        operation: connect
+    "How do I log into a Teams desk phone?"
+        intent: procedural
+        domain/product: Teams device / phone
+        operation: login
+
+These must be classified independently. A device question should never be
+able to accidentally satisfy a PowerShell-corpus lookup just because both
+happen to use "log in" — that specific collision was the desk-phone
+counterexample that stopped tonight's fix from shipping, and it must stay
+in the regression suite permanently.
+
+### Three rules to design around, not deviate from
+1. Classify what the user wants (intent), independent of subject.
+2. Classify what they are asking about (subject/domain), independent of
+   intent.
+3. Allow an explicit uncertain/abstain path when either signal is weak or
+   the two are close together — do not force a low-confidence result into
+   a single bucket. Example: command_lookup 0.56 vs procedural 0.53 is a
+   genuine tie: broaden retrieval or ask for clarification rather than
+   picking one route with false confidence. This is the same "refuse
+   rather than hallucinate" principle already established elsewhere in
+   this project (see the credential-guard and empty-entity refusal work),
+   applied one layer earlier, at classification rather than retrieval.
+
+### What NOT to build
+Do not replace the current lexical trigger list with a BIGGER lexical
+trigger list, semantic or otherwise (i.e. do not just enumerate more
+example phrases per topic — "resource account," "one-way audio," "command/
+commands," "connect" were each individually fixed this way already and
+each fix caught exactly its own test case and nothing else). The fix is a
+different MECHANISM — genuine intent classification — not a bigger version
+of the same mechanism.
+
+A plausible starting point, not a commitment: this project already has
+working local embeddings and a vector index for document retrieval. The
+same infrastructure could compare a question against a small set of
+labeled intent-anchor examples (5-10 examples per intent class, not
+per-topic) via semantic similarity, producing a confidence score per
+intent class rather than a boolean keyword match. Domain/subject
+extraction should remain a structurally separate step, likely evolving the
+existing entity/product extraction rather than being replaced by it.
+
+### Mandatory before writing any code tomorrow
+Run the full 14-question regression suite already frozen in the section
+above ("Command-intent detection is lexical, not semantic") against
+whatever new mechanism is designed, BEFORE considering it done. The
+desk-phone/Teams-Room negatives are not optional extras — they are the
+tests that proved this exact class of fix can look locally correct while
+being structurally unsafe. Any new intent-classification design must pass
+all 9 positive and all 5 negative cases, plus produce a defensible
+confidence-based abstain on at least one deliberately ambiguous case
+constructed fresh (e.g. a question that could plausibly be either
+command_lookup or procedural).
+
 ## Testing notes for continuity
 Verified corpus content directly via SQLite query — useful pattern for next
 session:
