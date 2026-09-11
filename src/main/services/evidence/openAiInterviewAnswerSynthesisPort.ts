@@ -428,6 +428,7 @@ implements InterviewAnswerSynthesisPort {
             "Keep each bullet to one short sentence or command. The reader is scanning it while speaking.",
             "Use as many bullets as the procedure needs, up to the schema maximum.",
             "Include exact command names, parameters, and identifiers from the evidence verbatim when present.",
+            "If a step in the evidence includes a default password, PIN, shared secret, or other credential, you MUST include any accompanying instruction to change it, rotate it, or avoid using it as-is. Never state a default credential without its accompanying safety instruction if the evidence contains one. If brevity requires cutting content, cut elsewhere — never cut a credential's safety caveat.",
             "Continue the procedure to its actual completion. Include prerequisite, verification, and alternate-path steps when the evidence contains them, even when they appear outside the numbered list in the source.",
             "Never truncate mid-step or stop early to save space. If the procedure needs ten steps, emit ten bullets.",
             "Use ONLY the supplied evidence for every technical claim.",

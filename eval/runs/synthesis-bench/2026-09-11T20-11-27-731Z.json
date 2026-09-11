@@ -1,0 +1,205 @@
+{
+  "timestamp": "2026-09-11T20:11:27.731Z",
+  "fixtureSha256": "3e09a072f76bc8adf916874cf31925d347705bd4a0d24392c1b636a06e4d0a65",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "runs": 6,
+  "summary": {
+    "medianMs": 15008.628399999998,
+    "p95Ms": 15037.843275,
+    "minMs": 14650.059800000003,
+    "maxMs": 15045.8681,
+    "schemaValid": 1,
+    "bindingValid": 1,
+    "errors": {
+      "Request timed out.": 5
+    }
+  },
+  "results": [
+    {
+      "run": 1,
+      "latencyMs": 15045.8681,
+      "inputTokens": null,
+      "outputTokens": null,
+      "schemaValid": false,
+      "bindingValid": false,
+      "errorCode": "Request timed out.",
+      "actualModel": null,
+      "answer": null
+    },
+    {
+      "run": 2,
+      "latencyMs": 15004.7086,
+      "inputTokens": null,
+      "outputTokens": null,
+      "schemaValid": false,
+      "bindingValid": false,
+      "errorCode": "Request timed out.",
+      "actualModel": null,
+      "answer": null
+    },
+    {
+      "run": 3,
+      "latencyMs": 15013.768800000002,
+      "inputTokens": null,
+      "outputTokens": null,
+      "schemaValid": false,
+      "bindingValid": false,
+      "errorCode": "Request timed out.",
+      "actualModel": null,
+      "answer": null
+    },
+    {
+      "run": 4,
+      "latencyMs": 14650.059800000003,
+      "inputTokens": 4204,
+      "outputTokens": 1044,
+      "schemaValid": true,
+      "bindingValid": true,
+      "errorCode": null,
+      "actualModel": "gpt-5.6-sol",
+      "answer": {
+        "directAnswer": {
+          "text": "The evidence supports a strong design and troubleshooting approach, but it does not establish personal hands-on experience or a complete method for proving a Microsoft service incident.",
+          "evidenceIds": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        "bullets": [
+          {
+            "text": "I would select the PSTN model based on carrier relationships, calling patterns, management requirements, and existing telephony infrastructure.",
+            "evidenceIds": [
+              "E1"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "For Calling Plans, Microsoft is the PSTN operator and users require a Microsoft Teams Calling Plan license.",
+            "evidenceIds": [
+              "E1"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would choose the appropriate Domestic, International, or Pay-as-you-go Calling Plan option.",
+            "evidenceIds": [
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "For Operator Connect, I would confirm the carrier is a certified participating operator and establish the required provider contract.",
+            "evidenceIds": [
+              "E1",
+              "E5"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would enable the Operator Connect provider's tenant access in the Teams Admin Center.",
+            "evidenceIds": [
+              "E1"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would assign the provider's phone numbers to the appropriate Teams users.",
+            "evidenceIds": [
+              "E1"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I would configure Teams dial plans and normalization rules to convert user-dialed numbers into a standard format for routing.",
+            "evidenceIds": [
+              "E3"
+            ],
+            "facetId": "facet_1"
+          },
+          {
+            "text": "I first classify the issue as a setup failure or an unexpected drop failure.",
+            "evidenceIds": [
+              "E2"
+            ],
+            "facetId": "facet_2"
+          },
+          {
+            "text": "I verify that the user's calling policy has Make private calls turned on when the Calls app or native calling is unavailable.",
+            "evidenceIds": [
+              "E4"
+            ],
+            "facetId": "facet_2"
+          },
+          {
+            "text": "I assess the organization-wide failure percentage and compare its trend with the defined target metric.",
+            "evidenceIds": [
+              "E2"
+            ],
+            "facetId": "facet_2"
+          },
+          {
+            "text": "I set the CQD Month Year report filter to the current month.",
+            "evidenceIds": [
+              "E2"
+            ],
+            "facetId": "facet_2"
+          },
+          {
+            "text": "I use CQD sub-reports to isolate affected buildings or subnets, even when the overall failure rate is acceptable.",
+            "evidenceIds": [
+              "E2"
+            ],
+            "facetId": "facet_2"
+          }
+        ],
+        "unsupportedFacets": [
+          {
+            "facetId": "facet_1",
+            "reason": "The supplied evidence explains Calling Plans and Operator Connect but cannot substantiate the speaker's personal experience."
+          },
+          {
+            "facetId": "facet_2",
+            "reason": "The supplied evidence supports client and network investigation but does not provide a complete procedure for confirming that Microsoft service is the root cause."
+          }
+        ],
+        "confidence": "medium",
+        "diagnostics": {
+          "configuredModel": "gpt-5.6-sol",
+          "actualModel": "gpt-5.6-sol",
+          "reasoningEffort": "medium",
+          "latencyMs": 14650.007599999997,
+          "inputTokens": 4204,
+          "outputTokens": 1044,
+          "totalTokens": 5248,
+          "estimatedCostUsd": null
+        }
+      }
+    },
+    {
+      "run": 5,
+      "latencyMs": 15004.945499999994,
+      "inputTokens": null,
+      "outputTokens": null,
+      "schemaValid": false,
+      "bindingValid": false,
+      "errorCode": "Request timed out.",
+      "actualModel": null,
+      "answer": null
+    },
+    {
+      "run": 6,
+      "latencyMs": 15012.311300000001,
+      "inputTokens": null,
+      "outputTokens": null,
+      "schemaValid": false,
+      "bindingValid": false,
+      "errorCode": "Request timed out.",
+      "actualModel": null,
+      "answer": null
+    }
+  ]
+}
